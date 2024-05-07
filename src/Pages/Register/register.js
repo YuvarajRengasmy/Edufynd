@@ -1,9 +1,152 @@
 import React, { useState } from "react";
 const Register = () => {
-  const [activeTab, setActiveTab] = useState("student");
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
+  const initialState = {
+    name: "",
+    mobile: "",
+    email: "",
+    password: "",
+    conformPassword
+}
+const initialStateErrors = {
+    name: { required: false },
+    email: { required: false, valid: false },
+    mobile: { required: false, valid: false },
+    password: { required: false, valid: false },
+    conformPassword: { required: false, valid: false }
+}
+const [inputs, setInputs] = useState(initialState)
+const [errors, setErrors] = useState(initialStateErrors)
+const [submitted, setSubmitted] = useState(false);
+const [type, setType] = useState('students');
+
+
+const navigate = useNavigate()
+
+
+
+
+
+const handleValidation = (data) => {
+    let error = initialStateErrors;
+    if (data.name === "") {
+        error.name.required = true;
+    }
+   
+    if (data.email === "") {
+        error.email.required = true;
+    }
+    if (data.password === "") {
+        error.password.required = true;
+    }
+    if (data.conformPassword === "") {  
+        error.conformPassword.required = true;
+    }
+    if (data.mobile === "") {
+        error.mobile.required = true;
+    }
+    if (!isValidPassword(data.password)) {
+        error.password.valid = true;
+    }
+    if (!isValidPassword(data.conformPassword)) {
+      error.conformPassword.valid = true;
+  }
+    if (!isValidEmail(data.email)) {
+        error.email.valid = true;
+    }
+    if (!isValidPhone(data.mobile)) {
+        error.mobile.valid = true;
+    }
+    return error
+}
+
+const handleInputs = (event) => {
+    setInputs({ ...inputs, [event?.target?.name]: event?.target?.value })
+    if (submitted) {
+        const newError = handleValidation({ ...inputs, [event.target.name]: event.target.value })
+        setErrors(newError)
+    }
+}
+
+
+const handleErrors = (obj) => {
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const prop = obj[key];
+            if (prop.required === true || prop.valid === true) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(inputs)
+    setErrors(newError)
+    setSubmitted(true)
+    if (handleErrors(newError)) {
+        if (type === 'student') {
+            saveMaster(inputs).then(res => {
+                let token = res?.data?.result?.token;
+                let masterId = res?.data?.result?.studentDetails?._id;
+                let loginType = res?.data?.result?.loginType
+                let data = {
+                    token: token, masterId: masterId, loginType: loginType
+                }
+                saveToken(data);
+                if (isAuthenticated()) {
+                    navigate("/Dashboard");
+                }
+                toast.success(res?.data?.message);
+            })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
+        }
+        if (type === 'user') {
+            saveUser(inputs).then(res => {
+                let token = res?.data?.result?.token;
+                let userId = res?.data?.result?.userDetails?._id;
+                let loginType = res?.data?.result?.loginType
+                let data = {
+                    token: token, userId: userId, loginType: loginType
+                }
+                saveToken(data);
+                if (isAuthenticated()) {
+                    navigate("/UserHome");
+                }
+                toast.success(res?.data?.message);
+            })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
+        }
+        if (type === 'company') {
+            saveCompany(inputs).then(res => {
+                let token = res?.data?.result?.token;
+                let companyId = res?.data?.result?.companyDetails?._id;
+                let loginType = res?.data?.result?.loginType
+                let data = {
+                    token: token, companyId: companyId, loginType: loginType
+                }
+                saveToken(data);
+                if (isAuthenticated()) {
+                    navigate("/Home");
+                }
+                toast.success(res?.data?.message);
+            })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
+        }
+    }
+}
+
+const handleSinUpType = (data) => {
+    setType(data)
+}
+
   return (
     <>
       <div className="bg-gradient-primary">
@@ -38,7 +181,7 @@ const Register = () => {
                           <input type="text" className="form-control form-control-user" id="exampleFirstName" placeholder="First Name" />
                         </div>
                         <div className="col-sm-6">
-                          <input type="text" className="form-control form-control-user" id="exampleLastName" placeholder="Last Name" />
+                          <input type="text" className="form-control form-control-user" id="exampleLastName" placeholder="Mobile Number" />
                         </div>
                       </div>
                       <div className="form-group">
