@@ -74,8 +74,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">
@@ -102,8 +102,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">
@@ -130,8 +130,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">
@@ -158,8 +158,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">
@@ -186,8 +186,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">
@@ -214,8 +214,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">
@@ -242,8 +242,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">
@@ -270,8 +270,8 @@ const Program = () => {
                       <div className="position-relative overflow-hidden">
                         <img className="img-fluid" src="https://themewagon.github.io/elearning/img/course-1.jpg" alt />
                         <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
-                          <a href="#" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style={{ borderRadius: '30px 0 0 30px' }}>Read More</a>
+                          <a href="/ViewpageUniversity" className="flex-shrink-0 btn btn-sm btn-primary px-3" style={{ borderRadius: '0 30px 30px 0' }}>Join Now</a>
                         </div>
                       </div>
                       <div className="text-center p-4 pb-0">

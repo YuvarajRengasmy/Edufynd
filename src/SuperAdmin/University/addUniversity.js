@@ -107,8 +107,8 @@ function Profile() {
                       className="form-control"
                       name="campus"
                     >
-                      <option>Select Campus</option>
-                      <option>Select Campus</option>
+                      <option>Select 1</option>
+                      <option>Categories</option>
                       <option>Select Campus</option>
                       <option>Select Campus</option>
                     </select>

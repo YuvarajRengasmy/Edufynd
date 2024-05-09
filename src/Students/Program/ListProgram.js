@@ -26,7 +26,6 @@ const ListProgram = () => {
           </div>
       <div className='container-fluid mt-5'>
         <div>
-         
           <div className='px-12 mx-6'>
             <div className='mt-5'>
               <h5 className='fw-bold'>Popular Programs</h5>

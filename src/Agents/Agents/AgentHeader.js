@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { clearStorage } from '../../Utils/storage';
+import { Link } from 'react-router-dom';
+
 export default function Event() {
+
+  const logout = () => {
+    clearStorage();
+    toast.success('You have Agent logged out successfully.')
+}
   return (
     <div>
       <nav className="navbar navbar-expand-lg container-fluid fixed-top" style={{ backgroundColor: '#3f51b5' }}>
@@ -11,25 +20,25 @@ export default function Event() {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto gap-5">
               <li className="nav-item active">
-                <a className="nav-link text-white fw-bold mt-3 " href="/AgentHome">Home</a>
+                <Link className="nav-link text-white fw-bold mt-3 " to="/AgentHome">Home</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white fw-bold mt-3 " href="/AgentAbout">About</a>
+                <Link className="nav-link text-white fw-bold mt-3 " to="/AgentAbout">About</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white fw-bold mt-3" href="/AgentProgram">Programs</a>
+                <Link className="nav-link text-white fw-bold mt-3" to="/AgentProgram">Programs</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white fw-bold mt-3" href="/Studentpage">Students</a>
+                <Link className="nav-link text-white fw-bold mt-3" to="/Studentpage">Students</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white fw-bold mt-3" href="/AgentContact">Contact</a>
+                <Link className="nav-link text-white fw-bold mt-3" to="/AgentContact">Contact</Link>
               </li>
               <li className="nav-item dropdown ml-3 align-items-end">
-                <a className="nav-link nav-profile d-flex align-items-center " href="/Profile" data-bs-toggle="dropdown">
+                <Link className="nav-link nav-profile d-flex align-items-center " to="/Profile" data-bs-toggle="dropdown">
                   <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width={"50"} height={"50"} alt="Profile" className="rounded-circle" />
                   <span className="d-none d-md-block  ps-2 text-white fw-bold">Yuvaraj</span>
-                </a>
+                </Link>
                 <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                   <li className="dropdown-header ">
                     <h6 className='fw-italic'>Yuvaraj</h6>
@@ -39,38 +48,38 @@ export default function Event() {
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <a className="dropdown-item d-flex align-items-center" href="/AgentProfile">
+                    <Link className="dropdown-item d-flex align-items-center" to="/AgentProfile">
                       <i className="bi bi-person" />  &nbsp;&nbsp; &nbsp;
                       <span>My Profile</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
 
                   <li>
-                    <a className="dropdown-item d-flex align-items-center" href="/Faq">
+                    <Link className="dropdown-item d-flex align-items-center" to="/Faq">
                       <i className="bi bi-question-circle" /> &nbsp;&nbsp; &nbsp;
                       <span>Need Help?</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <a className="dropdown-item d-flex align-items-center" href="/ViewApplication">
+                    <Link className="dropdown-item d-flex align-items-center" to="/ViewApplication">
                       <i className="bi  bi-cloud" /> &nbsp;&nbsp; &nbsp;
                       <span>Application</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <a className="dropdown-item d-flex align-items-center" href="/">
+                    <Link className="dropdown-item d-flex align-items-center" onClick={logout} to="/">
                       <i className="bi bi-box-arrow-right" />  &nbsp;&nbsp; &nbsp;
                       <span>Sign Out</span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>

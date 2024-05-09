@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { clearStorage } from '../utils/Storage';
+import { clearStorage } from '../Utils/storage';
 
 const API = axios.create({ baseURL: 'http://localhost:4409/api/' });
 

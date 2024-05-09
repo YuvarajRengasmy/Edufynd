@@ -8,6 +8,8 @@ import TrackApplication from "../Students/Application/TrackApplication";
 import ListProgram from "../Students/Program/ListProgram";
 import ViewApplication from "../Students/Application/ViewApplication";
 import Faq from "../Students/Profile/Faq";
+import ViewUniversity from "../Students/University/ViewUniversity";
+import ViewProgram from "../Students/Program/viewProgram";
 
 function RegisterPage() {
   return (
@@ -22,6 +24,8 @@ function RegisterPage() {
           <Route path="/Program" element={<ListProgram />} />
           <Route path="/ViewApplication" element={<ViewApplication />} />
           <Route path="/Faq" element={<Faq />} />
+          <Route path="/ViewpageUniversity" element={<ViewUniversity />} />
+          <Route path="/ViewProgramUniversity" element={<ViewProgram />} />
         </Routes>
       </BrowserRouter>
     </div>
