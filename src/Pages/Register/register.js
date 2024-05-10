@@ -97,10 +97,10 @@ const Register = () => {
       if (type === 'student') {
         saveStudent(inputs).then(res => {
           let token = res?.data?.result?.token;
-          let studentId = res?.data?.result?.studentDetails?._id;
           let loginType = res?.data?.result?.loginType
+          let studentId = res?.data?.result?.studentDetails?._id;
           let data = {
-            token: token, studentId:studentId, loginType: loginType
+            token: token, loginType: loginType, studentId:studentId,
           }
           saveToken(data);
           if (isAuthenticated()) {
@@ -115,10 +115,11 @@ const Register = () => {
       if (type === 'agent') {
         saveAgent(inputs).then(res => {
           let token = res?.data?.result?.token;
-          let agentId = res?.data?.result?.agentDetails?._id;
+          
           let loginType = res?.data?.result?.loginType
+          let agent = res?.data?.result?.agentDetails?._id;
           let data = {
-            token: token, agentId: agentId, loginType: loginType
+            token: token,loginType: loginType, agentId: agent
           }
           saveToken(data);
           if (isAuthenticated()) {

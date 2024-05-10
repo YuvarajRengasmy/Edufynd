@@ -1,9 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Agents/AgentHeader";
+import { toast } from "react-toastify";
+import { saveContact } from "../../api/agent";
 import Footer from "../../compoents/Footer";
 import { CiSearch } from 'react-icons/ci';
+import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
+
+
+
+
+
 
 const Contact = () => {
+  const initialStateInputs = {
+    name: "",
+    email: "",
+    mobileNumber: "",
+    messages: "",
+  };
+
+  const initialStateErrors = {
+    name: { required: false },
+    email: { required: false },
+    mobileNumber: { required: false },
+    messages: { required: false },
+  };
+
+  const [inputs, setInputs] = useState(initialStateInputs);
+  const [errors, setErrors] = useState(initialStateErrors);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+    if (submitted) {
+      setErrors({ ...errors, [event.target.name]: false });
+    }
+  };
+
+  const handleValidation = (data) => {
+    let newErrors = { ...initialStateErrors };
+
+    if (data.name === "") {
+      newErrors.name = true;
+    }
+    if (data.email === "") {
+      newErrors.email = true;
+    }
+    if (data.mobileNumber === "") {
+      newErrors.mobileNumber = true;
+    }
+    if (data.messages === "") {
+      newErrors.messages = true;
+    }
+    if (!isValidEmail(data.email)) {
+      newErrors.email.valid = true;
+    }
+    if (!isValidPhone(data.mobileNumber)) {
+      newErrors.mobileNumber.valid = true;
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(inputs);
+    setErrors(newError);
+    setSubmitted(true);
+    const allInputsValid = Object.values(newError);
+    const valid = allInputsValid.some((x) => x.required === true);
+    if (!valid) {
+      saveContact(inputs)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          event.target.reset();
+          setInputs(initialStateInputs);
+          setErrors(initialStateErrors);
+          setSubmitted(false);
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    }
+  };
+
+
   return (
     <div>
       <Header />
@@ -38,22 +119,26 @@ const Contact = () => {
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                     </div>
                     <div className="modal-body">
-                      <form id="contact_form" name="contact_form" method="post">
+                      <form >
                         <div className="mb-3">
                           <label htmlFor="email_addr" className='form-label'>Email address</label>
-                          <input type="email" required maxLength={50} className="form-control" id="email_addr" name="email" placeholder="Enter The Email" />
+                          <input type="email" required maxLength={50} className="form-control" id="email_addr" name="email" onChange={handleInputs} placeholder="Enter The Email" />
+
                         </div>
                         <div className="mb-3">
                           <label htmlFor="name_input" className='form-label'>Name</label>
-                          <input type="text" required maxLength={50} className="form-control" id="name_input" name="name" placeholder="Enter The Name" />
+                          <input type="text" required maxLength={50} className="form-control" id="name_input" name="name" onChange={handleInputs} placeholder="Enter The Name" />
+
                         </div>
                         <div className="mb-3">
-                          <label htmlFor="phone_input" className='form-label'>Phone</label>
-                          <input type="tel" required maxLength={50} className="form-control" id="phone_input" name="Phone" placeholder="Enter The Phone" />
+                          <label htmlFor="phone_input" className='form-label'>Mobile Number</label>
+                          <input type="tel" required maxLength={50} className="form-control" id="phone_input" name="mobileNumber" onChange={handleInputs} placeholder="Enter The Phone" />
+
                         </div>
                         <div className="mb-3">
                           <label htmlFor="message" className='form-label'>Message</label>
-                          <textarea className="form-control" id="message" name="message" rows={3} defaultValue={""} />
+                          <textarea className="form-control" id="message" name="messages" onChange={handleInputs} rows={3} placeholder="Enter The Message" />
+
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                       </form>
@@ -105,30 +190,61 @@ const Contact = () => {
               <iframe className="position-relative rounded w-100 h-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.6308475275847!2d80.1860759148148!3d13.044570390728517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52675282a32249%3A0x7e7ac7268da97b24!2s17%2FA2%2C%203rd%20Floor%2C%20Daaru%20Complex%2C%20Gandhi%20St%2C%20Alwartirunagar%2C%20Chennai%2C%20Tamil%20Nadu%20600087!5e0!3m2!1sen!2sin!4v1641299492069!5m2!1sen!2sin&q=17%2FA2%2C%203rd%20Floor%2C%20Daaru%20Complex%2C%20Gandhi%20St%2C%20Alwartirunagar%2C%20Chennai%2C%20Tamil%20Nadu%20600087" frameBorder={0} style={{ minHeight: 300, border: 0 }} allowFullScreen aria-hidden="false" tabIndex={0} />
             </div>
             <div className="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="row g-3">
                   <div className="col-md-6">
                     <div className="form-floating">
-                      <input type="text" className="form-control" id="name" placeholder="Your Name" />
+                      <input type="text" className="form-control" name="name" onChange={handleInputs} id="name" placeholder="Your Name" />
                       <label htmlFor="name">Your Name</label>
+                      {errors.name?.required ? (
+                        <span className="text-danger form-text">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-floating">
-                      <input type="email" className="form-control" id="email" placeholder="Your Email" />
+                      <input type="email" className="form-control" name="email" onChange={handleInputs} id="email" placeholder="Your Email" />
                       <label htmlFor="email">Your Email</label>
+                      {errors.email.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.email.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid Email Id.
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   <div className="col-12">
                     <div className="form-floating">
-                      <input type="text" className="form-control" id="subject" placeholder="Subject" />
-                      <label htmlFor="subject">Subject</label>
+                      <input type="text" className="form-control" name="mobileNumber" onChange={handleInputs} id="subject" placeholder="Subject" />
+                      <label htmlFor="subject">mobile Number</label>
+                      {errors.mobileNumber.required ?
+
+                        <span className="text-danger form-text profile_error">
+
+                          This field is required.
+
+                        </span> : errors.mobileNumber.valid ?
+                          <span className="text-danger form-text profile_error">
+                            Enter valid mobile number.
+                          </span> : null
+
+                      }
                     </div>
                   </div>
                   <div className="col-12">
                     <div className="form-floating">
-                      <textarea className="form-control" placeholder="Leave a message here" id="message" style={{ height: 150 }} defaultValue={""} />
+                      <textarea className="form-control" placeholder="Leave a message here" name="message" onChange={handleInputs} id="message" style={{ height: 150 }} defaultValue={""} />
                       <label htmlFor="message">Message</label>
+                      {errors.messages?.required ? (
+                        <span className="text-danger form-text">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                   <div className="col-12">

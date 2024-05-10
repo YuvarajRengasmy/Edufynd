@@ -1,15 +1,33 @@
 import React, { useEffect, useState, useRef } from "react";
-import CountryRegion from "countryregionjs";
-import Select from 'react-select';
+import { getSingleStudent } from "../../api/student";
+import {getStudentId } from "../../Utils/storage";
+import { getMonthYear} from "../../Utils/DateFormat";
+import { Link } from 'react-router-dom'
+
 import Header from "../Home/HeaderHome";
 import EditProfile from "./EditProfile";
 import Footer from "../../compoents/Footer";
 
 const Profile = () => {
-  
 
-  
+  const [student, setStudent] = useState(null);
 
+  useEffect(() => {
+    getStudentDetails();
+  }, []);
+
+  const getStudentDetails = () => {
+    const id = getStudentId();
+    console.log("id", id);
+    getSingleStudent(id)
+      .then((res) => {
+        console.log("yuvi",res);
+        setStudent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -25,13 +43,13 @@ const Profile = () => {
                 <div className="card">
                   <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width={"150"} height={"150"} className="rounded-circle" />
-                    <h2 className="fw-bold">Yuvaraj</h2>
-                    <h5>Web Designer</h5>
+                    <h2 className="fw-bold">{student?.name ? student?.name : "-"}</h2>
+                    <h5>{student?.email ? student?.email : "-"}</h5>
                     <div className="social-links mt-2">
-                      <a href="#" className="twitter mr-4 fs-5"><i className="fab fa-twitter " /></a>
-                      <a href="#" className="facebook mr-4 fs-5"><i className="fab fa-facebook" /></a>
-                      <a href="#" className="instagram mr-4 fs-5"><i className="fab fa-instagram" /></a>
-                      <a href="#" className="linkedi mr-4 fs-5"><i className="fab fa-linkedin" /></a>
+                      <Link to={student?.twitter} className="twitter mr-4 fs-5"><i className="fab fa-twitter " /></Link>
+                      <Link to={student?.facebook} className="facebook mr-4 fs-5"><i className="fab fa-facebook" /></Link>
+                      <Link to={student?.instagram} className="instagram mr-4 fs-5"><i className="fab fa-instagram" /></Link>
+                      <Link to={student?.linkedIn} className="linkedi mr-4 fs-5"><i className="fab fa-linkedin" /></Link>
                     </div>
                   </div>
                 </div>
@@ -60,68 +78,70 @@ const Profile = () => {
                                         <div className="row mb-3">
                                             <label htmlFor="fullName" className="col-md-4 col-lg-3 col-form-label">Student Name</label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" className="form-control" id="fullName" defaultValue="Kevin Anderson" />
+                                                <input  type="text" className="form-control" id="fullName" value={student?.name} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="company" className="col-md-4 col-lg-3 col-form-label">PassportNo</label>
                                             <div className="col-md-8 col-lg-9 d-flex">
-                                                <input name="company" value={"WNBSP56432"} type={"text"} className="form-control" id="company" />
-                                                &nbsp; &nbsp; &nbsp; &nbsp;    <input name="expxire" type="date" className="form-control" id="company" />
+                                                <input  value={student?.passportNo}  className="form-control" id="company" />
+                                                &nbsp; &nbsp; &nbsp; &nbsp;    <input  value={student?.expiryDate} className="form-control" id="company" />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Job" className="col-md-4 col-lg-3 col-form-label">DOB</label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="job" type="date" className="form-control" id="Job" value="2021-07-22" />
+                                                <input value={student?.dob} className="form-control" id="Job"  />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Country" className="col-md-4 col-lg-3 col-form-label">Citizenship</label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="country" type="text" className="form-control" id="Country" value="USA" />
+                                                <input  className="form-control" id="Country" value={student?.citizenship} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Address" className="col-md-4 col-lg-3 col-form-label">Gender</label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="address" type="text" className="form-control" id="Address" value="male" />
+                                                <input  className="form-control" id="Address" value={student?.gender} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Whatsapp Number</label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                                                <input  className="form-control" id="Email" value={student?.whatsAppNumber} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
                                                 English Language Test
                                             </label>
-                                            <input name="email" type="email" className="form-control" id="Email" value="English" />
+                                            <input className="form-control" id="Email" value={student?.englishLanguageTest} />
                                         </div>
                                         <div className="row mb-3">
-                                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Desired Country </label>
+                                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Desired University </label>
                                             <div className="col-md-8 col-lg-9">
-                                             <input name="email" type="email" className="form-control" id="Email" defaultValue="India" />
+                                             <input  className="form-control" id="Email" value={student?.desiredUniversity} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
-                                            <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">Desired University </label>
-                                            <div className="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" className="form-control" id="Phone" defaultValue="PES uNIversity" />
+                                            <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">DesiredCountry </label>
+                                            {student?.country.map((country, index) => (
+                                            <div key={index} className="col-md-8 col-lg-9">
+                                                <input className="form-control" id="Phone" value={country?.label} />
                                             </div>
+                                            ))}
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Desired Course </label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="email" type="email" className="form-control" id="Email" defaultValue="MSC" />
+                                                <input  className="form-control" id="Email" value={student?.desiredCourse} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Twitter" className="col-md-4 col-lg-3 col-form-label">Work Experience</label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="twitter" type="text" className="form-control" id="Twitter" defaultValue="2Year" />
+                                                <input  className="form-control" id="Twitter" value={student?.workExperience} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
@@ -129,7 +149,7 @@ const Profile = () => {
                                                 Any visa rejections
                                             </label>
                                             <div className="col-md-8 col-lg-9">
-                                              <input name="twitter" type="text" className="form-control" id="Twitter" defaultValue="Yes" />
+                                              <input  className="form-control" id="Twitter" value={student?.visaRejection} />
                                             </div>
                                            
                                            
@@ -139,7 +159,7 @@ const Profile = () => {
                                             Do you have a travel history
                                             </label>
                                             <div className="col-md-8 col-lg-9">
-                                               <input name="twitter" type="text" className="form-control" id="Twitter" defaultValue="Yes" />
+                                               <input  className="form-control" id="Twitter" value={student?.travelHistory}/>
                                             </div>
                                             <br /><br />
                                           
@@ -159,25 +179,25 @@ const Profile = () => {
                                         <div className="row mb-3">
                                             <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">Degree Name </label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" className="form-control" id="Phone" defaultValue="BE" />
+                                                <input  className="form-control" id="Phone" value={student?.degreeName} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">Academic Year & Year Passed </label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="phone" type="date" className="form-control" id="Phone" defaultValue="23-08-2020" />
+                                                <input  className="form-control" id="Phone" value={student?.academicYear}  />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">Institution</label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" className="form-control" id="Phone" defaultValue="Anna uNIversity" />
+                                                <input  className="form-control" id="Phone" value={student?.institution} />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">Percentage </label>
                                             <div className="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" className="form-control" id="Phone" defaultValue="68%" />
+                                                <input  className="form-control" id="Phone" value={student?.percentage}  />
                                             </div>
                                         </div>
                                         
