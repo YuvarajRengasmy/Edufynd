@@ -322,7 +322,7 @@ export default function Masterproductlist() {
           </div>
         </div>
 
-        <div className="content" style={{ backgroundColor: '#fff' }}>
+        <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
           <div className="content-header">
             <div className="container-fluid">
               <div className="row ">
