@@ -322,24 +322,16 @@ export default function Masterproductlist() {
           </div>
         </div>
 
-        <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
+        <div className="content" style={{ backgroundColor: '#fff' }}>
           <div className="content-header">
             <div className="container-fluid">
               <div className="row ">
 
                 <div >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                    {/* <li className="flex-grow-1">
-                    <inputz
-                      type="search"
-                      placeholder="Search"
-                      aria-describedby="button-addon3"
-                      className="form-control-lg bg-light border-2  ps-1 rounded-4 w-100"
-                      style={{ maxWidth: "600px", marginLeft: "0px" }}
-                    />
-                  </li> */}
+                    
                     <li className="flex-grow-1">
-                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <div className="input-group" style={{ maxWidth: "200px" }}>
                         <input
                           type="search"
                           placeholder="Search"

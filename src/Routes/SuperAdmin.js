@@ -30,6 +30,9 @@ import ListClient from "../SuperAdmin/client/ListClient";
 // import ViewClient from "../SuperAdmin/client/viewClient";
 import EditClient from "../SuperAdmin/client/Edit";
 
+
+// Setting
+import AddCountry from "../SuperAdmin/Settings/GlobalSettings/Country/AddCountry";
 function SuperAdmin() {
   return (
     <div>
@@ -63,6 +66,9 @@ function SuperAdmin() {
           <Route path="/AddClient" element={<AddClient />} />
           <Route path="/client" element={<ListClient />} />
           <Route path="/EditClient" element={<EditClient />} />
+
+          {/* Setting */}
+          <Route path="/AddCountry" element={<AddCountry />} />
         </Routes>
       </BrowserRouter>
     </div>
