@@ -521,7 +521,7 @@ export default function Masterproductlist() {
                     <div className="table-responsive">
                       <table className="table card-table dataTable text-center">
                         <thead>
-                          <tr style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                          <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
                             <th className="text-capitalize text-start">S No</th>
                             <th className="text-capitalize text-start">Client Name</th>
                             <th className="text-capitalize text-start">University Name</th>
