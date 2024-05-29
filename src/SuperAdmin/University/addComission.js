@@ -144,7 +144,7 @@ function AddComission() {
   return (
     <div>
       <div class="position-fixed">
-        <div class="fixed-element">
+        <div class="">
           <Sidebar />
           <Header />
         </div>

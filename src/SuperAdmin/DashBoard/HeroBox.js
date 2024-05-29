@@ -41,7 +41,7 @@ export const HeroContent = () => {
         <div className="row  ">
        
 
-          <div className="col-lg-9 ">
+          <div className="col ">
             <div
               className="card color2 border-0 rounded-3 mt-1 "
               style={{ width: "100%" }}

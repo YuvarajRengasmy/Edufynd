@@ -9,10 +9,10 @@ export const Home = () => {
     <div>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-xs-12 col-md-3 col-lg-2">
+          <div className="col-xs-12  col-lg-2">
             <SideBar/>
           </div>
-          <div className="col-xs-12 col-md-9 col-lg-10">
+          <div className="col-xs-12  col-lg-10">
             <Header/>
             <HeroContent/>
           </div>

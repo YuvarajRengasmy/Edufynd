@@ -10,8 +10,8 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 function ViewAgent() {
     return (
         <div>
-            <div class="position-fixed">
-                <div class="fixed-element">
+            <div class="">
+                <div class="">
                     <Sidebar />
                     <Header />
                 </div>

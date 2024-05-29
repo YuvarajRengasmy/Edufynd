@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 function Profile() {
     return (
         <div>
-            <div class="position-fixed">
-                <div class="fixed-element">
+            <div class="">
+                <div class="">
                     <Sidebar />
                     <Header />
                 </div>
