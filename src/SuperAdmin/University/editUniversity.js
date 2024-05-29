@@ -334,8 +334,8 @@ function Profile() {
 
   return (
     <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
-      <div class="position-fixed">
-        <div class="fixed-element">
+      <div class="">
+        <div class="">
           <Sidebar />
           
         </div>

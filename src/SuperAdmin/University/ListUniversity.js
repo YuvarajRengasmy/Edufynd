@@ -316,8 +316,8 @@ export default function Masterproductlist() {
   return (
     <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
       <div>
-        <div class="position-fixed">
-          <div class="fixed-element">
+        <div class="">
+          <div class="">
             <Mastersidebar />
           </div>
         </div>
@@ -329,9 +329,17 @@ export default function Masterproductlist() {
 
                 <div >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                    
+                    {/* <li className="flex-grow-1">
+                    <inputz
+                      type="search"
+                      placeholder="Search"
+                      aria-describedby="button-addon3"
+                      className="form-control-lg bg-light border-2  ps-1 rounded-4 w-100"
+                      style={{ maxWidth: "600px", marginLeft: "0px" }}
+                    />
+                  </li> */}
                     <li className="flex-grow-1">
-                      <div className="input-group" style={{ maxWidth: "200px" }}>
+                      <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
                           type="search"
                           placeholder="Search"

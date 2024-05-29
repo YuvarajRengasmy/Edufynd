@@ -41,8 +41,8 @@ export default function ListAgent() {
   
   return (
     <div>
-      <div class="position-fixed">
-        <div class="fixed-element">
+      <div class="">
+        <div class="">
           <Sidebar />
         </div>
       </div>
