@@ -11,7 +11,7 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <aside className="main-sidebar elevation-10" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px',position: 'absolute', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
+      <aside className="main-sidebar elevation-10" style={{ backgroundColor: 'black', color:'white', fontFamily: 'Plus Jakarta Sans', fontSize: '13px',position: 'absolute', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
         <div  className="d-md-none  shadow-lg rounded  ">
         </div>
         <div className="sidebar">
@@ -33,79 +33,79 @@ const Sidebar = () => {
               <li className="nav-item mt-1">
                 <a href="/
                 " className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-tachometer-alt" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Dashboard Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}>Dashboard</p>
+                  <i className="nav-icon fas fa-tachometer-alt text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Dashboard Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'>Dashboard</p>
                 </a>
               </li>
 
               <li className="nav-item mt-2">
                 <a href="/ListUniversity" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-university" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* University Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}>University</p>
+                  <i className="nav-icon fas fa-university text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* University Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'>University</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="/Programs" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fa  fa-graduation-cap" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Program Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}>Program</p>
+                  <i className="nav-icon fa  fa-graduation-cap text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Program Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'>Program</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-user" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Program Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}>Student</p>
+                  <i className="nav-icon fas fa-user text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Program Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'>Student</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-book" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Program Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}>Application</p>
+                  <i className="nav-icon fas fa-book text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Program Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'>Application</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
   <a href="/UsingEnquiry" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-    <i className="nav-icon fas fa-envelope" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
-    <p style={{ fontSize: "16px", fontWeight: "bold" }}> Enquiry</p>
+    <i className="nav-icon fas fa-envelope text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
+    <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Enquiry</p>
   </a>
   <div className="collapse" id="collapse1">
     <ul className='nav d-flex flex-column border-0 px-4'>
-      <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize  fw-semibold">Student form</a></li>
-      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Forex Form</a></li>
-      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Accommodation</a></li>
-      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Flight Ticket</a></li>
-      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Loans</a></li>
-      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Business Enquiry</a></li>
-      <li className='nav-item'><a href="#" className="nav-link  text-dark text-capitalize  fw-semibold">General Enquiry</a></li>
+      <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize text-white  fw-semibold">Student form</a></li>
+      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Forex Form</a></li>
+      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Accommodation</a></li>
+      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Flight Ticket</a></li>
+      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  text-white fw-semibold">Loans</a></li>
+      <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  text-white fw-semibold">Business Enquiry</a></li>
+      <li className='nav-item'><a href="#" className="nav-link  text-dark text-capitalize  text-white fw-semibold">General Enquiry</a></li>
     </ul>
   </div>
 </li>
 
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fa fa-flag" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Finance</p>
+                  <i className="nav-icon fa fa-flag text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Finance</p>
                 </a>
                 <div class="collapse collapse-vertical" id="collapse2">
                   <ul className='nav d-flex flex-column border-0 px-4'>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize  fw-semibold">Expenses</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Income</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Quotation</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize fw-semibold">Invoice Generate</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Sales Report</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark text-white text-capitalize  fw-semibold">Expenses</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark text-white text-capitalize  fw-semibold">Income</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark text-white text-capitalize  fw-semibold">Quotation</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark text-white  text-capitalize fw-semibold">Invoice Generate</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-white text-capitalize  fw-semibold">Sales Report</a></li>
                   </ul>
                 </div>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-users" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Users</p>
+                  <i className="nav-icon fas fa-users text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Users</p>
                 </a>
                 <div class="collapse collapse-vertical" id="collapse3">
                   <ul className='nav d-flex flex-column border-0 px-4'>
-                    <li className='nav-item'><a href="/ListStudent" className="nav-link text-dark text-capitalize fw-semibold">Students</a></li>
-                    <li className='nav-item'><a href="/ListAgent" className="nav-link text-dark  text-capitalize  fw-semibold">Agents</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">staffs</a></li>
-                    <li className='nav-item'><a href="/client" className="nav-link text-dark  text-capitalize  fw-semibold">Clients</a></li>
+                    <li className='nav-item'><a href="/ListStudent" className="nav-link text-dark text-capitalize text-white fw-semibold">Students</a></li>
+                    <li className='nav-item'><a href="/ListAgent" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Agents</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">staffs</a></li>
+                    <li className='nav-item'><a href="/client" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Clients</a></li>
                   </ul>
                 </div>
               </li>
@@ -113,123 +113,123 @@ const Sidebar = () => {
 
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fa fa-id-card" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Projects & Tasks</p>
+                  <i className="nav-icon fa fa-id-card text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Projects & Tasks</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-flag" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Marketing</p>
+                  <i className="nav-icon fas fa-flag text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Marketing</p>
                 </a>
               </li>
 
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-envelope" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> ELT</p>
+                  <i className="nav-icon fas fa-envelope text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> ELT</p>
                 </a>
                 <div class="collapse collapse-vertical" id="collapse4">
                   <ul className='nav d-flex flex-column border-0 px-4'>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize  fw-semibold">Booking</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">class schedule</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize text-white  fw-semibold">Booking</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">class schedule</a></li>
                   </ul>
                 </div>
               </li>
 
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-envelope" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> HRMS</p>
+                  <i className="nav-icon fas fa-envelope text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Using Enquiry Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> HRMS</p>
                 </a>
                 <div class="collapse collapse-vertical" id="collapse5">
                   <ul className='nav d-flex flex-column border-0 px-4'>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize  fw-semibold">Staff</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Attendance</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">payrol</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">leaves</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">kpl</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">policies</a></li>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">reviews</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize text-white fw-semibold">Staff</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white fw-semibold">Attendance</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">payrol</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">leaves</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">kpl</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">policies</a></li>
+                    <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  text-white fw-semibold">reviews</a></li>
                   </ul>
                 </div>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-bell" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Notifications</p>
+                  <i className="nav-icon fas fa-bell text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Notifications</p>
                 </a>
               </li>
 
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-certificate " style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Promotion</p>
+                  <i className="nav-icon fas fa-certificate text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Promotion</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-flag" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Training Material</p>
+                  <i className="nav-icon fas fa-flag text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Training Material</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-calendar" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Events</p>
+                  <i className="nav-icon fas fa-calendar text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Events</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fa fa-flag" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Meetings</p>
+                  <i className="nav-icon fa fa-flag text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Meetings</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-comment" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Chats</p>
+                  <i className="nav-icon fas fa-comment text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Chats</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fa fa-envelope" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Email</p>
+                  <i className="nav-icon fa fa-envelope text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Email</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fa fa-rss " style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Blogs</p>
+                  <i className="nav-icon fa fa-rss text-white " style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Blogs</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-cogs" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Testimonials</p>
+                  <i className="nav-icon fas fa-cogs text-white" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> {/* Admin Icon */}
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Testimonials</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
                 <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
-                <i class="fa fa-cog fa-spin fa-3x fa-fw" aria-hidden="true" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}/>
+                <i class="fa fa-cog fa-spin fa-3x fa-fw text-white" aria-hidden="true" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}/>
                   
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }}> Settings</p>
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Settings</p>
                 </a>
                 <div class="collapse collapse-vertical" id="collapse6">
                   <ul className='nav d-flex flex-column border-0 px-4'>
                     <li className="nav-item mt-1">
-                      <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
+                      <a href="/GlobalSettings" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
 
-                        <p style={{ fontSize: "14px", fontWeight: "bold" }}> Global Settings</p>
+                        <p style={{ fontSize: "14px", fontWeight: "bold" }} className='text-white'> Global Settings</p>
                       </a>
                       <div class="collapse collapse-vertical" id="collapse7">
                         <ul className='nav d-flex flex-column border-0 px-4'>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize  fw-semibold">status</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Country</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Currency</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">email</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">intake</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">dashboard</a></li>
+                          <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-dark text-capitalize text-white fw-semibold">status</a></li>
+                          <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Country</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Currency</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">email</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">intake</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">dashboard</a></li>
 
                         </ul>
                       </div>
@@ -237,15 +237,15 @@ const Sidebar = () => {
                     <li className="nav-item mt-1">
                       <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
 
-                        <p style={{ fontSize: "14px", fontWeight: "bold" }}> Modules</p>
+                        <p style={{ fontSize: "14px", fontWeight: "bold" }} className='text-white'> Modules</p>
                       </a>
                       <div class="collapse collapse-vertical" id="collapse8">
                         <ul className='nav d-flex flex-column border-0 px-4'>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize title2 fw-semibold">University</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold">Status</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold">Program</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold">Country</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold">Add label</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark text-white text-capitalize title2 fw-semibold">University</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark text-white  text-capitalize title2 fw-semibold">Status</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark text-white  text-capitalize title2 fw-semibold">Program</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-white text-capitalize title2 fw-semibold">Country</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-white text-capitalize title2 fw-semibold">Add label</a></li>
 
                         </ul>
                       </div>
@@ -253,14 +253,14 @@ const Sidebar = () => {
                     <li className="nav-item mt-1">
                       <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
 
-                        <p style={{ fontSize: "16px", fontWeight: "bold" }}> Privilages</p>
+                        <p style={{ fontSize: "16px", fontWeight: "bold" }} className='text-white'> Privilages</p>
                       </a>
                       <div class="collapse collapse-vertical" id="collapse9">
                         <ul className='nav d-flex flex-column border-0 px-4'>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize title2 fw-semibold">program</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold">hrm</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold">attendance</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold">payroll</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize title2 text-white fw-semibold">program</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold text-white">hrm</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold  text-white">attendance</a></li>
+                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize title2 fw-semibold text-white">payroll</a></li>
 
                         </ul>
                       </div>
@@ -273,8 +273,8 @@ const Sidebar = () => {
               <li className="nav-item mt-1">
                 <Link className="nav-link" to="/" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }}>
                   
-                  <i className="nav-icon fa fa-flag" aria-hidden="true" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> 
-                  <p style={{ fontSize: "16px", fontWeight: "bold" }} onClick={logout}> Log Out </p>
+                  <i className="nav-icon fa fa-flag text-white" aria-hidden="true" style={{ color: "#191725", fontSize: "16px", fontWeight: "bold" }} /> 
+                  <p style={{ fontSize: "16px", fontWeight: "bold" }} onClick={logout} className='text-white'> Log Out </p>
                 </Link>
               </li>
             </ul>
