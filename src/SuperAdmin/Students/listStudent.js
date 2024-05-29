@@ -10,7 +10,7 @@ export default function Masterproductlist() {
 
   return (
     <div>
-      <div class="position-fixed"  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
+      <div class=""  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
         <div class="fixed-element">
           <Mastersidebar />
         </div>
