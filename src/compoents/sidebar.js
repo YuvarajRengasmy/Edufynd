@@ -224,7 +224,7 @@ const Sidebar = () => {
                       </a>
                       <div class="collapse collapse-vertical" id="collapse7">
                         <ul className='nav d-flex flex-column border-0 px-4'>
-                          <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-dark text-capitalize text-white fw-semibold">status</a></li>
+                          <li className='nav-item'><a href="/Status" className="nav-link text-dark text-capitalize text-white fw-semibold">status</a></li>
                           <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Country</a></li>
                           <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">Currency</a></li>
                           <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize text-white  fw-semibold">email</a></li>
