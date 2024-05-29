@@ -5,15 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {
     return (
-        <div>
+        <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="position-fixed">
                 <div class="fixed-element">
                     <Sidebar />
-                    <Header />
+                 
                 </div>
             </div>
-            <div className="content-wrapper">
-                <div className="content-header mt-3">
+            <div className="content-wrapper" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                <div className="content-header ">
                     <div className="content container-fluid w-75">
                         <form >
                             <div className="content-page-header">
@@ -35,8 +35,9 @@ function Profile() {
                                             name="profileImage"
                                             id="fileInputImage"
                                             type="file"
+                                            style={{backgroundColor: '#fff',display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             accept="image/*"
-                                            style={{ display: "none" }}
+                                           
                                         />
                                     </div>
                                 </div>
@@ -49,6 +50,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control "
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter name"
                                             name="name"
                                         />
@@ -63,6 +65,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control "
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Email"
                                             name="email"
                                         />
@@ -77,6 +80,7 @@ function Profile() {
                                             <input
                                                 type="text"
                                                 className="form-control "
+                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                                 placeholder="Enter Password"
                                                 name="password"
                                             />
@@ -92,12 +96,14 @@ function Profile() {
                                             <input
                                                 type="text"
                                                 className="form-control "
+                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                                 placeholder="Enter Passport No"
                                                 name="Country"
                                             />
                                             <input
                                                 type="date"
                                                 className="form-control "
+                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                                 name="Country"
                                             />
                                         </div>
@@ -113,6 +119,7 @@ function Profile() {
                                             type="date"
                                             className="form-control "
                                             name="Country"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                         />
                                     </div>
                                 </div>
@@ -124,6 +131,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control "
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Citizenship"
                                             name="name"
                                         />
@@ -137,6 +145,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Gender "
                                             name="gender "
                                         />
@@ -150,6 +159,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter E-Mail "
                                             name="gender "
                                         />
@@ -163,6 +173,7 @@ function Profile() {
                                         <input
                                             type="number"
                                             className="form-control "
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Primary Number"
                                             name="Primary Number"
                                         />
@@ -176,6 +187,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="WhatsApp Number "
                                             name="gender "
                                         />
@@ -190,6 +202,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Degree Name"
                                             name="degree Name"
                                         />
@@ -203,6 +216,7 @@ function Profile() {
                                         <input
                                             type="date"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Degree Name"
                                             name="degree Name"
                                         />
@@ -216,6 +230,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Institution"
                                             name="Institution"
                                         />
@@ -229,6 +244,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Percentage"
                                             name="Percentage"
                                         />
@@ -239,7 +255,7 @@ function Profile() {
                                         <label style={{ color: "#231F20" }}>
                                             English Language Test <span className="text-danger">*</span>
                                         </label>
-                                        <select className="form-control">
+                                        <select className="form-control"style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                             <option>select in option</option>
                                             <option>Yes</option>
                                             <option>No</option>
@@ -251,7 +267,7 @@ function Profile() {
                                         <label style={{ color: "#231F20" }}>
                                             Desired Country  <span className="text-danger">*</span>
                                         </label>
-                                        <select className="form-control">
+                                        <select className="form-control"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                             <option>select in option</option>
                                             <option>UK</option>
                                             <option>USA</option>
@@ -263,7 +279,7 @@ function Profile() {
                                         <label style={{ color: "#231F20" }}>
                                             Desired University  <span className="text-danger">*</span>
                                         </label>
-                                        <select className="form-control">
+                                        <select className="form-control"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                             <option>select in option</option>
                                             <option>PES</option>
                                             <option>IKKTE</option>
@@ -275,7 +291,7 @@ function Profile() {
                                         <label style={{ color: "#231F20" }}>
                                             Desired Course   <span className="text-danger">*</span>
                                         </label>
-                                        <select className="form-control">
+                                        <select className="form-control"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                             <option>select in option</option>
                                             <option>UG</option>
                                             <option>PG</option>
@@ -290,6 +306,7 @@ function Profile() {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Work Experience"
                                             name="Work Experience"
                                         />
@@ -300,7 +317,7 @@ function Profile() {
                                         <label style={{ color: "#231F20" }}>
                                             Finance<span className="text-danger">*</span>
                                         </label>
-                                        <select className="form-control">
+                                        <select className="form-control"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                             <option>select in option</option>
                                             <option>Self Funding</option>
                                             <option>Loan</option>
@@ -313,7 +330,7 @@ function Profile() {
                                         <label style={{ color: "#231F20" }}>
                                             Any visa rejections  <span className="text-danger">*</span>
                                         </label>
-                                        <select className="form-control">
+                                        <select className="form-control"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                             <option>select in option</option>
                                             <option>Yes</option>
                                             <option>No</option>
@@ -321,7 +338,7 @@ function Profile() {
                                     </div>
                                 </div>
                                 <div className="col-lg-12">
-                                    <div className="form-group">
+                                    <div className="form-group"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                         <label style={{ color: "#231F20" }}>
                                             Rejections    <span className="text-danger">*</span>
                                         </label>
@@ -329,6 +346,7 @@ function Profile() {
                                             className="form-control"
                                             placeholder="Enter Reason"
                                             name="admissionRequirements"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             rows="5" // You can adjust the number of rows as needed
                                         ></textarea>
                                     </div>
@@ -339,7 +357,7 @@ function Profile() {
                                         <label style={{ color: "#231F20" }}>
                                             Travel history?   <span className="text-danger">*</span>
                                         </label>
-                                        <select className="form-control">
+                                        <select className="form-control"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                                             <option>select in option</option>
                                             <option>Yes</option>
                                             <option>No</option>
@@ -353,6 +371,7 @@ function Profile() {
                                         </label>
                                         <textarea
                                             className="form-control"
+                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                             placeholder="Enter Reason"
                                             name="admissionRequirements"
                                             rows="5" // You can adjust the number of rows as needed
@@ -361,14 +380,16 @@ function Profile() {
                                 </div>
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
                                     <Link
-                                        style={{ backgroundColor: "#231F20" }}
+                                        style={{ backgroundColor: "#231F20",fontFamily: 'Plus Jakarta Sans', fontSize: '14px'}}
+                                       
                                         to="/ListStudent"
                                         className="btn btn-cancel border text-white w-50 m-2"
                                     >
                                         Cancel
                                     </Link>
                                     <button
-                                        style={{ backgroundColor: "#FE5722" }}
+                                        style={{ backgroundColor: "#FE5722",fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                      
                                         type="submit"
                                         className="btn btn-save border text-white w-50 m-2"
                                     >

@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Dashboard from "../Pages/Dashboard/dashboard";
+
 import AddUniversity from "../SuperAdmin/University/addUniversity";
 import ListUniversity from "../SuperAdmin/University/ListUniversity"
 import ViewUniversity from "../SuperAdmin/University/viewUniversity";
 import EditUniversity from "../SuperAdmin/University/editUniversity";
-import ViewProgram from "../SuperAdmin/University/ProgramDetails";
+import ViewProgram from "../SuperAdmin/Program/ViewProgram";
 import ListStudent from "../SuperAdmin/Students/listStudent";
 import AddStudent from "../SuperAdmin/Students/addStudent";
 import ViewStudent from "../SuperAdmin/Students/viewStudent"
@@ -20,12 +20,22 @@ import AddAdmin from "../SuperAdmin/Admins/AdminAdd";
 import EditAdmin from "../SuperAdmin/Admins/EditAdmin";
 import ViewAdmin from "../SuperAdmin/Admins/ViewAdmin";
 import CountryList from "../SuperAdmin/Admins/country";
+import AddProgram from "../SuperAdmin/Program/addProgram";
+import EditProgram from "../SuperAdmin/Program/editProgram";
+import Comission from "../SuperAdmin/University/addComission";
+import DashboardSA from "../SuperAdmin/DashBoard/Home";
+// Client
+import AddClient from "../SuperAdmin/client/addclient";
+import ListClient from "../SuperAdmin/client/ListClient";
+// import ViewClient from "../SuperAdmin/client/viewClient";
+import EditClient from "../SuperAdmin/client/Edit";
+
 function SuperAdmin() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/Dashboard" element={<Dashboard />} />
+        
           <Route path="/AddUniversity" element={<AddUniversity />} />
           <Route path="/ListUniversity" element={<ListUniversity />} />
           <Route path="/ViewUniversity" element={<ViewUniversity />} />
@@ -45,6 +55,14 @@ function SuperAdmin() {
           <Route path="/EditAdmin" element={<EditAdmin />} />
           <Route path="/ViewAdmin" element={<ViewAdmin />} />
           <Route path="/CountryList" element={<CountryList />} />
+          <Route path="/AddProgram" element={<AddProgram />} />
+          <Route path="/EditProgram" element={<EditProgram />} />
+          <Route path="/Comission" element={<Comission />} />
+          <Route path="/DashBoard" element={<DashboardSA />} />
+          {/* Client */}
+          <Route path="/AddClient" element={<AddClient />} />
+          <Route path="/client" element={<ListClient />} />
+          <Route path="/EditClient" element={<EditClient />} />
         </Routes>
       </BrowserRouter>
     </div>

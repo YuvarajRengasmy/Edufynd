@@ -1,4 +1,5 @@
 import React from "react";
+import * as XLSX from 'xlsx';
 
 export class ExportCsvService extends React.Component {
   static downloadCsv = (
@@ -58,4 +59,5 @@ export class ExportCsvService extends React.Component {
     }
     return str;
   };
+  
 }

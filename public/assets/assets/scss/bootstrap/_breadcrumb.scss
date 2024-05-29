@@ -1,0 +1,194 @@
+/* Start:: Breadcrumb Styles */
+
+.page-header-breadcrumb {
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: var(--bs-breadcrumb-divider, "\ea65");
+    font-family: "tabler-icons" !important;
+  }
+}
+[dir="rtl"] {
+  .page-header-breadcrumb {
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: var(--bs-breadcrumb-divider, "\ea64");
+      font-family: "tabler-icons" !important;
+    }
+  }
+
+  .breadcrumb-example1 {
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: var(--bs-breadcrumb-divider, "\ea64");
+    }
+  }
+  .embedded-breadcrumb:before {
+    transform: scaleX(-1);
+    padding-inline-start: 0.5rem;
+    padding-inline-end: 0 !important;
+  }
+  .breadcrumb-style2 .breadcrumb-item + .breadcrumb-item::before {
+    content: var(--bs-breadcrumb-divider, "\ea60");
+  }
+  .breadcrumb-style1 .breadcrumb-item + .breadcrumb-item::before {
+    content: var(--bs-breadcrumb-divider, "\ea1b");
+  }
+}
+.breadcrumb {
+  .breadcrumb-item {
+    a {
+      color: $text-muted;
+    }
+
+    &.active {
+      color: $primary;
+    }
+  }
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  color: $text-muted;
+  opacity: 0.4;
+}
+.breadcrumb-example1 {
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: $text-muted;
+    content: var(--bs-breadcrumb-divider, "\ea65");
+    font-family: "tabler-icons" !important;
+  }
+}
+.breadcrumb-style1 {
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: $text-muted;
+    content: var(--bs-breadcrumb-divider, "\ea1c");
+    font-family: "tabler-icons" !important;
+  }
+}
+.breadcrumb-style2 {
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: $text-muted;
+    content: var(--bs-breadcrumb-divider, "\ea61");
+    font-family: "tabler-icons" !important;
+  }
+}
+.embedded-breadcrumb:before {
+  opacity: 0.7;
+}
+[data-theme-mode="dark"] {
+  .embedded-breadcrumb:before {
+    filter: invert(1);
+  }
+}
+.breadcrumb1 {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: $custom-white;
+  border-radius: 0.25rem;
+}
+.breadcrumb-item1 {
+  + .breadcrumb-item1 {
+    &::before {
+      display: inline-block;
+      padding-inline-end: 0.5rem;
+      padding-inline-start: 0.5rem;
+      content: "/";
+      opacity: 0.2;
+    }
+    &:hover::before {
+      text-decoration: underline;
+      text-decoration: none;
+    }
+  }
+  &.active {
+    color: $white !important;
+    opacity: 0.8;
+  }
+}
+
+.breadcrumb-arrow {
+  height: 36px;
+  padding: 0;
+  line-height: 36px;
+  list-style: none;
+  background-color: $light;
+  li {
+    &:first-child a {
+      border-start-start-radius: 4px;
+      border-start-end-radius: 0px;
+      border-end-end-radius: 0px;
+      border-end-start-radius: 4px;
+      padding-inline-start: 10px;
+      padding: 0 10px;
+    }
+    display: inline-block;
+    vertical-align: top;
+    a,
+    span {
+      display: inline-block;
+      vertical-align: top;
+    }
+    &:not(:first-child) {
+      margin-inline-start: -5px;
+    }
+    + li:before {
+      padding: 0;
+      content: "";
+    }
+    span {
+      padding: 0 10px;
+      color: $default-text-color;
+    }
+    a,
+    &:not(:first-child) span {
+      height: 36px;
+      padding-block-start: 0px;
+      padding-inline-end: 10px;
+      padding-block-end: 0px;
+      padding-inline-start: 25px;
+      line-height: 36px;
+    }
+    a {
+      position: relative;
+      color: $white;
+      text-decoration: none;
+      background-color: #{$primary};
+      border: 1px solid #{$primary};
+    }
+    a {
+      &:after {
+        position: absolute;
+        inset-block-start: -1px;
+        width: 0;
+        height: 0;
+        content: "";
+        border-block-start: 18px solid transparent;
+        border-block-end: 18px solid transparent;
+        inset-inline-end: -12px;
+        z-index: 2;
+        border-inline-start: 11px solid #{$primary-01};
+      }
+      &:before {
+        position: absolute;
+        inset-block-start: -1px;
+        width: 0;
+        height: 0;
+        content: "";
+        border-block-start: 18px solid transparent;
+        border-block-end: 18px solid transparent;
+        inset-inline-end: -11px;
+        z-index: 3;
+        border-inline-start: 11px solid #{$primary};
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .breadcrumb-arrow {
+    li {
+      &:first-child a {
+        padding: 0 5px;
+      }
+    }
+  }
+}
+/* End:: Breadcrumb Styles */

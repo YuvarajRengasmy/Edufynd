@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { FaFilter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, } from "@mui/material";
 import Masterheader from "../../compoents/header";
@@ -10,24 +10,152 @@ export default function Masterproductlist() {
 
   return (
     <div>
-      <div class="position-fixed">
+      <div class="position-fixed"  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
         <div class="fixed-element">
           <Mastersidebar />
         </div>
       </div>
-      <Masterheader />
-      <div className="content-wrapper">
+  
+      <div className="content-wrapper" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row mb-2">
-              <div className="col-sm-6">
-                <h1 style={{ color: "#9265cc" }}>Students List</h1>
-              </div>
-              <div className="col-sm-6">
-                <ol className="breadcrumb d-flex justify-content-end align-items-center">
+              
+              <div className="col-sm-12">
+              <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+                  {/* <li className="flex-grow-1">
+                    <inputz
+                      type="search"
+                      placeholder="Search"
+                      aria-describedby="button-addon3"
+                      className="form-control-lg bg-light border-2  ps-1 rounded-4 w-100"
+                      style={{ maxWidth: "600px", marginLeft: "0px" }}
+                    />
+                  </li> */}
+                  <li className="flex-grow-1">
+  <div className="input-group" style={{ maxWidth: "600px" }}>
+    <input
+      type="search"
+      placeholder="Search"
+      aria-describedby="button-addon3"
+      className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+      style={{
+        borderColor: "#FE5722",
+        paddingRight: "1.5rem",
+        marginLeft: "0px",
+        fontSize: "14px"
+      }}
+    />
+    <span
+      className="input-group-text bg-transparent border-0"
+      id="button-addon3"
+      style={{
+        position: "absolute",
+        right: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        cursor: "pointer"
+      }}
+    >
+      <i className="fas fa-search" style={{ color: "black" }}></i>
+    </span>
+  </div>
+</li>
                   <li class="m-2">
-                    <Link class="btn-filters" >
-                      <button className="btn btn-outline-primary p-2">
+
+
+                    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
+                      <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
+                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div className="offcanvas-header">
+                          <h5 id="offcanvasRightLabel">Filter BY University</h5>
+                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                        </div>
+                        <div className="offcanvas-body ">
+                          <form>
+                            <div className="from-group mb-3">
+                              <label className="form-label">University Name</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="universityName"
+                                
+                                style={{  backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '12px'  }}
+                                placeholder="Search...University Name"
+                              />
+                              <label className="form-label">Campus</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="campus"
+                              
+                                style={{  backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '12px'  }}
+                                placeholder="Search...Campus"
+                              />
+                              <label className="form-label">Average Fees</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="averageFees"
+                               
+                                style={{  backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '12px'  }}
+                                placeholder="Search...Average Fees"
+                              />
+                              <label className="form-label">Country</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="country"
+                               
+                                style={{  backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '12px'  }}
+                                placeholder="Search...Country"
+                              />
+
+                              <label className="form-label">Popular Categories</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="popularCategories"
+                               
+                                style={{  backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '12px'  }}
+                                placeholder="Search...Country"
+                              />
+                            </div>
+                            <div>
+                              <button
+
+                                data-bs-dismiss="offcanvas"
+                                className="btn btn-cancel border text-white float-right bg"
+                                style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}
+                           
+                              >
+                                Reset
+                              </button>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                type="submit"
+                               
+                                className="btn btn-save border text-white float-right mx-2"
+                                style={{ backgroundColor: "#9265cc",fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}
+                              >
+                                Apply
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </li>
+                  <li class="m-2">
+                    <Link >
+                      <button   style={{ backgroundColor: "#E12929" }} className="btn text-white ">
                         <span>
                           <i class="fa fa-file-pdf" aria-hidden="true"></i>
                         </span>
@@ -35,19 +163,23 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-2">
-                    <Link class="btn-filters" >
+                    <Link  class="btn-filters">
                       <span>
-                        <button className="btn btn-outline-primary p-2">
+                        <button   style={{ backgroundColor: "#22A033" }} className="btn text-white ">
                           <i class="fa fa-file-excel" aria-hidden="true"></i>
                         </button>
                       </span>
                     </Link>
                   </li>
-                  <li>
-                    <Link class="btn-filters" >
+
+                  <li class="m-2">
+                    <Link  class="btn-filters">
                       <span>
-                        <button className="btn btn-outline-primary p-2">
-                          <i class="fa fa-filter" aria-hidden="true"></i>
+                        <button
+                          style={{ backgroundColor: "#9265cc" }}
+                          className="btn text-white "
+                        >
+                          <i class="fa fa fa-upload" aria-hidden="true"></i>
                         </button>
                       </span>
                     </Link>
@@ -55,17 +187,19 @@ export default function Masterproductlist() {
                   <li class="m-2">
                     <Link class="btn btn-pix-primary" to="/AddStudent">
                       <button
-                        className="btn btn-outline border text-white rounded-pill p-2"
-                        style={{ backgroundColor: "#9265cc" }}
+                        className="btn btn-outline border text-white  "
+                   
+                        style={{ backgroundColor: "#9265cc",fontFamily: 'Plus Jakarta Sans',fontSize: '16px' }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add Students
+                        Add Student
                       </button>
                     </Link>
                   </li>
+
                 </ol>
               </div>
             </div>
@@ -90,7 +224,7 @@ export default function Masterproductlist() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr >
+                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
                           <td>sd0845</td>
                           <td>John</td>
                           <td>Wz34BY71</td>
@@ -98,60 +232,38 @@ export default function Masterproductlist() {
                           <td>Indian</td>
                           <td>Self Funding</td>
                           <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewStudent" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="EditStudent" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/DeleteStudent" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
+                          <div className="d-flex">
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/ViewUniversity",
+                                  
+                                  }}
+                                >
+                                  <i className="far fa-eye text-primary me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/EditUniversity",
+                                    
+                                  }}
+                                >
+                                  <i className="far fa-edit text-warning me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                 
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                </Link>
                               </div>
-                            </div>
                           </td>
                         </tr>
-                        <tr >
-                          <td>ag0475</td>
-                          <td>Ragul</td>
-                          <td>ZBY341</td>
-                          <td>8654254321</td>
-                          <td>Indian</td>
-                          <td>Loan</td>
-                          <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewStudent" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditStudent" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/DeleteStudent" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+                       
                         <tr>
                           <td className="form-text text-danger" colSpan="9">
                             No data

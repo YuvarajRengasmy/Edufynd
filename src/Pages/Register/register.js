@@ -6,6 +6,7 @@ import { saveToken } from '../../Utils/storage';
 import { isAuthenticated } from '../../Utils/Auth';
 import { saveStudent } from '../../api/student';
 import { saveAgent } from '../../api/agent';
+import {saveSuperAdmin} from '../../api/superAdmin';
 
 const Register = () => {
   const initialState = {
@@ -94,46 +95,63 @@ const Register = () => {
     setErrors(newError)
     setSubmitted(true)
     if (handleErrors(newError)) {
-      if (type === 'student') {
-        saveStudent(inputs).then(res => {
-          let token = res?.data?.result?.token;
-          let loginType = res?.data?.result?.loginType
-          let studentId = res?.data?.result?.studentDetails?._id;
-          let data = {
-            token: token, loginType: loginType, studentId:studentId,
-          }
-          saveToken(data);
-          if (isAuthenticated()) {
-            navigate("/Student");
-          }
-          toast.success(res?.data?.message);
-        })
-          .catch((err) => {
-            toast.error(err?.response?.data?.message);
-          });
-      }
-      if (type === 'agent') {
-        saveAgent(inputs).then(res => {
-          let token = res?.data?.result?.token;
-          
-          let loginType = res?.data?.result?.loginType
-          let agent = res?.data?.result?.agentDetails?._id;
-          let data = {
-            token: token,loginType: loginType, agentId: agent
-          }
-          saveToken(data);
-          if (isAuthenticated()) {
-            navigate("/AgentHome");
-          }
-          toast.success(res?.data?.message);
-        })
-          .catch((err) => {
-            toast.error(err?.response?.data?.message);
-          });
-      }
-
+        if (type === 'student') {
+          saveStudent(inputs).then(res => {
+                let token = res?.data?.result?.token;
+                let studentId = res?.data?.result?.studentDetails?._id;
+                let loginType = res?.data?.result?.loginType
+                let data = {
+                    token: token, studentId: studentId, loginType: loginType
+                }
+                saveToken(data);
+                if (isAuthenticated()) {
+                    navigate("/Student");
+                }
+                toast.success(res?.data?.message);
+            })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
+        }
+        if (type === 'superAdmin') {
+            saveSuperAdmin(inputs).then(res => {
+                let token = res?.data?.result?.token;
+                let superAdminId = res?.data?.result?.superAdminDetails?._id;
+                let loginType = res?.data?.result?.loginType
+                let data = {
+                    token: token, superAdminId: superAdminId, loginType: loginType
+                }
+                saveToken(data);
+                if (isAuthenticated()) {
+                    navigate("/Dashboard");
+                }
+                toast.success(res?.data?.message);
+            })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
+        }
+        if (type === 'agent') {
+            saveAgent(inputs).then(res => {
+                let token = res?.data?.result?.token;
+                let agentId = res?.data?.result?.agentDetails?._id;
+                let loginType = res?.data?.result?.loginType
+                let data = {
+                    token: token, agentId: agentId, loginType: loginType
+                }
+                saveToken(data);
+                if (isAuthenticated()) {
+                    navigate("/AgentHome");
+                }
+                toast.success(res?.data?.message);
+            })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
+        }
     }
-  }
+}
+
 
   const handleSinUpType = (data) => {
     setType(data)
@@ -141,6 +159,7 @@ const Register = () => {
 
   return (
     <>
+    
       <div className="bg-gradient-primary">
         <div className="container">
           <div className="card o-hidden border-0 shadow-lg my-5">
@@ -157,6 +176,14 @@ const Register = () => {
                         style={{ fontSize: '1rem' }} >
                         Student
                       </button>
+                      {/* <button
+                        className={`btn rounded-5 border-0  fw-bold ${type === 'superAdmin' ? 'active bg-white  text-success signup-button' : ''}`}
+                        type="button"
+                        aria-selected="false"
+                        role='tab' onClick={() => handleSinUpType('superAdmin')}
+                        style={{ fontSize: '1rem' }}>
+                      SAdmin
+                      </button> */}
                       <button
                         className={`btn rounded-5 border-0  fw-bold ${type === 'agent' ? 'active bg-white  text-success signup-button' : ''}`}
                         type="button"
@@ -261,6 +288,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      
     </>
   );
 };

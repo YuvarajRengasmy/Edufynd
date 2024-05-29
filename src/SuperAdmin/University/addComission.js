@@ -1,307 +1,363 @@
-import React, { useState, useEffect } from "react";
-
-import { getMonthYear } from "../../Utils/DateFormat";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import { FiEdit } from "react-icons/fi";
+import React, { useEffect, useState } from 'react';
+import Flags from 'react-world-flags';
+import { isValidEmail } from '../../Utils/Validation';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { saveUniversity } from '../../api/university';
+import Header from "../../compoents/header";
+import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { RiDeleteBin5Line } from "react-icons/ri";
-import { Dialog, DialogContent } from "@mui/material";
+import { Select } from '@mui/material';
 
-const Experiences = () => {
-  const openPopup = (data) => {
-    setOpen(true);
-    setDeleteId(data);
+
+
+function AddComission() {
+
+  const initialState = {
+    paymentMethod: "",
+    amount: "",
+    percentage: "",
+    eligibilityForCommission: "",
+    currency: "",
+    paymentTAT: "",
+    tax: "",
+    commissionPaidOn: "",
+    countryName: "",
+    flag: "",
+
+  }
+
+  const initialStateErrors = {
+
+    paymentMethod: { required: false },
+    amount: { required: false },
+    percentage: { required: false },
+    eligibilityForCommission: { required: false },
+    currency: { required: false },
+    paymentTAT: { required: false },
+    tax: { required: false },
+    commissionPaidOn: { required: false },
+    countryName: { required: false },
+    flag: { required: false },
+
+  }
+  const [university, setUniversity] = useState(initialState)
+  const [errors, setErrors] = useState(initialStateErrors)
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+
+  const handleValidation = (data) => {
+    let error = initialStateErrors;
+
+    if (data.paymentMethod === "") {
+      error.paymentMethod.required = true;
+    }
+    if (data.eligibilityForCommission === "") {
+      error.eligibilityForCommission.required = true;
+    }
+
+    if (data.countryName === "") {
+      error.countryName.required = true;
+    }
+    if (data.flag === "") {
+      error.flag.required = true;
+    }
+    if (data.currency === "") {
+      error.currency.required = true;
+    }
+
+    if (data.paymentTAT === "") {
+      error.paymentTAT.required = true;
+    }
+
+    if (data.tax === "") {
+      error.tax.required = true;
+    }
+
+    if (data.commissionPaidOn === "") {
+      error.commissionPaidOn.required = true;
+    }
+
+    return error
+  }
+
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+
+    setUniversity((prevUniversity) => {
+      const updatedUniversity = { ...prevUniversity, [name]: value };
+
+
+      if (name === "countryName") {
+        const details = countryToDetails[value] || { currency: "", flag: "" };
+        return { ...updatedUniversity, ...details };
+      }
+
+      return updatedUniversity;
+    });
+    if (submitted) {
+      const newError = handleValidation({ ...university, [name]: value });
+      setErrors(newError);
+    }
   };
-  const closePopup = () => {
-    setOpen(false);
+
+  const countryToDetails = {
+    "United States": { currency: "USD", flag: "us" },
+    "Canada": { currency: "CAD", flag: "ca" },
+    "United Kingdom": { currency: "GBP", flag: "gb" },
+    "Australia": { currency: "AUD", flag: "au" },
+    "India": { currency: "INR", flag: "in" },
+
   };
-  const [open, setOpen] = React.useState(false);
-  const [deleteId, setDeleteId] = React.useState(null);
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const isValid = handleValidation(university);
+
+    if (isValid) {
+      try {
+        const data = {
+          paymentMethod: university?.paymentMethod,
+          amount: university?.amount,
+          percentage: university?.percentage,
+          eligibilityForCommission: university?.eligibilityForCommission,
+          currency: university?.currency,
+          paymentTAT: university?.paymentTAT,
+          tax: university?.tax,
+          commissionPaidOn: university?.commissionPaidOn
+        };
+
+        const res = await saveUniversity(data);
+        toast.success(res?.data?.message);
+        navigate("/ListUniversity");
+      } catch (error) {
+        console.error(error);
+        toast.error(error?.response?.data?.message || "An error occurred");
+      }
+    } else {
+      console.log("Validation failed");
+    }
+  };
+
 
   return (
-    <>
-      <div className="container p-0">
-        <div className="card  shadow border-0 rounded mt-5 p-4">
-          <div className="">
-            <div className="d-flex justify-content-between align-items-start">
-              <h3 className="fw-bold" style={{ color: "#FE5722" }}>
-                AddComission
-              </h3>
-              <div className="modal-btn">
-                <a
-                  className="text-decoration-none text-dark"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modal_5"
-                  aria-controls="modal_5"
-                  aria-expanded="false"
-                  role="button"
-                >
-                  <h5>
-                    Add &nbsp;
-                    <IoMdAddCircleOutline />
-                  </h5>
-                </a>
+    <div>
+      <div class="position-fixed">
+        <div class="fixed-element">
+          <Sidebar />
+          <Header />
+        </div>
+      </div>
+      <div className="content-wrapper">
+        <div className="content-header mt-3">
+          <div className="content container-fluid w-75">
+            <form onSubmit={handleSubmit} >
+              <div className="content-page-header">
+                <h5 className="text-bold" style={{ color: "#231F20" }}>
+                  Add Comission
+                </h5>
               </div>
-              <div
-                className="modal fade "
-                id="modal_5"
-                aria-hidden="true"
-                aria-labelledby="exampleModalToggleLabel"
-                tabIndex="-1"
-                data-bs-backdrop="static"
-                data-bs-keyboard="false"
-              >
-                <div className="modal-dialog modal-lg modal-dialog-centered  modal-dialog-scrollable">
-                  <div className="modal-content border-0 shadow-lg rounded m-3">
-                    <div
-                      className="card w-100  border-0  shadow"
-                      style={{ height: "500px" }}
-                    >
-                      <div className="modal-header d-flex justify-content-between align-items-center">
-                        <p
-                          className="modal-title fs-4 fw-bolder mb-3"
-                          id="exampleModalToggleLabel"
-                        >
-                          AddComission
-                        </p>
-                        <button
-                          type="button"
+              <div className="row">
 
-                          className="btn-close bg-white border rounded-5 m-0 mb-3"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
+
+
+
+                <div className="col-lg-6">
+                  <div className="form-group">
+                    <label style={{ color: '#231F20' }} className="class-danger">
+                      Payment Method
+                    </label>
+                    <select className="form-select" name="paymentMethod" onChange={handleInputs}>
+                      <option value="">Select Payment Type</option>
+                      <option value="categorie1">Fixed</option>
+                      <option value="categorie2">Percentage</option>
+                    </select>
+                    <br />
+                    {university.paymentMethod === 'categorie1' ? (
+                      <div className="form-group">
+                        <label style={{ color: '#231F20' }} className="class-danger">Ammount</label>
+
+                        <input
+                          name="amount"
+                          className="form-control"
+                          type="text"
+                          placeholder='Enter Ammount'
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
+
                       </div>
-                      <div className="modal-body">
-                        <div className="container-fluid">
-                          <form
-                            className="fw-bolder"
-                          >
-                            <div className=" row row-cols-lg-2 row-cols-1">
-                              <div className="mb-3 col">
-                                <label htmlFor="role" className="form-label">
-                                  Payment Method : <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="role"
-                                  className="form-select"
-                                  id="role"
-                                >
-                                  <option value="1">Select In Option</option>
-                                  <option value="1">Fixed</option>
-                                  <option value="2">Percentage</option>
-                                </select>
-                              </div>
-                              <div className="mb-3 col">
-                                <label
-                                  htmlFor="organization"
-                                  className="form-label"
-                                >
-                                  Amount/Percentage :
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  name="organization"
-                                  placeholder="Enter Amount/Percentage"
-                                  className="form-control"
-                                  id="organization"
-                                />
-                              </div>
-                              <div className="mb-3 col">
-                                <label className="form-label">
-                                  Eligibility For Commission :<span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  name="from"
-                                  placeholder="Enter Your Currency"
-                                  className="form-control"
-                                  id="from"
-                                />
-                              </div>
-                              <div className="mb-3 col">
-                                <label className="form-label">
-                                  Currency : <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  name="to"
-                                  placeholder="Enter Your Currency"
-                                  className="form-control"
-                                  id="to"
-                                />
-                              </div>
-                              <div className="mb-2">
-                                <label htmlFor="skills" className="form-label">
-                                  Payment TAT :
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  name="skills"
+                    ) : university.paymentMethod === 'categorie2' ? (
+                      <div className="form-group">
+                        <label style={{ color: '#231F20' }} className="class-danger">Percentage</label>
 
-                                  placeholder="Enter Your Payment TAT"
-                                  className="form-control w-100"
-                                  id="skills"
-                                />
-                              </div>
-                              <div className="mb-2">
-                                <label
-                                  htmlFor="location"
-                                  className="form-label"
-                                >
-                                  Tax :<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="location"
-                                  className="form-select"
-                                  id="location"
-                                >
-                                  <option value="1">Select In Option</option>
-                                  <option value="1">Inclusive</option>
-                                  <option value="2">Exclusive</option>
-                                </select>
+                        <input
+                          name="percentage"
+                          className="form-control"
+                          type="text"
+                          placeholder='Enter Percentage'
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
 
-
-
-                              </div>
-                              <div className="mb-2">
-                                <label
-                                  htmlFor="location"
-                                  className="form-label"
-                                >
-                                  Commission paid on :<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="location"
-                                  className="form-select"
-                                  id="location"
-                                >
-                                  <option value="1">Select In Option</option>
-                                  <option value="1">Course Fees</option>
-                                  <option value="2">Paid Fees</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div className="modal-footer d-flex gap-3 mb-5">
-                              <button type="submit" className="btn" style={{ backgroundColor: "#FE5722", color: "white" }}>
-                                Submit
-                              </button>
-                              <button
-                                type="button"
-                                className="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                                style={{ backgroundColor: "#231F20" }}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </form>
-                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="card rounded px-3 pt-1 ">
-              <div className="container">
-                <div className="modal-btn d-flex gap-2 align-items-center justify-content-end">
+                <div className="col-lg-6 ">
+                  <div className="form-group">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
+                      Eligibility for Commission<span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control "
+                      placeholder="Enter Eligibility for Commission"
+                      name="eligibilityForCommission"
+                      onChange={handleInputs}
+                    />
+                    {errors.eligibilityForCommission.required ? (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="col-lg-6 ">
+                  <div className="form-group">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
+                      Country<span className="text-danger">*</span>
+                    </label>
+                    <select
+                      className="form-select rounded-2 p-2 "
+                      name="countryName"
+                      value={university?.countryName ?? ""}
+                      onChange={handleInputs}
+                    > <option value={""} disabled hidden >Select Country</option>
+                      {Object.keys(countryToDetails).map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </select>
+
+                    {errors.countryName.required ? (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="col-lg-6 ">
+                  <div className="form-group">
+                    <label style={{ color: "#231F20" }}>
+                      currency
+                    </label>
+                    <div sm="9" className="d-flex align-items-center">
+                      {university.flag && (
+                        <Flags code={university.flag} className="me-2" style={{ width: '30px', height: '20px' }} onChange={handleInputs} name='flag' />
+                      )}
+                      <input className='form-control' type="text" onChange={handleInputs} name='currency' value={`${university.currency}`} readOnly />
+                    </div>
+                    {errors.currency.required ? (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="col-lg-6 ">
+                  <div className="form-group">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
+                      Payment TAT<span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control "
+                      placeholder="Enter paymentTAT Link"
+                      name="paymentTAT"
+                      onChange={handleInputs}
+                    />
+
+                  </div>
+                </div>
+                <div className="col-lg-6 ">
+                  <div className="form-group">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
+                      Tax<span className="text-danger">*</span>
+                    </label>
+                    <select
+                      className='form-select rounded-2 p-2 '
+                      name="tax"
+                      onChange={handleInputs}
+                      displayEmpty
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      <option value="">Select Tax</option>
+                      <option value="inclusive">Inclusive</option>
+                      <option value="exclusive">Exclusive</option>
+                    </select>
+                    {errors.tax.required ? (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="col-lg-6 ">
+                  <div className="form-group">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
+                      commissionPaidOn<span className="text-danger">*</span>
+                    </label>
+                    <select
+                      className='form-select rounded-2 p-2 '
+                      name="commissionPaidOn"
+                      onChange={handleInputs}
+                      displayEmpty
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      <option value="">Select Commission</option>
+                      <option value="courseFees">Course Fees</option>
+                      <option value="paidFees">Paid Fees</option>
+                    </select>
+                    {errors.commissionPaidOn.required ? (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+
+
+                <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
                   <Link
-                    className="btn  btn-sm btn-light  border-0"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal_5"
-                    aria-controls="modal_5"
-                    type="button"
+                    style={{ backgroundColor: "#231F20" }}
+                    to="/ListUniversity"
+                    className="btn btn-cancel border text-white w-50 m-2"
                   >
-                    <h4>
-                      <FiEdit />
-                    </h4>
+                    Cancel
                   </Link>
-                  <Link
-                    className="btn  btn-sm btn-light  border-0"
-                    type="button"
+                  <button
+                    style={{ backgroundColor: "#FE5722" }}
+                    type="submit"
+                    className="btn btn-save border text-white w-50 m-2"
                   >
-                    <h4>
-                      <RiDeleteBin5Line />
-                    </h4>
-                  </Link>
+                    Submit
+                  </button>
                 </div>
               </div>
-              <div className="row row-cols-md-2 row-cols-1">
-                <div>
-                  <h6 className="fw-bold" style={{ color: "#231F20" }}>
-                    PaymentMethod :
-                  </h6>
-                  <p className="fw-lighter">Fixed </p>
-                </div>
-                <div>
-                  <h6 className="fw-bold" style={{ color: "#231F20" }}>
-                    Amount/Percentage :
-                  </h6>
-                  <p className="fw-lighter"> 25000</p>
-                </div>
-                <div>
-                  <h6 className="fw-bold" style={{ color: "#231F20" }}>
-                    EligibilityForCommission :
-                  </h6>
-                  <p className="fw-lighter"> 25000</p>
-                </div>
-                <div>
-                  <h6 className="fw-bold" style={{ color: "#231F20" }}>
-                    Currency :
-                  </h6>
-                  <p className="fw-lighter"> yes</p>
-                </div>
-                <div>
-                  <h6 className="fw-bold" style={{ color: "#231F20" }}>
-                    Payment TAT :
-                  </h6>
-                  <p className="fw-lighter"> On</p>
-                </div>
-                <div>
-                  <h6 className="fw-bold" style={{ color: "#231F20" }}>
-                    Tax :
-                  </h6>
-                  <p className="fw-lighter">Inclusive</p>
-                </div>
-                <div>
-                  <h6 className="fw-bold" style={{ color: "#231F20" }}>
-                    CommissionPaidOn
-                  </h6>
-                  <p className="fw-lighter">Course Fees</p>
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-      <Dialog open={open}>
-        <DialogContent>
-          <div className="text-center m-4">
-            <h5 className="mb-4">
-              Are you sure you want to remove <br /> the selected Experience
-              Details ?
-            </h5>
-            <button
-              type="button"
-              className="btn btn-primary mx-3"
-            >
-              Yes
-            </button>
-            <button
-              type="button"
-              className="btn btn-light "
-              onClick={closePopup}
-            >
-              No
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+    </div>
   );
-};
-export default Experiences;
+}
+export default AddComission;

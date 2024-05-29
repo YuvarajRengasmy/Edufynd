@@ -30,6 +30,14 @@ const Profile = () => {
         instagram: "",
         facebook: "",
         linkedIn: "",
+        hasVisaRejections: "",
+        visaReason: "",
+        doYouHaveTravelHistory: "",
+        travelReason: "",
+        doHaveAnyEnglishLanguageTest:"",
+        englishTestType: "",
+        testScore: "",
+        dateOfTest: "",
     };
 
     const initialStateErrors = {
@@ -53,7 +61,14 @@ const Profile = () => {
         facebook: { required: false },
         linkedIn: { required: false },
         instagram: { required: false },
-
+        hasVisaRejections: { required: false },
+        visaReason: { required: false },
+        doYouHaveTravelHistory: { required: false },
+        travelReason: { required: false },
+        doHaveAnyEnglishLanguageTest: { required: false },
+        englishTestType: { required: false },
+        testScore: { required: false },
+        dateOfTest: { required: false },
 
     };
 
@@ -85,6 +100,9 @@ const Profile = () => {
 
     const handleInputs = (event) => {
         setStudent({ ...student, [event.target.name]: event.target.value });
+        const selectedValue = event.target.value;
+        setSelectedOption(selectedValue);
+        setCustomInputValue('');
         if (submitted) {
             const newError = handleValidation({ ...student, [event.target.name]: event.target.value, });
             setErrors(newError);
@@ -161,7 +179,8 @@ const Profile = () => {
             updateStudent(student)
                 .then((res) => {
                     toast.success(res?.data?.message);
-                    navigate("/student");
+                    navigate("/Profile");
+                   
                 })
                 .catch((err) => {
                     toast.error(err?.response?.data?.message);
@@ -190,17 +209,6 @@ const Profile = () => {
         }
         getCountries();
     }, []);
-
-    const handleSelectChange = (e) => {
-        const selectedValue = e.target.value;
-        setSelectedOption(selectedValue);
-        setCustomInputValue('');
-    };
-
-    const handleCustomInputChange = (e) => {
-        setCustomInputValue(e.target.value);
-    };
-
     const handleCountryChange = (selectedOption) => {
         setStudent({ ...student, country: selectedOption });
     };
@@ -305,40 +313,40 @@ const Profile = () => {
                                                 ) : null}
                                             </div>
                                         </div>
-                                        {/* <div className="row mb-3">
+                                        <div className="row mb-3">
                                             <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
                                                 English Language Test
                                             </label>
                                             <div className="col-md-8 col-lg-9">
-                                                <select className="form-control" name="campus" value={selectedOption} onChange={handleSelectChange}>
-                                                    <option value="categories">Yes</option>
-                                                    <option value="">No</option>
+                                                <select className="form-control" name="doHaveAnyEnglishLanguageTest" value={student?.doHaveAnyEnglishLanguageTest} onChange={handleInputs}>
+                                                    <option value="categori">Yes</option>
+                                                    <option value="no">No</option>
                                                 </select>
                                             </div>
                                             <br /><br />
-                                            {selectedOption === 'categories' && (
+                                            {selectedOption === 'categori' && (
                                                 <div className="row mb-3">
                                                     <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">TestName </label>
                                                     <div className="col-md-8 col-lg-9">
-                                                        <select className="form-control" name="campus" value={customInputValue} onChange={handleCustomInputChange}>
-                                                            <option value="">Test Name</option>
-                                                            <option value="">IELTS</option>
-                                                            <option value="">PTE</option>
-                                                            <option value="">TOEFL</option>
-                                                            <option value="">Duolingo</option>
+                                                        <select className="form-control" name="englishTestType" value={student?.englishTestType} onChange={handleInputs}>
+                                                            <option value="testName">Test Name</option>
+                                                            <option value="ielts">IELTS</option>
+                                                            <option value="pte">PTE</option>
+                                                            <option value="toefl">TOEFL</option>
+                                                            <option value="duolingo">Duolingo</option>
                                                         </select>
                                                     </div><br /><br />
                                                     <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">Test Score</label>
                                                     <div className="col-md-8 col-lg-9">
-                                                        <input type="text" className="form-control" value={customInputValue} onChange={handleCustomInputChange} placeholder="Enter TheTest Score" />
+                                                        <input type="text" className="form-control" value={student?.testScore} onChange={handleInputs} name="testScore" placeholder="Enter TheTest Score" />
                                                     </div><br /><br />
                                                     <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">Date of Test</label>
                                                     <div className="col-md-8 col-lg-9">
-                                                        <input type="text" className="form-control" value={customInputValue} onChange={handleCustomInputChange} placeholder="Enter The Date of Test" />
+                                                        <input type="date" className="form-control" value={student?.dateOfTest} onChange={handleInputs} name="dateOfTest" placeholder="Enter The Date of Test" />
                                                     </div>
                                                 </div>
                                             )}
-                                        </div> */}
+                                        </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Country" className="col-md-4 col-lg-3 col-form-label">Desired Country <span className=" text-danger">*</span></label>
                                            
@@ -380,14 +388,14 @@ const Profile = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        {/* <div className="row mb-3">
+                                        <div className="row mb-3">
                                             <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
                                                 Any visa rejections
                                             </label>
                                             <div className="col-md-8 col-lg-9">
-                                                <select className="form-control" name="campus" value={selectedOption} onChange={handleSelectChange}>
+                                                <select className="form-control" name="hasVisaRejections" type="selectOne" value={student?.hasVisaRejections} onChange={handleInputs}>
                                                     <option value="categories">Yes</option>
-                                                    <option value="">No</option>
+                                                    <option value="no">No</option>
                                                 </select>
                                             </div>
                                             <br /><br />
@@ -395,7 +403,7 @@ const Profile = () => {
                                                 <div className="row mb-3">
                                                     <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">Reason  </label>
                                                     <div className="col-md-8 col-lg-9">
-                                                        <textarea name="about" className="form-control" style={{ height: 100 }} defaultValue={"Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde."} />
+                                                        <textarea name="visaReason" type="text" className="form-control" style={{ height: 100 }} value={student?.visaReason} onChange={handleInputs} />
                                                     </div>
                                                 </div>
                                             )}
@@ -405,21 +413,21 @@ const Profile = () => {
                                                 Do you have a travel history
                                             </label>
                                             <div className="col-md-8 col-lg-9">
-                                                <select className="form-control" name="campus" value={selectedOption} onChange={handleSelectChange}>
-                                                    <option value="categories">Yes</option>
-                                                    <option value="">No</option>
+                                                <select className="form-control" name="doYouHaveTravelHistory" value={student?.doYouHaveTravelHistory} onChange={handleInputs}>
+                                                    <option value="categorie">Yes</option>
+                                                    <option value="no">No</option>
                                                 </select>
                                             </div>
                                             <br /><br />
-                                            {selectedOption === 'categories' && (
+                                            {selectedOption === 'categorie' && (
                                                 <div className="row mb-3">
                                                     <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">Reason  </label>
                                                     <div className="col-md-8 col-lg-9">
-                                                        <textarea name="about" className="form-control" style={{ height: 100 }} />
+                                                        <textarea name="travelReason" className="form-control" style={{ height: 100 }} onChange={handleInputs} value={student?.travelReason} />
                                                     </div>
                                                 </div>
                                             )}
-                                        </div> */}
+                                        </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Linkedin" className="col-md-4 col-lg-3 col-form-label">Finance <span className=" text-danger">*</span>  </label>
                                             <div className="col-md-8 col-lg-9">

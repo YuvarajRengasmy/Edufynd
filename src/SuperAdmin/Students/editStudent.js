@@ -5,14 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {
     return (
-        <div>
+        <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="position-fixed">
                 <div class="fixed-element">
                     <Sidebar />
-                    <Header />
+                   
                 </div>
             </div>
-            <div className="content-wrapper">
+            <div className="content-wrapper" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header mt-3">
                     <div className="content container-fluid w-75">
                         <form >

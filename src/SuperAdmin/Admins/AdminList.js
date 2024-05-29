@@ -1,9 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState } from "react";
+import { getallAdmin } from "../../api/admin";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, } from "@mui/material";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 export default function ListAgent() {
+
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  const [admin, setAdmin] = useState();
+
+  useEffect(() => {
+    getAllAdminDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllAdminDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getallAdmin(data)
+      .then((res) => {
+        console.log("yuvi",res)
+        setAdmin(res?.data?.result);
+        setPagination({ ...pagination, count: res?.data?.result?.adminCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+  
   return (
     <div>
       <div class="position-fixed">
@@ -14,7 +49,7 @@ export default function ListAgent() {
       <Header />
       <div className="content-wrapper">
         <div className="content-header">
-          <div className="container-fluid">
+          <div className="container">
             <div className="row mb-2">
               <div className="col-sm-6">
                 <h1 style={{ color: "#9265cc" }}>Admin List</h1>
@@ -68,7 +103,8 @@ export default function ListAgent() {
           </div>
         </div>
         <div className="row">
-          <div className="col-xl-12">
+          <div className="container">
+          <div className="col-md-11">
             <div className="card mt-2">
               <div className="card-body">
                 <div className="card-table">
@@ -76,21 +112,24 @@ export default function ListAgent() {
                     <table className=" table card-table dataTable text-center">
                       <thead>
                         <tr style={{ color: "#9265cc" }}>
+                          <th> S.No.</th>
                           <th> Admin ID </th>
                           <th> Name </th>
-                          <th>	Email ID </th>
+                          <th> Email ID </th>
                           <th> Role </th>
                           <th> Contact number </th>
                           <th> Action </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr >
-                          <td>AG0845</td>
-                          <td>John</td>
-                          <td>johninfo@gmail.com</td>
-                          <td>Digital Marketer</td>
-                          <td>9876543210</td>
+                      {admin?.map((data, index) => (
+                        <tr key={index} >
+                          <td>#{pagination.from + index + 1}</td>
+                          <td>{data?.adminCode}</td>
+                          <td>{data?.name}</td>
+                          <td>{data?.email}</td>
+                          <td>{data?.role}</td>
+                          <td>{data?.mobileNumber}</td>
                           <td>
                             <div className="dropdown dropdown-action">
                               <a
@@ -115,131 +154,14 @@ export default function ListAgent() {
                             </div>
                           </td>
                         </tr>
-                        <tr >
-                          <td>AG0845</td>
-                          <td>John</td>
-                          <td>johninfo@gmail.com</td>
-                          <td>Digital Marketer</td>
-                          <td>9876543210</td>
-                          <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewAdmin" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditAdmin" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr >
-                          <td>AG0845</td>
-                          <td>John</td>
-                          <td>johninfo@gmail.com</td>
-                          <td>Digital Marketer</td>
-                          <td>9876543210</td>
-                          <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewAdmin" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditAdmin" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr >
-                          <td>AG0845</td>
-                          <td>John</td>
-                          <td>johninfo@gmail.com</td>
-                          <td>Digital Marketer</td>
-                          <td>9876543210</td>
-                          <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewAdmin" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditAdmin" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr >
-                          <td>AG0845</td>
-                          <td>John</td>
-                          <td>johninfo@gmail.com</td>
-                          <td>Digital Marketer</td>
-                          <td>9876543210</td>
-                          <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewAdmin" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditAdmin" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+                      ))}
+                       {admin?.length === 0 ? (
                         <tr>
                           <td className="form-text text-danger" colSpan="9">
                             No data
                           </td>
                         </tr>
+                       ) : null}
                       </tbody>
                     </table>
                   </div>
@@ -249,6 +171,7 @@ export default function ListAgent() {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

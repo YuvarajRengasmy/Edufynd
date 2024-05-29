@@ -11,6 +11,7 @@ import Footer from "../../compoents/Footer";
 const Profile = () => {
 
   const [student, setStudent] = useState(null);
+  const [currentView, setCurrentView] = useState('profile');
 
   useEffect(() => {
     getStudentDetails();
@@ -74,7 +75,12 @@ const Profile = () => {
                     <div className="tab-content pt-2">
                       <div className="tab-pane fade show active profile-overview" id="profile-overview">
                    
-                                        
+                      <div className="row mb-3">
+                                            <label htmlFor="fullName" className="col-md-4 col-lg-3 col-form-label">Student Code</label>
+                                            <div className="col-md-8 col-lg-9">
+                                                <input  type="text" className="form-control" id="fullName" value={student?.studentCode} />
+                                            </div>
+                                        </div>
                                         <div className="row mb-3">
                                             <label htmlFor="fullName" className="col-md-4 col-lg-3 col-form-label">Student Name</label>
                                             <div className="col-md-8 col-lg-9">
@@ -116,7 +122,20 @@ const Profile = () => {
                                             <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
                                                 English Language Test
                                             </label>
+                                            {currentView === 'feed' ? (
                                             <input className="form-control" id="Email" value={student?.englishLanguageTest} />
+                                            ) : (
+                                           
+                                            <div className=" d-flex col-md-12 col-lg-9 gap-5">
+                                              <label>English Test Type
+                                                <input  className="form-control" id="Email" value={student?.englishTestType} /></label>
+                                                <label>TestScore<input  className="form-control" id="Email" value={student?.testScore} /></label>
+                                                <label>TestDate <input  className="form-control" id="Email" value={student?.dateOfTest} /></label>
+                                               
+                                            </div>
+                                         
+                                            
+                                            )}
                                         </div>
                                         <div className="row mb-3">
                                             <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Desired University </label>
@@ -149,7 +168,7 @@ const Profile = () => {
                                                 Any visa rejections
                                             </label>
                                             <div className="col-md-8 col-lg-9">
-                                              <input  className="form-control" id="Twitter" value={student?.visaRejection} />
+                                              <input  className="form-control" id="Twitter" value={student?.visaReason ? student?.visaReason : "no"} />
                                             </div>
                                            
                                            
@@ -159,7 +178,7 @@ const Profile = () => {
                                             Do you have a travel history
                                             </label>
                                             <div className="col-md-8 col-lg-9">
-                                               <input  className="form-control" id="Twitter" value={student?.travelHistory}/>
+                                               <input  className="form-control" id="Twitter" value={student?.travelReason? student?.travelReason : "no"}/>
                                             </div>
                                             <br /><br />
                                           

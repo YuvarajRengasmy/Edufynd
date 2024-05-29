@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 const Footer = () => {
     return (
         <div >
-            <footer className="text-center text-white" style={{ backgroundColor: '#3f51b5' }}>
+            <footer className="text-center text-white" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="container">
                     <section className="mt-5">
                         <div className="row text-center d-flex justify-content-center pt-3">

@@ -1,0 +1,534 @@
+/** Dashboard-1 start**/
+.card-custom-icon.text-secondary {
+  fill: $secondary;
+}
+
+.card-custom-icon.text-success {
+  fill: $success;
+}
+
+.card-custom-icon.text-primary {
+  fill: $primary;
+}
+.card-custom-icon {
+  position: absolute;
+  inset-inline-end: 25px;
+  inset-block-start: 15px;
+  width: 40px;
+  height: 40px;
+}
+.card-custom-icon2 {
+  position: absolute;
+  inset-inline-end: 25px;
+  inset-block-start: 15px;
+}
+@media (max-width: 1200px) {
+  .sales-img {
+    width: 50% !important;
+    margin: 0 auto;
+    text-align: center !important;
+    display: block;
+    max-width: 100%;
+  }
+}
+@media (min-width: 1600px) {
+  .sales-img {
+    width: 400px;
+    max-width: 100%;
+  }
+}
+.countrytable {
+  img {
+    width: 1.6rem;
+    height: 1.2rem;
+    display: inline-block;
+    background: no-repeat center/100% 100%;
+    vertical-align: bottom;
+    font-style: normal;
+    box-shadow: 0 0 1px 1px $black-1;
+    border-radius: 2px;
+  }
+}
+
+.countryscroll {
+  height: 290px;
+}
+@media (min-width: 1800px) {
+  .countryscroll {
+    height: 370px;
+  }
+}
+.country-profit {
+  border-inline-start: 1px solid $default-border;
+}
+#vmap {
+  height: 270px;
+  svg {
+    path {
+      fill: $primary;
+    }
+  }
+}
+#spark1,
+#spark2,
+#spark3 {
+  .apexcharts-grid line,
+  .apexcharts-xaxis line,
+  .apexcharts-grid-borders line {
+    stroke: transparent;
+  }
+}
+.products-scrollbar {
+  height: 450px;
+  img {
+    height: 4rem;
+    width: 4rem;
+    box-shadow: 0 1px 2px 0 $black-05;
+    border-radius: 3px;
+  }
+}
+.transactions-scroll {
+  height: 400px;
+  .transaction-table {
+    th,
+    td {
+      border-block-end: 0;
+    }
+  }
+}
+.customers-scroll {
+  height: 400px;
+  .transaction-table {
+    th,
+    td {
+      border-block-end: 0;
+    }
+  }
+}
+#leads {
+  height: 400px !important;
+}
+#grid-container {
+  .gridjs-search {
+    float: right;
+  }
+  th.gridjs-th-sort {
+    width: 200px;
+  }
+}
+[dir="rtl"] {
+  #grid-container {
+    .gridjs-search {
+      float: left;
+    }
+  }
+}
+.seller-table-sort {
+  position: absolute;
+  z-index: 1;
+  .choices__list--dropdown .choices__item--selectable,
+  .choices__list[aria-expanded] .choices__item--selectable {
+    padding: 10px !important;
+  }
+
+  .choices__list--dropdown .choices__item--selectable::after,
+  .choices__list[aria-expanded] .choices__item--selectable::after {
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .seller-table-sort {
+    position: relative;
+    z-index: 1;
+  }
+}
+/** Dashboard-1 end**/
+/** Dashboard-2 start**/
+#chart-circle-primary {
+  .apexcharts-radialbar-track.apexcharts-track path {
+    stroke: $primary-04;
+  }
+  .apexcharts-text {
+    &.apexcharts-datalabel-value {
+      font-size: 2rem;
+      font-family: inherit !important;
+      font-weight: 500;
+      line-height: 1.1;
+      fill: $default-text-color;
+    }
+    &.apexcharts-datalabel-label {
+      display: block;
+      font-family: inherit !important;
+      fill: $text-muted;
+      font-size: 0.9375rem;
+      font-weight: 400;
+    }
+  }
+}
+.country-flag {
+  width: 1.6rem;
+  height: 1.2rem;
+  display: inline-block;
+  background: no-repeat center/100% 100%;
+  vertical-align: bottom;
+  font-style: normal;
+  box-shadow: 0 0 1px 1px $black-1;
+  border-radius: 2px;
+}
+#myfirstchart {
+  .apexcharts-legend-text {
+    color: $text-muted !important;
+    padding-inline-start: 0.9375rem !important;
+    margin-inline-start: -0.625rem !important;
+  }
+  .apexcharts-bar-series.apexcharts-plot-series
+    .apexcharts-series
+    .apexcharts-bar-area {
+    stroke: transparent !important;
+  }
+  .apexcharts-legend-marker {
+    border-radius: 3px !important;
+  }
+}
+/** Dashboard-2 end**/
+/** Dashboard-3 start**/
+
+.feature {
+  .feature-icon {
+    width: 4rem;
+    height: 4rem;
+    line-height: 4rem;
+    border-radius: 50%;
+    background: $primary-02;
+    text-align: center;
+    font-size: 25px;
+    color: $primary;
+  }
+}
+
+.expenses-card {
+  padding-block-start: 105px;
+
+  #expense {
+    width: 150%!important;
+    inset-block-end: -45px;
+    position: relative;
+    inset-inline-start: -65px;
+    height: 186px!important;
+  }
+
+  .card-body {
+    position: absolute;
+    inset-block-start: 0;
+  }
+}
+
+.latest-timeline1 {
+  li {
+    position: relative;
+  }
+
+  &-icon {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 7px;
+    line-height: 2rem;
+    text-align: center;
+    inset-inline-start: 0;
+    z-index: 1;
+    color: $white;
+    font-weight: 500;
+  }
+
+  ul.timeline {
+    padding-inline-start: 0;
+    list-style-type: none;
+    position: relative;
+
+    &:before {
+      content: " ";
+      background: $default-body-color;
+      display: inline-block;
+      position: absolute;
+      inset-inline-start: 15px;
+      width: 3px;
+      height: 100%;
+      z-index: 1;
+    }
+
+    > li {
+      padding-inline-start: 3rem;
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+.activity {
+  position: relative;
+  border-inline-start: 3px solid $default-border;
+  margin-inline-start: 16px;
+}
+
+.activity .img-activity3 {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 44px;
+  border-radius: 50%;
+  position: absolute;
+  inset-inline-start: -20px;
+  border: 3px solid;
+}
+
+.activity .item-activity {
+  margin-inline-start: 40px;
+  margin-block-end: 26px;
+}
+
+#activity-scrollbar,
+#notify-scroll {
+  height: 364px;
+}
+@media screen and (max-width : 400px) {
+    #Statistics {
+      height: 220px !important;
+      width: 220px !important;
+    }
+}
+/** Dashboard-3 end**/
+
+/** Dashboard-4 start**/
+@media screen and (min-width: 1200px) {
+  #application,
+  #chart-circle-primary1 {
+    position: absolute;
+    inset-inline-start: auto;
+    inset-inline-end: -0.6rem;
+    inset-block-start: -0.1rem;
+    .apexcharts-radialbar-track.apexcharts-track path {
+      stroke: $primary-04;
+    }
+  }
+  #chart-circle-primary2 {
+    position: absolute;
+    inset-inline-start: auto;
+    inset-inline-end: -0.6rem;
+    inset-block-start: -0.1rem;
+    .apexcharts-radialbar-track.apexcharts-track path {
+      stroke: rgba(var(--success-rgb), 0.4);
+    }
+  }
+  #chart-circle-primary3 {
+    position: absolute;
+    inset-inline-start: auto;
+    inset-inline-end: -0.6rem;
+    inset-block-start: -0.1rem;
+    .apexcharts-radialbar-track.apexcharts-track path {
+      stroke: rgba(var(--danger-rgb), 0.4);
+    }
+  }
+}
+
+.index4-table tr td:first-child {
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 24px;
+    inset-inline-start: 0px;
+    inset-block-start: 12px;
+  }
+}
+
+.index4-table tr:nth-child(1) td:first-child:before {
+  background: $primary-07;
+}
+
+.index4-table tr:nth-child(2) td:first-child:before {
+  background: rgba(var(--secondary-rgb), 0.7);
+}
+
+.index4-table tr:nth-child(3) td:first-child:before {
+  background: rgba(var(--success-rgb), 0.7);
+}
+
+.index4-table tr:nth-child(4) td:first-child:before {
+  background: rgba(var(--info-rgb), 0.7);
+}
+
+.index4-table tr:nth-child(5) td:first-child:before {
+  background: rgba(var(--warning-rgb), 0.7);
+}
+
+.index4-table tr:nth-child(6) td:first-child:before {
+  background: rgba(var(--danger-rgb), 0.7);
+}
+
+.index4-table tr:nth-child(7) td:first-child:before {
+  background: $primary-07;
+}
+
+.index4-table tr:nth-child(8) td:first-child:before {
+  background: rgba(var(--secondary-rgb), 0.7);
+}
+
+.index4-table tr:nth-child(9) td:first-child:before {
+  background: rgba(var(--success-rgb), 0.7);
+}
+
+.index4-table tr:nth-child(10) td:first-child:before {
+  background: rgba(var(--info-rgb), 0.7);
+}
+@media screen and (max-width : 400px) {
+    #Projects {
+      height: 220px !important;
+      width: 220px !important;
+    }
+}
+/** Dashboard-4 end**/
+
+/** Dashboard-5 start**/
+.news-swiper {
+  &:before {
+    width: 20%;
+    position: absolute;
+    content: "";
+    height: 100%;
+    background: linear-gradient(to right, $default-body-color, transparent);
+    z-index: 2;
+    inset-inline-start: 0;
+    inset-block-start: 0px;
+  }
+  &:after {
+    width: 20%;
+    position: absolute;
+    content: "";
+    height: 100%;
+    background: linear-gradient(to left, $default-body-color, transparent);
+    z-index: 1;
+    inset-inline-end: 0;
+    inset-block-start: 0px;
+  }
+  .news-crypto {
+    li {
+      display: inline-flex;
+      font-size: 16px;
+      padding: 9px 15px;
+      border: 1px solid $default-border;
+      margin-inline-start: 5px;
+      background: $custom-white;
+      margin: 15px 6px;
+      border-radius: 5px;
+      box-shadow: $box-shadow;
+    }
+  }
+}
+@media (min-width: 1440px) {
+  .crypto-header-section h3 {
+    font-size: 32px;
+  }
+
+  .crypto-header-section .w-5 {
+    width: 2rem !important;
+  }
+
+  .crypto-header-section .h-5 {
+    height: 2rem !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  .crypto-header-section h3 {
+    font-size: 32px;
+  }
+
+  .crypto-header-section .w-5 {
+    width: 2.5rem !important;
+  }
+
+  .crypto-header-section .h-5 {
+    height: 2.5rem !important;
+  }
+}
+#CryptoChart,
+#CryptoChart1,
+#CryptoChart2,
+#CryptoChart3,
+#CryptoChart11 {
+  width: 150%!important;
+  height: 140px!important;
+  inset-block-end: -44px;
+  position: relative;
+  inset-inline-start: -67px;
+}
+.trade-table {
+  height: 420px;
+}
+.crypto-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 4px;
+  line-height: 3rem;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-inline-end: 18px;
+}
+.transaction-scroll {
+  height: 335px;
+}
+
+.crypto-tabs {
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.crypto-tabs .tabs-menu1 ul li a {
+  border-start-start-radius: 8px;
+  border-start-end-radius: 8px;
+  border-end-end-radius: 0px;
+  border-end-start-radius: 0px;
+  background: transparent;
+  padding: 10px 20px 11px 20px;
+  border: 0;
+  &.active,
+  &:hover {
+    background: $custom-white;
+    box-shadow: $box-shadow;
+  }
+}
+
+.crypto-tabs .tabs-menu1 ul li a {
+  display: block;
+  font-size: 16px;
+}
+.crypto-content {
+  border-start-start-radius: 0px;
+  padding: 2rem;
+  .tab-pane {
+    padding: 0;
+  }
+  .choices__list--dropdown .choices__item--selectable,
+  .choices__list[aria-expanded] .choices__item--selectable {
+    padding: 10px !important;
+  }
+
+  .choices__list--dropdown .choices__item--selectable::after,
+  .choices__list[aria-expanded] .choices__item--selectable::after {
+    display: none;
+  }
+}
+[dir="rtl"] {
+  .news-crypto {
+   .swiper-slide{
+    direction: rtl;
+   }
+  }
+  .swiper-slide {
+    direction: rtl;
+  }
+}
+/** Dashboard-5 end**/

@@ -1,52 +1,41 @@
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../Utils/Validation';
-import { getLoginType, saveToken } from '../../Utils/storage';
+import { saveToken, getLoginType } from '../../Utils/storage';
 import { isAuthenticated } from '../../Utils/Auth';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../api/login';
+
 const Login = () => {
+  const [inputs, setInputs] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: { required: false, valid: false }, password: { required: false, valid: false } });
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
-  const initialState = {
-    email: "",
-    password: ""
-}
-const initialStateErrors = {
-    email: { required: false, valid: false },
-    password: { required: false, valid: false },
-}
-const [inputs, setInputs] = useState(initialState)
-const [errors, setErrors] = useState(initialStateErrors)
-const [submitted, setSubmitted] = useState(false);
-const navigate = useNavigate()
+  const handleValidation = (data) => {
+    let newErrors = {
+      email: {
+        required: data.email === "",
+        valid: !isValidEmail(data.email)
+      },
+      password: {
+        required: data.password === "",
+        valid: !isValidPassword(data.password)
+      }
+    };
+    return newErrors;
+  };
 
-const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (data.email === "") {
-        error.email.required = true;
-    }
-    if (data.password === "") {
-        error.password.required = true;
-    }
-    if (!isValidPassword(data.password)) {
-        error.password.valid = true;
-    }
-    if (!isValidEmail(data.email)) {
-        error.email.valid = true;
-    }
-    return error
-}
-
-const handleInputs = (event) => {
-    setInputs({ ...inputs, [event?.target?.name]: event?.target?.value })
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+    setInputs({ ...inputs, [name]: value });
     if (submitted) {
-        const newError = handleValidation({ ...inputs, [event.target.name]: event.target.value })
-        setErrors(newError)
+      const newErrors = handleValidation({ ...inputs, [name]: value });
+      setErrors(newErrors);
     }
-}
+  };
 
-
-const handleErrors = (obj) => {
+  const handleErrors = (obj) => {
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
             const prop = obj[key];
@@ -58,7 +47,7 @@ const handleErrors = (obj) => {
     return true;
 }
 
-const handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs)
     setErrors(newError)
@@ -70,11 +59,21 @@ const handleSubmit = (event) => {
             if (loginType === 'student') {
                 let studentId = res?.data?.result?.studentDetails?._id;
                 let data = {
-                    token: token, studentId: studentId, loginType: loginType
+                    token: token, studentId:studentId , loginType: loginType
                 }
                 saveToken(data);
                 if (isAuthenticated()) {
                     navigate("/Student");
+                }
+            }
+            if (loginType === 'superAdmin') {
+                let superAdminId = res?.data?.result?.superAdminDetails?._id;
+                let data = {
+                    token: token, superAdminId: superAdminId, loginType: loginType
+                }
+                saveToken(data);
+                if (isAuthenticated()) {
+                    navigate("/Dashboard");
                 }
             }
             if (loginType === 'agent') {
@@ -87,7 +86,6 @@ const handleSubmit = (event) => {
                     navigate("/AgentHome");
                 }
             }
-          
             toast.success(res?.data?.message);
         })
             .catch((err) => {
@@ -99,10 +97,9 @@ const handleSubmit = (event) => {
 if (isAuthenticated()) {
     const type = getLoginType()
     if (type === 'student') { return <Navigate to="/Student" /> }
-    else if (type === 'agent') { return <Navigate to="/AgentHome" /> }
-    else { return <Navigate to="/" /> }
+    else if (type === 'superAdmin') { return <Navigate to="/Dashboard" /> }
+    else { return <Navigate to="/AgentHome" /> }
 }
-
   return (
     <>
       <div className="bg-gradient-primary">
@@ -122,28 +119,28 @@ if (isAuthenticated()) {
                           <div className="form-group">
                             <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
                             {errors.email.required ? (
-                                <div className="text-danger form-text">
-                                    This field is required.
-                                </div>
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
                             ) : errors.email.valid ? (
-                                <div className="text-danger form-text">
-                                    Enter valid Email Id.
-                                </div>
+                              <div className="text-danger form-text">
+                                Enter valid Email Id.
+                              </div>
                             ) : null}
                           </div>
                           <div className="form-group">
                             <input type="password" name="password" onChange={handleInputs} autoComplete="off" className="form-control form-control-user" id="exampleInputPassword" placeholder="Password" />
                             {errors.password.required ? (
-                                <div className="text-danger form-text">
-                                    This field is required.
-                                </div>
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
                             ) : errors.password.valid ? (
-                                <div className="text-danger form-text">
-                                    A minimum 8 characters password contains a <br />
-                                    combination of {''}
-                                    <strong>uppercase, lowercase, {''}</strong>
-                                    <strong>special <br /> character{''}</strong> and <strong>number</strong>.
-                                </div>
+                              <div className="text-danger form-text">
+                                A minimum 8 characters password contains a <br />
+                                combination of {''}
+                                <strong>uppercase, lowercase, {''}</strong>
+                                <strong>special <br /> character{''}</strong> and <strong>number</strong>.
+                              </div>
                             ) : null}
                           </div>
                           <div className="form-group">
@@ -155,7 +152,7 @@ if (isAuthenticated()) {
                           </div>
                           <div className='d-flex justify-content-center'>
                             <button type="submit" className="w-75 p-2 btn rounded-5 text-white fw-bold" style={{ backgroundColor: '#10429b' }}>Login with email</button>
-                        </div>
+                          </div>
                           <hr />
                           <a href="/Dashboard" className="btn btn-google btn-user btn-block">
                             <i className="fab fa-google fa-fw" /> Login with Google
@@ -180,4 +177,5 @@ if (isAuthenticated()) {
     </>
   );
 };
+
 export default Login;

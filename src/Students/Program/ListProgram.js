@@ -4,8 +4,33 @@ import Footer from "../../compoents/Footer";
 import banner from '../../styles/Assets/Student/EventBanner.png';
 import { CiSearch } from 'react-icons/ci';
 import { Chip } from '@mui/material';
+import Flags from 'react-world-flags';
 import ListCountry from "../../SuperAdmin/Admins/country";
+import { getAllProgramForWeb } from "../../api/Program";
+import { Link , useNavigate} from "react-router-dom";
 const ListProgram = () => {
+
+  const [program, setProgram] = useState([]);
+ 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+   
+    getProgramList();
+  }, []);
+
+  
+  const getProgramList = () => {
+    getAllProgramForWeb()
+      .then((res) => {
+        const value = res?.data?.result;
+        setProgram(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
     <Header/><br/><br/><br/>
@@ -35,132 +60,34 @@ const ListProgram = () => {
                 <Chip label="Tomorrow" className='px-2' variant='filled' />
               </div>
               <div className='row mt-4'>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
+               
+              {program.map((program,index) => (
+                  <div key={index} className="col-12 col-lg-6 col-xl-4 mb-3">
+                    <div className="card" style={{ width: '100%' }}>
+                      <div className='d-flex'>
+                      <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
+                      </div>
+                      <div className="card-body">
+                        <div className="d-flex">
+                          <div className="col-3 text-center">
+                            <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
+                          </div><br /><br />
+                          <div className="col-6">
+                            <h6 className="text-success fw-bold">{program.programTitle}</h6>
+                            <small>{program.country}</small>
+                            <small className="d-block">{program.courseFees}</small>
+                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          </div>
+                          <div className="col-0 text-center mt-4">
+                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn btn-primary">Apply</Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                ))}
+               
               </div>
               <div className='mt-8 d-grid  col-xl-12 mx-auto'>
                 <nav aria-label="Page navigation example">
@@ -186,133 +113,32 @@ const ListProgram = () => {
                 <Chip label="Tomorrow" className='px-2' variant='filled' />
               </div>
               <div className='row mt-4'>
-               
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
+              {program.map((program,index) => (
+                  <div key={index} className="col-12 col-lg-6 col-xl-4 mb-3">
+                    <div className="card" style={{ width: '100%' }}>
+                      <div className='d-flex'>
+                      <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
+                      </div>
+                      <div className="card-body">
+                        <div className="d-flex">
+                          <div className="col-3 text-center">
+                            <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
+                          </div><br /><br />
+                          <div className="col-6">
+                            <h6 className="text-success fw-bold">{program.programTitle}</h6>
+                            <small>{program.country}</small>
+                            <small className="d-block">{program.courseFees}</small>
+                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          </div>
+                          <div className="col-0 text-center mt-4">
+                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn btn-primary">Apply</Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
               <div className='mt-8 d-grid  col-xl-12 mx-auto'>
                 <nav aria-label="Page navigation example">
@@ -338,132 +164,32 @@ const ListProgram = () => {
                 <Chip label="Tomorrow" className='px-2' variant='filled' />
               </div>
               <div className='row mt-4'>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
+              {program.map((program,index) => (
+                  <div key={index} className="col-12 col-lg-6 col-xl-4 mb-3">
+                    <div className="card" style={{ width: '100%' }}>
+                      <div className='d-flex'>
+                      <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
+                      </div>
+                      <div className="card-body">
+                        <div className="d-flex">
+                          <div className="col-3 text-center">
+                            <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
+                          </div><br /><br />
+                          <div className="col-6">
+                            <h6 className="text-success fw-bold">{program.programTitle}</h6>
+                            <small>{program.country}</small>
+                            <small className="d-block">{program.courseFees}</small>
+                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          </div>
+                          <div className="col-0 text-center mt-4">
+                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn btn-primary">Apply</Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 col-xl-4 mb-3">
-                  <div className="card" style={{ width: '100%' }}>
-                    <img src={banner} className="card-img-top" alt="events" style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="col-3 text-center">
-                          <h5><span className="text-info fw-bold">23</span> <span className="fw-bold mx-auto">Python</span></h5>
-                        </div><br /><br />
-                        <div className="col-6">
-                          <h6 className="m-0">Pes University</h6>
-                          <small>USA</small>
-                          <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
-                        </div>
-                        <div className="col-0 text-center mt-4">
-                          <button type="button" className="btn btn-primary">Apply</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                ))}
 
 
 
