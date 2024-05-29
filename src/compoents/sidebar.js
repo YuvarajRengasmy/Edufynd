@@ -5,7 +5,7 @@ const Sidebar = () => {
   return (
     <div>
       <aside className="main-sidebar elevation-8" style={{ backgroundColor: "#fcf6f9" }} >
-        <div style={{ marginLeft: "210px" }} className="d-md-none  shadow-lg rounded  position-absolute">
+        <div style={{ marginLeft: "200px" }} className="d-md-none  shadow-lg rounded  position-absolute">
         </div>
         <div className="sidebar">
         <div className="user-panel mt-2 pb-3  d-flex ">
