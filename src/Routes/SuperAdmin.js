@@ -29,6 +29,7 @@ import AddClient from "../SuperAdmin/client/addclient";
 import ListClient from "../SuperAdmin/client/ListClient";
 // import ViewClient from "../SuperAdmin/client/viewClient";
 import EditClient from "../SuperAdmin/client/Edit";
+import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 
 function SuperAdmin() {
   return (
@@ -63,6 +64,7 @@ function SuperAdmin() {
           <Route path="/AddClient" element={<AddClient />} />
           <Route path="/client" element={<ListClient />} />
           <Route path="/EditClient" element={<EditClient />} />
+          <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
         </Routes>
       </BrowserRouter>
     </div>
