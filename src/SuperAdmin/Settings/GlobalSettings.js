@@ -203,7 +203,7 @@ export default function GlobalSettings(){
 
 
           <div className="row">
-                    <div className="container mt-3  ">
+                    <div className="container mt-3 px-5 ">
 
                         <ul class="list-group list-group-flush ">
                             <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -211,8 +211,8 @@ export default function GlobalSettings(){
                                     <div class="fw-bold">UK</div>
 
                                 </div>
-                                <Button className="border-0 btn-success float-end">Edit</Button>
-                                <Button className="border-0 btn-danger float-end" >Delete</Button>
+                                <Button className="border-0 rounded-3 btn-success float-end">Edit</Button>
+                                <Button className="border-0 rounded-3 btn-danger float-end" >Delete</Button>
 
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -220,8 +220,8 @@ export default function GlobalSettings(){
                                     <div class="fw-bold">Subheading</div>
 
                                 </div>
-                                <Button className="border-0 btn-success float-end">Edit</Button>
-                                <Button className="border-0 btn-danger float-end" >Delete</Button>
+                                <Button className="border-0 rounded-3 btn-success float-end">Edit</Button>
+                                <Button className="border-0 rounded-3 btn-danger float-end" >Delete</Button>
 
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -229,8 +229,8 @@ export default function GlobalSettings(){
                                     <div class="fw-bold">Subheading</div>
 
                                 </div>
-                                <Button className="border-0 btn-success float-end">Edit</Button>
-                                <Button className="border-0 btn-danger float-end" >Delete</Button>
+                                <Button className="border-0 rounded-3 btn-success float-end">Edit</Button>
+                                <Button className="border-0 rounded-3 btn-danger float-end" >Delete</Button>
 
                             </li>
                         </ul>
