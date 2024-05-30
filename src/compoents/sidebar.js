@@ -11,7 +11,7 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <aside className="main-sidebar elevation-10" style={{ backgroundColor: 'black', color:'white', fontFamily: 'Plus Jakarta Sans', fontSize: '13px',position: 'absolute', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
+      <aside className="main-sidebar elevation-10" style={{ backgroundColor: 'black', color:'white', fontFamily: 'Plus Jakarta Sans', fontSize: '13px',position: 'fixed', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
         <div  className="d-md-none  shadow-lg rounded  ">
         </div>
         <div className="sidebar">
@@ -22,7 +22,7 @@ const Sidebar = () => {
             </div>
             <div className="info  mt-1">
               <a href="/DashBoard" className="brand-text font-weight-light text-decoration-none">
-                <img src={Edufynd} alt="logo" className='img-fluid mb-3' style={{ width: "180px", height: "50px" }} />
+                <img src={"https://www.edufynd.com/assets/images/foot_logo.png"} alt="logo" className='img-fluid mb-3' style={{ width: "180px", height: "50px" }} />
               </a>
               <a className="d-block text-sm text-white" style={{ textDecoration: "none" }}>
               </a>

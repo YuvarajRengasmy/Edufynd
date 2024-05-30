@@ -1,26 +1,24 @@
-import React from 'react'
-import HeroContent from './HeroBox'
-import SideBar from './sidebar'
-import Header from './Header'
+import React from 'react';
+import HeroContent from './HeroBox';
+import SideBar from './sidebar';
+import Header from './Header';
 
-
-export const Home = () => {
+const Home = () => {
   return (
     <div>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-xs-12  col-lg-2">
-            <SideBar/>
-          </div>
-          <div className="col-xs-12  col-lg-10">
-            <Header/>
-            <HeroContent/>
-          </div>
+          <aside className="col-lg-2 d-none d-lg-block">
+            <SideBar />
+          </aside>
+          <main className="col-lg-10">
+            <Header />
+            <HeroContent />
+          </main>
         </div>
       </div>
-     
-   
     </div>
-  )
-}
-export default Home
+  );
+};
+
+export default Home;
