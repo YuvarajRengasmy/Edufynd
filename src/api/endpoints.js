@@ -6,4 +6,4 @@ export const University ="university";
 export const SuperAdmin ="superadmin";
 export const Program ="program";
 export const Client ="client";
-export const GlobalSettings ="payment";
+export const Country ="country";
