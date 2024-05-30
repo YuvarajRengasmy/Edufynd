@@ -8,11 +8,11 @@ const Home = () => {
     <div>
       <div className="container-fluid">
         <div className="row">
-          <aside className="col-lg-1 d-none d-lg-block">
+          <aside className="col-lg-2 col-md-2 col-xs-12">
             <SideBar />
           </aside>
         
-          <main className="col-lg-11">
+          <main className="col-lg-10 col-md-10 col-xs-12">
             <Header />
             <HeroContent />
           </main>

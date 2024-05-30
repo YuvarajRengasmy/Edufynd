@@ -13,7 +13,7 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <aside className="main-sidebar elevation-6" style={{ backgroundColor: 'white', color: 'black', fontFamily: 'helvetica', fontSize: '12px', position: 'absolute', width: "195px", height: '100%', overflowY: 'auto', scrollbarWidth: 'none' }} >
+      <aside className="main-sidebar elevation-6" style={{ backgroundColor: 'white', color: 'black', fontFamily: 'helvetica', fontSize: '12px', position: 'fixed', width: "195px", height: '100%', overflowY: 'auto', scrollbarWidth: 'none' }} >
         <div className="d-md-none  shadow-lg rounded  ">
         </div>
         <div className="sidebar">
@@ -32,7 +32,7 @@ const Sidebar = () => {
               <li className="nav-item mt-1 ">
                 <a href="/" className="nav-link" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-tachometer-alt " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: '#231f20' }} >Dashboard</p>
+                   <p style={{ fontSize: "12px", fontWeight: "bold", color: '#231f20' }} >Dashboard</p>
                 </a>
               </li>
 
@@ -228,9 +228,11 @@ const Sidebar = () => {
                 </a>
               </li>
               <li className="nav-item" style={{ position: 'relative' }}>
-                <a href="#" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <a href="#" className="nav-link ps-4" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <i className="fa fa-cog fa-spin fa-3x fa-fw " aria-hidden="true" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Settings</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }}className='ps-2' > Settings</p>
+                  </div>
                   <i className="fa fa-angle-down  dropdown" aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
                 </a>
                 <div className="collapse collapse-vertical" id="collapse6">
