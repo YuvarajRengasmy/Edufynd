@@ -1,8 +1,122 @@
-import React from "react";
+
 import Mastersidebar from '.././../compoents/sidebar'
 import { FaFilter } from "react-icons/fa";
 import { Button } from "reactstrap";
+import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import Select from 'react-select';
+import CountryRegion from "countryregionjs";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
 export default function GlobalSettings(){
+
+  const [state, setState] = useState("");
+  const [states, setStates] = useState([]);
+  const [country, setCountry] = useState("");
+  const [countries, setCountries] = useState([]);
+  const [lga, setLGA] = useState("");
+  const [lgas, setLGAs] = useState([]);
+  const [openFilter, setOpenFilter] = useState(false);
+
+  const ZERO = 0;
+  let countryRegion = null;
+  const getCountryRegionInstance = () => {
+      if (!countryRegion) {
+          countryRegion = new CountryRegion();
+      }
+      return countryRegion;
+  };
+
+  const openFilterPopup = () => {
+    setOpenFilter(true);
+  };
+
+  const closeFilterPopup = () => {
+    setOpenFilter(false);
+  };
+  useEffect(() => {
+      const getCountries = async () => {
+          try {
+              const countries = await getCountryRegionInstance().getCountries();
+              setCountries(countries.map(country => ({
+                  value: country.id,
+                  label: country.name
+              })));
+          } catch (error) {
+              console.error(error);
+          }
+      }
+      getCountries();
+  }, []);
+
+  useEffect(() => {
+      const getStates = async () => {
+          try {
+              const states = await getCountryRegionInstance().getStates(country);
+              setStates(states.map(userState => ({
+                  value: userState?.id,
+                  label: userState?.name
+              })));
+          } catch (error) {
+              console.error(error);
+          }
+      }
+      if (country) {
+          getStates();
+      }
+  }, [country]);
+
+  useEffect(() => {
+      const getLGAs = async () => {
+          try {
+              const lgas = await getCountryRegionInstance().getLGAs(country, state);
+              setLGAs(lgas?.map(lga => ({
+                  value: lga?.id,
+                  label: lga?.name
+              })));
+          } catch (error) {
+              console.error(error);
+          }
+      }
+      if (state) {
+          getLGAs();
+      }
+  }, [country, state]);
+
+  const handleCountryChange = (event) => {
+      const { value } = event;
+      setCountry(value);
+  };
+
+  const handleStateChange = (event) => {
+      const { value } = event;
+      setState(value);
+  };
+
+  const handleLGAChange = (event) => {
+      const { value } = event;
+      setLGA(value);
+  };
+
+  const handleSubmit = (event) => {
+      event.preventDefault();
+  };
+
+  const customStyles = {
+      control: (provided) => ({
+          ...provided,
+          border: 'border: 1.4783px solid rgba(11, 70, 84, 0.25)',
+          borderRadius: '5.91319px',
+          fontSize: "1.5rem",
+      }),
+      dropdownIndicator: (provided, state) => ({
+          ...provided,
+          color: state.isFocused ? '#3B0051' : '#F2CCFF',
+          ':hover': {
+              color: 'black'
+          }
+      })
+  };
     
     return(
         <div>
@@ -178,6 +292,15 @@ export default function GlobalSettings(){
                       
                     </li>
                     <li class="m-2">
+                      <Link onClick={openFilterPopup} class="btn-filters">
+                        <span>
+                          <button style={{ backgroundColor: "#22A033" }} className="btn text-white ">
+                            <i class="fa fa-file-excel" aria-hidden="true"></i>
+                          </button>
+                        </span>
+                      </Link>
+                    </li>
+                    {/* <li class="m-2">
                       
                         <button
                           className="btn btn-outline border text-white  "
@@ -188,10 +311,10 @@ export default function GlobalSettings(){
                             class="fa fa-plus-circle me-2"
                             aria-hidden="true"
                           ></i>{" "}
-                          Add University
+                         onClick={ }
                         </button>
                       
-                    </li>
+                    </li> */}
 
                   </ol>
 
@@ -202,49 +325,97 @@ export default function GlobalSettings(){
           </div>
 
 
-          <div className="row">
-                    <div className="container mt-3 px-5 ">
-                        <div className="bg-dark">
-                                
-                        <ul class="list-group list-group-flush ">
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">UK</div>
-
-                                </div>
-                                <Button className="border-0 rounded-3 btn-success float-end">Edit</Button>
-                                <Button className="border-0 rounded-3 btn-danger float-end" >Delete</Button>
-
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">Subheading</div>
-
-                                </div>
-                                <Button className="border-0 rounded-3 btn-success float-end ">Edit</Button>
-                                <Button className="border-0 rounded-3 btn-danger float-end" >Delete</Button>
-
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">Subheading</div>
-
-                                </div>
-                                <Button className="border-0 rounded-3 btn-success float-end">Edit</Button>
-                                <Button className="border-0 rounded-3 btn-danger float-end" >Delete</Button>
-
-                            </li>
-                        </ul>
-                        </div>
-
-                    </div>
-
-                </div>
+          <div class="container mt-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="app-content">
+          <div class="card">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <h4 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>Country List</h4>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                  <div class="ms-2 me-auto">
+                    <div class="fw-bold">UK</div>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <button class="btn border-0 rounded-3 btn-success">Edit</button>
+                    <button class="btn border-0 rounded-3 btn-danger ms-2">Delete</button>
+                  </div>
+                </li>
+              </ul>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+            </div>
+            <Dialog open={openFilter} fullWidth maxWidth="sm">
+<DialogTitle>
+Add Country
+  <IconButton className="float-right" onClick={closeFilterPopup}>
+    <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+  </IconButton>
+</DialogTitle>
+<DialogContent>
+<form className="submain-one-form" onSubmit={handleSubmit}>
+          <header className="submain-one-form-header">
+              <h1>Pick-A-Location</h1>
+          </header>
+          <section className="submain-one-form-body">
+              <section className="submain-one-form-body-subsection">
+                  <Select
+                      type="text"
+                      placeholder="Select a country"
+                      id="name"
+                      onChange={handleCountryChange}
+                      options={countries}
+                      styles={customStyles}
+                      className="submain-one-form-body-subsection-select"
+                  />
+              </section>
+              <section className="submain-one-form-body-subsection">
+                  {
+                      states?.length !== ZERO &&
+                      <Select
+                          placeholder="Select a state"
+                          id="name"
+                          onChange={handleStateChange}
+                          options={states}
+                          styles={customStyles}
+                          className="submain-one-form-body-subsection-select"
+
+                      />}
+              </section>
+              <section className="submain-one-form-body-subsection">
+                  {
+                      lgas && lgas?.length !== ZERO &&
+                      <Select
+                          placeholder="Select a Substate"
+                          id="name"
+                          onChange={handleLGAChange}
+                          options={lgas}
+                          styles={customStyles}
+                          className="submain-one-form-body-subsection-select"
+                      />}
+              </section>
+              {
+                  !true && lga
+              }
+              <section className="subdomain-one-form-body-subsection-one">
+                  <button className="subdomain-one-form-body-subsection-one-button">Submit</button>
+              </section>
+          </section>
+      </form>
+</DialogContent>
+</Dialog>
 
         </div>
+      
 
         
     )
+    
 }
+
