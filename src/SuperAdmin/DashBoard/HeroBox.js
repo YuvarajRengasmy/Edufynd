@@ -38,7 +38,7 @@ export const HeroContent = () => {
   return (
     <div>
       <div className="container">
-        <div className="row  ">
+        <div className="row ps-5 ">
      
 
           <div className="ps-5 col-lg-9">
@@ -122,7 +122,7 @@ export const HeroContent = () => {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Area type="monotone" dataKey="pv" stroke="black" fill="blueviolet" />
+              <Area type="monotone" dataKey="pv" stroke="#fe5722" fill="white" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
