@@ -1,10 +1,9 @@
-import Mastersidebar from '../../compoents/sidebar';
-import { FaFilter } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
-import { saveStatus, getFilterStatus, getallStatus, deleteStatus } from '../../api/status';
-import { toast } from 'react-toastify';
 import React, { useEffect, useState, useRef } from "react";
+import { Dialog, DialogContent, DialogTitle, Pagination } from "@mui/material";
+import { toast } from 'react-toastify';
+import { FaFilter } from "react-icons/fa";
+import Mastersidebar from '../../components/sidebar';
+import { saveStatus, getFilterStatus, getallStatus, deleteStatus } from '../../api/status';
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 
@@ -24,10 +23,8 @@ export default function GlobalSettings() {
   const [deleteId, setDeleteId] = useState();
   const [inputs, setInputs] = useState(initialStateInputs);
   const [filter, setFilter] = useState(false);
-  const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
-  const ZERO = 0;
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -36,6 +33,7 @@ export default function GlobalSettings() {
   });
   const [statusList, setStatusList] = useState([]);
   const modalRef = useRef(null);
+
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
 
@@ -152,10 +150,11 @@ export default function GlobalSettings() {
           setInputs(initialStateInputs);
           setErrors(initialStateErrors);
           setSubmitted(false);
-          getAllStatusDetails();
+          getAllStatusDetails(); // Refresh the list after adding new status
+          // Hide the modal after saving
           if (modalRef.current) {
             modalRef.current.hide();
-          } // Refresh the list after adding new status
+          }
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -208,7 +207,7 @@ export default function GlobalSettings() {
   };
 
   return (
-    <div style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+    <div>
       <div>
         <Mastersidebar />
       </div>
@@ -254,7 +253,7 @@ export default function GlobalSettings() {
                       <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Country</h5>
+                          <h5 id="offcanvasRightLabel">Filter</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">
@@ -304,7 +303,8 @@ export default function GlobalSettings() {
                       }}
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target="#addCountryModal"
+                      data-bs-target="#addStatusModal"
+                      ref={modalRef}  // Add reference here
                     >
                       Add Status
                     </button>
@@ -346,16 +346,16 @@ export default function GlobalSettings() {
             </div>
           </div>
         </div>
-        <div className="container-fluid mt-3">
+        <div className="container-fluid">
           <div className="card">
-            <div className="card-header d-flex align-items-center" style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-              <h3 className="card-title flex-grow-1">Application Status</h3>
+            <div className="card-header d-flex align-items-center">
+              <h3 className="card-title flex-grow-1">Manage Status</h3>
             </div>
             <div className="card-body">
               <table className="table table-hover text-nowrap">
                 <thead>
-                  <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                    <th style={{ width: "10px" }}>S.No</th>
+                  <tr>
+                    <th style={{ width: "10px" }}>#</th>
                     <th>Status Name</th>
                     <th>Duration</th>
                     <th style={{ width: "40px" }}>Actions</th>
@@ -364,7 +364,7 @@ export default function GlobalSettings() {
                 <tbody>
                   {statusList.length > 0 ? (
                     statusList.map((status, index) => (
-                      <tr key={index}  style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
+                      <tr key={index}>
                         <td>{pagination.from + index + 1}</td>
                         <td>{status.statusName}</td>
                         <td>{status.duration}</td>
@@ -372,7 +372,6 @@ export default function GlobalSettings() {
                           <button
                             className="btn btn-danger btn-sm"
                             onClick={() => openPopup(status._id)}
-                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                           >
                             Delete
                           </button>
@@ -390,7 +389,6 @@ export default function GlobalSettings() {
               </table>
               <div className="d-flex justify-content-end">
                 <Pagination
-                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   count={Math.ceil(pagination.count / pageSize)}
                   page={pagination.from / pageSize + 1}
                   onChange={handlePageChange}
@@ -421,11 +419,11 @@ export default function GlobalSettings() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="modal fade" id="addCountryModal" tabIndex={-1} aria-labelledby="addCountryModalLabel" aria-hidden="true">
+      <div className="modal fade" id="addStatusModal" tabIndex={-1} aria-labelledby="addStatusModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="addCountryModalLabel">Add Status</h5>
+              <h5 className="modal-title" id="addStatusModalLabel">Add Status</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -459,7 +457,7 @@ export default function GlobalSettings() {
                   )}
                 </div>
                 <div className="text-end">
-                  <button type="submit" className="btn btn-primary"  data-bs-dismiss="modal">Add</button>
+                  <button type="submit" className="btn btn-primary">Add</button>
                 </div>
               </form>
             </div>

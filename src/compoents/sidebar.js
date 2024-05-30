@@ -11,7 +11,7 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <aside className="main-sidebar elevation-6" style={{ backgroundColor: '#1C2432', color:'white', fontFamily: 'Plus Jakarta Sans', fontSize: '11px',position: 'fixed', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
+      <aside className="main-sidebar elevation-6" style={{ backgroundColor: '#fff', color:'black', fontFamily: 'Plus Jakarta Sans', fontSize: '11px',position: 'fixed', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
         <div  className="d-md-none  shadow-lg rounded  ">
         </div>
         <div className="sidebar">
@@ -32,27 +32,27 @@ const Sidebar = () => {
             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <li className="nav-item mt-1">
                 <a href="/
-                " className="nav-link" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-tachometer-alt text-white" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }} /> {/* Dashboard Icon */}
+                " className="nav-link" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}>
+                  <i className="nav-icon fas fa-tachometer-alt text-black" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }} /> {/* Dashboard Icon */}
                   <p style={{ fontSize: "11px", fontWeight: "bold" }} className='text-white'>Dashboard</p>
                 </a>
               </li>
 
               <li className="nav-item mt-2">
-                <a href="/ListUniversity" className="nav-link" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-university text-white" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }} /> {/* University Icon */}
-                  <p style={{ fontSize: "11px", fontWeight: "bold" }} className='text-white'>University</p>
+                <a href="/ListUniversity" className="nav-link" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}>
+                  <i className="nav-icon fas fa-university text-black" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }} /> {/* University Icon */}
+                  <p style={{ fontSize: "11px", fontWeight: "bold" }} className='text-black'>University</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
-                <a href="/Programs" className="nav-link" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }}>
-                  <i className="nav-icon fa  fa-graduation-cap text-white" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }} /> {/* Program Icon */}
-                  <p style={{ fontSize: "11px", fontWeight: "bold" }} className='text-white'>Program</p>
+                <a href="/Programs" className="nav-link" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}>
+                  <i className="nav-icon fa  fa-graduation-cap text-white" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }} /> {/* Program Icon */}
+                  <p style={{ fontSize: "11px", fontWeight: "bold" }} className='text-black'>Program</p>
                 </a>
               </li>
               <li className="nav-item mt-1">
-                <a href="#" className="nav-link" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }}>
-                  <i className="nav-icon fas fa-user text-white" style={{ color: "#191725", fontSize: "11px", fontWeight: "bold" }} /> {/* Program Icon */}
+                <a href="#" className="nav-link" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }}>
+                  <i className="nav-icon fas fa-user text-white" style={{ color: "black", fontSize: "11px", fontWeight: "bold" }} /> {/* Program Icon */}
                   <p style={{ fontSize: "11px", fontWeight: "bold" }} className='text-white'>Student</p>
                 </a>
               </li>

@@ -17,6 +17,8 @@ export const deleteCountry = (data) => {
     return API.delete(`${Country}`, { params: { _id: data } });
   };
 
-
+  export const getFilterCountry= (data) => {
+    return API.put(`${Country}/getFilterCountry`, data);
+  };
 
 
