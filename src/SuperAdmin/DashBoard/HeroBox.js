@@ -20,20 +20,21 @@ import {
 } from "recharts";
 import { FaCaretDown } from "react-icons/fa";
 
+
 export const HeroContent = () => {
   const data = [
-    { name: 'Page A', pv: 4000 },
-    { name: 'Page B', pv: 3000 },
-    { name: 'Page C', pv: 2000 },
-    { name: 'Page D', pv: 2780 },
-    { name: 'Page E', pv: 1890 },
+    { name: 'A', pv: 4000 },
+    { name: ' B', pv: 3000 },
+    { name: ' C', pv: 2000 },
+    { name: ' D', pv: 2780 },
+    { name: ' E', pv: 1890 },
   ];
 
   const data1 = [
     { name: 'Group A', value: 400 },
     { name: 'Group B', value: 300 },
     { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
+   
   ];
   return (
     <div>
@@ -43,7 +44,7 @@ export const HeroContent = () => {
 
           <div className="ps-5 col-lg-9">
             <div
-              className="card color2 border-0 rounded-3 mt-1 "
+              className="card  border-0 rounded-2 mt-1 "
               style={{ width: "100%" }}
             >
               <div className="card-body">
@@ -55,7 +56,7 @@ export const HeroContent = () => {
       <p className="text-secondary fs1">Sunday, 05 August 2024</p>
     </div>
     <div className="d-flex align-items-center">
-      <button className="btn btn-warning fs1 border-0 text-white btn-lg shadow">
+      <button className="btn   border-0 text-white btn-sm " style={{backgroundColor:'#fe5722'}}>
         <span className="me-2">
           <FaCalendarAlt />
         </span>
@@ -66,22 +67,22 @@ export const HeroContent = () => {
 </header>
 
                 </div>
-                <div className="card color3 border-0 rounded-3 shadow-lg" style={{ width: "100%" }}>
+                <div className="card  border-0 rounded-0 shadow" style={{ width: "100%" }}>
   <div className="row g-0">
     <div className="col-lg-4">
       <img
         src="https://t4.ftcdn.net/jpg/05/25/50/67/360_F_525506740_fmR5uWnmtIDi2MLmLFQ0X6drPS2k7gf8.jpg"
         alt="Profile"
-        className="img-fluid rounded-3"
+        className="img-fluid "
         style={{ width: "100%" }}
       />
     </div>
     <div className="col-lg-8">
       <div className="card-body">
-        <h2 className="card-title fs-5 mt-1 px-3 fw-semibold color4">
-          Hello, <span className="fs-5 text-white">James Lee</span>
+        <h2 className="card-title fs-5 mt-1 px-4 fw-semibold "  style={{color:"#fe5722"}}>
+         <span className="text-dark">Hello,</span> James Lee
         </h2>
-        <p className="card-text text-white mt-1 lh-base px-3 t fs1 fw-light">
+        <p className="card-text text-muted mt-1 lh-base px-3 t fs1 fw-light">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita ducimus quo earum rem culpa corrupti soluta, possimus orporis. Lorem ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla, quae?
         </p>
       </div>
@@ -92,19 +93,19 @@ export const HeroContent = () => {
 
                 <div className="row ">
                 <div className="col-lg-6 mt-1">
-  <div className="card rounded-3 border-0">
+  <div className="card rounded-2 border-0 shadow">
     <div className="card-body">
       <h2 className="card-title fs-5 fw-semibold">Activity</h2>
       <div className="d-flex justify-content-end align-items-center">
-  <div className="dropdown">
-    <button className="btn btn-primary rounded-3 border-0 fs1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <div className="dropdown" >
+    <button className="btn  rounded-2 border-0 fs1 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false"  style={{backgroundColor:'#fe5722'}}>
       Daily <span><FaCaretDown /></span>
     </button>
-    <ul className="dropdown-menu bg-dark">
-      <li><a className="dropdown-item text-white" href="#">Daily</a></li>
-      <li><a className="dropdown-item text-white" href="#">Weekly</a></li>
-      <li><a className="dropdown-item text-white" href="#">Monthly</a></li>
-      <li><a className="dropdown-item text-white" href="#">Yearly</a></li>
+    <ul className="dropdown-menu">
+      <li><a className="dropdown-item " href="#">Daily</a></li>
+      <li><a className="dropdown-item " href="#">Weekly</a></li>
+      <li><a className="dropdown-item " href="#">Monthly</a></li>
+      <li><a className="dropdown-item " href="#">Yearly</a></li>
     </ul>
   </div>
 </div>
@@ -112,17 +113,17 @@ export const HeroContent = () => {
 
       <div className="charts mt-3">
         <div style={{ width: '100%', height: '190px' }}>
-          <ResponsiveContainer width="100%" height="90%">
+          <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={data}
               syncId="anyId"
-              margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+              margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Area type="monotone" dataKey="pv" stroke="#fe5722" fill="white" />
+              <Area type="monotone" dataKey="pv" stroke="#fe5722" fill="transparent" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -133,13 +134,13 @@ export const HeroContent = () => {
 
                   <div className="col-lg-3 mt-1">
                     <div className="">
-                    <div className="card border-0 rounded-3">
+                    <div className="card border-0 rounded-2 shadow">
       <div className="card-body">
         <div className="card-title fw-semibold">Progress</div>
         <div className="charts">
           <ResponsiveContainer width='100%' height={195}>
             <PieChart>
-              <Pie dataKey="value" data={data1} fill="blueviolet" label />
+              <Pie dataKey="value" data={data1} fill="skyblue" label />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -150,7 +151,7 @@ export const HeroContent = () => {
                   </div>
                   <div className="col-lg-3 mt-1">
                     <div className="my-2 ">
-                    <div className="card rounded-3 border-0 px-3 py-1">
+                    <div className="card rounded-2 border-0 px-3 py-2 shadow">
   <div className="row g-0">
     <div className="col-lg-6">
       <div className="d-flex justify-content-center align-items-center h-100">
@@ -158,7 +159,7 @@ export const HeroContent = () => {
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
             alt="image"
-            className="rounded-circle"
+            className="rounded-circle border-0 "
             width={"60px"}
             height={'60px'}
           />
@@ -180,7 +181,7 @@ export const HeroContent = () => {
 
                     </div>
                     <div className="my-2">
-                    <div className="card rounded-3 border-0 px-3 py-1">
+                    <div className="card rounded-2 shadow border-0 px-3 py-2">
   <div className="row g-0">
     <div className="col-lg-6">
       <div className="d-flex justify-content-center align-items-center h-100">
@@ -215,7 +216,7 @@ export const HeroContent = () => {
   <div className="d-flex flex-row justify-content-between px-2">
     <div className="mt-1 fw-semibold">Project</div>
     <div className="d-flex flex-row justify-content-end">
-      <a href="#" className="btn btn-sm  me-1">
+      <a href="#" className="btn btn-sm me-1">
         2 Design
       </a>
       <a href="#" className="btn btn-sm  me-1">
@@ -229,7 +230,7 @@ export const HeroContent = () => {
 </div>
 
                   <div className="col-lg-4 mt-1">
-                  <div className="card border-0 rounded-3">
+                  <div className="card border-0 rounded-2 shadow">
   <div className="row g-0">
     <div className="col-md-4 d-flex justify-content-center align-items-center">
       <div className="px-3 pt-2">
@@ -261,7 +262,7 @@ export const HeroContent = () => {
 
                   </div>
                   <div className="col-lg-4 mt-1">
-                  <div className="card border-0 rounded-3">
+                  <div className="card border-0 rounded-2 shadow">
   <div className="row g-0">
     <div className="col-md-4 d-flex justify-content-center align-items-center">
       <div className="px-3 pt-2">
@@ -293,7 +294,7 @@ export const HeroContent = () => {
 
                   </div>
                   <div className="col-lg-4 mt-1">
-                  <div className="card border-0 rounded-3">
+                  <div className="card border-0 rounded-2 shadow">
   <div className="row g-0">
     <div className="col-lg-4 d-flex justify-content-center align-items-center">
       <div className="px-3 pt-2">
@@ -329,22 +330,23 @@ export const HeroContent = () => {
             </div>
           </div>
           <div className=" col-lg-3  ">
-            <div className="container-fluid mt-2">
+            <div className="container-fluid mt-2 card border-0 shadow">
             <div className="d-flex flex-row justify-content-between">
-  <div className="d-flex flex-column">
-    <h2 className="fs-5">My Profile</h2>
+  <div className="d-flex flex-column mt-3">
+    <h2 className="fs-5 ">My Profile</h2>
     <p className="fs-6">
       <span className="color1">70%</span> Progress
     </p>
   </div>
-  <div className="dropdown">
+  <div className="dropdown mt-3">
     <button
       className="btn border-0"
       type="button"
       data-bs-toggle="dropdown"
       aria-expanded="false"
+      style={{color:"#fe5722"}}
     >
-      <BsThreeDots />
+        <BsThreeDots />
     </button>
     <ul className="dropdown-menu">
       <li>
@@ -381,94 +383,106 @@ export const HeroContent = () => {
                   <div className="text-muted fs-6">jameslee1@gmail.com</div>
                 </div>
               </div>
-              <div className="d-flex justify-content-between ">
-                <p className="fs-6">Today</p>
-                <button className="btn border-0 float-end color1">
-                  View All
-                </button>
-              </div>
-              <div className=" border-0  py-1 ">
-                <div className="d-flex justify-content-around align-items-center py-1">
-                  <div className="text-center">
-                    <span className="color3 p-2 rounded-circle fs-6 text-white">
-                      <FaMarker />
-                    </span>
-                  </div>
-                  <div className="d-flex flex-column align-items-center">
-                    <div className=""> Eli Jang</div>
-                    <div className="fs1"> Create a new project</div>
-                  </div>
-                  <div className="">
-                    <span className="fs-5">
-                      <MdKeyboardArrowRight />
-                    </span>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-around align-items-center py-1">
-                  <div className="text-center">
-                    <span className="color3 p-2 rounded-circle fs-6 text-white">
-                      <FaMarker />
-                    </span>
-                  </div>
-                  <div className="d-flex flex-column align-items-center">
-                    <div className=""> Eli Jang</div>
-                    <div className="fs1"> Create a new project</div>
-                  </div>
-                  <div className="">
-                    <span className="fs-5">
-                      <MdKeyboardArrowRight />
-                    </span>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-around align-items-center py-1">
-                  <div className="text-center">
-                    <span className="color3 p-2 rounded-circle fs-6 text-white">
-                      <FaMarker />
-                    </span>
-                  </div>
-                  <div className="d-flex flex-column align-items-center">
-                    <div className=""> Eli Jang</div>
-                    <div className="fs1"> Create a new project</div>
-                  </div>
-                  <div className="">
-                    <span className="fs-5">
-                      <MdKeyboardArrowRight />
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between mt-1">
-                <p className="fs-6 mt-1">Team</p>
-                <button className="btn border-0 float-end color1">
-                  View All
-                </button>
-              </div>
-              <div className="card border-0 color2 py-1">
-                <div className="d-flex justify-content-around align-items-center py-1">
-                  <div className="text-center">
-                    <img
-                      src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg"
-                      alt="img"
-                      className="rounded-circle border-0"
-                      width={"50px"}
-                    />
-                  </div>
-                  <div className="">Eli Jang</div>
-                  <div className=""><span className="text-success"><GoDotFill /></span></div>
-                </div>
-                <div className="d-flex justify-content-around align-items-center py-1">
-                  <div className="text-center">
-                    <img
-                      src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg"
-                      alt="img "
-                      width={"50px"}
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div className="">Eli Jang</div>
-                  <div className=""><span className="text-danger"><GoDotFill /></span></div>
-                </div>
-              </div>
+              <div class="container mt-2">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-start">
+        <p class="fs-6">Today</p>
+        <button class="btn btn-sm border-0">View All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid py-1">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center py-1">
+          <div class="text-center">
+            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
+              <i class="bi bi-pencil"></i>
+            </span>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <div>Eli Jang</div>
+            <div class="fs1">Create a new project</div>
+          </div>
+          <div>
+            <span class="fs-5">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center py-1">
+          <div class="text-center">
+            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
+              <i class="bi bi-pencil"></i>
+            </span>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <div>Eli Jang</div>
+            <div class="fs1">Create a new project</div>
+          </div>
+          <div>
+            <span class="fs-5">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center py-1">
+          <div class="text-center">
+            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
+              <i class="bi bi-pencil"></i>
+            </span>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <div>Eli Jang</div>
+            <div class="fs1">Create a new project</div>
+          </div>
+          <div>
+            <span class="fs-5">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-2">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-start">
+        <p class="fs-6">Team</p>
+        <button class="btn btn-sm border-0">View All</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container py-1">
+  <div class="row">
+    <div class="col">
+      <div class="card border-0 bg-light py-1">
+        <div class="d-flex justify-content-around align-items-center py-1">
+          <div class="text-center">
+            <img src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg" alt="Eli Jang" class="rounded-circle" width="50px" />
+          </div>
+          <div class="">Eli Jang</div>
+          <div class=""><span class="text-success"><i class="bi bi-dot"></i></span></div>
+        </div>
+        <div class="d-flex justify-content-around align-items-center py-1">
+          <div class="text-center">
+            <img src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg" alt="Eli Jang" class="rounded-circle" width="50px" />
+          </div>
+          <div class="">Eli Jang</div>
+          <div class=""><span class="text-danger"><i class="bi bi-dot"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
             </div>
           </div>
         </div>
