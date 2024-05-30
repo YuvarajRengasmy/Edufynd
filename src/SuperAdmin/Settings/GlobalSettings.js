@@ -2,7 +2,7 @@ import Mastersidebar from '../../compoents/sidebar';
 import { FaFilter } from "react-icons/fa";
 import { Button } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { saveCountry } from '../../api/globalsettings';
+import { saveCountry,getallCountry,getSingleCountry,updateCountry,deleteCountry } from '../../api/globalsettings';
 import { toast } from 'react-toastify';
 import React, { useEffect, useState } from "react";
 import Select from 'react-select';
@@ -28,6 +28,7 @@ export default function GlobalSettings() {
   const [selectedLGA, setSelectedLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
+  const [deleteId, setDeleteId] = useState();
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
@@ -40,14 +41,35 @@ export default function GlobalSettings() {
     if (!data.country) {
       error.country = "Country is required";
     }
-
-    
-
-   
-
     return error;
   };
+  useEffect(() => {
+    getAllUniversityDetails();
+  }, [pagination.from, pagination.to]);
 
+  const getAllUniversityDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getFilterUniversity(data)
+      .then((res) => {
+        setUniversity(res?.data?.result?.universityList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.universityCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
   const getCountryRegionInstance = () => {
     if (!countryRegion) {
       countryRegion = new CountryRegion();
@@ -78,39 +100,39 @@ export default function GlobalSettings() {
     getCountries();
   }, []);
 
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const states = await getCountryRegionInstance().getStates(selectedCountry);
-        setStates(states.map(userState => ({
-          value: userState?.id,
-          label: userState?.name
-        })));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    if (selectedCountry) {
-      getStates();
-    }
-  }, [selectedCountry]);
+  // useEffect(() => {
+  //   const getStates = async () => {
+  //     try {
+  //       const states = await getCountryRegionInstance().getStates(selectedCountry);
+  //       setStates(states.map(userState => ({
+  //         value: userState?.id,
+  //         label: userState?.name
+  //       })));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   if (selectedCountry) {
+  //     getStates();
+  //   }
+  // }, [selectedCountry]);
 
-  useEffect(() => {
-    const getLGAs = async () => {
-      try {
-        const lgas = await getCountryRegionInstance().getLGAs(selectedCountry, selectedState);
-        setLGAs(lgas?.map(lga => ({
-          value: lga?.id,
-          label: lga?.name
-        })));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    if (selectedState) {
-      getLGAs();
-    }
-  }, [selectedCountry, selectedState]);
+  // useEffect(() => {
+  //   const getLGAs = async () => {
+  //     try {
+  //       const lgas = await getCountryRegionInstance().getLGAs(selectedCountry, selectedState);
+  //       setLGAs(lgas?.map(lga => ({
+  //         value: lga?.id,
+  //         label: lga?.name
+  //       })));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   if (selectedState) {
+  //     getLGAs();
+  //   }
+  // }, [selectedCountry, selectedState]);
 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption.value);
@@ -118,14 +140,14 @@ export default function GlobalSettings() {
     setSelectedLGA("");
   };
 
-  const handleStateChange = (selectedOption) => {
-    setSelectedState(selectedOption.value);
-    setSelectedLGA("");
-  };
+  // const handleStateChange = (selectedOption) => {
+  //   setSelectedState(selectedOption.value);
+  //   setSelectedLGA("");
+  // };
 
-  const handleLGAChange = (selectedOption) => {
-    setSelectedLGA(selectedOption.value);
-  };
+  // const handleLGAChange = (selectedOption) => {
+  //   setSelectedLGA(selectedOption.value);
+  // };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation({ country: selectedCountry, state: selectedState, lga: selectedLGA });
@@ -138,20 +160,21 @@ export default function GlobalSettings() {
       const countryName = countries.find(country => country.value === selectedCountry)?.label;
   
       // Retrieve state names based on their IDs
-      const selectedStateLabels = Array.isArray(selectedState) ? selectedState.map(stateId => states.find(state => state.value === stateId)?.label) : [];
+      // const selectedStateLabels = Array.isArray(selectedState) ? selectedState.map(stateId => states.find(state => state.value === stateId)?.label) : [];
   
-      // Retrieve LGA names based on their IDs
-      const selectedLGALabels = Array.isArray(selectedLGA) ? selectedLGA.map(lgaId => lgas.find(lga => lga.value === lgaId)?.label) : [];
+      // // Retrieve LGA names based on their IDs
+      // const selectedLGALabels = Array.isArray(selectedLGA) ? selectedLGA.map(lgaId => lgas.find(lga => lga.value === lgaId)?.label) : [];
   
       // Save data to the backend
       saveCountry({
         country: countryName,
-        states: selectedStateLabels,
-        lgas: selectedLGALabels,
+        // states: selectedStateLabels,
+        // lgas: selectedLGALabels,
       })
       .then((res) => {
         if (res && res.data && res.data.success) {
           toast.success(res.data.message);
+          closeFilterPopup();
           navigate("/GlobalSettings");
         } else {
           toast.error("Failed to save data.");
@@ -199,13 +222,16 @@ export default function GlobalSettings() {
       ...provided,
       border: '1.4783px solid rgba(11, 70, 84, 0.25)',
       borderRadius: '5.91319px',
-      fontSize: "1.5rem",
+      fontSize: "14px",
+      fontFamily: "Plus Jakarta Sans",
+      
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
       color: state.isFocused ? '#3B0051' : '#F2CCFF',
       ':hover': {
-        color: 'black'
+        color: 'black',
+        fontSize: "11px",
       }
     })
   };
@@ -400,59 +426,58 @@ export default function GlobalSettings() {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <form className="submain-one-form" onSubmit={handleSubmit}>
-            <section className="submain-one-form-body jusify-content-center">
-              <section className="submain-one-form-body-subsection col-md-6 form-group">
-                <Select
-                  type="text"
-                  placeholder="Select a country"
-                  id="name"
-                  name='country'
-                  onChange={handleCountryChange}
-                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                  options={countries}
-                  styles={customStyles}
-                />
-                {errors.country && <span className="text-danger">{errors.country}</span>}
-              </section>
-              <section className="submain-one-form-body-subsection col-md-6">
-                {states.length !== ZERO &&
-                  <Select
-                    placeholder="Select a state"
-                    id="name"
-                    name='state'
-                    onChange={handleStateChange}
-                    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                    options={states}
-                    isMulti
-                    styles={customStyles}
-                  />
-                }
-               
-              </section>
-              <br />
-              <section className="submain-one-form-body-subsection col-md-6">
-                {lgas && lgas.length !== ZERO &&
-                  <Select
-                    placeholder="Select a Substate"
-                    id="name"
-                    name='lga'
-                    onChange={handleLGAChange}
-                    options={lgas}
-                    isMulti
-                    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                    styles={customStyles}
-                  />
-                }
-             
-              </section>
-              <br />
-              <section className="subdomain-one-form-body-subsection-one form-group col-md-3">
-                <button className=" jusify-content-center btn btn-primary col-md-12" type='submit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Submit</button>
-              </section>
-            </section>
-          </form>
-        </DialogContent>
+  <form className="submain-one-form" onSubmit={handleSubmit}>
+    <section className="submain-one-form-body justify-content-center">
+      <section className="submain-one-form-body-subsection col-md-6 form-group">
+        <Select
+          type="text"
+          placeholder="Select a country"
+          id="name"
+          name='country'
+          onChange={handleCountryChange}
+          style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+          options={countries}
+          styles={customStyles}
+        />
+        {errors.country && <span className="text-danger">{errors.country}</span>}
+      </section>
+      {/* <section className="submain-one-form-body-subsection col-md-6">
+        {states.length !== ZERO &&
+          <Select
+            placeholder="Select a state"
+            id="name"
+            name='state'
+            onChange={handleStateChange}
+            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            options={states}
+            isMulti
+            styles={customStyles}
+          />
+        }
+      </section>
+      <br />
+      <section className="submain-one-form-body-subsection col-md-6">
+        {lgas && lgas.length !== ZERO &&
+          <Select
+            placeholder="Select a Substate"
+            id="name"
+            name='lga'
+            onChange={handleLGAChange}
+            options={lgas}
+            isMulti
+            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            styles={customStyles}
+          />
+        }
+      </section> */}
+      <br />
+      <section className="subdomain-one-form-body-subsection-one form-group col-md-3">
+        <button className="justify-content-center btn btn-primary col-md-12 " type='submit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Submit</button>
+      </section>
+    </section>
+  </form>
+</DialogContent>
+
       </Dialog>
     </div>
   );

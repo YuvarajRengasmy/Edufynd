@@ -11,7 +11,7 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <aside className="main-sidebar elevation-6" style={{ backgroundColor: 'black', color:'white', fontFamily: 'Plus Jakarta Sans', fontSize: '11px',position: 'fixed', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
+      <aside className="main-sidebar elevation-6" style={{ backgroundColor: '#1C2432', color:'white', fontFamily: 'Plus Jakarta Sans', fontSize: '11px',position: 'fixed', height: '100%', overflowY: 'auto',scrollbarWidth: 'none' }} >
         <div  className="d-md-none  shadow-lg rounded  ">
         </div>
         <div className="sidebar">

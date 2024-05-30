@@ -4,15 +4,18 @@ import { Country } from "./endpoints"
 export const saveCountry = (data) => {
     return API.post(`${Country}`, data)
 }
-// export const updateStudent = (data) => {
-//     return API.put(`${Student}/update`, data)
-// }
-// export const getSingleStudent = (data) => {
-//     return API.get(`${Student}/getsinglestudent`, { params: { _id: data } })
-// }
-// export const saveContact = (data) => {
-//     return API.post(`${Student}/contact`, data);
-//   };
+export const updateCountry = (data) => {
+    return API.put(`${Country}`, data)
+}
+export const getSingleCountry = (data) => {
+    return API.get(`${Country}/getSingleCountry`, { params: { _id: data } })
+}
+export const getallCountry = () => {
+    return API.get(`${Country}/getAllCountry`)
+}
+export const deleteCountry = (data) => {
+    return API.delete(`${Country}`, { params: { _id: data } });
+  };
 
 
 
