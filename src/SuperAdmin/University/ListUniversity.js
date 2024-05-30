@@ -315,7 +315,7 @@ export default function Masterproductlist() {
 
   return (
     <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
-      <div>
+      <div className=''>
         <div class="">
           <div class="">
             <Mastersidebar />
@@ -327,7 +327,7 @@ export default function Masterproductlist() {
             <div className="container-fluid">
               <div className="row ">
 
-                <div >
+                <div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     {/* <li className="flex-grow-1">
                     <inputz
