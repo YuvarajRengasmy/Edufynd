@@ -221,7 +221,7 @@ export default function GlobalSettings(){
                                     <div class="fw-bold">Subheading</div>
 
                                 </div>
-                                <Button className="border-0 rounded-3 btn-success float-end">Edit</Button>
+                                <Button className="border-0 rounded-3 btn-success float-end ">Edit</Button>
                                 <Button className="border-0 rounded-3 btn-danger float-end" >Delete</Button>
 
                             </li>

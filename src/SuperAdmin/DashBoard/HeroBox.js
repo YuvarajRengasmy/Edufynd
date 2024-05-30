@@ -37,11 +37,11 @@ export const HeroContent = () => {
   ];
   return (
     <div>
-      <div className="container-fluid">
+      <div className="container">
         <div className="row  ">
-       
+     
 
-          <div className="col ">
+          <div className="ps-5 col-lg-9">
             <div
               className="card color2 border-0 rounded-3 mt-1 "
               style={{ width: "100%" }}
@@ -89,12 +89,12 @@ export const HeroContent = () => {
                 <div className="row ">
                   <div className="col-lg-6 mt-1">
                     <div className="">
-                    <div className="card rounded-3 border-0 ">
+                    <div className="card rounded-3 border-0 " >
       <div className="card-body">
         <div className="card-title">
-          <div className="d-flex flex-row justify-content-between">
+          <div className="d-flex justify-content-between ">
             <div className="fs-5 fw-semibold">Activity</div>
-            <div className="dropdown">
+            <div className="dropdown float-end">
               <button className="btn btn-primary rounded-3 border-0 fs1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Daily
                 <span><FaCaretDown /></span>
@@ -110,8 +110,8 @@ export const HeroContent = () => {
         </div>
 
         <div className="charts">
-          <div style={{ width: '100%', height: '150px' }}>
-            <ResponsiveContainer width="100%" height="100%">
+          <div style={{ width: '100%', height: '190px' }}>
+            <ResponsiveContainer width="100%" height="90%">
               <AreaChart
                 data={data}
                 syncId="anyId"
@@ -136,13 +136,13 @@ export const HeroContent = () => {
       <div className="card-body">
         <div className="card-title fw-semibold">Progress</div>
         <div className="charts">
-          <ResponsiveContainer width='100%' height={130}>
+          <ResponsiveContainer width='100%' height={160}>
             <PieChart>
               <Pie dataKey="value" data={data1} fill="blueviolet" label />
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="card-text text-muted text-center fs1 pt-1">This Week</div>
+        <div className="card-text text-muted text-center fs1 pt-3">This Week</div>
       </div>
     </div>
                     </div>
@@ -338,7 +338,7 @@ export const HeroContent = () => {
               </div>
             </div>
           </div>
-          <div className=" col-lg-3  ">
+          <div className=" col-3  ">
             <div className="container-fluid mt-2">
               <div className="d-flex flex-row justify-content-between">
                 <div className="d-flex flex-column">
