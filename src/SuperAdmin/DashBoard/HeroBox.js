@@ -44,10 +44,10 @@ export const HeroContent = () => {
 
           <div className=" col-lg-9">
             <div
-              className="card  border-0 rounded-2 mt-1 "
+              className="  border-0 rounded-2 mt-1 "
               style={{ width: "100%" }}
             >
-              <div className="card-body">
+              <div className="">
                 <div className="row">
                 <header className="card-title">
   <div className="d-flex flex-row justify-content-between align-items-start">
