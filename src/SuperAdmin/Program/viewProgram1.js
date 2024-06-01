@@ -66,7 +66,7 @@ export const Course = () => {
             <div className="alert alert-primary text-center " role="alert">
                 A simple primary alert with an example link. 
             </div>
-            <h4 className="card-title text-decoration-underline text-uppercase" style={{color:'#fe5722'}}>Info</h4>
+            <h4 className=" text-decoration-underline text-uppercase" style={{color:'#fe5722'}}>Info</h4>
 
             <div className="card  border-0  shadow mt-3">
                 <div className="card-body">

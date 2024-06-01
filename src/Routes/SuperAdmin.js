@@ -31,7 +31,7 @@ import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 import Status from "../SuperAdmin/Settings/Status"
 import Intake from "../SuperAdmin/Settings/intake"
-
+import ViewProgramPage from "../SuperAdmin/Program/viewProgram1";
 
 
 
@@ -71,6 +71,7 @@ function SuperAdmin() {
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
           <Route path="/Status" element={<Status/>}/>
           <Route path="/Intake" element={<Intake/>}/>
+          <Route path="/ViewProgramPage" element={<ViewProgramPage/>}/>
        
         </Routes>
       </BrowserRouter>
