@@ -39,29 +39,187 @@ export const HeroContent = () => {
   return (
     <div>
       <div className="container">
-        <div className="row ps-5 ">
+        <div className="row ">
      
 
-          <div className=" col-lg-9">
+          <div className=" col">
             <div
-              className="card  border-0 rounded-2 mt-1 "
+              className="  border-0 rounded-2 mt-1 "
               style={{ width: "100%" }}
             >
-              <div className="card-body">
+              <div className="">
                 <div className="row">
-                <header className="card-title">
+                <header className="card-title mt-3">
   <div className="d-flex flex-row justify-content-between align-items-start">
     <div className="d-flex flex-column">
       <h2 className="fw-bold fs-5">Dashboard</h2>
       <p className="text-secondary fs1">Sunday, 05 August 2024</p>
     </div>
     <div className="d-flex align-items-center">
-      <button className="btn   border-0 text-white btn-sm " style={{backgroundColor:'#fe5722'}}>
-        <span className="me-2">
-          <FaCalendarAlt />
-        </span>
-        Aug 2024
-      </button>
+    <button class="btn border-0 rounder-2 shadow text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{backgroundColor:'#fe5722'}}>Profile</button>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    
+    <button type="button" class="btn-close " data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+  <div className="container-fluid">
+            <div className="d-flex flex-row justify-content-between align-items-start">
+  <div className="d-flex flex-column ">
+    <h2 className="fs-5 ">My Profile</h2>
+    <p className="fs-6">
+      <span className="color1">70%</span> Progress
+    </p>
+  </div>
+  <div className="dropdown mt-3">
+    <button
+      className="btn border-0"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      style={{color:"#fe5722"}}
+    >
+        <BsThreeDots />
+    </button>
+    <ul className="dropdown-menu">
+      <li>
+        <a href="#" className="dropdown-item">
+          Profile
+        </a>
+      </li>
+      <li>
+        <a href="#" className="dropdown-item">
+          About
+        </a>
+      </li>
+      <li>
+        <a href="#" className="dropdown-item">
+          Contact
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+              <div className="  text-center  border-0 rounded-0   p-2">
+                <div className="">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
+                    alt="img"
+                    className="rounded-circle  border border-top-0  border-start-0  border-3 p-1  border-danger"
+                    style={{ width: "100px", height: "100px" }}
+                  />
+                </div>
+                <div className="d-flex flex-column">
+                  <div className="fs-5 fw-semibold">James Lee</div>
+                  <div className="text-muted fs-6">jameslee1@gmail.com</div>
+                </div>
+              </div>
+              <div class="container mt-2">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-start">
+        <p class="fs-6">Today</p>
+        <button class="btn btn-sm border-0">View All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid py-1">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center py-1">
+          <div class="text-center">
+            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
+              <i class="bi bi-pencil"></i>
+            </span>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <div>Eli Jang</div>
+            <div class="fs1">Create a new project</div>
+          </div>
+          <div>
+            <span class="fs-5">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center py-1">
+          <div class="text-center">
+            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
+              <i class="bi bi-pencil"></i>
+            </span>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <div>Eli Jang</div>
+            <div class="fs1">Create a new project</div>
+          </div>
+          <div>
+            <span class="fs-5">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center py-1">
+          <div class="text-center">
+            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
+              <i class="bi bi-pencil"></i>
+            </span>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <div>Eli Jang</div>
+            <div class="fs1">Create a new project</div>
+          </div>
+          <div>
+            <span class="fs-5">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-2">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-start">
+        <p class="fs-6">Team</p>
+        <button class="btn btn-sm border-0">View All</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container py-1">
+  <div class="row">
+    <div class="col">
+      <div class="card border-0 bg-light py-1">
+        <div class="d-flex justify-content-around align-items-center py-1">
+          <div class="text-center">
+            <img src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg" alt="Eli Jang" class="rounded-circle" width="50px" />
+          </div>
+          <div class="">Eli Jang</div>
+          <div class=""><span class="text-success"><i class="bi bi-dot"></i></span></div>
+        </div>
+        <div class="d-flex justify-content-around align-items-center py-1">
+          <div class="text-center">
+            <img src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg" alt="Eli Jang" class="rounded-circle" width="50px" />
+          </div>
+          <div class="">Eli Jang</div>
+          <div class=""><span class="text-danger"><i class="bi bi-dot"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+            </div>
+  </div>
+</div>
     </div>
   </div>
 </header>
@@ -232,7 +390,7 @@ export const HeroContent = () => {
                   <div className="col-lg-4 mt-1">
                   <div className="card border-0 rounded-2 shadow">
   <div className="row g-0">
-    <div className="col-md-4 d-flex justify-content-center align-items-center">
+    <div className="col-lg-4 d-flex justify-content-center align-items-center">
       <div className="px-3 pt-2">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
@@ -264,7 +422,7 @@ export const HeroContent = () => {
                   <div className="col-lg-4 mt-1">
                   <div className="card border-0 rounded-2 shadow">
   <div className="row g-0">
-    <div className="col-md-4 d-flex justify-content-center align-items-center">
+    <div className="col-lg-4 d-flex justify-content-center align-items-center">
       <div className="px-3 pt-2">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
@@ -329,161 +487,9 @@ export const HeroContent = () => {
               </div>
             </div>
           </div>
-          <div className=" col-lg-3  ">
-            <div className="container-fluid mt-2 card border-0 shadow">
-            <div className="d-flex flex-row justify-content-between">
-  <div className="d-flex flex-column mt-3">
-    <h2 className="fs-5 ">My Profile</h2>
-    <p className="fs-6">
-      <span className="color1">70%</span> Progress
-    </p>
-  </div>
-  <div className="dropdown mt-3">
-    <button
-      className="btn border-0"
-      type="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-      style={{color:"#fe5722"}}
-    >
-        <BsThreeDots />
-    </button>
-    <ul className="dropdown-menu">
-      <li>
-        <a href="#" className="dropdown-item">
-          Profile
-        </a>
-      </li>
-      <li>
-        <a href="#" className="dropdown-item">
-          About
-        </a>
-      </li>
-      <li>
-        <a href="#" className="dropdown-item">
-          Contact
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
+          <div className=" col-lg-12">
 
-
-              <div className="  text-center  border-0 rounded-0   p-2">
-                <div className="">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                    alt="img"
-                    className="rounded-circle  border border-top-0  border-start-0  border-3 p-1  border-danger"
-                    style={{ width: "100px", height: "100px" }}
-                  />
-                </div>
-                <div className="d-flex flex-column">
-                  <div className="fs-5 fw-semibold">James Lee</div>
-                  <div className="text-muted fs-6">jameslee1@gmail.com</div>
-                </div>
-              </div>
-              <div class="container mt-2">
-  <div class="row">
-    <div class="col">
-      <div class="d-flex justify-content-between align-items-start">
-        <p class="fs-6">Today</p>
-        <button class="btn btn-sm border-0">View All</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container-fluid py-1">
-  <div class="row">
-    <div class="col">
-      <div class="d-flex flex-column">
-        <div class="d-flex justify-content-between align-items-center py-1">
-          <div class="text-center">
-            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
-              <i class="bi bi-pencil"></i>
-            </span>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div>Eli Jang</div>
-            <div class="fs1">Create a new project</div>
-          </div>
-          <div>
-            <span class="fs-5">
-              <i class="bi bi-arrow-right"></i>
-            </span>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-center py-1">
-          <div class="text-center">
-            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
-              <i class="bi bi-pencil"></i>
-            </span>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div>Eli Jang</div>
-            <div class="fs1">Create a new project</div>
-          </div>
-          <div>
-            <span class="fs-5">
-              <i class="bi bi-arrow-right"></i>
-            </span>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-center py-1">
-          <div class="text-center">
-            <span class="bg-primary p-2 rounded-circle fs-6 text-white">
-              <i class="bi bi-pencil"></i>
-            </span>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div>Eli Jang</div>
-            <div class="fs1">Create a new project</div>
-          </div>
-          <div>
-            <span class="fs-5">
-              <i class="bi bi-arrow-right"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container mt-2">
-  <div class="row">
-    <div class="col">
-      <div class="d-flex justify-content-between align-items-start">
-        <p class="fs-6">Team</p>
-        <button class="btn btn-sm border-0">View All</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container py-1">
-  <div class="row">
-    <div class="col">
-      <div class="card border-0 bg-light py-1">
-        <div class="d-flex justify-content-around align-items-center py-1">
-          <div class="text-center">
-            <img src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg" alt="Eli Jang" class="rounded-circle" width="50px" />
-          </div>
-          <div class="">Eli Jang</div>
-          <div class=""><span class="text-success"><i class="bi bi-dot"></i></span></div>
-        </div>
-        <div class="d-flex justify-content-around align-items-center py-1">
-          <div class="text-center">
-            <img src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg" alt="Eli Jang" class="rounded-circle" width="50px" />
-          </div>
-          <div class="">Eli Jang</div>
-          <div class=""><span class="text-danger"><i class="bi bi-dot"></i></span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-            </div>
+            
           </div>
         </div>
       </div>

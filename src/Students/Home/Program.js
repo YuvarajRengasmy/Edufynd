@@ -120,14 +120,15 @@ const Program = () => {
                             </div>
                     </div>
                     <div className="text-center p-4 pb-0">
-                      <h6 className="mb-2 text-success  text-start">{university.universityName}</h6>
+                      <h6 className="mb-2 text-success  text-center">{university.universityName}</h6>
                       <Link className="dropdown-item"></Link>
                      
                       <h6 className="mt-2">Average Fees :  <i className="fa fa-rupee fw-light text-primary me-2 gap-2" >   {university.grossTuition}</i></h6>
                     </div>
-                    <div className="row border-top">
-                      <small className="flex-fill text-center border-end ">Ranking    <i className="fa fa-star text-primary me-2 gap-2" > {university.ranking}</i></small>
-                      <small className="flex-fill text-center border-end py-1 ">OfferTAT   <i className="fa fa-clock text-primary me-2 gap-2" > {university.offerTAT}</i></small>
+                    <hr/>
+                    <div className="row ">
+                      <small className="flex-fill text-center  ">Ranking    <i className="fa fa-star text-primary me-2 gap-2" > {university.ranking}</i></small>
+                      <small className="flex-fill text-center  py-1 ">OfferTAT   <i className="fa fa-clock text-primary me-2 gap-2" > {university.offerTAT}</i></small>
                       <small className="flex-fill text-center py-1 ">University Type  <i className="fa fa-university text-primary me-2 gap-2" >  {university.institutionType}</i></small>
                       <br/>
                       <small className="flex-fill text-start py-2 mt-3"></small>
