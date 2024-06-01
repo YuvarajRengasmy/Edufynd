@@ -63,14 +63,14 @@ const ListProgram = () => {
                
               {program.map((program,index) => (
                   <div key={index} className="col-12 col-lg-6 col-xl-4 mb-3">
-                    <div className="card" style={{ width: '100%' }}>
+                    <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
                       <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
-                          <div className="col-3 text-center">
+                          <div className="col-4 text-center">
                             <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
@@ -80,7 +80,7 @@ const ListProgram = () => {
                             <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                           </div>
                           <div className="col-0 text-center mt-4">
-                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn btn-primary">Apply</Link>
+                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn text-white border-0 rounded-2" style={{backgroundColor:"#FE5722"}}>Apply</Link>
                           </div>
                         </div>
                       </div>
@@ -115,14 +115,14 @@ const ListProgram = () => {
               <div className='row mt-4'>
               {program.map((program,index) => (
                   <div key={index} className="col-12 col-lg-6 col-xl-4 mb-3">
-                    <div className="card" style={{ width: '100%' }}>
+                    <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
                       <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
-                          <div className="col-3 text-center">
+                          <div className="col-4 text-center">
                             <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
@@ -132,7 +132,7 @@ const ListProgram = () => {
                             <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                           </div>
                           <div className="col-0 text-center mt-4">
-                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn btn-primary">Apply</Link>
+                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn border-0 text-white rounded-2 " style={{backgroundColor:"#FE5722"}}>Apply</Link>
                           </div>
                         </div>
                       </div>
@@ -166,14 +166,14 @@ const ListProgram = () => {
               <div className='row mt-4'>
               {program.map((program,index) => (
                   <div key={index} className="col-12 col-lg-6 col-xl-4 mb-3">
-                    <div className="card" style={{ width: '100%' }}>
+                    <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
                       <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
-                          <div className="col-3 text-center">
+                          <div className="col-4 text-center">
                             <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
@@ -183,7 +183,7 @@ const ListProgram = () => {
                             <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                           </div>
                           <div className="col-0 text-center mt-4">
-                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn btn-primary">Apply</Link>
+                            <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn text-white border-0 rounded-2" style={{backgroundColor:"#FE5722"}}>Apply</Link>
                           </div>
                         </div>
                       </div>
