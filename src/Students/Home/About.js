@@ -35,7 +35,7 @@ export default function Event() {
               <div className="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div className="service-item text-center pt-3">
                   <div className="p-4">
-                    <i className="fa fa-3x fa-graduation-cap text-primary mb-4" />
+                    <i className="fa fa-3x fa-graduation-cap mb-4" style={{color:"#fe5722"}}/>
                     <h5 className="mb-3">Skilled Instructors</h5>
                     <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
                   </div>
@@ -44,7 +44,7 @@ export default function Event() {
               <div className="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div className="service-item text-center pt-3">
                   <div className="p-4">
-                    <i className="fa fa-3x fa-globe text-primary mb-4" />
+                    <i className="fa fa-3x fa-globe  mb-4" style={{color:"#fe5722"}}/>
                     <h5 className="mb-3">Online Classes</h5>
                     <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
                   </div>
@@ -53,7 +53,7 @@ export default function Event() {
               <div className="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div className="service-item text-center pt-3">
                   <div className="p-4">
-                    <i className="fa fa-3x fa-home text-primary mb-4" />
+                    <i className="fa fa-3x fa-home  mb-4" style={{color:"#fe5722"}} />
                     <h5 className="mb-3">Home Projects</h5>
                     <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
                   </div>
@@ -62,7 +62,7 @@ export default function Event() {
               <div className="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
                 <div className="service-item text-center pt-3">
                   <div className="p-4">
-                    <i className="fa fa-3x fa-book-open text-primary mb-4" />
+                    <i className="fa fa-3x fa-book-open  mb-4" style={{color:"#fe5722"}} />
                     <h5 className="mb-3">Book Library</h5>
                     <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
                   </div>
@@ -80,31 +80,31 @@ export default function Event() {
                 </div>
               </div>
               <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                <h6 className="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 className="mb-4">Welcome to eDUFYND</h1>
+                <h6 className="section-title text-start  pe-3" style={{color:"#fe5722"}}>About Us</h6>
+                <h1 className="mb-4 ">Welcome to eDUFYND</h1>
                 <p className="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
                 <p className="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
                 <div className="row gy-2 gx-4 mb-4">
                   <div className="col-sm-6">
-                    <p className="mb-0"><i className="fa fa-arrow-right text-primary me-2" />Skilled Instructors</p>
+                    <p className="mb-0"><i className="fa fa-arrow-right  me-2" style={{color:"#fe5722"}} />Skilled Instructors</p>
                   </div>
                   <div className="col-sm-6">
-                    <p className="mb-0"><i className="fa fa-arrow-right text-primary me-2" />Online Classes</p>
+                    <p className="mb-0"><i className="fa fa-arrow-right  me-2" style={{color:"#fe5722"}} />Online Classes</p>
                   </div>
                   <div className="col-sm-6">
-                    <p className="mb-0"><i className="fa fa-arrow-right text-primary me-2" />International Certificate</p>
+                    <p className="mb-0"><i className="fa fa-arrow-right  me-2" style={{color:"#fe5722"}} />International Certificate</p>
                   </div>
                   <div className="col-sm-6">
-                    <p className="mb-0"><i className="fa fa-arrow-right text-primary me-2" />Skilled Instructors</p>
+                    <p className="mb-0"><i className="fa fa-arrow-right  me-2" style={{color:"#fe5722"}} />Skilled Instructors</p>
                   </div>
                   <div className="col-sm-6">
-                    <p className="mb-0"><i className="fa fa-arrow-right text-primary me-2" />Online Classes</p>
+                    <p className="mb-0"><i className="fa fa-arrow-right  me-2" style={{color:"#fe5722"}} />Online Classes</p>
                   </div>
                   <div className="col-sm-6">
-                    <p className="mb-0"><i className="fa fa-arrow-right text-primary me-2" />International Certificate</p>
+                    <p className="mb-0"><i className="fa fa-arrow-right  me-2" style={{color:"#fe5722"}} />International Certificate</p>
                   </div>
                 </div>
-                <a className="btn btn-primary py-3 px-5 mt-2" href>Read More</a>
+                <a className="btn text-white py-2 px-3 mt-2 border-0 rounded-2" href="#" style={{backgroundColor:"#fe5722"}}>Read More</a>
               </div>
             </div>
           </div>
@@ -123,9 +123,9 @@ export default function Event() {
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
                     <div className="bg-light d-flex justify-content-center pt-2 px-1">
-                      <a className="btn btn-sm-square btn-primary mx-1 " href><i className="fab fa-facebook-f" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-twitter" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-instagram" /></a>
+                      <a className="btn btn-sm-square text-white  mx-1 " style={{backgroundColor:"#fe5722"}} href><i className="fab fa-facebook-f text-white" /></a>
+                      <a className="btn btn-sm-square  text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-twitter text-white" /></a>
+                      <a className="btn btn-sm-square text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-instagram text-white" /></a>
                     </div>
                   </div>
                   <div className="text-center p-4">
@@ -140,10 +140,10 @@ export default function Event() {
                     <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt />
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
-                    <div className="bg-light d-flex justify-content-center pt-2 px-1">
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-facebook-f" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-twitter" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-instagram" /></a>
+                  <div className="bg-light d-flex justify-content-center pt-2 px-1">
+                      <a className="btn btn-sm-square text-white  mx-1 " style={{backgroundColor:"#fe5722"}} href><i className="fab fa-facebook-f text-white" /></a>
+                      <a className="btn btn-sm-square  text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-twitter text-white" /></a>
+                      <a className="btn btn-sm-square text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-instagram text-white" /></a>
                     </div>
                   </div>
                   <div className="text-center p-4">
@@ -158,10 +158,10 @@ export default function Event() {
                     <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt />
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
-                    <div className="bg-light d-flex justify-content-center pt-2 px-1">
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-facebook-f" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-twitter" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-instagram" /></a>
+                  <div className="bg-light d-flex justify-content-center pt-2 px-1">
+                      <a className="btn btn-sm-square text-white  mx-1 " style={{backgroundColor:"#fe5722"}} href><i className="fab fa-facebook-f text-white" /></a>
+                      <a className="btn btn-sm-square  text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-twitter text-white" /></a>
+                      <a className="btn btn-sm-square text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-instagram text-white" /></a>
                     </div>
                   </div>
                   <div className="text-center p-4">
@@ -176,10 +176,10 @@ export default function Event() {
                     <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt />
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
-                    <div className="bg-light d-flex justify-content-center pt-2 px-1">
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-facebook-f" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-twitter" /></a>
-                      <a className="btn btn-sm-square btn-primary mx-1" href><i className="fab fa-instagram" /></a>
+                  <div className="bg-light d-flex justify-content-center pt-2 px-1">
+                      <a className="btn btn-sm-square text-white  mx-1 " style={{backgroundColor:"#fe5722"}} href><i className="fab fa-facebook-f text-white" /></a>
+                      <a className="btn btn-sm-square  text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-twitter text-white" /></a>
+                      <a className="btn btn-sm-square text-white  mx-1" style={{backgroundColor:"#fe5722"}} href><i className="fab fa-instagram text-white" /></a>
                     </div>
                   </div>
                   <div className="text-center p-4">

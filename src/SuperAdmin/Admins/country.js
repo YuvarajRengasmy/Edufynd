@@ -144,7 +144,7 @@ function Country() {
                                 </div>
                             )}
                             <div className="mt-3 mx-3 align-self-center">
-                                <button type="submit" className="btn btn-primary" style={{ width: "150px", height: "50px" }}>Submit</button>
+                                <button type="submit" className="btn text-white" style={{ width: "150px", height: "50px",backgroundColor:"#fe5722"}}>Submit</button>
                             </div>
                         </form>
                     </div>
