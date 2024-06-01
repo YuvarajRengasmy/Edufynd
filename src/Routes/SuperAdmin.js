@@ -31,6 +31,11 @@ import ListClient from "../SuperAdmin/client/ListClient";
 import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 import Status from "../SuperAdmin/Settings/Status"
+
+
+
+
+
 function SuperAdmin() {
   return (
     <div>
@@ -66,6 +71,7 @@ function SuperAdmin() {
           <Route path="/EditClient" element={<EditClient />} />
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
           <Route path="/Status" element={<Status/>}/>
+       
         </Routes>
       </BrowserRouter>
     </div>

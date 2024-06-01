@@ -26,13 +26,13 @@ export default function GlobalSettings() {
   const [selectedState, setSelectedState] = useState("");
   const [states, setStates] = useState([]);
   const [open, setOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState([]);
   const [countries, setCountries] = useState([]);
   const [selectedLGA, setSelectedLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [inputs, setInputs] = useState(false);
+  const [inputs, setInputs] = useState(initialStateInputs);
   const [filter, setFilter] = useState(false);
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
@@ -50,11 +50,12 @@ export default function GlobalSettings() {
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
 
-    if (!data.country) {
+    if (data.country.length === 0) {
       error.country = "Country is required";
     }
     return error;
   };
+
   useEffect(() => {
     getAllCountryDetails();
   }, [pagination.from, pagination.to]);
@@ -77,11 +78,13 @@ export default function GlobalSettings() {
         console.log(err);
       });
   };
+
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
+
   const deleteCountryData = () => {
     deleteCountry(deleteId)
       .then((res) => {
@@ -93,9 +96,11 @@ export default function GlobalSettings() {
         console.log(err);
       });
   };
+
   const closePopup = () => {
     setOpen(false);
   };
+
   const getCountryRegionInstance = () => {
     if (!countryRegion) {
       countryRegion = new CountryRegion();
@@ -107,11 +112,9 @@ export default function GlobalSettings() {
     event?.preventDefault();
     setFilter(true);
     const data = {
-     
       country: inputs.country,
       limit: 10,
       page: pagination.from,
-
     };
     getFilterCountry(data)
       .then((res) => {
@@ -126,24 +129,30 @@ export default function GlobalSettings() {
         console.log(err);
       });
   };
+
   const handleInputs = (event) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
+
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
     getAllCountryDetails();
   };
+
   const openFilterPopup = () => {
     setOpenFilter(true);
   };
+
   const closeFilterPopup = () => {
     setOpenFilter(false);
   };
+
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
   };
+
   useEffect(() => {
     const getCountries = async () => {
       try {
@@ -159,79 +168,30 @@ export default function GlobalSettings() {
     getCountries();
   }, []);
 
-  // useEffect(() => {
-  //   const getStates = async () => {
-  //     try {
-  //       const states = await getCountryRegionInstance().getStates(selectedCountry);
-  //       setStates(states.map(userState => ({
-  //         value: userState?.id,
-  //         label: userState?.name
-  //       })));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   if (selectedCountry) {
-  //     getStates();
-  //   }
-  // }, [selectedCountry]);
-
-  // useEffect(() => {
-  //   const getLGAs = async () => {
-  //     try {
-  //       const lgas = await getCountryRegionInstance().getLGAs(selectedCountry, selectedState);
-  //       setLGAs(lgas?.map(lga => ({
-  //         value: lga?.id,
-  //         label: lga?.name
-  //       })));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   if (selectedState) {
-  //     getLGAs();
-  //   }
-  // }, [selectedCountry, selectedState]);
-  const handleCountryChange = (selectedOption) => {
-    setSelectedCountry(selectedOption.value);
-    setSelectedState("");
-    setSelectedLGA("");
+  const handleCountryChange = (selectedOptions) => {
+    const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setSelectedCountry(values);
   };
 
-  // const handleStateChange = (selectedOption) => {
-  //   setSelectedState(selectedOption.value);
-  //   setSelectedLGA("");
-  // };
-
-  // const handleLGAChange = (selectedOption) => {
-  //   setSelectedLGA(selectedOption.value);
-  // };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newError = handleValidation({ country: selectedCountry, state: selectedState, lga: selectedLGA });
+    const newError = handleValidation({ country: selectedCountry });
     setErrors(newError);
     setSubmitted(true);
 
     const allInputsValid = Object.values(newError).every(x => x === "");
     if (allInputsValid) {
-      // Retrieve country name based on its ID
-      const countryName = countries.find(country => country.value === selectedCountry)?.label;
+      const selectedCountryNames = selectedCountry.map(countryId => {
+        const country = countries.find(country => country.value === countryId);
+        return country ? country.label : "";
+      });
 
-      // Retrieve state names based on their IDs
-      // const selectedStateLabels = Array.isArray(selectedState) ? selectedState.map(stateId => states.find(state => state.value === stateId)?.label) : [];
-
-      // // Retrieve LGA names based on their IDs
-      // const selectedLGALabels = Array.isArray(selectedLGA) ? selectedLGA.map(lgaId => lgas.find(lga => lga.value === lgaId)?.label) : [];
-
-      // Save data to the backend
       saveCountry({
-        country: countryName,
-        // states: selectedStateLabels,
-        // lgas: selectedLGALabels,
+        country: selectedCountryNames,
       })
         .then((res) => {
           if (res && res.data && res.data.success) {
-            toast.success(res.data.message);  
+            toast.success(res.data.message);
             navigate("/GlobalSettings");
             closeFilterPopup();
           } else {
@@ -244,33 +204,6 @@ export default function GlobalSettings() {
         });
     }
   };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const newError = handleValidation({ country: selectedCountry, state: selectedState, lga: selectedLGA });
-  //   setErrors(newError);
-  //   setSubmitted(true);
-
-  //   const allInputsValid = Object.values(newError).every(x => x === "");
-  //   if (allInputsValid) {
-  //     // Retrieve country, state, and LGA names based on their IDs
-  //     const countryName = countries.find(country => country.value === selectedCountry)?.label;
-  //     const stateName = states.find(state => state.value === selectedState)?.label;
-  //     const lgaName = lgas.find(lga => lga.value === selectedLGA)?.label;
-
-  //     saveCountry({
-  //       country: countryName,
-  //       state: stateName,
-  //       lga: lgaName,
-  //     })
-  //     .then((res) => {
-  //       toast.success(res?.data?.message);
-  //       navigate("/GlobalSettings");
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err?.response?.data?.message);
-  //     });
-  //   }
-  // };
 
   const customStyles = {
     control: (provided) => ({
@@ -279,7 +212,6 @@ export default function GlobalSettings() {
       borderRadius: '5.91319px',
       fontSize: "14px",
       fontFamily: "Plus Jakarta Sans",
-
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -290,8 +222,6 @@ export default function GlobalSettings() {
       }
     })
   };
-
-
   const pdfDownload = (event) => {
     event?.preventDefault();
 
@@ -524,27 +454,35 @@ export default function GlobalSettings() {
 
                       </ol>
                       <ul className="list-group list-group-flush">
+  {Array.isArray(country) && country?.map((item, index) => {
+    return (
+      <li className="list-group-item d-flex justify-content-between align-items-start" key={index}>
+        <div className="ms-2 me-auto">
+          <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{item.country}</div>
+        </div>
+        <div className="d-flex gap-2">
+          {/* Uncomment the below button to enable edit functionality
+          <button
+            className="dropdown-item"
+            onClick={() => editCountry(item)}
+          >
+            <i className="far fa-edit text-primary me-1"></i>
+          </button>
+          */}
+          <button
+            className="dropdown-item"
+            onClick={() => deleteCountry(item)}
+          >
+            <i className="far fa-trash-alt text-danger me-1"></i>
+          </button>
+        </div>
+      </li>
+    );
+  })}
+</ul>
 
-                        {country?.map((data, index) => (
-                          <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
-                            <div className="ms-2 me-auto">
-                              <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px', }}>{data?.country}</div>
-                            </div>
-                            <div className="d-flex gap-2">
-                            
-                              <button
-                                className="dropdown-item"
-                                onClick={() => {
-                                  openPopup(data?._id);
-                                }}
-                              >
-                                <i className="far fa-trash-alt text-danger me-1"></i>
-                              </button>
 
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
+
                     </div>
                   </div>
                   <div className="float-right my-2">
@@ -610,45 +548,16 @@ export default function GlobalSettings() {
             type="text"
             placeholder="Select a country"
             id="name"
+            isMulti
             name='country'
             onChange={handleCountryChange}
             style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
             options={countries}
             styles={customStyles}
           />
-          {errors.country && <span className="text-danger">{errors.country}</span>}
+         
         </section>
-        {/* 
-        <section className="submain-one-form-body-subsection col-md-6">
-          {states.length !== ZERO &&
-            <Select
-              placeholder="Select a state"
-              id="name"
-              name='state'
-              onChange={handleStateChange}
-              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-              options={states}
-              isMulti
-              styles={customStyles}
-            />
-          }
-        </section>
-        <br />
-        <section className="submain-one-form-body-subsection col-md-6">
-          {lgas && lgas.length !== ZERO &&
-            <Select
-              placeholder="Select a Substate"
-              id="name"
-              name='lga'
-              onChange={handleLGAChange}
-              options={lgas}
-              isMulti
-              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-              styles={customStyles}
-            />
-          }
-        </section> 
-        */}
+        
         <br />
         <section className=" form-group col-md-3">
           <button className="justify-content-center btn btn-primary col-md-12" type='submit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Submit</button>

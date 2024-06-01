@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import {getallClient } from "../../api/client";
+import { getallCountry } from "../../api/globalsettings";
+import { getallClient } from "../../api/client";
 import { isValidEmail } from '../../Utils/Validation';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import {getSuperAdminId } from '../../Utils/storage';
+import { useNavigate, Link } from 'react-router-dom';
 import { saveUniversity } from '../../api/university';
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";
+import Select from 'react-select';
+import Flags from 'react-world-flags';
+import CountryRegion from "countryregionjs";
+import { updateUniversity, getSingleUniversity } from "../../api/university";
+
 
 
 
 function Profile() {
+
+
+ 
+
 
   const initialState = {
     businessName: "",
@@ -20,21 +26,29 @@ function Profile() {
     universityLogo: "",
     universityName: "",
     country: "",
-    campus: "",
+    campus: [],
     ranking: "",
     averageFees: "",
-    popularCategories: "",
+    popularCategories: [],
     admissionRequirement: "",
-    offerTAT: "", 
-    email:"",
+    offerTAT: "",
+    email: "",
     founded: "",
     institutionType: "",
-    costOfLiving : "",
+    costOfLiving: "",
     grossTuition: "",
     applicationFees: "",
-    
-
-  }
+    paymentMethod: "",
+    amount: "",
+    percentage: "",
+    eligibilityForCommission: "",
+    currency: "",
+    paymentTAT: "",
+    tax: "",
+    commissionPaidOn: "",
+    countryName: "",
+    flag: "",
+  };
 
   const initialStateErrors = {
     businessName: { required: false },
@@ -51,75 +65,61 @@ function Profile() {
     offerTAT: { required: false },
     founded: { required: false },
     institutionType: { required: false },
-    costOfLiving : { required: false },
+    costOfLiving: { required: false },
     grossTuition: { required: false },
     applicationFees: { required: false },
- 
-  }
-  const [university, setUniversity] = useState(initialState)
-  const [errors, setErrors] = useState(initialStateErrors)
+    paymentMethod: { required: false },
+    amount: { required: false },
+    percentage: { required: false },
+    eligibilityForCommission: { required: false },
+    currency: { required: false },
+    paymentTAT: { required: false },
+    tax: { required: false },
+    commissionPaidOn: { required: false },
+    countryName: { required: false },
+    flag: { required: false },
+  };
+
+  const [university, setUniversity] = useState(initialState);
+  
+  const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
+  const [country, setCountry] = useState([]);
   const navigate = useNavigate();
 
   const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (data.universityName === "") {
-      error.universityName.required = true;
-    }
-    if (data.businessName === "") {
-      error.businessName.required = true;
-    }
-    if (data.country === "") {
-      error.country.required = true;
-    }
-    if (data.campus === "") {
-      error.campus.required = true;
-    }
-    if (data.ranking === "") {
-      error.ranking.required = true;
-    }
-    if (data.averageFees === "") {
-      error.averageFees.required = true;
-    }
-    if (data.popularCategories === "") {
-      error.popularCategories.required = true;
-    }
-  
-    if (data.offerTAT === "") {
-      error.offerTAT.required = true;
-    }
-   
-    if (data.email === "") {
-      error.email.required = true;
-    }
-    if (data.founded === "") {
-      error.founded.required = true;
-    }
-    if (data.institutionType === "") {
-      error.institutionType.required = true;
-    }
-    if (data.costOfLiving === "") {
-      error.costOfLiving.required = true;
-    }
-    if (data.grossTuition === "") {
-      error.grossTuition.required = true;
-    }
-    if (data.applicationFees === "") {
-      error.applicationFees.required = true;
-    }
-    if (!isValidEmail(data.email)) {
-      error.email.valid = true;
-    }
-    return error
-  }
+    let error = { ...initialStateErrors };
+    if (data.universityName === "") error.universityName.required = true;
+    if (data.businessName === "") error.businessName.required = true;
+    if (data.country === "") error.country.required = true;
+    if (data.campus.length === 0) error.campus.required = true;
+    if (data.ranking === "") error.ranking.required = true;
+    if (data.averageFees === "") error.averageFees.required = true;
+    if (data.popularCategories.length === 0) error.popularCategories.required = true;
+    if (data.offerTAT === "") error.offerTAT.required = true;
+    if (data.email === "") error.email.required = true;
+    if (data.founded === "") error.founded.required = true;
+    if (data.institutionType === "") error.institutionType.required = true;
+    if (data.costOfLiving === "") error.costOfLiving.required = true;
+    if (data.grossTuition === "") error.grossTuition.required = true;
+    if (data.applicationFees === "") error.applicationFees.required = true;
+    if (data.paymentMethod === "") error.paymentMethod.required = true;
+    if (data.eligibilityForCommission === "")error.eligibilityForCommission.required = true;
+    if (data.countryName === "") error.countryName.required = true;
+    if (data.flag === "")error.flag.required = true;
+    if (data.currency === "") error.currency.required = true;
+    if (data.paymentTAT === "") error.paymentTAT.required = true;
+    if (data.tax === "") error.tax.required = true;
+    if (data.commissionPaidOn === "") error.commissionPaidOn.required = true;
+    if (!isValidEmail(data.email)) error.email.valid = true;
+    return error;
+  };
 
   useEffect(() => {
-   
     getClientList();
+    getCountryList();
   }, []);
-
-  
 
   const getClientList = () => {
     getallClient()
@@ -131,102 +131,81 @@ function Profile() {
         console.log(err);
       });
   };
+  const getCountryList = () => {
+    getallCountry()
+      .then((res) => {
+        const value = res?.data?.result;
+        setCountry(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleInputs = (event) => {
-    setUniversity({ ...university, [event?.target?.name]: event?.target?.value })
-  
+    const { name, value } = event.target;
+
+    setUniversity((prevUniversity) => {
+      const updatedUniversity = { ...prevUniversity, [name]: value };
+
+
+      if (name === "countryName") {
+        const details = countryToDetails[value] || { currency: "", flag: "" };
+        return { ...updatedUniversity, ...details };
+      }
+
+      return updatedUniversity;
+    });
     if (submitted) {
-      const newError = handleValidation({ ...university, [event.target.name]: event.target.value })
-      setErrors(newError)
+      const newError = handleValidation({ ...university, [name]: value });
+      setErrors(newError);
     }
-  }
-
-  
-  const [selectedCampus, setSelectedCampus] = useState([]);
-  const [inputCampusValue, setInputCampusValue] = useState("");
-
-  const handlecampusInputs = (event) => {
-    setInputCampusValue({
-      ...inputCampusValue,
-      campus: event.target.value,
-    });
   };
 
-  const addCampus = () => {
-    const newCampus = inputCampusValue.campus
-      .split(",")
-      .map((serv) => serv.trim());
-    setSelectedCampus([...selectedCampus, ...newCampus]);
-    setInputCampusValue({ ...inputCampusValue, campus: ""});
+  const handleSelectChange = (selectedOptions, action) => {
+    const { name } = action;
+    const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setUniversity({ ...university, [name]: values });
   };
-
-  const removeCampus = (indexValue, event) => {
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-    const newCampus = selectedCampus.filter((_, i) => i !== indexValue);
-    setSelectedCampus(newCampus);
-  };
-  const [selectedPopularCategories, setSelectedPopularCategories] = useState([]);
-  const [inputPopularCategoriesValue, setInputPopularCategoriesValue] = useState("");
-
-  const handlePopularCategoriesInputs = (event) => {
-    setInputPopularCategoriesValue({
-      ...inputPopularCategoriesValue,
-      popularCategories: event.target.value,
-    });
-  };
-
-  const addPopularCategories = () => {
-    const newPopularCategories = inputPopularCategoriesValue.popularCategories
-      .split(",")
-      .map((serv) => serv.trim());
-    setSelectedPopularCategories([...selectedPopularCategories, ...newPopularCategories]);
-    setInputPopularCategoriesValue({ ...inputPopularCategoriesValue, popularCategories: ""});
-  };
-
-  const removePopularCategories = (indexValue, event) => {
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-    const newpoPularCategories = selectedPopularCategories.filter((_, i) => i !== indexValue);
-    setSelectedPopularCategories(newpoPularCategories);
-  };
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setSubmitted(true);
     const isValid = handleValidation(university);
 
-    if ((isValid)&&selectedCampus.length > 0 ) {
+    if (Object.values(isValid).every(error => !error.required) && Object.values(isValid.email).every(error => !error.valid)) {
       try {
         const data = {
-          universityName: university?.universityName,
-          businessName: university?.businessName,
-          banner: university?.banner,
-          universityLogo: university?.universityLogo,
-          country: university?.country,
-          popularCategories: selectedPopularCategories,
-          campus: selectedCampus,
-          
-          ranking: university?.ranking,
-          averageFees: university?.averageFees,
-          
-          admissionRequirement: university?.admissionRequirement,
-          offerTAT: university?.offerTAT,
-          email:university?.email,
-          founded: university?.founded,
-          institutionType: university?.institutionType,
-          costOfLiving : university?.costOfLiving,
-          grossTuition: university?.grossTuition,
-          applicationFees: university?.applicationFees
+          universityName: university.universityName,
+          businessName: university.businessName,
+          banner: university.banner,
+          universityLogo: university.universityLogo,
+          country: university.country,
+          popularCategories: university.popularCategories,
+          campus: university.campus,
+          ranking: university.ranking,
+          averageFees: university.averageFees,
+          admissionRequirement: university.admissionRequirement,
+          offerTAT: university.offerTAT,
+          email: university.email,
+          founded: university.founded,
+          institutionType: university.institutionType,
+          costOfLiving: university.costOfLiving,
+          grossTuition: university.grossTuition,
+          applicationFees: university.applicationFees,
+          paymentMethod: university?.paymentMethod,
+          amount: university?.amount,
+          percentage: university?.percentage,
+          eligibilityForCommission: university?.eligibilityForCommission,
+          currency: university?.currency,
+          paymentTAT: university?.paymentTAT,
+          tax: university?.tax,
+          commissionPaidOn: university?.commissionPaidOn
         };
 
         const res = await saveUniversity(data);
         toast.success(res?.data?.message);
-        navigate("/Comission");
+        navigate("/ListUniversity");
       } catch (error) {
         console.error(error);
         toast.error(error?.response?.data?.message || "An error occurred");
@@ -236,487 +215,590 @@ function Profile() {
     }
   };
 
- 
+  const countryToDetails = {
+    "United States": { currency: "USD", flag: "us" },
+    "Canada": { currency: "CAD", flag: "ca" },
+    "United Kingdom": { currency: "GBP", flag: "gb" },
+    "Australia": { currency: "AUD", flag: "au" },
+    "India": { currency: "INR", flag: "in" },
+
+  };
+  const campusOptions = [
+    { value: 'Us', label: 'Us' },
+    { value: 'London', label: 'London' },
+    { value: 'Ireland', label: 'IreLand' }
+  ];
+
+  const popularCategoriesOptions = client.map((data) => ({
+    value: data.businessName,
+    label: data.businessName
+  }));
 
   return (
-    <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}> 
-      <div class="">
-        <div class="">
-          <Sidebar />
-          
-        </div>
-      </div>
-      <div className="content-wrapper" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
-        <div className="content-header ">
-          <div className="content container-fluid w-75">
-            <form onSubmit={handleSubmit} >
-              <div className="content-page-header">
-                <h5 className="text-bold" style={{ color: "#231F20" }}>
-                  Add University
-                </h5>
-              </div>
-              <div className="row mt-5">
-                {/* <div className="col-lg-12 col-md-6 col-sm-12">
-                  <div className="upload-img form-group text-center">
-                    <label style={{ color: "#231F20" }}>
-                      University Logo<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <label htmlFor="fileInputImage" className="file-upload">
-                      <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width="180" height="180" alt="Preview" style={{ objectFit: "cover" }} className="preview-image" />
-                    </label>
-                    <input
-              
-                      id="fileInputImage"
-                      type="file"
-                    
-                      className="form-control"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                    />
-                  </div>
-                </div> */}
-                  <div className="col-lg-6 ">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      {" "}
-                    Client Name<span className="text-danger">*</span>
-                    </label>
-                    <select onChange={handleInputs}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='businessName'>
-                      <option value={""} disabled hidden >Select Client</option>
-                      {client.map((data, index) =>
-                        <option key={index} value={data?.businessName}> {data?.businessName}</option>)}
-                    </select>
-                    {errors.businessName.required ? (
-                      <div className="text-danger form-text">
-                        This field is required.
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-                <div className="col-lg-6 ">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      {" "}
-                      University Logo<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control "
-                      placeholder="Enter University Logo Link"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="universityLogo"
-                      onChange={handleInputs}
-                    />
-                    
-                  </div>
-                </div>
-                <div className="col-lg-6 ">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      {" "}
-                      Banner<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control "
-                      placeholder="Enter banner Link" 
-                      name="banner"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      onChange={handleInputs}
-                    />
-                   
-                  </div>
-                </div>
-                <div className="col-lg-6 ">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      {" "}
-                      University Name<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control "
-                      placeholder="Enter name"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="universityName"
-                      onChange={handleInputs}
-                    />
-                    {errors.universityName.required ? (
-                      <div className="text-danger form-text">
-                        This field is required.
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-                <div className="col-lg-6 ">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      {" "}
-                      Email<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control "
-                      placeholder="Enter Email"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="email"
-                      onChange={handleInputs}
-                    />
-                    {errors.email.required ? (
-                      <div className="text-danger form-text">
-                        This field is required.
-                      </div>
-                    ) : errors.email.valid ? (
-                      <div className="text-danger form-text">
-                        Enter valid Email Id.
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
 
-                <div className="col-lg-6 ">
-                  <div className="form-group">
+    <>
+      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div class="">
+          <div class="">
+            <Sidebar />
+
+          </div>
+        </div>
+        <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+          <div className="content-header ">
+            <div className="content container-fluid ">
+              <form onSubmit={handleSubmit} >
+
+                <div className="row">
+
+                  <div className="col-xl-12 ">
+                    <div className="card rounded-2 border-0 ">
+                      <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                        University Details :
+                        </div>
+                        
+                      </div>
+                      <div className="card-body">
+                        <div className="row gy-4">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Client Name<span className="text-danger">*</span>
+                            </label>
+                            <select onChange={handleInputs} style={{ backgroundColor: '#fff',  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='businessName'>
+                              <option value={""} disabled hidden >Select Client</option>
+                              {client.map((data, index) =>
+                                <option key={index} value={data?.businessName}> {data?.businessName}</option>)}
+                            </select>
+                            {errors.businessName.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          
+                              <label style={{ color: "#231F20" }}>
+                                {" "}
+                                University Name<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                placeholder="Enter name"
+                                style={{ fontFamily: 'Plus Jakarta Sans',   fontSize: '12px' }}
+                                name="universityName"
+                                onChange={handleInputs}
+                              />
+                              {errors.universityName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                        
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          
+                              <label style={{ color: "#231F20" }}>
+                                Ranking
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                placeholder="Enter Country "
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                name="ranking"
+                                onChange={handleInputs}
+                              />
+                              {errors.ranking.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                          </div>
+                          
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label htmlFor="input-label" className="form-label" style={{ color: "#231F20" }}>University Logo<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control "
+                              placeholder="Enter University Logo Link"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              name="universityLogo"
+                              onChange={handleInputs}
+                            />
+
+
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            
+                              <label style={{ color: "#231F20" }}>
+                                {" "}
+                                Banner<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                placeholder="Enter banner Link"
+                                name="banner"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                onChange={handleInputs}
+                              />
+
+                          </div>
+                         
+                          
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                {" "}
+                                Email<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                placeholder="Enter Email"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                name="email"
+                                onChange={handleInputs}
+                              />
+                              {errors.email.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.email.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid Email Id.
+                                </div>
+                              ) : null}
+                           
+                          </div>
+
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Country Name<span className="text-danger">*</span>
+                            </label>
+                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='country'>
+                              <option value={""} disabled hidden >Select Country</option>
+                              {country.map((data, index) =>
+                                <option key={index} value={data?.country}>{data?.country}</option>)}
+                            </select>
+                            {errors.country.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Campus<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              options={campusOptions}
+                              name="campus"
+                              onChange={handleSelectChange}
+                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                            />
+                            {errors.campus.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            
+                            <label style={{ color: "#231F20" }}>
+                              Founded <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter founded"
+                              name="founded"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              onChange={handleInputs}
+                            />
+                            {
+                              errors.founded.required ? <div className="text-danger form-text">This field is required.</div> : null
+                            }
+                        </div>
+                      
+
+                        <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                          Course Details :
+                        </div>
+                        
+                      </div>
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                         
+                         <label style={{ color: "#231F20" }}>
+                           Institution Type <span className="text-danger">*</span>
+                         </label>
+                         <select
+                           className="form-control"
+                           style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                           name="institutionType"
+                           onChange={handleInputs}
+                         >
+                           <option value={"private"}>Private</option>
+                           <option value={"public"}>Public</option>
+                           <option value={"other"}>Other</option>
+                         </select>
+                         {
+                           errors.institutionType.required ? <div className="text-danger form-text">This field is required.</div> : null
+                         }
+                     </div> 
+                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      
+                         <label style={{ color: "#231F20" }}>
+                           Cost Of living <span className="text-danger">*</span>
+                         </label>
+                         <input
+                           type="text"
+                           className="form-control"
+                           style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                           placeholder="Enter cost of living"
+                           name="costOfLiving"
+                           onChange={handleInputs}
+                         />
+                         {
+                           errors.costOfLiving.required ? <div className="text-danger form-text">This field is required.</div> : null
+                         }
+                     </div>
+
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                         
+                            <label style={{ color: "#231F20" }}>
+                              Popular Categories<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              options={popularCategoriesOptions}
+                              name="popularCategories"
+                              onChange={handleSelectChange}
+                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                            >
+
+                            </Select>
+                            {errors.popularCategories.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                           
+                              <label style={{ color: "#231F20" }}>
+                                Application Fees<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter Average Fees"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                name="applicationFees"
+                                onChange={handleInputs}
+                              />
+                              {
+                                errors.applicationFees.required ? <div className="text-danger form-text">This field is required.</div> : null
+                              }
+                          </div>                     
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            
+                              <label style={{ color: "#231F20" }}>
+                                {" "}
+                                offerTAT<span className="text-danger">*</span>
+                              </label>
+                              <select
+                                className="form-control"
+                                name="offerTAT"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                onChange={handleInputs}
+                              > <option value={"24hours"}>24Hours</option>
+                                <option value={"oneweek"}>One Week</option>
+                                <option value={"onemonth"}>One Month</option>
+                                <option value={"Threemonth"}>Three Month</option>
+                                <option value={"sixmonth"}>Six Month</option>
+                              </select>
+                              {errors.offerTAT.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                          </div>                    
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            
+                              <label style={{ color: "#231F20" }}>
+                                Average Fees<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter Average Fees"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                name="averageFees"
+                                onChange={handleInputs}
+                              />
+                              {
+                                errors.averageFees.required ? <div className="text-danger form-text">This field is required.</div> : null
+                              }
+                          </div>
+
+
+                          
+                        
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                           
+                              <label style={{ color: "#231F20" }}>
+                                Gross Tuition <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter cost of living"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                name="grossTuition"
+                                onChange={handleInputs}
+                              />
+                              {
+                                errors.grossTuition.required ? <div className="text-danger form-text">This field is required.</div> : null
+                              }
+                            </div>
+                         
+
+                            <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
+                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                          Commission Details :
+                        </div>
+                        
+                      </div>
+
+
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                 
+                    <label style={{ color: '#231F20' }} className="class-danger">
+                      Payment Method
+                    </label>
+                    <select  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}  className="form-select" name="paymentMethod" onChange={handleInputs}>
+                      <option value="">Select Payment Type</option>
+                      <option value="categorie1">Fixed</option>
+                      <option value="categorie2">Percentage</option>
+                    </select>
+                    <br />
+                    {university.paymentMethod === 'categorie1' ? (
+                      <div className="form-group">
+                        <label style={{ color: '#231F20' }} className="class-danger">Ammount</label>
+
+                        <input
+                          name="amount"
+                          className="form-control"
+                          type="text"
+                          placeholder='Enter Ammount'
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
+
+                      </div>
+                    ) : university.paymentMethod === 'categorie2' ? (
+                      <div className="form-group">
+                        <label style={{ color: '#231F20' }} className="class-danger">Percentage</label>
+
+                        <input
+                          name="percentage"
+                          className="form-control"
+                          type="text"
+                          placeholder='Enter Percentage'
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
+
+                      </div>
+                    ) : null}
+                  </div>
+                
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label style={{ color: "#231F20" }}>
+                      {" "}
+                      Eligibility for Commission<span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                      className="form-control "
+                      placeholder="Enter Eligibility for Commission"
+                      name="eligibilityForCommission"
+                      onChange={handleInputs}
+                    />
+                    {errors.eligibilityForCommission.required ? (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    ) : null}
+                  </div>
+                
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
                       Country<span className="text-danger">*</span>
                     </label>
-                    <input
-                      type="text"
-                      className="form-control "
-                      placeholder="Enter Country "
+                    <select
+                      className="form-select rounded-2 p-2 "
+                      name="countryName"
                       style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="country"
+                      value={university?.countryName ?? ""}
                       onChange={handleInputs}
-                    />
-                    {errors.country.required ? (
+                    > <option value={""} disabled hidden >Select Country</option>
+                      {Object.keys(countryToDetails).map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </select>
+
+                    {errors.countryName.required ? (
                       <div className="text-danger form-text">
                         This field is required.
                       </div>
                     ) : null}
                   </div>
-                </div>
+               
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                 
+                    <label style={{ color: "#231F20" }}>
+                      currency
+                    </label>
+                    <div sm="9" className="d-flex align-items-center">
+                      {university.flag && (
+                        <Flags code={university.flag} className="me-2" style={{ width: '40px', height: '30px' }} onChange={handleInputs} name='flag' />
+                      )}
+                      <input className='form-control' type="text"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs} name='currency' value={`${university.currency}`} readOnly />
+                    </div>
+                    {errors.currency.required ? (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    ) : null}
+                  </div>
                 
-                <div className="col-lg-6 ">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      Ranking
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control "
-                      placeholder="Enter Country "
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="ranking"
-                      onChange={handleInputs}
-                    />
-                    {errors.ranking.required ? (
-                      <div className="text-danger form-text">
-                        This field is required.
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                    Application Fees<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Average Fees"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="applicationFees"
-                      onChange={handleInputs}
-                    />
-                    {
-                      errors.applicationFees.required ? <div className="text-danger form-text">This field is required.</div> : null
-                    }
-                  </div>
-                </div>
-                <div className="col-lg-6 ">
-                  <div className="form-group">
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label style={{ color: "#231F20" }}>
                       {" "}
-                      offerTAT<span className="text-danger">*</span>
+                      Payment TAT<span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                      className="form-control "
+                      placeholder="Enter paymentTAT Link"
+                      name="paymentTAT"
+                      onChange={handleInputs}
+                    />
+
+                  </div>
+               
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
+                      Tax<span className="text-danger">*</span>
                     </label>
                     <select
-                      className="form-control"
-                      name="offerTAT"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                      className='form-select rounded-2 p-2 '
+                      name="tax"
                       onChange={handleInputs}
-                    > <option value={"24hours"}>24Hours</option>
-                      <option value={"oneweek"}>One Week</option>
-                      <option value={"onemonth"}>One Month</option>
-                      <option value={"Threemonth"}>Three Month</option>
-                      <option value={"sixmonth"}>Six Month</option>
+                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                      displayEmpty
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      <option value="">Select Tax</option>
+                      <option value="inclusive">Inclusive</option>
+                      <option value="exclusive">Exclusive</option>
                     </select>
-                    {errors.offerTAT.required ? (
+                    {errors.tax.required ? (
                       <div className="text-danger form-text">
                         This field is required.
                       </div>
                     ) : null}
                   </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      Average Fees<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Average Fees"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="averageFees"
-                      onChange={handleInputs}
-                    />
-                    {
-                      errors.averageFees.required ? <div className="text-danger form-text">This field is required.</div> : null
-                    }
-                  </div>
-                </div>
                
-                
-                <div className="d-flex">
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <label style={{ color: "#9265cc" }}>
-                Campus<span className="text-danger">*</span>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label style={{ color: "#231F20" }}>
+                      {" "}
+                      commissionPaidOn<span className="text-danger">*</span>
                     </label>
-                   
                     <select
-                      className="form-control"
-                      name="campus"
+                      className='form-select rounded-2 p-2 '
                       style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      onChange={handlecampusInputs}
-                    > <option value={""}>selected Campus</option>
-                      <option value={"usa"} onClick={addCampus}>USA</option>
-                      <option value={"us"} onClick={addCampus}>US</option>
-                      <option value={"australia"} onClick={addCampus}>australia</option>
+                      name="commissionPaidOn"
+                      onChange={handleInputs}
+                      displayEmpty
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      <option value="">Select Commission</option>
+                      <option value="courseFees">Course Fees</option>
+                      <option value="paidFees">Paid Fees</option>
                     </select>
-                   
-                    {selectedCampus?.length === 0 && submitted && (
-                      <span className="text-danger form-text">
+                    {errors.commissionPaidOn.required ? (
+                      <div className="text-danger form-text">
                         This field is required.
-                      </span>
-                    )}
+                      </div>
+                    ) : null}
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <div>
-                      <button
-                        type="button"
-                        onClick={addCampus}
-                        style={{
-                          marginTop: "1.8rem",
-                          backgroundColor: "#9265cc",
-                          fontFamily: 'Plus Jakarta Sans', fontSize: '12px' 
-                        }}
-                       
-                        className="btn text-white"
-                      >
-                        Add Campus
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex p-2 flex-wrap">
-                  {selectedCampus.map((campusadd, index) => (
-                    <div
-                      className="border rounded btn text-white"
-                      style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      key={index}
-                      
-                    >
-                      <span>{campusadd}</span>
-                      <button
-                        onClick={(event) => removeCampus(index, event)}
-                        className="btn btn-sm"
-                      >
-                        <FaTrash className="text-white" />
-                      </button>
-                    </div>
-                  ))}
-                 
-                </div>
+               
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                                Admission Requirement <span className="text-danger">*</span>
+                              </label>
+                              <textarea
+                                className="form-control"
+                                placeholder="Enter admission requirements"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                rows="5" // You can adjust the number of rows as needed
+                                onChange={handleInputs}
+                                name="admissionRequirement"
+                              ></textarea>
+                            </div>
+                          </div>
 
-                <div className="d-flex">
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <label style={{ color: "#9265cc" }}>
-                    PopularCategories<span className="text-danger">*</span>
-                    </label>
-                   
-                    <select
-                      className="form-control"
-                      name="popularCategories"
-                      onChange={handlePopularCategoriesInputs}
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                    > <option value={"ug"}>Select Category</option>
-                    <option value={"ug"}>UG</option>
-                      <option value={"pg"}>PG</option>
-                      <option value={"phd"}>Phd</option>
-                      <option value={"ug+pg"}>PG+UG</option>
-                      <option value={"other"}>other</option>
-                    </select>
-                   
-                    {selectedPopularCategories?.length === 0 && submitted && (
-                      <span className="text-danger form-text">
-                        This field is required.
-                      </span>
-                    )}
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <div>
-                      <button
-                        type="button"
-                        onClick={addPopularCategories}
-                        style={{
-                          marginTop: "1.8rem",
-                          backgroundColor: "#9265cc",
-                          fontFamily: 'Plus Jakarta Sans', fontSize: '12px' 
-                        }}
-                       
-                        className="btn text-white"
-                      >
-                        Add Campus
-                      </button>
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                            <Link
+                              style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+
+                              to="/ListUniversity"
+                              className="btn btn-cancel border text-white w-50 m-2"
+                            >
+                              Cancel
+                            </Link>
+                            <button
+                              style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+
+                              type="submit"
+                              className="btn btn-save border text-white w-50 m-2"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="d-flex p-2 flex-wrap">
-                  {selectedPopularCategories.map((popularCategoriesadd, index) => (
-                    <div
-                      className="border rounded btn text-white"
-                      style={{ backgroundColor: "#9265cc",fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      
-                      key={index}
-                    >
-                      <span>{popularCategoriesadd}</span>
-                      <button
-                        onClick={(event) => removePopularCategories(index, event)}
-                        className="btn btn-sm"
-                      >
-                        <FaTrash className="text-white" />
-                      </button>
-                    </div>
-                  ))}
-                 
-                </div>
-
-                
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                   Founded <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter founded"
-                      name="founded"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      onChange={handleInputs}
-                    />
-                    {
-                      errors.founded.required ? <div className="text-danger form-text">This field is required.</div> : null
-                    }
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                   Institution Type <span className="text-danger">*</span>
-                    </label>
-                    <select
-                      className="form-control"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="institutionType"
-                      onChange={handleInputs}
-                    >
-                      <option value={"private"}>Private</option>
-                      <option value={"public"}>Public</option>
-                      <option value={"other"}>Other</option>
-                    </select>
-                    {
-                      errors.institutionType.required ? <div className="text-danger form-text">This field is required.</div> : null
-                    }
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                  Cost Of living <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      placeholder="Enter cost of living"
-                      name="costOfLiving"
-                      onChange={handleInputs}
-                    />
-                    {
-                      errors.costOfLiving.required ? <div className="text-danger form-text">This field is required.</div> : null
-                    }
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-              Gross Tuition <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter cost of living"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      name="grossTuition"
-                      onChange={handleInputs}
-                    />
-                    {
-                      errors.grossTuition.required ? <div className="text-danger form-text">This field is required.</div> : null
-                    }
-                  </div>
-                </div>
-                <div className="col-lg-12">
-                  <div className="form-group">
-                    <label style={{ color: "#231F20" }}>
-                      Admission Requirement <span className="text-danger">*</span>
-                    </label>
-                    <textarea
-                      className="form-control"
-                      placeholder="Enter admission requirements"
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      rows="5" // You can adjust the number of rows as needed
-                      onChange={handleInputs}
-                      name="admissionRequirement"
-                    ></textarea>
-                  </div>
-                </div>
-
-                <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
-                  <Link
-                    style={{ backgroundColor: "#231F20" ,fontFamily: 'Plus Jakarta Sans', fontSize: '12px'}}
-                  
-                    to="/ListUniversity"
-                    className="btn btn-cancel border text-white w-50 m-2"
-                  >
-                    Cancel
-                  </Link>
-                  <button
-                    style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px'  }}
-                 
-                    type="submit"
-                    className="btn btn-save border text-white w-50 m-2"
-                  >
-                   Save
-                  </button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </>
+  )
+
 }
 export default Profile;
