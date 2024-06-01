@@ -22,7 +22,6 @@ import ViewAdmin from "../SuperAdmin/Admins/ViewAdmin";
 import CountryList from "../SuperAdmin/Admins/country";
 import AddProgram from "../SuperAdmin/Program/addProgram";
 import EditProgram from "../SuperAdmin/Program/editProgram";
-import Comission from "../SuperAdmin/University/addComission";
 import DashboardSA from "../SuperAdmin/DashBoard/Home";
 // Client
 import AddClient from "../SuperAdmin/client/addclient";
@@ -63,7 +62,6 @@ function SuperAdmin() {
           <Route path="/CountryList" element={<CountryList />} />
           <Route path="/AddProgram" element={<AddProgram />} />
           <Route path="/EditProgram" element={<EditProgram />} />
-          <Route path="/Comission" element={<Comission />} />
           <Route path="/DashBoard" element={<DashboardSA />} />
           {/* Client */}
           <Route path="/AddClient" element={<AddClient />} />
