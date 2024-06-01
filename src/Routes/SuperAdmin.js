@@ -30,6 +30,7 @@ import ListClient from "../SuperAdmin/client/ListClient";
 import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 import Status from "../SuperAdmin/Settings/Status"
+import Intake from "../SuperAdmin/Settings/intake"
 
 
 
@@ -69,6 +70,7 @@ function SuperAdmin() {
           <Route path="/EditClient" element={<EditClient />} />
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
           <Route path="/Status" element={<Status/>}/>
+          <Route path="/Intake" element={<Intake/>}/>
        
         </Routes>
       </BrowserRouter>

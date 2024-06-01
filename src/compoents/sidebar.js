@@ -248,7 +248,7 @@ const Sidebar = () => {
                           <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-dark  text-capitalize   fw-semibold">Country</a></li>
                           <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize   fw-semibold">Currency</a></li>
                           <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize   fw-semibold">email</a></li>
-                          <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize   fw-semibold">intake</a></li>
+                          <li className='nav-item'><a href="/Intake" className="nav-link text-dark  text-capitalize   fw-semibold">intake</a></li>
                           <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">dashboard</a></li>
                         </ul>
                       </div>
