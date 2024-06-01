@@ -56,7 +56,7 @@ export const HeroContent = () => {
       <p className="text-secondary fs1">Sunday, 05 August 2024</p>
     </div>
     <div className="d-flex align-items-center">
-    <button class="btn border-0 rounder-2 shadow text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{backgroundColor:'#fe5722'}}>profile</button>
+    <button class="btn border-0 rounder-2 shadow text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{backgroundColor:'#fe5722'}}>Profile</button>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
@@ -65,7 +65,7 @@ export const HeroContent = () => {
   </div>
   <div class="offcanvas-body">
   <div className="container-fluid">
-            <div className="d-flex flex-row justify-content-between">
+            <div className="d-flex flex-row justify-content-between align-items-start">
   <div className="d-flex flex-column ">
     <h2 className="fs-5 ">My Profile</h2>
     <p className="fs-6">

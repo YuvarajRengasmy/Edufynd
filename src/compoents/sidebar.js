@@ -64,9 +64,9 @@ const Sidebar = () => {
                 <a href="/UsingEnquiry" className="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div>
                     <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-                    <span style={{ fontSize: "11px", fontWeight: "bold", color: "#231f20", }} className='pe-2'> Enquiry</span>
+                    <span style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} className='pe-2'> Enquiry</span>
                   </div>
-                  <i className="fa fa-angle-down " aria-hidden="true" style={{ color: "#231f20", fontSize: "11px", fontWeight: "bold" }} />
+                  <i className="fa fa-angle-down " aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
                 </a>
                 <div className="collapse" id="collapse1">
                   <ul className='nav d-flex flex-column border-0 ps-4'>
