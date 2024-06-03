@@ -15,7 +15,7 @@ export const saveContact = (data) => {
   };
 
   export const getallStudent = () => {
-    return API.get(`${Student}/getallStudent`)
+    return API.get(`${Student}`)
 }
 export const getFilterStudent = (data) => {
   return API.put(`${Student}/getuniversityfilterStudent`, data);

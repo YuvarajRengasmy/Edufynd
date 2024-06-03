@@ -7,7 +7,7 @@ import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import { getStudentId,getSuperAdminId } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
 
@@ -48,13 +48,16 @@ export default function Masterproductlist() {
     const data = {
       limit: 10,
       page: pagination.from,
+    
+
     };
     getallStudent(data)
+    
     .then((res) => {
-      setStudent(res?.data?.result?.studentList);
+      setStudent(res?.data?.result);
       setPagination({
         ...pagination,
-        count: res?.data?.result?.studentCount,
+        count: res?.data?.result,
       });
     })
     .catch((err) => {
@@ -122,7 +125,7 @@ export default function Masterproductlist() {
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
-    getAllProgaramDetails();
+    getAllStudentDetails();
   };
 
   const handleInputs = (event) => {
@@ -162,7 +165,7 @@ export default function Masterproductlist() {
 
   const pdfDownload = (event) => {
     event?.preventDefault();
-    getFilterProgram(program)
+    getFilterStudent(student)
       .then((res) => {
         var result = res?.data?.result;
         var tablebody = [];
@@ -253,7 +256,7 @@ export default function Masterproductlist() {
             },
           ]);
         });
-        templatePdf("Program List", tablebody, "landscape");
+        templatePdf("Student List", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -262,7 +265,7 @@ export default function Masterproductlist() {
 
   const exportCsv = (event) => {
     event?.preventDefault();
-    getFilterProgram(program)
+    getFilterStudent(student)
       .then((res) => {
         var result = res?.data?.result;
         let list = [];
@@ -424,7 +427,7 @@ export default function Masterproductlist() {
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
-                                onClick={filterProgramList}
+                                onClick={filterStudentList}
                                 className="btn btn-save border text-white float-right mx-2"
                                 style={{ backgroundColor: "#9265cc" }}
                               >
@@ -502,28 +505,33 @@ export default function Masterproductlist() {
                       <thead>
                         <tr  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">University Name</th>
-                          <th className="text-capitalize text-start">programTitle</th>
-                          <th className="text-capitalize text-start">Application Fees</th>
-                          <th className="text-capitalize text-start">CourseFees</th>
-                         
+                          <th className="text-capitalize text-start">Student Name</th>
+                          <th className="text-capitalize text-start">Student Code</th>
+                       
+                          <th className="text-capitalize text-start">Email</th>
+                          <th className="text-capitalize text-start">Mobile Number</th>
+                          <th className="text-capitalize text-start">Status</th>
+                          <th className="text-capitalize text-start">Created by</th>
                           <th className="text-capitalize text-start">Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {program?.map((data, index) => (
+                        {student?.map((data, index) => (
                           <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.universityName}</td>
-                            <td className="text-capitalize text-start">{data?.programTitle}</td>
-                            <td className="text-capitalize text-start">{data?.applicationFee}</td>
-                            <td className="text-capitalize text-start">{data?.courseFee}</td>
+                            <td className="text-capitalize text-start">{data?.studentId?.studentName?data?.studentId?.studentName: data?.superAdminId?.studentName}</td>
+                            <td className="text-capitalize text-start">{data?.studentCode}</td>
+                           
+                            <td className="text-capitalize text-start">{data?.email}</td>
+                            <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                            <td className="text-capitalize text-start">{data?.status}</td>
+                            <td className="text-capitalize text-start">{data?.createdBy}</td>
                             <td>
                               <div className="d-flex">
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/ViewProgram",
+                                    pathname: "/ViewStudent",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -533,7 +541,7 @@ export default function Masterproductlist() {
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/EditProgram",
+                                    pathname: "/EditStudent",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -582,7 +590,7 @@ export default function Masterproductlist() {
             <button
               type="button"
               className="btn btn-save mx-3"
-              onClick={deleteProgramData}
+              onClick={deleteStudentData}
             >
               Yes
             </button>
