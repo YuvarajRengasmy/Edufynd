@@ -14,6 +14,13 @@ export const saveContact = (data) => {
     return API.post(`${Student}/contact`, data);
   };
 
-
-
+  export const getallStudent = () => {
+    return API.get(`${Student}/getallStudent`)
+}
+export const getFilterStudent = (data) => {
+  return API.put(`${Student}/getuniversityfilterStudent`, data);
+};
+export const deleteStudent = (data) => {
+    return API.delete(`${Student}`, { params: { _id: data } });
+  };
 

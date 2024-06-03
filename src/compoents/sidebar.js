@@ -49,7 +49,7 @@ const Sidebar = () => {
                 </a>
               </li>
               <li className="nav-item  ">
-                <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
+                <a href="/ListStudent" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-user " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Program Icon */}
                   <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} >Student</p>
                 </a>

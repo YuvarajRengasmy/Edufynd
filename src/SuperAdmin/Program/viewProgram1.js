@@ -1,6 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { getSingleProgram, getallProgram } from "../../api/Program";
+import { Link, useLocation } from "react-router-dom";
 import './Course.css'
+import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from 'react-icons/ri';
+
+import Flags from 'react-world-flags';
+import { Pagination } from "@mui/material";
+
 export const Course = () => {
+
+    const location = useLocation();
+    const id = new URLSearchParams(location.search).get("id");
+    const [program, setProgram] = useState();
+    const pageSize = 5;
+    const [input, setInput] = useState()
+    const [pagination, setPagination] = useState({
+      count: 0,
+      from: 0,
+      to: pageSize,
+    });
+    useEffect(() => {
+      getProgramDetails();
+    }, []);
+    useEffect(() => {
+      getAllProgaramDetails();
+    }, [pagination.from, pagination.to]);
+  
+    const getAllProgaramDetails = () => {
+      const data = {
+        limit: pageSize,
+  
+        page: pagination.from / pageSize + 1,
+  
+      };
+  
+      getallProgram(data)
+        .then((res) => {
+  
+          setInput(res?.data?.result?.programList);
+          setPagination({ ...pagination, count: res?.data?.result?.programCount });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    const handlePageChange = (event, page) => {
+      const from = (page - 1) * pageSize;
+      const to = (page - 1) * pageSize + pageSize;
+      setPagination({ ...pagination, from: from, to: to });
+    };
+  
+    const getProgramDetails = () => {
+      getSingleProgram(id)
+        .then((res) => {
+          setProgram(res?.data?.result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
     return (
         <div className="container ">
             <div className="row">
@@ -18,9 +76,9 @@ export const Course = () => {
         </div>
         <div className="col-md-8 d-flex justify-content-start  align-items-">
             <div className="px-1 py-2">
-                <h5 className=" text-white">Abroms and Associates Master of Accountancy (MAcc)</h5>
-                <p className='text-white'>University of North Alabama - EduCo</p>
-                <p className="text-white">Alabama, United States</p>
+                <h5 className=" text-white">{program?.programTitle}</h5>
+                <p className='text-white'>{program?.universityName}</p>
+                <p className="text-white">{program?.country}</p>
                 <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{backgroundColor:"#fe5722"}}>Apply Now</button>
             </div>
         </div>
@@ -41,21 +99,7 @@ export const Course = () => {
             <div className="h4 text-decoration-underline text-uppercase px-2 pt-4" style={{color:'#fe5722'}}>About the Course</div>
             <div className="text-lead" style={{ maxHeight: '300px', overflowY: "auto", scrollbarWidth: 'none' }}>
                 <div className="card-body ">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-                </p>
-                <p>
-                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias.
-                </p>
-                <p>
-                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias.
-                </p>
+                <p>{program?.academicRequirement} </p>
                 </div>
               
                
@@ -74,11 +118,14 @@ export const Course = () => {
                     <div className="row gy-3 py-2">
                         <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">intake months</div>
-                            <div className="h6 fw-bold">January, June, August</div>
-                        </div>
+                            {Array.isArray(program?.inTake) &&
+                              program.inTake.map((inTake, index) => (
+                            <div key={index} className="h6 fw-bold">{inTake}</div>
+                        ))}
+                            </div>
                         <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Delivery Locations</div>
-                            <div className="h6 fw-bold">United States</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
+                            <div className="h6 fw-bold"><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
                         </div>
                     </div>
                     <div className="row gy-3 py-2">
@@ -88,13 +135,13 @@ export const Course = () => {
                         </div>
                         <div className="col-sm-6 ">
                             <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
-                            <div className="h6 fw-bold">USD 15,750</div>
+                            <div className="h6 fw-bold">{program?.courseFee}</div>
                         </div>
                     </div>
                     <div className="row gy-3 py-2">
                         <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
-                            <div className="h6 fw-bold">18 Months</div>
+                            <div className="h6 fw-bold">{program?.duration}</div>
                         </div>
                         <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">Post-study Visa</div>
@@ -122,18 +169,18 @@ export const Course = () => {
                         <table className="table table-hover table-responsive">
                             <tbody>
                                 <tr>
-                                    <td>IELTS</td>
-                                    <td>6 score</td>
+                                    <td>UniversityInterview</td>
+                                    <td>{program?.universityInterview}</td>
                                     <td><a href="#" className="btn btn-link" style={{color:'#fe5722'}}>Learn more</a></td>
                                 </tr>
                                 <tr>
-                                    <td>TOEFL Internet</td>
-                                    <td>79 score</td>
+                                    <td>Gre_Gmat_Requirement</td>
+                                    <td>{program?.greGmatRequirement} {program?.score} </td>
                                     <td><a href="#" className="btn btn-link" style={{color:'#fe5722'}}>Learn more</a></td>
                                 </tr>
                                 <tr>
-                                    <td>PTE</td>
-                                    <td>54 score</td>
+                                    <td>EnglishlanguageTest</td>
+                                    <td>{program?.englishLanguageTest}</td>
                                     <td><a href="#" className="btn btn-link" style={{color:'#fe5722'}}>Learn more</a></td>
                                 </tr>
                             </tbody>
@@ -167,68 +214,30 @@ export const Course = () => {
 </nav>
 
             </div>
-          
+            {input?.map((data, index) => (
 
-            <div className="col-lg-4">
+            <div key={index} className="col-lg-4">
                 <div className="card mb-3  border-0  shadow">
                     <div className="row g-0 align-items-center justify-content-center">
                         <div className="col-md-4">
                             <img
-                                src="https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
+                                src={data?.universityLogo?data?.universityLogo:"https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
                                 className="img-fluid rounded-circle"
                                 alt="Course Image"
                             />
                         </div>
                         <div className="col-md-8">
                             <div className="card-body">
-                                <h5 className="card-title">Master of Education</h5>
-                                <p className="card-text">1 year</p>
+                                <h5 className="card-title">{data?.universityName}</h5>
+                                <p className="card-text">CourseName :- {data?.programTitle}</p>
+                                <p className="card-text">Duration :- {data?.duration}</p>
                                 <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{backgroundColor:"#fe5722"}}>Apply Now</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="col-lg-4">
-                <div className="card mb-3  border-0  shadow">
-                    <div className="row g-0 align-items-center justify-content-center">
-                        <div className="col-md-4 ">
-                            <img
-                                src="https://i.pinimg.com/736x/5f/7a/ff/5f7aff7fcf3ebcfaf8038b480a5b51c8.jpg"
-                                className="img-fluid rounded-circle"
-                                alt="Course Image"
-                            />
-                        </div>
-                        <div className="col-md-8">
-                            <div className="card-body">
-                                <h5 className="card-title">Master of Education</h5>
-                                <p className="card-text">1 year</p>
-                                <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{backgroundColor:"#fe5722"}}>Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="col-lg-4">
-                <div className="card mb-3  border-0  shadow">
-                    <div className="row g-0 align-items-center justify-content-center">
-                        <div className="col-md-4">
-                            <img
-                                src="https://static.vecteezy.com/system/resources/previews/023/360/153/original/university-college-school-badge-logo-design-image-education-badge-logo-design-university-high-school-emblem-vector.jpg"
-                                className="img-fluid rounded-circle"
-                                alt="Course Image"
-                            />
-                        </div>
-                        <div className="col-md-8">
-                            <div className="card-body">
-                                <h5 className="card-title">Master of Education</h5>
-                                <p className="card-text">1 year</p>
-                                <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{backgroundColor:"#fe5722"}}>Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+             ))}
 
            
         </div>
