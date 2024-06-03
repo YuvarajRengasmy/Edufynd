@@ -15,11 +15,6 @@ import { updateUniversity, getSingleUniversity } from "../../api/university";
 
 
 function Profile() {
-
-
- 
-
-
   const initialState = {
     businessName: "",
     banner: "",
@@ -141,7 +136,25 @@ function Profile() {
         console.log(err);
       });
   };
-
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUniversity((prevUniversity) => ({
+          ...prevUniversity,
+          universityLogo: reader.result,
+        }));
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        universityLogo: null,
+      }));
+    }
+  };
+  
   const handleInputs = (event) => {
     const { name, value } = event.target;
 
@@ -168,11 +181,12 @@ function Profile() {
     setUniversity({ ...university, [name]: values });
   };
 
+ 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitted(true);
     const isValid = handleValidation(university);
-
+  
     if (Object.values(isValid).every(error => !error.required) && Object.values(isValid.email).every(error => !error.valid)) {
       try {
         const data = {
@@ -193,16 +207,16 @@ function Profile() {
           costOfLiving: university.costOfLiving,
           grossTuition: university.grossTuition,
           applicationFees: university.applicationFees,
-          paymentMethod: university?.paymentMethod,
-          amount: university?.amount,
-          percentage: university?.percentage,
-          eligibilityForCommission: university?.eligibilityForCommission,
-          currency: university?.currency,
-          paymentTAT: university?.paymentTAT,
-          tax: university?.tax,
-          commissionPaidOn: university?.commissionPaidOn
+          paymentMethod: university.paymentMethod,
+          amount: university.amount,
+          percentage: university.percentage,
+          eligibilityForCommission: university.eligibilityForCommission,
+          currency: university.currency,
+          paymentTAT: university.paymentTAT,
+          tax: university.tax,
+          commissionPaidOn: university.commissionPaidOn
         };
-
+  
         const res = await saveUniversity(data);
         toast.success(res?.data?.message);
         navigate("/ListUniversity");
@@ -214,6 +228,7 @@ function Profile() {
       console.log("Validation failed");
     }
   };
+  
 
   const countryToDetails = {
     "United States": { currency: "USD", flag: "us" },
@@ -321,16 +336,15 @@ function Profile() {
                           
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-                            <label htmlFor="input-label" className="form-label" style={{ color: "#231F20" }}>University Logo<span className="text-danger">*</span>
+                            <label htmlFor="universityLogo" className="form-label" style={{ color: "#231F20" }}>University Logo<span className="text-danger">*</span>
                             </label>
-                            <input
-                              type="text"
-                              className="form-control "
-                              placeholder="Enter University Logo Link"
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="universityLogo"
-                              onChange={handleInputs}
-                            />
+                            <input 
+  type="file" 
+  id="universityLogo" 
+  name="universityLogo" 
+  accept="image/*" 
+  onChange={handleImageChange} 
+/>
 
 
                           </div>
