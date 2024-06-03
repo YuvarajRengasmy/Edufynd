@@ -10,6 +10,8 @@ import ViewApplication from "../Students/Application/ViewApplication";
 import Faq from "../Students/Profile/Faq";
 import ViewUniversity from "../Students/University/ViewUniversity";
 import ViewProgram from "../Students/Program/viewProgram";
+import StudentDashboard from "../Students/DashBoard/StudentDashboard";
+
 
 function RegisterPage() {
   return (
@@ -26,6 +28,7 @@ function RegisterPage() {
           <Route path="/Faq" element={<Faq />} />
           <Route path="/ViewpageUniversity" element={<ViewUniversity />} />
           <Route path="/ViewProgramUniversity" element={<ViewProgram />} />
+          <Route path="/StudentDashBoard" element={<StudentDashboard/>}/>
         </Routes>
       </BrowserRouter>
     </div>

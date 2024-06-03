@@ -60,13 +60,13 @@ export const Course = () => {
         });
     };
     return (
-        <div className="container ">
+        <div className="container-fluid ">
             <div className="row">
                 <div className="col-12">
-                <div className="card border-0 rounded-2 px-3 py-3 bg-secondary  ">
+                <div className="card border-0 rounded-2 mt-3  ">
 
 <div className="card-header rounded-top border-0   img-1 ">
-    <div className="row g-5">
+    <div className="row g-3 mt-2">
         <div className="col-md-4 d-flex justify-content-center align-items-start">
             <img
                 src="https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"
@@ -90,21 +90,100 @@ export const Course = () => {
 </div>
 <div className="card-body bg-white rounded-bottom px-4">
     <div className="row mt-2 g-4">
-        <div className="col-lg-6 ">
-            <div className="d-flex flex-row align-items-start justify-content-between mt-3">
-                <div className="h5 text-muted text-uppercase">Overview</div>
-                <div className="h5 text-muted text-uppercase">Institutions</div>
-                <div className="h5 text-muted text-uppercase">Campus</div>
-            </div>
-            <div className="h4 text-decoration-underline text-uppercase px-2 pt-4" style={{color:'#fe5722'}}>About the Course</div>
-            <div className="text-lead" style={{ maxHeight: '300px', overflowY: "auto", scrollbarWidth: 'none' }}>
-                <div className="card-body ">
-                <p>{program?.academicRequirement} </p>
-                </div>
-              
-               
-            </div>
-        </div>
+    <div className="col-lg-6">
+  <nav id="navbar-example2" className="navbar bg-light px-3 mb-3">
+    <ul className="nav nav-pills">
+      <li className="nav-item">
+        <a className="nav-link" data-bs-toggle="collapse" href="#overviewCollapse" role="button" aria-expanded="false" aria-controls="overviewCollapse">Overview</a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" data-bs-toggle="collapse" href="#institutionsCollapse" role="button" aria-expanded="false" aria-controls="institutionsCollapse">Institutions</a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" data-bs-toggle="collapse" href="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">Campus</a>
+      </li>
+    </ul>
+  </nav>
+  <div style={{height:"350px",overflowY:"auto",scrollbarWidth:'none'}}>
+  <div id="overviewCollapse" className="collapse show" >
+    <h4>Overview</h4>
+    <p>The Chepauk campus of the university houses the administrative buildings, the historic Senate House, central library, clock tower, centenary auditorium, and several departments under arts, humanities and social science streams. The Department of Mathematics of the university is operated as the Ramanujan Institute for Advanced Study in Mathematics located close to the Chepauk campus.</p>
+  </div>
+
+  <div id="institutionsCollapse" className="collapse">
+    <h4>Institutions</h4>
+   <div className='row'>
+    <div className='card border-0 pt-3 px-4'>
+    <div className='row'>
+    <div className='col-sm-4'>
+    <div className="card border-0 rounded-3 " style={{width:'10rem',height:"13rem"}}>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img"/>
+  <div className="card-body">
+    <p className="card-text text-center">Intake</p>
+  </div>
+</div>
+    </div>
+    <div className='col-sm-4'>
+    <div className="card border-0 rounded-3 " style={{width:'10rem',height:"13rem"}}>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img"/>
+  <div className="card-body">
+    <p className="card-text text-center">Intake</p>
+  </div>
+</div>
+    </div>
+    <div className='col-sm-4'>
+    <div className="card border-0 rounded-3 " style={{width:'10rem',height:"13rem"}}>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img"/>
+  <div className="card-body">
+    <p className="card-text text-center">Intake</p>
+  </div>
+</div>
+    </div>
+    </div>
+  
+    
+  </div>
+  </div>
+  </div>
+
+  <div id="campusCollapse" className="collapse">
+    <h4>Campus</h4>
+    <div className='row'>
+    <div className='card border-0 pt-3 px-4'>
+    <div className='row'>
+    <div className='col-sm-4'>
+    <div className="card border-0 rounded-3 " style={{width:'10rem',height:"13rem"}}>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img"/>
+  <div className="card-body">
+    <p className="card-text text-center">University Name</p>
+  </div>
+</div>
+    </div>
+    <div className='col-sm-4'>
+    <div className="card border-0 rounded-3 " style={{width:'10rem',height:"13rem"}}>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img"/>
+  <div className="card-body">
+    <p className="card-text text-center">University Name</p>
+  </div>
+</div>
+    </div>
+    <div className='col-sm-4'>
+    <div className="card border-0 rounded-3 " style={{width:'10rem',height:"13rem"}}>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img"/>
+  <div className="card-body">
+    <p className="card-text text-center">University Name</p>
+  </div>
+</div>
+    </div>
+    </div>
+  
+    
+  </div>
+  </div>
+  </div>
+</div>
+</div>
+
 
         <div className="col-lg-6">
             <div className="alert alert-primary text-center " role="alert">

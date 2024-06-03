@@ -4,7 +4,6 @@ import { clearStorage } from '../Utils/storage';
 import { Link } from 'react-router-dom';
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg"
 import './Sidebar.css'
-import { colors } from '@mui/material';
 
 const Sidebar = () => {
   const logout = () => {
