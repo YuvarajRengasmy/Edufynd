@@ -219,10 +219,10 @@ export const HeroContent = () => {
                         </div>
                     </div>
                     <div className="col-lg-6">
-                        <div className="row">
+                        <div className="row g-4">
                             <div className="card shadow-lg one border-0 rounded-3 px-4 py-1">
                                 <div className="card-body">
-                                    <div className="d-flex justify-content-between align-items-center">
+                                    <div className="d-flex justify-content-between align-items-start">
                                         <div>
                                             <p className="card-title text-muted fw-semibold">My Balance</p>
                                             <p className="fs-5 fw-semibold three">$17,754.00</p>
@@ -258,10 +258,10 @@ export const HeroContent = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='row g-3'>
-                            <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" style={{ height: '17rem' }}>
+                        <div className='row g-4'>
+                            <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" >
                                 <div className="card-body">
-                                    <div className="d-flex justify-content-between align-items-center">
+                                    <div className="d-flex justify-content-between align-items-start">
                                         <div>
                                             <p className="card-title text-muted fw-semibold">My Balance</p>
                                             <p className="fs-5 fw-semibold three">$17,754.00</p>
@@ -302,9 +302,9 @@ export const HeroContent = () => {
                         <div className="row g-3">
 
                             <div className=" col-lg-6">
-                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" style={{ height: '17rem' }} >
+                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1"  >
                                     <div className="card-body">
-                                        <div className="d-flex justify-content-between align-items-center">
+                                        <div className="d-flex justify-content-between align-items-start">
                                             <div>
                                                 <p className="card-title text-muted fw-semibold">My Balance</p>
                                                 <p className="fs-5 fw-semibold three">$17,754.00</p>
@@ -323,7 +323,7 @@ export const HeroContent = () => {
 
                                         </div>
                                         <div className="charts">
-                                            <PieChart width={400} height={400}>
+                                            <PieChart width={400} height={200}>
                                                 <Pie
                                                     dataKey="value"
                                                     startAngle={180}
@@ -341,9 +341,9 @@ export const HeroContent = () => {
                                 </div>
                             </div>
                             <div className=" col-lg-6">
-                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" style={{ height: '17rem' }}>
+                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" >
                                     <div className="card-body">
-                                        <div className="d-flex justify-content-between align-items-center">
+                                        <div className="d-flex justify-content-between align-items-start">
                                             <div>
                                                 <p className="card-title text-muted fw-semibold">My Balance</p>
                                                 <p className="fs-5 fw-semibold three">$17,754.00</p>
@@ -363,7 +363,7 @@ export const HeroContent = () => {
                                         </div>
 
                                         <div className="charts">
-                                            <ResponsiveContainer width="100%" height={150}>
+                                            <ResponsiveContainer width="100%" height={200}>
                                                 <AreaChart
                                                     data={data4}
                                                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
@@ -392,26 +392,31 @@ export const HeroContent = () => {
                         <div className="row">
 
                             <div className=" col-lg-6">
-                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" style={{ height: '17rem' }}>
+                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" >
                                     <div className="card-body">
-                                        <div className="float-end">
+                                    <div className="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <p className="card-title text-muted fw-semibold">My Balance</p>
+                                                <p className="fs-5 fw-semibold three">$17,754.00</p>
+                                            </div>
                                             <div className="dropdown">
                                                 <button className="btn btn-light rounded-4 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Monthly <FaCaretDown />
                                                 </button>
                                                 <ul className="dropdown-menu">
-                                                    <li key="daily"><a className="dropdown-item" href="#">Daily</a></li>
-                                                    <li key="weekly"><a className="dropdown-item" href="#">Weekly</a></li>
-                                                    <li key="monthly"><a className="dropdown-item" href="#">Monthly</a></li>
-                                                    <li key="yearly"><a className="dropdown-item" href="#">Yearly</a></li>
+                                                    <li><a className="dropdown-item" href="#">Daily</a></li>
+                                                    <li><a className="dropdown-item" href="#">Weekly</a></li>
+                                                    <li><a className="dropdown-item" href="#">Monthly</a></li>
+                                                    <li><a className="dropdown-item" href="#">Yearly</a></li>
                                                 </ul>
                                             </div>
+
                                         </div>
-                                        <p className="card-title text-muted fw-semibold">My Balance</p>
+                         
 
                                         <p className="fs-5 fw-semibold three">$17,754.00</p>
                                         <div className="charts">
-                                            <ResponsiveContainer width="100%" height={150}>
+                                            <ResponsiveContainer width="100%" height={200}>
                                                 <ScatterChart
                                                     margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                                                 >
