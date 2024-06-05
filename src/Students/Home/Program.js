@@ -199,7 +199,7 @@ const Program = () => {
                       <div className="card-body">
                         <div className="d-flex">
                           <div className="col-4 text-center">
-                            <h7>Course Fee :<span className="text-info fw-bold">{program.courseFee}</span> </h7>
+                            <h7>Course Fee :<span className="text-info fw-normal">{program.courseFee}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
                             <h6 className="text-success fw-bold"><Link className='text-decoration-none' to={{
@@ -208,7 +208,7 @@ const Program = () => {
                                   }}>{program.programTitle}</Link></h6>
                             <small>{program.country}</small>
                             <small className="d-block">{program.courseFees}</small>
-                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-normal"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                           </div>
                           <div className="col-0 text-center mt-4">
                             <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn text-white" style={{backgroundColor:"fe5722"}}>Apply</Link>

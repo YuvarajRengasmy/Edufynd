@@ -77,22 +77,22 @@ const ListProgram = () => {
                     <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
-                      <h5 className='ms-3 mt-4'><span className="text-info fw-bold">
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-normal">
                                     {program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
                           <div className="col-4 text-center">
-                            <h7>Course Fees <span className="text-info fw-bold">{program. courseFee}</span> </h7>
+                            <h7>Course Fees <span className="text-info fw-normal">{program. courseFee}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
-                            <h6 className="text-success fw-bold"><Link className='text-decoration-none' to={{
+                            <h6 className="text-success fw-normal"><Link className='text-decoration-none' to={{
                                     pathname: "/ViewProgramUniversity",
                                     search: `?id=${program?._id}`,
                                   }}>{program.programTitle}</Link></h6>
                             <small>{program.country}</small>
                             <small className="d-block">{program.courseFees}</small>
-                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-noemal"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                           </div>
                           <div className="col-0 text-center mt-4">
                             <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn text-white border-0 rounded-2" style={{backgroundColor:"#FE5722"}}>Apply</Link>
@@ -135,13 +135,13 @@ const ListProgram = () => {
                             <h7>Course :<span className="text-info fw-normal">{program.courseType}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
-                            <h6 className="text-success fw-bold"><Link className='text-decoration-none' to={{
+                            <h6 className="text-success fw-normal"><Link className='text-decoration-none' to={{
                                     pathname: "/ViewProgramUniversity",
                                     search: `?id=${program?._id}`,
                                   }}>{program.programTitle}</Link></h6>
                             <small>{program.country}</small>
                             <small className="d-block">{program.courseFees}</small>
-                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-normal"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                           </div>
                           <div className="col-0 text-center mt-4">
                             <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn border-0 text-white rounded-2 " style={{backgroundColor:"#FE5722"}}>Apply</Link>
@@ -175,7 +175,7 @@ const ListProgram = () => {
                     <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
-                      <h5 className='ms-3 mt-4'><span className="text-info fw-norma">{program.universityName}</span> </h5>
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-normal">{program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
@@ -189,7 +189,7 @@ const ListProgram = () => {
                                   }}>{program.programTitle}</Link></h6>
                             <small>{program.country}</small>
                             <small className="d-block">{program.courseFees}</small>
-                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                            <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-normal"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                           </div>
                           <div className="col-0 text-center mt-4">
                             <Link to={{ pathname: "/ViewProgramUniversity", search: `?id=${program?._id}` }} type="button" className="btn text-white border-0 rounded-2" style={{backgroundColor:"#FE5722"}}>Apply</Link>
