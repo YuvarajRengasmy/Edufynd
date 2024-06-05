@@ -1,5 +1,8 @@
 
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 import { FaCalendarAlt } from "react-icons/fa";
 import "./HeroBox.css";
 import { BsThreeDots } from "react-icons/bs";
