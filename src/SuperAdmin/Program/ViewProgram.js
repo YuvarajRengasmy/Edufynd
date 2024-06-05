@@ -74,7 +74,7 @@ export const Course = () => {
                                 <div className="row g-3 mt-2">
                                     <div className="col-md-4 d-flex justify-content-center align-items-start">
                                         <img
-                                            src={"https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"}
+                                            src={program?.universityLogo?program?.universityLogo:"https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"}
                                             className="img-fluid rounded-circle" style={{ width: "150px", height: "150px" }}
                                             alt="Berry College Campus"
                                         />
@@ -115,7 +115,7 @@ export const Course = () => {
                                                                 program.campus.map((campus, index) => (
                                                                     <div key={index} className='col-sm-4'>
                                                                         <div className="card border-0 rounded-3 shadow " style={{ width: '8rem', height: "11rem" }}>
-                                                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img" />
+                                                                            <img src={program?.universityLogo?program?.universityLogo:"https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
                                                                             <div className="card-body">
                                                                                 <p className="card-text text-center">{campus}</p>
                                                                             </div>
@@ -139,7 +139,7 @@ export const Course = () => {
                                                                         <div className="card-header bg-primary">
                                                 <p className="text-center text-uppercase fw-semibold">{inTake}</p>
                                             </div>
-                                                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="img-fluid rounded-pill" alt="img"  />
+                                                                            
                                                                             <div className="card-body">
                                                                         <div className="d-flex flex-column align-items-start justify-content-evenly" style={{fontSize:'12px'}}>
                                                                         <p className="card-text fw-semibold">Start Date -</p>
@@ -186,10 +186,10 @@ export const Course = () => {
 
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">intake months</div>
-                                                        {Array.isArray(program?.inTake) &&
-                                                            program.inTake.map((inTake, index) => (
-                                                                <div key={index} className="h6 fw-bold">{inTake}</div>
+                                                        <div className="fs-6 fw-light text-lead text-capitalize">CourseType</div>
+                                                        {Array.isArray(program?.courseType) &&
+                                                            program.courseType.map((courseType, index) => (
+                                                                <div key={index} className="h6 fw-bold">{courseType}</div>
                                                             ))}
                                                     </div>
                                                     <div className="col-sm-6">
@@ -287,6 +287,7 @@ export const Course = () => {
                                                                 src={data?.universityLogo ? data?.universityLogo : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
                                                                 className="img-fluid rounded-circle"
                                                                 alt="Course Image"
+                                                                style={{ width: '8rem', height: '7rem' }}
                                                             />
                                                         </div>
                                                         <div className="col-md-8">
