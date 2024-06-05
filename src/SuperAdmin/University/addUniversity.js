@@ -166,10 +166,26 @@ function Profile() {
 
 
 
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        [name]: reader.result,
+      }));
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
 
   const handleInputs = (event) => {
-    const { name, value } = event.target;
-
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else {
     setUniversity((prevUniversity) => {
       const updatedUniversity = { ...prevUniversity, [name]: value };
 
@@ -181,6 +197,7 @@ function Profile() {
 
       return updatedUniversity;
     });
+  }
     if (submitted) {
       const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);
