@@ -9,7 +9,7 @@ import { getSingleUniversity, UniversityProgram } from "../../api/university";
 import { getallProgram, getUniversityProgram } from "../../api/Program";
 import { CiSearch } from 'react-icons/ci';
 import { Chip } from '@mui/material';
-
+import Flags from 'react-world-flags';
 import { Input } from 'reactstrap'
 import Sidebar from '../../compoents/sidebar';
 const UserProfile = () => {
@@ -96,7 +96,7 @@ const UserProfile = () => {
                 <div className="row g-3 mt-2">
                   <div className="col-md-4 d-flex justify-content-center align-items-start">
                     <img
-                      src={university?.universityLogo?university?.universityLogo:"https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"}
+                      src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"}
                       className="img-fluid rounded-circle" style={{ width: "150px", height: "150px" }}
                       alt="Berry College Campus"
                     />
@@ -104,9 +104,12 @@ const UserProfile = () => {
                   <div className="col-md-8 d-flex justify-content-start  align-items-">
                     <div className="px-1 py-2">
 
-                      <p className='text-white'>University of North Alabama - EduCo</p>
-                      <p className="text-white">Alabama, United States</p>
-                      <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>See All Courses</button>
+                      <p className='text-white'>{university?.universityName}</p>
+                      <p className="text-white">{university?.country}</p>
+                      <div className='card shadow border-1 rounded p-2 mt-2 mb-2'>
+                        <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>UniverSity Rank: <span><RiCoinsFill className='text-warning fs-5' /> {university?.ranking}</span> </span>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -122,64 +125,47 @@ const UserProfile = () => {
                     <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
                       <li class="nav-item" role="presentation"><a class="nav-link active " id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">Overview</a></li>
                       <li class="nav-item" role="presentation"><a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Campus</a></li>
+                      <li class="nav-item" role="presentation"><a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab-populatCourse" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">popularCategories</a></li>
 
                     </ul>
                     <div class="tab-content mt-3" id="myTabContent" style={{ height: "350px", overflowY: "auto", scrollbarWidth: 'none' }}>
                       <div class="tab-pane fade active show" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
-                        <p>The Chepauk campus of the university houses the administrative buildings, the historic Senate House, central library, clock tower, centenary auditorium, and several departments under arts, humanities and social science streams. The Department of Mathematics of the university is operated as the Ramanujan Institute for Advanced Study in Mathematics located close to the Chepauk campus.</p>
+
+                        <p>{university?.admissionRequirement} </p>
                       </div>
                       <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div className='row'>
                           <div className=' border-0 pt-3 px-4'>
                             <div className='row'>
-                              <div className='col-sm-4'>
-                                <div className="card border-0 rounded-3  shadow " style={{ width: '8rem', height: "11rem" }}>
-                                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img" />
-                                  <div className="card-body">
-                                    <p className="card-text text-center">University</p>
+                              {Array.isArray(university?.campus) &&
+                                university.campus.map((campus, index) => (
+                                  <div key={index} className='col-sm-4'>
+                                    <div className="card border-0 rounded-3 shadow " style={{ width: '8rem', height: "11rem" }}>
+                                      <img src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
+                                      <div className="card-body">
+                                        <p className="card-text text-center">{campus}</p>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                              <div className='col-sm-4'>
-                                <div className="card border-0 rounded-3   shadow" style={{ width: '8rem', height: "11rem" }}>
-                                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img" />
-                                  <div className="card-body">
-                                    <p className="card-text text-center">University</p>
+                                ))}
+
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab-populatCourse" role="tabpanel" aria-labelledby="profile-tab">
+                        <div className='row'>
+                          <div className=' border-0 pt-3 px-4'>
+                            <div className='row'>
+                              {Array.isArray(university?.popularCategories) &&
+                                university.popularCategories.map((popularCategories, index) => (
+                                  <div key={index} className='card shadow border-1 rounded p-2 mt-2 mb-2'>
+                                    <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>  {popularCategories}</span>
                                   </div>
-                                </div>
-                              </div>
-                              <div className='col-sm-4'>
-                                <div className="card border-0 rounded-3 shadow" style={{ width: '8rem', height: "11rem" }}>
-                                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img" />
-                                  <div className="card-body">
-                                    <p className="card-text text-center">University</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className='col-sm-4'>
-                                <div className="card border-0 rounded-3  shadow " style={{ width: '8rem', height: "11rem" }}>
-                                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img" />
-                                  <div className="card-body">
-                                    <p className="card-text text-center">University</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className='col-sm-4'>
-                                <div className="card border-0 rounded-3  shadow " style={{ width: '8rem', height: "11rem" }}>
-                                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img" />
-                                  <div className="card-body">
-                                    <p className="card-text text-center">University </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className='col-sm-4'>
-                                <div className="card border-0 rounded-3  shadow " style={{ width: '8rem', height: "11rem" }}>
-                                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38o7kpcUznfQ3uhLAt0VBK-eXUbki7vRj1Q&s" class="card-img-top rounded-circle" alt="img" />
-                                  <div className="card-body">
-                                    <p className="card-text text-center">University </p>
-                                  </div>
-                                </div>
-                              </div>
+                                ))}
+
                             </div>
 
 
@@ -196,7 +182,7 @@ const UserProfile = () => {
 
                   <div className="col-lg-6">
                     <div className="alert alert-primary text-center " role="alert">
-                      A simple primary alert with an example link.
+                      A simple primary alert with an UniverSity Details.
                     </div>
                     <h4 className=" h6 text-decoration-underline text-uppercase" style={{ color: '#fe5722' }}>Info</h4>
 
@@ -205,41 +191,85 @@ const UserProfile = () => {
 
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">intake months</div>
-                            <div className="h6 fw-bold">January, June, August</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">OfferTAT</div>
+                            <div className="h6 fw-bold">{university?.offerTAT}</div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Delivery Locations</div>
-                            <div className="h6 fw-bold">United States</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
+                            <div className="h6 fw-bold"><Flags code={university?.flag} width={40} height={20} /> {university?.currency}</div>
                           </div>
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Qualification</div>
-                            <div className="h6 fw-bold">Master's Degree</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">AverageFees</div>
+                            <div className="h6 fw-bold">{university?.averageFees}</div>
                           </div>
-                          <div className="col-sm-6 ">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
-                            <div className="h6 fw-bold">USD 15,750</div>
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">ApplicationFees</div>
+                            <div className="h6 fw-bold">{university?.applicationFees}</div>
                           </div>
+                         
+                        </div>
+                        <div className="row gy-3 py-2">
+                        <div className="col-sm-6  ">
+                            <div className="fs-6 fw-light text-lead text-capitalize">Founded</div>
+                            <div className="h6 fw-bold">{university?.founded}</div>
+                          </div>
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">InstitutionType</div>
+                            <div className="h6 fw-bold">{university?.institutionType}</div>
+                          </div>
+                         
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
-                            <div className="h6 fw-bold">18 Months</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Cost Of Living</div>
+                            <div className="h6 fw-bold">{university?.costOfLiving}</div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Post-study Visa</div>
-                            <div className="h6 fw-bold">N/A</div>
-                          </div>
-                        </div>
-                        <div className="row gy-3 py-2">
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">CRICOS</div>
-                            <div className="h6 fw-bold">N/A</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">GrossTuition</div>
+                            <div className="h6 fw-bold">{university?.grossTuition}</div>
                           </div>
 
                         </div>
+                      </div>
+                    </div>
+                    <div className="card  border-0  shadow mt-3">
+                      <div className="card-body">
+
+                        <div className="row gy-3 py-2">
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">paymentMethod</div>
+                            <div className="h6 fw-bold">{university?.paymentMethod}</div>
+                          </div>
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">amount/percentage</div>
+                            <div className="h6 fw-bold">{university?.amount?university?.amount:university?.percentage?university?.percentage:"null"} </div>
+                          </div>
+                        </div>
+                        <div className="row gy-3 py-2">
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">EligibilityForCommission</div>
+                            <div className="h6 fw-bold">{university?.eligibilityForCommission}</div>
+                          </div>
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">PaymentTAT</div>
+                            <div className="h6 fw-bold">{university?.paymentTAT}</div>
+                          </div>
+                         
+                        </div>
+                        <div className="row gy-3 py-2">
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">Tax</div>
+                            <div className="h6 fw-bold">{university?.tax}</div>
+                          </div>
+                          <div className="col-sm-6">
+                            <div className="fs-6 fw-light text-lead text-capitalize">CommissionPaidOn</div>
+                            <div className="h6 fw-bold">{university?.commissionPaidOn}</div>
+                          </div>
+                         
+                        </div>
+                        
                       </div>
                     </div>
                   </div>
@@ -251,92 +281,56 @@ const UserProfile = () => {
 
 
                   <div className="row g-3">
-                    <div className="d-flex flex-row align-items-start justify-content-between">
-                      <div className="h4 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
-                      <nav aria-label="Page navigation example">
-                        <ul className="pagination">
-                          <li className="page-item">
-                            <a className="page-link" href="#" aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                            </a>
-                          </li>
-                          <li className="page-item"><a className="page-link" href="#">1</a></li>
-                          <li className="page-item"><a className="page-link" href="#">2</a></li>
-
-                          <li className="page-item">
-                            <a className="page-link" href="#" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
-
-                    </div>
+                                        <div className="d-flex flex-row align-items-start justify-content-between">
+                                            <div className="h4 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
 
 
-                    <div className="col-lg-4">
-                      <div className="card mb-3  border-0  shadow" >
-                        <div className="row g-0 align-items-center justify-content-center">
-                          <div className="col-md-4">
-                            <img
-                              src="https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                              className="img-fluid rounded-circle"
-                              alt="Course Image"
-                            />
-                          </div>
-                          <div className="col-md-8">
-                            <div className="card-body">
-                              <h5 className="card-title">Master of Education</h5>
-                              <p className="card-text">1 year</p>
-                              <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-4">
-                      <div className="card mb-3  border-0  shadow">
-                        <div className="row g-0 align-items-center justify-content-center">
-                          <div className="col-md-4 ">
-                            <img
-                              src="https://i.pinimg.com/736x/5f/7a/ff/5f7aff7fcf3ebcfaf8038b480a5b51c8.jpg"
-                              className="img-fluid rounded-circle"
-                              alt="Course Image"
-                            />
-                          </div>
-                          <div className="col-md-8">
-                            <div className="card-body">
-                              <h5 className="card-title">Master of Education</h5>
-                              <p className="card-text">1 year</p>
-                              <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-4">
-                      <div className="card mb-3  border-0  shadow">
-                        <div className="row g-0 align-items-center justify-content-center">
-                          <div className="col-md-4">
-                            <img
-                              src="https://static.vecteezy.com/system/resources/previews/023/360/153/original/university-college-school-badge-logo-design-image-education-badge-logo-design-university-high-school-emblem-vector.jpg"
-                              className="img-fluid rounded-circle"
-                              alt="Course Image"
-                            />
-                          </div>
-                          <div className="col-md-8">
-                            <div className="card-body">
-                              <h5 className="card-title">Master of Education</h5>
-                              <p className="card-text">1 year</p>
-                              <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                                        </div>
+                                        {program?.map((data, index) => (
+
+                                            <div key={index} className="col-lg-4">
+                                                <div className="card mb-3  border-0  shadow" style={{ width: '18rem', height: '15rem' }}>
+                                                    <div className="row g-0 align-items-center justify-content-center">
+                                                        <div className="col-md-4">
+                                                            <img
+                                                                src={data?.universityLogo ? data?.universityLogo : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
+                                                                className="img-fluid rounded-pill"
+                                                                alt="Course Image"
+                                                                style={{ width: '7rem', height: '5rem' }}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <div className="card-body">
+                                                                <h5 className="card-title">{data?.universityName}</h5>
+                                                                <p className="card-text">CourseName :- {data?.programTitle}</p>
+                                                                <p className="card-text">Duration :- {data?.duration}</p>
+                                                                <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
 
 
-                  </div>
+                                    </div>
+                                    <nav aria-label="Page navigation example justify-content-end">
+                                        <ul className="pagination">
+                                            <li className="page-item">
+                                                <a className="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                            <li className="page-item"><a className="page-link" href="#">2</a></li>
+
+                                            <li className="page-item">
+                                                <a className="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
 
 
 
