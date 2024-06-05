@@ -12,7 +12,7 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <aside className="main-sidebar elevation-6 d-none d-lg-block" style={{ backgroundColor: 'white', color: 'black', fontFamily: 'helvetica', fontSize: '12px', position: 'fixed', width: "195px", height: '100%', overflowY: 'auto', scrollbarWidth: 'none' }} >
+      <aside className="main-sidebar elevation-10 d-none d-lg-block" style={{ backgroundColor: 'white', color: 'black', fontFamily: 'helvetica', fontSize: '12px', position: 'fixed', width: "200px", height: '100%', overflowY: 'auto', scrollbarWidth: 'none' }} >
         <div className="  shadow-lg rounded  ">
         
         <div className="sidebar">
