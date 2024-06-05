@@ -128,7 +128,7 @@ export const Course = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
+                                            <div class="tab-pane fade" id="tab-contact" role="tabpanel" aria-labelledby="profile-tab">
                                                 <div className='row'>
                                                     <div className=' border-0 pt-3 px-4'>
                                                         <div className='row'>
@@ -166,60 +166,57 @@ export const Course = () => {
 
 
                                     <div className="col-lg-6">
-                                        <div className="alert alert-primary text-center " role="alert">
-                                            A simple primary alert with an example link.
-                                        </div>
-                                        <h4 className=" h6 text-decoration-underline text-uppercase" style={{ color: '#fe5722' }}>Info</h4>
+                                    <div className="alert alert-primary text-center " role="alert">
+                                        A simple primary alert with an example link.
+                                    </div>
+                                    <h4 className=" text-decoration-underline text-uppercase" style={{ color: '#fe5722' }}>Info</h4>
 
-                                        <div className="card  border-0  shadow mt-3">
-                                            <div className="card-body">
+                                    <div className="card  border-0  shadow mt-3">
+                                        <div className="card-body">
 
-                                                <div className="row gy-3 py-2">
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">intake months</div>
-                                                        <div className="h6 fw-bold">January, June, August</div>
-                                                    </div>
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">Delivery Locations</div>
-                                                        <div className="h6 fw-bold">United States</div>
-                                                    </div>
+                                            <div className="row gy-3 py-2">
+                                                <div className="col-sm-6">
+                                                    <div className="fs-6 fw-light text-lead text-capitalize">intake months</div>
+                                                    {Array.isArray(program?.inTake) &&
+                                                        program.inTake.map((inTake, index) => (
+                                                            <div key={index} className="h6 fw-bold">{inTake}</div>
+                                                        ))}
                                                 </div>
-                                                <div className="row gy-3 py-2">
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">Qualification</div>
-                                                        <div className="h6 fw-bold">Master's Degree</div>
-                                                    </div>
-                                                    <div className="col-sm-6 ">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
-                                                        <div className="h6 fw-bold">USD 15,750</div>
-                                                    </div>
+                                                <div className="col-sm-6">
+                                                    <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
+                                                    <div className="h6 fw-bold"><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
                                                 </div>
-                                                <div className="row gy-3 py-2">
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
-                                                        <div className="h6 fw-bold">18 Months</div>
-                                                    </div>
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">Post-study Visa</div>
-                                                        <div className="h6 fw-bold">N/A</div>
-                                                    </div>
+                                            </div>
+                                            <div className="row gy-3 py-2">
+                                                <div className="col-sm-6">
+                                                    <div className="fs-6 fw-light text-lead text-capitalize">Application Fee</div>
+                                                    <div className="h6 fw-bold">{program?.applicationFee}</div>
                                                 </div>
-                                                <div className="row gy-3 py-2">
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">CRICOS</div>
-                                                        <div className="h6 fw-bold">N/A</div>
-                                                    </div>
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize">GRE/GMAT </div>
-                                                        <div className="h6 fw-bold">
-                                                            <div className="h6 fw-bold">Yes  <span style={{ fontSize: '12px' }}>100</span></div>
-
-                                                        </div>
-                                                    </div>
+                                                <div className="col-sm-6 ">
+                                                    <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
+                                                    <div className="h6 fw-bold">{program?.courseFee}</div>
+                                                </div>
+                                            </div>
+                                            <div className="row gy-3 py-2">
+                                                <div className="col-sm-6">
+                                                    <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
+                                                    <div className="h6 fw-bold">{program?.duration}</div>
+                                                </div>
+                                                <div className="col-sm-6">
+                                                    <div className="fs-6 fw-light text-lead text-capitalize">Discounted Value</div>
+                                                    <div className="h6 fw-bold">{program?.discoubtedValue}</div>
+                                                </div>
+                                            </div>
+                                            <div className="row gy-3 py-2">
+                                                <div className="col-sm-6">
+                                                    <div className="fs-6 fw-light text-lead text-capitalize"> Commission</div>
+                                                    <div className="h6 fw-bold">{program?.commission}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
 
 
 
@@ -231,21 +228,21 @@ export const Course = () => {
                                                 <div className="card-body px-4 py-4" >
                                                     <table className="table table-hover table-responsive">
                                                         <tbody>
-                                                            <tr>
-                                                                <td>IELTS</td>
-                                                                <td>6 score</td>
-                                                                <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>TOEFL Internet</td>
-                                                                <td>79 score</td>
-                                                                <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>PTE</td>
-                                                                <td>54 score</td>
-                                                                <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td>UniversityInterview</td>
+                                                            <td>{program?.universityInterview}</td>
+                                                            <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Gre_Gmat_Requirement</td>
+                                                            <td>{program?.greGmatRequirement} {program?.score} </td>
+                                                            <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>EnglishlanguageTest</td>
+                                                            <td>{program?.englishLanguageTest}</td>
+                                                            <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
+                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -264,94 +261,56 @@ export const Course = () => {
                                     </div>
 
 
-
                                     <div className="row g-3">
-                                        <div className="d-flex flex-row align-items-start justify-content-between">
-                                            <div className="h4 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
-                                            <nav aria-label="Page navigation example">
-                                                <ul className="pagination">
-                                                    <li className="page-item">
-                                                        <a className="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-
-                                                    <li className="page-item">
-                                                        <a className="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-
-                                        </div>
-
-
-                                        <div className="col-lg-4">
-                                            <div className="card mb-3  border-0  shadow">
-                                                <div className="row g-0 align-items-center justify-content-center">
-                                                    <div className="col-md-4">
-                                                        <img
-                                                            src="https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                                                            className="img-fluid rounded-pill "
-                                                            alt="Course Image"
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-8">
-                                                        <div className="card-body">
-                                                            <h5 className="card-title">Master of Education</h5>
-                                                            <p className="card-text ">1 year</p>
-                                                            <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-4">
-                                            <div className="card mb-3  border-0  shadow">
-                                                <div className="row g-0 align-items-center justify-content-center">
-                                                    <div className="col-md-4 ">
-                                                        <img
-                                                            src="https://i.pinimg.com/736x/5f/7a/ff/5f7aff7fcf3ebcfaf8038b480a5b51c8.jpg"
-                                                            className="img-fluid rounded-pill"
-                                                            alt="Course Image"
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-8">
-                                                        <div className="card-body">
-                                                            <h5 className="card-title">Master of Education</h5>
-                                                            <p className="card-text ">1 year</p>
-                                                            <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-4">
-                                            <div className="card mb-3  border-0  shadow">
-                                                <div className="row g-0 align-items-center justify-content-center">
-                                                    <div className="col-md-4">
-                                                        <img
-                                                            src="https://static.vecteezy.com/system/resources/previews/023/360/153/original/university-college-school-badge-logo-design-image-education-badge-logo-design-university-high-school-emblem-vector.jpg"
-                                                            className="img-fluid rounded-pill"
-                                                            alt="Course Image"
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-8">
-                                                        <div className="card-body">
-                                                            <h5 className="card-title">Master of Education</h5>
-                                                            <p className="card-text">1 year</p>
-                                                            <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div className="d-flex flex-row align-items-start justify-content-between">
+                                        <div className="h4 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
 
 
                                     </div>
+                                    {input?.map((data, index) => (
+
+                                        <div key={index} className="col-lg-4">
+                                            <div className="card mb-3  border-0  shadow">
+                                                <div className="row g-0 align-items-center justify-content-center">
+                                                    <div className="col-md-4">
+                                                        <img
+                                                            src={data?.universityLogo ? data?.universityLogo : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
+                                                            className="img-fluid rounded-circle"
+                                                            alt="Course Image"
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-8">
+                                                        <div className="card-body">
+                                                            <h5 className="card-title">{data?.universityName}</h5>
+                                                            <p className="card-text">CourseName :- {data?.programTitle}</p>
+                                                            <p className="card-text">Duration :- {data?.duration}</p>
+                                                            <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+
+
+                                </div>
+                                <nav aria-label="Page navigation example justify-content-end">
+                                    <ul className="pagination">
+                                        <li className="page-item">
+                                            <a className="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+
+                                        <li className="page-item">
+                                            <a className="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
 
 
 
