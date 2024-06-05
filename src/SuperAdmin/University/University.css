@@ -1,0 +1,7 @@
+.img-1{
+    background-image: url('https://media.studentcrowd.net/q90/content/uniawards-2022/liverpool-uni.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: multiply;
+}

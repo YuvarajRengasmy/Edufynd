@@ -34,6 +34,9 @@ import Intake from "../SuperAdmin/Settings/intake"
 
 
 
+import ViewProgram1 from "../SuperAdmin/Program/viewProgram1";
+import Application from "../SuperAdmin/Application/Application";
+import ViewUniversity1 from "../SuperAdmin/University/viewUniversity1";
 function SuperAdmin() {
   return (
     <div>
@@ -71,6 +74,9 @@ function SuperAdmin() {
           <Route path="/Intake" element={<Intake/>}/>
       
        
+          <Route path="/viewProgramPage" element={<ViewProgram1/>}/>
+          <Route path='/Application' element={<Application/>}/>
+       <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>
         </Routes>
       </BrowserRouter>
     </div>

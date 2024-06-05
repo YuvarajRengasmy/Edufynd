@@ -76,7 +76,7 @@ export const HeroContent = () => {
     const off = gradientOffset();
     return (
 
-        <div className='two'>
+        <div className=''>
             <nav className="navbar navbar-expand-lg mt-2 ">
                 <div className="container">
 
@@ -157,7 +157,7 @@ export const HeroContent = () => {
                 <div className="row">
                     <div className=" col-lg-6">
                         <div className="card border-0 rounded-3 one shadow " style={{ width: "100%" }}>
-                            <div className="card-body px-4">
+                            <div className="card-body px-3 pt-1">
                                 <h5 className="card-title fs-6 fw-semibold pt-1 color2 mx-2">Dashboard</h5>
                                 <div className="card rounded-2 border-0 py-2 mt-1 px-4 two shadow-lg" style={{ width: '100%' }}>
                                     <p className="card-title text-white fs-5 pt-2 fw-light ">03/24</p>
@@ -219,8 +219,8 @@ export const HeroContent = () => {
                         </div>
                     </div>
                     <div className="col-lg-6">
-                        <div className="row g-4">
-                            <div className="card shadow-lg one border-0 rounded-3 px-4 py-1">
+                        <div className="row px-2 ">
+                            <div className="card shadow-lg one border-0 rounded-3  py-1">
                                 <div className="card-body">
                                     <div className="d-flex justify-content-between align-items-start">
                                         <div>
@@ -241,7 +241,7 @@ export const HeroContent = () => {
 
                                     </div>
                                     <div className="charts">
-                                        <div style={{ width: '100%', height: 200 }}>
+                                        <div style={{ width: '100%', height: 180 }}>
                                             <ResponsiveContainer width="100%" height="100%">
                                                 <LineChart data={data1}>
                                                     <CartesianGrid strokeDasharray="3 3" />
@@ -258,8 +258,8 @@ export const HeroContent = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='row g-4'>
-                            <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" >
+                        <div className='row px-2'>
+                            <div className="card shadow-lg  one border-0 rounded-2 " >
                                 <div className="card-body">
                                     <div className="d-flex justify-content-between align-items-start">
                                         <div>
@@ -281,7 +281,7 @@ export const HeroContent = () => {
                                     </div>
 
                                     <div className="charts">
-                                        <ResponsiveContainer width="100%" height={200}>
+                                        <ResponsiveContainer width="100%" height={180}>
                                             <BarChart data={data2}>
                                                 <CartesianGrid strokeDasharray="3 3" />
                                                 <XAxis dataKey="name" />
@@ -299,10 +299,10 @@ export const HeroContent = () => {
 
                     </div>
                     <div className="container">
-                        <div className="row g-3">
+                        <div className="row ">
 
                             <div className=" col-lg-6">
-                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1"  >
+                                <div className="card shadow-lg  one border-0 rounded-2 px-3 py-1"  >
                                     <div className="card-body">
                                         <div className="d-flex justify-content-between align-items-start">
                                             <div>
@@ -323,7 +323,7 @@ export const HeroContent = () => {
 
                                         </div>
                                         <div className="charts">
-                                            <PieChart width={400} height={200}>
+                                            <PieChart width={400} height={150}>
                                                 <Pie
                                                     dataKey="value"
                                                     startAngle={180}
@@ -341,7 +341,7 @@ export const HeroContent = () => {
                                 </div>
                             </div>
                             <div className=" col-lg-6">
-                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" >
+                                <div className="card shadow-lg  one border-0 rounded-2 px-3 py-1" >
                                     <div className="card-body">
                                         <div className="d-flex justify-content-between align-items-start">
                                             <div>
@@ -363,7 +363,7 @@ export const HeroContent = () => {
                                         </div>
 
                                         <div className="charts">
-                                            <ResponsiveContainer width="100%" height={200}>
+                                            <ResponsiveContainer width="100%" height={150}>
                                                 <AreaChart
                                                     data={data4}
                                                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
@@ -392,7 +392,7 @@ export const HeroContent = () => {
                         <div className="row">
 
                             <div className=" col-lg-6">
-                                <div className="card shadow-lg  one border-0 rounded-2 px-4 py-1" >
+                                <div className="card shadow-lg  one border-0 rounded-2 px-3 py-1" >
                                     <div className="card-body">
                                     <div className="d-flex justify-content-between align-items-start">
                                             <div>
@@ -414,9 +414,9 @@ export const HeroContent = () => {
                                         </div>
                          
 
-                                        <p className="fs-5 fw-semibold three">$17,754.00</p>
+                                       
                                         <div className="charts">
-                                            <ResponsiveContainer width="100%" height={200}>
+                                            <ResponsiveContainer width="100%" height={150}>
                                                 <ScatterChart
                                                     margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                                                 >
@@ -432,8 +432,8 @@ export const HeroContent = () => {
                                 </div>
                             </div>
 
-                            <div className=" col-lg-6 mt-2 ">
-                                <div className="d-flex mt-1 justify-content-between">
+                            <div className=" col-lg-6  ">
+                                <div className="d-flex  justify-content-between align-items-start">
                                     <div className=" fw-semibold fs-5 color2">Transcation History</div>
                                     <div className="float-end px-4">
                                         <div class="dropdown ">
@@ -452,25 +452,43 @@ export const HeroContent = () => {
 
 
 
-                                <table className="table table-borderless table-hover table-responsive-sm mt-2 bg-white  " >
+                                <table className="table  table-hover table-responsive-sm mt-2 bg-white  "  style={{height:"200px",overflowY:"auto"}}>
                                     <tbody>
                                         <tr>
-                                            <td className='px-5 py-4'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
-                                            <td className='px-5 fw-medium py-4'>Shopping</td>
-                                            <td className='px-4 text-primary py-4'>05 June 2021</td>
-                                            <td className='px-4 fw-semibold py-4'>$300</td>
+                                            <td className='px-4 py-2'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
+                                            <td className='px-3 fw-medium py-2'>Shopping</td>
+                                            <td className='px-3 text-primary py-2'>05 June 2021</td>
+                                            <td className='px-3 fw-semibold py-2'>$300</td>
                                         </tr>
                                         <tr>
-                                            <td className='px-5 py-4'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
-                                            <td className='px-5 fw-medium py-4'>Bakery</td>
-                                            <td className='px-4 text-primary py-4'>04 June 2021</td>
-                                            <td className='px-4 fw-semibold py-4'>$35</td>
+                                            <td className='px-4 py-2'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
+                                            <td className='px-3 fw-medium py-2'>Bakery</td>
+                                            <td className='px-3 text-primary py-2'>04 June 2021</td>
+                                            <td className='px-3 fw-semibold py-2'>$35</td>
                                         </tr>
                                         <tr>
-                                            <td className='px-5 py-4'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
-                                            <td className='px-4 fw-medium py-4'>Restaurant</td>
-                                            <td className='px-4 text-primary py-4'>03 June 2021</td>
-                                            <td className='px-4 fw-semibold py-4'>$400</td>
+                                            <td className='px-4 py-2'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
+                                            <td className='px-3 fw-medium py-2'>Restaurant</td>
+                                            <td className='px-3 text-primary py-2'>03 June 2021</td>
+                                            <td className='px-3 fw-semibold py-2'>$400</td>
+                                        </tr>
+                                        <tr>
+                                            <td className='px-4 py-2'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
+                                            <td className='px-3 fw-medium py-2'>Shopping</td>
+                                            <td className='px-3 text-primary py-2'>05 June 2021</td>
+                                            <td className='px-3 fw-semibold py-2'>$300</td>
+                                        </tr>
+                                        <tr>
+                                            <td className='px-4 py-2'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
+                                            <td className='px-3 fw-medium py-2'>Bakery</td>
+                                            <td className='px-3 text-primary py-2'>04 June 2021</td>
+                                            <td className='px-3 fw-semibold py-2'>$35</td>
+                                        </tr>
+                                        <tr>
+                                            <td className='px-4 py-2'><span className='color1 bg-light rounded-5 px-2 pt-1 pb-2'><FaBagShopping /></span></td>
+                                            <td className='px-3 fw-medium py-2'>Restaurant</td>
+                                            <td className='px-3 text-primary py-2'>03 June 2021</td>
+                                            <td className='px-3 fw-semibold py-2'>$400</td>
                                         </tr>
 
 
