@@ -1,15 +1,18 @@
 import React from 'react';
 import './University.css'
-import Sidebar from '../../compoents/sidebar';
+
+import HoverBar from '../../compoents/hoverbar';
 export const ViewUniversity1 = () => {
     return (
-        <div className="container-fluid ">
-            <div className="row">
-                <div className='col-lg-2'>
-                    <Sidebar/>
+        <div className=" "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div className="">
+                <div className='d-none d-xl-block'>
+                    <HoverBar/>
                 </div>
-                <div className="col-lg-10">
-                <div className="card border-0 rounded-2 mt-3  ">
+                <div className="container">
+                    <div className='row'>
+                        <div className='col-xl-12'>
+                        <div className="card border-0 rounded-2   ">
 
 <div className="card-header rounded-top border-0   img-1 ">
     <div className="row g-3 mt-2">
@@ -262,6 +265,9 @@ export const ViewUniversity1 = () => {
     </div>
 </div>
 </div>
+                        </div>
+                    </div>
+               
                 </div>
             </div>
 

@@ -286,7 +286,7 @@ const handleSubmit = (event) => {
       <div>
         <Mastersidebar />
       </div>
-      <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
+      <div className="content-wrapper me-5" style={{ backgroundColor: '#fff' }}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row ">
