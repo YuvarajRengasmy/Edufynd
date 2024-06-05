@@ -247,7 +247,7 @@ function Profile() {
 
           </div>
         </div>
-        <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+        <div className="content-wrapper me-5" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header ">
             <div className="content container-fluid ">
               <form onSubmit={handleSubmit} >

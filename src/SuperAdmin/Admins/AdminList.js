@@ -47,7 +47,7 @@ export default function ListAgent() {
         </div>
       </div>
       <Header />
-      <div className="content-wrapper">
+      <div className="content-wrapper me-5">
         <div className="content-header">
           <div className="container">
             <div className="row mb-2">

@@ -1,11 +1,24 @@
 .sBar {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 100%;
     width: 70px;
-    background-color: green;
+    background-color:#fe5722;
+    color:rgb(255, 255, 255) ;
     transition: width 0.3s ease;
+    font-size: 12px;
+    overflow-y: auto;
+    scrollbar-width:none;
+    z-index: 1000;
+    font-Family:'helvetica',
+    
+    
+    
+    
+
+   
+    
 }
 
 .sBar:hover {
@@ -39,5 +52,6 @@
 }
 
 .sBar ul li:hover {
-    background-color: rgb(255, 0, 0);
+    background-color:#ffffff;
+    color: #fff;
 }

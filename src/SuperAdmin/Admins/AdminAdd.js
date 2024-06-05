@@ -131,7 +131,7 @@ function AddAgent() {
                     <Header />
                 </div>
             </div>
-            <div className="content-wrapper">
+            <div className="content-wrapper me-5">
                 <div className="content-header mt-3">
                     <div className="content container-fluid w-75">
                         <form onSubmit={handleSubmit}>
