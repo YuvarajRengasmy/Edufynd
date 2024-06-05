@@ -66,15 +66,15 @@ const ListProgram = () => {
                     <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
-                      <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-normal">{program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
                           <div className="col-4 text-center">
-                            <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
+                            <h7>Course :<span className="text-info fw-normal">{program.courseType}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
-                            <h6 className="text-success fw-bold">{program.programTitle}</h6>
+                            <h6 className="text-success fw-normal">{program.programTitle}</h6>
                             <small>{program.country}</small>
                             <small className="d-block">{program.courseFees}</small>
                             <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
@@ -118,15 +118,15 @@ const ListProgram = () => {
                     <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
-                      <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-normal">{program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
                           <div className="col-4 text-center">
-                            <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
+                            <h7>Course :<span className="text-info fw-normal">{program.courseType}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
-                            <h6 className="text-success fw-bold">{program.programTitle}</h6>
+                            <h6 className="text-success fw-normal">{program.programTitle}</h6>
                             <small>{program.country}</small>
                             <small className="d-block">{program.courseFees}</small>
                             <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
@@ -169,12 +169,12 @@ const ListProgram = () => {
                     <div className="card border-0 rounded-2 shadow" style={{ width: '24rem',height:"12rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
-                      <h5 className='ms-3 mt-4'><span className="text-info fw-bold">{program.universityName}</span> </h5>
+                      <h5 className='ms-3 mt-4'><span className="text-info fw-norma">{program.universityName}</span> </h5>
                       </div>
                       <div className="card-body">
                         <div className="d-flex">
                           <div className="col-4 text-center">
-                            <h7>Course :<span className="text-info fw-bold">{program.courseType}</span> </h7>
+                            <h7>Course :<span className="text-info fw-normal">{program.courseType}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
                             <h6 className="text-success fw-bold">{program.programTitle}</h6>

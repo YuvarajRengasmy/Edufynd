@@ -194,33 +194,33 @@ export const Course = () => {
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
-                                                        <div className="h6 fw-bold"><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
+                                                        <div className="h6 "><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Application Fee</div>
-                                                        <div className="h6 fw-bold">{program?.applicationFee}</div>
+                                                        <div className="h6 ">{program?.applicationFee}</div>
                                                     </div>
                                                     <div className="col-sm-6 ">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
-                                                        <div className="h6 fw-bold">{program?.courseFee}</div>
+                                                        <div className="h6 ">{program?.courseFee}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
-                                                        <div className="h6 fw-bold">{program?.duration}</div>
+                                                        <div className="h6 ">{program?.duration}</div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Discounted Value</div>
-                                                        <div className="h6 fw-bold">{program?.discoubtedValue}</div>
+                                                        <div className="h6 ">{program?.discoubtedValue}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize"> Commission</div>
-                                                        <div className="h6 fw-bold">{program?.commission}</div>
+                                                        <div className="h6 ">{program?.commission}</div>
                                                     </div>
                                                 </div>
                                             </div>
