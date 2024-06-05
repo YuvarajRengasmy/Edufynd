@@ -76,7 +76,7 @@ export const HeroContent = () => {
     const off = gradientOffset();
     return (
 
-        <div className='two'>
+        <div className=''>
             <nav className="navbar navbar-expand-lg mt-2 ">
                 <div className="container">
 
