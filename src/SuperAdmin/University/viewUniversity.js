@@ -182,9 +182,9 @@ const UserProfile = () => {
 
                   <div className="col-lg-6">
                     <div className="alert alert-primary text-center " role="alert">
-                      A simple primary alert with an UniverSity Details.
+                       University Details.
                     </div>
-                    <h4 className=" h6 text-decoration-underline text-uppercase" style={{ color: '#fe5722' }}>Info</h4>
+                   
 
                     <div className="card  border-0  shadow mt-3">
                       <div className="card-body">

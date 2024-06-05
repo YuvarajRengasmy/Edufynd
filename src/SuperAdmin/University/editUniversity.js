@@ -254,7 +254,7 @@ function Profile() {
                     <div className=' position-relative'>
                   
                   <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
-                  <img class="card-img-top  " src={university?.banner ? university?.banner: "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{width:'100%',height :'12rem',objectFit:'cover'}} />
+                  <img class="card-img-top  " src={university?.banner ? university?.banner: "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{width:'58rem',height :'12rem',objectFit:'cover'}} />
 
                           </label>
                          
