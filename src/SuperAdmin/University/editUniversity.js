@@ -258,7 +258,7 @@ function Profile() {
                     <div className="card rounded-2 border-0 ">
                       <div className=' position-relative'>
                     <img class="card-img-top " src="https://hips.hearstapps.com/hmg-prod/images/berry-college-historic-campus-at-twilight-royalty-free-image-1652127954.jpg?crop=1.00xw:0.752xh;0.00160xw,0.120xh&resize=1200:*" alt="image" style={{width:'100%',height :'15rem'}} />
-                    <img class="img-fluid rounded-pill position-absolute  " src="https://static.vecteezy.com/system/resources/previews/006/470/649/non_2x/university-education-logo-design-template-free-vector.jpg" alt="image" style={{width:'10rem',height:'10rem',left:'40%',top:'20%'}}  />
+                    <img class="img-fluid rounded-pill position-absolute  " src="https://static.vecteezy.com/system/resources/previews/006/470/649/non_2x/university-education-logo-design-template-free-vector.jpg" alt="image" style={{width:'10rem',height:'10rem',left:'40%',top:'17%'}}  />
                     </div>
                       <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
