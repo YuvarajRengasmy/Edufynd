@@ -6,11 +6,11 @@ export const saveClient = (data) => {
 }
 
 export const getallClient = () => {
-    return API.get(`${Client}/getallclient`)
+    return API.get(`${Client}/`)
 }
 
 export const getSingleClient = (data) => {
-    return API.get(`${Client}/getsingleclient`, { params: { _id: data } });
+    return API.get(`${Client}/getSingleClient`, { params: { _id: data } });
   };
   export const deleteClient = (data) => {
     return API.delete(`${Client}`, { params: { _id: data } });

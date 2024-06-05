@@ -138,38 +138,30 @@ function Profile() {
   };
 
 
-  // const handleImageChange = (e) => {
-  //   const selectedFile = e.target.files[0];
-  //   if (selectedFile) {
-  //     // Check if file size exceeds the maximum allowed size (10 MB in this example)
-  //     if (selectedFile.size > 10 * 1024 * 1024) {
-  //       console.error("File size exceeds the limit.");
-  //       return;
-  //     }
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setUniversity((prevUniversity) => ({
-  //         ...prevUniversity,
-  //         universityLogo: reader.result,
-  //       }));
-  //     };
-  //     reader.readAsDataURL(selectedFile);
-  //   } else {
-  //     setUniversity((prevUniversity) => ({
-  //       ...prevUniversity,
-  //       universityLogo: null,
-  //     }));
-  //   }
-  // };
-  
 
 
 
 
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        [name]: reader.result,
+      }));
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
 
   const handleInputs = (event) => {
-    const { name, value } = event.target;
-
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else {
     setUniversity((prevUniversity) => {
       const updatedUniversity = { ...prevUniversity, [name]: value };
 
@@ -181,6 +173,7 @@ function Profile() {
 
       return updatedUniversity;
     });
+  }
     if (submitted) {
       const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);
@@ -251,6 +244,38 @@ function Profile() {
 
                   <div className="col-xl-12 ">
                     <div className="card rounded-2 border-0 ">
+                    <div className=' position-relative'>
+                  
+                  <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
+                  <img class=" object-fit-cover  " src={university?.banner ? university?.banner: "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{width:'55rem',height :'10rem'}} />
+
+                          </label>
+                         
+                            <input
+                              name="banner"
+                              id="banner"
+                              type="file"
+                              accept="image/*"
+                              className="form-control border-0 text-dark bg-transparent"
+                              style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              onChange={handleInputs}
+                            />
+
+                 
+                  <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
+                  <img class="img-fluid rounded-pill position-absolute  " src= {university?.universityLogo ? university?.universityLogo :"https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} alt="image" style={{width:'8rem',height:'7rem',left:'40%',top:'20%'}}  />
+                          </label>
+                         
+                            <input
+                              name="universityLogo"
+                              id="fileInputImage"
+                              type="file"
+                              accept="image/*"
+                              className="form-control border-0 text-dark bg-transparent"
+                              style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              onChange={handleInputs}
+                            />
+                  </div>
                       <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
                           University Details :

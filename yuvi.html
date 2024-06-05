@@ -1,0 +1,222 @@
+import React, { useEffect, useState } from 'react';
+import { getallCountry } from "../../api/globalsettings";
+import { getallClient } from "../../api/client";
+import { isValidEmail } from '../../Utils/Validation';
+import { toast } from 'react-toastify';
+import { useNavigate, Link } from 'react-router-dom';
+import { saveUniversity } from '../../api/university';
+import Sidebar from "../../compoents/sidebar";
+import Select from 'react-select';
+import Flags from 'react-world-flags';
+import CountryRegion from "countryregionjs";
+import { updateUniversity, getSingleUniversity } from "../../api/university";
+
+
+
+
+function Profile() {
+  const initialState = {
+    businessName: "",
+    banner: "",
+    universityLogo: "",
+  };
+
+  const initialStateErrors = {
+    businessName: { required: false },
+    universityLogo: { required: false },
+    banner: { required: false },
+  
+  };
+
+  const [university, setUniversity] = useState(initialState);
+
+  const [errors, setErrors] = useState(initialStateErrors);
+  const [submitted, setSubmitted] = useState(false);
+  const [client, setClient] = useState([]);
+  
+  const navigate = useNavigate();
+
+  const handleValidation = (data) => {
+    let error = { ...initialStateErrors };
+    if (data.universityName === "") error.universityName.required = true;
+    if (data.businessName === "") error.businessName.required = true;
+   
+  };
+
+  useEffect(() => {
+    getClientList();
+
+  }, []);
+
+  const getClientList = () => {
+    getallClient()
+      .then((res) => {
+        const value = res?.data?.result;
+        setClient(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+
+ 
+
+
+
+
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+
+    setUniversity((prevUniversity) => {
+      const updatedUniversity = { ...prevUniversity, [name]: value };
+
+
+      if (name === "countryName") {
+        const details = countryToDetails[value] || { currency: "", flag: "" };
+        return { ...updatedUniversity, ...details };
+      }
+
+      return updatedUniversity;
+    });
+    if (submitted) {
+      const newError = handleValidation({ ...university, [name]: value });
+      setErrors(newError);
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(university);
+    setErrors(newError);
+    setSubmitted(true);
+    const allInputsValid = Object.values(newError);
+    const valid = allInputsValid.every((x) => x.required === false);
+    if (valid) {
+      saveUniversity(university)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          navigate("/ListUniversity");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    }
+  };
+
+
+
+
+  const popularCategoriesOptions = client.map((data) => ({
+    value: data.businessName,
+    label: data.businessName
+  }));
+
+  return (
+
+    <>
+      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div class="">
+          <div class="">
+            <Sidebar />
+
+          </div>
+        </div>
+        <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+          <div className="content-header ">
+            <div className="content container-fluid ">
+              <form onSubmit={handleSubmit} >
+
+                <div className="row">
+
+                  <div className="col-xl-12 ">
+                    <div className="card rounded-2 border-0 ">
+                      <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                          University Details :
+                        </div>
+
+                      </div>
+                      <div className="card-body">
+                        <div className="row gy-4">
+                          
+                          
+
+                         
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label htmlFor="universityLogo" className="form-label" style={{ color: "#231F20" }}>University Logo<span className="text-danger">*</span>
+                            </label>
+                           
+                            <input
+                              type="file"
+                              id="universityLogo"
+                              name="universityLogo"
+                              accept="image/*"
+                              className="form-control border-0 text-dark bg-transparent"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              onChange={handleInputs}
+                            />
+
+
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label htmlFor="banner" style={{ color: "#231F20" }}>
+                              {" "}
+                              Banner<span className="text-danger">*</span>
+                            </label>
+                           
+                             <input
+                              type="file"
+                              id="banner"
+                              name="banner"
+                              accept="image/*"
+                              className="form-control border-0 text-dark bg-transparent"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              onChange={handleInputs}
+                            />
+
+                          </div>
+
+
+                         
+                        
+
+
+
+
+                         
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                            <Link
+                              style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+
+                              to="/ListUniversity"
+                              className="btn btn-cancel border text-white w-50 m-2"
+                            >
+                              Cancel
+                            </Link>
+                            <button
+                              style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+
+                              type="submit"
+                              className="btn btn-save border text-white w-50 m-2"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+
+}
+export default Profile;
