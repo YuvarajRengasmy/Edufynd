@@ -149,10 +149,7 @@ function Profile() {
   };
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
-    if (file && file.size > 5242880) { // 5 MB limit (5242880 bytes)
-      toast.error('File size exceeds the limit (5 MB)');
-      return;
-    }
+   
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -254,8 +251,36 @@ function Profile() {
                   <div className="col-xl-12 ">
                     <div className="card rounded-2 border-0 ">
                       <div className=' position-relative'>
-                    <img class="card-img-top " src="https://hips.hearstapps.com/hmg-prod/images/berry-college-historic-campus-at-twilight-royalty-free-image-1652127954.jpg?crop=1.00xw:0.752xh;0.00160xw,0.120xh&resize=1200:*" alt="image" style={{width:'100%',height :'15rem'}} />
-                    <img class="img-fluid rounded-pill position-absolute  " src="https://static.vecteezy.com/system/resources/previews/006/470/649/non_2x/university-education-logo-design-template-free-vector.jpg" alt="image" style={{width:'10rem',height:'10rem',left:'40%',top:'20%'}}  />
+                  
+                    <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
+                    <img class="card-img-top " src={university?.banner ? university?.banner: "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{width:'58rem',height :'10rem'}} />
+
+                            </label>
+                           
+                              <input
+                                name="banner"
+                                id="banner"
+                                type="file"
+                                accept="image/*"
+                                className="form-control border-0 text-dark bg-transparent"
+                                style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                onChange={handleInputs}
+                              />
+
+                   
+                    <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
+                    <img class="img-fluid rounded-pill position-absolute  " src= {university?.universityLogo ? university?.universityLogo :"https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} alt="image" style={{width:'8rem',height:'7rem',left:'40%',top:'20%'}}  />
+                            </label>
+                           
+                              <input
+                                name="universityLogo"
+                                id="fileInputImage"
+                                type="file"
+                                accept="image/*"
+                                className="form-control border-0 text-dark bg-transparent"
+                                style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                onChange={handleInputs}
+                              />
                     </div>
                       <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
@@ -327,7 +352,7 @@ function Profile() {
                             ) : null}
                           </div>
 
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>University Logo<span className="text-danger">*</span>
                               <img src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} width="180" height="180" alt="Preview" style={{ objectFit: "cover" }} className="preview-image" />
@@ -363,7 +388,7 @@ function Profile() {
                                 onChange={handleInputs}
                               /></i>
 
-                          </div>
+                          </div> */}
 
 
 

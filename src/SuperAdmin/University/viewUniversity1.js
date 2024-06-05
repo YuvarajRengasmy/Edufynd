@@ -1,13 +1,13 @@
 import React from 'react';
 import './University.css'
 
-import HoverBar from '../../compoents/hoverbar';
+// import HoverBar from '../../compoents/hoverbar';
 export const ViewUniversity1 = () => {
     return (
         <div className=" "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div className="">
                 <div className='d-none d-xl-block'>
-                    <HoverBar/>
+                    {/* <HoverBar/> */}
                 </div>
                 <div className="container">
                     <div className='row'>

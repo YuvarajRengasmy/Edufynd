@@ -7,7 +7,7 @@ import Sidebar from '../../compoents/sidebar';
 import Flags from 'react-world-flags';
 import { Pagination } from "@mui/material";
 import { University } from "../../api/endpoints";
-import HoverBar from "../../compoents/hoverbar";
+// import HoverBar from "../../compoents/hoverbar";
 
 export const Course = () => {
 
@@ -66,7 +66,7 @@ export const Course = () => {
             <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="">
                     <div className='d-none d-lg-block'>
-                        <HoverBar />
+                       <Sidebar />
                     </div>
                   
                     <div className="container">
