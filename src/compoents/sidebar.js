@@ -69,7 +69,7 @@ const Sidebar = () => {
                 </a>
                 <div className="collapse" id="collapse1">
                   <ul className='nav d-flex flex-column border-0 ps-4'>
-                    <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize   fw-semibold">Student form</a></li>
+                    <li className='nav-item'><a href="/StudentForm" className="nav-link text-dark text-capitalize   fw-semibold">Student form</a></li>
                     <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Forex Form</a></li>
                     <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Accommodation</a></li>
                     <li className='nav-item'><a href="#" className="nav-link text-dark  text-capitalize  fw-semibold">Flight Ticket</a></li>
