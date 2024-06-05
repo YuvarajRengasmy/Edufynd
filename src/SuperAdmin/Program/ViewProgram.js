@@ -74,7 +74,7 @@ export const Course = () => {
                                 <div className="row g-3 mt-2">
                                     <div className="col-md-4 d-flex justify-content-center align-items-start">
                                         <img
-                                            src={program?.universityLogo?program?.universityLogo:"https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"}
+                                            src={program?.universityLogo ? program?.universityLogo : "https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"}
                                             className="img-fluid rounded-circle" style={{ width: "150px", height: "150px" }}
                                             alt="Berry College Campus"
                                         />
@@ -115,7 +115,7 @@ export const Course = () => {
                                                                 program.campus.map((campus, index) => (
                                                                     <div key={index} className='col-sm-4'>
                                                                         <div className="card border-0 rounded-3 shadow " style={{ width: '8rem', height: "11rem" }}>
-                                                                            <img src={program?.universityLogo?program?.universityLogo:"https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
+                                                                            <img src={program?.universityLogo ? program?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
                                                                             <div className="card-body">
                                                                                 <p className="card-text text-center">{campus}</p>
                                                                             </div>
@@ -136,17 +136,17 @@ export const Course = () => {
                                                                 program.inTake.map((inTake, index) => (
                                                                     <div key={index} className='col-sm-4'>
                                                                         <div className="card border-0 rounded-3 shadow " >
-                                                                        <div className="card-header bg-primary">
-                                                <p className="text-center text-uppercase fw-semibold">{inTake}</p>
-                                            </div>
-                                                                            
+                                                                            <div className="card-header bg-primary">
+                                                                                <p className="text-center text-uppercase fw-semibold">{inTake}</p>
+                                                                            </div>
+
                                                                             <div className="card-body">
-                                                                        <div className="d-flex flex-column align-items-start justify-content-evenly" style={{fontSize:'12px'}}>
-                                                                        <p className="card-text fw-semibold">Start Date -</p>
-                                                                                <p className="card-text fw-semibold ">End Date -</p>
-                                                                        </div>
-                                                                                
-                                                                                
+                                                                                <div className="d-flex flex-column align-items-start justify-content-evenly" style={{ fontSize: '12px' }}>
+                                                                                    <p className="card-text fw-semibold">Start Date -</p>
+                                                                                    <p className="card-text fw-semibold ">End Date -</p>
+                                                                                </div>
+
+
 
                                                                             </div>
                                                                         </div>
@@ -181,7 +181,7 @@ export const Course = () => {
                                         <h4 className=" text-decoration-underline text-uppercase" style={{ color: '#fe5722' }}>Info</h4>
 
                                         <div className="card  border-0  shadow mt-3">
-                                        
+
                                             <div className="card-body">
 
                                                 <div className="row gy-3 py-2">

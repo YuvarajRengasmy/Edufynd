@@ -9,11 +9,19 @@ import banner from '../../styles/Assets/Student/EventBanner.png';
 import { CiSearch } from 'react-icons/ci';
 import { Chip } from '@mui/material';
 import Flags from 'react-world-flags';
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+
 
 const Program = () => {
 
   const [university, setUniversity] = useState([]);
   const [program, setProgram] = useState([]);
+  const pageSize = 5;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
  
   const navigate = useNavigate();
 
@@ -31,6 +39,12 @@ const Program = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
   };
   const getProgramList = () => {
     getAllProgramForWeb()
@@ -155,6 +169,15 @@ const Program = () => {
                 
                   ))}
                 </div>
+                <div className="float-right my-2">
+                  <Pagination
+                    count={Math.ceil(pagination.count / pageSize)}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
+                </div>
               </div>
             </div>
             <div className='px-12 mx-6'>
@@ -176,10 +199,13 @@ const Program = () => {
                       <div className="card-body">
                         <div className="d-flex">
                           <div className="col-4 text-center">
-                            <h7>Course :<span className="text-info ">{program.courseType}</span> </h7>
+                            <h7>Course Fee :<span className="text-info fw-bold">{program.courseFee}</span> </h7>
                           </div><br /><br />
                           <div className="col-6">
-                            <h6 className="text-success fw-normal">{program.programTitle}</h6>
+                            <h6 className="text-success fw-bold"><Link className='text-decoration-none' to={{
+                                    pathname: "/ViewProgramUniversity",
+                                    search: `?id=${program?._id}`,
+                                  }}>{program.programTitle}</Link></h6>
                             <small>{program.country}</small>
                             <small className="d-block">{program.courseFees}</small>
                             <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake : <fastar className="text-primary fw-2"> {program?.inTake}</fastar></pidotoutlinefill></ioticketsharp></small></h6>
@@ -194,20 +220,14 @@ const Program = () => {
                 ))}
                  
                 </div>
-                <div className='mt-8 d-grid  col-xl-12 mx-auto'>
-                  <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item disabled">
-                        <a class="page-link">Previous</a>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                      </li>
-                    </ul>
-                  </nav>
+                <div className="float-right my-2">
+                  <Pagination
+                    count={Math.ceil(pagination.count / pageSize)}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
                 </div>
               </div>
              
