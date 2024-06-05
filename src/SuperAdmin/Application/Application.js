@@ -10,12 +10,12 @@ export const Application = () => {
 
         </div>
       </div>
-      <div className="content-wrapper me-5" style={{ backgroundColor: '#fff' }}>
+      <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
         <div className="content-header ">
           <div className="container-fluid">
             <div className='row align-items-start'>
-              <div className='col-12'>
-                <div className='card border-0 shadow '>
+              <div className='col'>
+                <div className='card border-0 shadow px-4 '>
 
                   <div className='card-body' >
 
@@ -31,14 +31,14 @@ export const Application = () => {
                       <button type="button" class="position-absolute top-0  translate-middle btn btn-sm btn-success rounded-pill" style={{ width: "2rem", height: "2rem", left: "80%" }}> <i className="fa fa-check" aria-hidden="true" /></button>
                       <button type="button" class="position-absolute top-0  translate-middle btn btn-sm btn-secondary rounded-pill" style={{ width: "2rem", height: "2rem", left: "100%" }}> <i className="fa fa-registered" aria-hidden="true" /></button>
                     </div>
-                    <div className='row'>
-                      <div className='d-flex flex-row align-items-start justify-content-between'>
-                      <div className='col  fw-bold ' style={{fontSize:'12px'}}>Application Submitted</div>
-                      <div className='col  fw-bold' style={{fontSize:'12px'}}>Processed</div>
-                      <div className='col   fw-bold' style={{fontSize:'12px'}}>Rejected</div>
-                      <div className='col  fw-bold' style={{fontSize:'12px'}}>Offered</div>
-                      <div className='col   fw-bold' style={{fontSize:'12px'}}>Fees Paid</div>
-                      <div className='col   fw-bold' style={{fontSize:'12px'}}>Enrolled</div>
+                    <div className='row d-none d-lg-block'>
+                      <div className='d-flex  '>
+                      <div className='col-sm-2  fw-bold ' style={{fontSize:'12px'}}>Application Submitted</div>
+                      <div className='col-sm-2   fw-bold' style={{fontSize:'12px'}}>Processed</div>
+                      <div className='col-sm-2   fw-bold' style={{fontSize:'12px'}}>Rejected</div>
+                      <div className='col-sm-2   fw-bold' style={{fontSize:'12px'}}>Offered</div>
+                      <div className='col-sm-2   fw-bold' style={{fontSize:'12px'}}>Fees Paid</div>
+                      <div className='col-sm-2  fw-bold' style={{fontSize:'12px'}}>Enrolled</div>
                       </div>
                     
                     </div>

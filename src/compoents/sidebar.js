@@ -12,9 +12,9 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <aside className="main-sidebar elevation-6" style={{ backgroundColor: 'white', color: 'black', fontFamily: 'helvetica', fontSize: '12px', position: 'fixed', width: "195px", height: '100%', overflowY: 'auto', scrollbarWidth: 'none' }} >
-        <div className="d-md-none  shadow-lg rounded  ">
-        </div>
+      <aside className="main-sidebar elevation-6 d-none d-lg-block" style={{ backgroundColor: 'white', color: 'black', fontFamily: 'helvetica', fontSize: '12px', position: 'fixed', width: "195px", height: '100%', overflowY: 'auto', scrollbarWidth: 'none' }} >
+        <div className="  shadow-lg rounded  ">
+        
         <div className="sidebar">
 
           <div className="user-panel mt-2  d-flex">
@@ -297,6 +297,7 @@ const Sidebar = () => {
             </ul>
             <br />
           </nav>
+        </div>
         </div>
       </aside>
     </div>
