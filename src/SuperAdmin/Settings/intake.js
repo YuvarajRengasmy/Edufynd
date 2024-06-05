@@ -2,7 +2,7 @@ import Mastersidebar from '../../compoents/sidebar';
 import { FaFilter } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
-import { saveStatus, getFilterStatus, getallStatus, deleteStatus } from '../../api/status';
+import { saveIntake, getFilterIntake, getallIntake, deleteIntake,updateIntake } from '../../api/intake';
 import { toast } from 'react-toastify';
 import React, { useEffect, useState, useRef } from "react";
 import { ExportCsvService } from "../../Utils/Excel";
@@ -10,13 +10,15 @@ import { templatePdf } from "../../Utils/PdfMake";
 
 export default function GlobalSettings() {
   const initialStateInputs = {
-    statusName: "",
-    duration: "",
+    intakeName: "",
+    startDate: "",
+    endDate: "",
   };
   
   const initialStateErrors = {
-    statusName: { required: false },
-    duration: { required: false },
+    intakeName: { required: false },
+   startDate: { required: false },
+   endDate: { required: false },
   };
 
   const [open, setOpen] = useState(false);
@@ -34,35 +36,40 @@ export default function GlobalSettings() {
     from: 0,
     to: pageSize,
   });
-  const [statusList, setStatusList] = useState([]);
+  const [intakeList, setIntakeList] = useState([]);
+  const [isEdit, setIsEdit] = useState(false); // New state to check if the modal is in edit mode
+  const [editId, setEditId] = useState(null); 
   const modalRef = useRef(null);
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
 
-    if (!data.statusName) {
+    if (!data.intakeName) {
       error.statusName.required = true;
     }
-    if (!data.duration) {
-      error.duration.required = true;
+    if (!data.startDate) {
+      error.startDate.required = true;
     }
+    if (!data.endDate) {
+        error.endDate.required = true;
+      }
     return error;
   };
 
   useEffect(() => {
-    getAllStatusDetails();
+    getAllIntakeDetails();
   }, [pagination.from, pagination.to]);
 
-  const getAllStatusDetails = () => {
+  const getAllIntakeDetails = () => {
     const data = {
       limit: pageSize,
       page: pagination.from,
     };
-    getFilterStatus(data)
+    getFilterIntake(data)
       .then((res) => {
-        setStatusList(res?.data?.result?.statusList || []);
+        setIntakeList(res?.data?.result?.intakeList || []);
         setPagination({
           ...pagination,
-          count: res?.data?.result?.statusCount || 0,
+          count: res?.data?.result?.intakeCount || 0,
         });
       })
       .catch((err) => {
@@ -76,12 +83,12 @@ export default function GlobalSettings() {
     setPagination({ ...pagination, from: from, to: to });
   };
 
-  const deleteStatusData = () => {
-    deleteStatus(deleteId)
+  const deleteIntakeData = () => {
+    deleteIntake(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();
-        getAllStatusDetails();
+        getAllIntakeDetails();
       })
       .catch((err) => {
         console.log(err);
@@ -92,21 +99,22 @@ export default function GlobalSettings() {
     setOpen(false);
   };
 
-  const filterStatusList = (event) => {
+  const filterIntakeList = (event) => {
     event?.preventDefault();
     setFilter(true);
     const data = {
-      statusName: inputs.statusName,
-      duration: inputs.duration,
+      intakeName: inputs.intakeName,
+      startDate: inputs.startDate,
+      endDate: inputs.endDate,
       limit: pageSize,
       page: pagination.from,
     };
-    getFilterStatus(data)
+    getFilterIntake(data)
       .then((res) => {
-        setStatusList(res?.data?.result?.statusList || []);
+        setIntakeList(res?.data?.result?.intakeList || []);
         setPagination({
           ...pagination,
-          count: res?.data?.result?.statusCount || 0,
+          count: res?.data?.result?.intakeCount || 0,
         });
         closeFilterPopup();
       })
@@ -122,7 +130,7 @@ export default function GlobalSettings() {
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
-    getAllStatusDetails();
+    getAllIntakeDetails();
   };
 
   const openFilterPopup = () => {
@@ -137,52 +145,116 @@ export default function GlobalSettings() {
     setOpen(true);
     setDeleteId(data);
   };
+  const openEditPopup = (intake) => {
+    setIsEdit(true);
+    setEditId(intake._id);
+    setInputs({
+      intakeName: intake.intakeName,
+      startDate: intake.startDate,
+      endDate: intake.endDate,
+    });
+    const modalElement = document.getElementById("addCountryModal");
+    if (modalElement) {
+      const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
+      bootstrapModal.show();
+    }
+  };
 
-  const handleSubmit = (event) => {
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     const newError = handleValidation(inputs);
+//     setErrors(newError);
+//     setSubmitted(true);
+//     const allInputsValid = Object.values(newError).every((x) => !x.required);
+//     if (allInputsValid) {
+//       saveIntake(inputs)
+//         .then((res) => {
+//           toast.success(res?.data?.message);
+//           event.target.reset();
+//           setInputs(initialStateInputs);
+//           setErrors(initialStateErrors);
+//           setSubmitted(false);
+//           getAllIntakeDetails();
+//           if (modalRef.current) {
+//             modalRef.current.hide();
+//           } // Refresh the list after adding new status
+//         })
+//         .catch((err) => {
+//           toast.error(err?.response?.data?.message);
+//         });
+//     }
+//   };
+
+const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
     const allInputsValid = Object.values(newError).every((x) => !x.required);
     if (allInputsValid) {
-      saveStatus(inputs)
-        .then((res) => {
-          toast.success(res?.data?.message);
-          event.target.reset();
-          setInputs(initialStateInputs);
-          setErrors(initialStateErrors);
-          setSubmitted(false);
-          getAllStatusDetails();
-          if (modalRef.current) {
-            modalRef.current.hide();
-          } // Refresh the list after adding new status
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
+      if (isEdit) {
+        updateIntake({ ...inputs, id: editId }) // Pass the ID for updating
+          .then((res) => {
+            toast.success(res?.data?.message);
+            event.target.reset();
+            setInputs(initialStateInputs);
+            setErrors(initialStateErrors);
+            setSubmitted(false);
+            setIsEdit(false);
+            getAllIntakeDetails();
+            const modalElement = document.getElementById("addCountryModal");
+            if (modalElement) {
+              const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
+              bootstrapModal.hide();
+            }
+          })
+          .catch((err) => {
+            toast.error(err?.response?.data?.message);
+          });
+      } else {
+        saveIntake(inputs)
+          .then((res) => {
+            toast.success(res?.data?.message);
+            event.target.reset();
+            setInputs(initialStateInputs);
+            setErrors(initialStateErrors);
+            setSubmitted(false);
+            getAllIntakeDetails();
+            const modalElement = document.getElementById("addCountryModal");
+            if (modalElement) {
+              const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
+              bootstrapModal.hide();
+            }
+          })
+          .catch((err) => {
+            toast.error(err?.response?.data?.message);
+          });
+      }
     }
   };
 
   const pdfDownload = (event) => {
     event?.preventDefault();
-    getallStatus()
+    getallIntake()
       .then((res) => {
         const result = res?.data?.result || [];
         const tablebody = [
           [
             { text: "S.NO", fontSize: 11, alignment: "center", margin: [5, 5], bold: true },
-            { text: "Status Name", fontSize: 11, alignment: "center", margin: [20, 5], bold: true },
-            { text: "Duration", fontSize: 11, alignment: "center", margin: [20, 5], bold: true },
+            { text: "Intake Name", fontSize: 11, alignment: "center", margin: [20, 5], bold: true },
+            { text: "Start Date", fontSize: 11, alignment: "center", margin: [20, 5], bold: true },
+            { text: "End Date", fontSize: 11, alignment: "center", margin: [20, 5], bold: true },
           ],
         ];
         result.forEach((element, index) => {
           tablebody.push([
             { text: index + 1, fontSize: 10, alignment: "left", margin: [5, 3], border: [true, false, true, true] },
-            { text: element?.statusName ?? "-", fontSize: 10, alignment: "left", margin: [5, 3] },
-            { text: element?.duration ?? "-", fontSize: 10, alignment: "left", margin: [5, 3] },
+            { text: element?.intakeName ?? "-", fontSize: 10, alignment: "left", margin: [5, 3] },
+            { text: element?.startDate ?? "-", fontSize: 10, alignment: "left", margin: [5, 3] },
+            { text: element?.endDate ?? "-", fontSize: 10, alignment: "left", margin: [5, 3] },
           ]);
         });
-        templatePdf("StatusName List", tablebody, "landscape");
+        templatePdf("IntakeName List", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -191,16 +263,18 @@ export default function GlobalSettings() {
 
   const exportCsv = (event) => {
     event?.preventDefault();
-    getallStatus()
+    getallIntake()
       .then((res) => {
         const result = res?.data?.result || [];
         const list = result.map((res) => ({
-          statusName: res?.statusName ?? "-",
-          duration: res?.duration ?? "-",
+          intakeName: res?.intakeName ?? "-",
+         startDate: res?.startDtae?? "-",
+         endDate: res?.endDtae?? "-",
+
         }));
-        const header1 = ["statusName", "duration"];
-        const header2 = ["StatusName", "Duration"];
-        ExportCsvService.downloadCsv(list, "statusList", "Status List", header1, header2);
+        const header1 = ["intakeName", "startDate", "endDate"];
+        const header2 = ["IntakeName", "StartDate", "EndDate"];
+        ExportCsvService.downloadCsv(list, "intakeList", "Intake List", header1, header2);
       })
       .catch((err) => {
         console.log(err);
@@ -258,27 +332,40 @@ export default function GlobalSettings() {
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">
-                          <form onSubmit={filterStatusList}>
+                          <form onSubmit={filterIntakeList}>
                             <div>
                               <div className="mb-3">
-                                <label htmlFor="statusName" className="form-label">Status Name</label>
+                                <label htmlFor="intakeName" className="form-label">Intake Name</label>
                                 <input
                                   type="text"
                                   className="form-control"
-                                  id="statusName"
-                                  name="statusName"
-                                  value={inputs.statusName}
+                                  id="startDate"
+                                  name="intakeName"
+                                  value={inputs.intakeName}
                                   onChange={handleInputs}
                                 />
                               </div>
                               <div className="mb-3">
-                                <label htmlFor="duration" className="form-label">Duration</label>
+                                <label htmlFor="startDate" className="form-label">Start Date</label>
                                 <input
                                   type="text"
                                   className="form-control"
-                                  id="duration"
-                                  name="duration"
-                                  value={inputs.duration}
+                                  id="startDate"
+                                  name="startDate"
+                                  value={inputs.startDate}
+                           
+                                  onChange={handleInputs}
+                                />
+                              </div>
+                              <div className="mb-3">
+                                <label htmlFor="endDate" className="form-label">End Date</label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  id="endDate"
+                                  name="endDate"
+                                  value={inputs.endDate}
+                           
                                   onChange={handleInputs}
                                 />
                               </div>
@@ -306,7 +393,7 @@ export default function GlobalSettings() {
                       data-bs-toggle="modal"
                       data-bs-target="#addCountryModal"
                     >
-                      Add Status
+                      Add Intake
                     </button>
                   </li>
                   <li className="breadcrumb-item">
@@ -349,29 +436,32 @@ export default function GlobalSettings() {
         <div className="container-fluid mt-3">
           <div className="card">
             <div className="card-header d-flex align-items-center" style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-              <h3 className="card-title flex-grow-1">Application Status</h3>
+              <h3 className="card-title flex-grow-1">Intake List</h3>
             </div>
             <div className="card-body">
               <table className="table table-hover text-nowrap">
                 <thead>
                   <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
                     <th style={{ width: "10px" }}>S.No</th>
-                    <th>Status Name</th>
-                    <th>Duration</th>
+                    <th>Intake Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th style={{ width: "40px" }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {statusList.length > 0 ? (
-                    statusList.map((status, index) => (
+                  {intakeList.length > 0 ? (
+                    intakeList.map((intake, index) => (
                       <tr key={index}  style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
                         <td>{pagination.from + index + 1}</td>
-                        <td>{status.statusName}</td>
-                        <td>{status.duration}</td>
+                        <td>{intake.intakeName}</td>
+                        <td>{intake.startDate}</td>
+                        <td>{intake.endDate}</td>
                         <td>
+                        <button type="button" className="btn btn-info btn-sm m-1" onClick={() => openEditPopup(intake)} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
                           <button
-                            className="btn btn-danger btn-sm"
-                            onClick={() => openPopup(status._id)}
+                            className="btn btn-danger btn-sm m-2"
+                            onClick={() => openPopup(intake._id)}
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                           >
                             Delete
@@ -413,7 +503,7 @@ export default function GlobalSettings() {
               </button>
               <button
                 className="btn btn-danger"
-                onClick={deleteStatusData}
+                onClick={deleteIntakeData}
               >
                 Delete
               </button>
@@ -421,46 +511,58 @@ export default function GlobalSettings() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="modal fade" id="addCountryModal" tabIndex={-1} aria-labelledby="addCountryModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
+      <div className="modal fade" id="addCountryModal" tabIndex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true" ref={modalRef}>
+        <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="addCountryModalLabel">Add Status</h5>
+              <h5 className="modal-title" id="addCountryModalLabel">{isEdit ? "Edit Intake" : "Add Intake"}</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="mb-3">
-                  <label htmlFor="statusName" className="form-label">Status Name</label>
+                  <label htmlFor="intakeName" className="form-label">Intake Name</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="statusName"
-                    name="statusName"
-                    value={inputs.statusName}
+                    id="intakeName"
+                    name="intakeName"
+                    value={inputs.intakeName}
                     onChange={handleInputs}
                   />
-                  {submitted && errors.statusName.required && (
-                    <div className="text-danger">Status Name is required</div>
+                  {submitted && errors.intakeName.required && (
+                    <span className="text-danger">Intake Name is required</span>
                   )}
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="duration" className="form-label">Duration</label>
+                  <label htmlFor="startDate" className="form-label">Start Date</label>
                   <input
-                    type="text"
+                    type="date"
                     className="form-control"
-                    id="duration"
-                    name="duration"
-                    value={inputs.duration}
+                    id="startDate"
+                    name="startDate"
+                    value={inputs.startDate}
                     onChange={handleInputs}
                   />
-                  {submitted && errors.duration.required && (
-                    <div className="text-danger">Duration is required</div>
+                  {submitted && errors.startDate.required && (
+                    <span className="text-danger">Start Date is required</span>
                   )}
                 </div>
-                <div className="text-end">
-                  <button type="submit" className="btn btn-primary"  data-bs-dismiss="modal">Add</button>
+                <div className="mb-3">
+                  <label htmlFor="endDate" className="form-label">End Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="endDate"
+                    name="endDate"
+                    value={inputs.endDate}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.endDate.required && (
+                    <span className="text-danger">End Date is required</span>
+                  )}
                 </div>
+                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
               </form>
             </div>
           </div>

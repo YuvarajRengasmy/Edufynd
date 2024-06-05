@@ -6,3 +6,6 @@ export const University ="university";
 export const SuperAdmin ="superadmin";
 export const Program ="program";
 export const Client ="client";
+export const Country ="country";
+export const Status ="status";
+export const Intake ="intake";
