@@ -44,34 +44,34 @@ const Sidebar = () => {
           <nav>
             <ul className="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
               <li className="nav-item mt-1 ">
-                <a href="/" className="nav-link" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }}>
+                <a href="/" className="nav-link" style={{ color: "#231f20",  fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-tachometer-alt " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-                   <p style={{ fontSize: "12px", fontWeight: "bold", color: '#231f20' }} >Dashboard</p>
+                   <p style={{ fontSize: "12px", fontWeight: "bold", }} >Dashboard</p>
                 </a>
               </li>
 
               <li className="nav-item  " >
-                <a href="/ListUniversity" className="nav-link " style={{ fontSize: "12px", fontWeight: "bold", }}>
+                <a href="/ListUniversity" className="nav-link " style={{color: "#231f20", fontSize: "12px", fontWeight: "bold", }}>
                   <i className="nav-icon fas fa-university " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* University Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} >University</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold" }} >University</p>
                 </a>
               </li>
               <li className="nav-item ">
-                <a href="/Programs" className="nav-link" style={{ fontSize: "12px", fontWeight: "bold" }}>
+                <a href="/Programs" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fa  fa-graduation-cap " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Program Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#191725" }}>Program</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold"}}>Program</p>
                 </a>
               </li>
               <li className="nav-item  ">
                 <a href="/StudentDashBoard" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-user " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Program Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} >Student</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold" }} >Student</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="/Application" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-book " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Program Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} >Application</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold" }} >Application</p>
                 </a>
               </li>
               <li className="nav-item" style={{ position: 'relative' }}>
@@ -86,19 +86,19 @@ const Sidebar = () => {
         >
           <div>
             <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <span style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} className='pe-2'> Enquiry</span>
+            <span style={{ fontSize: "12px", fontWeight: "bold"}} className='pe-2'> Enquiry</span>
           </div>
           <i className={`fa fa-angle-right ${isOpen.enquiry ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
         </a>
         <div className={`collapse ${isOpen.enquiry ? 'show' : ''}`} id="collapse1">
           <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><a href="/StudentForm" className="nav-link text-dark text-capitalize fw-semibold">Student form</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Forex Form</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Accommodation</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Flight Ticket</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Loans</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Business Enquiry</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">General Enquiry</a></li>
+            <li className='nav-item'><a href="/StudentForm" className="nav-link  text-capitalize fw-semibold">Student form</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Forex Form</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Accommodation</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Flight Ticket</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Loans</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Business Enquiry</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">General Enquiry</a></li>
           </ul>
         </div>
       </li>
@@ -122,11 +122,11 @@ const Sidebar = () => {
         </a>
         <div className={`collapse ${isOpen.finance ? 'show' : ''}`} id="collapse2">
           <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Expenses</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Income</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Quotation</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Invoice</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Sales Report</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Expenses</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Income</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Quotation</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Invoice</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Sales Report</a></li>
           </ul>
         </div>
       </li>
@@ -143,16 +143,16 @@ const Sidebar = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <i className="nav-icon fas fa-users" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <span style={{ fontSize: "12px", fontWeight: "bold", marginLeft: "5px", color: "#231f20" }}> Users</span>
+            <span style={{ fontSize: "12px", fontWeight: "bold", marginLeft: "5px"}}> Users</span>
           </div>
           <i className={`fa fa-angle-right ${isOpen.users ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
         </a>
         <div className={`collapse ${isOpen.users ? 'show' : ''}`} id="collapse3">
           <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><a href="/ListStudent" className="nav-link text-dark text-capitalize fw-semibold">Students</a></li>
-            <li className='nav-item'><a href="/ListAgent" className="nav-link text-dark text-capitalize fw-semibold">Agents</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Staffs</a></li>
-            <li className='nav-item'><a href="/client" className="nav-link text-dark text-capitalize fw-semibold">Clients</a></li>
+            <li className='nav-item'><a href="/ListStudent" className="nav-link  text-capitalize fw-semibold">Students</a></li>
+            <li className='nav-item'><a href="/ListAgent" className="nav-link  text-capitalize fw-semibold">Agents</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Staffs</a></li>
+            <li className='nav-item'><a href="/client" className="nav-link  text-capitalize fw-semibold">Clients</a></li>
           </ul>
         </div>
       </li>
@@ -161,13 +161,13 @@ const Sidebar = () => {
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fa fa-id-card " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Projects & Tasks</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold",  }} > Projects & Tasks</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-flag " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Marketing</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold",}} > Marketing</p>
                 </a>
               </li>
               <li className="nav-item" style={{ position: 'relative' }}>
@@ -182,14 +182,14 @@ const Sidebar = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} className='pe-2'> ELT</p>
+            <p style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2'> ELT</p>
           </div>
           <i className={`fa fa-angle-right ${isOpen.elt ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
         </a>
         <div className={`collapse ${isOpen.elt ? 'show' : ''}`} id="collapse4">
           <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Booking</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Class Schedule</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Booking</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Class Schedule</a></li>
           </ul>
         </div>
       </li>
@@ -208,19 +208,19 @@ const Sidebar = () => {
         >
           <div>
             <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <span style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} className='pe-2'> HRMS</span>
+            <span style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2'> HRMS</span>
           </div>
           <i className={`fa fa-angle-right ${isOpen.hrms ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
         </a>
         <div className={`collapse ${isOpen.hrms ? 'show' : ''}`} id="collapse5">
           <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Users</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Attendance</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">payroll</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">leaves</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">kpl</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">policies</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">reviews</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Users</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Attendance</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">payroll</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">leaves</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">kpl</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">policies</a></li>
+            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">reviews</a></li>
            
           </ul>
         </div>
@@ -229,56 +229,56 @@ const Sidebar = () => {
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-bell " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Notifications</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold", }} > Notifications</p>
                 </a>
               </li>
 
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-certificate " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Promotion</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold",  }} > Promotion</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-flag " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Training Material</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold",  }} > Training Material</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-calendar" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }}> Events</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold",  }}> Events</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fa fa-flag " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Meetings</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold",  }} > Meetings</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-comment " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Chats</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold", }} > Chats</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fa fa-envelope " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }}> Email</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold", }}> Email</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fa fa-rss " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "11px", fontWeight: "bold", color: "#231f20", }} > Blogs</p>
+                  <p style={{ fontSize: "11px", fontWeight: "bold",  }} > Blogs</p>
                 </a>
               </li>
               <li className="nav-item ">
                 <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-cogs " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
-                  <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20", }} > Testimonials</p>
+                  <p style={{ fontSize: "12px", fontWeight: "bold", }} > Testimonials</p>
                 </a>
               </li>
               <li className="nav-item" style={{ position: 'relative' }}>
@@ -292,8 +292,8 @@ const Sidebar = () => {
           onClick={() => toggleDropdown('settings')}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
-            <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <p style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} className='pe-2'> Settings</p>
+            <i className="nav-icon fa fa-cog fa-spin" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
+            <p style={{ fontSize: "12px", fontWeight: "bold", }} className='pe-2'> Settings</p>
           </div>
           <i className={`fa fa-angle-right ${isOpen.settings ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
         </a>
@@ -310,20 +310,20 @@ const Sidebar = () => {
                 onClick={() => toggleDropdown('globalSettings')}
               >
                 <div>
-                  <span style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} className='pe-2'>Global settings</span>
+                  <span style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2'>Global settings</span>
                 </div>
                 <i className={`fa fa-angle-right ${isOpen.globalSettings ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
               </a>
               <div className={`collapse ${isOpen.globalSettings ? 'show' : ''}`} id="collapse7">
                 <ul className='nav d-flex flex-column border-0 ps-4'>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">University</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Status</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">currency</a></li>
-                <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">country</a></li>
-                <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">email</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">intake</a></li>
-               <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">Custom label</a></li>
-               <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">dashboard</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">University</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Status</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">currency</a></li>
+                <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">country</a></li>
+                <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">email</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">intake</a></li>
+               <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Custom label</a></li>
+               <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">dashboard</a></li>
                 </ul>
               </div>
             </li>
@@ -338,18 +338,18 @@ const Sidebar = () => {
                 onClick={() => toggleDropdown('modules')}
               >
                 <div>
-                  <span style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} className='pe-2'>Modules</span>
+                  <span style={{ fontSize: "12px", fontWeight: "bold",}} className='pe-2'>Modules</span>
                 </div>
                 <i className={`fa fa-angle-right ${isOpen.modules ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
               </a>
               <div className={`collapse ${isOpen.modules ? 'show' : ''}`} id="collapse8">
                 <ul className='nav d-flex flex-column border-0 ps-4'>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">status</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">program</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">university</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">country</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">add label</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">dashboard</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">status</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">program</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">university</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">country</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">add label</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">dashboard</a></li>
                 </ul>
               </div>
             </li>
@@ -364,16 +364,16 @@ const Sidebar = () => {
                 onClick={() => toggleDropdown('privileges')}
               >
                 <div>
-                  <span style={{ fontSize: "12px", fontWeight: "bold", color: "#231f20" }} className='pe-2'>Privileges</span>
+                  <span style={{ fontSize: "12px", fontWeight: "bold", }} className='pe-2'>Privileges</span>
                 </div>
                 <i className={`fa fa-angle-right ${isOpen.privileges ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
               </a>
               <div className={`collapse ${isOpen.privileges ? 'show' : ''}`} id="collapse9">
                 <ul className='nav d-flex flex-column border-0 ps-4'>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">program</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">hrm</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">attendance</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-dark text-capitalize fw-semibold">payroll</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">program</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">hrm</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">attendance</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">payroll</a></li>
                 </ul>
               </div>
             </li>

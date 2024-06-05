@@ -5,6 +5,9 @@ body{
     transform: rotate(90deg);
     transition: transform 0.1s ease;
 }
+.nav-link {
+    color: #231f20 !important;
+  }
 
 .nav-link:hover {
     color: #fe5722 !important;
