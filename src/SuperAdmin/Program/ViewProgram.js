@@ -63,7 +63,7 @@ export const Course = () => {
         <div className="container ">
             <div className="row">
                 <div className="col-12">
-                    <div className="card border-0 rounded-2 px-3 py-3 bg-secondary  ">
+                    <div className="card border-0 rounded-2 px-3 py-3  ">
 
                         <div className="card-header rounded-top border-0   img-1 ">
                             <div className="row g-5">

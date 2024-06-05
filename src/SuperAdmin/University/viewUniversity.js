@@ -97,11 +97,11 @@ const UserProfile = () => {
             <div className='card shadow border-0 p-3'>
                 <div className="mb-2 ">
                             <img src={
-                       university?.universityLogo?university?.universityLogo:
+                       university?.banner?university?.banner:
                         "https://wallpapercave.com/wp/wp6837474.jpg"
                       } className="card-img-top img-fluid rounded-top-2" alt="bannerImage" style={{ maxHeight: '6rem', objectFit: 'cover' }} />
                             <div className="position-absolute top-55 start-50 translate-middle">
-                            <img src= {"https://photos.applyboard.com/schools/000/000/154/logos/small/ILAC_LOGO_1.png?1574286109"} className="rounded-circle img-fluid mx-auto" alt="profileImage" style={{ width: '7rem', height: '7rem', objectFit: 'cover' }} />
+                            <img src= {university?.universityLogo?university?.universityLogo:"https://photos.applyboard.com/schools/000/000/154/logos/small/ILAC_LOGO_1.png?1574286109"} className="rounded-circle img-fluid mx-auto" alt="profileImage" style={{ width: '7rem', height: '7rem', objectFit: 'cover' }} />
                             </div>
                         </div>
                 <span className='text-center mt-5' style={{ fontSize: "18px", fontWeight: "500" }}>{university?.universityName}</span>

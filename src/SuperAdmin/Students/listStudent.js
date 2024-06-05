@@ -48,12 +48,16 @@ export default function Masterproductlist() {
     const data = {
       limit: 10,
       page: pagination.from,
+      studentId:getStudentId,
+      superAdminId:getStudentId,
     
 
     };
     getallStudent(data)
     
     .then((res) => {
+    
+    
       setStudent(res?.data?.result);
       setPagination({
         ...pagination,
@@ -584,19 +588,21 @@ export default function Masterproductlist() {
       <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
-            <h5 className="mb-4">
+            <h5 className="mb-4"   style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
               Are you sure you want to Delete <br /> the selected Product ?
             </h5>
             <button
               type="button"
-              className="btn btn-save mx-3"
+              className="btn btn-danger mx-3"
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
               onClick={deleteStudentData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel "
+              className="btn btn-info "
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
               onClick={closePopup}
             >
               No

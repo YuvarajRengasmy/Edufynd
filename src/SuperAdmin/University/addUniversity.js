@@ -321,11 +321,14 @@ function Profile() {
 
                             <label htmlFor="universityLogo" className="form-label" style={{ color: "#231F20" }}>University Logo<span className="text-danger">*</span>
                             </label>
+                           
                             <input
                               type="file"
                               id="universityLogo"
                               name="universityLogo"
                               accept="image/*"
+                              className="form-control border-0 text-dark bg-transparent"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               onChange={handleInputs}
                             />
 
@@ -333,15 +336,17 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-                            <label style={{ color: "#231F20" }}>
+                            <label htmlFor="banner" style={{ color: "#231F20" }}>
                               {" "}
                               Banner<span className="text-danger">*</span>
                             </label>
-                            <input
-                              type="text"
-                              className="form-control "
-                              placeholder="Enter banner Link"
+                           
+                             <input
+                              type="file"
+                              id="banner"
                               name="banner"
+                              accept="image/*"
+                              className="form-control border-0 text-dark bg-transparent"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               onChange={handleInputs}
                             />
