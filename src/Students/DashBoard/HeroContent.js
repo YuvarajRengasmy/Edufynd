@@ -76,7 +76,7 @@ export const HeroContent = () => {
     const off = gradientOffset();
     return (
 
-        <div className='container-fluid' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+        <div className='container-fluid' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize:'13px' }}>
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
 
@@ -158,26 +158,26 @@ export const HeroContent = () => {
                     <div className=" col-lg-6">
                         <div className="card border-0 rounded-3 one shadow " style={{ width: "100%" }}>
                             <div className="card-body px-3 pt-1">
-                                <h5 className="card-title fs-6 fw-semibold pt-1 color2 mx-2">Dashboard</h5>
+                                <h5 className="card-title  fw-semibold pt-1 color2 m-2">Dashboard</h5>
                                 <div className="card rounded-2 border-0 py-2 mt-1 px-4 two shadow-lg" style={{ width: '100%' }}>
-                                    <p className="card-title text-white fs-5 pt-2 fw-light ">03/24</p>
-                                    <p className="card-text text-white fw-normal pt-2 fs-5">4354 1123 6432 7889</p>
-                                    <p className="card-text text-white pt-2  fs-6 fw-light">Card Holder</p>
-                                    <p className="card-text  text-white fs-5">James Lee</p>
+                                    <p className="card-title text-white  pt-2 fw-light ">03/24</p>
+                                    <p className="card-text text-white fw-normal pt-2 ">4354 1123 6432 7889</p>
+                                    <p className="card-text text-white pt-2  fw-light">Card Holder</p>
+                                    <p className="card-text  text-white ">James Lee</p>
                                 </div>
                                 <div className="d-flex justify-content-between mt-1 mx-2 py-2">
-                                    <p className="card-title fs-6 fw-medium color2">Income</p>
-                                    <p className="card-title color1 fs-6  fw-medium ">See More</p>
+                                    <p className="card-title  fw-medium ">Income</p>
+                                    <p className="card-title  fw-medium ">See More</p>
                                 </div>
                                 <div className="row mt-1">
                                     <div className=" col-lg-6 mb-2">
                                         <div className="card border-0 rounded-2 shadow" style={{ width: '100%' }}>
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between">
-                                                    <p className="card-title fs-6 text-muted fw-medium ">Salary</p>
+                                                    <p className="card-title fw-medium " style={{color:'#fe5722'}}>Salary</p>
                                                     <span className='color1 bg-light rounded-circle px-2 py-1'><FaMoneyCheckAlt /></span>
                                                 </div>
-                                                <p className="card-text fs-4 fw-semibold pt-4 color2">$2,000</p>
+                                                <p className="card-text  fw-semibold pt-4 color2">$2,000</p>
                                             </div>
                                         </div>
                                     </div>
@@ -185,10 +185,10 @@ export const HeroContent = () => {
                                         <div className="card border-0 rounded-2 shadow" style={{ width: '100%' }}>
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between">
-                                                    <p className="card-title fs-6 text-muted fw-medium">Paypal</p>
+                                                    <p className="card-title  fw-medium" style={{color:'#fe5722'}}>Paypal</p>
                                                     <span className='color1 bg-light rounded-circle px-2 py-1'><FaPaypal /></span>
                                                 </div>
-                                                <p className="card-text fs-4 fw-semibold pt-4 color2">$12,560.75</p>
+                                                <p className="card-text  fw-semibold pt-4 color2">$12,560.75</p>
                                             </div>
                                         </div>
                                     </div>
@@ -196,10 +196,10 @@ export const HeroContent = () => {
                                         <div className="card border-0 rounded-2 shadow" style={{ width: '100%' }}>
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between">
-                                                    <p className="card-title fs-6 text-muted fw-medium">Invoice</p>
+                                                    <p className="card-title   fw-medium " style={{color:'#fe5722'}}>Invoice</p>
                                                     <span className='color1 bg-light rounded-circle px-2 py-1'><FaWallet /></span>
                                                 </div>
-                                                <p className="card-text fs-4 fw-semibold pt-4 color2">$1,500<span className='text-muted fs-6 fw-medium'>/mo</span></p>
+                                                <p className="card-text  fw-semibold pt-4 color2">$1,500<span className='text-muted fs-6 fw-medium'>/mo</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -207,10 +207,10 @@ export const HeroContent = () => {
                                         <div className="card border-0 rounded-2 shadow" style={{ width: '100%' }}>
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between">
-                                                    <p className="card-title fs-6">Subscription</p>
+                                                    <p className="card-title " style={{color:'#fe5722'}}>Subscription</p>
                                                     <span className='color1 bg-light rounded-circle px-2 py-1'><FaYoutube /></span>
                                                 </div>
-                                                <p className="card-text fs-4 fw-semibold pt-4 color2">$2,000<span className='text-muted fs-6 fw-medium'>/mo</span></p>
+                                                <p className="card-text  fw-semibold pt-4 color2">$2,000<span className='text-muted fs-6 fw-medium'>/mo</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@ export const HeroContent = () => {
                                     <div className="d-flex justify-content-between align-items-start">
                                         <div>
                                             <p className="card-title text-muted fw-semibold">My Balance</p>
-                                            <p className="fs-5 fw-semibold three">$17,754.00</p>
+                                            <p className=" fw-semibold ">$17,754.00</p>
                                         </div>
                                         <div className="dropdown">
                                             <button className="btn btn-light rounded-4 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -264,7 +264,7 @@ export const HeroContent = () => {
                                     <div className="d-flex justify-content-between align-items-start">
                                         <div>
                                             <p className="card-title text-muted fw-semibold">My Balance</p>
-                                            <p className="fs-5 fw-semibold three">$17,754.00</p>
+                                            <p className="fw-semibold three">$17,754.00</p>
                                         </div>
                                         <div className="dropdown">
                                             <button className="btn btn-light rounded-4 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -307,7 +307,7 @@ export const HeroContent = () => {
                                         <div className="d-flex justify-content-between align-items-start">
                                             <div>
                                                 <p className="card-title text-muted fw-semibold">My Balance</p>
-                                                <p className="fs-5 fw-semibold three">$17,754.00</p>
+                                                <p className=" fw-semibold ">$17,754.00</p>
                                             </div>
                                             <div className="dropdown">
                                                 <button className="btn btn-light rounded-4 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -346,7 +346,7 @@ export const HeroContent = () => {
                                         <div className="d-flex justify-content-between align-items-start">
                                             <div>
                                                 <p className="card-title text-muted fw-semibold">My Balance</p>
-                                                <p className="fs-5 fw-semibold three">$17,754.00</p>
+                                                <p className=" fw-semibold ">$17,754.00</p>
                                             </div>
                                             <div className="dropdown">
                                                 <button className="btn btn-light rounded-4 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -397,7 +397,7 @@ export const HeroContent = () => {
                                     <div className="d-flex justify-content-between align-items-start">
                                             <div>
                                                 <p className="card-title text-muted fw-semibold">My Balance</p>
-                                                <p className="fs-5 fw-semibold three">$17,754.00</p>
+                                                <p className=" fw-semibold ">$17,754.00</p>
                                             </div>
                                             <div className="dropdown">
                                                 <button className="btn btn-light rounded-4 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -434,7 +434,7 @@ export const HeroContent = () => {
 
                             <div className=" col-lg-6  ">
                                 <div className="d-flex  justify-content-between align-items-start">
-                                    <div className=" fw-semibold fs-5 color2">Transcation History</div>
+                                    <div className=" fw-semibold  ">Transcation History</div>
                                     <div className="float-end px-4">
                                         <div class="dropdown ">
                                             <button class="btn btn-light rounded-4 border-0 " type="button" data-bs-toggle="dropdown" aria-expanded="false">
