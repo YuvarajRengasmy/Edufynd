@@ -80,7 +80,11 @@ export const Course = () => {
                                             <h5 className=" text-white">{program?.programTitle}</h5>
                                             <p className='text-white'>{program?.universityName}</p>
                                             <p className="text-white">{program?.country}</p>
-                                            <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
+                                            <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>
+                                            <Link className='text-decoration-none' to={{
+                                    pathname: "/ApplyJob",
+                                    search: `?id=${program?._id}`,
+                                  }}>Apply</Link></button>
                                         </div>
                                     </div>
                                 </div>

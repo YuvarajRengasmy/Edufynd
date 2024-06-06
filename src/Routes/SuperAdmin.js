@@ -37,6 +37,7 @@ import Intake from "../SuperAdmin/Settings/intake"
 
 import Application from "../SuperAdmin/Application/Application";
 import ViewUniversity1 from "../SuperAdmin/University/viewUniversity1";
+import ApplyJob from "../Students/Program/ApplyProgram";
 function SuperAdmin() {
   return (
     <div>
@@ -77,6 +78,7 @@ function SuperAdmin() {
         
           <Route path='/Application' element={<Application/>}/>
        <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>
+       <Route path="/ApplyJob" element={<ApplyJob/>}/>
         </Routes>
       </BrowserRouter>
     </div>
