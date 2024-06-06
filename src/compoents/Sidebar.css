@@ -5,6 +5,10 @@ body{
     transform: rotate(90deg);
     transition: transform 0.1s ease;
 }
+/* Add this CSS to your stylesheet */
+
+
+
 .nav-link {
     color: #231f20 !important;
   }

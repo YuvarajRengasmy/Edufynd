@@ -2,7 +2,7 @@ import React from 'react'
 
 export const StudentForm = () => {
   return (
-    <div>
+    <div className='container'>
   
 
                       <form class="row g-3">
