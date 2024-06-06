@@ -312,7 +312,7 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-                            <label style={{ color: "#231F20" }}>
+                            <label style={{ color: "#231F20" }} >
                               {" "}
                               University Name<span className="text-danger">*</span>
                             </label>
@@ -564,7 +564,7 @@ function Profile() {
 
                             <label style={{ color: "#231F20" }}>
                               {" "}
-                              offerTAT<span className="text-danger">*</span>
+                              OfferTAT<span className="text-danger">*</span>
                             </label>
                             <select
                               className="form-control"
@@ -647,7 +647,7 @@ function Profile() {
                             <br />
                             {university.paymentMethod === 'categorie1' ? (
                               <div className="form-group">
-                                <label style={{ color: '#231F20' }} className="class-danger">Ammount</label>
+                                <label style={{ color: '#231F20' }} className="class-danger">Amount</label>
 
                                 <input
                                   name="amount"
@@ -730,7 +730,7 @@ function Profile() {
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
-                              currency
+                              Currency
                             </label>
                             <div sm="9" className="d-flex align-items-center">
                               {university.flag && (
@@ -790,7 +790,7 @@ function Profile() {
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
-                              commissionPaidOn<span className="text-danger">*</span>
+                              Commission PaidOn<span className="text-danger">*</span>
                             </label>
                             <select
                               className='form-select rounded-2 p-2 '

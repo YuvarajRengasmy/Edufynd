@@ -386,7 +386,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          universityInterview <span className="text-danger">*</span>
+                          University Interview <span className="text-danger">*</span>
                         </label>
                         <select className="form-control" name="universityInterview" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
                           <option value="">{program?.universityInterview}</option>
@@ -431,7 +431,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          currency
+                          Currency
                         </label>
                         <div sm="9" className="d-flex align-items-center">
                           {program.flag && (
@@ -480,7 +480,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          courseType<span className="text-danger">*</span>
+                          Course Type<span className="text-danger">*</span>
                         </label>
 
 
@@ -508,7 +508,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          CourseFees <span className="text-danger">*</span>
+                          Course Fees <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -550,7 +550,7 @@ const getProgramDetails = () => {
 
                         <label style={{ color: "#231F20" }}>
                           {" "}
-                          ApplicationFee<span className="text-danger">*</span>
+                          Application Fee<span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -571,7 +571,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          DiscountedValue  <span className="text-danger">*</span>
+                          Discounted Value  <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -592,7 +592,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          commission <span className="text-danger">*</span>
+                          Commission <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -624,7 +624,7 @@ const getProgramDetails = () => {
                         {program.greGmatRequirement === 'categories' && (
                           <div className="row mb-6">
                             <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
-                              score
+                              Score
                             </label>
                             <div className="col-md-8 col-lg-9">
                               <textarea
@@ -647,7 +647,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: '#231F20' }} className="">
-                          englishlanguageTest
+                          English Language Test
                         </label>
                         <select className="form-control" name="englishlanguageTest" onChange={handleInputs} >
                           <option value="">{program?.englishlanguageTest ?? ""}</option>
@@ -657,8 +657,8 @@ const getProgramDetails = () => {
                         <br /><br />
                         {program.englishlanguageTest === 'categorie' && (
                           <div className="row mb-6">
-                            <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
-                              textBox
+                            <label style={{ color: '#231F20',fontSize:'12px' }} className="col-md-4 col-lg-3 col-form-label">
+                              TextBox
                             </label>
                             <div className="col-md-8 col-lg-9">
                               <textarea
@@ -689,7 +689,7 @@ const getProgramDetails = () => {
                         </label>
                         <textarea
                           className="form-control"
-                          placeholder="Enter admission requirements"
+                          placeholder="Enter Admission Requirements"
                           value={program?.academicRequirement ?? ""}
                           style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                           name="academicRequirement"
@@ -705,7 +705,7 @@ const getProgramDetails = () => {
 
                           to="/ListUniversity"
                           style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                          className="btn btn-cancel border text-white w-50 m-2"
+                          className="btn btn-cancel border-0 text-white w-50 m-2"
                         >
                           Cancel
                         </Link>
@@ -714,7 +714,7 @@ const getProgramDetails = () => {
                           style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
                           type="submit"
-                          className="btn btn-save border text-white w-50 m-2"
+                          className="btn btn-save border-0 text-white w-50 m-2"
                         >
                           Submit
                         </button>

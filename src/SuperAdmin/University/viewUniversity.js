@@ -123,9 +123,9 @@ const UserProfile = () => {
                   <div className="col-lg-6">
 
                     <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-                      <li class="nav-item" role="presentation"><a class="nav-link active " id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">Overview</a></li>
-                      <li class="nav-item" role="presentation"><a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Campus</a></li>
-                      <li class="nav-item" role="presentation"><a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab-populatCourse" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">popularCategories</a></li>
+                      <li class="nav-item" role="presentation"><a class="nav-link active text-uppercase " id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">Overview</a></li>
+                      <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Campus</a></li>
+                      <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-populatCourse" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Popular Categories</a></li>
 
                     </ul>
                     <div class="tab-content mt-3" id="myTabContent" style={{ height: "350px", overflowY: "auto", scrollbarWidth: 'none' }}>
@@ -192,43 +192,43 @@ const UserProfile = () => {
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">OfferTAT</div>
-                            <div className="h6 fw-bold">{university?.offerTAT}</div>
+                            <div className="h6 fw-normal">{university?.offerTAT}</div>
                           </div>
                           <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
-                            <div className="h6 fw-bold"><Flags code={university?.flag} width={40} height={20} /> {university?.currency}</div>
+                            <div className="h6  fw-normal"><Flags code={university?.flag} width={40} height={20} /> {university?.currency}</div>
                           </div>
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">AverageFees</div>
-                            <div className="h6 fw-bold">{university?.averageFees}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Average Fees</div>
+                            <div className="h6  fw-normal">{university?.averageFees}</div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">ApplicationFees</div>
-                            <div className="h6 fw-bold">{university?.applicationFees}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Application Fees</div>
+                            <div className="h6  fw-normal">{university?.applicationFees}</div>
                           </div>
                          
                         </div>
                         <div className="row gy-3 py-2">
                         <div className="col-sm-6  ">
                             <div className="fs-6 fw-light text-lead text-capitalize">Founded</div>
-                            <div className="h6 fw-bold">{university?.founded}</div>
+                            <div className="h6  fw-normal">{university?.founded}</div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">InstitutionType</div>
-                            <div className="h6 fw-bold">{university?.institutionType}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Institution Type</div>
+                            <div className="h6  fw-normal">{university?.institutionType}</div>
                           </div>
                          
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">Cost Of Living</div>
-                            <div className="h6 fw-bold">{university?.costOfLiving}</div>
+                            <div className="h6  fw-normal">{university?.costOfLiving}</div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">GrossTuition</div>
-                            <div className="h6 fw-bold">{university?.grossTuition}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Gross Tuition</div>
+                            <div className="h6  fw-normal">{university?.grossTuition}</div>
                           </div>
 
                         </div>
@@ -239,33 +239,33 @@ const UserProfile = () => {
 
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">paymentMethod</div>
-                            <div className="h6 fw-bold">{university?.paymentMethod}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">payment Method</div>
+                            <div className="h6  fw-normal">{university?.paymentMethod}</div>
                           </div>
                           <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">amount/percentage</div>
-                            <div className="h6 fw-bold">{university?.amount?university?.amount:university?.percentage?university?.percentage:"null"} </div>
+                            <div className="h6  fw-normal">{university?.amount?university?.amount:university?.percentage?university?.percentage:"null"} </div>
                           </div>
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">EligibilityForCommission</div>
-                            <div className="h6 fw-bold">{university?.eligibilityForCommission}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Eligibility For Commission</div>
+                            <div className="h6  fw-normal">{university?.eligibilityForCommission}</div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">PaymentTAT</div>
-                            <div className="h6 fw-bold">{university?.paymentTAT}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Payment TAT</div>
+                            <div className="h6 fw-normal">{university?.paymentTAT}</div>
                           </div>
                          
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
                             <div className="fs-6 fw-light text-lead text-capitalize">Tax</div>
-                            <div className="h6 fw-bold">{university?.tax}</div>
+                            <div className="h6  fw-normal">{university?.tax}</div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">CommissionPaidOn</div>
-                            <div className="h6 fw-bold">{university?.commissionPaidOn}</div>
+                            <div className="fs-6 fw-light text-lead text-capitalize">Commission PaidOn</div>
+                            <div className="h6  fw-normal">{university?.commissionPaidOn}</div>
                           </div>
                          
                         </div>
@@ -282,28 +282,29 @@ const UserProfile = () => {
 
                   <div className="row g-3">
                                         <div className="d-flex flex-row align-items-start justify-content-between">
-                                            <div className="h4 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
+                                            <div className="h6 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
 
 
                                         </div>
                                         {program?.map((data, index) => (
 
                                             <div key={index} className="col-lg-4">
-                                                <div className="card mb-3  border-0  shadow" style={{ width: '18rem', height: '15rem' }}>
+                                                <div className="card mb-3  border-0  shadow" style={{ width: '20rem', height: '15rem' }}>
                                                     <div className="row g-0 align-items-center justify-content-center">
                                                         <div className="col-md-4">
                                                             <img
                                                                 src={data?.universityLogo ? data?.universityLogo : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
                                                                 className="img-fluid rounded-pill"
                                                                 alt="Course Image"
-                                                                style={{ width: '7rem', height: '5rem' }}
+                                                                style={{ width: '7rem', height: '7rem' }}
                                                             />
                                                         </div>
                                                         <div className="col-md-8">
                                                             <div className="card-body">
-                                                                <h5 className="card-title">{data?.universityName}</h5>
+                                                                <h6 className="card-title ">{data?.universityName}</h6>
                                                                 <p className="card-text">CourseName :- {data?.programTitle}</p>
                                                                 <p className="card-text">Duration :- {data?.duration}</p>
+                                                                
                                                                 <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
                                                             </div>
                                                         </div>

@@ -336,7 +336,7 @@ export default function Masterproductlist() {
                           type="search"
                           placeholder="Search"
                           aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                          className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
                           style={{
                             borderColor: "#FE5722",
                             paddingRight: "1.5rem",
@@ -368,7 +368,7 @@ export default function Masterproductlist() {
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">Filter BY University</h5>
+                            <h5 id="offcanvasRightLabel">Filter University</h5>
                             <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                           </div>
                           <div className="offcanvas-body ">
@@ -430,8 +430,8 @@ export default function Masterproductlist() {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border text-white float-right bg"
-                                  style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  className="btn btn-cancel border-0 text-white float-right bg"
+                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                   onClick={resetFilter}
                                 >
                                   Reset
@@ -440,8 +440,8 @@ export default function Masterproductlist() {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   onClick={filterUniversityList}
-                                  className="btn btn-save border text-white float-right mx-2"
-                                  style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  className="btn btn-save border-0 text-white float-right mx-2"
+                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
                                 </button>
@@ -604,7 +604,7 @@ export default function Masterproductlist() {
               </h5>
               <button
                 type="button"
-                className="btn btn-primary mx-3"
+                className="btn btn-success mx-3"
                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                 onClick={deleteUniversityData}
               >
@@ -612,7 +612,7 @@ export default function Masterproductlist() {
               </button>
               <button
                 type="button"
-                className="btn btn-info"
+                className="btn btn-danger"
                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                 onClick={closePopup}
               >
@@ -657,17 +657,17 @@ export default function Masterproductlist() {
               <div>
                 <Link
                   to="/ListUniversity"
-                  className="btn btn-cancel border text-white float-right bg"
-                  style={{ backgroundColor: "#9265cc" }}
+                  className="btn btn-cancel border-0 text-white float-right bg"
+                  style={{ backgroundColor: "#fe5722" }}
 
                 >
-                  Cencel
+                  Cancel
                 </Link>
                 <button
                   type="submit"
                   onClick={handleFileUpload}
-                  className="btn btn-save border text-white float-right mx-2"
-                  style={{ backgroundColor: "#9265cc" }}
+                  className="btn btn-save border-0 text-white float-right mx-2"
+                  style={{ backgroundColor: "#fe5722" }}
                 >
                   Apply
                 </button>
