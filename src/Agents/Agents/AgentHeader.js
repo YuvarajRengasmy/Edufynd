@@ -20,19 +20,19 @@ export default function Event() {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto gap-5">
               <li className="nav-item active">
-                <Link className="nav-link text-white fw-bold mt-3 " to="/AgentHome">Home</Link>
+                <Link className="nav-link text-white fw-semibold mt-3 " to="/AgentHome">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-white fw-bold mt-3 " to="/AgentAbout">About</Link>
+                <Link className="nav-link text-white fw-semibold mt-3 " to="/AgentAbout">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-white fw-bold mt-3" to="/AgentProgram">Programs</Link>
+                <Link className="nav-link text-white fw-semibold mt-3" to="/AgentProgram">Programs</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-white fw-bold mt-3" to="/Studentpage">Students</Link>
+                <Link className="nav-link text-white fw-semibold mt-3" to="/Studentpage">Students</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-white fw-bold mt-3" to="/AgentContact">Contact</Link>
+                <Link className="nav-link text-white fw-semibold mt-3" to="/AgentContact">Contact</Link>
               </li>
               <li className="nav-item dropdown ml-3 align-items-end">
                 <Link className="nav-link nav-profile d-flex align-items-center " to="/Profile" data-bs-toggle="dropdown">

@@ -234,11 +234,11 @@ function Profile() {
 
     <>
       <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div class="">
-          <div class="">
+        <div class="container-fluid">
+          <nav class="navbar navbar-vertical navbar-expand-lg">
             <Sidebar />
 
-          </div>
+          </nav>
         </div>
         <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header ">

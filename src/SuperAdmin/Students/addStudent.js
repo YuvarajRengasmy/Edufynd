@@ -6,13 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 function Profile() {
     return (
         <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-            <div class="">
-                <div class="">
+            <div class="container-fluid">
+                <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
                  
-                </div>
-            </div>
-            <div className="content-wrapper me-5" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                </nav>
+           
+            <div className="content-wrapper " style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header ">
                     <div className="content container-fluid w-75">
                         <form >
@@ -400,6 +400,7 @@ function Profile() {
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

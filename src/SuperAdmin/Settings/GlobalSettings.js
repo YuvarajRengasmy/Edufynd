@@ -319,10 +319,14 @@ export default function GlobalSettings() {
 
   return (
     <div>
-      <div className="">
-        <Mastersidebar />
-      </div>
-      <div className="content-wrapper me-5" style={{ backgroundColor: '#fff' }}>
+    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className=" container-fluid">
+        <nav className='navbar navbar-vertical navbar-expand-lg'> 
+           <Mastersidebar />
+           </nav>
+      
+     
+      <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row ">
@@ -569,7 +573,8 @@ export default function GlobalSettings() {
 </Dialog>
 
 
-
+</div>
+    </div>
     </div>
   );
 }

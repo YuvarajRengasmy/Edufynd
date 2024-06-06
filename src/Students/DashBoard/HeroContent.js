@@ -76,8 +76,8 @@ export const HeroContent = () => {
     const off = gradientOffset();
     return (
 
-        <div className=''>
-            <nav className="navbar navbar-expand-lg mt-2 ">
+        <div className='container-fluid' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+            <nav className="navbar navbar-expand-lg">
                 <div className="container">
 
 
@@ -98,8 +98,8 @@ export const HeroContent = () => {
                             <li className="nav-item fw-semibold d-none d-lg-inline">
                                 <form className="d-flex ">
                                     <div className="input-group ">
-                                        <input type="text" className="form-control  border-0  rounded-2 " placeholder="Search" />
-                                        <button type="submit" className="btn btn-light rounded-circle border-0 mx-1">
+                                        <input type="text" className="form-control  border-warning  rounded-2 " placeholder="Search" />
+                                        <button type="submit" className="btn btn-light rounded-circle border-0 mx-2">
                                             <IoMdSearch />
                                         </button>
                                     </div>
@@ -115,7 +115,7 @@ export const HeroContent = () => {
                                 <img
                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
                                     alt="user profile"
-                                    className="rounded-circle border-0 ms-4"
+                                    className=" img-fluid rounded-pill border-0 ms-4"
                                     style={{ width: '40px', height: "40px" }}
                                 />
                             </li>

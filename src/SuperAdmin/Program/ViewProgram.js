@@ -68,7 +68,7 @@ export const Course = () => {
                         <Sidebar />
                     </div>
                     <div className="col-lg-10">
-                        <div className="card border-0 rounded-2 mt-3  ">
+                        <div className="card border-0 rounded-2 mt-2  ">
 
                             <div className="card-header rounded-top border-0   img-1 ">
                                 <div className="row g-3 mt-2">

@@ -5,16 +5,16 @@ import Sidebar from '../../compoents/sidebar'
  const StudentDashboard = () => {
   return (
     <div className='container-fluid'>
-      <div className="row">
-        <div className=" col-lg-2">
+     
+        <div className=" navbar navbar-vertical navbar-expand-lg">
        
        <Sidebar/>
         </div>
-        <div className=" col-lg-10">
+        <div className="content-wrapper">
          
           <HeroContent/>
         </div>
-      </div>
+   
 
 
     </div>

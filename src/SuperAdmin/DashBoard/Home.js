@@ -7,16 +7,19 @@ const Home = () => {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row">
-          <aside className="col-lg-2 col-md-3 col-xs-12">
+       
+          <nav className=" navbar navbar-vertical navbar-expang-lg">
             <SideBar />
-          </aside>
+          </nav>
+          <nav className=" navbar navbar-top navbar-expand">
+              <Header />
+          </nav>
         
-          <main className="col-lg-10 col-md-9 col-xs-12">
-            <Header />
+          <main className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+          
             <HeroContent />
           </main>
-        </div>
+      
       </div>
     </div>
   );

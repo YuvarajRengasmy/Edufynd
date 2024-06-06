@@ -315,14 +315,14 @@ export default function Masterproductlist() {
 
   return (
     <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
-      <div className=''>
-        <div class="">
-          <div class="">
+     
+        <div class="container-fluid">
+          <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
-          </div>
-        </div>
+          </nav>
+        
 
-        <div className="content-wrapper me-4" style={{ backgroundColor: '#fff' }}>
+        <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
           <div className="content-header ">
             <div className="container">
               <div className="row ">
@@ -677,7 +677,7 @@ export default function Masterproductlist() {
           </DialogContent>
         </Dialog>
       
-      </div>
+        </div>
     </div>
   );
 }

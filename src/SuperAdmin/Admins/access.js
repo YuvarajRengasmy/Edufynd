@@ -11,14 +11,18 @@ function AddAgent() {
 
 
     return (
-        <div>
-            <div class="">
-                <div class="">
+        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
+            <div class="container-fluid">
+                <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
+                    </nav>
+                    <nav className="navbar navbar-top navbar-expand">
                     <Header />
-                </div>
-            </div>
-            <div className="content-wrapper me-5">
+                    </nav>
+                   
+               
+           
+            <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header mt-3">
                     <div className="content container-fluid w-75">
                         <form >
@@ -342,6 +346,7 @@ function AddAgent() {
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

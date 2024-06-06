@@ -229,13 +229,13 @@ function Profile() {
 
     <>
       <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div class="">
-          <div class="">
+        <div class="container-fluid">
+          <nav class="navbar navbar-vertical navbar-expand-lg">
             <Sidebar />
 
-          </div>
+          </nav>
         </div>
-        <div className="content-wrapper me-5" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+        <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header ">
             <div className="content container-fluid ">
               <form onSubmit={handleSubmit} >

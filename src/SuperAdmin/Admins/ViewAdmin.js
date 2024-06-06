@@ -5,14 +5,19 @@ import { Link, useNavigate } from "react-router-dom";
 
 function AddAgent() {
     return (
-        <div>
-            <div class="">
-                <div class="">
+        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div class="container-fluid">
+                <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
-                    <Header />
-                </div>
-            </div>
-            <div className="content-wrapper me-5">
+                   
+                </nav>
+                <nav class="navbar navbar-vertical navbar-expand">
+                <Header />
+                   
+                </nav>
+               
+         
+            <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header mt-3">
                     <div className="content container-fluid w-75">
                         <form >
@@ -110,6 +115,7 @@ function AddAgent() {
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );
