@@ -186,10 +186,7 @@ export const Course = () => {
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">CourseType</div>
-                                                        {Array.isArray(program?.courseType) &&
-                                                            program.courseType.map((courseType, index) => (
-                                                                <div key={index} className="h6 fw-bold">{courseType}</div>
-                                                            ))}
+                                                        <div className="h6 ">{program?.courseType}</div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
