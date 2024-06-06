@@ -15,6 +15,5 @@ body{
 
 .nav-link:hover {
     color: #fe5722 !important;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 25%;
+  
   }

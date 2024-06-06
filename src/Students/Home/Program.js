@@ -191,7 +191,7 @@ const Program = () => {
                 <div className='row mt-4'>
                   {program.map((program,index) => (
                   <div key={index} className="col-12 col-lg-6 col-md-6 col-xl-4 mb-3">
-                    <div className="card border-0 rounded-2 shadow" style={{ width: '22rem',height:"12rem" }}>
+                    <div className="card border-0 rounded-2 shadow" style={{ width: '22rem',height:"15rem" }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
                       <h5 className='ms-3 mt-4'><span className="text-info fw-normal text-center">{program.universityName}</span> </h5>

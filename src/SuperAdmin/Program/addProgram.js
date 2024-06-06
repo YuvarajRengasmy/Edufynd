@@ -360,7 +360,7 @@ function Profile() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          universityInterview <span className="text-danger">*</span>
+                          University Interview <span className="text-danger">*</span>
                         </label>
                         <select className="form-control" name="universityInterview" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
                           <option value="">Select Type</option>
@@ -405,7 +405,7 @@ function Profile() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          currency
+                          Currency
                         </label>
                         <div sm="9" className="d-flex align-items-center">
                           {program.flag && (
@@ -453,7 +453,7 @@ function Profile() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          courseType<span className="text-danger">*</span>
+                          Course Type<span className="text-danger">*</span>
                         </label>
 
 
@@ -479,7 +479,7 @@ function Profile() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          CourseFees <span className="text-danger">*</span>
+                          Course Fees <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -519,7 +519,7 @@ function Profile() {
 
                         <label style={{ color: "#231F20" }}>
                           {" "}
-                          ApplicationFee<span className="text-danger">*</span>
+                          Application Fee<span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -539,7 +539,7 @@ function Profile() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          DiscountedValue  <span className="text-danger">*</span>
+                          Discounted Value  <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -559,7 +559,7 @@ function Profile() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          commission <span className="text-danger">*</span>
+                          Commission <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -612,7 +612,7 @@ function Profile() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: '#231F20' }} className="">
-                          englishlanguageTest
+                          English Language Test
                         </label>
                         <select className="form-control" name="englishlanguageTest" onChange={handleInputs} >
                           <option value="">Select Type</option>
@@ -623,7 +623,7 @@ function Profile() {
                         {program.englishlanguageTest === 'categorie' && (
                           <div className="row mb-6">
                             <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
-                              textBox
+                              TextBox
                             </label>
                             <div className="col-md-8 col-lg-9">
                               <textarea
@@ -653,7 +653,7 @@ function Profile() {
                         </label>
                         <textarea
                           className="form-control"
-                          placeholder="Enter admission requirements"
+                          placeholder="Enter Admission Requirements"
                           style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                           name="academicRequirement"
                           rows="5" // You can adjust the number of rows as needed

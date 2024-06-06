@@ -62,7 +62,7 @@ export const Course = () => {
     };
     return (
         <>
-            <div className="container-fluid ">
+            <div className="container-fluid " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="row">
                     <div className='col-lg-2'>
                         <Sidebar />
@@ -188,38 +188,38 @@ export const Course = () => {
                                                         <div className="fs-6 fw-light text-lead text-capitalize">CourseType</div>
                                                         {Array.isArray(program?.courseType) &&
                                                             program.courseType.map((courseType, index) => (
-                                                                <div key={index} className="h6 fw-bold">{courseType}</div>
+                                                                <div key={index} className="h6  fw-normal">{courseType}</div>
                                                             ))}
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
-                                                        <div className="h6 "><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
+                                                        <div className="h6  fw-normal "><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Application Fee</div>
-                                                        <div className="h6 ">{program?.applicationFee}</div>
+                                                        <div className="h6  fw-normal ">{program?.applicationFee}</div>
                                                     </div>
                                                     <div className="col-sm-6 ">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
-                                                        <div className="h6 ">{program?.courseFee}</div>
+                                                        <div className="h6  fw-normal ">{program?.courseFee}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
-                                                        <div className="h6 ">{program?.duration}</div>
+                                                        <div className="h6   fw-normal">{program?.duration}</div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Discounted Value</div>
-                                                        <div className="h6 ">{program?.discoubtedValue}</div>
+                                                        <div className="h6  fw-normal ">{program?.discoubtedValue}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize"> Commission</div>
-                                                        <div className="h6 ">{program?.commission}</div>
+                                                        <div className="h6  fw-normal ">{program?.commission}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -232,7 +232,7 @@ export const Course = () => {
                                     <div className="row g-3">
 
                                         <div className="col-lg-6 col-sm-6">
-                                            <div className="h4 ps-2 pb-3 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>English Language Requirements</div>
+                                            <div className="h6 ps-2 pb-3 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>English Language Requirements</div>
                                             <div className="card  border-0  shadow" >
                                                 <div className="card-body px-4 py-4" >
                                                     <table className="table table-hover table-responsive">
@@ -259,7 +259,7 @@ export const Course = () => {
                                         </div>
 
                                         <div className="col-lg-6 col-sm-6">
-                                            <div className="h4 ps-2 pb-3 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Academic Requirements</div>
+                                            <div className="h6 ps-2 pb-3 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Academic Requirements</div>
 
                                             <div class="form-floating">
                                                 <textarea class="form-control" id="floatingTextarea2" placeholder="Leave a comment here" style={{ height: " 200px" }}></textarea>
@@ -272,7 +272,7 @@ export const Course = () => {
 
                                     <div className="row g-3">
                                         <div className="d-flex flex-row align-items-start justify-content-between">
-                                            <div className="h4 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
+                                            <div className="h6 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
 
 
                                         </div>
@@ -286,7 +286,7 @@ export const Course = () => {
                                                                 src={data?.universityLogo ? data?.universityLogo : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
                                                                 className="img-fluid rounded-circle"
                                                                 alt="Course Image"
-                                                                style={{ width: '8rem', height: '7rem' }}
+                                                                style={{ width: '7rem', height: '7rem' }}
                                                             />
                                                         </div>
                                                         <div className="col-md-8">
