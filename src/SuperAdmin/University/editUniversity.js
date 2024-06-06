@@ -234,11 +234,11 @@ function Profile() {
 
     <>
       <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div class="">
-          <div class="">
+        <div class="container-fluid">
+          <nav class="navbar navbar-vertical navbar-expand-lg">
             <Sidebar />
 
-          </div>
+          </nav>
         </div>
         <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header ">
@@ -254,7 +254,7 @@ function Profile() {
                     <div className=' position-relative'>
                   
                   <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
-                  <img class="card-img-top  " src={university?.banner ? university?.banner: "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{width:'58rem',height :'12rem',objectFit:'cover'}} />
+                  <img class="card-img-top  " src={university?.banner ? university?.banner: "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{width:'60rem',height :'12rem',objectFit:'cover'}} />
 
                           </label>
                          

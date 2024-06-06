@@ -40,14 +40,17 @@ export default function ListAgent() {
 
   
   return (
-    <div>
-      <div class="">
-        <div class="">
+    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div class="container-fluid">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
-        </div>
-      </div>
-      <Header />
-      <div className="content-wrapper me-5">
+        </nav>
+      
+     
+      <nav className="navbar navbar-top navbar-expand"> 
+        <Header />
+        </nav>
+      <div className="content-wrapper "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header">
           <div className="container">
             <div className="row mb-2">
@@ -104,7 +107,7 @@ export default function ListAgent() {
         </div>
         <div className="row">
           <div className="container">
-          <div className="col-md-11">
+          <div className="col-md-12">
             <div className="card mt-2">
               <div className="card-body">
                 <div className="card-table">
@@ -231,6 +234,7 @@ export default function ListAgent() {
           </form>
         </DialogContent>
       </Dialog>
+    </div>
     </div>
   );
 }

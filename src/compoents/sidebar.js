@@ -182,7 +182,7 @@ const Sidebar = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <p style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2'> ELT</p>
+            <p style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2 text-uppercase'> ELT</p>
           </div>
           <i className={`fa fa-angle-right ${isOpen.elt ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
         </a>
@@ -208,7 +208,7 @@ const Sidebar = () => {
         >
           <div>
             <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <span style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2'> HRMS</span>
+            <span style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2 text-uppercase'> HRMS</span>
           </div>
           <i className={`fa fa-angle-right ${isOpen.hrms ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
         </a>
@@ -218,7 +218,7 @@ const Sidebar = () => {
             <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Attendance</a></li>
             <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">payroll</a></li>
             <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">leaves</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">kpl</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-uppercase fw-semibold">kpl</a></li>
             <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">policies</a></li>
             <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">reviews</a></li>
            
@@ -316,12 +316,12 @@ const Sidebar = () => {
               </a>
               <div className={`collapse ${isOpen.globalSettings ? 'show' : ''}`} id="collapse7">
                 <ul className='nav d-flex flex-column border-0 ps-4'>
-                  <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">University</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Status</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">currency</a></li>
+                  <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-capitalize fw-semibold">University</a></li>
+                  <li className='nav-item'><a href="/Status" className="nav-link  text-capitalize fw-semibold">Status</a></li>
+                  <li className='nav-item'><a href="/Intake" className="nav-link text-capitalize fw-semibold">intake</a></li>
                 <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">country</a></li>
                 <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">email</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">intake</a></li>
+            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Currency</a></li>
                <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Custom label</a></li>
                <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">dashboard</a></li>
                 </ul>
@@ -371,7 +371,7 @@ const Sidebar = () => {
               <div className={`collapse ${isOpen.privileges ? 'show' : ''}`} id="collapse9">
                 <ul className='nav d-flex flex-column border-0 ps-4'>
                   <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">program</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">hrm</a></li>
+                  <li className='nav-item'><a href="#" className="nav-link  text-uppercase fw-semibold">hrm</a></li>
                   <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">attendance</a></li>
             <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">payroll</a></li>
                 </ul>

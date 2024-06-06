@@ -1,5 +1,8 @@
 
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 import { FaCalendarAlt } from "react-icons/fa";
 import "./HeroBox.css";
 import { BsThreeDots } from "react-icons/bs";
@@ -42,14 +45,14 @@ export const HeroContent = () => {
         <div className="row ">
      
 
-          <div className=" col">
+          <div className=" col-lg-12">
             <div
-              className="  border-0 rounded-2 mt-1 "
+              className="  border-0 rounded-2 "
               style={{ width: "100%" }}
             >
               <div className="">
                 <div className="row">
-                <header className="card-title mt-3">
+                <header className="card-title mt-1">
   <div className="d-flex flex-row justify-content-between align-items-start">
     <div className="d-flex flex-column">
       <h2 className="fw-bold fs-5">Dashboard</h2>

@@ -282,11 +282,15 @@ const handleSubmit = (event) => {
   };
 
   return (
+    <div>
     <div style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-      <div>
+      <div className='container-fluid'>
+        <nav className='navbar navbar-vertical navbar-expang-lg'>
         <Mastersidebar />
-      </div>
-      <div className="content-wrapper me-5" style={{ backgroundColor: '#fff' }}>
+        </nav>
+       
+      
+      <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row ">
@@ -568,6 +572,8 @@ const handleSubmit = (event) => {
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 }

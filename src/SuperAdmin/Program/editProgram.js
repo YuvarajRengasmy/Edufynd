@@ -249,12 +249,12 @@ const getProgramDetails = () => {
 
   return (
     <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="">
-        <div class="">
+      <div class="container-fluid">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
 
-        </div>
-      </div>
+        </nav>
+    
       <div className="content-wrapper me-5" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header ">
           <div className="content container-fluid">
@@ -268,7 +268,7 @@ const getProgramDetails = () => {
                       </div>
 
                     </div>
-                    <div className="card-body"></div>
+                    <div className="card-body">
 
                     <div className="row gy-4">
 
@@ -720,12 +720,14 @@ const getProgramDetails = () => {
                         </button>
                       </div>
                     </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </form>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
