@@ -31,7 +31,7 @@ import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 import Status from "../SuperAdmin/Settings/Status"
 import Intake from "../SuperAdmin/Settings/intake"
-
+import ListApplication from "../SuperAdmin/Application/ListApplication";
 
 
 
@@ -73,9 +73,7 @@ function SuperAdmin() {
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
           <Route path="/Status" element={<Status/>}/>
           <Route path="/Intake" element={<Intake/>}/>
-      
-       
-        
+          <Route path='/ListApplication' element={<ListApplication/>}/>
           <Route path='/Application' element={<Application/>}/>
        <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>
        <Route path="/ApplyJob" element={<ApplyJob/>}/>

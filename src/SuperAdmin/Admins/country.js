@@ -98,7 +98,7 @@ function Country() {
         })
     };
     return (
-        <main className="container" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <main className="container" >
             <div className="px-4 mx-3">
                 <div className='mt-3'>
                     <div className='d-flex gap-3 mt-6 flex-wrap flex-md-nowrap'>
