@@ -322,10 +322,10 @@ export default function Masterproductlist() {
           </nav>
         
 
-        <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
+        <div className="content-wrapper px-4 " style={{ backgroundColor: '#fff' }}>
           <div className="content-header ">
             <div className="container">
-              <div className="row ">
+             
 
                 <div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
@@ -504,7 +504,7 @@ export default function Masterproductlist() {
 
 
                 </div>
-              </div>
+           
             </div>
           </div>
           <div className="row">

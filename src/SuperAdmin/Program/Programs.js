@@ -321,9 +321,9 @@ export default function Masterproductlist() {
         </nav>
      
 
-      <div className="content-wrapper me-5" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper px-4" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header">
-          <div className="container-fluid">
+          <div className="container">
             <div className="row ">
 
               <div >

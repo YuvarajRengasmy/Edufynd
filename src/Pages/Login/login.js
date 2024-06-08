@@ -102,22 +102,24 @@ if (isAuthenticated()) {
 }
   return (
     <>
-      <div className="bg-gradient-primary">
+      <div className="bg-gradient-white" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-xl-10 col-lg-12 col-md-9">
+            <div className="col-xl-10 col-lg-12 col-md-12">
               <div className="card o-hidden border-0 shadow-lg my-5">
                 <div className="card-body p-0">
                   <div className="row">
-                    <div className="col-lg-6 d-none d-lg-block bg-login-image" />
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 col-md-6 d-none d-md-block bg-login-image" >
+                      <img src="https://media.istockphoto.com/id/1312082686/vector/educational-tourism-abstract-concept-vector-illustration.jpg?s=612x612&w=0&k=20&c=ktT4aECl2TPhlA2Zoq-f-UtRo5AgHicn9IsTXBXracY=" className="img-fluid"/>
+                    </div>
+                    <div className="col-lg-6  col-md-6 bg-primary">
                       <div className="p-5">
                         <div className="text-center">
-                          <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                          <h1 className="h3 text-gray-900 mb-4 fw-semibold">Welcome Back!</h1>
                         </div>
                         <form className="user" onSubmit={handleSubmit}>
                           <div className="form-group">
-                            <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
+                            <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user border-0 rounded-5 px-4" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
                             {errors.email.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
@@ -129,7 +131,7 @@ if (isAuthenticated()) {
                             ) : null}
                           </div>
                           <div className="form-group">
-                            <input type="password" name="password" onChange={handleInputs} autoComplete="off" className="form-control form-control-user" id="exampleInputPassword" placeholder="Password" />
+                            <input type="password" name="password" onChange={handleInputs} autoComplete="off" className="form-control form-control-user px-4  border-0 rounded-5" id="exampleInputPassword" placeholder="Password" />
                             {errors.password.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
@@ -151,7 +153,7 @@ if (isAuthenticated()) {
                             </div>
                           </div>
                           <div className='d-flex justify-content-center'>
-                            <button type="submit" className="w-75 p-2 btn rounded-5 text-white fw-bold" style={{ backgroundColor: '#10429b' }}>Login with email</button>
+                            <button type="submit" className="w-75 p-2 btn rounded-5 border-0 text-white fw-semibold" style={{ backgroundColor: '#fe5722' }}>Login </button>
                           </div>
                           <hr />
                           <a href="/Dashboard" className="btn btn-google btn-user btn-block">
@@ -159,12 +161,15 @@ if (isAuthenticated()) {
                           </a>
                         </form>
                         <hr />
-                        <div className="text-center">
-                          <a className="small text-decoration-none" href="/ForgotPassword">Forgot Password?</a>
+                         <div className="row g-3 text-center">
+                         <div className="col-md-6 col-sm-12">
+                          <a className="btn-sm btn  text-white border-0 rounded-pill px-3 py-2" href="/ForgotPassword" style={{backgroundColor:'#fe5722',color:'white',}}>Forgot Password?</a>
                         </div>
-                        <div className="text-center">
-                          <a className="small text-decoration-none" href="/Register">Create an Account!</a>
+                        <div className="col-md-6 col-sm-12">
+                          <a className="btn btn-sm btn-outline-light rounded-pill btn-transparent px-3 py-2" href="/Register">Create an Account!</a>
                         </div>
+                         </div>
+                     
                       </div>
                     </div>
                   </div>
