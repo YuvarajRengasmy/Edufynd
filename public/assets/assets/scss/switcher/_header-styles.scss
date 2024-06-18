@@ -1,0 +1,322 @@
+//header-light start
+[data-header-styles="light"] {
+  --header-bg: #fff;
+  --header-border-color: #e9edf4;
+  --header-prime-color: rgba(var(--primary-rgb), 0.5);
+  #mainHeaderProfile h6 {
+    color: #576482;
+  }
+  .app-header {
+    .main-header-center .form-control {
+      &#typehead::placeholder {
+        color: $header-prime-color !important;
+        opacity: 0.7;
+      }
+    }
+  }
+}
+//header-light start
+
+//header-dark start
+[data-header-styles="dark"] {
+  --header-bg: #{var(--custom-white)};
+  --header-border-color: rgba(255, 255, 255, 0.1);
+  --header-prime-color: #fff;
+
+  .app-header {
+    #mainHeaderProfile {
+      --dark-rgb: 255, 255, 255;
+      --text-muted: rgba(255, 255, 255, 0.5);
+    }
+    .main-header-center .form-control {
+      background: $header-bg;
+      border-color: $header-border-color;
+      color: $header-prime-color;
+      &::-webkit-input-placeholder {
+        color: $header-prime-color;
+        opacity: 0.7;
+      }
+    }
+    .main-header-container .header-link .nav-span {
+      color: $header-prime-color;
+    }
+  }
+  &[data-nav-layout="horizontal"] {
+    @media (min-width: 992px) {
+      .header-element .horizontal-logo .header-logo {
+        .desktop-dark {
+          display: block;
+        }
+
+        .desktop-logo,
+        .toggle-dark,
+        .toggle-logo,
+        .desktop-white,
+        .toggle-white {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .main-header-container {
+    .header-link:hover,
+    .header-link.show {
+      .header-link-icon {
+        fill: $white;
+      }
+    }
+
+    .header-link-icon:hover {
+      background-color: transparent;
+    }
+  }
+
+  &[data-theme-mode="light"] {
+    --header-bg: rgb(16, 22, 58);
+  }
+  #mainHeaderProfile h6 {
+    color: #fff;
+  }
+}
+
+//header-dark start
+
+//header-color start
+[data-header-styles="color"] {
+  --header-bg: #{$primary};
+  --header-border-color: rgba(255, 255, 255, 0.1);
+  --header-prime-color: rgb(255, 255, 255);
+
+  .app-header {
+    #mainHeaderProfile {
+      --dark-rgb: 255, 255, 255;
+      --text-muted: rgba(255, 255, 255, 0.5);
+    }
+    .main-header-center .form-control {
+      background: $header-bg;
+      border-color: $header-border-color;
+      color: $header-prime-color;
+      &#typehead::placeholder {
+        color: $header-prime-color !important;
+        opacity: 0.7;
+      }
+    }
+    .main-header-container .header-link .nav-span {
+      color: $header-prime-color;
+    }
+  }
+  &[data-nav-layout="horizontal"] {
+    @media (min-width: 992px) {
+      .header-element .horizontal-logo .header-logo {
+        .desktop-white {
+          display: block;
+        }
+
+        .desktop-logo,
+        .desktop-dark,
+        .toggle-dark,
+        .toggle-white,
+        .toggle-logo {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .main-header-container {
+    .header-link:hover,
+    .header-link.show {
+      .header-link-icon {
+        fill: $white;
+      }
+    }
+
+    // .header-link-icon:hover {
+    //   background-color: rgba(255, 255, 255, 0.1);
+    // }
+  }
+  #mainHeaderProfile h6 {
+    color: #fff;
+  }
+}
+
+//header-color start
+
+//header-gradient start
+[data-header-styles="gradient"] {
+  --header-bg: linear-gradient(to right, #{$primary} 0%, #00b9da 100%);
+  --header-border-color: rgba(255, 255, 255, 0.1);
+  --header-prime-color: rgb(255, 255, 255);
+  .app-header {
+    #mainHeaderProfile {
+      --dark-rgb: 255, 255, 255;
+      --text-muted: rgba(255, 255, 255, 0.5);
+    }
+    .main-header-center .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: $header-border-color;
+      color: $header-prime-color;
+      &#typehead::placeholder {
+        color: $header-prime-color !important;
+        opacity: 0.7;
+      }
+    }
+    .main-header-container .header-link .nav-span {
+      color: #fff;
+    }
+  }
+  &[data-nav-layout="horizontal"] {
+    @media (min-width: 992px) {
+      .header-element .horizontal-logo .header-logo {
+        .desktop-white {
+          display: block;
+        }
+
+        .desktop-logo,
+        .desktop-dark,
+        .toggle-dark,
+        .toggle-white,
+        .toggle-logo {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .main-header-container {
+    .header-link:hover,
+    .header-link.show {
+      .header-link-icon {
+        fill: $white;
+      }
+    }
+  }
+  #mainHeaderProfile h6 {
+    color: #fff;
+  }
+}
+
+//header-gradient start
+
+//header-transparent start
+[data-header-styles="transparent"] {
+  // --header-bg: transparent;
+  --header-bg: #{$default-body-color};
+
+  .app-header {
+    backdrop-filter: blur(30px);
+    box-shadow: none;
+  }
+
+  &[data-theme-mode="light"] {
+    --header-border-color: rgba(0, 0, 0, 0.07);
+
+    #mainHeaderProfile h6 {
+      color: #576482;
+    }
+  }
+
+  &[data-theme-mode="dark"] {
+    --header-prime-color: rgba(255, 255, 255, 0.6);
+    --header-border-color: rgba(255, 255, 255, 0.1);
+
+    #mainHeaderProfile h6 {
+      color: #fff;
+    }
+  }
+
+  &[data-nav-layout="horizontal"] {
+    @media (min-width: 992px) {
+      &[data-theme-mode="light"] {
+        .header-element .horizontal-logo .header-logo {
+          .desktop-dark,
+          .toggle-logo,
+          .toggle-dark,
+          .desktop-white,
+          .toggle-white {
+            display: none;
+          }
+
+          .desktop-logo {
+            display: block;
+          }
+        }
+      }
+
+      &[data-theme-mode="dark"] {
+        .header-element .horizontal-logo .header-logo {
+          .desktop-dark {
+            display: block;
+          }
+
+          .desktop-logo,
+          .toggle-logo,
+          .toggle-dark,
+          .desktop-white,
+          .toggle-white {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+//header-gradient start
+
+/* Header Colors Styles*/
+
+// responsive header logo styles start
+[data-header-styles="dark"],
+[data-header-styles="transparent"][data-theme-mode="dark"] {
+  @media (max-width: 991.98px) {
+    .app-header .horizontal-logo .header-logo {
+      .desktop-logo,
+      .desktop-dark,
+      .toggle-logo,
+      .desktop-white,
+      .toggle-white {
+        display: none;
+      }
+      .toggle-dark {
+        display: block;
+      }
+    }
+  }
+}
+[data-header-styles="color"],
+[data-header-styles="gradient"] {
+  @media (max-width: 991.98px) {
+    .app-header .horizontal-logo .header-logo {
+      .desktop-logo,
+      .desktop-dark,
+      .toggle-logo,
+      .desktop-white,
+      .toggle-dark {
+        display: none;
+      }
+      .toggle-white {
+        display: block;
+      }
+    }
+  }
+}
+[data-header-styles="light"],
+[data-header-styles="transparent"][data-theme-mode="light"] {
+  @media (max-width: 991.98px) {
+    .app-header .horizontal-logo .header-logo {
+      .toggle-logo {
+        display: block;
+      }
+      .desktop-logo,
+      .toggle-dark,
+      .desktop-dark,
+      .desktop-white,
+      .toggle-white {
+        display: none;
+      }
+    }
+  }
+}
+// responsive header logo styles end

@@ -19,16 +19,16 @@ export default function Event() {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto gap-5">
               <li className="nav-item active">
-                <Link className="nav-link mt-3 fw-bold " to="/Student">Home</Link>
+                <Link className="nav-link active mt-3 fw-bold " to="/Student">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-dark fw-bold mt-3 " to="/About">About</Link>
+                <Link className="nav-link  fw-bold mt-3 " to="/About">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-dark fw-bold mt-3" to="/Program">Programs</Link>
+                <Link className="nav-link fw-bold mt-3" to="/Program">Programs</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-dark fw-bold mt-3" to="/Contact">Contact</Link>
+                <Link className="nav-link fw-bold mt-3" to="/Contact">Contact</Link>
               </li>
               <li className="nav-item dropdown ml-3 align-items-end">
                 <Link className="nav-link nav-profile d-flex align-items-center " to="/Profile" data-bs-toggle="dropdown">

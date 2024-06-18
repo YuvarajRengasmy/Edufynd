@@ -1,0 +1,4 @@
+.table td.overflow-auto {
+    white-space: normal; /* Allow text to wrap */
+    word-break: break-word; /* Break words that are too long */
+  }

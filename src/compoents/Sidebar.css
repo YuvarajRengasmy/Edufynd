@@ -1,0 +1,19 @@
+body{
+    background-color: white;
+}
+.rotate-icon {
+    transform: rotate(90deg);
+    transition: transform 0.1s ease;
+}
+/* Add this CSS to your stylesheet */
+
+
+
+.nav-link {
+    color: #231f20 !important;
+  }
+
+.nav-link:hover {
+    color: #fe5722 !important;
+  
+  }

@@ -22,14 +22,24 @@ import ViewAdmin from "../SuperAdmin/Admins/ViewAdmin";
 import CountryList from "../SuperAdmin/Admins/country";
 import AddProgram from "../SuperAdmin/Program/addProgram";
 import EditProgram from "../SuperAdmin/Program/editProgram";
-import Comission from "../SuperAdmin/University/addComission";
 import DashboardSA from "../SuperAdmin/DashBoard/Home";
 // Client
 import AddClient from "../SuperAdmin/client/addclient";
 import ListClient from "../SuperAdmin/client/ListClient";
 // import ViewClient from "../SuperAdmin/client/viewClient";
 import EditClient from "../SuperAdmin/client/Edit";
+import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
+import UniversitySettings from "../SuperAdmin/Settings/universityModule";
+import ProgramModule from "../SuperAdmin/Settings/programModule";
+import Status from "../SuperAdmin/Settings/Status"
+import Intake from "../SuperAdmin/Settings/intake"
+import ListApplication from "../SuperAdmin/Application/ListApplication";
 
+
+
+import Application from "../SuperAdmin/Application/Application";
+import ViewUniversity1 from "../SuperAdmin/University/viewUniversity1";
+import ApplyJob from "../Students/Program/ApplyProgram";
 function SuperAdmin() {
   return (
     <div>
@@ -57,12 +67,20 @@ function SuperAdmin() {
           <Route path="/CountryList" element={<CountryList />} />
           <Route path="/AddProgram" element={<AddProgram />} />
           <Route path="/EditProgram" element={<EditProgram />} />
-          <Route path="/Comission" element={<Comission />} />
           <Route path="/DashBoard" element={<DashboardSA />} />
           {/* Client */}
           <Route path="/AddClient" element={<AddClient />} />
           <Route path="/client" element={<ListClient />} />
           <Route path="/EditClient" element={<EditClient />} />
+          <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
+          <Route path="/UniversitySettings" element={<UniversitySettings/>}/>
+          <Route path="/ProgramModule" element={<ProgramModule/>}/>
+          <Route path="/Status" element={<Status/>}/>
+          <Route path="/Intake" element={<Intake/>}/>
+          <Route path='/ListApplication' element={<ListApplication/>}/>
+          <Route path='/Application' element={<Application/>}/>
+       <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>
+       <Route path="/ApplyJob" element={<ApplyJob/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,0 +1,110 @@
+[data-vertical-style="icontext"][data-toggled="icon-text-close"] {
+  @media (min-width: 992px) {
+    &:not([data-icon-text="open"]) {
+      .app-sidebar {
+        position: absolute;
+        width: 9rem;
+        .main-menu {
+          padding: 0;
+        }
+        .main-sidebar {
+          overflow: visible;
+        }
+        .main-sidebar-header {
+          width: 9rem;
+        }
+        .side-menu__icon {
+          margin-inline-end: 0;
+          margin-block-end: 0.5rem;
+        }
+        .slide {
+          padding: 0;
+        }
+        .slide__category,
+        .side-menu__angle {
+          display: none;
+        }
+        .app-sidebar__user {
+          .avatar-xl {
+            width: 3rem !important;
+            height: 3rem !important;
+            line-height: 3rem;
+            font-size: 1rem;
+          }
+          padding: 12px 0px 12px 0;
+          margin-bottom: 0px;
+          .user-pic {
+            margin: 0;
+          }
+          .user-info {
+            display: none;
+          }
+        }
+        .app-sidebar-help {
+          width: 9rem;
+          .help-dropdown {
+            display: none !important;
+          }
+          .help {
+            display: block;
+          }
+          .help-icon {
+            margin-inline-start: 0;
+            .nav-link {
+              display: flex;
+              justify-content: center;
+              .pulse {
+                inset-inline-end: auto;
+              }
+            }
+          }
+        }
+        .slide.has-sub {
+          &.open,
+          &.active {
+            .slide-menu {
+              display: none !important;
+            }
+          }
+        }
+        .side-menu__item {
+          border-radius: 0;
+        }
+        .side-menu__item,
+        .side-menu__label {
+          display: block;
+          text-align: center;
+        }
+      }
+      &[data-menu-position="fixed"] {
+        .app-sidebar {
+          position: fixed;
+        }
+      }
+      .app-header {
+        padding-inline-start: 9rem;
+      }
+    }
+    .app-content {
+      margin-inline-start: 9rem;
+    }
+    &[data-icon-text="open"] {
+      .app-sidebar {
+        width: 250px;
+        .main-sidebar-header {
+          width: 250px;
+        }
+        .slide-menu {
+          &.child1,
+          .child2,
+          .child3 {
+            li {
+              padding: 0;
+              padding-inline-start: 1.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
