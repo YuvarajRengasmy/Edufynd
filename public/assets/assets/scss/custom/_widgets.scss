@@ -1,0 +1,163 @@
+.icon.icon-shape {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  font-size: 12px;
+  color: $white;
+}
+.card-body + .card-body {
+  border-block-start: 1px solid $default-border;
+}
+.border-transparent {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+.list-icons .svg-icon2,
+.list-icons .svg-icon {
+  width: 50px;
+  height: 50px;
+}
+.link-overlay {
+  display: block;
+  position: relative;
+  img {
+    display: block;
+    border-radius: 3px;
+    max-width: 100%;
+    height: auto;
+  }
+  .link-overlay-bg {
+    border-radius: 3px;
+    position: absolute;
+    inset: 0;
+    background: $primary-08;
+    display: -ms-flexbox;
+    display: flex;
+    color: $white;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    opacity: 0;
+    transition: 0.3s opacity;
+  }
+  &:hover {
+    .link-overlay-bg {
+      opacity: 1;
+    }
+  }
+}
+
+.instagram {
+  background: $instagram;
+}
+
+.linkedin {
+  background: $linkedin;
+}
+
+.twitter {
+  background: $twitter;
+}
+
+.facebook {
+  background: $facebook;
+}
+.social i {
+  font-size: 40px;
+}
+#spark11,
+#spark2,
+#spark3 {
+  display: flex;
+  justify-content: end;
+  .apexcharts-canvas,
+  .apexcharts-svg {
+    width: inherit !important;
+  }
+}
+
+#sparkline_bar11,
+#sparkline_bar12,
+#sparkline_bar13,
+#sparkline_bar14 {
+  .apexcharts-bar-series.apexcharts-plot-series
+    .apexcharts-series
+    .apexcharts-bar-area {
+    stroke: $custom-white !important;
+  }
+}
+.widget-line-list li {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 27px;
+  padding-block-start: 5px;
+  padding-inline-end: 20px;
+  padding-block-end: 0px;
+  padding-inline-start: 15px;
+  list-style-type: none;
+}
+
+.chart-circle-value {
+  position: absolute;
+  inset: 0;
+  margin-inline: auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  line-height: 1;
+  font-size: 25px;
+}
+
+#shares {
+  display: flex;
+  justify-content: center;
+  .apexcharts-canvas,
+  .apexcharts-svg {
+    width: inherit !important;
+  }
+  .apexcharts-radialbar-track.apexcharts-track path {
+    stroke: rgba(var(--primary-rgb), 0.4);
+  }
+}
+
+#projects {
+  display: flex;
+  justify-content: center;
+  .apexcharts-canvas,
+  .apexcharts-svg {
+    width: inherit !important;
+  }
+  .apexcharts-radialbar-track.apexcharts-track path {
+    stroke: rgba(var(--secondary-rgb), 0.4);
+  }
+}
+#users {
+  display: flex;
+  justify-content: center;
+  .apexcharts-canvas,
+  .apexcharts-svg {
+    width: inherit !important;
+  }
+  .apexcharts-radialbar-track.apexcharts-track path {
+    stroke: rgba(var(--success-rgb), 0.4);
+  }
+}
+#widget-CryptoChart,
+#widget-CryptoChart1,
+#widget-CryptoChart2,
+#widget-CryptoChart3,
+#widget-CryptoChart11 {
+  width: 160%!important;
+  height: 140px!important;
+  inset-block-end: -43px;
+  position: relative;
+  inset-inline-end: 70px;
+  inset-inline-start: auto;
+}

@@ -1,0 +1,48 @@
+.file-manger-icon img {
+  width: 70px;
+  height: 70px;
+  border-radius: 7px;
+}
+.rounded-dot {
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 50%;
+}
+.file-manger-icon i {
+  font-size: 70px;
+  margin: 0 auto;
+  text-align: center;
+}
+.filemanager-list {
+  .list-group-item {
+    align-items: center;
+    border: 0;
+    padding: 0.75rem 1rem;
+    display: flex;
+    border-radius: 0 !important;
+    &:focus,
+    &:hover {
+      background-color: transparent;
+    }
+    &.active {
+      background: $light !important;
+      color: $primary !important;
+      font-weight: 600;
+    }
+  }
+}
+.file-img {
+  margin-inline-end: 0.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.file-img2 {
+  height: 100px;
+  width: 100px;
+}
+
+@media screen and (min-width: 1400px) {
+  .file-manager-list {
+    height: 133px;
+  }
+}
