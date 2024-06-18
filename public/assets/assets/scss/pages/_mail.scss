@@ -1,0 +1,114 @@
+.table-inbox {
+  border: 1px solid $default-border;
+  margin-bottom: 0;
+  tr {
+    border-bottom: 1px solid $default-border;
+    td {
+      vertical-align: middle;
+      &:hover {
+        cursor: pointer;
+      }
+      i {
+        color: $light;
+        &:hover {
+          color: $danger;
+        }
+      }
+      .fa-star {
+        color: $default-border;
+        font-size: 16px;
+        &.inbox-started {
+          color: $light;
+        }
+        &:hover {
+          color: $warning;
+        }
+      }
+    }
+    &.unread {
+      td {
+        background: $light;
+        font-weight: 600;
+        border-bottom: 1px solid $default-border;
+      }
+    }
+  }
+}
+.mail-option {
+  margin-bottom: 0;
+  width: 100%;
+  align-items: center;
+  padding: 10px 20px;
+  .chk-all input[type="checkbox"] {
+    margin-top: 0;
+  }
+  .btn-group a.all {
+    border: 0 !important;
+    padding: 0 !important;
+    outline: 0;
+    box-shadow: none;
+  }
+}
+
+.mail-option {
+  .chk-all,
+  .btn-group {
+    margin-inline-end: 5px;
+  }
+  .chk-all,
+  .btn-group a.btn {
+    border: 0;
+    border-radius: 3px !important;
+    display: flex;
+    padding: 5px 10px;
+    color: $text-muted;
+    align-items: center;
+    line-height: 0;
+  }
+}
+
+.inbox-pagination {
+  a.np-btn {
+    margin-inline-start: 5px;
+    border: 1px solid $default-border;
+    border-radius: 3px !important;
+    display: inline-block;
+    padding: 5px 10px;
+    line-height: 0;
+  }
+}
+ul.inbox-pagination {
+  list-style-type: none;
+  margin-inline-start: auto;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding: 0;
+}
+
+[dir="rtl"] {
+  .pagination-right {
+    transform: rotate(180deg);
+  }
+}
+
+
+@media screen and (max-width:575px) {
+  .authentication-btn-group {
+    .btn {
+      border-radius: 0.35rem !important;
+      width: 100%;
+    }
+  }
+}
+.mail-setting {
+
+  .choices__list--dropdown .choices__item--selectable,
+  .choices__list[aria-expanded] .choices__item--selectable {
+    padding: 10px !important;
+  }
+  
+  .choices__list--dropdown .choices__item--selectable::after,
+  .choices__list[aria-expanded] .choices__item--selectable::after {
+    display: none;
+  }
+}

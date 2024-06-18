@@ -1,0 +1,291 @@
+:root {
+	--body-bg-rgb : 									242 ,246, 249;
+	--primary-rgb: 										68, 84, 195;
+	--secondary-rgb :									247, 45, 102;
+	--warning-rgb :										236, 180, 3;
+	--info-rgb :										69, 170, 242;
+	--success-rgb :										45, 206, 137; 
+	--danger-rgb :										255, 91, 81;
+	--light-rgb :										232, 235, 242;
+	--dark-rgb :										52, 58, 64;
+	--orange-rgb : 										252, 115, 3;
+	--pink-rgb :                                       	236, 130, 239;
+	--teal-rgb : 										43, 203, 186;
+	--purple-rgb : 										170, 76, 242;
+	--default-body-bg-color:							rgb(var(--body-bg-rgb));		
+	--primary-color:	 								rgb(var(--primary-rgb));
+	--primary-border: 									rgb(var(--primary-rgb));
+	--primary01: 										rgba(var(--primary-rgb), 0.1);
+	--primary02: 										rgba(var(--primary-rgb), 0.2);
+	--primary03: 										rgba(var(--primary-rgb), 0.3);
+	--primary04: 										rgba(var(--primary-rgb), 0.4);
+	--primary05: 										rgba(var(--primary-rgb), 0.5);
+	--primary06: 										rgba(var(--primary-rgb), 0.6);
+	--primary07: 										rgba(var(--primary-rgb), 0.7);
+	--primary08: 										rgba(var(--primary-rgb), 0.8);
+	--primary09: 										rgba(var(--primary-rgb), 0.9);
+	--primary005: 										rgba(var(--primary-rgb), 0.05);
+	--default-font-family:    							"Roboto", sans-serif;
+	--default-font-weight:								400;
+	--default-text-color:       						#424e79;	
+	--default-border:									#eff0f6;
+	--default-background: 								#f2f6f9;		
+	--menu-bg:											#fff;	
+	--menu-prime-color:									rgba(var(--primary-rgb), 0.05);
+	--menu-border-color:								#eff0f6;
+	--header-bg:                                        #fff;
+	--header-bg2:                                        rgba(var(--primary-rgb), 0.5);
+	--header-prime-color:								rgba(var(--primary-rgb), 0.5);
+	--header-border-color:								#eff0f6;
+	--custom-white:										#fff;
+	--custom-black:										#000;
+	--bootstrap-card-border:							#eff0f6;
+	--list-hover-focus-bg:								#f5f6f7;
+	--text-muted: 										#728096;
+	--input-border: 									#eff0f6;
+	--form-control-bg: 									#fff;
+
+	/* Gray set */
+	--gray-1:											#f1f2f7;
+	--gray-2:											#e5e7f1;
+	--gray-3:											#d2d6e4;
+	--gray-4:											#b7bdd2;
+	--gray-5:											#a2aac7;
+	--gray-6:											#8d96b7;
+	--gray-7:											#7a85ad;
+	--gray-8:											#53608c;
+	--gray-9:											#424e79;
+
+	/* White set */
+	--white-1:											rgba(255,255,255, 0.1);
+	--white-2:											rgba(255,255,255, 0.2);
+	--white-3:											rgba(255,255,255, 0.3);
+	--white-4:											rgba(255,255,255, 0.4);
+	--white-5:											rgba(255,255,255, 0.5);
+	--white-6:											rgba(255,255,255, 0.6);
+	--white-7:											rgba(255,255,255, 0.7);
+	--white-8:											rgba(255,255,255, 0.8);
+	--white-9:											rgba(255,255,255, 0.9);
+	--white-05:											rgba(255,255,255, 0.05);
+	
+	/* Black set */
+	--black-1:											rgba(0,0,0, 0.1);
+	--black-2:											rgba(0,0,0, 0.2);
+	--black-3:											rgba(0,0,0, 0.3);
+	--black-4:											rgba(0,0,0, 0.4);
+	--black-5:											rgba(0,0,0, 0.5);
+	--black-6:											rgba(0,0,0, 0.6);
+	--black-7:											rgba(0,0,0, 0.7);
+	--black-8:											rgba(0,0,0, 0.8);
+	--black-9:											rgba(0,0,0, 0.9);
+	--black-05:											rgba(0,0,0, 0.05);
+	--black-09:											rgba(0,0,0, 0.09);
+}
+
+
+/*Font Family*/
+$default-font-family:									var(--default-font-family);
+$default-font-family:									var(--default-font-family);
+
+/*Font Size*/
+$default-font-size:										14px;
+
+/*Font Weight*/
+$default-font-weight:									var(--default-font-weight);
+$default-font-weight:									var(--default-font-weight);
+
+/*Body & Text colors*/
+$default-body-color: 									var(--default-body-bg-color);
+$default-body-color: 									var(--default-body-bg-color);
+$default-text-color:									var(--default-text-color);
+$default-text-color:									var(--default-text-color);
+
+/*Default Background Color*/
+$default-background: 									var(--default-background);
+$default-background: 									var(--default-background);
+
+/*Border Color*/
+$default-border:										var(--default-border);
+$default-border:										var(--default-border);
+
+/*Border Radius*/
+$default-radius:										8px;
+
+/*Box Shadow*/ 
+$box-shadow: 											-1px 0px 13px 2px var(--black-05);
+
+/* Header Variables */
+$header-bg:												var(--header-bg);
+$header-prime-color:									var(--header-prime-color);
+$header-border-color:									var(--header-border-color);
+
+/*Menu Variables*/
+$menu-prime-color: 										var(--menu-prime-color);
+$menu-prime-colo2:										var(--menu-prime-color2);
+$menu-bg:												var(--menu-bg);
+$menu-border-color:										var(--menu-border-color);
+
+/*Color Variables*/
+$primary:												var(--primary-color);
+$primary-border:										var(--primary-border);
+$primary-transparent:									var(--primary-transparent-color);
+$primary-01:											var(--primary01);
+$primary-02:											var(--primary02);
+$primary-03:											var(--primary03);
+$primary-04:											var(--primary04);
+$primary-05:											var(--primary05);
+$primary-06:											var(--primary06);
+$primary-07:											var(--primary07);
+$primary-08:											var(--primary08);
+$primary-09:											var(--primary09);
+$primary-005:											var(--primary005);
+$custom-white:											var(--custom-white);
+$custom-black:											var(--custom-black);
+$secondary:												rgb(var(--secondary-rgb));
+$warning:												rgb(var(--warning-rgb));
+$info:													rgb(var(--info-rgb));
+$success:												rgb(var(--success-rgb));
+$danger:												rgb(var(--danger-rgb));
+$light:													rgb(var(--light-rgb));
+$dark:													rgb(var(--dark-rgb));
+$orange:												rgb(var(--orange-rgb));
+$pink:													rgb(var(--pink-rgb));
+$purple:												rgb(var(--purple-rgb));
+$teal:													rgb(var(--teal-rgb));
+$red:                                                   #dc0441;
+$blue:													#083dc1;
+$green:													#2dce89;
+$cyan:													#17a2b8;
+$indigo:												#6574cd;
+$white:													#fff;
+$gray:													#8699A3;
+$black:													#000;
+$yellow:												#ecb403;
+$text-muted:											var(--text-muted);
+$bootstrap-card-border:									var(--bootstrap-card-border);
+$list-hover-focus-bg:									var(--list-hover-focus-bg);
+$input-border: 											var(--input-border);
+$form-control-bg:										var(--form-control-bg);
+
+/* social icons colors */
+$facebook: 												#3b5998;
+$twitter: 												#1da1f2;
+$github:												#181717;
+$google: 												#dc4e41;
+$youtube: 												#f00;
+$instagram: 											#de497b;
+$linkedin: 												#0077b5;
+
+/*gradient variables*/
+$primary-gradient:										-webkit-gradient(linear, left top, right top, from(var(--primary-color)), to(rgb(5, 24, 70)));
+$secondary-gradient:									linear-gradient(to right, $secondary 0%, #8c0b47 100%);
+$success-gradient:										linear-gradient(to right,$success 0%, #9fe797 100%);
+$warning-gradient:										linear-gradient(to right, $warning 0%, #fece4d 100%);
+$danger-gradient:										linear-gradient(to right,$danger 0%, #fc9197  100%);
+$info-gradient:											linear-gradient(to right, $info 0%, #69c7de 100%);
+$pink-gradient:											linear-gradient(to right, $pink 0%, #FFA795 100%);
+$teal-gradient:											linear-gradient(to right, $teal 0%, #4db6ac 100%);
+$orange-gradient:										linear-gradient(to right,$orange 0%,#FBB034 100%);
+$purple-gradient:										linear-gradient(to right, $purple 0%, #9b25b7 100%);
+$light-gradient:										linear-gradient(to right, $light 0%, #D1D6DE 100%);
+$dark-gradient:											linear-gradient(to right, $dark 0%, #54505D 100%);
+
+/*gray set*/
+$gray-1:												var(--gray-1);
+$gray-2:												var(--gray-2);
+$gray-3:												var(--gray-3);
+$gray-4:												var(--gray-4);
+$gray-5:												var(--gray-5);
+$gray-6:												var(--gray-6);
+$gray-7:												var(--gray-7);
+$gray-8:												var(--gray-8);
+$gray-9:												var(--gray-9);
+
+/*white set*/
+$white-1:												var(--white-1);
+$white-2:												var(--white-2);
+$white-3:												var(--white-3);
+$white-4:												var(--white-4);
+$white-5:												var(--white-5);
+$white-6:												var(--white-6);
+$white-7:												var(--white-7);
+$white-8:												var(--white-8);
+$white-9:												var(--white-9);
+$white-05:												var(--white-05);
+
+/*black set*/
+$black-1:												var(--black-1);
+$black-2:												var(--black-2);
+$black-3:												var(--black-3);
+$black-4:												var(--black-4);
+$black-5:												var(--black-5);
+$black-6:												var(--black-6);
+$black-7:												var(--black-7);
+$black-8:												var(--black-8);
+$black-9:												var(--black-9);
+$black-05:												var(--black-05);
+$black-09:												var(--black-09);
+
+
+/* dark mode */
+[data-theme-mode="dark"] {
+	--body-bg-rgb : 									38, 43, 72;
+	--body-bg-rgb2 : 									16, 22, 58;
+	--menu-bg:										  	rgb(var(--body-bg-rgb2));
+	--menu-border-color:								rgba(255,255,255,0.1);
+	--menu-prime-color: 								rgba(255,255,255);
+	--header-bg:										rgb(var(--body-bg-rgb2));	
+	--header-prime-color: 								rgba(255, 255, 255, 0.6);
+	--header-border-color:								rgba(255,255,255,0.1);
+	--custom-white:										rgb(var(--body-bg-rgb2));		
+	--custom-black:										#fff;		
+	--default-border:									rgba(255,255,255,0.1);	
+	--default-text-color:       						#edf0f5;
+	--light-rgb:										38, 43, 72;	
+	--dark-rgb :										240 ,245 ,248; 	
+	--bootstrap-card-border:							rgba(255,255,255,0.1);		
+	--list-hover-focus-bg:								rgba(255,255,255,0.1);
+	--default-background:								rgba(255,255,255,0.1);
+	--default-body-bg-color:							rgb(var(--body-bg-rgb));	
+	--text-muted: 										rgba(255,255,255,0.4);
+	--input-border: 									rgba(255,255,255,0.1);
+	--form-control-bg: 									rgb(var(--body-bg-rgb2));
+	--shadow-color:										38,43 ,72;
+	--shadow-color2:										38,43 ,72;
+
+	/* Gray Set */
+    --gray-100: 										rgba(0,0,0,0.1);
+    --gray-200: 										rgba(0,0,0,0.2);
+    --gray-300: 										rgba(0,0,0,0.3);	
+    --gray-400: 										rgba(0,0,0,0.4);
+    --gray-500: 										rgba(0,0,0,0.5);
+    --gray-600: 										rgba(0,0,0,0.6);
+    --gray-700: 										rgba(0,0,0,0.7);
+    --gray-800: 										rgba(0,0,0,0.8);
+    --gray-900: 										rgba(0,0,0,0.9);
+
+	/* white set */
+	--white-1:											rgba(0,0,0,0.1);
+	--white-2:											rgba(0,0,0,0.2);
+	--white-3:											rgba(0,0,0,0.3);
+	--white-4:											rgba(0,0,0,0.4);
+	--white-5:											rgba(0,0,0,0.5);
+	--white-6:											rgba(0,0,0,0.6);
+	--white-7:											rgba(0,0,0,0.7);
+	--white-8:											rgba(0,0,0,0.8);
+	--white-9:											rgba(0,0,0,0.9);
+	--white-05:											rgba(0,0,0,0.05);
+	
+	/* black set */
+	--black-1:											rgba(255,255,255,0.05);
+	--black-2:											rgba(255,255,255,0.2);
+	--black-3:											rgba(255,255,255,0.3);
+	--black-4:											rgba(255,255,255,0.4);
+	--black-5:											rgba(255,255,255,0.5);
+	--black-6:											rgba(255,255,255,0.6);
+	--black-7:											rgba(255,255,255,0.7);
+	--black-8:											rgba(255,255,255,0.8);
+	--black-9:											rgba(255,255,255,0.9);
+	--black-05:											rgba(255,255,255,0.05);
+	--black-09:											rgba(255,255,255,0.09);
+}
