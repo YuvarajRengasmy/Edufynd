@@ -1,234 +1,336 @@
 import React, { useState, useEffect } from "react";
 import { getSingleProgram, getallProgram } from "../../api/Program";
 import { Link, useLocation } from "react-router-dom";
-
+import './Course.css'
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from 'react-icons/ri';
-
+import Sidebar from '../../compoents/sidebar';
 import Flags from 'react-world-flags';
 import { Pagination } from "@mui/material";
+import { University } from "../../api/endpoints";
 
+export const Course = () => {
 
+    const location = useLocation();
+    const id = new URLSearchParams(location.search).get("id");
+    const [program, setProgram] = useState();
+    const pageSize = 5;
+    const [input, setInput] = useState()
+    const [pagination, setPagination] = useState({
+        count: 0,
+        from: 0,
+        to: pageSize,
+    });
+    useEffect(() => {
+        getProgramDetails();
+    }, []);
+    useEffect(() => {
+        getAllProgaramDetails();
+    }, [pagination.from, pagination.to]);
 
+    const getAllProgaramDetails = () => {
+        const data = {
+            limit: pageSize,
 
-const Experiences = () => {
+            page: pagination.from / pageSize + 1,
 
-  const location = useLocation();
-  const id = new URLSearchParams(location.search).get("id");
-  const [program, setProgram] = useState();
-  const pageSize = 5;
-  const [input, setInput] = useState()
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
-  useEffect(() => {
-    getProgramDetails();
-  }, []);
-  useEffect(() => {
-    getAllProgaramDetails();
-  }, [pagination.from, pagination.to]);
+        };
 
-  const getAllProgaramDetails = () => {
-    const data = {
-      limit: pageSize,
+        getallProgram(data)
+            .then((res) => {
 
-      page: pagination.from / pageSize + 1,
-
+                setInput(res?.data?.result?.programList);
+                setPagination({ ...pagination, count: res?.data?.result?.programCount });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    const handlePageChange = (event, page) => {
+        const from = (page - 1) * pageSize;
+        const to = (page - 1) * pageSize + pageSize;
+        setPagination({ ...pagination, from: from, to: to });
     };
 
-    getallProgram(data)
-      .then((res) => {
-
-        setInput(res?.data?.result?.programList);
-        setPagination({ ...pagination, count: res?.data?.result?.programCount });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
-  };
-
-  const getProgramDetails = () => {
-    getSingleProgram(id)
-      .then((res) => {
-        setProgram(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  return (
-    <>
-      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className='container ' >
-
-          <div className='container-fluid d-flex flex-column border-start border-end gap-2  bg-white mt-1'>
-            <div className='row gap-lg-2 gap-md-2 gap-2 p-0 mt-5 d-flex justify-content-center'>
-              <div className='container mt-1'>
-                <div className='row'>
-                  <div className='col-lg-4'>
-                    <div className='container'>
-                      <div className='card shadow border-0 p-3'>
-                        <div className='card shadow border-1 rounded p-3 mt-2 mb-3'>
-                          <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>Similar programs <span><RiCoinsFill className='text-warning fs-4' /> </span> </span>
-                        </div>
-                        <div>
-                          {input?.map((data, index) => (
-                            <div key={index} class="card single-job-items mb-3">
-                              <div class="card-body job-items d-flex align-items-center">
-                                <div class="company-img mr-3">
-                                  <a href="#"><img src={"https://photos.applyboard.com/schools/000/000/154/logos/small/ILAC_LOGO_1.png?1574286109"} alt="Company Logo" width="100" height="50" class="img-fluid" /></a>
-                                </div>
-                                <div class="job-tittle job-tittle2">
-                                  <a href="#">
-                                    <h4 class="card-title" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>{data?.universityName}</h4>
-                                  </a>
-                                  <ul class="list-unstyled mb-0">
-                                    <li>{data?.programTitle}</li>
-                                    <li style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}><i class="fas fa-map-marker-alt" ></i>  {data?.campus}-{data?.country}</li>
-                                    <li style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>{data?.courseFee}</li>
-                                  </ul>
-                                </div>
-                              </div>
-                              <div class="card-footer items-link items-link2 d-flex justify-content-center">
-                                <Link className="btn text-white" style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to={{ pathname: "/ViewProgram", search: `?id=${data?._id}`, }}>View Program</Link>
-                              </div>
-                            </div>
-                          ))}
-
-
-                        </div>
-                        <div className="float-right my-2">
-                          <Pagination
-                            count={Math.ceil(pagination.count / pageSize)}
-                            onChange={handlePageChange}
-                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                            variant="outlined"
-                            shape="rounded"
-                            color="primary"
-                          />
-                        </div>
-
-                      </div>
+    const getProgramDetails = () => {
+        getSingleProgram(id)
+            .then((res) => {
+                setProgram(res?.data?.result);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    return (
+        <>
+            <div className="container-fluid " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                <div className="row">
+                    <div className='col-lg-2'>
+                        <Sidebar />
                     </div>
-                  </div>
-                  <div className='col-lg-8 scroll-hide' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
-                    <div className='container'>
-                      <div className="mb-2 ">
-                        <img src={'https://universitystudy.ca/wp-content/uploads/2022/08/Campus_UBC_Vancouver_Aerial.png'} className="card-img-top img-fluid rounded-top-2" alt="bannerImage" style={{ maxHeight: '6rem', objectFit: 'cover' }} />
-                      </div>
-                      <div class="card single-job-items ">
-                        <div class="card-body job-items d-flex align-items-center">
-                          <div class="company-img mr-3">
-                            <a href="#"><img src={"https://photos.applyboard.com/schools/000/000/154/logos/small/ILAC_LOGO_1.png?1574286109"} alt="Company Logo" width="100" height="50" class="img-fluid" /></a>
-                          </div>
-                          <div class="job-tittle job-tittle2 ">
-                            <a href="/">
-                              <h3 class="card-title font-weight-bold " style={{ fontFamily: 'Plus Jakarta Sans' }}>{program?.programTitle}   </h3>
-                              <h3 class="card-title font-weight-bold"><i class="fas fa-map-marker-alt"></i>  {program?.universityName}</h3>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className='fw-bold mt-2' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '18px' }}>  <RiSchoolLine /> :- About</h4>
-                        <div className='container card my-2 px-4'>
+                    <div className="col-lg-10">
+                        <div className="card border-0 rounded-2 mt-2  ">
 
-                          <p>{program?.academicRequirement} </p>
-                        </div>
-                      </div>
-                      <div className="container mt-3">
-                        <h2 className="mb-1" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '18px' }}>Campus</h2>
-
-                        <div className="row">
-                          {Array.isArray(program?.campus) &&
-                            program.campus.map((campus, index) => (
-                              <div key={index} className="col-md-2 mt-2" >
-                                <div className="card text-center">
-                                  <div className="card-body">
-
-                                    <i className="fas fa-university" />
-
-                                    <p className="text-muted" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>{campus}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-
-                        </div>
-
-                      </div>
-                      <div className="container mt-3">
-                        <div className="position-relative p-3" >
-                          <div className="position-absolute" style={{ top: '-1.5rem', left: '-1rem', transform: 'rotate(0deg)', color: 'black', padding: '.5rem 1.5rem', fontFamily: 'Plus Jakarta Sans', fontSize: '18px' }}>
-                            Course Type
-                          </div>
-                          <div className="row">
-                            {Array.isArray(program?.courseType) &&
-                              program.courseType.map((courseType, index) => (
-                                <div key={index} className="col-md-2 mt-3" >
-                                  <div className="card text-center">
-                                    <div className="card-body" style={{ background: "radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)",  }}>
-                                      <p className="text-white" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}> {courseType}</p>
+                            <div className="card-header rounded-top border-0   img-1 ">
+                                <div className="row g-3 mt-2">
+                                    <div className="col-md-4 d-flex justify-content-center align-items-start">
+                                        <img
+                                            src={program?.universityLogo ? program?.universityLogo : "https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"}
+                                            className="img-fluid rounded-circle" style={{ width: "150px", height: "150px" }}
+                                            alt="Berry College Campus"
+                                        />
                                     </div>
-                                  </div>
+                                    <div className="col-md-8 d-flex justify-content-start  align-items-">
+                                        <div className="px-1 py-2">
+                                            <h5 className=" text-white">{program?.programTitle}</h5>
+                                            <p className='text-white'>{program?.universityName}</p>
+                                            <p className="text-white">{program?.country}</p>
+                                            <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }} >Apply Now</button>
+                                        </div>
+                                    </div>
                                 </div>
-                              ))}
-                          </div>
-                        </div>
-
-                      </div>
 
 
-                      <br />
-                      <div>
-                        <h4 className='fw-bold mt-2' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '18px' }}> <RiFileTextLine color="purple" />  :-Program Features</h4>
-                        <div className="card">
-                          <div className="card-body">
-                            <div className='card border-0 p-2 mt-3' style={{ backgroundColor: "#f1f1f4", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                              <div className='card-body d-flex justify-content-between'>
 
-                                <div className='justify-content-start'>
-                                  <p className='text-secondary mt-2 fw-bold'>Duration:-  <span className='text-primary fs-5 text-end'>{program?.duration}</span></p>
-                                  <p className='text-secondary mt-2 fw-bold'>CourseFee:- <span className='text-primary fs-5 text-end'>{program?.courseFee} </span> </p>
-                                  <p className='text-secondary mt-2 fw-bold'>  Application Fees:- <span className='text-primary fs-5 text-end'>{program?.applicationFee} </span> </p>
-                                  <p className='text-secondary mt-2 fw-bold'>  Currency:- <span className='text-primary fs-5 text-end'>{program?.currency} </span ></p>
-                                  <p className='text-secondary mt-2 fw-bold'>Flag:- <span className='text-primary fs-5 text-end'><Flags code={program?.flag} width={40} height={20} /></span> </p>
-                                </div>
-                                <div className=''>
-                                <p className='text-secondary mt-2 fw-bold'> Commission:- <span className='text-primary fs-5 text-end'>{program?.commission} </span ></p>
-                                  <p className='text-secondary mt-2 fw-bold'>   UniversityInterview:-  <span className='text-primary fs-5 text-end'>{program?.universityInterview}</span></p>
-                                  <p className='text-secondary mt-2 fw-bold'> Gre_Gmat_Requirement:- <span className='text-primary fs-5 text-end'>{program?.greGmatRequirement}{program?.score} </span> </p>
-                                  <p className='text-secondary mt-2 fw-bold'> EnglishlanguageTest <span className='text-primary fs-5 text-end'>{program?.englishLanguageTest} </span> </p>
 
-                                </div>
-                              </div>
                             </div>
-                           
+                            <div className="card-body bg-white rounded-bottom px-4">
+                                <div className="row mt-2 g-4">
+                                    <div className="col-lg-6">
 
-                          </div>
+                                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                                            <li class="nav-item" role="presentation"><a class="nav-link active text-uppercase" id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">About</a></li>
+                                            <li class="nav-item" role="presentation"><a class="nav-link text-uppercase" id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Campus</a></li>
+                                            <li class="nav-item" role="presentation"><a class="nav-link text-uppercase" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false" tabindex="-1">inTake</a></li>
+                                        </ul>
+                                        <div class="tab-content mt-3" id="myTabContent" style={{ height: "350px", overflowY: "auto", scrollbarWidth: 'none' }}>
+                                            <div class="tab-pane fade active show" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
+                                                <p style={{ textAlign: 'justify' }}>{program?.academicRequirement}</p>
+
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
+                                                <div className='row'>
+                                                    <div className=' border-0 pt-3 px-4'>
+                                                        <div className='row'>
+                                                            {Array.isArray(program?.campus) &&
+                                                                program.campus.map((campus, index) => (
+                                                                    <div key={index} className='col-sm-4'>
+                                                                        <div className="card border-0 rounded-3 shadow " style={{ width: '8rem', height: "11rem" }}>
+                                                                            <img src={program?.universityLogo ? program?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
+                                                                            <div className="card-body">
+                                                                                <p className="card-text text-center">{campus}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-contact" role="tabpanel" aria-labelledby="profile-tab">
+                                                <div className='row'>
+                                                    <div className=' border-0 pt-3 px-4'>
+                                                        <div className='row'>
+                                                            {Array.isArray(program?.inTake) &&
+                                                                program.inTake.map((inTake, index) => (
+                                                                    <div key={index} className='col-sm-4'>
+                                                                        <div className="card border-0 rounded-3 shadow " >
+                                                                            <div className="card-header bg-primary">
+                                                                                <p className="text-center text-uppercase fw-semibold">{inTake}</p>
+                                                                            </div>
+
+                                                                            <div className="card-body">
+                                                                                <div className="d-flex flex-column align-items-start justify-content-evenly" style={{ fontSize: '12px' }}>
+                                                                                    <p className="card-text fw-semibold">Start Date -</p>
+                                                                                    <p className="card-text fw-semibold ">End Date -</p>
+                                                                                </div>
+
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div >
+
+
+
+
+                                            <div id="campusCollapse" className="collapse">
+                                                <h4>Campus</h4>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="col-lg-6">
+                                        <div className="alert alert-primary text-center " role="alert">
+                                            Program Details
+                                        </div>
+
+                                        <div className="card  border-0  shadow mt-3">
+
+                                            <div className="card-body">
+
+                                                <div className="row gy-3 py-2">
+                                                    <div className="col-sm-6">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize">CourseType</div>
+                                                        <div className="h6 ">{program?.courseType}</div>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
+                                                        <div className="h6  fw-normal "><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="row gy-3 py-2">
+                                                    <div className="col-sm-6">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize">Application Fee</div>
+                                                        <div className="h6  fw-normal ">{program?.applicationFee}</div>
+                                                    </div>
+                                                    <div className="col-sm-6 ">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
+                                                        <div className="h6  fw-normal ">{program?.courseFee}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="row gy-3 py-2">
+                                                    <div className="col-sm-6">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
+                                                        <div className="h6   fw-normal">{program?.duration}</div>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize">Discounted Value</div>
+                                                        <div className="h6  fw-normal ">{program?.discoubtedValue}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="row gy-3 py-2">
+                                                    <div className="col-sm-6">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize"> Commission</div>
+                                                        <div className="h6  fw-normal ">{program?.commission}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div className="row g-3">
+
+                                        <div className="col-lg-6 col-sm-6">
+                                            <div className="h6 ps-2 pb-3 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>English Language Requirements</div>
+                                            <div className="card  border-0  shadow" >
+                                                <div className="card-body px-4 py-4" >
+                                                    <table className="table table-hover table-responsive">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>UniversityInterview</td>
+                                                                <td>{program?.universityInterview}</td>
+                                                                <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Gre_Gmat_Requirement</td>
+                                                                <td>{program?.greGmatRequirement} {program?.score} </td>
+                                                                <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>EnglishlanguageTest</td>
+                                                                <td>{program?.englishLanguageTest}</td>
+                                                                <td><a href="#" className="btn btn-link" style={{ color: '#fe5722' }}>Learn more</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-lg-6 col-sm-6">
+                                            <div className="h6 ps-2 pb-3 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Academic Requirements</div>
+
+                                            <div class="form-floating">
+                                                <textarea class="form-control" id="floatingTextarea2" placeholder="Leave a comment here" style={{ height: " 200px" }}></textarea>
+                                                <label for="floatingTextarea2">Comments</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div className="row g-3">
+                                        <div className="d-flex flex-row align-items-start justify-content-between">
+                                            <div className="h6 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
+
+
+                                        </div>
+                                        {input?.map((data, index) => (
+
+                                            <div key={index} className="col-lg-4">
+                                                <div className="card mb-3  border-0  shadow" style={{ width: '20rem', height: '15rem' }}>
+                                                    <div className="row g-0 align-items-center justify-content-center">
+                                                        <div className="col-md-4">
+                                                            <img
+                                                                src={data?.universityLogo ? data?.universityLogo : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
+                                                                className="img-fluid rounded-circle"
+                                                                alt="Course Image"
+                                                                style={{ width: '7rem', height: '7rem' }}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <div className="card-body">
+                                                                <h5 className="card-title">{data?.universityName}</h5>
+                                                                <p className="card-text">CourseName :- {data?.programTitle}</p>
+                                                                <p className="card-text">Duration :- {data?.duration}</p>
+                                                                <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+
+                                    </div>
+                                    <nav aria-label="Page navigation example justify-content-end">
+                                        <ul className="pagination">
+                                            <li className="page-item">
+                                                <a className="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                            <li className="page-item"><a className="page-link" href="#">2</a></li>
+
+                                            <li className="page-item">
+                                                <a className="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+
+
+                                </div>
+                            </div>
                         </div>
-                      </div>
-
                     </div>
-                    <button type="button" style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="btn text-white mt-3 btn-lg justify-content-center col-center">Apply Now</button>
-
-                  </div>
                 </div>
-              </div>
+
             </div>
-          </div>
-        </div>
-      </div>
-
-
-    </>
-  );
+          
+        </>
+    );
 };
-export default Experiences;
+
+export default Course;

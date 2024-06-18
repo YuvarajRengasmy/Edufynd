@@ -98,7 +98,7 @@ function Country() {
         })
     };
     return (
-        <main className="container">
+        <main className="container" >
             <div className="px-4 mx-3">
                 <div className='mt-3'>
                     <div className='d-flex gap-3 mt-6 flex-wrap flex-md-nowrap'>
@@ -144,7 +144,7 @@ function Country() {
                                 </div>
                             )}
                             <div className="mt-3 mx-3 align-self-center">
-                                <button type="submit" className="btn btn-primary" style={{ width: "150px", height: "50px" }}>Submit</button>
+                                <button type="submit" className="btn text-white" style={{ width: "150px", height: "50px",backgroundColor:"#fe5722"}}>Submit</button>
                             </div>
                         </form>
                     </div>

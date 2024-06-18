@@ -5,14 +5,18 @@ import { Link, useNavigate } from "react-router-dom";
 import BankDetails from "./BankDetails";
 function AddAgent() {
     return (
-        <div>
-            <div class="position-fixed">
-                <div class="fixed-element">
+        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div class="container-fluid">
+                <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
+                    </nav>
+                    <nav className="navbar navbar-top navbar-expand">
                     <Header />
-                </div>
-            </div>
-            <div className="content-wrapper">
+                    </nav>
+                   
+                
+        
+            <div className="content-wrapper ">
                 <div className="content-header mt-3">
                     <div className="content container-fluid w-75">
                         <form >
@@ -253,6 +257,7 @@ function AddAgent() {
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

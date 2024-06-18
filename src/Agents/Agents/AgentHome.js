@@ -314,7 +314,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -335,7 +335,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -356,7 +356,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -377,7 +377,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -398,7 +398,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -419,7 +419,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -465,7 +465,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -486,7 +486,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -507,7 +507,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -528,7 +528,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -549,7 +549,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>
@@ -570,7 +570,7 @@ const AgentHome = () => {
                           <h6 className="m-0">Pes University</h6>
                           <small>USA</small>
                           <small className="d-block">$25000</small>
-                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-Augest</fastar></pidotoutlinefill></ioticketsharp></small></h6>
+                          <h6><small><ioticketsharp className="me-1"> <pidotoutlinefill> Intake<fastar className="text-info"> Jun-August</fastar></pidotoutlinefill></ioticketsharp></small></h6>
                         </div>
                         <div className="col-0 text-center mt-4">
                           <button type="button" className="btn btn-primary">Apply</button>

@@ -1,8 +1,19 @@
-.sidebar-container {
-    position:fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 215px;
-    overflow-y: auto;
+body{
+    background-color: white;
 }
+.rotate-icon {
+    transform: rotate(90deg);
+    transition: transform 0.1s ease;
+}
+/* Add this CSS to your stylesheet */
+
+
+
+.nav-link {
+    color: #231f20 !important;
+  }
+
+.nav-link:hover {
+    color: #fe5722 !important;
+  
+  }

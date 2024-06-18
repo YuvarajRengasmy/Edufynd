@@ -167,22 +167,34 @@ function AddAgent() {
 
     return (
         <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-            <div class="position-fixed">
-                <div class="fixed-element">
+            <div class="container-fluid">
+                <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
+                    <nav className='navbar navbar-top navbar-expand'>
                     <Header />
-                </div>
-            </div>
-            <div className="content-wrapper"  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                    </nav>
+                  
+                </nav>
+           
+            <div className="content-wrapper "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header ">
-                    <div className="content container-fluid w-75">
+                    <div className="content container ">
                         <form onSubmit={handleSubmit}>
-                            <div className="content-page-header">
-
-                            </div>
                             <div className="row">
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+
+                            <div className="col-xl-12 ">
+                    <div className="card rounded-2 border-0 ">
+                      <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                       Client Details :
+                        </div>
+                        
+                      </div>
+                      <div className="card-body">
+                        <div className="row gy-4">
+
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                  
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
                                             Business Name<span className="text-danger">*</span>
@@ -202,10 +214,10 @@ function AddAgent() {
                                                 This field is required.
                                             </div>
                                         ) : null}
-                                    </div>
+                                    
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                   
                                         <label style={{ color: "#231F20" }}>
                                             Type of client <span className="text-danger">*</span>
                                         </label>
@@ -228,10 +240,10 @@ function AddAgent() {
                                                 </div>
                                             ) : null}
                                         </div>
-                                    </div>
+                                    
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
                                             Business MailID<span className="text-danger">*</span>
@@ -254,10 +266,10 @@ function AddAgent() {
                                                 Enter valid Email Id.
                                             </div>
                                         ) : null}
-                                    </div>
+                                   
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                   
                                         <label style={{ color: "#231F20" }}>
                                             businessContactNo <span className="text-danger">*</span>
                                         </label>
@@ -282,11 +294,11 @@ function AddAgent() {
                                                 </span> : null
 
                                         }
-                                    </div>
+                                   
                                 </div>
 
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                  
                                         <label style={{ color: "#231F20" }}>
                                             Website<span className="text-danger">*</span>
                                         </label>
@@ -302,11 +314,11 @@ function AddAgent() {
                                         {errors.website.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
-                                    </div>
+                                    
                                 </div>
 
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                    
                                         <label style={{ color: "#231F20" }}>
                                             Staff Name<span className="text-danger">*</span>
                                         </label>
@@ -322,10 +334,10 @@ function AddAgent() {
                                         {errors.name.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
-                                    </div>
+                                    
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                   
                                         <label style={{ color: "#231F20" }}>
                                             Staff Contact number<span className="text-danger">*</span>
                                         </label>
@@ -350,12 +362,12 @@ function AddAgent() {
                                                 </span> : null
 
                                         }
-                                    </div>
+                                    
                                 </div>
 
 
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                   
                                         <label style={{ color: "#231F20" }}>
                                             Staff EmailID<span className="text-danger">*</span>
                                         </label>
@@ -377,10 +389,10 @@ function AddAgent() {
                                                 Enter valid Email Id.
                                             </div>
                                         ) : null}
-                                    </div>
+                                   
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                   
                                         <label style={{ color: "#231F20" }}>
                                             AddressLine1?<span className="text-danger">*</span>
                                         </label>
@@ -396,10 +408,10 @@ function AddAgent() {
                                         {errors.addressLine1.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
-                                    </div>
+                                   
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  
                                         <label style={{ color: "#231F20" }}>
                                             AddressLine2<span className="text-danger">*</span>
                                         </label>
@@ -415,10 +427,10 @@ function AddAgent() {
                                         {errors.addressLine2.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
-                                    </div>
+                                   
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                   
                                         <label style={{ color: "#231F20" }}>
                                             AddressLine3<span className="text-danger">*</span>
                                         </label>
@@ -434,10 +446,10 @@ function AddAgent() {
                                         {errors.addressLine3.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
-                                    </div>
+                                   
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                  
                                         <label style={{ color: "#231F20" }}>
                                             Gstn<span className="text-danger">*</span>
                                         </label>
@@ -453,10 +465,10 @@ function AddAgent() {
                                         {errors.gstn.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
-                                    </div>
+                                  
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                   
                                         <label style={{ color: "#231F20" }}>
                                             Status<span className="text-danger">*</span>
                                         </label>
@@ -474,20 +486,25 @@ function AddAgent() {
                                         {errors.status.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
-                                    </div>
+                                   
                                 </div>
-                                <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                                    <Link style={{ backgroundColor: "#231F20" }} to="/ClientList" className="btn btn-cancel border text-white w-50 m-2">
+                                <div className="add-customer-btns mb-40 d-flex justify-content-end w-20 ml-auto">
+                                    <Link style={{ backgroundColor: "#231F20" }} to="/ClientList" className="btn btn-cancel border text-white w-10 m-2">
                                         Cancel
                                     </Link>
-                                    <button style={{ backgroundColor: "#FE5722" }} type="submit" className="btn btn-save border text-white w-50 m-2">
+                                    <button style={{ backgroundColor: "#FE5722" }} type="submit" className="btn btn-save border text-white w-10 m-2">
                                         Submit
                                     </button>
                                 </div>
                             </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );
