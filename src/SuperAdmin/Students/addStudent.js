@@ -20,12 +20,13 @@ function AddAgent() {
         expiryDate: "",
         citizenship: "",
         dob:"",
-        website: "",
-        addressLine1: "",  // Street Address, City, State, Postal Code, Country
-        addressLine2: "",
-        addressLine3: "",
-        name: "",
-        contactNo: "",
+        gender: "",
+        email:"",
+        contactNumber: "",  
+        whatsAppNumber: "",
+        highestQualification: "",
+        degreeName: "",
+        academicYear: "",
         emailID: "",
         gstn: "",
         status: "",
@@ -39,13 +40,14 @@ function AddAgent() {
         expiryDate: { required: false },
         citizenship: { required: false },
         dob: { required: false },
-        businessContactNo: { required: false, valid: false },
-        website: { required: false },
-        addressLine2: { required: false },
-        addressLine3: { required: false },
+        gender: { required: false},
+        email:{required:false,valid:false},
+        contactNumber: { required: false,valid:false },
+        whatsAppNumber: { required: false },
+        highestQualification: { required: false },
         addressLine1: { required: false },
-        name: { required: false },
-        contactNo: { required: false, valid: false },
+        degreeName: { required: false },
+        academicYear: { required: false, valid: false },
         emailID: { required: false, valid: false },
         gstn: { required: false },
         status: { required: false },
@@ -97,26 +99,26 @@ function AddAgent() {
         if (data.dob === "") {
             error.dob.required = true;
         }
-        if (data.website === "") {
-            error.website.required = true;
+        if (data.gender === "") {
+            error.gender.required = true;
         }
-        if (data.addressLine1 === "") {
-            error.addressLine1.required = true;
+        if (data.email === "") {
+            error.email.required = true;
         }
-        if (data.name === "") {
-            error.name.required = true;
+        if (data. contactNumber === "") {
+            error. contactNumber.required = true;
         }
-        if (data.contactNo === "") {
-            error.contactNo.required = true;
+        if (data.whatsAppNumber === "") {
+            error.whatsAppNumber.required = true;
         }
-        if (data.emailID === "") {
-            error.emailID.required = true;
+        if (data.highestQualification === "") {
+            error.highestQualification.required = true;
         }
-        if (data.addressLine2 === "") {
-            error.addressLine2.required = true;
+        if (data. degreeName === "") {
+            error. degreeName.required = true;
         }
-        if (data.addressLine3 === "") {
-            error.addressLine3.required = true;
+        if (data.academicYear === "") {
+            error.academicYear.required = true;
         }
         if (data.gstn === "") {
             error.gstn.required = true;
@@ -125,11 +127,14 @@ function AddAgent() {
             error.status.required = true; 
             
         }
-        if (!isValidEmail(data.emailID)) {
-            error.emailID.valid = true;
+        if (!isValidEmail(data.email)) {
+            error.email.valid = true;
         }
-        if (!isValidPhone(data.contactNo)) {
-            error.contactNo.valid = true;
+        if (!isValidPhone(data.contactNumber)) {
+            error.contactNumber.valid = true;
+        }
+        if (!isValidPhone(data.whatsAppNumber)) {
+            error.whatsAppNumber.valid = true;
         }
        
         
@@ -332,26 +337,23 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   
                                         <label style={{ color: "#231F20" }}>
-                                            Staff Contact number<span className="text-danger">*</span>
+                                        Gender<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             placeholder="Contact Number"
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            name="contactNo"
+                                            name="gender"
                                             onChange={handleInputs}
                                         />
-                                        {errors.contactNo.required ?
+                                        {errors.gender.required ?
 
                                             <span className="text-danger form-text profile_error">
 
                                                 This field is required.
 
-                                            </span> : errors.contactNo.valid ?
-                                                <span className="text-danger form-text profile_error">
-                                                    Enter valid mobile number.
-                                                </span> : null
+                                            </span> : null
 
                                         }
                                     
@@ -361,21 +363,21 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            Staff EmailID<span className="text-danger">*</span>
+                                          EmailID<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             placeholder="Enter Email ID"
-                                            name="emailID"
+                                            name="email"
                                             onChange={handleInputs}
                                         />
-                                        {errors.emailID.required ? (
+                                        {errors.email.required ? (
                                             <div className="text-danger form-text">
                                                 This field is required.
                                             </div>
-                                        ) : errors.emailID.valid ? (
+                                        ) : errors.email.valid ? (
                                             <div className="text-danger form-text">
                                                 Enter valid Email Id.
                                             </div>
@@ -385,36 +387,62 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            Gstn<span className="text-danger">*</span>
+                                        contactNumber<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             placeholder="Enter Gstn"
-                                            name="gstn"
+                                            name="contactNumber"
                                             onChange={handleInputs}
                                         />
-                                        {errors.gstn.required ? <span className="text-danger form-text profile_error">
+                                        {errors.contactNumber.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
-                                        </span> : null}
+                                        </span>: errors.contactNumber.valid ? (
+                                            <div className="text-danger form-text">
+                                                Enter valid contactNumber.
+                                            </div>
+                                        )  : null}
                                     
                                 </div>
-                               
-                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                    <label style={{ color: "#231F20" }}>
-                                       AddressLine1?<span className="text-danger">*</span>
+                                   whatsAppNumber<span className="text-danger">*</span>
                                    </label>
                                    <input
                                        type="text"
                                        className="form-control "
                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                       placeholder="Enter No Area Street Name"
-                                       name="addressLine1"
+                                       placeholder="Enter whatsAppNumber"
+                                       name="whatsAppNumber"
                                        onChange={handleInputs}
                                    />
-                                   {errors.addressLine1.required ? <span className="text-danger form-text profile_error">
+                                   {errors.whatsAppNumber.required ? <span className="text-danger form-text profile_error">
+                                       This field is required.
+                                   </span>: errors.whatsAppNumber.valid ? (
+                                       <div className="text-danger form-text">
+                                           Enter valid whatsAppNumber.
+                                       </div>
+                                   )  : null}
+                               
+                           </div>
+                               
+                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                   
+                                   <label style={{ color: "#231F20" }}>
+                                   HighestQualification<span className="text-danger">*</span>
+                                   </label>
+                                   <input
+                                       type="text"
+                                       className="form-control "
+                                       style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                       placeholder="Enter HighestQualification"
+                                       name="highestQualification"
+                                       onChange={handleInputs}
+                                   />
+                                   {errors.highestQualification.required ? <span className="text-danger form-text profile_error">
                                        This field is required.
                                    </span> : null}
                              
@@ -422,17 +450,17 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     
                                         <label style={{ color: "#231F20" }}>
-                                            AddressLine2<span className="text-danger">*</span>
+                                        DegreeName<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             placeholder="Enter City State"
-                                            name="addressLine2"
+                                            name="degreeName"
                                             onChange={handleInputs}
                                         />
-                                        {errors.addressLine2.required ? <span className="text-danger form-text profile_error">
+                                        {errors.degreeName.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
                                    
@@ -440,17 +468,17 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     
                                         <label style={{ color: "#231F20" }}>
-                                            AddressLine3<span className="text-danger">*</span>
+                                        AcademicYear<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Country Pincode"
-                                            name="addressLine3"
+                                            placeholder="Enter AcademicYear"
+                                            name="academicYear"
                                             onChange={handleInputs}
                                         />
-                                        {errors.addressLine3.required ? <span className="text-danger form-text profile_error">
+                                        {errors.academicYear.required ? <span className="text-danger form-text profile_error">
                                             This field is required.
                                         </span> : null}
                                    
