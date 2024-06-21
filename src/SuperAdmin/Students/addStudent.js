@@ -291,9 +291,9 @@ function AddAgent() {
                                                 </div>
                                                 <div className="card-body">
                                                     <div className="row gy-4">
-                                                  
 
-                   
+
+
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
@@ -445,7 +445,7 @@ function AddAgent() {
                                                                     This field is required.
                                                                 </span> : null
                                                             }
-                                                        </div> 
+                                                        </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
@@ -491,13 +491,13 @@ function AddAgent() {
 
                                                         </div>
 
-                                                      
-                                                        <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                          Student Course Details :
-                        </div>
 
-                      </div>
+                                                        <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                                                            <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                                                                Student Course Details :
+                                                            </div>
+
+                                                        </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
@@ -738,9 +738,9 @@ function AddAgent() {
 
                                                         </div>
                                                         <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                          Student Academic Details :
-                        </div>
+                                                            <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                                                                Student Academic Details :
+                                                            </div>
 
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -893,7 +893,7 @@ function AddAgent() {
 
                                                             {errors.passWord.required ? <span className="text-danger form-text profile_error">
                                                                 This field is required.
-                                                            </span> :errors.passWord.valid ? (
+                                                            </span> : errors.passWord.valid ? (
                                                                 <div className="text-danger form-text">
                                                                     Enter valid Password .
                                                                 </div>
@@ -916,7 +916,7 @@ function AddAgent() {
 
                                                             {errors.confirmPassword.required ? <span className="text-danger form-text profile_error">
                                                                 This field is required.
-                                                            </span> :errors.confirmPassword.valid ? (
+                                                            </span> : errors.confirmPassword.valid ? (
                                                                 <div className="text-danger form-text">
                                                                     Enter valid Password.
                                                                 </div>
