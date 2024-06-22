@@ -24,4 +24,6 @@ export const deleteStudent = (data) => {
     return API.delete(`${Student}`, { params: { _id: data } });
   };
 
- 
+  export const StudentSuperAdmin = (data) => {
+    return API.put(`${Student}/createStudentBySuperAdmin`, data)
+}

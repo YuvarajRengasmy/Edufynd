@@ -18,7 +18,7 @@ export default function Masterproductlist() {
 
 
   const initialStateInputs = {
-    universityName: "",
+    name: "",
     programTitle: "",
     applicationFee: "",
     courseFee: "",
@@ -486,7 +486,7 @@ export default function Masterproductlist() {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add Program
+                        Add Student
                       </button>
                     </Link>
                   </li>
@@ -527,7 +527,7 @@ export default function Masterproductlist() {
                             <td className="text-capitalize text-start">{data?.studentCode}</td>
                            
                             <td className="text-capitalize text-start">{data?.email}</td>
-                            <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                            <td className="text-capitalize text-start">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null}</td>
                             <td className="text-capitalize text-start">{data?.status}</td>
                             <td className="text-capitalize text-start">{data?.modifiedOn}</td>
                             <td>

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { clearStorage } from '../Utils/storage';
 
-const API = axios.create({ baseURL: 'http://localhost:4409/api/' });
-// const API = axios.create({ baseURL: 'https://crm.edufynd.in/api/' });
+// const API = axios.create({ baseURL: 'http://localhost:4409/api/' });
+const API = axios.create({ baseURL: 'https://crm.edufynd.in/api/' });
 
 
 
