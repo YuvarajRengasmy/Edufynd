@@ -6,7 +6,7 @@ export const saveAdmin = (data) => {
 }
 
 export const getallAdmin = () => {
-    return API.get(`${Admin}/getallAdmin`)
+    return API.get(`${Admin}/`)
 }
 
 
