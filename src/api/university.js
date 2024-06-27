@@ -6,13 +6,13 @@ export const saveUniversity = (data) => {
 }
 
 export const getallUniversity = () => {
-    return API.get(`${University}/getalluniversity`)
+    return API.get(`${University}`)
 }
 export const getFilterUniversity = (data) => {
-  return API.put(`${University}/getfilteruniversity`, data);
+  return API.put(`${University}/getFilterUniversity`, data);
 };
 export const getSingleUniversity = (data) => {
-    return API.get(`${University}/getsingleuniversity`, { params: { _id: data } });
+    return API.get(`${University}/getSingleUniversity`, { params: { _id: data } });
   };
   export const deleteUniversity = (data) => {
     return API.delete(`${University}`, { params: { _id: data } });
@@ -22,11 +22,11 @@ export const getSingleUniversity = (data) => {
   };
 
   export const getAllUniversityForWeb = (data) => {
-    return API.get(`${University}/getalluniversityforweb`, data);
+    return API.get(`${University}/getAllUniversityForweb`, data);
   };
 
   export const UniversityProgram = (data) => {
-    return API.get(`${University}/getprogrambyuniversity`, { params: { universityId: data } });
+    return API.get(`${University}/getProgramByUniversity`, { params: { universityId: data } });
   };
 
 

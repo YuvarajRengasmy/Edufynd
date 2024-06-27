@@ -1,13 +1,14 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Country from "../SuperAdmin/University/Country";
 import AddUniversity from "../SuperAdmin/University/addUniversity";
 import ListUniversity from "../SuperAdmin/University/ListUniversity"
 import ViewUniversity from "../SuperAdmin/University/viewUniversity";
 import EditUniversity from "../SuperAdmin/University/editUniversity";
 import ViewProgram from "../SuperAdmin/Program/ViewProgram";
 import ListStudent from "../SuperAdmin/Students/listStudent";
-import AddStudent from "../SuperAdmin/Students/addStudent";
+import AddStudentSA from "../SuperAdmin/Students/addStudent";
 import ViewStudent from "../SuperAdmin/Students/viewStudent"
 import Editstudent from "../SuperAdmin/Students/editStudent";
 import AddAgent from "../SuperAdmin/Agnent/addAgent";
@@ -29,6 +30,9 @@ import ListClient from "../SuperAdmin/client/ListClient";
 // import ViewClient from "../SuperAdmin/client/viewClient";
 import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
+import UniversitySettings from "../SuperAdmin/Settings/universityModule";
+import ProgramModule from "../SuperAdmin/Settings/programModule";
+import ClientModule from "../SuperAdmin/Settings/clientModule";
 import Status from "../SuperAdmin/Settings/Status"
 import Intake from "../SuperAdmin/Settings/intake"
 import ListApplication from "../SuperAdmin/Application/ListApplication";
@@ -38,19 +42,20 @@ import ListApplication from "../SuperAdmin/Application/ListApplication";
 import Application from "../SuperAdmin/Application/Application";
 import ViewUniversity1 from "../SuperAdmin/University/viewUniversity1";
 import ApplyJob from "../Students/Program/ApplyProgram";
+// import { Country } from "../api/endpoints";
 function SuperAdmin() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-        
+        <Route path="/Demo" element={<Country />} />
           <Route path="/AddUniversity" element={<AddUniversity />} />
           <Route path="/ListUniversity" element={<ListUniversity />} />
           <Route path="/ViewUniversity" element={<ViewUniversity />} />
           <Route path="/EditUniversity" element={<EditUniversity />} />
           <Route path="/ViewProgram" element={<ViewProgram />} />
           <Route path="/ListStudent" element={<ListStudent />} />
-          <Route path="/AddStudent" element={<AddStudent />} />
+          <Route path="/AddStudentSA" element={<AddStudentSA />} />
           <Route path="/ViewStudent" element={<ViewStudent />} />
           <Route path="/EditStudent" element={<Editstudent />} />
           <Route path="/AddAgent" element={<AddAgent />} />
@@ -71,6 +76,9 @@ function SuperAdmin() {
           <Route path="/client" element={<ListClient />} />
           <Route path="/EditClient" element={<EditClient />} />
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
+          <Route path="/UniversitySettings" element={<UniversitySettings/>}/>
+          <Route path="/ProgramModule" element={<ProgramModule/>}/>
+          <Route path="/ClientModule" element={<ClientModule/>}/>
           <Route path="/Status" element={<Status/>}/>
           <Route path="/Intake" element={<Intake/>}/>
           <Route path='/ListApplication' element={<ListApplication/>}/>

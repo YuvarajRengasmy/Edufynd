@@ -3,9 +3,9 @@
     left: 0;
     top: 0;
     height: 100%;
-    width: 70px;
-    background-color:#fe5722;
-    color:rgb(255, 255, 255) ;
+    width: 200px;
+    background-color:#ffffff;
+    color:rgb(0, 0, 0) ;
     transition: width 0.3s ease;
     font-size: 12px;
     overflow-y: auto;
@@ -16,14 +16,13 @@
     
     
     
+    
 
    
     
 }
 
-.sBar:hover {
-    width: 200px;
-}
+
 
 .sBar ul {
     list-style-type: none;
@@ -43,15 +42,6 @@
 }
 
 .sBar ul li span {
-    display: none;
-}
-
-.sBar:hover ul li span {
     display: inline-block;
-    margin-left: 10px;
-}
-
-.sBar ul li:hover {
-    background-color:#ffffff;
-    color: #fff;
+    padding: 0px 10px;
 }

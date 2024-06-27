@@ -14,6 +14,7 @@ export const Course = () => {
     const id = new URLSearchParams(location.search).get("id");
 
     const initialState = {
+        studentId: getStudentId(),
         name: "",
         dob: "",
         passportNo: "",
@@ -44,6 +45,7 @@ export const Course = () => {
     const [application, setApplication] = useState(initialState);
     const [errors, setErrors] = useState(initialStateErrors);
     const [program, setProgram] = useState({});
+    const [student, setStudent] = useState({});
     const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
 
@@ -52,30 +54,42 @@ export const Course = () => {
         getUserDetails();
     }, []);
 
-    const getUserDetails = async () => {
+    const getUserDetails = () => {
         const data = getStudentId();
-        try {
-            const res = await getSingleStudent(data);
-            const result = res?.data?.result;
-            setApplication({ ...application, ...result });
-        } catch (err) {
-            console.error(err);
-        }
+        getSingleStudent(data)
+            .then((res) => {
+                const result = res?.data?.result;
+                setStudent(result);
+                setApplication((prev) => ({
+                    ...prev,
+                    name: result?.name,
+                    dob: result?.dob,
+                    passportNo: result?.passportNo,
+                    email: result?.email,
+                    primaryNumber: result?.primaryNumber,
+                    whatsAppNumber: result?.whatsAppNumber
+                }));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
-    const getProgramDetails = async () => {
-        try {
-            const res = await getSingleProgram(id);
-            setProgram(res?.data?.result);
-            setApplication((prev) => ({
-                ...prev,
-                universityName: res?.data?.result?.universityName,
-                course: res?.data?.result?.programTitle,
-                courseFees: res?.data?.result?.courseFee
-            }));
-        } catch (err) {
-            console.error(err);
-        }
+    const getProgramDetails = () => {
+        getSingleProgram(id)
+            .then((res) => {
+                const result = res?.data?.result;
+                setProgram(result);
+                setApplication((prev) => ({
+                    ...prev,
+                    universityName: result?.universityName,
+                    course: result?.programTitle,
+                    courseFees: result?.courseFee
+                }));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const handleInputs = (event) => {
@@ -127,8 +141,10 @@ export const Course = () => {
         if (allInputsValid) {
             try {
                 const res = await saveApplication(application);
+                navigate("/Program"); // Navigate to a success page or another route
                 toast.success(res?.data?.message);
-                navigate("/Program");
+                setApplication(initialState); // Clear the form fields after submission
+              
             } catch (err) {
                 toast.error(err?.response?.data?.message);
             }
@@ -210,15 +226,15 @@ export const Course = () => {
                                                         {errors.inTake.required && <span className="text-danger">InTake is required</span>}
                                                     </div>
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                        <label style={{ color: "#231F20" }}>Student Name<span className="text-danger">*</span></label>
+                                                        <label style={{ color: "#231F20" }}>Name<span className="text-danger">*</span></label>
                                                         <input
                                                             type="text"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="form-control rounded-2 p-2"
+                                                            placeholder="Enter Name"
                                                             name="name"
                                                             value={application.name}
                                                             onChange={handleInputs}
-                                                            className="form-control"
-                                                            placeholder="Enter Student Name"
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         />
                                                         {errors.name.required && <span className="text-danger">Name is required</span>}
                                                     </div>
@@ -226,12 +242,12 @@ export const Course = () => {
                                                         <label style={{ color: "#231F20" }}>DOB<span className="text-danger">*</span></label>
                                                         <input
                                                             type="date"
-                                                            className="form-control"
+                                                            className="form-control rounded-2 p-2"
                                                             placeholder="Enter DOB"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                             name="dob"
                                                             value={application.dob}
                                                             onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         />
                                                         {errors.dob.required && <span className="text-danger">DOB is required</span>}
                                                     </div>
@@ -239,67 +255,82 @@ export const Course = () => {
                                                         <label style={{ color: "#231F20" }}>Passport No<span className="text-danger">*</span></label>
                                                         <input
                                                             type="text"
-                                                            className="form-control"
+                                                            className="form-control rounded-2 p-2"
                                                             placeholder="Enter Passport No"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                             name="passportNo"
                                                             value={application.passportNo}
                                                             onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         />
-                                                        {errors.passportNo.required && <span className="text-danger">Passport No is required</span>}
+                                                        {errors.passportNo.required && <span className="text-danger">Passport Number is required</span>}
                                                     </div>
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Email<span className="text-danger">*</span></label>
                                                         <input
-                                                            type="text"
-                                                            className="form-control"
+                                                            type="email"
+                                                            className="form-control rounded-2 p-2"
                                                             placeholder="Enter Email"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                             name="email"
                                                             value={application.email}
                                                             onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         />
                                                         {errors.email.required && <span className="text-danger">Email is required</span>}
-                                                        {errors.email.valid && <span className="text-danger">Email is invalid</span>}
+                                                        {errors.email.valid && <span className="text-danger">Email is not valid</span>}
                                                     </div>
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Primary Number<span className="text-danger">*</span></label>
                                                         <input
                                                             type="text"
-                                                            className="form-control"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="form-control rounded-2 p-2"
                                                             placeholder="Enter Primary Number"
                                                             name="primaryNumber"
                                                             value={application.primaryNumber}
                                                             onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         />
                                                         {errors.primaryNumber.required && <span className="text-danger">Primary Number is required</span>}
-                                                        {errors.primaryNumber.valid && <span className="text-danger">Primary Number is invalid</span>}
+                                                        {errors.primaryNumber.valid && <span className="text-danger">Primary Number is not valid</span>}
                                                     </div>
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>WhatsApp Number<span className="text-danger">*</span></label>
                                                         <input
                                                             type="text"
-                                                            className="form-control"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="form-control rounded-2 p-2"
                                                             placeholder="Enter WhatsApp Number"
                                                             name="whatsAppNumber"
                                                             value={application.whatsAppNumber}
                                                             onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         />
                                                         {errors.whatsAppNumber.required && <span className="text-danger">WhatsApp Number is required</span>}
-                                                        {errors.whatsAppNumber.valid && <span className="text-danger">WhatsApp Number is invalid</span>}
+                                                        {errors.whatsAppNumber.valid && <span className="text-danger">WhatsApp Number is not valid</span>}
                                                     </div>
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                        <label style={{ color: "#231F20" }}>Course Name<span className="text-danger">*</span></label>
+                                                        <label style={{ color: "#231F20" }}>University Name<span className="text-danger">*</span></label>
                                                         <input
                                                             type="text"
-                                                            className="form-control"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                            placeholder="Enter Course"
-                                                            value={application.course}
-                                                            name="course"
+                                                            className="form-control rounded-2 p-2"
+                                                            placeholder="Enter University Name"
+                                                            name="universityName"
+                                                            value={application.universityName}
                                                             onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            disabled
+                                                        />
+                                                        {errors.universityName.required && <span className="text-danger">University Name is required</span>}
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Course<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-2 p-2"
+                                                            placeholder="Enter Course"
+                                                            name="course"
+                                                            value={application.course}
+                                                            onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            disabled
                                                         />
                                                         {errors.course.required && <span className="text-danger">Course is required</span>}
                                                     </div>
@@ -307,43 +338,18 @@ export const Course = () => {
                                                         <label style={{ color: "#231F20" }}>Course Fees<span className="text-danger">*</span></label>
                                                         <input
                                                             type="text"
-                                                            className="form-control"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="form-control rounded-2 p-2"
                                                             placeholder="Enter Course Fees"
                                                             name="courseFees"
                                                             value={application.courseFees}
                                                             onChange={handleInputs}
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            disabled
                                                         />
-                                                        {errors.courseFees.required && <span className="text-danger">Course Fees are required</span>}
+                                                        {errors.courseFees.required && <span className="text-danger">Course Fees is required</span>}
                                                     </div>
-                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                        <label style={{ color: "#231F20" }}>University Name<span className="text-danger">*</span></label>
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                            placeholder="Enter University Name"
-                                                            name="universityName"
-                                                            value={application.universityName}
-                                                            onChange={handleInputs}
-                                                        />
-                                                        {errors.universityName.required && <span className="text-danger">University Name is required</span>}
-                                                    </div>
-                                                    <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                                                        <Link
-                                                            style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                                                            to="/ClientList"
-                                                            className="btn btn-cancel border text-white w-10 m-2"
-                                                        >
-                                                            Cancel
-                                                        </Link>
-                                                        <button
-                                                            style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                                                            type="submit"
-                                                            className="btn btn-save border text-white w-10 m-2"
-                                                        >
-                                                            Submit
-                                                        </button>
+                                                    <div className=" border-0 d-flex justify-content-center py-3">
+                                                        <button type="submit" className="btn text-white"   style={{ backgroundColor: '#fe5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -351,6 +357,12 @@ export const Course = () => {
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                        <div className="card-footer border-0 d-flex justify-content-center py-3">
+                        <Link className='text-decoration-none' to={{
+                                    pathname: "/ViewProgramUniversity",
+                                    search: `?id=${program?._id}`,
+                                  }}><button className="btn btn-outline-dark">Back</button></Link>
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,8 @@ export default function Masterproductlist() {
 
   const initialStateInputs = {
     universityName: "",
-    campus: "",
+    state: "",
+    lga: "",
     averageFees: "",
     country: "",
     popularCategories: "",
@@ -102,13 +103,13 @@ export default function Masterproductlist() {
     const data = {
       universityName: inputs.universityName,
       country: inputs.country,
-      campus: inputs.campus,
+      // state: inputs?.lga && inputs.lga.length > 0 ? inputs.lga.join(", ") : inputs?.state?.join(", ") ?? "-",
       averageFees: inputs.averageFees,
       popularCategories: inputs.popularCategories,
       limit: 10,
       page: pagination.from,
-
     };
+    
     getFilterUniversity(data)
       .then((res) => {
         setUniversity(res?.data?.result?.universityList);
@@ -237,7 +238,7 @@ export default function Masterproductlist() {
               margin: [5, 3],
             },
             {
-              text: element?.campus ?? "-",
+              text: element?.lga?.length > 0 ? element.lga.join(", ") : element?.state?.join(", ") ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -275,7 +276,7 @@ export default function Masterproductlist() {
         result?.forEach((res) => {
           list.push({
             universityName: res?.universityName ?? "-",
-            campus: res?.campus ?? "-",
+            state: res?.lga?.length > 0 ? res.lga.join(", ") : res?.state?.join(", ") ?? "-",
             averageFees: res?.averageFees ?? "-",
             country: res?.country ?? "-",
 
@@ -283,7 +284,7 @@ export default function Masterproductlist() {
         });
         let header1 = [
           "universityName",
-          "campus",
+          "state",
           "averageFees",
           "country",
 
@@ -389,7 +390,7 @@ export default function Masterproductlist() {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  name="campus"
+                                  name="state"
                                   onChange={handleInputs}
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...Campus"
@@ -534,7 +535,7 @@ export default function Masterproductlist() {
                                 <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                                 <td className="text-capitalize text-start">{data?.businessName}</td>
                                 <td className="text-capitalize text-start">{data?.universityName}</td>
-                                <td className="text-capitalize text-start">{data?.campus}</td>
+                                <td className="text-capitalize text-start"> {data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", ")}</td>
                                 <td className="text-capitalize text-start">{data?.averageFees}</td>
                                 <td className="text-capitalize text-start">
                                   {getDisplayText(data?.popularCategories?.join(", "), isExpanded)}

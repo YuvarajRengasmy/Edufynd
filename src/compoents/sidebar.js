@@ -68,8 +68,14 @@ const Sidebar = () => {
                   <p style={{ fontSize: "12px", fontWeight: "bold" }} >Student</p>
                 </a>
               </li>
+              <li className="nav-item  ">
+                <a href="/AdminList" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
+                  <i className="nav-icon fas fa-user " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Program Icon */}
+                  <p style={{ fontSize: "12px", fontWeight: "bold" }} >Admin</p>
+                </a>
+              </li>
               <li className="nav-item ">
-                <a href="/Application" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
+                <a href="/ListApplication" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-book " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Program Icon */}
                   <p style={{ fontSize: "12px", fontWeight: "bold" }} >Application</p>
                 </a>
@@ -234,7 +240,7 @@ const Sidebar = () => {
               </li>
 
               <li className="nav-item ">
-                <a href="#" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
+                <a href="/Demo" className="nav-link" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }}>
                   <i className="nav-icon fas fa-certificate " style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} /> {/* Admin Icon */}
                   <p style={{ fontSize: "12px", fontWeight: "bold",  }} > Promotion</p>
                 </a>
@@ -345,9 +351,9 @@ const Sidebar = () => {
               <div className={`collapse ${isOpen.modules ? 'show' : ''}`} id="collapse8">
                 <ul className='nav d-flex flex-column border-0 ps-4'>
                   <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">status</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">program</a></li>
-                  <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">university</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">country</a></li>
+                  <li className='nav-item'><a href="/ProgramModule" className="nav-link  text-capitalize fw-semibold">program</a></li>
+                  <li className='nav-item'><a href="/UniversitySettings" className="nav-link  text-capitalize fw-semibold">university</a></li>
+            <li className='nav-item'><a href="/ClientModule" className="nav-link  text-capitalize fw-semibold">client</a></li>
             <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">add label</a></li>
             <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">dashboard</a></li>
                 </ul>

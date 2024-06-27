@@ -1,13 +1,18 @@
 import React from "react";
-import Header from "../Agents/AgentHeader";
-import Footer from "../Agents/AgentFooter";
+import Header from "../../compoents/header";
+import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {
     return (
-        <div>
-           <Header/>
-            <div className="content-wrapper">
+        <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div class="container-fluid">
+                <nav class="navbar navbar-vertical navbar-expand-lg">
+                 
+                   
+                </nav>
+           
+            <div className="content-wrapper " style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header mt-3">
                     <div className="content container-fluid w-75">
                         <form >
@@ -374,7 +379,7 @@ function Profile() {
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
                                     <Link
                                         style={{ backgroundColor: "#231F20" }}
-                                        to="/Studentpage"
+                                        to="/ListStudent"
                                         className="btn btn-cancel border text-white w-50 m-2"
                                     >
                                         Cancel
@@ -392,7 +397,7 @@ function Profile() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            </div>
         </div>
     );
 }

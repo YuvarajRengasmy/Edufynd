@@ -18,7 +18,7 @@ export default function Masterproductlist() {
 
 
   const initialStateInputs = {
-    universityName: "",
+    name: "",
     programTitle: "",
     applicationFee: "",
     courseFee: "",
@@ -477,7 +477,7 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddProgram">
+                    <Link class="btn btn-pix-primary" to="/AddStudentSA">
                       <button
                         className="btn btn-outline border text-white  "
                         style={{ backgroundColor: "#9265cc",fontSize: '11px'  }}
@@ -486,7 +486,7 @@ export default function Masterproductlist() {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add Program
+                        Add Student
                       </button>
                     </Link>
                   </li>
@@ -523,13 +523,13 @@ export default function Masterproductlist() {
                         {student?.map((data, index) => (
                           <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.studentId?.studentName?data?.studentId?.studentName: data?.superAdminId?.studentName}</td>
+                            <td className="text-capitalize text-start">{data?.name?data?.name: data?.superAdminId?.studentName}</td>
                             <td className="text-capitalize text-start">{data?.studentCode}</td>
                            
                             <td className="text-capitalize text-start">{data?.email}</td>
-                            <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                            <td className="text-capitalize text-start">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null}</td>
                             <td className="text-capitalize text-start">{data?.status}</td>
-                            <td className="text-capitalize text-start">{data?.createdBy}</td>
+                            <td className="text-capitalize text-start">{data?.modifiedOn}</td>
                             <td>
                               <div className="d-flex">
                                 <Link

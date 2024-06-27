@@ -3,6 +3,7 @@ import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validat
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { saveClient } from '../../api/client';
+import {getallClientModule} from "../../api/universityModule/clientModule";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
@@ -47,9 +48,25 @@ function AddAgent() {
     const [client, setClient] = useState(initialState)
     const [errors, setErrors] = useState(initialStateErrors)
     const [submitted, setSubmitted] = useState(false);
+    const [type, setType] = useState([]);
    
 
-
+    useEffect(() => {
+        
+        getAllClientDetails();
+      }, []);
+    
+      const  getAllClientDetails = () => { 
+        getallClientModule()
+          .then((res) => {
+            console.log(res);
+            setType(res?.data?.result);
+          
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
     const navigate = useNavigate()
     const handleValidation = (data) => {
         let error = initialStateErrors;
@@ -204,17 +221,12 @@ function AddAgent() {
                                             Type of client <span className="text-danger">*</span>
                                         </label>
                                         <div className="d-flex gap-4">
-                                            <select
-                                                name="typeOfClient"
-                                                onChange={handleInputs}
-                                                style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                className="form-control"
-                                            >
-                                                <option value=" ">Select Client</option>
-                                                <option value="institution">Institution</option>
-                                                <option value="financialInstitution">Financial Institution</option>
-                                                <option value="otherServiceProvider">Other Service Provider</option>
-                                            </select>
+                                            
+                                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
+                              <option value={""}  >Select Client Type</option>
+                              {type.map((data, index) =>
+                                <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}
+                            </select>
                                             {errors.typeOfClient.required ? (
                                                 <div className="text-danger form-text">
                                                     This field is required.

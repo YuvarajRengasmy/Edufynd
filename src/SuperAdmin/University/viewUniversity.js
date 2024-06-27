@@ -125,8 +125,8 @@ const UserProfile = () => {
                     <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
                       <li class="nav-item" role="presentation"><a class="nav-link active text-uppercase " id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">Overview</a></li>
                       <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Campus</a></li>
-                      <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-populatCourse" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Popular Categories</a></li>
-
+                      <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-populatCourse" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Categories</a></li>
+                      <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-Course" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Course</a></li>
                     </ul>
                     <div class="tab-content mt-3" id="myTabContent" style={{ height: "350px", overflowY: "auto", scrollbarWidth: 'none' }}>
                       <div class="tab-pane fade active show" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
@@ -137,17 +137,18 @@ const UserProfile = () => {
                         <div className='row'>
                           <div className=' border-0 pt-3 px-4'>
                             <div className='row'>
-                              {Array.isArray(university?.campus) &&
-                                university.campus.map((campus, index) => (
-                                  <div key={index} className='col-sm-4'>
-                                    <div className="card border-0 rounded-3 shadow " style={{ width: '8rem', height: "11rem" }}>
-                                      <img src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
-                                      <div className="card-body">
-                                        <p className="card-text text-center">{campus}</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
+                            {Array.isArray(university?.state) && university.state.map((state, index) => (
+  <div key={index} className='col-sm-4'>
+    <div className="card border-0 rounded-3 shadow" style={{ width: '8rem', height: "11rem" }}>
+      <img src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} className="card-img-top" style={{ width: '8rem', height: "7rem" }} alt="img" />
+      <div className="card-body">
+        <p className="card-text text-center">
+          {university?.lga?.[index]?.length > 0 ? university.lga[index] : state}
+        </p>
+      </div>
+    </div>
+  </div>
+))}
 
                             </div>
 
@@ -163,6 +164,23 @@ const UserProfile = () => {
                                 university.popularCategories.map((popularCategories, index) => (
                                   <div key={index} className='card shadow border-1 rounded p-2 mt-2 mb-2'>
                                     <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>  {popularCategories}</span>
+                                  </div>
+                                ))}
+
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab-Course" role="tabpanel" aria-labelledby="profile-tab">
+                        <div className='row'>
+                          <div className=' border-0 pt-3 px-4'>
+                            <div className='row'>
+                              {Array.isArray(university?.courseType) &&
+                                university.courseType.map((courseType, index) => (
+                                  <div key={index} className='card shadow border-1 rounded p-2 mt-2 mb-2'>
+                                    <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>{courseType}</span>
                                   </div>
                                 ))}
 
