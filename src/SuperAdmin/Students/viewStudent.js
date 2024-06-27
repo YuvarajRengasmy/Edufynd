@@ -18,8 +18,8 @@ function Profile() {
                 <div className="content-header mt-3">
                     <div className="content container-fluid w-75">
                         <form >
-                            <div className="content-page-header">
-                                <h5 className="text-bold" style={{ color: "#231F20" }}>
+                            <div className="content-page-header ">
+                                <h5 className="text-bold " style={{ color: "#231F20" }}>
                                     View Student
                                 </h5>
                             </div>
