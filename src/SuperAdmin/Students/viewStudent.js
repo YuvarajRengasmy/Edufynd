@@ -20,7 +20,7 @@ function Profile() {
                         <form >
                             <div className="content-page-header ">
                                 <h5 className="text-bold " style={{ color: "#231F20" }}>
-                                    View Student
+                                    View Students
                                 </h5>
                             </div>
                             <div className="row">
