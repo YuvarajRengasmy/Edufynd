@@ -20,8 +20,8 @@ function Profile() {
             <div className="container-fluid p-4">
   <div className="row">
     <div className="col">
-      <div className="card border-0 text-bg-primary p-4">
-        <div className="bg-transparent mb-3 text-white">
+      <div className="card border-0 shadow text-bg-white p-4">
+        <div className="bg-transparent mb-3 ">
           <div className="row g-0">
             <div className="col-md-3 text-center">
               <img
@@ -37,10 +37,10 @@ function Profile() {
                 <div className="d-flex flex-row flex-wrap align-items-start justify-content-around">
                 
                 <div className="d-flex flex-column align-items-start justify-content-start">
-                  <p className="card-text text-capitalize fw-bold"><FaUser /> Student Name</p>
-                  <p className="card-text text-capitalize fw-bold"><FaPassport /> Passport No</p>
-                  <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> Expiry Date</p>
-                  <p className="card-text text-capitalize fw-bold"><FaFlag /> Citizenship</p>
+                  <p className="card-text text-capitalize fw-bold" ><FaUser style={{color:'#fe5722'}} /> Student Name</p>
+                  <p className="card-text text-capitalize fw-bold"><FaPassport  style={{color:'#fe5722'}} /> Passport No</p>
+                  <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Expiry Date</p>
+                  <p className="card-text text-capitalize fw-bold"><FaFlag   style={{color:'#fe5722'}}/> Citizenship</p>
                 </div>
                 <div className="d-flex flex-column align-items-start justify-content-start">
                   <p className="card-text text-capitalize fw-semibold">James Lee</p>
@@ -54,10 +54,10 @@ function Profile() {
              <div className="col-sm-6">
              <div className="d-flex flex-row flex-wrap align-items-start justify-content-around">
              <div className="d-flex flex-column align-items-start justify-content-start">
-                    <p className="card-text text-capitalize fw-bold"><FaBirthdayCake /> DOB</p>
-                    <p className="card-text text-capitalize fw-bold"><FaMale /> Gender</p>
-                    <p className="card-text text-capitalize fw-bold"><FaPhone /> Contact Number</p>
-                    <p className="card-text text-capitalize fw-bold"><FaWhatsapp /> WhatsApp Number</p>
+                    <p className="card-text text-capitalize fw-bold"><FaBirthdayCake  style={{color:'#fe5722'}} /> DOB</p>
+                    <p className="card-text text-capitalize fw-bold"><FaMale  style={{color:'#fe5722'}} /> Gender</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPhone  style={{color:'#fe5722'}} /> Contact Number</p>
+                    <p className="card-text text-capitalize fw-bold"><FaWhatsapp  style={{color:'#fe5722'}} /> WhatsApp Number</p>
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
                     <p className="card-text text-capitalize fw-semibold">17-01-1992</p>
@@ -83,12 +83,12 @@ function Profile() {
         <div className="col-md-6">
         <div className="d-flex flex-row  align-items-start justify-content-around ">
         <div className="d-flex flex-column align-items-start justify-content-start">
-                    <p className="card-text text-capitalize fw-bold"><FaUser /> Do Have Any English Language Test</p>
-                    <p className="card-text text-capitalize fw-bold"><FaPassport /> english Test Type</p>
-                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> Test Score</p>
-                    <p className="card-text text-capitalize fw-bold"><FaFlag /> Date Of Test</p>
-                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> country</p>
-                    <p className="card-text text-capitalize fw-bold"><FaFlag /> desired University</p>
+                    <p className="card-text text-capitalize fw-bold"><FaUser  style={{color:'#fe5722'}} /> Do Have Any English Language Test</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPassport   style={{color:'#fe5722'}}/> english Test Type</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Test Score</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> Date Of Test</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> country</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> desired University</p>
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
                     <p className="card-text text-capitalize fw-semibold">Yes</p>
@@ -103,12 +103,12 @@ function Profile() {
         <div className="col-md-6">
         <div className="d-flex flex-row  align-items-start justify-content-around ">
         <div className="d-flex flex-column align-items-start justify-content-start">
-                    <p className="card-text text-capitalize fw-bold"><FaUser />desired Course</p>
-                    <p className="card-text text-capitalize fw-bold"><FaPassport /> Work Experience</p>
-                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> Any Visa Rejections</p>
-                    <p className="card-text text-capitalize fw-bold"><FaFlag /> visa Reason</p>
-                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> Do You Have Travel History</p>
-                    <p className="card-text text-capitalize fw-bold"><FaFlag />Finance</p>
+                    <p className="card-text text-capitalize fw-bold"><FaUser  style={{color:'#fe5722'}} />desired Course</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPassport  style={{color:'#fe5722'}} /> Work Experience</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Any Visa Rejections</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> visa Reason</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Do You Have Travel History</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} />Finance</p>
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
                     <p className="card-text text-capitalize fw-semibold">Game Designing</p>
@@ -137,11 +137,11 @@ function Profile() {
         <div className="col-md-6">
         <div className="d-flex flex-row  align-items-start justify-content-around ">
         <div className="d-flex flex-column align-items-start justify-content-start">
-                    <p className="card-text text-capitalize fw-bold"><FaUser /> Highest Qualification</p>
-                    <p className="card-text text-capitalize fw-bold"><FaPassport /> Degree Name</p>
-                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> Start Date</p>
-                    <p className="card-text text-capitalize fw-bold"><FaFlag /> End Date</p>
-                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> institution</p>
+                    <p className="card-text text-capitalize fw-bold"><FaUser  style={{color:'#fe5722'}} /> Highest Qualification</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPassport  style={{color:'#fe5722'}} /> Degree Name</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Start Date</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> End Date</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> institution</p>
                    
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
@@ -157,10 +157,10 @@ function Profile() {
         <div className="col-md-6">
         <div className="d-flex flex-row  align-items-start justify-content-around ">
         <div className="d-flex flex-column align-items-start justify-content-start">
-        <p className="card-text text-capitalize fw-bold"><FaFlag /> percentage</p>
-                    <p className="card-text text-capitalize fw-bold"><FaUser />Email ID</p>
-                    <p className="card-text text-capitalize fw-bold"><FaPassport /> Password</p>
-                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt /> ConfirmPassword</p>
+        <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> percentage</p>
+                    <p className="card-text text-capitalize fw-bold"><FaUser  style={{color:'#fe5722'}} />Email ID</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPassport   style={{color:'#fe5722'}}/> Password</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> ConfirmPassword</p>
                   
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
