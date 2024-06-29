@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getSingleStudent } from "../../api/student";
+import { Link, useLocation } from "react-router-dom";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
+
 
 import { FaUser, FaPassport, FaCalendarAlt, FaFlag, FaBirthdayCake, FaMale, FaPhone, FaWhatsapp } from 'react-icons/fa';
 function Profile() {
    
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  const [student, setStudent] = useState();
+  const pageSize = 5;
+ 
+  
+  useEffect(() => {
+      getStudentDetails();
+  }, []);
+
+
+  const getStudentDetails = () => {
+    getSingleStudent(id)
+          .then((res) => {
+              setStudent(res?.data?.result);
+          })
+          .catch((err) => {
+              console.log(err);
+          });
+  };
 
     return (
         <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
@@ -25,7 +48,7 @@ function Profile() {
           <div className="row g-0">
             <div className="col-md-3 text-center">
               <img
-                src="https://pics.craiyon.com/2023-07-15/dc2ec5a571974417a5551420a4fb0587.webp"
+                src={student?.photo?student?.photo:"https://pics.craiyon.com/2023-07-15/dc2ec5a571974417a5551420a4fb0587.webp"}
                 style={{ width: '150px', height: '150px' }}
                 className="img-fluid rounded-pill mx-auto d-block"
                 alt="student_image"
@@ -43,10 +66,10 @@ function Profile() {
                   <p className="card-text text-capitalize fw-bold"><FaFlag   style={{color:'#fe5722'}}/> Citizenship</p>
                 </div>
                 <div className="d-flex flex-column align-items-start justify-content-start">
-                  <p className="card-text text-capitalize fw-semibold">James Lee</p>
-                  <p className="card-text text-capitalize fw-semibold">NEW123LL</p>
-                  <p className="card-text text-capitalize fw-semibold">28-06-2025</p>
-                  <p className="card-text text-capitalize fw-semibold">Indian</p>
+                  <p className="card-text text-capitalize fw-light">{student?.name}</p>
+                  <p className="card-text text-capitalize fw-light">{student?.passportNo}</p>
+                  <p className="card-text text-capitalize fw-light">{student?.expiryDate}</p>
+                  <p className="card-text text-capitalize fw-light">{student?.citizenship}</p>
                 </div>
                 </div>
               
@@ -60,10 +83,10 @@ function Profile() {
                     <p className="card-text text-capitalize fw-bold"><FaWhatsapp  style={{color:'#fe5722'}} /> WhatsApp Number</p>
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
-                    <p className="card-text text-capitalize fw-semibold">17-01-1992</p>
-                    <p className="card-text text-capitalize fw-semibold">Male</p>
-                    <p className="card-text text-capitalize fw-semibold">1234567890</p>
-                    <p className="card-text text-capitalize fw-semibold">09876544321</p>
+                    <p className="card-text text-capitalize fw-light">{student?.dob}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.gender}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.mobileNumber}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.whatsAppNumber}</p>
                   </div>
              </div>
               
@@ -91,12 +114,12 @@ function Profile() {
                     <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> Desired University</p>
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
-                    <p className="card-text text-capitalize fw-semibold">Yes</p>
-                    <p className="card-text text-capitalize fw-semibold">SAT</p>
-                    <p className="card-text text-capitalize fw-semibold">100%</p>
-                    <p className="card-text text-capitalize fw-semibold">05-08-2024</p>
-                    <p className="card-text text-capitalize fw-semibold">America</p>
-                    <p className="card-text text-capitalize fw-semibold">Oxford</p>
+                    <p className="card-text text-capitalize fw-light">{student?.doHaveAnyEnglishLanguageTest}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.englishTestType}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.testScore}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.dateOfTest}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.country}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.desiredUniversity}</p>
                   </div>
         </div>
         </div>
@@ -111,12 +134,12 @@ function Profile() {
                     <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} />Finance</p>
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
-                    <p className="card-text text-capitalize fw-semibold">Game Designing</p>
-                    <p className="card-text text-capitalize fw-semibold">5 Years</p>
-                    <p className="card-text text-capitalize fw-semibold">No</p>
-                    <p className="card-text text-capitalize fw-semibold">Education</p>
-                    <p className="card-text text-capitalize fw-semibold">Yes</p>
-                    <p className="card-text text-capitalize fw-semibold">$300000</p>
+                    <p className="card-text text-capitalize fw-light">{student?.desiredCourse}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.workExperience}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.anyVisaRejections?"yes":"No"}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.visaReason?student?.visaReason:"No"}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.doYouHaveTravelHistory?"yes":"No"}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.finance}</p>
                   </div>
                   </div>
         </div>
@@ -146,11 +169,11 @@ function Profile() {
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
                    
-                    <p className="card-text text-capitalize fw-semibold">B.E.Cse</p>
-                    <p className="card-text text-capitalize fw-semibold">PG</p>
-                    <p className="card-text text-capitalize fw-semibold">21-05-2019</p>
-                    <p className="card-text text-capitalize fw-semibold">05-06-2023</p>
-                    <p className="card-text text-capitalize fw-semibold">Anna University</p>
+                    <p className="card-text text-capitalize fw-light">{student?.highestQualification}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.degreeName}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.academicYear}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.yearPassed}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.institution}</p>
                   </div>
         </div>
         </div>
@@ -164,10 +187,10 @@ function Profile() {
                   
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
-                  <p className="card-text text-capitalize fw-semibold">93%</p>
-                    <p className="card-text text-capitalize fw-semibold">Student@123gmail.com</p>
-                    <p className="card-text text-capitalize fw-semibold">********</p>
-                    <p className="card-text text-capitalize fw-semibold">********</p>
+                  <p className="card-text text-capitalize fw-light">{student?.percentage}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.email}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.password}</p>
+                    <p className="card-text text-capitalize fw-light">{student?.confirmPassword}</p>
                    
                   </div>
                   </div>
