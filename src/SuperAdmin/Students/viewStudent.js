@@ -88,7 +88,7 @@ function Profile() {
                     <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Test Score</p>
                     <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> Date Of Test</p>
                     <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> country</p>
-                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> desired University</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> Desired University</p>
                   </div>
                   <div className="d-flex flex-column align-items-start justify-content-start">
                     <p className="card-text text-capitalize fw-semibold">Yes</p>
