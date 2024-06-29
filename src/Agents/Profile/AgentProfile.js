@@ -10,226 +10,238 @@ const AgentProfile = () => {
         <main id="main" className="main mt-5 ">
           <div className="pagetitle ">
           </div>
-          <section className="section profile">
-            <div className="row">
+          <section className= "container-fluid section profile" style={{ backgroundColor: '#fff',fontSize:'14px' }}>
+            <div className="row g-4">
               <div className="col-xl-4">
-                <div className="card">
+                <div className="card border-0 shadow">
                   <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                    <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width={"150"} height={"150"} className="rounded-circle" />
+                    <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width={"150"} height={"150"} className="img-fluid rounded-pill" />
                     <h2 className="fw-bold">Yuvaraj</h2>
                     <div className="social-links mt-2">
-                      <a href="#" className="twitter mr-4 fs-5"><i className="fab fa-twitter " /></a>
-                      <a href="#" className="facebook mr-4 fs-5"><i className="fab fa-facebook" /></a>
-                      <a href="#" className="instagram mr-4 fs-5"><i className="fab fa-instagram" /></a>
-                      <a href="#" className="linkedi mr-4 fs-5"><i className="fab fa-linkedin" /></a>
+                      <a href="#" className="twitter mr-4 fs-5" style={{color:'#fe5722'}}><i className="fab fa-twitter " /></a>
+                      <a href="#" className="facebook mr-4 fs-5" style={{color:'#fe5722'}}><i className="fab fa-facebook" /></a>
+                      <a href="#" className="instagram mr-4 fs-5" style={{color:'#fe5722'}}><i className="fab fa-instagram" /></a>
+                      <a href="#" className="linkedi mr-4 fs-5" style={{color:'#fe5722'}}><i className="fab fa-linkedin" /></a>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-xl-8">
-                <div className="card">
+                <div className="card border-0 shadow">
                   <div className="card-body pt-3">
                     <ul className="nav nav-tabs nav-tabs-bordered">
                       <li className="nav-item">
-                        <button className="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                        <button className="nav-link active fw-normal" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                       </li>
                       <li className="nav-item">
-                        <button className="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                        <button className="nav-link fw-normal" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                       </li>
                       <li className="nav-item">
-                        <button className="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+                        <button className="nav-link fw-normal" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
                       </li>
                       <li className="nav-item">
-                        <button className="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                        <button className="nav-link fw-normal" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
                       </li>
                     </ul>
-                    <div className="tab-content pt-2">
-                      <div className="tab-pane fade show active profile-overview" id="profile-overview">
+                    <div className="tab-content pt-2 ">
+                      <div className="tab-pane fade show active profile-overview p-2" id="profile-overview">
                         <div className="row mb-3">
-                          <label htmlFor="Job" className="col-md-4 col-lg-3 col-form-label">Agent ID  </label>
-                          <div className="col-md-8 col-lg-9">
+                           <div className="col">
+                          <label htmlFor="Job" className=" form-label fw-semibold ">Agent ID  </label>
+                         
                             <input name="job" type="text" className="form-control" id="Job" value="St67543" />
                           </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="company" className="col-md-4 col-lg-3 col-form-label">Name</label>
-                          <div className="col-md-8 col-lg-9 d-flex">
+                          <div className="col">
+                          <label htmlFor="company" className="form-label fw-semibold">Name</label>
+                         
                             <input name="company" value={"Yuvaraj"} type={"text"} className="form-control" id="company" />
                           </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="Job" className="col-md-4 col-lg-3 col-form-label">Business Name</label>
-                          <div className="col-md-8 col-lg-9">
+
+                          <div className="col">
+                          <label htmlFor="Job" className="form-label fw-semibold">Business Name</label>
+                         
                             <input name="job" type="text" className="form-control" id="Job" value="Study Job Service" />
                           </div>
                         </div>
                         <div className="row mb-3">
-                          <label htmlFor="Country" className="col-md-4 col-lg-3 col-form-label">Address</label>
-                          <div className="col-md-8 col-lg-9">
-                            <input name="country" type="text" className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
-                          </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="Address" className="col-md-4 col-lg-3 col-form-label">Email ID</label>
-                          <div className="col-md-8 col-lg-9">
+                        <div className="col">
+                          <label htmlFor="Address" className="form-label fw-semibold">Email ID</label>
+                         
                             <input name="address" type="text" className="form-control" id="Address" value="rajaram123@gmail.com" />
                           </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">PAN Number of Individual</label>
-                          <div className="col-md-8 col-lg-9">
-                            <input name="phone" type="text" className="form-control" id="Phone" value="APFPY9543N" />
-                          </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Primary Number</label>
-                          <div className="col-md-8 col-lg-9">
+                      
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label fw-semibold">Primary Number</label>
+                         
                             <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
                           </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Whats App Number</label>
-                          <div className="col-md-8 col-lg-9">
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label fw-semibold">Whats App Number</label>
+                         
                             <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
                           </div>
+
                         </div>
                         <div className="row mb-3">
-                          <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">PAN of Company </label>
-                          <div className="col-md-8 col-lg-9">
-                            <input name="email" type="email" className="form-control" id="Email" value="Afynd Setvice Pvt.Ltd" />
+                        <div className="col">
+                          <label htmlFor="Phone" className="form-label fw-semibold">Staff Name</label>
+                         
+                            <input name="phone" type="text" className="form-control" id="Phone" value="vinny" />
                           </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">GSTN </label>
-                          <div className="col-md-8 col-lg-9">
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label fw-semibold">Staff Number </label>
+                         
+                            <input name="email" type="email" className="form-control" id="Email" value="111111111" />
+                          </div>
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label fw-semibold">Agent payout  </label>
+                         
                             <input name="email" type="email" className="form-control" id="Email" value="33SC56FTYB890QW" />
                           </div>
                         </div>
+
+
                         <div className="row mb-3">
-                          <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">INC </label>
-                          <div className="col-md-8 col-lg-9">
+                        <div className="col">
+                          <label htmlFor="Email" className="form-label fw-semibold">Country Interested </label>
+                         
                             <input name="email" type="email" className="form-control" id="Email" value="Yes" />
                           </div>
-                        </div>
-                        <div className="row mb-3">
-                          <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Desired Course </label>
-                          <div className="col-md-8 col-lg-9">
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label fw-semibold">	Agent Business Logo </label>
+                         
                             <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
                           </div>
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label fw-semibold">	Agent Business Logo </label>
+                         
+                            <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                          </div>
+                        </div>
+
+                        <div className="row mb-3">
+                           <div className="col">
+                          <label htmlFor="Country" className="form-label fw-semibold">Address</label>
+                         
+                            <input name="country" type="text" className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                          </div>
+                        </div>
+                        
+                        
+                       
+                        <div className="row mb-3">
+                         
+                        </div>
+                        <div className="row mb-3">
+                        
+                        </div>
+                        <div className="row mb-3">
+                           
+                        </div>
+                        <div className="row mb-3">
+                           
                         </div>
                       </div>
                       <div className="tab-pane fade profile-edit pt-3" id="profile-edit">
                         <form>
                           <div className="row mb-3">
-                            <label htmlFor="profileImage" className="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                            <div className="col-md-8 col-lg-9">
-                              <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width={"150"} height={"150"} alt="Profile" />
-                              <div className="pt-2">
+                             <div className="col">
+                            <div  className="form-label fw-semibold text-center">Profile Image</div>
+                           
+                              <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width={"150"} height={"150"} alt="Profile" className="mx-auto d-block img-fluid rounded-pill" />
+                              <div className="pt-2 text-center">
                                 <a href="#" className="btn btn-primary btn-sm mr-4" title="Upload new profile image"><i className="bi bi-upload" /></a>
                                 <a href="#" className="btn btn-danger btn-sm" title="Remove my profile image"><i className="bi bi-trash" /></a>
                               </div>
                             </div>
                           </div>
                           <div className="row mb-3">
-                            <label htmlFor="company" className="col-md-4 col-lg-3 col-form-label">Name</label>
-                            <div className="col-md-8 col-lg-9 d-flex">
+
+                          <div className="col ">
+                            <label htmlFor="company" className="form-label fw-semibold">Name</label>
+                          
                               <input name="company" type={"text"} className="form-control" id="company" />
                             </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Job" className="col-md-4 col-lg-3 col-form-label">Business Name</label>
-                            <div className="col-md-8 col-lg-9">
+                            <div className="col">
+                            <label htmlFor="Job" className="form-label fw-semibold">Business Name</label>
+                           
                               <input name="job" type="text" className="form-control" id="Job" />
                             </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Country" className="col-md-4 col-lg-3 col-form-label">Address</label>
-                            <div className="col-md-8 col-lg-9">
+                            <div className="col">
+                            <label htmlFor="Country" className="form-label fw-semibold">Address</label>
+                           
                               <input name="country" type="text" className="form-control" id="Country" />
                             </div>
                           </div>
+                  
                           <div className="row mb-3">
-                            <label htmlFor="Address" className="col-md-4 col-lg-3 col-form-label">Email ID</label>
-                            <div className="col-md-8 col-lg-9">
+                             <div className="col">
+                            <label htmlFor="Address" className="form-label fw-semibold">Email ID</label>
+                           
                               <input name="address" type="text" className="form-control" id="Address" />
                             </div>
+                           
+                            <div className="col">
+                            <label htmlFor="Email" className="form-label fw-semibold">Primary Number</label>
+                           
+                              <input name="email" type="email" className="form-control" id="Email" />
+                            </div>
+                            <div className="col">
+                            <label htmlFor="Email" className="form-label fw-semibold">Whats App Number</label>
+                           
+                              <input name="email" type="email" className="form-control" id="Email" />
+                            </div>
                           </div>
+                        
                           <div className="row mb-3">
-                            <label htmlFor="Phone" className="col-md-4 col-lg-3 col-form-label">PAN Number of Individual</label>
-                            <div className="col-md-8 col-lg-9">
+                          <div className="col">
+                            <label htmlFor="Phone" className="form-label fw-semibold">Staff Name</label>
+                           
                               <input name="phone" type="text" className="form-control" id="Phone" />
                             </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Primary Number</label>
-                            <div className="col-md-8 col-lg-9">
+                            <div className="col">
+                            <label htmlFor="Email" className="form-label fw-semibold">Staff Number </label>
+                           
+                              <input name="email" type="email" className="form-control" id="Email" />
+                            </div>
+                            <div className="col">
+                            <label htmlFor="Email" className="form-label fw-semibold">Agent payout </label>
+                           
                               <input name="email" type="email" className="form-control" id="Email" />
                             </div>
                           </div>
+                          
                           <div className="row mb-3">
-                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Whats App Number</label>
-                            <div className="col-md-8 col-lg-9">
+                             <div className="col">
+                            <label htmlFor="Email" className="form-label fw-semibold">Agent Business Logo  </label>
+                           
                               <input name="email" type="email" className="form-control" id="Email" />
                             </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">PAN of Company </label>
-                            <div className="col-md-8 col-lg-9">
+                            <div className="col">
+                            <label htmlFor="Email" className="form-label fw-semibold">Country Interested </label>
+                           
                               <input name="email" type="email" className="form-control" id="Email" />
                             </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">GSTN </label>
-                            <div className="col-md-8 col-lg-9">
-                              <input name="email" type="email" className="form-control" id="Email" />
+                            <div className="col">
+                            <label htmlFor="Twitter" className="form-label fw-semibold">Country Interested</label>
+                           
+                              <input name="twitter" type="text" className="form-control" id="Twitter"  />
                             </div>
                           </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">INC </label>
-                            <div className="col-md-8 col-lg-9">
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Email" className="col-md-4 col-lg-3 col-form-label">Desired Course </label>
-                            <div className="col-md-8 col-lg-9">
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Twitter" className="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                            <div className="col-md-8 col-lg-9">
-                              <input name="twitter" type="text" className="form-control" id="Twitter" defaultValue="https://twitter.com/#" />
-                            </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Facebook" className="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                            <div className="col-md-8 col-lg-9">
-                              <input name="facebook" type="text" className="form-control" id="Facebook" defaultValue="https://facebook.com/#" />
-                            </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Instagram" className="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                            <div className="col-md-8 col-lg-9">
-                              <input name="instagram" type="text" className="form-control" id="Instagram" defaultValue="https://instagram.com/#" />
-                            </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="Linkedin" className="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                            <div className="col-md-8 col-lg-9">
-                              <input name="linkedin" type="text" className="form-control" id="Linkedin" defaultValue="https://linkedin.com/#" />
-                            </div>
-                          </div>
+                          
+                         
+                         
                           <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Save Changes</button>
+                            <button type="submit" className="btn " style={{backgroundColor:'#fe5722',color:'#fff'}}>Save Changes</button>
                           </div>
                         </form>
                       </div>
                       <div className="tab-pane fade pt-3" id="profile-settings">
                         <form>
                           <div className="row mb-3">
-                            <label htmlFor="fullName" className="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                            <div className="col-md-8 col-lg-9">
+                             <div className="col">
+                            <label htmlFor="fullName" className="form-label fw-semibold">Email Notifications</label>
+                           
                               <div className="form-check">
                                 <input className="form-check-input" type="checkbox" id="changesMade" defaultChecked />
                                 <label className="form-check-label" htmlFor="changesMade">
@@ -257,32 +269,32 @@ const AgentProfile = () => {
                             </div>
                           </div>
                           <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Save Changes</button>
+                            <button type="submit" className="btn" style={{backgroundColor:'#fe5722',color:'#fff'}}>Save Changes</button>
                           </div>
                         </form>
                       </div>
                       <div className="tab-pane fade pt-3" id="profile-change-password">
                         <form>
                           <div className="row mb-3">
-                            <label htmlFor="currentPassword" className="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                            <div className="col-md-8 col-lg-9">
+                             <div className="col">
+                            <label htmlFor="currentPassword" className="form-label fw-semibold">Current Password</label>
+                           
                               <input name="password" type="password" className="form-control" id="currentPassword" />
                             </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="newPassword" className="col-md-4 col-lg-3 col-form-label">New Password</label>
-                            <div className="col-md-8 col-lg-9">
+                            <div className="col">
+                            <label htmlFor="newPassword" className="form-label fw-semibold">New Password</label>
+                           
                               <input name="newpassword" type="password" className="form-control" id="newPassword" />
                             </div>
-                          </div>
-                          <div className="row mb-3">
-                            <label htmlFor="renewPassword" className="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                            <div className="col-md-8 col-lg-9">
+                            <div className="col">
+                            <label htmlFor="renewPassword" className="form-label fw-semibold">Re-enter New Password</label>
+                           
                               <input name="renewpassword" type="password" className="form-control" id="renewPassword" />
                             </div>
                           </div>
+                         
                           <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Change Password</button>
+                            <button type="submit" className="btn "style={{backgroundColor:'#fe5722',color:'#fff'}} >Change Password</button>
                           </div>
                         </form>
                       </div>

@@ -136,16 +136,17 @@ function AddAgent() {
                      </nav>
          
             <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                <div className="content-header mt-3">
-                    <div className="content container-fluid w-75">
+                <div className="content-header ">
+                    <div className="content card card-body container-fluid ">
                         <form onSubmit={handleSubmit}>
                             <div className="content-page-header">
                                 <h5 className="text-bold" style={{ color: "#231F20" }}>
                                     Add Admin
                                 </h5>
+                                <hr className='p-0'/>
                             </div>
-                            <div className="row">
-                                <div className="col-lg-6 ">
+                            <div className="row mb-3">
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
@@ -166,7 +167,24 @@ function AddAgent() {
                                         ) : null}
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
+                                <div className="col ">
+                                    <div className="form-group">
+                                        <label style={{ color: "#231F20" }}>
+                                            Role<span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control "
+                                            placeholder="Contact Number"
+                                            name="role"
+                                            onChange={handleInputs}
+                                        />
+                                   {errors.role.required ? <span className="text-danger form-text profile_error">
+                                        This field is required.
+                                    </span> : null}
+                                    </div>
+                                </div>
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             Email<span className="text-danger">*</span>
@@ -191,7 +209,35 @@ function AddAgent() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
+                                </div>
+                                <div className='row mb-3'>
+                                <div className="col ">
+                                    <div className="form-group">
+                                        <label style={{ color: "#231F20" }}>
+                                            Contact number<span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            className="form-control "
+                                            placeholder="Contact Number"
+                                            name="mobileNumber"
+                                            onChange={handleInputs}
+                                        />
+                                        {errors.mobileNumber.required ?
+
+                                            <span className="text-danger form-text profile_error">
+
+                                                This field is required.
+
+                                            </span> : errors.mobileNumber.valid ?
+                                                <span className="text-danger form-text profile_error">
+                                                    Enter valid mobile number.
+                                                </span> : null
+
+                                        }
+                                    </div>
+                                </div>
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
@@ -218,10 +264,10 @@ function AddAgent() {
                                         ) : null}
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
-                                            ConformPassword <span className="text-danger">*</span>
+                                            Confirm Password <span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -244,55 +290,14 @@ function AddAgent() {
                                         ) : null}
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Contact number<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className="form-control "
-                                            placeholder="Contact Number"
-                                            name="mobileNumber"
-                                            onChange={handleInputs}
-                                        />
-                                        {errors.mobileNumber.required ?
-
-                                            <span className="text-danger form-text profile_error">
-
-                                                This field is required.
-
-                                            </span> : errors.mobileNumber.valid ?
-                                                <span className="text-danger form-text profile_error">
-                                                    Enter valid mobile number.
-                                                </span> : null
-
-                                        }
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Role<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            placeholder="Contact Number"
-                                            name="role"
-                                            onChange={handleInputs}
-                                        />
-                                   {errors.role.required ? <span className="text-danger form-text profile_error">
-                                        This field is required.
-                                    </span> : null}
-                                    </div>
-                                </div>
+                               </div>
+                                            <div className='row mb-3'>
 
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                                    <Link style={{ backgroundColor: "#231F20" }} to="/AdminList" className="btn btn-cancel border text-white w-50 m-2">
+                                    <Link style={{ backgroundColor: "#231F20" }} to="/AdminList" className="btn btn-cancel d-inline border-0 text-white w-25  m-2">
                                         Cancel
                                     </Link>
-                                    <button style={{ backgroundColor: "#FE5722" }} type="submit" className="btn btn-save border text-white w-50 m-2">
+                                    <button style={{ backgroundColor: "#FE5722" }} type="submit" className="btn btn-save d-inline border-0 text-white w-25 m-2">
                                         Submit
                                     </button>
                                 </div>
