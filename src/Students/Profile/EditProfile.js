@@ -80,7 +80,7 @@ const Profile = () => {
     const [customInputValue, setCustomInputValue] = useState('');
     const [country, setCountry] = useState("");
     const [countries, setCountries] = useState([]);
-    let countryRegion = null;
+ 
 
 
     useEffect(() => {
@@ -187,31 +187,7 @@ const Profile = () => {
                 });
         }
     };
-    const getCountryRegionInstance = () => {
-        if (!countryRegion) {
-            countryRegion = new CountryRegion();
-        }
-        return countryRegion;
-    };
-
-    useEffect(() => {
-        const getCountries = async () => {
-            try {
-                const countries = await getCountryRegionInstance().getCountries();
-                setCountries(countries.map(country => ({
-                    value: country.id,
-                    label: country.name
-                   
-                })));
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        getCountries();
-    }, []);
-    const handleCountryChange = (selectedOption) => {
-        setStudent({ ...student, country: selectedOption });
-    };
+   
 
     return (
         <>
@@ -351,16 +327,8 @@ const Profile = () => {
                                             <label htmlFor="Country" className="col-md-4 col-lg-3 col-form-label">Desired Country <span className=" text-danger">*</span></label>
                                            
                                             <div  className="col-md-8 col-lg-9">
-                                                <Select
-                                                    type="text"
-                                                    placeholder="Select Country"
-                                                    id="name"
-                                                    name="country"
-                                                    value={country?.label}
-                                                    onChange={handleCountryChange}
-                                                    options={countries}
-                                                    className="submain-one-form-body-subsection-select"
-                                                />
+                                            <input name="country" value={student?.country} onChange={handleInputs} type="text" className="form-control" id="Phone" />
+
                                                 {errors.country.required && (
                                                     <span className="form-text text-danger">This field is required.</span>
                                                 )}
