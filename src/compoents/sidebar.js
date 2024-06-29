@@ -98,13 +98,13 @@ const Sidebar = () => {
         </a>
         <div className={`collapse ${isOpen.enquiry ? 'show' : ''}`} id="collapse1">
           <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><a href="/StudentForm" className="nav-link  text-capitalize fw-semibold">Student form</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Forex Form</a></li>
-            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Accommodation</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Flight Ticket</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Loans</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Business Enquiry</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">General Enquiry</a></li>
+            <li className='nav-item'><a href="/ListStudentForm" className="nav-link  text-capitalize fw-semibold">Student form</a></li>
+            <li className='nav-item'><a href="/ListForexForm" className="nav-link  text-capitalize fw-semibold">Forex Form</a></li>
+            <li className='nav-item'><a href="/ListAccommodation" className="nav-link text-capitalize fw-semibold">Accommodation</a></li>
+            <li className='nav-item'><a href="/ListFlightTicket" className="nav-link  text-capitalize fw-semibold">Flight Ticket</a></li>
+            <li className='nav-item'><a href="/ListLoanEnquiry" className="nav-link  text-capitalize fw-semibold">Loans</a></li>
+            <li className='nav-item'><a href="/ListBusinessEnquiry" className="nav-link  text-capitalize fw-semibold">Business Enquiry</a></li>
+            <li className='nav-item'><a href="/ListGeneralEnquiry" className="nav-link  text-capitalize fw-semibold">General Enquiry</a></li>
           </ul>
         </div>
       </li>

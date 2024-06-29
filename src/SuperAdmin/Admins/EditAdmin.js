@@ -15,17 +15,18 @@ function EditAdmin() {
                 <Header />
                 </nav>
            
-            <div className="content-wrapper "style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
-                <div className="content-header mt-3">
-                    <div className="content container-fluid w-75">
+            <div className="content-wrapper "style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
+                <div className="content-header">
+                    <div className="content card card-body border-0 container-fluid">
                         <form >
                             <div className="content-page-header">
                                 <h5 className="text-bold" style={{ color: "#231F20" }}>
                                    Edit Admin
                                 </h5>
+                            <hr className="p-0" />
                             </div>
-                            <div className="row">
-                                <div className="col-lg-6 ">
+                            <div className="row mb-3">
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
@@ -35,11 +36,11 @@ function EditAdmin() {
                                             type="text"
                                             className="form-control "
                                             placeholder="Enter Admin name"
-                                            name="adminName"
+                                            name=" Enter Admin Name"
                                         />
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             Email<span className="text-danger">*</span>
@@ -48,13 +49,13 @@ function EditAdmin() {
                                             <input
                                                 type="text"
                                                 className="form-control "
-                                                placeholder="Enter Passport No"
-                                                name="Country"
+                                                placeholder="Enter E-Mail"
+                                                name="  Country"
                                             />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
@@ -64,10 +65,13 @@ function EditAdmin() {
                                             type="text"
                                             className="form-control "
                                             name="Country"
+                                            placeholder="Enter Password"
                                         />
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
+                                </div>
+                                <div className="row mb-3">
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             Role <span className="text-danger">*</span>
@@ -80,7 +84,7 @@ function EditAdmin() {
                                         />
                                     </div>
                                 </div>
-                                <div className="col-lg-6 ">
+                                <div className="col ">
                                     <div className="form-group">
                                         <label style={{ color: "#231F20" }}>
                                             Contact number<span className="text-danger">*</span>
@@ -88,23 +92,25 @@ function EditAdmin() {
                                         <input
                                             type="number"
                                             className="form-control "
-                                            placeholder="Contact Number"
+                                            placeholder=" Enter Contact Number"
                                             name="contactNumber"
                                         />
                                     </div>
                                 </div>
+                                </div>
+                                <div className="row mb-3">
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
                                     <Link
                                         style={{ backgroundColor: "#231F20" }}
                                         to="/ListAgent"
-                                        className="btn btn-cancel border text-white w-50 m-2"
+                                        className="btn btn-cancel border-0 text-white w-25 m-2"
                                     >
                                         Cancel
                                     </Link>
                                     <button
                                         style={{ backgroundColor: "#FE5722" }}
                                         type="submit"
-                                        className="btn btn-save border text-white w-50 m-2"
+                                        className="btn btn-save border-0 text-white w-25 m-2"
                                     >
                                         Submit
                                     </button>

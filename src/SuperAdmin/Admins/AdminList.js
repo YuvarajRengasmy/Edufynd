@@ -108,7 +108,7 @@ export default function ListAgent() {
         <div className="row">
           <div className="container">
           <div className="col-md-12">
-            <div className="card mt-2">
+            <div className="card mt-2 border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
