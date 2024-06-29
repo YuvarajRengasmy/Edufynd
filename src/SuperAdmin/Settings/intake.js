@@ -329,8 +329,8 @@ const handleSubmit = (event) => {
                   </li>
                   <li className="m-2">
                     <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight12" aria-controls="offcanvasRight12"> <FaFilter /></button>
+                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight12" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
                           <h5 id="offcanvasRightLabel">Filter BY Country</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -395,7 +395,7 @@ const handleSubmit = (event) => {
                       }}
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target="#addCountryModal"
+                      data-bs-target="#addCountryModal12"
                     >
                       Add Intake
                     </button>
@@ -462,7 +462,10 @@ const handleSubmit = (event) => {
                         <td>{intake.startDate}</td>
                         <td>{intake.endDate}</td>
                         <td>
-                        <button type="button" className="btn btn-info btn-sm m-1" onClick={() => openEditPopup(intake)} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
+                        <button type="button" className="btn btn-info btn-sm m-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addCountryModal12"
+                         onClick={() => openEditPopup(intake)} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
                           <button
                             className="btn btn-danger btn-sm m-2"
                             onClick={() => openPopup(intake._id)}
@@ -515,11 +518,11 @@ const handleSubmit = (event) => {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="modal fade" id="addCountryModal" tabIndex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true" ref={modalRef}>
+      <div className="modal fade" id="addCountryModal12" tabIndex="-1" aria-labelledby="addCountryModalLabel12" aria-hidden="true" ref={modalRef}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="addCountryModalLabel">{isEdit ? "Edit Intake" : "Add Intake"}</h5>
+              <h5 className="modal-title" id="addCountryModalLabel12">{isEdit ? "Edit Intake" : "Add Intake"}</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
