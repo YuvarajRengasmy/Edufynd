@@ -322,7 +322,7 @@ const Sidebar = () => {
               </a>
               <div className={`collapse ${isOpen.globalSettings ? 'show' : ''}`} id="collapse7">
                 <ul className='nav d-flex flex-column border-0 ps-4'>
-                  <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-capitalize fw-semibold">University</a></li>
+                  <li className='nav-item'><a href="/GlobalSettings" className="nav-link text-capitalize fw-semibold">Country</a></li>
                   <li className='nav-item'><a href="/Status" className="nav-link  text-capitalize fw-semibold">Status</a></li>
                   <li className='nav-item'><a href="/Intake" className="nav-link text-capitalize fw-semibold">intake</a></li>
                 <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">country</a></li>
