@@ -471,7 +471,7 @@ export default function GlobalSettings() {
          
           <button
             className="dropdown-item"
-            onClick={() => deleteCountry(countryName)}
+            onClick={() => openPopup(countryName)}
           >
             <i className="far fa-trash-alt text-danger me-1"></i>
           </button>

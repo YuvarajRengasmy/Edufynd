@@ -1,8 +1,186 @@
 import React, { useEffect, useState, useRef } from "react";
+import CountryRegion from "countryregionjs";
+import Select from 'react-select';
+import { useNavigate } from "react-router-dom";
+import { getStudentId } from "../../Utils/storage";
+import { updateStudent, getSingleStudent } from "../../api/student";
+import { toast } from "react-toastify";
+import { isValidPhone } from "../../Utils/Validation";
 import Header from "../Agents/AgentHeader";
 import Footer from "../Agents/AgentFooter";
+import { getSingleAgent, updateAgent } from "../../api/agent";
 const AgentProfile = () => {
+
+
+
+  const initialState = {
+  businessName:"",
+  agentName:"",
+  addressLine1: "",
+  addressLine2: "",
+  addressLine3: "",
+  email: "",
+  mobileNumber: "",
+  whatsAppNumber: "",
+  bankDetail: "",
+  panNumberIndividual: "",
+  panNumberCompany: "", // If applicable
+  gstn: "", // Optional
+  inc: "", // If applicable
+  staffName: "",
+  staffContactNo: "", // agentPayout: string[]; // List of payouts
+  agentsCommission: 0, // Will be calculated based on the University Commission & Agent Payout
+  agentBusinessLogo: "", // Optional
+  countryInterested: [],
+
+ 
+};
+
+const initialStateErrors = {
+  businessName: { required: false },
+  agentName:{required:false},
+  addressLine1: { required: false },
+  addressLine2:{required:false},
+  addressLine3:{required:false},
+  email: {required:false,valid:false},
+  mobileNumber: {required:false,valid:false},
+  whatsAppNumber: {required:false,valid:false},
+  bankDetail: {required:false},
+  panNumberIndividual: {required:false},
+  panNumberCompany: {required:false}, // If applicable
+  gstn: {required:false}, // Optional
+  inc: {required:false}, // If applicable
+  staffName: {required:false},
+  staffContactNo: {required:false,valid:false}, // agentPayout: string[]; // List of payouts
+  agentsCommission: {required:false}, // Will be calculated based on the University Commission & Agent Payout
+  agentBusinessLogo: {required:false}, // Optional
+  countryInterested: {required:false},
+
+};
+
+const [agent, setAgent] = useState(initialState);
+const [submitted, setSubmitted] = useState(false);
+const [errors, setErrors] = useState(initialStateErrors);
+const navigate = useNavigate();
+const [selectedOption, setSelectedOption] = useState('');
+const [customInputValue, setCustomInputValue] = useState('');
+const [country, setCountry] = useState("");
+const [countries, setCountries] = useState([]);
+
+
+
+useEffect(() => {
+    getAgentDetails();
+}, []);
+
+const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+        .then((res) => {
+            setAgent(res?.data?.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+const handleInputs = (event) => {
+    setAgent({ ...agent, [event.target.name]: event.target.value });
+    const selectedValue = event.target.value;
+    setSelectedOption(selectedValue);
+    setCustomInputValue('');
+    if (submitted) {
+        const newError = handleValidation({ ...student, [event.target.name]: event.target.value, });
+        setErrors(newError);
+    }
+};
+
+const handleValidation = (data) => {
+    let error = initialStateErrors;
+    if (data.agentName === "") {
+        error.agentName.required = true;
+    }
+    if (data.businessName === "") {
+        error.businessName.required = true;
+    }
+    if (data. addressLine1 === "") {
+        error. addressLine1.required = true;
+    }
+    if (data. addressLine2 === "") {
+        error. addressLine2.required = true;
+    }
+    if (data. addressLine3 === "") {
+        error. addressLine3.required = true;
+    }
+    if (data.email === "") {
+        error.email.required = true;
+    }
+    if(data.mobileNumber === "") {
+        error.mobileNumber.required = true;
+    }
+    if (data.whatsAppNumber === "") {
+        error.whatsAppNumber.required = true;
+    }
+    if (data.workExperience === "") {
+        error.workExperience.required = true;
+    }
+    if (data.finance === "") {
+        error.finance.required = true;
+    }
+    if (data.degreeName === "") {
+        error.degreeName.required = true;
+    }
+    if (data.academicYear === "") {
+        error.academicYear.required = true;
+    }
+    if (data.institution === "") {
+        error.institution.required = true;
+    }
+    if (data.percentage === "") {
+        error.percentage.required = true;
+    }
+    if (!isValidPhone(data.whatsAppNumber)) {
+        error.whatsAppNumber.valid = true;
+    }
+    return error;
+};
+
+const handleErrors = (obj) => {
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const prop = obj[key];
+            if (prop.required === true) {
+                return false;
+            }
+        }
+    }
+    return true;
+};
+const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(agent);
+    setErrors(newError);
+    setSubmitted(true);
+    if (handleErrors(newError)) {
+        updateAgent(agent)
+            .then((res) => {
+                toast.success(res?.data?.message);
+                navigate("/Profile");
+               
+            })
+            .catch((err) => {
+                toast.error(err?.response?.data?.message);
+            });
+    }
+};
+
+
+
+
+
   return (
+
+
     <>
       <div>
         <Header />

@@ -1,7 +1,34 @@
 import React, { useEffect, useState, useRef } from "react";
+import { getSingleAgent } from "../../api/agent";
+import {getAgentId } from "../../Utils/storage";
 import Header from "../Agents/AgentHeader";
 import Footer from "../Agents/AgentFooter";
 const AgentProfile = () => {
+
+  const [agent, setAgent] = useState(null);
+  const [currentView, setCurrentView] = useState('profile');
+
+  useEffect(() => {
+    getAgentDetails();
+  }, []);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    console.log("id", id);
+    getSingleAgent(id)
+      .then((res) => {
+        setAgent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
+
   return (
     <>
       <div>
@@ -49,36 +76,36 @@ const AgentProfile = () => {
                            <div className="col">
                           <label htmlFor="Job" className=" form-label fw-semibold ">Agent ID  </label>
                          
-                            <input name="job" type="text" className="form-control" id="Job" value="St67543" />
+                            <input name="job" type="text" className="form-control" id="Job" value={agent?.agentCode}/>
                           </div>
                           <div className="col">
                           <label htmlFor="company" className="form-label fw-semibold">Name</label>
                          
-                            <input name="company" value={"Yuvaraj"} type={"text"} className="form-control" id="company" />
+                            <input name="company" value={agent?.agentName} type={"text"} className="form-control" id="company" />
                           </div>
 
                           <div className="col">
                           <label htmlFor="Job" className="form-label fw-semibold">Business Name</label>
                          
-                            <input name="job" type="text" className="form-control" id="Job" value="Study Job Service" />
+                            <input name="job" type="text" className="form-control" id="Job" value={agent?.businessName} />
                           </div>
                         </div>
                         <div className="row mb-3">
                         <div className="col">
                           <label htmlFor="Address" className="form-label fw-semibold">Email ID</label>
                          
-                            <input name="address" type="text" className="form-control" id="Address" value="rajaram123@gmail.com" />
+                            <input name="address" type="text" className="form-control" id="Address" value={agent?.email} />
                           </div>
                       
                           <div className="col">
                           <label htmlFor="Email" className="form-label fw-semibold">Primary Number</label>
                          
-                            <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                            <input name="email" type="email" className="form-control" id="Email" value={agent?.mobileNumber} />
                           </div>
                           <div className="col">
                           <label htmlFor="Email" className="form-label fw-semibold">Whats App Number</label>
                          
-                            <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                            <input name="email" type="email" className="form-control" id="Email" value={agent?.whatsappNumber} />
                           </div>
 
                         </div>
@@ -86,17 +113,17 @@ const AgentProfile = () => {
                         <div className="col">
                           <label htmlFor="Phone" className="form-label fw-semibold">Staff Name</label>
                          
-                            <input name="phone" type="text" className="form-control" id="Phone" value="vinny" />
+                            <input name="phone" type="text" className="form-control" id="Phone" value={agent?.staffName} />
                           </div>
                           <div className="col">
                           <label htmlFor="Email" className="form-label fw-semibold">Staff Number </label>
                          
-                            <input name="email" type="email" className="form-control" id="Email" value="111111111" />
+                            <input name="email" type="email" className="form-control" id="Email" value={agent?.staffContactNo} />
                           </div>
                           <div className="col">
-                          <label htmlFor="Email" className="form-label fw-semibold">Agent payout  </label>
+                          <label htmlFor="Email" className="form-label fw-semibold">Pan Number Individual  </label>
                          
-                            <input name="email" type="email" className="form-control" id="Email" value="33SC56FTYB890QW" />
+                            <input name="email" type="email" className="form-control" id="Email" value={agent?.panNumberIndividual} />
                           </div>
                         </div>
 
@@ -105,7 +132,7 @@ const AgentProfile = () => {
                         <div className="col">
                           <label htmlFor="Email" className="form-label fw-semibold">Country Interested </label>
                          
-                            <input name="email" type="email" className="form-control" id="Email" value="Yes" />
+                            <input name="email" type="email" className="form-control" id="Email" value={agent?.countryInterested} />
                           </div>
                           <div className="col">
                           <label htmlFor="Email" className="form-label fw-semibold">	Agent Business Logo </label>
@@ -123,7 +150,7 @@ const AgentProfile = () => {
                            <div className="col">
                           <label htmlFor="Country" className="form-label fw-semibold">Address</label>
                          
-                            <input name="country" type="text" className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                            <input name="country" type="text" className="form-control" id="Country" value={agent?. addressLine1} />
                           </div>
                         </div>
                         
@@ -188,7 +215,6 @@ const AgentProfile = () => {
                             </div>
                             <div className="col">
                             <label htmlFor="Email" className="form-label fw-semibold">Whats App Number</label>
-                           
                               <input name="email" type="email" className="form-control" id="Email" />
                             </div>
                           </div>
