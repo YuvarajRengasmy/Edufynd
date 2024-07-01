@@ -361,7 +361,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          InTake<span className="text-danger">*</span>
+                          In Take<span className="text-danger">*</span>
                         </label>
 
                         <Select

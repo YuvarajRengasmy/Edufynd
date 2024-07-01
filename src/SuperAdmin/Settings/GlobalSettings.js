@@ -10,6 +10,7 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import Select from 'react-select';
 import CountryRegion from "countryregionjs";
+import zIndex from '@mui/material/styles/zIndex';
 
 export default function GlobalSettings() {
   const initialStateInputs = {
@@ -369,7 +370,7 @@ export default function GlobalSettings() {
                       <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Country</h5>
+                          <h5 id="offcanvasRightLabel">Filter  Country</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                         </div>
                         <div className="offcanvas-body ">
@@ -534,6 +535,9 @@ export default function GlobalSettings() {
       <Dialog 
   open={openFilter} 
   fullWidth 
+  
+
+ 
  
   
 >
@@ -543,19 +547,20 @@ export default function GlobalSettings() {
       <i className="fa fa-times fa-xs" aria-hidden="true"></i>
     </IconButton>
   </DialogTitle>
-  <DialogContent style={{ maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
-   <div className="card-body Col-md-12">
+  <DialogContent style={{ maxHeight: 'calc(100vh - 100px)', overflowY: 'auto',height:'400px' }} >
+   <div className="card-body col-md-12 " >
     <form  onSubmit={handleSubmit}>
       <section className="  justify-content-center">
-        <section className=" col-md-6 form-group">
+        <section className=" col-md-12 form-group">
           <Select
+          className=''
             type="text"
             placeholder="Select a country"
             id="name"
             isMulti
             name='country'
             onChange={handleCountryChange}
-            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}
             options={countries}
             styles={customStyles}
           />
@@ -563,8 +568,8 @@ export default function GlobalSettings() {
         </section>
         
         <br />
-        <section className=" form-group col-md-3">
-          <button className="justify-content-center btn btn-primary col-md-12" type='submit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Submit</button>
+        <section className=" form-group  text-center">
+          <button className="justify-content-center btn btn-primary col-md-12 border-0" type='submit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px',backgroundColor:'#fe5722',color:'#fff' }}>Submit</button>
         </section>
       </section>
     </form>

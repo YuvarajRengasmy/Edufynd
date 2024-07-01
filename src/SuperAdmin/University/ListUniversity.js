@@ -385,6 +385,7 @@ export default function Masterproductlist() {
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...University Name"
                                 />
+                                
                                 <label className="form-label">Campus</label>
                                 <br />
                                 <input
@@ -431,8 +432,8 @@ export default function Masterproductlist() {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white float-right bg"
-                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  className="btn btn-cancel border-0 text-white float-right fw-semibold bg text-uppercase"
+                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                   onClick={resetFilter}
                                 >
                                   Reset
@@ -441,7 +442,7 @@ export default function Masterproductlist() {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   onClick={filterUniversityList}
-                                  className="btn btn-save border-0 text-white float-right mx-2"
+                                  className="btn btn-save border-0 text-white float-right fw-semibold text-uppercase mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -486,9 +487,9 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddUniversity">
+                      <Link class="btn  border-0"  to="/AddUniversity">
                         <button
-                          className="btn btn-outline border text-white  "
+                          className="btn  text-white  "
 
                           style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                         >
