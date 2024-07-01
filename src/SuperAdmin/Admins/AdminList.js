@@ -265,28 +265,33 @@ export default function ListAgent() {
                           <td>{data?.role}</td>
                           <td>{data?.mobileNumber}</td>
                           <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewAdmin" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditAdmin" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
-                              </div>
-                            </div>
-                          </td>
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/ViewAdmin",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/EditAdmin",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <button
+                                      className="dropdown-item"
+                                     
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </button>
+                                  </div>
+                                </td>
                         </tr>
                       ))}
                        {admin?.length === 0 ? (

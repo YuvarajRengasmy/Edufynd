@@ -97,6 +97,19 @@ function EditAdmin() {
                                         />
                                     </div>
                                 </div>
+                                <div className="col ">
+                                    <div className="form-group">
+                                        <label style={{ color: "#231F20" }}>
+                                            Contact number<span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            className="form-control "
+                                            placeholder=" Enter Contact Number"
+                                            name="contactNumber"
+                                        />
+                                    </div>
+                                </div>
                                 </div>
                                 <div className="row mb-3">
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">

@@ -23,7 +23,7 @@ function AddAgent() {
                         <form >
                             <div className="content-page-header">
                                 <h5 className="text-bold" style={{ color: "#231F20" }}>
-                                    Add Admin
+                                   View Admin
                                 </h5>
                             </div>
                             <div className="row">

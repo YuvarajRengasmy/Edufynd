@@ -2,7 +2,7 @@ import React from 'react'
 import Mastersidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
-
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
 export const ListFlightTicket = () => {
   return (
     <div>
@@ -190,26 +190,89 @@ export const ListFlightTicket = () => {
 
 
                 </div>
-    <div className='row'>
-    <div className='card card-body border-0'>
-  <div className='table-responsive'>
-    <table  className="table card-table dataTable text-center">
-    <thead>
-                          <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                            <th className="text-capitalize text-start">S No</th>
-                            <th className="text-capitalize text-start">Date</th>
-                            <th className="text-capitalize text-start">Student Code</th>
-                            <th className="text-capitalize text-start">Name</th>
-                            <th className="text-capitalize text-start">Contact Number</th>
-                            <th className="text-capitalize text-start">Email ID</th>
-                            <th className="text-capitalize text-start">Desired Country</th>
-                            <th className="text-capitalize text-start">Source</th>
-                          </tr>
-                        </thead>
-    </table>
-  </div>
-</div>
-    </div>
+                <div className="row">
+          <div className="container">
+          <div className="col-md-12">
+            <div className="card mt-2 border-0">
+              <div className="card-body">
+                <div className="card-table">
+                  <div className="table-responsive">
+                    <table className=" table card-table dataTable text-center">
+                      <thead>
+                        <tr style={{ color: "#9265cc",fontSize:'13px' }}>
+                          <th> S.No.</th>
+                          <th> Date Added  </th>
+                          <th>Candidate ID  </th>
+                          <th> Name </th>
+                          <th> Position Applied  </th>
+                          <th> Experience </th>
+                          <th> Passport No  </th>
+                          <th> Status  </th>
+                          <th> User Assigned </th>
+                          <th> Action </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      
+                        <tr  >
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/ViewFlightTicket",
+                                       
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/EditFlightTicket",
+                                        
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <button
+                                      className="dropdown-item"
+                                     
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </button>
+                                  </div>
+                                </td>
+                        </tr>
+                      
+                      
+                        <tr>
+                          <td className="form-text text-danger" colSpan="9">
+                            No data
+                          </td>
+                        </tr>
+                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="float-right my-2">
+                  <Pagination variant="outlined" shape="rounded" color="primary"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
   
 
 

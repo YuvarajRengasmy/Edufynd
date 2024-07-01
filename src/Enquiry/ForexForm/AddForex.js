@@ -2,7 +2,8 @@ import React from 'react'
 import Mastersidebar from "../../compoents/sidebar";
 export const AddForex = () => {
   return (
-    <div> <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+    <div> 
+      <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
@@ -103,7 +104,8 @@ export const AddForex = () => {
         </div>
                     
                </div>     
-    </div></div>
+    </div>
+    </div>
   )
 }
 export default AddForex

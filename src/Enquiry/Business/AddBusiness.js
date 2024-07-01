@@ -2,7 +2,8 @@ import React from 'react'
 import Mastersidebar from "../../compoents/sidebar";
 export const AddBusiness = () => {
   return (
-    <div> <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+    <div> 
+      <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
@@ -10,7 +11,7 @@ export const AddBusiness = () => {
         <div className='content-wrapper' style={{ backgroundColor: '#fff',fontSize:'14px' }}>
 <div className='content-header'>
   <div className='container card card-body p-4 border-0'>
-    <h4 className='card-title text-center fw-bold'>Student Form</h4>
+    <h4 className='card-title text-center fw-bold'>Business Enquiry</h4>
     <hr/>
   <form className="p-1">
    
