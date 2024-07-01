@@ -10,49 +10,77 @@ export const AddForex = () => {
         <div className='content-wrapper' style={{ backgroundColor: '#fff',fontSize:'14px' }}>
 <div className='content-header'>
   <div className='container card card-body p-4 border-0'>
-    <h4 className='card-title text-center fw-bold'>Student Form</h4>
+    <h4 className='card-title text-center fw-bold'>Forex Enquiry </h4>
     <hr/>
   <form className="p-1">
    
     <div className='row mb-3'>
     <div className="col">
-                          <label className="form-label" for="inputEmail4">Student Name</label>
+                          <label className="form-label" for="inputEmail4">Forex ID </label>
                           <input className="form-control" id="inputEmail4"  type="text" placeholder='Enter Name'/>
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputPassword4">DOB</label>
+                          <label className="form-label" for="inputPassword4">Name of the Student</label>
                           <input className="form-control" id="inputPassword4" type="text" placeholder='DOB' />
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputAddress">Passport No</label>
+                          <label className="form-label" for="inputAddress">Country</label>
                           <input className="form-control" id="inputAddress" type="text" placeholder="Passport No"/>
                         </div>
     </div>
     <div className='row mb-3'>
     <div className="col">
-                          <label className="form-label" for="inputEmail4">Contact Number</label>
+                          <label className="form-label" for="inputEmail4">Currency  </label>
                           <input className="form-control" id="inputEmail4" type="text" placeholder='Contact Number'/>
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputPassword4">Email ID</label>
+                          <label className="form-label" for="inputPassword4">University Name </label>
                           <input className="form-control" id="inputPassword4" type="Password" placeholder='Email ID' />
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputAddress">CGPA / Year passed</label>
+                          <label className="form-label" for="inputAddress">Student ID</label>
                           <input className="form-control" id="inputAddress" type="text" placeholder="CGPA / Year passed"/>
                         </div>
     </div>
     <div className='row mb-3'>
     <div className="col">
-                          <label className="form-label" for="inputEmail4">Desired Country</label>
+                          <label className="form-label" for="inputEmail4">Passport No</label>
                           <input className="form-control" id="inputEmail4" type="text" placeholder='Desired Country'/>
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputPassword4">Desired Course</label>
+                          <label className="form-label" for="inputPassword4">Primary Number</label>
                           <input className="form-control" id="inputPassword4" type="Password" placeholder='Desired Course' />
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputAddress">Do you need support for loan? </label>
+                          <label className="form-label" for="inputAddress">Primary Number</label>
+                          <input className="form-control" id="inputAddress" type="text" placeholder="Do you need support for loan? "/>
+                        </div>
+    </div>
+    <div className='row mb-3'>
+    <div className="col">
+                          <label className="form-label" for="inputEmail4">Source</label>
+                          <input className="form-control" id="inputEmail4" type="text" placeholder='Desired Country'/>
+                        </div>
+                        <div className="col">
+                          <label className="form-label" for="inputPassword4">Email ID</label>
+                          <input className="form-control" id="inputPassword4" type="Password" placeholder='Desired Course' />
+                        </div>
+                        <div className="col">
+                          <label className="form-label" for="inputAddress">Payment Type </label>
+                          <input className="form-control" id="inputAddress" type="text" placeholder="Do you need support for loan? "/>
+                        </div>
+    </div>
+    <div className='row mb-3'>
+    <div className="col">
+                          <label className="form-label" for="inputEmail4">Amount In Currency</label>
+                          <input className="form-control" id="inputEmail4" type="text" placeholder='Desired Country'/>
+                        </div>
+                        <div className="col">
+                          <label className="form-label" for="inputPassword4">Assigned To </label>
+                          <input className="form-control" id="inputPassword4" type="Password" placeholder='Desired Course' />
+                        </div>
+                        <div className="col">
+                          <label className="form-label" for="inputAddress">Status </label>
                           <input className="form-control" id="inputAddress" type="text" placeholder="Do you need support for loan? "/>
                         </div>
     </div>

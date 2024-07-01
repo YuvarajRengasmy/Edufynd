@@ -197,12 +197,12 @@ export const listForex = () => {
                           <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
                             <th className="text-capitalize text-start">S No</th>
                             <th className="text-capitalize text-start">Date</th>
-                            <th className="text-capitalize text-start">Student Code</th>
-                            <th className="text-capitalize text-start">Name</th>
-                            <th className="text-capitalize text-start">Contact Number</th>
-                            <th className="text-capitalize text-start">Email ID</th>
-                            <th className="text-capitalize text-start">Desired Country</th>
+                            <th className="text-capitalize text-start">Forex ID</th>
+                            <th className="text-capitalize text-start">Student Name</th>
+                            <th className="text-capitalize text-start">Passport No</th>
                             <th className="text-capitalize text-start">Source</th>
+                            <th className="text-capitalize text-start">Assigned to</th>
+                            <th className="text-capitalize text-start">Status</th>
                           </tr>
                         </thead>
     </table>
