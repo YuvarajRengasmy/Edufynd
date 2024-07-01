@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-
+import Country from "../SuperAdmin/University/Country";
 import AddUniversity from "../SuperAdmin/University/addUniversity";
 import ListUniversity from "../SuperAdmin/University/ListUniversity"
 import ViewUniversity from "../SuperAdmin/University/viewUniversity";
@@ -36,15 +36,19 @@ import ClientModule from "../SuperAdmin/Settings/clientModule";
 import Status from "../SuperAdmin/Settings/Status"
 import Intake from "../SuperAdmin/Settings/intake"
 import ListApplication from "../SuperAdmin/Application/ListApplication";
+
+
+
 import Application from "../SuperAdmin/Application/Application";
 import ViewUniversity1 from "../SuperAdmin/University/viewUniversity1";
 import ApplyJob from "../Students/Program/ApplyProgram";
-
+// import { Country } from "../api/endpoints";
 function SuperAdmin() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
+        <Route path="/Demo" element={<Country />} />
           <Route path="/AddUniversity" element={<AddUniversity />} />
           <Route path="/ListUniversity" element={<ListUniversity />} />
           <Route path="/ViewUniversity" element={<ViewUniversity />} />

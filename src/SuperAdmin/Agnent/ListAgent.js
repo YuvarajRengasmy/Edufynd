@@ -493,7 +493,7 @@ export default function Masterproductlist() {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add Agent
+                        Add Program
                       </button>
                     </Link>
                   </li>
