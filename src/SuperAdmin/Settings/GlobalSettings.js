@@ -68,7 +68,7 @@ export default function GlobalSettings() {
     getFilterCountry(data)
       .then((res) => {
         console.log(res);
-        setCountry(res?.data?.result?.countryList);
+        setCountries(res?.data?.result?.countryList);
         setPagination({
           ...pagination,
           count: res?.data?.result?.countryCount,
@@ -212,6 +212,7 @@ export default function GlobalSettings() {
       borderRadius: '5.91319px',
       fontSize: "14px",
       fontFamily: "Plus Jakarta Sans",
+      
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -219,6 +220,7 @@ export default function GlobalSettings() {
       ':hover': {
         color: 'black',
         fontSize: "11px",
+        fontFamily: "Plus Jakarta Sans",
       }
     })
   };
@@ -458,31 +460,25 @@ export default function GlobalSettings() {
 
                       </ol>
                       <ul className="list-group list-group-flush">
-  {Array.isArray(country) && country?.map((item, index) => {
-    return (
-      <li className="list-group-item d-flex justify-content-between align-items-start" key={index}>
+                      {countries.map((country, index) =>
+          Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
+  
+      <li className="list-group-item d-flex justify-content-between align-items-start" key={`${index}-${countryIndex}`}>
         <div className="ms-2 me-auto">
-          <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{item.country}</div>
+          <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{countryName}</div>
         </div>
         <div className="d-flex gap-2">
-          {/* Uncomment the below button to enable edit functionality
+         
           <button
             className="dropdown-item"
-            onClick={() => editCountry(item)}
-          >
-            <i className="far fa-edit text-primary me-1"></i>
-          </button>
-          */}
-          <button
-            className="dropdown-item"
-            onClick={() => deleteCountry(item)}
+            onClick={() => deleteCountry(countryName)}
           >
             <i className="far fa-trash-alt text-danger me-1"></i>
           </button>
         </div>
       </li>
-    );
-  })}
+     ))
+  )}
 </ul>
 
 
@@ -543,7 +539,7 @@ export default function GlobalSettings() {
       <i className="fa fa-times fa-xs" aria-hidden="true"></i>
     </IconButton>
   </DialogTitle>
-  <DialogContent style={{ maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
+  <DialogContent>
    <div className="card-body Col-md-12">
     <form  onSubmit={handleSubmit}>
       <section className="  justify-content-center">
@@ -557,7 +553,7 @@ export default function GlobalSettings() {
             onChange={handleCountryChange}
             style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
             options={countries}
-            styles={customStyles}
+             styles={customStyles}
           />
          
         </section>
