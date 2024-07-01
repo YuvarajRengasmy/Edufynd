@@ -156,7 +156,7 @@ if (isAuthenticated()) {
                             <button type="submit" className="w-75 p-2 btn rounded-5 border-0 text-white fw-semibold" style={{ backgroundColor: '#fe5722' }}>Login </button>
                           </div>
                           <hr />
-                          <a href="/Dashboard" className="btn btn-google btn-user btn-block">
+                          <a href="/" className="btn btn-google btn-user btn-block">
                             <i className="fab fa-google fa-fw" /> Login with Google
                           </a>
                         </form>

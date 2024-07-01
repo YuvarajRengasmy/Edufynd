@@ -404,7 +404,7 @@ export default function GlobalSettings() {
                           data-bs-target="#addCountryModal11"
                           onClick={() => { handleAddModule () }}
                         >
-                       Add CourseType
+                       Add Status
                         </button>
                       </li>
                     </ol>
