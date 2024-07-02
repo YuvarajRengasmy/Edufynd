@@ -9,8 +9,14 @@ export const getallAdmin = () => {
     return API.get(`${Admin}/`)
 }
 
-
-
-
+export const deleteAdmin = (data) => {
+    return API.delete(`${Admin}`, { params: { _id: data } });
+  };
+  export const updateAdmin = (data) => {
+    return API.put(`${Admin}`, data)
+}
+export const getSingleAdmin = (data) => {
+    return API.get(`${Admin}/getsingleadmin`, { params: { _id: data } })
+}
 
 

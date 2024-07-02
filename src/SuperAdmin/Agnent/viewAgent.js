@@ -9,6 +9,8 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 
 function ViewAgent() {
     return (
+
+        
         <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="container-fluid">
                 <nav class="navbar navbar-vertical navbar-expand-lg">

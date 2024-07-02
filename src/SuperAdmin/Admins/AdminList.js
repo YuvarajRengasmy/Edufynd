@@ -1,12 +1,13 @@
 import React, { useEffect ,useState } from "react";
-import { getallAdmin } from "../../api/admin";
+import { getallAdmin,deleteAdmin } from "../../api/admin";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, } from "@mui/material";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
+import { toast } from "react-toastify";
+
 import { FaFilter } from "react-icons/fa";
 export default function ListAgent() {
-
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -15,6 +16,8 @@ export default function ListAgent() {
   });
 
   const [admin, setAdmin] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
 
   useEffect(() => {
     getAllAdminDetails();
@@ -31,6 +34,27 @@ export default function ListAgent() {
         console.log("yuvi",res)
         setAdmin(res?.data?.result);
         setPagination({ ...pagination, count: res?.data?.result?.adminCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deleteAdminData = () => {
+    deleteAdmin (deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllAdminDetails();
       })
       .catch((err) => {
         console.log(err);
@@ -265,27 +289,39 @@ export default function ListAgent() {
                           <td>{data?.role}</td>
                           <td>{data?.mobileNumber}</td>
                           <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewAdmin" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditAdmin" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
+                          <div className="d-flex">
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/ViewAdmin",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-eye text-primary me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/EditAdmin",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-edit text-warning me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                </Link>
                               </div>
-                            </div>
+                             
+                           
                           </td>
                         </tr>
                       ))}
@@ -309,20 +345,24 @@ export default function ListAgent() {
           </div>
         </div>
       </div>
-      <Dialog >
+      <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4">
-              Are you sure you want to Delete <br /> the selected Product ?
+              Are you sure you want to Delete <br /> the selected Admin?
             </h5>
             <button
               type="button"
-              className="btn btn-save mx-3">
+              className="btn btn-save mx-3"
+              onClick={deleteAdminData}
+            >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel ">
+              className="btn btn-cancel "
+              onClick={closePopup}
+            >
               No
             </button>
           </div>

@@ -26,7 +26,9 @@ export const deleteAgent = (data) => {
     return API.delete(`${Agent}`, { params: { _id: data } });
   };
 
-
+  export const SuperAgent = (data) => {
+    return API.post(`${Agent}/createAgentBySuperAdmin`, data)
+}
 
 
 
