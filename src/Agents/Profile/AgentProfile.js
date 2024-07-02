@@ -169,99 +169,118 @@ const AgentProfile = () => {
                            
                         </div>
                       </div>
-                      <div className="tab-pane fade profile-edit pt-3" id="profile-edit">
-                        <form>
-                          <div className="row mb-3">
-                             <div className="col">
-                            <div  className="form-label fw-semibold text-center">Profile Image</div>
-                           
-                              <img src="https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png" width={"150"} height={"150"} alt="Profile" className="mx-auto d-block img-fluid rounded-pill" />
-                              <div className="pt-2 text-center">
-                                <a href="#" className="btn btn-primary btn-sm mr-4" title="Upload new profile image"><i className="bi bi-upload" /></a>
-                                <a href="#" className="btn btn-danger btn-sm" title="Remove my profile image"><i className="bi bi-trash" /></a>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="row mb-3">
-
-                          <div className="col ">
-                            <label htmlFor="company" className="form-label fw-semibold">Name</label>
-                          
-                              <input name="company" type={"text"} className="form-control" id="company" />
-                            </div>
-                            <div className="col">
-                            <label htmlFor="Job" className="form-label fw-semibold">Business Name</label>
-                           
-                              <input name="job" type="text" className="form-control" id="Job" />
-                            </div>
-                            <div className="col">
-                            <label htmlFor="Country" className="form-label fw-semibold">Address</label>
-                           
-                              <input name="country" type="text" className="form-control" id="Country" />
-                            </div>
-                          </div>
-                  
-                          <div className="row mb-3">
-                             <div className="col">
-                            <label htmlFor="Address" className="form-label fw-semibold">Email ID</label>
-                           
-                              <input name="address" type="text" className="form-control" id="Address" />
-                            </div>
-                           
-                            <div className="col">
-                            <label htmlFor="Email" className="form-label fw-semibold">Primary Number</label>
-                           
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                            <div className="col">
-                            <label htmlFor="Email" className="form-label fw-semibold">Whats App Number</label>
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                          </div>
+                      <div className="tab-content ">
+                      <div className="tab-pane fade show  profile-edit" id="profile-edit">
                         
-                          <div className="row mb-3">
+                        <div className="row mb-3">
+                         
+                          <div className="col ">
+                          <label htmlFor="company" className="form-label">Name</label>
+                            <input name="agentName" value={agent?.agentName} type="text" className="form-control" id="company" />
+                            {errors.agentName.required ? (
+                                                    <span className="form-text text-danger">
+                                                        This field is required.
+                                                    </span>
+                                                ) : null}
+                          
+                          </div>
                           <div className="col">
-                            <label htmlFor="Phone" className="form-label fw-semibold">Staff Name</label>
-                           
-                              <input name="phone" type="text" className="form-control" id="Phone" />
-                            </div>
-                            <div className="col">
-                            <label htmlFor="Email" className="form-label fw-semibold">Staff Number </label>
-                           
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                            <div className="col">
-                            <label htmlFor="Email" className="form-label fw-semibold">Agent payout </label>
-                           
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                          </div>
-                          
-                          <div className="row mb-3">
-                             <div className="col">
-                            <label htmlFor="Email" className="form-label fw-semibold">Agent Business Logo  </label>
-                           
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                            <div className="col">
-                            <label htmlFor="Email" className="form-label fw-semibold">Country Interested </label>
-                           
-                              <input name="email" type="email" className="form-control" id="Email" />
-                            </div>
-                            <div className="col">
-                            <label htmlFor="Twitter" className="form-label fw-semibold">Country Interested</label>
-                           
-                              <input name="twitter" type="text" className="form-control" id="Twitter"  />
-                            </div>
-                          </div>
-                          
+                          <label htmlFor="Job" className="form-label">Business Name</label>
+                            <input name="businessName" type="text" className="form-control" id="Job" value="Study Job Service" />
+                            {errors.businessName.required ? (
+                                                    <span className="form-text text-danger">
+                                                        This field is required.
+                                                    </span>
+                                                ) : null}
                          
-                         
-                          <div className="text-center">
-                            <button type="submit" className="btn " style={{backgroundColor:'#fe5722',color:'#fff'}}>Save Changes</button>
                           </div>
-                        </form>
+                          <div className="col">
+                          <label htmlFor="Country" className="form-label">Address Line1</label>
+                            <input name="addressLine1" type="text" className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                            {errors.addressLine1.required ? (
+                                                    <span className="form-text text-danger">
+                                                        This field is required.
+                                                    </span>
+                                                ) : null}
+                          
+                          </div>
+                        </div>
+                        <div className="row mb-3">
+                         
+                        
+                         
+                          <div className="col">
+                          <label htmlFor="Country" className="form-label">Address Line2</label>
+                            <input name="addressLine2" type="text" className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                            {errors.addressLine2.required ? (
+                                                    <span className="form-text text-danger">
+                                                        This field is required.
+                                                    </span>
+                                                ) : null}
+                          
+                          </div>
+                          <div className="col">
+                          <label htmlFor="Country" className="form-label">Address Line3</label>
+                            <input name="addressLine3" type="text" className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                            {errors.addressLine3.required ? (
+                                                    <span className="form-text text-danger">
+                                                        This field is required.
+                                                    </span>
+                                                ) : null}
+                          
+                          </div>
+                          <div className="col">
+                          <label htmlFor="Address" className="form-label">Email ID</label>
+                            <input name="address" type="text" className="form-control" id="Address" value="rajaram123@gmail.com" />
+                          </div>
+                        </div>
+                        
+                        <div className="row mb-3">
+                          
+                          
+                        
+                          <div className="col">
+                          <label htmlFor="Phone" className="form-label">PAN Number of Individual</label>
+                            <input name="phone" type="text" className="form-control" id="Phone" value="APFPY9543N" />
+                          </div>
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label">Primary Number</label>
+                            <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                          </div>
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label">Whats App Number</label>
+                            <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                          </div>
+                        </div>
+                        
+                        
+                       
+                        <div className="row mb-3">
+                         
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label">PAN of Company </label>
+                            <input name="email" type="email" className="form-control" id="Email" value="Afynd Setvice Pvt.Ltd" />
+                          </div>
+                           <div className="col">
+                          <label htmlFor="Email" className="form-label">GSTN </label>
+                            <input name="email" type="email" className="form-control" id="Email" value="33SC56FTYB890QW" />
+                          </div>
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label">INC </label>
+                            <input name="email" type="email" className="form-control" id="Email" value="Yes" />
+                          </div>
+                        </div>
+                       
+                        <div className="row mb-3">
+                          
+                          <div className="col">
+                          <label htmlFor="Email" className="form-label">Desired Course </label>
+                            <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                          </div>
+                        </div>
                       </div>
+                     
+                    </div>
                       <div className="tab-pane fade pt-3" id="profile-settings">
                         <form>
                           <div className="row mb-3">
