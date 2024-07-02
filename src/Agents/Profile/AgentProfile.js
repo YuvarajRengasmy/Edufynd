@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 import { isValidPhone, isValidEmail } from "../../Utils/Validation";
 import { getSingleAgent, updateAgent } from "../../api/agent";
 import { getAgentId } from "../../Utils/storage";
+import Select from 'react-select';
 import Header from "../Agents/AgentHeader";
 import Footer from "../Agents/AgentFooter";
+import {  getFilterCountry } from '../../api/globalsettings';
 const AgentProfile = () => {
 
   const initialState = {
@@ -69,9 +71,25 @@ const AgentProfile = () => {
   const [country, setCountry] = useState("");
   const [countries, setCountries] = useState([]);
 
+
+
   useEffect(() => {
     getAgentDetails();
+    getAllCountryDetails();
   }, []);
+
+  const getAllCountryDetails = () => {
+    
+    getFilterCountry()
+      .then((res) => {
+        console.log(res);
+        setCountries(res?.data?.result?.countryList);
+      
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getAgentDetails = () => {
     const id = getAgentId();
@@ -173,6 +191,13 @@ const AgentProfile = () => {
     return error;
   };
 
+
+
+  const handleSelectChange = (selectedOptions, action) => {
+    const { name } = action;
+    const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setAgent({ ...agent, [name]: values });
+  };
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -193,7 +218,7 @@ const AgentProfile = () => {
       updateAgent(agent)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/Profile");
+          navigate("/AgentProfile");
 
         })
         .catch((err) => {
@@ -201,6 +226,13 @@ const AgentProfile = () => {
         });
     }
   };
+  const countryList = countries
+  .filter(country => Array.isArray(country.country)) // Ensure country.country is an array
+  .flatMap(country => country.country.map(countryName => ({ value: countryName, label: countryName })));
+
+{countryList.map((country, index) => (
+  <option key={index} value={country.value}>{country.label}</option>
+))}
   return (
     <>
       <div>
@@ -328,22 +360,12 @@ const AgentProfile = () => {
 
 
 
-                        <div className="row mb-3">
-
-                        </div>
-                        <div className="row mb-3">
-
-                        </div>
-                        <div className="row mb-3">
-
-                        </div>
-                        <div className="row mb-3">
-
-                        </div>
+                      
                       </div>
                       <div className="tab-content ">
+                       
                         <div className="tab-pane fade show  profile-edit" id="profile-edit">
-
+                        <form onSubmit={handleSubmit}>
                           <div className="row mb-3">
 
                             <div className="col ">
@@ -358,7 +380,7 @@ const AgentProfile = () => {
                             </div>
                             <div className="col">
                               <label htmlFor="Job" className="form-label">Business Name</label>
-                              <input name="businessName" type="text" className="form-control" onChange={handleInputs} id="Job" value="Study Job Service" />
+                              <input name="businessName" type="text" className="form-control" onChange={handleInputs} id="Job" value={agent?.businessName} />
                               {errors.businessName.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
@@ -368,7 +390,7 @@ const AgentProfile = () => {
                             </div>
                             <div className="col">
                               <label htmlFor="Country" className="form-label">Address Line1</label>
-                              <input name="addressLine1" type="text" onChange={handleInputs} className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                              <input name="addressLine1" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine1} />
                               {errors.addressLine1.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
@@ -380,7 +402,7 @@ const AgentProfile = () => {
                           <div className="row mb-3">
                             <div className="col">
                               <label htmlFor="Country" className="form-label">Address Line2</label>
-                              <input name="addressLine2" type="text" onChange={handleInputs} className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                              <input name="addressLine2" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine2} />
                               {errors.addressLine2.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
@@ -390,7 +412,7 @@ const AgentProfile = () => {
                             </div>
                             <div className="col">
                               <label htmlFor="Country" className="form-label">Address Line3</label>
-                              <input name="addressLine3" type="text" onChange={handleInputs} className="form-control" id="Country" value="17/3A2, Gandhi St,Alwartirunagar, Chennai - 600087,Tamil Nadu, India." />
+                              <input name="addressLine3" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine3} />
                               {errors.addressLine3.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
@@ -415,39 +437,198 @@ const AgentProfile = () => {
                           <div className="row mb-3">
                             <div className="col">
                               <label htmlFor="Phone" className="form-label">PAN Number of Individual</label>
-                              <input name="phone" type="text" className="form-control" id="Phone" value="APFPY9543N" />
+                              <input name="panNumberIndividual" type="text" onChange={handleInputs} className="form-control" id="Phone" value={agent?.panNumberIndividual} />
+                              {errors.panNumberIndividual.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                           
                             </div>
                             <div className="col">
                               <label htmlFor="Email" className="form-label">Primary Number</label>
-                              <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                              <input name="mobileNumber" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.mobileNumber} />
+                              {errors.mobileNumber.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.mobileNumber.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid MobileNumber.
+                                </div>
+                              ) : null}
+                           
+                           
                             </div>
                             <div className="col">
                               <label htmlFor="Email" className="form-label">Whats App Number</label>
-                              <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                              <input name="whatsAppNumber" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.whatsAppNumber} />
+                              {errors.whatsAppNumber.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.whatsAppNumber.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid whatsAppNumber.
+                                </div>
+                              ) : null}
+                           
+                           
                             </div>
                           </div>
                           <div className="row mb-3">
                             <div className="col">
                               <label htmlFor="Email" className="form-label">PAN of Company </label>
-                              <input name="email" type="email" className="form-control" id="Email" value="Afynd Setvice Pvt.Ltd" />
+                              <input name="panNumberCompany" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.panNumberCompany} />
+                              {errors.panNumberCompany.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
                             </div>
                             <div className="col">
                               <label htmlFor="Email" className="form-label">GSTN </label>
-                              <input name="email" type="email" className="form-control" id="Email" value="33SC56FTYB890QW" />
+                              <input name="gstn" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.gstn}/>
+                              {errors.gstn.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                           
                             </div>
                             <div className="col">
                               <label htmlFor="Email" className="form-label">INC </label>
-                              <input name="email" type="email" className="form-control" id="Email" value="Yes" />
+                              <input name="inc" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.inc}/>
+                              {errors.inc.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                            
+                            
                             </div>
                           </div>
                           <div className="row mb-3">
                             <div className="col">
-                              <label htmlFor="Email" className="form-label">Desired Course </label>
-                              <input name="email" type="email" className="form-control" id="Email" value="9876543210" />
+                              <label htmlFor="Email" className="form-label">staffName </label>
+                              <input name="staffName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.staffName} />
+                              {errors.staffName.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                            </div>
+                            <div className="col">
+                              <label htmlFor="Email" className="form-label">Staff ContactNo</label>
+                              <input name="staffContactNo" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.staffContactNo} />
+                              {errors.staffName.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                            </div>
+                            <div className="col">
+                              <label htmlFor="Email" className="form-label">agentsCommission</label>
+                              <input name="agentsCommission" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.agentsCommission} />
+                              {errors.agentsCommission.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
                             </div>
                           </div>
-                        </div>
+                          <div className="row mb-3">
+                           
+                           
+                            <div className="col">
+                              <label htmlFor="Email" className="form-label">agentBusinessLogo</label>
+                              <input name="agentBusinessLogo" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.agentBusinessLogo} />
+                              
+                           
+                            </div>
+                            <div className="col">
+                              <label htmlFor="Email" className="form-label">Country Interested</label>
 
+                              <Select
+                              isMulti
+                              options={countryList}
+                              value={agent?.countryInterested ? agent?.countryInterested.map(countryName => ({ value: countryName, label: countryName })) : null}
+                              name="countryInterested"
+                              onChange={handleSelectChange}
+                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                            >
+
+                            </Select>
+                           
+                            </div>
+                            <div className="col">
+                              <label htmlFor="Email" className="form-label"> accountName</label>
+                              <input name=" accountName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.accountName} />
+                              {errors.accountName.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                            </div>
+                          </div>
+                        
+                         
+                          <div className="row mb-3">
+                          <div className="col">
+                              <label htmlFor="Email" className="form-label"> BankName</label>
+                              <input name=" bankName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.bankName} />
+                              {errors.bankName.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                            </div>
+                            <div className="col">
+                              <label htmlFor="Email" className="form-label">Account Name</label>
+                              <input name="accountName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.accountName} />
+                              {errors.accountName.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                            </div>
+                            <div className="col">
+                              <label htmlFor="Email" className="form-label">ifsc</label>
+                              <input name="ifsc" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.ifsc} />
+                              {errors.ifsc.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                            </div>
+                          </div>
+                          <div className="col">
+                              <label htmlFor="Email" className="form-label">branch</label>
+                              <input name="branch" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.branch} />
+                              {errors.branch.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                           
+                            </div>
+                            <div className="text-center mt-3">
+                                            <button type="submit" className="btn " style={{backgroundColor:'#fe5722',color:'#fff'}}>Save Changes</button>
+                                        </div>
+                                        </form>
+                        </div>
+                        
+                                      
                       </div>
                       <div className="tab-pane fade pt-3" id="profile-settings">
                         <form>
