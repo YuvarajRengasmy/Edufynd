@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { isValidEmail, isValidPhone } from '../../../Utils/Validation';
 import { toast } from 'react-toastify';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 import { updateStudnetEnquiry,getSingleStudnetEnquiry } from '../../../api/Enquiry/student';
 
 import Mastersidebar from '../../../compoents/sidebar';
@@ -63,7 +64,7 @@ const getStudentDetails = () => {
 
   getSingleStudnetEnquiry(id)
       .then((res) => {
-          setAgent(res?.data?.result);
+          setStudent(res?.data?.result);
       })
       .catch((err) => {
           console.log(err);
@@ -155,7 +156,7 @@ const getStudentDetails = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveStudnetEnquiry(student)
+      updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListStudentForm");
