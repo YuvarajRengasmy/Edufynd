@@ -27,7 +27,7 @@ export const AddStudentForm = () => {
                         </div>
     <div className="col">
                           <label className="form-label" for="inputEmail4">Student Name</label>
-                          <input className="form-control" id="inputEmail4"  type="text" placeholder='Enter Name'/>
+                          <input className="form-control" id="inputEmail4"  type="text" placeholder='Student Name'/>
                         </div>
                         
                       
@@ -42,36 +42,51 @@ export const AddStudentForm = () => {
                           <input className="form-control" id="inputAddress" type="text" placeholder="Passport No"/>
                         </div>
     <div className="col">
-                          <label className="form-label" for="inputEmail4">Contact Number</label>
-                          <input className="form-control" id="inputEmail4" type="text" placeholder='Contact Number'/>
+                          <label className="form-label" for="inputEmail4">Qualification</label>
+                          <input className="form-control" id="inputEmail4" type="text" placeholder='Qualification'/>
                         </div>
                        
                        
     </div>
     <div className='row mb-3'>
     <div className="col">
-                          <label className="form-label" for="inputPassword4">Email ID</label>
-                          <input className="form-control" id="inputPassword4" type="Password" placeholder='Email ID' />
+                          <label className="form-label" for="inputPassword4">Primary Number</label>
+                          <input className="form-control" id="inputPassword4" type="Password" placeholder='Primary Number' />
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputAddress">CGPA / Year passed</label>
-                          <input className="form-control" id="inputAddress" type="text" placeholder="CGPA / Year passed"/>
+                          <label className="form-label" for="inputAddress">WhatsApp Number</label>
+                          <input className="form-control" id="inputAddress" type="text" placeholder="WhatsApp Number"/>
                         </div>
     <div className="col">
-                          <label className="form-label" for="inputEmail4">Desired Country</label>
-                          <input className="form-control" id="inputEmail4" type="text" placeholder='Desired Country'/>
+                          <label className="form-label" for="inputEmail4">Email ID</label>
+                          <input className="form-control" id="inputEmail4" type="text" placeholder='Email ID'/>
                         </div>
                       
     </div>
     <div className='row mb-3'>
     <div className="col">
-                          <label className="form-label" for="inputPassword4">Desired Course</label>
-                          <input className="form-control" id="inputPassword4" type="Password" placeholder='Desired Course' />
+                          <label className="form-label" for="inputPassword4">CGPA / Year passed</label>
+                          <input className="form-control" id="inputPassword4" type="Password" placeholder='CGPA / Year passed' />
                         </div>
                         <div className="col">
-                          <label className="form-label" for="inputAddress">Do you need support for loan? </label>
-                          <input className="form-control" id="inputAddress" type="text" placeholder="Do you need support for loan? "/>
+                          <label className="form-label" for="inputAddress">Desired Country</label>
+                          <input className="form-control" id="inputAddress" type="text" placeholder="Desired Country"/>
                         </div>
+                        <div className="col">
+                          <label className="form-label" for="inputAddress">Desired Course</label>
+                          <input className="form-control" id="inputAddress" type="text" placeholder="Desired Course"/>
+                        </div>
+    </div>
+    <div className='row mb-3'>
+    <div className="col">
+                          <label className="form-label" for="inputPassword4">Do you need support for loan? </label>
+                          <input className="form-control" id="inputPassword4" type="Password" placeholder='Do you need support for loan? ' />
+                        </div>
+                        <div className="col">
+                          <label className="form-label" for="inputAddress">Assigned To </label>
+                          <input className="form-control" id="inputAddress" type="text" placeholder="Assigned To "/>
+                        </div>
+                       
     </div>
                     <div className='row mb-3'>
                       <div className='d-flex flex-row align-item-center justify-content-end gap-4'>

@@ -38,26 +38,38 @@ export const StudentForm = () => {
             <td>KIRA1234LIG</td>
           </tr>
           <tr >
-            <td className='fw-bold'>Contact Number  </td>
+            <td className='fw-bold'>Qualification  </td>
+            <td>KIRA1234LIG</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Primary Number  </td>
             <td>123456789</td>
           </tr>
           <tr >
-            <td className='fw-bold'>Email ID </td>
+            <td className='fw-bold'>WhatsApp Number </td>
             <td>JayJo@gmail.com</td>
           </tr> <tr >
-            <td className='fw-bold'>CGPA / Year passed  </td>
+            <td className='fw-bold'>Email ID </td>
             <td>9.8 CGPA</td>
           </tr>
           <tr >
-            <td className='fw-bold'>Desired Country  </td>
+            <td className='fw-bold'>CGPA / Year passed  </td>
             <td>New York</td>
           </tr>
           <tr >
-            <td className='fw-bold'>Desired Course  </td>
+            <td className='fw-bold'>Desired Country </td>
             <td>Game Devlepor</td>
           </tr>
           <tr >
-            <td className='fw-bold'>Do you need support for loan?  </td>
+            <td className='fw-bold'>Desired Course </td>
+            <td>No</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Do you need support for loan? </td>
+            <td>No</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Assigned To  </td>
             <td>No</td>
           </tr>
         </tbody>
