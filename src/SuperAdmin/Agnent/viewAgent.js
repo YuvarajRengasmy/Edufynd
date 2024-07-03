@@ -1,209 +1,172 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getSingleAgent } from "../../api/agent";
+import { Link, useLocation } from "react-router-dom";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-import { Link, useNavigate } from "react-router-dom";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import { FiEdit } from "react-icons/fi";
 
-import { RiDeleteBin5Line } from "react-icons/ri";
 
-function ViewAgent() {
+import { FaUser, FaPassport, FaCalendarAlt, FaFlag, FaBirthdayCake, FaMale, FaPhone, FaWhatsapp } from 'react-icons/fa';
+function Profile() {
+   
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  const [agent, setAgent] = useState();
+  const pageSize = 5;
+ 
+  
+  useEffect(() => {
+      getAgentDetails();
+  }, []);
+
+
+  const getAgentDetails = () => {
+    getSingleAgent (id)
+          .then((res) => {
+              setAgent(res?.data?.result);
+          })
+          .catch((err) => {
+              console.log(err);
+          });
+  };
+
     return (
-
-        
-        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="container-fluid">
-                <nav class="navbar navbar-vertical navbar-expand-lg">
+                <nav class=" navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
                     </nav>
-                    <nav className="navbar navbar-top  navbar-expand">
+                <nav className="navbar navbar-top navbar-expand">
                     <Header />
-                </nav>
-           
-            <div className="content-wrapper">
-                <div className="content-header mt-3">
-                    <div className="content container-fluid w-75">
-                        <form >
-                            <div className="row">
-                                <div className="col-lg-12 col-md-6 col-sm-12">
-                                    <div className="upload-img form-group text-center">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Profile Photo<span className="text-light">*</span>
-                                        </label>
-                                        <br />
-                                        <label htmlFor="fileInputImage" className="file-upload">
-                                            <img src="https://webalive-adearns.s3.ap-south-1.amazonaws.com/Manufacuturer/profileimageyuvi.jpg" width="180" height="180" alt="Preview" style={{ objectFit: "cover" }} className="preview-image" />
-                                        </label>
-                                        <input
-                                            name="profileImage"
-                                            id="fileInputImage"
-                                            type="file"
-                                            accept="image/*"
-                                            style={{ display: "none" }}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Agent Name<span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">Rajan</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Email<span className="text-light">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            <h5 className="fw-bold">edufynd@info.com</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            {" "}
-                                            Password<span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">%HGHFFYUF@.....$FGHHH</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Business Name <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">CONSULATING</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            PAN Number of Individual <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">AOFY564FB</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            PAN of Company <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">Arty765g43</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Primary number<span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">+91 987654321</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            WhatsApp Number  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">+91 987654321</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            GSTN <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">grt677888dv4</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            INC  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">IBD45</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Agent payout  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">Banking</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Agents Commission  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">6%</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Country Interested <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">USA</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Add staffo<span className="text-light">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            <h5 className="fw-bold">Kamal</h5>
-                                            <h5 className="fw-bold">987654321</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card rounded px-5 pt-3 ">
-                                    <div className="row row-cols-md-2 row-cols-1">
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Bank & Branch Name :
-                                            </h6>
-                                            <p className="fw-lighter">HDFC Bank:- Chennai</p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Account Number :
-                                            </h6>
-                                            <p className="fw-lighter">1234567890
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                IFSC CODE :
-                                            </h6>
-                                            <p className="fw-lighter">HDFC000000987</p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Account Holder Name  :
-                                            </h6>
-                                            <p className="fw-lighter">Rajesh</p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Account Type :
-                                            </h6>
-                                            <p className="fw-lighter">Current Type</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    </nav>
+          
+            <div className="content-wrapper"  >
+            <div className="container-fluid p-4">
+  <div className="row">
+    <div className="col">
+      <div className="card border-0 shadow text-bg-white p-4">
+        <div className="bg-transparent mb-3 ">
+          <div className="row g-0">
+            <div className="col-md-3 text-center">
+              <img
+                src={agent?.agentBusinessLogo?agent?.agentBusinessLogo:"https://pics.craiyon.com/2023-07-15/dc2ec5a571974417a5551420a4fb0587.webp"}
+                style={{ width: '150px', height: '150px' }}
+                className="img-fluid rounded-pill mx-auto d-block"
+                alt="student_image"
+              />
+            </div>
+            <div className="col-md-9">
+                <div className="row g-4">
+                <div className="col-sm-6">
+                <div className="d-flex flex-row flex-wrap align-items-start justify-content-around">
+                
+                <div className="d-flex flex-column align-items-start justify-content-start">
+                  <p className="card-text text-capitalize fw-bold" ><FaUser style={{color:'#fe5722'}} /> Agent Code</p>
+                  <p className="card-text text-capitalize fw-bold"><FaPassport  style={{color:'#fe5722'}} /> Agent Name</p>
+                  <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Source</p>
+                  <p className="card-text text-capitalize fw-bold"><FaFlag   style={{color:'#fe5722'}}/>Business Name</p>
                 </div>
+                <div className="d-flex flex-column align-items-start justify-content-start">
+                  <p className="card-text text-capitalize fw-light">{agent?.agentCode}</p>
+                  <p className="card-text text-capitalize fw-light">{agent?.agentName}</p>
+                  <p className="card-text text-capitalize fw-light">{agent?.source}</p>
+                  <p className="card-text text-capitalize fw-light">{agent?.businessName}</p>
+                </div>
+                </div>
+              
+                </div>
+             <div className="col-sm-6">
+             <div className="d-flex flex-row flex-wrap align-items-start justify-content-around">
+             <div className="d-flex flex-column align-items-start justify-content-start">
+                    <p className="card-text text-capitalize fw-bold"><FaBirthdayCake  style={{color:'#fe5722'}} />Email</p>
+                    <p className="card-text text-capitalize fw-bold"><FaMale  style={{color:'#fe5722'}} />Commission</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPhone  style={{color:'#fe5722'}} />MobileNumber</p>
+                    <p className="card-text text-capitalize fw-bold"><FaWhatsapp  style={{color:'#fe5722'}} />whatsApp</p>
+                  </div>
+                  <div className="d-flex flex-column align-items-start justify-content-start">
+                    <p className="card-text text-capitalize fw-light">{agent?.email}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.agentsCommission}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.mobileNumber}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.whatsAppNumber}</p>
+                  </div>
+             </div> 
+              </div>
+                </div>  
+            </div>
+          </div>
+        </div>
+        <hr className="border-4 rounded-2"/>
+<div className="header bg-none ">
+    <h5>Agent Bank Details</h5>
+    <div className="container my-3">
+        <div className="row g-3">
+        <div className="col-md-6">
+        <div className="d-flex flex-row  align-items-start justify-content-around ">
+        <div className="d-flex flex-column align-items-start justify-content-start">
+                    <p className="card-text text-capitalize fw-bold"><FaUser  style={{color:'#fe5722'}} /> Bank Name</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPassport   style={{color:'#fe5722'}}/>Account Name</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Account Number</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} />  IFSC</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> branch</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} /> Country Interested</p>
+                  </div>
+                  <div className="d-flex flex-column align-items-start justify-content-start">
+                    <p className="card-text text-capitalize fw-light">{agent?.bankName}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.accountName}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.accountNumber}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.ifsc}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?. branch}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?. countryInterested}</p>
+                  </div>
+        </div>
+        </div>
+        <div className="col-md-6">
+        <div className="d-flex flex-row  align-items-start justify-content-around ">
+        <div className="d-flex flex-column align-items-start justify-content-start">
+                    <p className="card-text text-capitalize fw-bold"><FaUser  style={{color:'#fe5722'}} />PanNumber Individual</p>
+                    <p className="card-text text-capitalize fw-bold"><FaPassport  style={{color:'#fe5722'}} />PanNumber Company</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} />GSTN</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} />INC</p>
+                    <p className="card-text text-capitalize fw-bold"><FaCalendarAlt  style={{color:'#fe5722'}} /> Staff Name</p>
+                    <p className="card-text text-capitalize fw-bold"><FaFlag  style={{color:'#fe5722'}} />Staff ContactNo</p>
+                  </div>
+                  <div className="d-flex flex-column align-items-start justify-content-start">
+                    <p className="card-text text-capitalize fw-light">{agent?.panNumberIndividual}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.panNumberCompany}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.gstn}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.inc}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.staffName}</p>
+                    <p className="card-text text-capitalize fw-light">{agent?.staffContactNo}</p>
+                  </div>
+                  </div>
+        </div>
+        <div className="row mt-3">
+                          <div className="col">
+                            <label htmlFor="Country" className="form-label fw-semibold">Address</label>
+                            <input
+                              name="address"
+                              type="text"
+                              className="form-control"
+                              id="Country"
+                              value={agent ? `${agent.addressLine1 || ''} ${agent.addressLine2 || ''}`.trim() : ''}
+                            />
+                          </div>
+                        </div>
+
+
+        </div>
+    </div>   
+    </div>
+ 
+      </div>
+  
+    </div>
+  </div>
+</div>
+
             </div>
             </div>
         </div>
+        
     );
 }
-export default ViewAgent;
+export default Profile;

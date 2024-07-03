@@ -29,6 +29,8 @@ export const deleteAgent = (data) => {
   export const SuperAgent = (data) => {
     return API.post(`${Agent}/createAgentBySuperAdmin`, data)
 }
-
+export const EditAgentSuper = (data) => {
+  return API.put(`${Agent}/createStudentBySuperAdmin`, data)
+}
 
 

@@ -40,6 +40,7 @@ import Application from "../SuperAdmin/Application/Application";
 import ViewUniversity1 from "../SuperAdmin/University/viewUniversity1";
 import ApplyJob from "../Students/Program/ApplyProgram";
 
+
 function SuperAdmin() {
   return (
     <div>
