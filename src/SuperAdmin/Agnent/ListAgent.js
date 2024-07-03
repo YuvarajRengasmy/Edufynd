@@ -317,14 +317,14 @@ export default function Masterproductlist() {
 
 
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Mastersidebar />
         </nav>
    
 
-      <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row ">
@@ -383,7 +383,7 @@ export default function Masterproductlist() {
                                 name="agentName"
                                 onChange={handleInputs}
                                 placeholder="Search...Agent Name"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                               />
                               <label className="form-label">Agent Code</label>
                               <br />
@@ -393,7 +393,7 @@ export default function Masterproductlist() {
                                 name="agentCode"
                                 onChange={handleInputs}
                                 placeholder="Search...Agent Code"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
 
                               />
                               <label className="form-label">Mobile Number</label>
@@ -404,7 +404,7 @@ export default function Masterproductlist() {
                                 name="mobileNumber"
                                 onChange={handleInputs}
                                 placeholder="Search...MobileNumber"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
 
                               />
                               <label className="form-label">Status</label>
@@ -415,7 +415,7 @@ export default function Masterproductlist() {
                                 name="status"
                                 onChange={handleInputs}
                                 placeholder="Search...Status"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
 
                               />
 
@@ -493,7 +493,7 @@ export default function Masterproductlist() {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add Agent
+                        Add Program
                       </button>
                     </Link>
                   </li>
@@ -513,7 +513,7 @@ export default function Masterproductlist() {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
                           <th className="text-capitalize text-start">Agent Code</th>
                           <th className="text-capitalize text-start">Source</th>
@@ -527,7 +527,7 @@ export default function Masterproductlist() {
                       </thead>
                       <tbody>
                         {agent?.map((data, index) => (
-                          <tr key={index} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                             <td className="text-capitalize text-start">{data?.agentCode}</td>
                             <td className="text-capitalize text-start">{data?.source}</td>

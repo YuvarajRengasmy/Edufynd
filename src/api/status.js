@@ -5,9 +5,8 @@ export const saveStatus = (data) => {
     return API.post(`${Status}`, data)
 }
 export const updateStatus = (data) => {
-    return API.put(`${Status}`, data, {params: { _id: data._id }}, )
+    return API.put(`${Status}`, data)
 }
-
 export const getSingleStatus = (data) => {
     return API.get(`${Status}/getSingleStatus`, { params: { _id: data } })
 }

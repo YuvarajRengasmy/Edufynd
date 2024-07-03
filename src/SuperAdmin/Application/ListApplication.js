@@ -282,14 +282,14 @@ export default function Masterproductlist() {
 
 
   return (
-    <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Mastersidebar />
         </nav>
      
 
-      <div className="content-wrapper px-4 " style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper px-4 " style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row ">
@@ -455,7 +455,7 @@ export default function Masterproductlist() {
 
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <tr  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
                           <th className="text-capitalize text-start">Applicant Code</th>
                           <th className="text-capitalize text-start">Date</th>
@@ -467,7 +467,7 @@ export default function Masterproductlist() {
                       </thead>
                       <tbody>
                         {application?.map((data, index) => (
-                          <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <tr key={index}  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                             <td className="text-capitalize text-start">{data?.applicationCode}</td>
                             <td className="text-capitalize text-start">{getMonthYear(data?.modifiedOn)}</td>

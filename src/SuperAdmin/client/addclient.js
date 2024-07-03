@@ -171,28 +171,70 @@ function AddAgent() {
 
     return (
         <>
-        <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="container-fluid">
                 <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
                   
                 </nav>
             
-            <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+            <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                 <div className="content-header ">
                     <div className="content container ">
                         <form onSubmit={handleSubmit}>
                             <div className="row">            
                   <div className="col-xl-12 ">
                     <div className="card rounded-2 border-0 ">
-                      <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                      <div className="card-header justify-content-between d-sm-flex d-block " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <div className="card-title" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
                        Client Details :
                         </div>
                         
                       </div>
                       <div className="card-body">
                         <div className="row gy-4">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                    
+                                    <label style={{ color: "#231F20" }}>
+                                        {" "}
+                                    Client ID <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                        name="businessName"
+                                        onChange={handleInputs}
+                                        className="form-control "
+                                        placeholder="Client ID"
+
+                                    />
+                                    {errors.businessName.required ? (
+                                        <div className="text-danger form-text">
+                                            This field is required.
+                                        </div>
+                                    ) : null}
+                                
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                   
+                                   <label style={{ color: "#231F20" }}>
+                                   Type of client  <span className="text-danger">*</span>
+                                   </label>
+                                   <div className="d-flex gap-4">
+                                       
+                                       <select onChange={handleInputs} style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
+                         <option value={""}  >Select Client Type</option>
+                         {type.map((data, index) =>
+                           <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}
+                       </select>
+                                       {errors.typeOfClient.required ? (
+                                           <div className="text-danger form-text">
+                                               This field is required.
+                                           </div>
+                                       ) : null}
+                                  
+                               </div>
+                           </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     
                                         <label style={{ color: "#231F20" }}>
@@ -215,26 +257,7 @@ function AddAgent() {
                                         ) : null}
                                     
                                 </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            Type of client <span className="text-danger">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            
-                                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
-                              <option value={""}  >Select Client Type</option>
-                              {type.map((data, index) =>
-                                <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}
-                            </select>
-                                            {errors.typeOfClient.required ? (
-                                                <div className="text-danger form-text">
-                                                    This field is required.
-                                                </div>
-                                            ) : null}
-                                       
-                                    </div>
-                                </div>
+                               
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                         <label style={{ color: "#231F20" }}>

@@ -15,7 +15,7 @@ const Home = () => {
               <Header />
           </nav>
         
-          <main className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+          <main className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           
             <HeroContent />
           </main>

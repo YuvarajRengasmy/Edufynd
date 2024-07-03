@@ -5,7 +5,7 @@ export const saveIntake = (data) => {
     return API.post(`${Intake}`, data)
 }
 export const updateIntake = (data) => {
-    return API.put(`${Intake}`, data, {params: { _id: data._id }},)
+    return API.put(`${Intake}`, data)
 }
 export const getSingleIntake = (data) => {
     return API.get(`${Intake}/getSingleInTake`, { params: { _id: data } })

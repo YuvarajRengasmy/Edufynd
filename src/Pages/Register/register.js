@@ -270,7 +270,7 @@ const Register = () => {
                         </div>
                       
                       <hr />
-                      <a href="/" className="btn btn-google btn-user btn-block">
+                      <a href="/Dashboard" className="btn btn-google btn-user btn-block">
                         <i className="fab fa-google fa-fw" /> Register with Google
                       </a>
                       <hr />

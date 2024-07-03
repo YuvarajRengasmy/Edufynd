@@ -3,14 +3,14 @@ import Sidebar from '../../compoents/sidebar'
 
 export const Application = () => {
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="conatiner-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
 
         </nav>
      
-      <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
+      <div className="content-wrapper" >
         <div className="content-header ">
           <div className="container-fluid">
             <div className='row align-items-start'>

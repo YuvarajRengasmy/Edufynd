@@ -603,7 +603,7 @@ function Profile() {
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              state<span className="text-danger">*</span>
+                              State<span className="text-danger">*</span>
                             </label>
                             {states.length !== ZERO && (
                               <Select
@@ -627,7 +627,7 @@ function Profile() {
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              city<span className="text-danger">*</span>
+                              City<span className="text-danger">*</span>
                             </label>
                             {lgas.length !== ZERO && (
                               <Select
@@ -645,7 +645,7 @@ function Profile() {
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
-                              Founded <span className="text-danger">*</span>
+                              Founded Year <span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
@@ -671,7 +671,7 @@ function Profile() {
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
- courseType<span className="text-danger">*</span>
+ Course Type<span className="text-danger">*</span>
 </label>
 
 <Select
@@ -772,7 +772,7 @@ function Profile() {
 
                             <label style={{ color: "#231F20" }}>
                               {" "}
-                              OfferTAT<span className="text-danger">*</span>
+                              Offer TAT<span className="text-danger">*</span>
                             </label>
                             <select
                               className="form-control"

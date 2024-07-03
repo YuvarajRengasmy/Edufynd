@@ -39,8 +39,6 @@ export default function GlobalSettings() {
   const [intakeList, setIntakeList] = useState([]);
   const [isEdit, setIsEdit] = useState(false); // New state to check if the modal is in edit mode
   const [editId, setEditId] = useState(null); 
-
- 
   const modalRef = useRef(null);
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
@@ -147,45 +145,68 @@ export default function GlobalSettings() {
     setOpen(true);
     setDeleteId(data);
   };
-
-
-  const handleAddIntake = () => {
-    setInputs( initialStateInputs)
-    setSubmitted(false)
-    setErrors(initialStateErrors)
-
-}
-  const handleEditIntake = (data) => {
-    setInputs(data); // Set the form inputs to the data of the item being edited
-    setIsEdit(true); // Set editing mode to true
-    setEditId(data._id); // Set the ID of the item being edited
-    setSubmitted(false); // Reset submitted state
-    setErrors(initialStateErrors); // Reset errors
+  const openEditPopup = (intake) => {
+    setIsEdit(true);
+    setEditId(intake._id);
+    setInputs({
+      intakeName: intake.intakeName,
+      startDate: intake.startDate,
+      endDate: intake.endDate,
+    });
+    const modalElement = document.getElementById("addCountryModal");
+    if (modalElement) {
+      const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
+      bootstrapModal.show();
+    }
   };
 
-  const handleSubmit = (event) => {
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     const newError = handleValidation(inputs);
+//     setErrors(newError);
+//     setSubmitted(true);
+//     const allInputsValid = Object.values(newError).every((x) => !x.required);
+//     if (allInputsValid) {
+//       saveIntake(inputs)
+//         .then((res) => {
+//           toast.success(res?.data?.message);
+//           event.target.reset();
+//           setInputs(initialStateInputs);
+//           setErrors(initialStateErrors);
+//           setSubmitted(false);
+//           getAllIntakeDetails();
+//           if (modalRef.current) {
+//             modalRef.current.hide();
+//           } // Refresh the list after adding new status
+//         })
+//         .catch((err) => {
+//           toast.error(err?.response?.data?.message);
+//         });
+//     }
+//   };
+
+const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
-
     const allInputsValid = Object.values(newError).every((x) => !x.required);
     if (allInputsValid) {
-      const data = {
-        ...inputs,
-        _id: editId, // If editing, include the ID in the data
-      };
-
       if (isEdit) {
-        updateIntake(data)
+        updateIntake({ ...inputs, id: editId }) // Pass the ID for updating
           .then((res) => {
             toast.success(res?.data?.message);
             event.target.reset();
             setInputs(initialStateInputs);
             setErrors(initialStateErrors);
             setSubmitted(false);
+            setIsEdit(false);
             getAllIntakeDetails();
-            closePopup();
+            const modalElement = document.getElementById("addCountryModal");
+            if (modalElement) {
+              const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
+              bootstrapModal.hide();
+            }
           })
           .catch((err) => {
             toast.error(err?.response?.data?.message);
@@ -199,7 +220,11 @@ export default function GlobalSettings() {
             setErrors(initialStateErrors);
             setSubmitted(false);
             getAllIntakeDetails();
-            closePopup();
+            const modalElement = document.getElementById("addCountryModal");
+            if (modalElement) {
+              const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
+              bootstrapModal.hide();
+            }
           })
           .catch((err) => {
             toast.error(err?.response?.data?.message);
@@ -304,8 +329,8 @@ export default function GlobalSettings() {
                   </li>
                   <li className="m-2">
                     <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight12" aria-controls="offcanvasRight12"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight12" aria-labelledby="offcanvasRightLabel">
+                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
+                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
                           <h5 id="offcanvasRightLabel">Filter BY Country</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -370,8 +395,7 @@ export default function GlobalSettings() {
                       }}
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target="#addCountryModal12"
-                      onClick={() => { handleAddIntake () }}
+                      data-bs-target="#addCountryModal"
                     >
                       Add Intake
                     </button>
@@ -431,20 +455,17 @@ export default function GlobalSettings() {
                 </thead>
                 <tbody>
                   {intakeList.length > 0 ? (
-                    intakeList.map((data, index) => (
+                    intakeList.map((intake, index) => (
                       <tr key={index}  style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
                         <td>{pagination.from + index + 1}</td>
-                        <td>{data.intakeName}</td>
-                        <td>{data.startDate}</td>
-                        <td>{data.endDate}</td>
+                        <td>{intake.intakeName}</td>
+                        <td>{intake.startDate}</td>
+                        <td>{intake.endDate}</td>
                         <td>
-                        <button type="button" className="btn btn-info btn-sm m-1"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addCountryModal12"
-                        onClick={() => handleEditIntake(data)} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
+                        <button type="button" className="btn btn-info btn-sm m-1" onClick={() => openEditPopup(intake)} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
                           <button
                             className="btn btn-danger btn-sm m-2"
-                            onClick={() => openPopup(data._id)}
+                            onClick={() => openPopup(intake._id)}
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                           >
                             Delete
@@ -494,65 +515,63 @@ export default function GlobalSettings() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="modal fade" id="addCountryModal12" tabIndex={-1} aria-labelledby="addCountryModalLabel12" aria-hidden="true">
-              <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="addCountryModalLabel12">{isEdit ? "Edit Intake " : "Add Intake"}</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div className="modal-body">
-                    <form onSubmit={handleSubmit}>
-                      <div className="mb-3">
-                        <label htmlFor="intakeName" className="form-label">Intake Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="intakeName"
-                          name="intakeName"
-                          value={inputs.intakeName}
-                          onChange={handleInputs}
-                        />
-                        {submitted && errors.intakeName.required && (
-                          <div className="text-danger">IntakeName is required</div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="startDate" className="form-label">Start Date</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="startDate"
-                          name="startDate"
-                          value={inputs.startDate}
-                          onChange={handleInputs}
-                        />
-                        {submitted && errors.startDate.required && (
-                          <div className="text-danger">StartDate is required</div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="startDate" className="form-label">End Date</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="endDate"
-                          name="endDate"
-                          value={inputs.endDate}
-                          onChange={handleInputs}
-                        />
-                        {submitted && errors.endDate.required && (
-                          <div className="text-danger">EndDate is required</div>
-                        )}
-                      </div>
-                      <div className="text-end">
-                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">{isEdit ? "Update" : "Add"}</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
+      <div className="modal fade" id="addCountryModal" tabIndex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true" ref={modalRef}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="addCountryModalLabel">{isEdit ? "Edit Intake" : "Add Intake"}</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="mb-3">
+                  <label htmlFor="intakeName" className="form-label">Intake Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="intakeName"
+                    name="intakeName"
+                    value={inputs.intakeName}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.intakeName.required && (
+                    <span className="text-danger">Intake Name is required</span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="startDate" className="form-label">Start Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="startDate"
+                    name="startDate"
+                    value={inputs.startDate}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.startDate.required && (
+                    <span className="text-danger">Start Date is required</span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="endDate" className="form-label">End Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="endDate"
+                    name="endDate"
+                    value={inputs.endDate}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.endDate.required && (
+                    <span className="text-danger">End Date is required</span>
+                  )}
+                </div>
+                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     </div>
     </div>

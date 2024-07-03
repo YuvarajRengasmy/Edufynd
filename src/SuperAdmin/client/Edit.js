@@ -186,7 +186,7 @@ function AddAgent() {
       };
 
     return (
-        <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="container-fluid">
                 <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
@@ -196,7 +196,7 @@ function AddAgent() {
                   
                 </nav>
            
-            <div className="content-wrapper "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header ">
                     <div className="content container ">
                         <form onSubmit={handleSubmit}>
@@ -204,8 +204,8 @@ function AddAgent() {
 
                             <div className="col-xl-12 ">
                     <div className="card rounded-2 border-0 ">
-                      <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+                      <div className="card-header justify-content-between d-sm-flex d-block " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <div className="card-title" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
                        Client Details :
                         </div>
                         
@@ -243,7 +243,7 @@ function AddAgent() {
                                         </label>
                                         <div className="d-flex gap-4">
                                             
-                                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
+                                            <select onChange={handleInputs} style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
                               <option value={""}  >{client?.typeOfClient}</option>
                               {type.map((data, index) =>
                                 <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}

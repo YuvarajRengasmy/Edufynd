@@ -124,7 +124,7 @@ function AddAgent() {
     }
 
     return (
-        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="container-fluid">
                 <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
@@ -135,7 +135,7 @@ function AddAgent() {
                      <Header />
                      </nav>
          
-            <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div className="content-wrapper " style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header ">
                     <div className="content card card-body container-fluid ">
                         <form onSubmit={handleSubmit}>
