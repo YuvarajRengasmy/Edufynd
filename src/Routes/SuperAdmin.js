@@ -36,6 +36,10 @@ import ClientModule from "../SuperAdmin/Settings/clientModule";
 import Status from "../SuperAdmin/Settings/Status"
 import Intake from "../SuperAdmin/Settings/intake"
 import ListApplication from "../SuperAdmin/Application/ListApplication";
+import ListStaff from "../SuperAdmin/Staff/listStaff";
+import AddStaff from "../SuperAdmin/Staff/addStaff";
+import EditStaff from "../SuperAdmin/Staff/editStaff";
+import ViewStaff from "../SuperAdmin/Staff/viewStaff";
 
 
 
@@ -87,6 +91,13 @@ function SuperAdmin() {
           <Route path='/Application' element={<Application/>}/>
        <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>
        <Route path="/ApplyJob" element={<ApplyJob/>}/>
+       <Route path = "/ListStaff" element={<ListStaff/>}/>
+       <Route path = "/AddStaff" element={<AddStaff/>}/>
+       <Route path = "/EditStaff" element={<EditStaff/>}/>
+       <Route path = "/ViewStaff" element={<ViewStaff/>}/>
+    
+       
+
         </Routes>
       </BrowserRouter>
     </div>
