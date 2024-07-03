@@ -59,7 +59,19 @@ export const viewLoanEnquiry = () => {
           <td>No</td>
         </tr>
         <tr >
-          <td className='fw-bold'>Who is your co-applicant? </td>
+          <td className='fw-bold'> co-applicant Name </td>
+          <td>No</td>
+        </tr>
+        <tr >
+          <td className='fw-bold'> co-applicant Age</td>
+          <td>No</td>
+        </tr>
+        <tr >
+          <td className='fw-bold'> co-applicant Status </td>
+          <td>No</td>
+        </tr>
+        <tr >
+          <td className='fw-bold'> co-applicant Income </td>
           <td>No</td>
         </tr>
         <tr >
