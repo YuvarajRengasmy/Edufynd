@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { isValidEmail, isValidPhone } from '../../../Utils/Validation';
 import { toast } from 'react-toastify';
 import { useNavigate, Link } from 'react-router-dom';
-import { updateStudnetEnquiry, } from '../../../api/Enquiry/student';
+import { updateStudnetEnquiry,getSingleStudnetEnquiry } from '../../../api/Enquiry/student';
 
 import Mastersidebar from '../../../compoents/sidebar';
 
 export const AddStudentForm = () => {
 
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
     source: "",
@@ -46,10 +49,26 @@ export const AddStudentForm = () => {
   const [student, setStudent] = useState(initialState)
   const [errors, setErrors] = useState(initialStateErrors)
   const [submitted, setSubmitted] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
 
+  useEffect(() => {
+    getStudentDetails();
+  
+}, []);
 
+
+const getStudentDetails = () => {
+
+
+  getSingleStudnetEnquiry(id)
+      .then((res) => {
+          setAgent(res?.data?.result);
+      })
+      .catch((err) => {
+          console.log(err);
+      });
+};
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
