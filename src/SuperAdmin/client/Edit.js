@@ -212,7 +212,26 @@ function AddAgent() {
                       </div>
                       <div className="card-body">
                         <div className="row gy-4">
-
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                   
+                                   <label style={{ color: "#231F20" }}>
+                                       Type of client <span className="text-danger">*</span>
+                                   </label>
+                                   <div className="d-flex gap-4">
+                                       
+                                       <select onChange={handleInputs} style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
+                         <option value={""}  >{client?.typeOfClient}</option>
+                         {type.map((data, index) =>
+                           <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}
+                       </select>
+                                       {errors.typeOfClient.required ? (
+                                           <div className="text-danger form-text">
+                                               This field is required.
+                                           </div>
+                                       ) : null}
+                                  
+                               </div>
+                           </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                                   
                                         <label style={{ color: "#231F20" }}>
@@ -236,38 +255,19 @@ function AddAgent() {
                                         ) : null}
                                     
                                 </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            Type of client <span className="text-danger">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            
-                                            <select onChange={handleInputs} style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
-                              <option value={""}  >{client?.typeOfClient}</option>
-                              {type.map((data, index) =>
-                                <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}
-                            </select>
-                                            {errors.typeOfClient.required ? (
-                                                <div className="text-danger form-text">
-                                                    This field is required.
-                                                </div>
-                                            ) : null}
-                                       
-                                    </div>
-                                </div>
+                               
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
-                                            Business MailID<span className="text-danger">*</span>
+                                            Business Mail ID<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             value={client?.businessMailID}
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter businessMailID"
+                                            placeholder="Enter Business Mail ID"
                                             name="businessMailID"
                                             onChange={handleInputs}
                                         />
@@ -285,14 +285,14 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            businessContactNo <span className="text-danger">*</span>
+                                            Business Contact No <span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             value={client?.businessContactNo}
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Contact Number "
+                                            placeholder="Enter Business Contact Number "
                                             name="businessContactNo"
                                             onChange={handleInputs}
                                         />
@@ -340,7 +340,7 @@ function AddAgent() {
                                             type="text"
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Name"
+                                            placeholder="Enter Staff Name"
                                             value={client?.name}
                                             name="name"
                                             onChange={handleInputs}
@@ -353,13 +353,13 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            Staff Contact number<span className="text-danger">*</span>
+                                            Staff Contact No<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Contact Number"
+                                            placeholder="Enter StaffContact No"
                                             value={client?.contactNo}
                                             name="contactNo"
                                             onChange={handleInputs}
@@ -390,7 +390,7 @@ function AddAgent() {
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             value={client?.emailID}
-                                            placeholder="Enter Email ID"
+                                            placeholder="Enter Staff Email ID"
                                             name="emailID"
                                             onChange={handleInputs}
                                         />
@@ -408,7 +408,7 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            AddressLine1?<span className="text-danger">*</span>
+                                        Address/Street Address<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -427,7 +427,7 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   
                                         <label style={{ color: "#231F20" }}>
-                                            AddressLine2<span className="text-danger">*</span>
+                                        Address/City & State<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -446,7 +446,7 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            AddressLine3<span className="text-danger">*</span>
+                                        Address/Postal Code & Country<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -465,14 +465,14 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                                   
                                         <label style={{ color: "#231F20" }}>
-                                            Gstn<span className="text-danger">*</span>
+                                        GSTN<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control"
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             value={client?.gstn}
-                                            placeholder="Enter Gstn"
+                                            placeholder="Enter  GSTN"
                                             name="gstn"
                                             onChange={handleInputs}
                                         />

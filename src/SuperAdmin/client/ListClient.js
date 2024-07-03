@@ -397,14 +397,14 @@ export default function Masterproductlist() {
                                 onChange={handleInputs}
                                 placeholder="Search...Business Name"
                               />
-                              <label className="form-label">ContactNo </label>
+                              <label className="form-label">Contact No </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="businessContactNo"
                                 onChange={handleInputs}
-                                placeholder="Search...Business ContactNo"
+                                placeholder="Search...Business Contact No"
                               />
                              
                               <label className="form-label">Status</label>
@@ -416,14 +416,14 @@ export default function Masterproductlist() {
                                 onChange={handleInputs}
                                 placeholder="Search...status"
                               />
-                              <label className="form-label">ClientId</label>
+                              <label className="form-label">Client Id</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="clientID"
                                 onChange={handleInputs}
-                                placeholder="Search...ClientId"
+                                placeholder="Search...Client Id"
                               />
 
                              
@@ -433,7 +433,7 @@ export default function Masterproductlist() {
 
                                 data-bs-dismiss="offcanvas"
                                 className="btn btn-cancel border text-white float-right bg"
-                                style={{ backgroundColor: "#9265cc" }}
+                                style={{ backgroundColor: "#0f2239",color:'#fff' }}
                                 // onClick={resetFilter}
                               >
                                 Reset
@@ -443,7 +443,7 @@ export default function Masterproductlist() {
                                 type="submit"
                                 // onClick={filterProgramList}
                                 className="btn btn-save border text-white float-right mx-2"
-                                style={{ backgroundColor: "#9265cc" }}
+                                style={{ backgroundColor: "#fe5722",color:'#fff' }}
                               >
                                 Apply
                               </button>
@@ -653,7 +653,7 @@ export default function Masterproductlist() {
                 style={{ backgroundColor: "#9265cc" }}
 
               >
-                Cencel
+                Cancel
               </Link>
               <button
                 type="submit"

@@ -484,7 +484,110 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddAgent">
+                    <Link class="btn btn-pix-primary" to="     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Highest Qualification<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                value={student?.highestQualification}
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Highest Qualification"
+                                                                name="highestQualification"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.highestQualification.required ? <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span> : null}
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Degree Name<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={student?.degreeName}
+                                                                className="form-control "
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter  Degree Name"
+                                                                name="degreeName"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.degreeName.required ? <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span> : null}
+
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                               Start Date<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="date"
+                                                                className="form-control "
+                                                                value={student?.academicYear}
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter AcademicYear"
+                                                                name="academicYear"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.academicYear.required ? <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span> : null}
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                End Date<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="date"
+                                                                className="form-control "
+                                                                value={student?.yearPassed}
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Academic Year"
+                                                                name="yearPassed"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.yearPassed.required ? <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span> : null}
+
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Institution<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                value={student?.institution}
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Institution"
+                                                                name="institution"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.institution.required ? <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span> : null}
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Percentage<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                value={student?.percentage}
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Percentage"
+                                                                name="percentage"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.percentage.required ? <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span> : null}
+                                                        </div>">
                       <button
                         className="btn btn-outline border text-white  "
                         style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
@@ -493,7 +596,7 @@ export default function Masterproductlist() {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add Program
+                        Add Agent
                       </button>
                     </Link>
                   </li>

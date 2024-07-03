@@ -668,7 +668,7 @@ export default function Masterproductlist() {
                 <Link
                   to="/ListUniversity"
                   className="btn btn-cancel border-0 text-white float-right bg"
-                  style={{ backgroundColor: "#fe5722" }}
+                  style={{ backgroundColor: "#0f2239" }}
 
                 >
                   Cancel
