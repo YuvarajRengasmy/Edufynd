@@ -22,3 +22,4 @@ export const TypeOfClient ="typeOfClient";
 
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";
+export const Loan ="loan";
