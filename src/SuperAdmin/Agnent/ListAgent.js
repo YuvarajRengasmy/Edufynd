@@ -511,13 +511,14 @@ export default function Masterproductlist() {
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
+
                     <table className=" table card-table dataTable text-center">
                       <thead>
                         <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Agent Code</th>
                           <th className="text-capitalize text-start">Source</th>
                           <th className="text-capitalize text-start">Agent Name</th>
+                          <th className="text-capitalize text-start">Agent Code</th>
                           <th className="text-capitalize text-start">Email</th>
                           <th className="text-capitalize text-start">Mobile Number</th>
                           <th className="text-capitalize text-start">Status</th>
@@ -529,13 +530,14 @@ export default function Masterproductlist() {
                         {agent?.map((data, index) => (
                           <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.agentCode}</td>
-                            <td className="text-capitalize text-start">{data?.source}</td>
+                            <td></td>
                             <td className="text-capitalize text-start">{data?.agentName}</td>
+                            <td className="text-capitalize text-start">{data?.agentCode}</td>
+
                             <td className="text-capitalize text-start">{data?.email}</td>
                             <td className="text-capitalize text-start">{data?.mobileNumber}</td>
                             <td className="text-capitalize text-start">{data?.status}</td>
-                            <td className="text-capitalize text-start">{data?.createdOn}</td>
+                            <td className="text-capitalize text-start">{data?.createdBy}</td>
                             <td>
                               <div className="d-flex">
                                 <Link
