@@ -1,6 +1,6 @@
 import React from 'react'
 import Mastersidebar from '../../../compoents/sidebar';
-export const viewLoanEnquiry = () => {
+export const ViewLoanEnquiry = () => {
   return (
     <div className="student-form" style={{ fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">
@@ -101,4 +101,4 @@ export const viewLoanEnquiry = () => {
   </div>
   )
 }
-export default viewLoanEnquiry
+export default ViewLoanEnquiry

@@ -3,7 +3,7 @@ import Mastersidebar from '../../../compoents/sidebar';
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
-export const listLoanEnquiry = () => {
+export const ListLoanEnquiry = () => {
   return (
     <div><div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
     <div class="container-fluid">
@@ -284,4 +284,4 @@ export const listLoanEnquiry = () => {
     </div></div>
   )
 }
-export default listLoanEnquiry
+export default ListLoanEnquiry

@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { saveLoanEnquiry } from '../../../api/Enquiry/Loan';
 import Mastersidebar from '../../../compoents/sidebar';
 import Select from 'react-select';
-export const editLoanEnquiry = () => {
+export const EditLoanEnquiry = () => {
   
   
 
@@ -217,4 +217,4 @@ export const editLoanEnquiry = () => {
   </div>
   )
 }
-export default editLoanEnquiry
+export default EditLoanEnquiry
