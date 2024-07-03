@@ -11,6 +11,7 @@ import { getFilterCountry } from '../../api/globalsettings';
 const AgentProfile = () => {
 
   const initialState = {
+    source:"",
     businessName: "",
     agentName: "",
     addressLine1: "",
@@ -37,6 +38,7 @@ const AgentProfile = () => {
   };
 
   const initialStateErrors = {
+    source:{required:false},
     businessName: { required: false },
     agentName: { required: false },
     addressLine1: { required: false },
@@ -91,7 +93,7 @@ const AgentProfile = () => {
 
   const getAgentDetails = () => {
     const id = getAgentId();
-    console.log("id", id);
+ 
     getSingleAgent(id)
       .then((res) => {
         setAgent(res?.data?.result);
@@ -382,7 +384,12 @@ const AgentProfile = () => {
                         <div className="tab-pane fade show  profile-edit" id="profile-edit">
                           <form onSubmit={handleSubmit}>
                             <div className="row mb-3">
+                            <div className="col ">
+                                <label htmlFor="company" className="form-label">Source</label>
+                                <input name="source" value={agent?.source} type="text" onChange={handleInputs} className="form-control" id="company" />
+                               
 
+                              </div>
                               <div className="col ">
                                 <label htmlFor="company" className="form-label">Name</label>
                                 <input name="agentName" value={agent?.agentName} type="text" onChange={handleInputs} className="form-control" id="company" />
@@ -403,7 +410,10 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                              <div className="col">
+                              
+                            </div>
+                            <div className="row mb-3">
+                            <div className="col">
                                 <label htmlFor="Country" className="form-label">Address Line1</label>
                                 <input name="addressLine1" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine1} />
                                 {errors.addressLine1.required ? (
@@ -413,8 +423,6 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                            </div>
-                            <div className="row mb-3">
                               <div className="col">
                                 <label htmlFor="Country" className="form-label">Address Line2</label>
                                 <input name="addressLine2" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine2} />
@@ -435,7 +443,10 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                              <div className="col">
+                            
+                            </div>
+                            <div className="row mb-3">
+                            <div className="col">
                                 <label htmlFor="Address" className="form-label">Email ID</label>
                                 <input name="email" type="text" className="form-control" onChange={handleInputs} id="Address" value={agent?.email} />
                                 {errors.email.required ? (
@@ -448,8 +459,6 @@ const AgentProfile = () => {
                                   </div>
                                 ) : null}
                               </div>
-                            </div>
-                            <div className="row mb-3">
                               <div className="col">
                                 <label htmlFor="Phone" className="form-label">PAN Number of Individual</label>
                                 <input name="panNumberIndividual" type="text" onChange={handleInputs} className="form-control" id="Phone" value={agent?.panNumberIndividual} />
@@ -462,6 +471,19 @@ const AgentProfile = () => {
 
                               </div>
                               <div className="col">
+                                <label htmlFor="Email" className="form-label">PAN of Company </label>
+                                <input name="panNumberCompany" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.panNumberCompany} />
+                                {errors.panNumberCompany.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                             
+                            </div>
+                            <div className="row mb-3">
+                            <div className="col">
                                 <label htmlFor="Email" className="form-label">Primary Number</label>
                                 <input name="mobileNumber" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.mobileNumber} />
                                 {errors.mobileNumber.required ? (
@@ -491,18 +513,6 @@ const AgentProfile = () => {
 
 
                               </div>
-                            </div>
-                            <div className="row mb-3">
-                              <div className="col">
-                                <label htmlFor="Email" className="form-label">PAN of Company </label>
-                                <input name="panNumberCompany" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.panNumberCompany} />
-                                {errors.panNumberCompany.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
                               <div className="col">
                                 <label htmlFor="Email" className="form-label">GSTN </label>
                                 <input name="gstn" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.gstn} />
@@ -514,7 +524,10 @@ const AgentProfile = () => {
 
 
                               </div>
-                              <div className="col">
+                              
+                            </div>
+                            <div className="row mb-3">
+                            <div className="col">
                                 <label htmlFor="Email" className="form-label">INC </label>
                                 <input name="inc" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.inc} />
                                 {errors.inc.required ? (
@@ -525,8 +538,6 @@ const AgentProfile = () => {
 
 
                               </div>
-                            </div>
-                            <div className="row mb-3">
                               <div className="col">
                                 <label htmlFor="Email" className="form-label">staffName </label>
                                 <input name="staffName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.staffName} />
@@ -547,7 +558,11 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                              <div className="col">
+                             
+                            </div>
+                            <div className="row mb-3">
+
+                            <div className="col">
                                 <label htmlFor="Email" className="form-label">agentsCommission</label>
                                 <input name="agentsCommission" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.agentsCommission} />
                                 {errors.agentsCommission.required ? (
@@ -557,10 +572,6 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                            </div>
-                            <div className="row mb-3">
-
-
                               <div className="col">
                                 <label htmlFor="universityLogo" className="form-label" >agentBusinessLogo</label>
 
@@ -591,7 +602,12 @@ const AgentProfile = () => {
                                 </Select>
 
                               </div>
-                              <div className="col">
+                             
+                            </div>
+
+
+                            <div className="row mb-3">
+                            <div className="col">
                                 <label htmlFor="Email" className="form-label"> Account Number</label>
                                 <input name="accountNumber" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.accountNumber} />
                                 {errors.accountNumber.required ? (
@@ -601,10 +617,6 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                            </div>
-
-
-                            <div className="row mb-3">
                               <div className="col">
                                 <label htmlFor="Email" className="form-label"> BankName</label>
                                 <input name="bankName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.bankName} />
@@ -625,7 +637,10 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                              <div className="col">
+                             
+                            </div>
+                            <div className="row mb-3">
+                            <div className="col">
                                 <label htmlFor="Email" className="form-label">IFSC</label>
                                 <input name="ifsc" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.ifsc} />
                                 {errors.ifsc.required ? (
@@ -635,7 +650,6 @@ const AgentProfile = () => {
                                 ) : null}
 
                               </div>
-                            </div>
                             <div className="col">
                               <label htmlFor="Email" className="form-label">branch</label>
                               <input name="branch" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.branch} />
@@ -645,6 +659,7 @@ const AgentProfile = () => {
                                 </span>
                               ) : null}
 
+                            </div>
                             </div>
                             <div className="text-center mt-3">
                               <button type="submit" className="btn " style={{ backgroundColor: '#fe5722', color: '#fff' }}>Save Changes</button>

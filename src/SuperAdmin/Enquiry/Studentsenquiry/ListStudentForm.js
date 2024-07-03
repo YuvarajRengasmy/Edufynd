@@ -1,9 +1,92 @@
-import React from 'react'
-import Mastersidebar from '../../../compoents/sidebar';
+import React, { useEffect, useState } from "react";
+import { getallStudnetEnquiry, getSingleStudnetEnquiry  } from "../../../api/Enquiry/student";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+
+import Mastersidebar from "../../../compoents/sidebar";
+import { ExportCsvService } from "../../../Utils/Excel";
+import { templatePdf } from "../../../Utils/PdfMake";
+import { toast } from "react-toastify";
+
 import { FaFilter } from "react-icons/fa";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
 export const ListStudentForm = () => {
+
+  const initialState = {
+    source: "",
+    name: "",
+    dob: "",
+    passportNo: "",
+    qualification: "",
+    whatsAppNumber: "",
+    primaryNumber: "",
+    email: "",
+    cgpa: "",
+    yearPassed: "",
+    desiredCountry: "",
+    desiredCourse: "",
+    doYouNeedSupportForLoan: "",
+    assignedTo: "",
+
+  }
+
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  const [student, setStudent] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+
+  useEffect(() => {
+    getAllStudentDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllStudentDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getallStudnetEnquiry(data)
+      .then((res) => {
+       
+        setStudent(res?.data?.result);
+        setPagination({ ...pagination, count: res?.data?.result?.studentCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deletStudentData = () => {
+    deleteAdmin (deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getStudentDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
   return (
     <div>
       <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>

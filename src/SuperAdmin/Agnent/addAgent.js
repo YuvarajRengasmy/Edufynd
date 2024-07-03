@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
-import { isValidPhone, isValidEmail } from "../../Utils/Validation";
-import { getSingleAgent, SuperAgent } from "../../api/agent";
-import { getAgentId } from "../../Utils/storage";
+import { isValidPhone, isValidEmail ,isValidPassword} from "../../Utils/Validation";
+import {  SuperAgent } from "../../api/agent";
+
 import Select from 'react-select';
 import { getFilterCountry } from '../../api/globalsettings';
 import Header from "../../compoents/header";
@@ -13,6 +13,7 @@ function AddAgent() {
 
 
     const initialState = {
+      source:"",
         businessName: "",
         agentName: "",
         addressLine1: "",
@@ -21,7 +22,8 @@ function AddAgent() {
         email: "",
         mobileNumber: "",
         whatsAppNumber: "",
-        bankDetail: "",
+        password:"",
+        confirmPassword:"",
         panNumberIndividual: "",
         panNumberCompany: "", // If applicable
         gstn: "", // Optional
@@ -30,7 +32,7 @@ function AddAgent() {
         staffContactNo: "", // agentPayout: string[]; // List of payouts
         agentsCommission: 0, // Will be calculated based on the University Commission & Agent Payout
         agentBusinessLogo: "", // Optional
-        countryInterested: [],
+        countryInterested:"",
         accountName: "",
         accountNumber: "",
         bankName: "",
@@ -39,6 +41,7 @@ function AddAgent() {
       };
     
       const initialStateErrors = {
+        source:{required:false},
         businessName: { required: false },
         agentName: { required: false },
         addressLine1: { required: false },
@@ -47,7 +50,6 @@ function AddAgent() {
         email: { required: false, valid: false },
         mobileNumber: { required: false, valid: false },
         whatsAppNumber: { required: false, valid: false },
-        bankDetail: { required: false },
         panNumberIndividual: { required: false },
         panNumberCompany: { required: false }, // If applicable
         gstn: { required: false }, // Optional
@@ -62,6 +64,8 @@ function AddAgent() {
         bankName: { required: false },
         ifsc: { required: false },
         branch: { required: false },
+        password: { required: false, valid: false },
+        confirmPassword: { required: false, valid: false }
       };
     
       const [agent, setAgent] = useState(initialState);
@@ -74,7 +78,7 @@ function AddAgent() {
     
     
       useEffect(() => {
-        getAgentDetails();
+       
         getAllCountryDetails();
       }, []);
     
@@ -91,17 +95,7 @@ function AddAgent() {
           });
       };
     
-      const getAgentDetails = () => {
-        const id = getAgentId();
-        console.log("id", id);
-        getSingleAgent(id)
-          .then((res) => {
-            setAgent(res?.data?.result);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
+     
     
       const handleInputs = (event) => {
         const { name, value, files } = event.target;
@@ -204,6 +198,12 @@ function AddAgent() {
         if (!isValidEmail(data.email)) {
           error.email.valid = true;
         }
+        if (!isValidPassword(data.password)) {
+          error.password.valid = true;
+      }
+      if (!isValidPassword(data.confirmPassword)) {
+          error.confirmPassword.valid = true;
+      }
         return error;
       };
     
@@ -214,28 +214,19 @@ function AddAgent() {
         const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
         setAgent({ ...agent, [name]: values });
       };
-      const handleErrors = (obj) => {
-        for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            const prop = obj[key];
-            if (prop.required === true) {
-              return false;
-            }
-          }
-        }
-        return true;
-      };
+     
       const handleSubmit = (event) => {
         event.preventDefault();
         const newError = handleValidation(agent);
         setErrors(newError);
         setSubmitted(true);
-        if (handleErrors(newError)) {
+        const allInputsValid = Object.values(newError);
+        const valid = allInputsValid.every((x) => x.required === false);
+        if (valid) {
             SuperAgent(agent)
             .then((res) => {
               toast.success(res?.data?.message);
               navigate("/ListAgent");
-    
             })
             .catch((err) => {
               toast.error(err?.response?.data?.message);
@@ -274,10 +265,19 @@ function AddAgent() {
                             </div>
                           
                             <div className="row mb-3">
+                            <div className="col ">
+                                <label htmlFor="company" className="form-label">Source</label>
+                                <input name="source"  type="text" onChange={handleInputs} className="form-control" id="company" />
+                                {errors.source.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
 
+                              </div>
                               <div className="col ">
                                 <label htmlFor="company" className="form-label">Name</label>
-                                <input name="agentName" value={agent?.agentName} type="text" onChange={handleInputs} className="form-control" id="company" />
+                                <input name="agentName"  type="text" onChange={handleInputs} className="form-control" id="company" />
                                 {errors.agentName.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -287,7 +287,7 @@ function AddAgent() {
                               </div>
                               <div className="col">
                                 <label htmlFor="Job" className="form-label">Business Name</label>
-                                <input name="businessName" type="text" className="form-control" onChange={handleInputs} id="Job" value={agent?.businessName} />
+                                <input name="businessName" type="text" className="form-control" onChange={handleInputs} id="Job" />
                                 {errors.businessName.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -295,7 +295,45 @@ function AddAgent() {
                                 ) : null}
 
                               </div>
+                             
+                            </div>
+                            <div className="row mb-3">
+                            <div className="col">
+                                <label htmlFor="Address" className="form-label">Email ID</label>
+                                <input name="email" type="text" className="form-control" onChange={handleInputs} id="Address" value={agent?.email} />
+                                {errors.email.required ? (
+                                  <div className="text-danger form-text">
+                                    This field is required.
+                                  </div>
+                                ) : errors.email.valid ? (
+                                  <div className="text-danger form-text">
+                                    Enter valid Email Id.
+                                  </div>
+                                ) : null}
+                              </div>
+                              <div className="col ">
+                                <label htmlFor="company" className="form-label">Password</label>
+                                <input name="password"  type="text" onChange={handleInputs} className="form-control" id="company" />
+                                {errors.password.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
                               <div className="col">
+                                <label htmlFor="Job" className="form-label">confirmPassword</label>
+                                <input name="confirmPassword" type="text" className="form-control" onChange={handleInputs} id="Job" />
+                                {errors.confirmPassword.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                             
+                            <div className="row mb-3">
+                            <div className="col">
                                 <label htmlFor="Country" className="form-label">Address Line1</label>
                                 <input name="addressLine1" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine1} />
                                 {errors.addressLine1.required ? (
@@ -305,8 +343,7 @@ function AddAgent() {
                                 ) : null}
 
                               </div>
-                            </div>
-                            <div className="row mb-3">
+                          
                               <div className="col">
                                 <label htmlFor="Country" className="form-label">Address Line2</label>
                                 <input name="addressLine2" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine2} />
@@ -327,19 +364,7 @@ function AddAgent() {
                                 ) : null}
 
                               </div>
-                              <div className="col">
-                                <label htmlFor="Address" className="form-label">Email ID</label>
-                                <input name="email" type="text" className="form-control" onChange={handleInputs} id="Address" value={agent?.email} />
-                                {errors.email.required ? (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                ) : errors.email.valid ? (
-                                  <div className="text-danger form-text">
-                                    Enter valid Email Id.
-                                  </div>
-                                ) : null}
-                              </div>
+                            </div> 
                             </div>
                             <div className="row mb-3">
                               <div className="col">
