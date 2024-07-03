@@ -6,6 +6,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { updateStudnetEnquiry,getSingleStudnetEnquiry } from '../../../api/Enquiry/student';
 
 import Mastersidebar from '../../../compoents/sidebar';
+import { Student } from '../../../api/endpoints';
 
 export const AddStudentForm = () => {
 
@@ -187,7 +188,7 @@ const getStudentDetails = () => {
 
                     <div className="col">
                       <label className="form-label" for="inputEmail4">Source</label>
-                      <select onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name="source">
+                      <select onChange={handleInputs} value={student?.source} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name="source">
                         <option value="">Select Source</option>
                         <option value="walkin">Walk In</option>
                         <option value="direct">Direct</option>
@@ -201,7 +202,7 @@ const getStudentDetails = () => {
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputEmail4">Student Name</label>
-                      <input className="form-control" type="text" id="inputEmail4" name='name' onChange={handleInputs} placeholder='Enter Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" value={student?.name} type="text" id="inputEmail4" name='name' onChange={handleInputs} placeholder='Enter Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.name.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -212,7 +213,7 @@ const getStudentDetails = () => {
 
                     <div className="col">
                       <label className="form-label" for="inputPassword4">DOB</label>
-                      <input className="form-control" onChange={handleInputs} id="inputPassword4" type="date" placeholder='DOB' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} name="dob" />
+                      <input className="form-control" value={student?.dob} onChange={handleInputs} id="inputPassword4" type="date" placeholder='DOB' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} name="dob" />
                       {errors.dob.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -226,7 +227,7 @@ const getStudentDetails = () => {
                   <div className='row mb-3'>
                     <div className="col">
                       <label className="form-label" for="inputPassword4">Email ID</label>
-                      <input className="form-control" onChange={handleInputs} id="inputPassword4" text="text" placeholder='Email ID' name="email" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" value={Student?.email} onChange={handleInputs} id="inputPassword4" text="text" placeholder='Email ID' name="email" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -241,7 +242,7 @@ const getStudentDetails = () => {
 
                     <div className="col">
                       <label className="form-label" for="inputAddress">Passport No</label>
-                      <input className="form-control" onChange={handleInputs} name="passportNo" id="inputAddress" type="text" placeholder="Passport No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" value={student?.passportNo} onChange={handleInputs} name="passportNo" id="inputAddress" type="text" placeholder="Passport No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -251,7 +252,7 @@ const getStudentDetails = () => {
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputEmail4">Contact Number</label>
-                      <input className="form-control" onChange={handleInputs} id="inputEmail4" type="text" name="primaryNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" value={student?.primaryNumber} onChange={handleInputs} id="inputEmail4" type="text" name="primaryNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.primaryNumber.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -273,7 +274,7 @@ const getStudentDetails = () => {
 
                     <div className="col">
                       <label className="form-label" for="inputAddress">CGPA </label>
-                      <input className="form-control" onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" onChange={handleInputs} value={student?.cgpa} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.cgpa.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -282,7 +283,7 @@ const getStudentDetails = () => {
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputAddress"> Year passed</label>
-                      <input className="form-control" id="inputAddress" onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputAddress" value={student?.yearPassed} onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.yearPassed.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -292,7 +293,7 @@ const getStudentDetails = () => {
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputEmail4">Desired Country</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputEmail4" value={student?.desiredCountry} onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.desiredCountry.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -305,7 +306,7 @@ const getStudentDetails = () => {
                   <div className='row mb-3'>
                     <div className="col">
                       <label className="form-label" for="inputPassword4">Desired Course</label>
-                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputPassword4" value={student?.desiredCourse} onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.desiredCourse.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -317,6 +318,7 @@ const getStudentDetails = () => {
                       <label className="form-label" for="inputAddress">Do you need support for loan? </label>
                       <select className="form-control"
                         name="doYouNeedSupportForLoan"
+                        value={student?.doYouNeedSupportForLoan}
                         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         onChange={handleInputs}>
                         <option value=""> Select Loan support </option>
@@ -333,7 +335,7 @@ const getStudentDetails = () => {
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputEmail4">WhatsApp Number</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="whatsAppNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputEmail4" value={student?.whatsAppNumber} onChange={handleInputs} type="text" name="whatsAppNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.whatsAppNumber.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -352,7 +354,7 @@ const getStudentDetails = () => {
                   <div className='row mb-3'>
                     <div className="col">
                       <label className="form-label" for="inputPassword4">Qualification</label>
-                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" value={student?.qualification} id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.qualification.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -363,7 +365,7 @@ const getStudentDetails = () => {
 
                     <div className="col">
                       <label className="form-label" for="inputEmail4"> Assigned To</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" value={student?.assignedTo} id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                       {errors.assignedTo.required ?
 
                         <span className="text-danger form-text profile_error">

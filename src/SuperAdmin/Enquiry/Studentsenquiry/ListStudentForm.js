@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getallStudnetEnquiry, getSingleStudnetEnquiry, deleteStudnetEnquiry } from "../../../api/Enquiry/student";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import { formatDate } from "../../../Utils/DateFormat"
+import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/sidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
@@ -40,6 +40,9 @@ export const ListStudentForm = () => {
   const [student, setStudent] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [filter, setFilter] = useState(false);
 
   useEffect(() => {
     getAllStudentDetails();
@@ -50,11 +53,8 @@ export const ListStudentForm = () => {
       limit: 10,
       page: pagination.from,
     };
-
     getallStudnetEnquiry(data)
       .then((res) => {
-        console.log("yuvi", res)
-
         setStudent(res?.data?.result);
       })
       .catch((err) => {
@@ -370,7 +370,32 @@ export const ListStudentForm = () => {
                 </div>
               </div>
             </div>
-
+            <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
+          
+              Are you sure you want to Delete <br /> the selected StudnetEnquiry ?
+            </h5>
+            <button
+              type="button"
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              className="btn btn-danger mx-3"
+              onClick={deletStudentData}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-info "
+              onClick={closePopup}
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
 
 
@@ -379,6 +404,7 @@ export const ListStudentForm = () => {
         </div>
       </div>
     </div>
+    
   )
 }
-export default ListStudentForm
+export default ListStudentForm;
