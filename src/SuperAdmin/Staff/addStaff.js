@@ -13,6 +13,165 @@ import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import Select from 'react-select';
 export const addStaff = () => {
+
+
+  const initialState = {
+    typeOfClient: "",
+    businessName: "",
+    businessMailID: "",
+    businessContactNo: "",
+    website: "",
+    addressLine1: "",  // Street Address, City, State, Postal Code, Country
+    addressLine2: "",
+    addressLine3: "",
+    name: "",
+    contactNo: "",
+    emailID: "",
+    gstn: "",
+    status: "",
+
+}
+const initialStateErrors = {
+
+    typeOfClient: { required: false },
+    businessName: { required: false },
+    businessMailID: { required: false, valid: false },
+    businessContactNo: { required: false, valid: false },
+    website: { required: false },
+    addressLine2: { required: false },
+    addressLine3: { required: false },
+    addressLine1: { required: false },
+    name: { required: false },
+    contactNo: { required: false, valid: false },
+    emailID: { required: false, valid: false },
+    gstn: { required: false },
+    status: { required: false },
+}
+const [client, setClient] = useState(initialState)
+const [errors, setErrors] = useState(initialStateErrors)
+const [submitted, setSubmitted] = useState(false);
+const [type, setType] = useState([]);
+
+
+useEffect(() => {
+    
+    getAllClientDetails();
+  }, []);
+
+  const  getAllClientDetails = () => { 
+    getallClientModule()
+      .then((res) => {
+        console.log(res);
+        setType(res?.data?.result);
+      
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+const navigate = useNavigate()
+const handleValidation = (data) => {
+    let error = initialStateErrors;
+
+
+    if (data.typeOfClient === "") {
+        error.typeOfClient.required = true;
+    }
+
+    if (data.businessName === "") {
+        error.businessName.required = true;
+    }
+
+    if (data.businessMailID === "") {
+        error.businessMailID.required = true;
+    }
+    if (data.businessContactNo === "") {
+        error.businessContactNo.required = true;
+    }
+    if (data.website === "") {
+        error.website.required = true;
+    }
+    if (data.addressLine1 === "") {
+        error.addressLine1.required = true;
+    }
+    if (data.name === "") {
+        error.name.required = true;
+    }
+    if (data.contactNo === "") {
+        error.contactNo.required = true;
+    }
+    if (data.emailID === "") {
+        error.emailID.required = true;
+    }
+    if (data.addressLine2 === "") {
+        error.addressLine2.required = true;
+    }
+    if (data.addressLine3 === "") {
+        error.addressLine3.required = true;
+    }
+    if (data.gstn === "") {
+        error.gstn.required = true;
+    }
+    if (data.status === "") {
+        error.status.required = true; 
+        
+    }
+    if (!isValidEmail(data.emailID)) {
+        error.emailID.valid = true;
+    }
+    if (!isValidPhone(data.contactNo)) {
+        error.contactNo.valid = true;
+    }
+    if (!isValidEmail(data.businessMailID)) {
+        error.businessMailID.valid = true;
+    }
+    if (!isValidPhone(data.businessContactNo)) {
+        error.businessContactNo.valid = true;
+    }
+    return error
+}
+
+const handleInputs = (event) => {
+    setClient({ ...client, [event?.target?.name]: event?.target?.value })
+    if (submitted) {
+        const newError = handleValidation({ ...client, [event.target.name]: event.target.value })
+        setErrors(newError)
+    }
+}
+
+
+const handleErrors = (obj) => {
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const prop = obj[key];
+            if (prop.required === true || prop.valid === true) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(client);
+    setErrors(newError);
+    setSubmitted(true);
+    const allInputsValid = Object.values(newError);
+    const valid = allInputsValid.every((x) => x.required === false);
+    if (valid) {
+      saveClient(client)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          navigate("/client");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    }
+  };
+
+
   return (
     <div>
       <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
