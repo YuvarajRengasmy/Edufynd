@@ -34,3 +34,11 @@ export const timeCal = (date1) => {
   }
   return diff ? diff + "ago" : "recently";
 };
+
+export const formatDate = (data) => {
+  const date = new Date(data);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
