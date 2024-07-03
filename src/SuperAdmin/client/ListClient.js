@@ -9,7 +9,7 @@ import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 
 import { FaFilter } from "react-icons/fa";
-import axios from 'axios';
+
 
 
 
@@ -103,37 +103,6 @@ export default function Masterproductlist() {
   const closeFilterPopup = () => {
     setOpenFilter(false);
   };
-//   const filterProgramList = (event) => {
-//     event?.preventDefault();
-//     setFilter(true);
-//     const data = {
-//       universityName: inputs.universityName,
-//     programTitle: inputs.programTitle,
-    
-//     applicationFee: inputs.applicationFee,
-//     courseFee: inputs.courseFee,
-//       page: pagination.from,
-
-//     };
-//     getFilterProgram(data)
-//       .then((res) => {
-//         setProgaram(res?.data?.result?.programList);
-//         setPagination({
-//           ...pagination,
-//           count: res?.data?.result?.programCount,
-//         });
-//         closeFilterPopup();
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-
-//   const resetFilter = () => {
-//     setFilter(false);
-//     setInputs(initialStateInputs);
-//     getAllProgaramDetails();
-//   };
 
   const handleInputs = (event) => {
     setClient({ ...client, [event.target.name]: event.target.value });
@@ -150,23 +119,6 @@ export default function Masterproductlist() {
     setFile(event.target.files[0]);
   };
 
-//   const handleFileUpload = async () => {
-//     if (!file) return;
-
-//     const formData = new FormData();
-//     formData.append('program', file);
-
-//     try {
-//       const response = await axios.post('http://localhost:4409/api/client/import', formData, {
-//         headers: {
-//           'Content-Type': 'multipart/form-data',
-//         },
-//       });
-//       console.log('File uploaded successfully:', response.data);
-//     } catch (error) {
-//       console.error('Error uploading file:', error);
-//     }
-//   };
 
 
 

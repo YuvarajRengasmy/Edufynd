@@ -193,28 +193,7 @@ function AddAgent() {
                       </div>
                       <div className="card-body">
                         <div className="row gy-4">
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    
-                                    <label style={{ color: "#231F20" }}>
-                                        {" "}
-                                    Client ID <span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        name="businessName"
-                                        onChange={handleInputs}
-                                        className="form-control "
-                                        placeholder="Client ID"
-
-                                    />
-                                    {errors.businessName.required ? (
-                                        <div className="text-danger form-text">
-                                            This field is required.
-                                        </div>
-                                    ) : null}
-                                
-                            </div>
+                       
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                    <label style={{ color: "#231F20" }}>
