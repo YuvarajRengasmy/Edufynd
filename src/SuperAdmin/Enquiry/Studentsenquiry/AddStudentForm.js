@@ -18,10 +18,22 @@ export const AddStudentForm = () => {
    
     <div className='row mb-3'>
     <div className="col">
+                          <label className="form-label" for="inputEmail4">Student Code </label>
+                          <input className="form-control" id="inputEmail4"  type="text" placeholder='Student Code'/>
+                        </div>
+                        <div className="col">
+                          <label className="form-label" for="inputEmail4">Source</label>
+                          <input className="form-control" id="inputEmail4"  type="text" placeholder='Source'/>
+                        </div>
+    <div className="col">
                           <label className="form-label" for="inputEmail4">Student Name</label>
                           <input className="form-control" id="inputEmail4"  type="text" placeholder='Enter Name'/>
                         </div>
-                        <div className="col">
+                        
+                      
+    </div>
+    <div className='row mb-3'>
+    <div className="col">
                           <label className="form-label" for="inputPassword4">DOB</label>
                           <input className="form-control" id="inputPassword4" type="text" placeholder='DOB' />
                         </div>
@@ -29,13 +41,15 @@ export const AddStudentForm = () => {
                           <label className="form-label" for="inputAddress">Passport No</label>
                           <input className="form-control" id="inputAddress" type="text" placeholder="Passport No"/>
                         </div>
-    </div>
-    <div className='row mb-3'>
     <div className="col">
                           <label className="form-label" for="inputEmail4">Contact Number</label>
                           <input className="form-control" id="inputEmail4" type="text" placeholder='Contact Number'/>
                         </div>
-                        <div className="col">
+                       
+                       
+    </div>
+    <div className='row mb-3'>
+    <div className="col">
                           <label className="form-label" for="inputPassword4">Email ID</label>
                           <input className="form-control" id="inputPassword4" type="Password" placeholder='Email ID' />
                         </div>
@@ -43,13 +57,14 @@ export const AddStudentForm = () => {
                           <label className="form-label" for="inputAddress">CGPA / Year passed</label>
                           <input className="form-control" id="inputAddress" type="text" placeholder="CGPA / Year passed"/>
                         </div>
-    </div>
-    <div className='row mb-3'>
     <div className="col">
                           <label className="form-label" for="inputEmail4">Desired Country</label>
                           <input className="form-control" id="inputEmail4" type="text" placeholder='Desired Country'/>
                         </div>
-                        <div className="col">
+                      
+    </div>
+    <div className='row mb-3'>
+    <div className="col">
                           <label className="form-label" for="inputPassword4">Desired Course</label>
                           <input className="form-control" id="inputPassword4" type="Password" placeholder='Desired Course' />
                         </div>

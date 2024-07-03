@@ -16,8 +16,8 @@ const Sidebar = () => {
     globalSettings: false,
     modules: false,
     privileges: false,
-    Projects:false,
-    Reports:false,
+    Projects: false,
+    Reports: false,
   });
 
   const toggleDropdown = (key) => {
@@ -92,7 +92,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item  ">
                   <a
-                    href=""
+                    href="/client"
                     className="nav-link "
                     style={{
                       color: "#231f20",
@@ -1344,7 +1344,7 @@ const Sidebar = () => {
                     />
                   </a>
                   <div
-                    className={`collapse ${isOpen.Reports? "show" : ""}`}
+                    className={`collapse ${isOpen.Reports ? "show" : ""}`}
                     id="collapse4"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">

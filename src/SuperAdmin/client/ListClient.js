@@ -519,12 +519,12 @@ export default function Masterproductlist() {
                       <thead>
                         <tr  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">clientID</th>
+                          <th className="text-capitalize text-start">Date</th>
+                          <th className="text-capitalize text-start">Client ID</th>
                           <th className="text-capitalize text-start">Client Name</th>
-                          <th className="text-capitalize text-start">EMailID</th>
-                          <th className="text-capitalize text-start">ContactNo</th>
+                          <th className="text-capitalize text-start">Contact</th>
+                          <th className="text-capitalize text-start">Email ID</th>
                           <th className="text-capitalize text-start">Status</th>
-                          <th className="text-capitalize text-start">Action</th>
                         </tr>
                       </thead>
                       <tbody>
