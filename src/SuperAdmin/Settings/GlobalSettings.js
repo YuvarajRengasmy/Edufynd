@@ -10,7 +10,6 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import Select from 'react-select';
 import CountryRegion from "countryregionjs";
-import zIndex from '@mui/material/styles/zIndex';
 
 export default function GlobalSettings() {
   const initialStateInputs = {
@@ -69,7 +68,7 @@ export default function GlobalSettings() {
     getFilterCountry(data)
       .then((res) => {
         console.log(res);
-        setCountry(res?.data?.result?.countryList);
+        setCountries(res?.data?.result?.countryList);
         setPagination({
           ...pagination,
           count: res?.data?.result?.countryCount,
@@ -213,6 +212,7 @@ export default function GlobalSettings() {
       borderRadius: '5.91319px',
       fontSize: "14px",
       fontFamily: "Plus Jakarta Sans",
+      
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -220,6 +220,7 @@ export default function GlobalSettings() {
       ':hover': {
         color: 'black',
         fontSize: "11px",
+        fontFamily: "Plus Jakarta Sans",
       }
     })
   };
@@ -370,7 +371,7 @@ export default function GlobalSettings() {
                       <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter  Country</h5>
+                          <h5 id="offcanvasRightLabel">Filter BY Country</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                         </div>
                         <div className="offcanvas-body ">
@@ -459,31 +460,25 @@ export default function GlobalSettings() {
 
                       </ol>
                       <ul className="list-group list-group-flush">
-  {Array.isArray(country) && country?.map((item, index) => {
-    return (
-      <li className="list-group-item d-flex justify-content-between align-items-start" key={index}>
+                      {countries.map((country, index) =>
+          Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
+  
+      <li className="list-group-item d-flex justify-content-between align-items-start" key={`${index}-${countryIndex}`}>
         <div className="ms-2 me-auto">
-          <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{item.country}</div>
+          <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{countryName}</div>
         </div>
         <div className="d-flex gap-2">
-          {/* Uncomment the below button to enable edit functionality
+         
           <button
             className="dropdown-item"
-            onClick={() => editCountry(item)}
-          >
-            <i className="far fa-edit text-primary me-1"></i>
-          </button>
-          */}
-          <button
-            className="dropdown-item"
-            onClick={() => deleteCountry(item)}
+            onClick={() => openPopup(countryName)}
           >
             <i className="far fa-trash-alt text-danger me-1"></i>
           </button>
         </div>
       </li>
-    );
-  })}
+     ))
+  )}
 </ul>
 
 
@@ -535,9 +530,6 @@ export default function GlobalSettings() {
       <Dialog 
   open={openFilter} 
   fullWidth 
-  
-
- 
  
   
 >
@@ -547,29 +539,28 @@ export default function GlobalSettings() {
       <i className="fa fa-times fa-xs" aria-hidden="true"></i>
     </IconButton>
   </DialogTitle>
-  <DialogContent style={{ maxHeight: 'calc(100vh - 100px)', overflowY: 'auto',height:'400px' }} >
-   <div className="card-body col-md-12 " >
+  <DialogContent>
+   <div className="card-body Col-md-12">
     <form  onSubmit={handleSubmit}>
       <section className="  justify-content-center">
-        <section className=" col-md-12 form-group">
+        <section className=" col-md-6 form-group">
           <Select
-          className=''
             type="text"
             placeholder="Select a country"
             id="name"
             isMulti
             name='country'
             onChange={handleCountryChange}
-            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}
+            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
             options={countries}
-            styles={customStyles}
+             styles={customStyles}
           />
          
         </section>
         
         <br />
-        <section className=" form-group  text-center">
-          <button className="justify-content-center btn btn-primary col-md-12 border-0" type='submit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px',backgroundColor:'#fe5722',color:'#fff' }}>Submit</button>
+        <section className=" form-group col-md-3">
+          <button className="justify-content-center btn btn-primary col-md-12" type='submit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Submit</button>
         </section>
       </section>
     </form>

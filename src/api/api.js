@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { clearStorage } from '../Utils/storage';
 
-const API = axios.create({ baseURL: 'http://api.edufynd.in:4409/api/' });
+const API = axios.create ({ baseURL: 'http://localhost:4409/api/' });
 
 API.interceptors.request.use(request => {
     const token = localStorage.getItem("token");

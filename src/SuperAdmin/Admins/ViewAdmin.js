@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-import { Link, useNavigate } from "react-router-dom";
+import { updateAdmin,getSingleAdmin } from '../../api/admin';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
+
 
 function AddAgent() {
+
+    const location = useLocation();
+    const id = new URLSearchParams(location.search).get("id");
+    const [admin, setAdmin] = useState('');
+
+
+
+
+    useEffect(() => {
+        
+        getAllClientDetails();
+      }, []);
+    
+      const  getAllClientDetails = () => { 
+        getSingleAdmin(id)
+          .then((res) => {
+            console.log(res);
+            setAdmin(res?.data?.result);
+          
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
     return (
         <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="container-fluid">
@@ -38,6 +65,7 @@ function AddAgent() {
                                             className="form-control "
                                             placeholder="Enter Admin name"
                                             name="adminName"
+                                            value={admin?.name}
                                         />
                                     </div>
                                 </div>
@@ -52,6 +80,7 @@ function AddAgent() {
                                                 className="form-control "
                                                 placeholder="Enter Passport No"
                                                 name="Country"
+                                                value={admin?.email}
                                             />
                                         </div>
                                     </div>
@@ -66,6 +95,7 @@ function AddAgent() {
                                             type="text"
                                             className="form-control "
                                             name="Country"
+                                            value={admin?.password}
                                         />
                                     </div>
                                 </div>
@@ -79,6 +109,7 @@ function AddAgent() {
                                             className="form-control "
                                             placeholder="Enter Role"
                                             name="role"
+                                            value={admin?.role}
                                         />
                                     </div>
                                 </div>
@@ -92,25 +123,11 @@ function AddAgent() {
                                             className="form-control "
                                             placeholder="Contact Number"
                                             name="contactNumber"
+                                            value={admin?.contactNumber}
                                         />
                                     </div>
                                 </div>
-                                <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                                    <Link
-                                        style={{ backgroundColor: "#231F20" }}
-                                        to="/ListAgent"
-                                        className="btn btn-cancel border text-white w-50 m-2"
-                                    >
-                                        Cancel
-                                    </Link>
-                                    <button
-                                        style={{ backgroundColor: "#FE5722" }}
-                                        type="submit"
-                                        className="btn btn-save border text-white w-50 m-2"
-                                    >
-                                        Submit
-                                    </button>
-                                </div>
+                               
                             </div>
                         </form>
                     </div>

@@ -1,12 +1,13 @@
 import React, { useEffect ,useState } from "react";
-import { getallAdmin } from "../../api/admin";
+import { getallAdmin,deleteAdmin } from "../../api/admin";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, } from "@mui/material";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
+import { toast } from "react-toastify";
+
 import { FaFilter } from "react-icons/fa";
 export default function ListAgent() {
-
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -15,6 +16,8 @@ export default function ListAgent() {
   });
 
   const [admin, setAdmin] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
 
   useEffect(() => {
     getAllAdminDetails();
@@ -37,11 +40,32 @@ export default function ListAgent() {
       });
   };
 
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deleteAdminData = () => {
+    deleteAdmin (deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllAdminDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
 
 
   
   return (
-    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
@@ -51,7 +75,7 @@ export default function ListAgent() {
       <nav className="navbar navbar-top navbar-expand"> 
         <Header />
         </nav>
-      <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
        
         <div className="container">
              
@@ -93,7 +117,7 @@ export default function ListAgent() {
                  <li class="m-1">
 
 
-                   <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                   <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                      <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                        <div className="offcanvas-header">
@@ -110,7 +134,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="universityName"
                              
-                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...University Name"
                              />
                              <label className="form-label">Campus</label>
@@ -120,7 +144,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="state"
                              
-                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Campus"
                              />
                              <label className="form-label">Average Fees</label>
@@ -130,7 +154,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="averageFees"
                              
-                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Average Fees"
                              />
                              <label className="form-label">Country</label>
@@ -140,7 +164,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="country"
                              
-                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Country"
                              />
 
@@ -151,7 +175,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="popularCategories"
                              
-                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Country"
                              />
                            </div>
@@ -265,33 +289,40 @@ export default function ListAgent() {
                           <td>{data?.role}</td>
                           <td>{data?.mobileNumber}</td>
                           <td>
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/ViewAdmin",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditAdmin",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <button
-                                      className="dropdown-item"
-                                     
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </button>
-                                  </div>
-                                </td>
+                          <div className="d-flex">
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/ViewAdmin",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-eye text-primary me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/EditAdmin",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-edit text-warning me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                </Link>
+                              </div>
+                             
+                           
+                          </td>
                         </tr>
                       ))}
                        {admin?.length === 0 ? (
@@ -314,20 +345,24 @@ export default function ListAgent() {
           </div>
         </div>
       </div>
-      <Dialog >
+      <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4">
-              Are you sure you want to Delete <br /> the selected Product ?
+              Are you sure you want to Delete <br /> the selected Admin?
             </h5>
             <button
               type="button"
-              className="btn btn-save mx-3">
+              className="btn btn-save mx-3"
+              onClick={deleteAdminData}
+            >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel ">
+              className="btn btn-cancel "
+              onClick={closePopup}
+            >
               No
             </button>
           </div>

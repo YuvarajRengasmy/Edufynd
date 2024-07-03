@@ -27,7 +27,7 @@ import DashboardSA from "../SuperAdmin/DashBoard/Home";
 // Client
 import AddClient from "../SuperAdmin/client/addclient";
 import ListClient from "../SuperAdmin/client/ListClient";
-// import ViewClient from "../SuperAdmin/client/viewClient";
+import ViewClient from "../SuperAdmin/client/ViewClient";
 import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 import UniversitySettings from "../SuperAdmin/Settings/universityModule";
@@ -75,6 +75,7 @@ function SuperAdmin() {
           <Route path="/AddClient" element={<AddClient />} />
           <Route path="/client" element={<ListClient />} />
           <Route path="/EditClient" element={<EditClient />} />
+          <Route path="/viewClient" element={<ViewClient/>}/>
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
           <Route path="/UniversitySettings" element={<UniversitySettings/>}/>
           <Route path="/ProgramModule" element={<ProgramModule/>}/>

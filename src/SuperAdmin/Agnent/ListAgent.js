@@ -484,7 +484,7 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddProgram">
+                    <Link class="btn btn-pix-primary" to="/AddAgent">
                       <button
                         className="btn btn-outline border text-white  "
                         style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
@@ -516,6 +516,7 @@ export default function Masterproductlist() {
                       <thead>
                         <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
+                          <th className="text-capitalize text-start">Source</th>
                           <th className="text-capitalize text-start">Agent Name</th>
                           <th className="text-capitalize text-start">Agent Code</th>
                           <th className="text-capitalize text-start">Email</th>
@@ -529,7 +530,7 @@ export default function Masterproductlist() {
                         {agent?.map((data, index) => (
                           <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.agentId?.agentName ? data?.agentId?.agentName : data?.superAdminId?.agentName}</td>
+                            <td className="text-capitalize text-start">{data?.agentName}</td>
                             <td className="text-capitalize text-start">{data?.agentCode}</td>
 
                             <td className="text-capitalize text-start">{data?.email}</td>
