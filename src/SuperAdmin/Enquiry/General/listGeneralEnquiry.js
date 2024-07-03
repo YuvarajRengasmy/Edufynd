@@ -5,7 +5,7 @@ import { FaFilter } from "react-icons/fa";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
 export const listGeneralEnquiry = () => {
   return (
-    <div><div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+    <div><div  style={{ fontFamily: 'Plus Jakarta Sans' }}>
     <div class="container-fluid">
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
@@ -49,7 +49,7 @@ export const listGeneralEnquiry = () => {
                     <li class="m-1">
 
 
-                      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                      <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
@@ -66,7 +66,7 @@ export const listGeneralEnquiry = () => {
                                   className="form-control"
                                   name="universityName"
                                 
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...University Name"
                                 />
                                 <label className="form-label">Campus</label>
@@ -76,7 +76,7 @@ export const listGeneralEnquiry = () => {
                                   className="form-control"
                                   name="state"
                                 
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...Campus"
                                 />
                                 <label className="form-label">Average Fees</label>
@@ -86,7 +86,7 @@ export const listGeneralEnquiry = () => {
                                   className="form-control"
                                   name="averageFees"
                                 
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...Average Fees"
                                 />
                                 <label className="form-label">Country</label>
@@ -96,7 +96,7 @@ export const listGeneralEnquiry = () => {
                                   className="form-control"
                                   name="country"
                                  
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...Country"
                                 />
 
@@ -107,7 +107,7 @@ export const listGeneralEnquiry = () => {
                                   className="form-control"
                                   name="popularCategories"
                                
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...Country"
                                 />
                               </div>

@@ -535,8 +535,16 @@ export default function Masterproductlist() {
                               <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
                                 <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                                 <td className="text-capitalize text-start">{data?.businessName}</td>
-                                <td className="text-capitalize text-start">{data?.universityName}</td>
-                                <td className="text-capitalize text-start"> {data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", ")}</td>
+                                <td className="text-capitalize text-start">{getDisplayText(data?.universityName, isExpanded)}</td>
+                                <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "),isExpanded)}
+
+                                {data?.lga?.length > 0 ? data?.lga?.join(", ").split(' ').length > 2  : data?.state?.join(", ").split(' ').length > 2  (
+                                    <button onClick={() => toggleRow(index)} className="btn btn-link text-decoration-none p-0" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }} >
+                                      {isExpanded ? 'Less' : 'More'}
+                                    </button>
+                                  )}
+
+                                </td>
                                 <td className="text-capitalize text-start">{data?.averageFees}</td>
                                 <td className="text-capitalize text-start">
                                   {getDisplayText(data?.popularCategories?.join(", "), isExpanded)}

@@ -41,7 +41,7 @@ export default function ListAgent() {
 
   
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
@@ -51,7 +51,7 @@ export default function ListAgent() {
       <nav className="navbar navbar-top navbar-expand"> 
         <Header />
         </nav>
-      <div className="content-wrapper "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
        
         <div className="container">
              
@@ -93,7 +93,7 @@ export default function ListAgent() {
                  <li class="m-1">
 
 
-                   <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                   <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                      <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                        <div className="offcanvas-header">
@@ -110,7 +110,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="universityName"
                              
-                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...University Name"
                              />
                              <label className="form-label">Campus</label>
@@ -120,7 +120,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="state"
                              
-                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Campus"
                              />
                              <label className="form-label">Average Fees</label>
@@ -130,7 +130,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="averageFees"
                              
-                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Average Fees"
                              />
                              <label className="form-label">Country</label>
@@ -140,7 +140,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="country"
                              
-                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Country"
                              />
 
@@ -151,7 +151,7 @@ export default function ListAgent() {
                                className="form-control"
                                name="popularCategories"
                              
-                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                placeholder="Search...Country"
                              />
                            </div>

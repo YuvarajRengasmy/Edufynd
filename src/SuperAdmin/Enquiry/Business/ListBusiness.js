@@ -11,7 +11,7 @@ export const ListBusiness = () => {
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper' style={{ backgroundColor: '#fff' }}>
+        <div className='content-wrapper' style={{ }}>
 
         <div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">

@@ -3,7 +3,7 @@ import Mastersidebar from '../../../compoents/sidebar';
 export const editForex = () => {
   return (
     <div>
-        <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+        <div  style={{ fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />

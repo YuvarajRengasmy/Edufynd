@@ -3,12 +3,12 @@ import Mastersidebar from '../../../compoents/sidebar';
 export const AddFlightTicket = () => {
   return (
     <div>
-       <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+       <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper' style={{ backgroundColor: '#fff',fontSize:'14px' }}>
+        <div className='content-wrapper' style={{ fontSize:'14px' }}>
 <div className='content-header'>
   <div className='container card card-body p-4 border-0'>
     <h4 className='card-title text-center fw-bold'>Flight Ticket Booking </h4>
