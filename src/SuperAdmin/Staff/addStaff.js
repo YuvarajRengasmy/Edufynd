@@ -788,17 +788,6 @@ export const AddStaff = () => {
 
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
                             <div className='row my-3'>
                               <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
                                 <Link
