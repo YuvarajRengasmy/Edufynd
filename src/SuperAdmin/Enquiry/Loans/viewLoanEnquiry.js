@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getSingleLoanEnquiry } from "../../../api/Enquiry/Loan";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Mastersidebar from '../../../compoents/sidebar';
 
 export const ViewLoanEnquiry = () => {
@@ -103,9 +103,11 @@ export const ViewLoanEnquiry = () => {
                               <td className='fw-bold'>Passport Document</td>
                               <td>
                                 {loan?.uploadPassport ? (
-                                  <a href={loan.uploadPassport} download="PassportDocument.pdf" className="btn btn-primary btn-sm">
-                                    Download Passport Document
-                                  </a>
+                                  <div>
+                                    <Link to={`(loan.uploadPassport)}`} className="btn btn-secondary btn-sm mx-2">
+                                      View Passport Document
+                                    </Link>
+                                  </div>
                                 ) : (
                                   'No document available'
                                 )}
@@ -115,9 +117,11 @@ export const ViewLoanEnquiry = () => {
                               <td className='fw-bold'>Offer Letter</td>
                               <td>
                                 {loan?.uploadOfferletter ? (
-                                  <a href={loan.uploadOfferletter} download="OfferLetter.pdf" className="btn btn-primary btn-sm">
-                                    Download Offer Letter
-                                  </a>
+                                  <div>
+                                    <Link to={`(loan.uploadOfferletter)}`} className="btn btn-secondary btn-sm mx-2">
+                                      View Offer Letter
+                                    </Link>
+                                  </div>
                                 ) : (
                                   'No document available'
                                 )}
