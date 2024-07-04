@@ -15,7 +15,7 @@ export const AddLoanEnquiry = () => {
     doYouHaveAValidOfferFromAnyUniversity: "",
     uploadOfferletter: "",
     loanAmountRequired: "",
-    desiredCountry: "",
+    universityName: "",
     whatIsYourMonthlyIncome: "",
     passportNumber: "",
     uploadPassport: "",
@@ -32,13 +32,13 @@ export const AddLoanEnquiry = () => {
   }
   const initialStateErrors = {
     studentName: { required: false },
-    whatsAppNumber: { required: false },
-    primaryNumber: { required: false },
-    email: { required: false },
+    whatsAppNumber: { required: false ,valid:false },
+    primaryNumber: { required: false ,valid:false },
+    email: { required: false,valid:false },
     doYouHaveAValidOfferFromAnyUniversity: { required: false },
     uploadOfferletter: { required: false },
     loanAmountRequired: { required: false },
-    desiredCountry: { required: false },
+    universityName: { required: false },
     whatIsYourMonthlyIncome: { required: false },
     passportNumber: { required: false },
     uploadPassport: { required: false },
@@ -77,33 +77,22 @@ export const AddLoanEnquiry = () => {
     if (data.doYouHaveAValidOfferFromAnyUniversity === "") {
       error.doYouHaveAValidOfferFromAnyUniversity.required = true;
     }
-    if (data.uploadOfferletter === "") {
-      error.uploadOfferletter.required = true;
-    }
+
     if (data.loanAmountRequired === "") {
       error.loanAmountRequired.required = true;
     }
-    if (data.desiredCountry === "") {
-      error.desiredCountry.required = true;
-    }
+  
     if (data.whatIsYourMonthlyIncome === "") {
       error.whatIsYourMonthlyIncome.required = true;
     }
     if (data.passportNumber === "") {
       error.passportNumber.required = true;
     }
-    if (data.uploadPassport === "") {
+    if(data.uploadPassport === ""){
       error.uploadPassport.required = true;
     }
-    if (data.didYouApplyForLoanElsewhere === "") {
-      error.didYouApplyForLoanElsewhere.required = true;
-    }
-    if (data.chooseTheBankYouPreviouslyApplied === "") {
-      error.chooseTheBankYouPreviouslyApplied.required = true;
-    }
-    if (data.statusOfPreviousApplication === "") {
-      error.statusOfPreviousApplication.required = true;
-    }
+
+
     if (data.coApplicantName === "") {
       error.coApplicantName.required = true;
     }
@@ -116,9 +105,7 @@ export const AddLoanEnquiry = () => {
     if (data.incomeDetails === "") {
       error.incomeDetails.required = true;
     }
-    if (data.willyouSubmitYourCollateral === "") {
-      error.willyouSubmitYourCollateral.required = true;
-    }
+    
 
 
     if (!isValidEmail(data.email)) {
@@ -134,12 +121,31 @@ export const AddLoanEnquiry = () => {
   }
 
   const handleInputs = (event) => {
-    setLoan({ ...loan, [event?.target?.name]: event?.target?.value })
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else { setLoan({ ...loan, [event?.target?.name]: event?.target?.value })}
     if (submitted) {
       const newError = handleValidation({ ...loan, [event.target.name]: event.target.value })
       setErrors(newError)
     }
   }
+
+
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setLoan((loan) => ({
+        ...loan,
+        [name]: reader.result,
+      }));
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
 
 
   const handleErrors = (obj) => {
@@ -165,7 +171,7 @@ export const AddLoanEnquiry = () => {
       saveLoanEnquiry(loan)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudentForm");
+          navigate("/ListLoanEnquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -183,10 +189,11 @@ export const AddLoanEnquiry = () => {
           </nav>
           <div className='content-wrapper' style={{ backgroundColor: '#fff', fontSize: '13px' }}>
             <div className='content-header'>
+            <form className="p-1" onSubmit={handleSubmit}>
               <div className='container card card-body p-4 border-0'>
                 <h4 className='card-title  fw-bold'>Add Loan Enquiry </h4>
                 <hr />
-                <form className="p-1" onSubmit={handleSubmit}>
+              
 
                   <div className='row mb-3'>
                     <div className="col">
@@ -203,19 +210,27 @@ export const AddLoanEnquiry = () => {
                       <label className="form-label" for="inputPrimaryNo">Primary Number</label>
                       <input className="form-control" name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.primaryNumber.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid emergencyContactNo.
+                                </div>
+                              ) : null}
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number</label>
                       <input className="form-control" name="whatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.whatsAppNumber.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
+                      {errors.primaryNumber.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.primaryNumber.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid emergencyContactNo.
+                                </div>
+                              ) : null}
                     </div>
                   </div>
                   <div className='row mb-3'>
@@ -232,147 +247,197 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
-                      <label className="form-label" for="inputOffer">Do you have a valid offer from any university? </label>
-                      <Select
-                        isMulti
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-
-                        placeholder="Select   eligible for casual leave"
-                        name=" inputoffer"
-
-
-                      />
+                      <label style={{ color: '#231F20' }} className="class-danger">
+                        DoYouHaveAValidOfferFromAnyUniversity
+                      </label>
+                      <select style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select" name="doYouHaveAValidOfferFromAnyUniversity" onChange={handleInputs}>
+                        <option value="">Select Offer Type</option>
+                        <option value="categorie1">Yes</option>
+                        <option value="categorie2">No</option>
+                      </select>
                       <br />
-                      <div className="col">
-                        <input
-                          type="file"
-                          className="form-control  "
-                          placeholder="Upload  offerletter "
-                          style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '15px' }}
-                          name=" offerletter"
+                      {loan.doYouHaveAValidOfferFromAnyUniversity === 'categorie1' ? (
+                        <div className="form-group">
+                          <label style={{ color: '#231F20' }} className="class-danger">Offerletter</label>
 
-                        />
-                      </div>
+                          <input
+                            name="uploadOfferletter"
+                            className="form-control"
+                            type="file"
+                            placeholder='Upload Offerletter'
+                            style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            onChange={handleInputs}
+                          />
+                           <label style={{ color: '#231F20' }} className="class-danger">University Name</label>
 
+<input
+  name="universityName"
+  className="form-control"
+  type="text"
+  placeholder='Enter University Name'
+  style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  onChange={handleInputs}
+/>
+                        </div>
+                      ) : null}
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputloanamount">Loan Amount Required</label>
-                      <input className="form-control" id="inputloanamount" type="text" placeholder='Enter Loan Amount Required' name='loanamount' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
+                      <input className="form-control" id="inputloanamount" type="text" placeholder='Enter Loan Amount Required' onChange={handleInputs} name='loanAmountRequired' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.loanAmountRequired.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   <div className='row mb-3'>
                     <div className="col">
                       <label className="form-label" for="inputmonthlyincome">What is your monthly income?</label>
-                      <input className="form-control" id="inputmonthlyincome" name='monthlyincome' type="text" placeholder='Enter What is your monthly income?' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control" id="inputmonthlyincome" name='whatIsYourMonthlyIncome' onChange={handleInputs} type="text" placeholder='Enter What is your monthly income?' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.whatIsYourMonthlyIncome.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
                     <div className="col">
-                      <label className="form-label" for="inputPassportno">Passport Number</label>
-                      <input className="form-control" id="inputPassportno" type="Password" name='passportno' placeholder='Enter Passport Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      <br />
-                      <div className="col">
-                        <input
-                          type="file"
-                          className="form-control  "
-                          placeholder="Upload  passportPhoto "
-                          style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '15px' }}
-                          name=" passportPhoto"
-
-                        />
-                      </div>
+                      <label className="form-label" for="inputmonthlyincome">Passport Number</label>
+                      <input className="form-control" id="inputmonthlyincome" name='passportNumber' onChange={handleInputs} type="text" placeholder='Enter The Passport Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.passportNumber.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
+
                     <div className="col">
-                      <label className="form-label" for="inputapplyloan">Did you apply for loan elsewhere? </label>
-                      <Select
-                        isMulti
-
-
-                        placeholder="Select  loan "
-                        name=" applyloanelsewhere"
-
-
-                      />
-                      <br />
-                      <div className="col">
-                        <label className="form-label" for="inputbankapplied">Choose the bank you previously applied </label>
-                        <Select
-                          isMulti
-
-
-                          placeholder="Select  the bank  previously applied"
-                          name=" Choose the bank you previously applied"
-
-
-                        />
-                      </div>
-                      <br />
-                      <div className="col">
-                        <label className="form-label" for="input previousapplication">Status of previous application</label>
-                        <Select
-                          isMulti
-
-
-                          placeholder=" Status of previous application"
-                          name=" Status of previous application"
-
-
-                        />
-                      </div>
-
-
+                      <label className="form-label" for="inputmonthlyincome">Upload Passport</label>
+                      <input className="form-control" id="inputmonthlyincome" name='uploadPassport' onChange={handleInputs} type="file" placeholder='Upload In Passport Copy' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.uploadPassport.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
                   </div>
+
                   <div className='row mb-3'>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                      <label style={{ color: '#231F20' }} className="class-danger">
+                        DidYouApplyForLoanElsewhere
+                      </label>
+                      <select style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select" name="didYouApplyForLoanElsewhere" onChange={handleInputs}>
+                        <option value="">Select Offer Type</option>
+                        <option value="categorie1">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                      <br />
+                      {loan.didYouApplyForLoanElsewhere === 'categorie1' ? (
+                        <div className="form-group">
+                          <label style={{ color: '#231F20' }} className="class-danger">Choose TheBankYou Previously Applied</label>
+
+                          <input
+                            name="chooseTheBankYouPreviouslyApplied"
+                            className="form-control"
+                            type="text"
+                            placeholder='Enter The ChooseTheBankYouPreviouslyApplied'
+                            style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            onChange={handleInputs}
+                          /><br />
+                           <label style={{ color: '#231F20' }} className="class-danger">Status Of Previous Application</label>
+
+                          <input
+                            name="statusOfPreviousApplication"
+                            className="form-control"
+                            type="text"
+                            placeholder='Enter The statusOfPreviousApplication'
+                            style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            onChange={handleInputs}
+                          />
+
+                        </div>
+
+                      ) : null}
+                    </div>
                     <div className="col">
                       <label className="form-label" for="inputCo-ApplicantName"> Co-Applicant Name</label>
-                      <input className="form-control" id="inputCo-ApplicantName" name='co-applicant-name' type="text" placeholder='Enter  Co-Applicant Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control" id="inputCo-ApplicantName" name='coApplicantName' onChange={handleInputs} type="text" placeholder='Enter  Co-Applicant Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.coApplicantName.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputCo-Applicantage"> Co-Applicant Age</label>
-                      <input className="form-control" id="inputCo-Applicantage" name='co-applicant-age' type="text" placeholder='Enter  Co-Applicant Age' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control" id="inputCo-Applicantage" onChange={handleInputs} name='age' type="text" placeholder='Enter  Co-Applicant Age' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.age.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
-                    <div className="col">
-                      <label className="form-label" for="inputCo-Applicantstatus"> Co-Applicant Employment Status</label>
-                      <input className="form-control" id="inputCo-Applicantstatus" type="text" name='co-applicant-status' placeholder='Enter  Co-Applicant Employment Status' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                    </div>
-
-
-
                   </div>
                   <div className='row mb-3'>
                     <div className="col">
+                      <label className="form-label" for="inputCo-Applicantstatus"> Co-Applicant Employment Status</label>
+                      <input className="form-control" id="inputCo-Applicantstatus" type="text" name='employmentStatus' onChange={handleInputs} placeholder='Enter  Co-Applicant Employment Status' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.employmentStatus.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="col">
                       <label className="form-label" for="inputCo-Applicantdetails"> Co-Applicant Income Details</label>
-                      <input className="form-control" id="inputCo-Applicantdetails" type="text" placeholder='Enter  Co-Applicant Income Details' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control" id="inputCo-Applicantdetails" type="text" name="incomeDetails" onChange={handleInputs} placeholder="Enter  Co-Applicant Income Details" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.incomeDetails.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
                     <div className="col">
                       <label className="form-label" for="inputcollateral">Will you submit your collateral if required</label>
-                      <Select
-                        isMulti
+                      <select className='form-select' name=' willyouSubmitYourCollateral' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} id="inputcollateral">
+                        <option value="">Select collateral</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
 
-
-                        placeholder=" Will you submit your collateral if required"
-                        name="collateral-required"
-
-
-                      />
+                    
                     </div>
 
                   </div>
                   <div className='row my-3'>
-                    <div className='d-flex flex-row align-item-center justify-content-end gap-4 '>
+                              <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                                <Link
 
-                      <button className="btn border-0 w-25" type="submit" style={{ backgroundColor: '#fe5722', color: '#fff' }}>Save</button>
+                                  to=""
+                                  style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  className="btn btn-cancel border text-white w-50 m-2"
+                                >
+                                  Cancel
+                                </Link>
+                                <button
 
+                                  style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
-                      <button className="btn border-0 w-25" style={{ backgroundColor: '#0f2239', color: '#fff' }} type="submit">Cancel</button>
+                                  type="submit"
+                                  className="btn btn-save border text-white w-50 m-2"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </div>
 
-                    </div>
-
-                  </div>
-
-                </form>
+                
               </div>
+              </form>
             </div>
 
           </div>

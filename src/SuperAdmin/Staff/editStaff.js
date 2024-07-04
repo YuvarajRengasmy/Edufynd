@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Flags from 'react-world-flags';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { editStaff } from '../../api/admin';
+import {updateStaff, getSingleStaff } from '../../api/staff';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
-
-
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
+
 
 export const AddStaff = () => {
+
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
     photo: "",
@@ -65,12 +67,26 @@ export const AddStaff = () => {
 
 
   const navigate = useNavigate()
-  const handleValidation = (data) => {
-    let error = initialStateErrors;
+ 
 
+    useEffect(() => {        
+      getStaffDetails();
+    }, []);
+  
 
-
-
+ const  getStaffDetails = () => { 
+  getSingleStaff(id)
+    .then((res) => {
+      console.log(res);
+      setStaff(res?.data?.result);
+    
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const handleValidation = (data) => {
+  let error = initialStateErrors;
     if (data.empName === "") {
       error.empName.required = true;
     }
@@ -194,7 +210,7 @@ export const AddStaff = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      editStaff(staff)
+      updateStaff(staff)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListStaff");
@@ -220,43 +236,49 @@ export const AddStaff = () => {
               <div className="content container-fluid">
                 <form onSubmit={handleSubmit} >
                   <div className='row'>
-                    <div className="col-xl-12 ">
+                
+                    <div className="col-xl-12  ">
+                  
                       <div className="card rounded-1 border-0 ">
+                  
                         <div className="card-header  justify-content-between d-sm-flex d-block " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <div className="card-title fw-semibold" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                            Edit Staff Details:
+                            Add Staff Details:
                           </div>
-                          
+                       
                         </div>
-                        <label htmlFor="staffimage" className="file-upload" style={{ color: "#231F20" }}>
-                        <img src='https://via.placeholder.com/150' type='file' alt='staff image' className='img-fluid rounded-pill mx-auto d-block my-2'/>
-
-                        </label>
-
-                        <input
-                          name="staffimage"
-                          id="staffimage"
-                          type="file"
-                          accept="image/*"
-                          className="form-control "
-                          style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                         
-                        />
-                     
-                    
                         <div className="card-body">
                           <div className="row gy-4">
-                           
+
+                    
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <label style={{ color: "#231F20" }} htmlFor="fileInputImage">
+        Photo<span className="text-danger">*</span>
+      </label>
+      <input
+        type="file"
+        id="fileInputImage"
+        name="photo"
+        accept="image/*"
+        className="form-control"
+      onChange={handleInputs}
+       
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+        // onChange={handleInputs}
+      />
+    </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-                              <label style={{ color: "#231F20" }} >
+                              <label style={{ color: "#231F20" }}  >
                                 {" "}
                                 Name<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
+                                  
                                 className="form-control  "
                                 placeholder="Enter Name "
+                                value={staff.empName}
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 name="empName"
                                 onChange={handleInputs}
@@ -285,6 +307,7 @@ export const AddStaff = () => {
                                 placeholder="Enter  Role/Designation "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 name="designation"
+                                value={staff.designation}
                                 onChange={handleInputs}
 
                               />
@@ -312,6 +335,7 @@ export const AddStaff = () => {
                                 placeholder="Enter Job Description "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 name="jobDescription"
+                                value={staff.jobDescription}
                                 onChange={handleInputs}
 
                               />
@@ -335,6 +359,7 @@ export const AddStaff = () => {
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 placeholder="Enter  Reporting Manager"
                                 name="reportingManager"
+                                value={staff.reportingManager}
                                 onChange={handleInputs}
                               />
                               {errors.reportingManager.required ? (
@@ -355,6 +380,7 @@ export const AddStaff = () => {
                                 className="form-control"
                                 placeholder="Enter  Shift Timing"
                                 name="shiftTiming"
+                                value={staff.shiftTiming}
                                 onChange={handleInputs}
                               />
                               {errors.shiftTiming.required ? (
@@ -370,7 +396,7 @@ export const AddStaff = () => {
                               <label style={{ color: "#231F20" }}>
                                 Are they eligible for casual leave<span className="text-danger">*</span>
                               </label>
-                              <select className='form-select' name="areTheyEligibleForCasualLeave" onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              <select className='form-select' value={staff.areTheyEligibleForCasualLeave} name="areTheyEligibleForCasualLeave" onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               >
                                 <option value="">EligibleForCasualLeave</option>
                                 <option value="Yes">Yes</option>
@@ -389,6 +415,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="date"
+                                value={staff.doj}
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
                                 placeholder="Enter  DOJ "
@@ -413,6 +440,7 @@ export const AddStaff = () => {
 
                               <input
                                 type="date"
+                                value={staff.dob}
                                 className="form-control  "
                                 placeholder="Enter  DOB "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
@@ -436,6 +464,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff.address}
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
                                 placeholder="Enter Street/Door No"
@@ -495,6 +524,7 @@ export const AddStaff = () => {
                                 type="email"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
+                                value={staff.email}
                                 placeholder="Enter Personal Mail ID"
                                 name="email"
                                 onChange={handleInputs}
@@ -522,9 +552,10 @@ export const AddStaff = () => {
                                 Personal Contact No<span className="text-danger">*</span>
                               </label>
                               <input
-                                type="tel"
+                                type="number"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
+                                value={staff.mobileNumber}
                                 placeholder="Enter Personal Contact No"
                                 name="mobileNumber"
                                 onChange={handleInputs}
@@ -548,10 +579,11 @@ export const AddStaff = () => {
                                 Emergency Contact
                               </label>
                               <input
-                                type="tel"
+                                type="number"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
                                 placeholder="Enter  Emergency Contact"
+                                value={staff.emergencyContactNo}
                                 name="emergencyContactNo"
                                 onChange={handleInputs}
 
@@ -580,6 +612,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff.probationDuration}
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
                                 placeholder="Enter Probation Duration"
@@ -601,7 +634,8 @@ export const AddStaff = () => {
                                 Salary <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
+                                value={staff.salary}
                                 className="form-control"
                                 placeholder="Enter  Salary"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
@@ -643,7 +677,7 @@ export const AddStaff = () => {
                               <label style={{ color: "#231F20" }}>
                                 ID Card <span className="text-danger">*</span>
                               </label>
-                              <select className='form-select' onChange={handleInputs} name="idCard" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                              <select className='form-select' value={staff.idCard} onChange={handleInputs} name="idCard" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                                 <option value="">Select Id Apporval</option>
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
@@ -661,7 +695,7 @@ export const AddStaff = () => {
                               <label style={{ color: "#231F20" }}>
                                 Manage Applications  <span className="text-danger">*</span>
                               </label>
-                              <select name="manageApplications" onChange={handleInputs} className='form-select' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                              <select name="manageApplications" value={staff.manageApplications} onChange={handleInputs} className='form-select' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                                 <option value={""}> Select Type</option>
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
@@ -679,7 +713,7 @@ export const AddStaff = () => {
                               <label style={{ color: "#231F20" }}>
                                 Status  <span className="text-danger">*</span>
                               </label>
-                              <select className='form-select' onChange={handleInputs} name="activeInactive" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                              <select className='form-select' value={staff.activeInactive} onChange={handleInputs} name="activeInactive" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                                 <option value="">Select Type</option>
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
@@ -698,6 +732,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff.teamLead}
                                 className="form-control"
                                 placeholder="Enter  Team Lead   "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
