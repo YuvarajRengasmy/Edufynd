@@ -1,6 +1,8 @@
 import React, { useEffect ,useState } from "react";
 import {getallStaff,deleteStaff} from "../../api/staff";
 import Mastersidebar from "../../compoents/sidebar";
+import { formatDate } from "../../Utils/DateFormat";
+
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -35,7 +37,7 @@ function ListStaff() {
 
     getallStaff(data)
       .then((res) => {
-        console.log("yuvi",res)
+       
         setStaff(res?.data?.result);
         setPagination({ ...pagination, count: res?.data?.result?.staffCount });
       })
@@ -54,7 +56,7 @@ function ListStaff() {
   };
 
   const deleteStaffData = () => {
-    delete (deleteId)
+    deleteStaff (deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();
@@ -265,31 +267,31 @@ function ListStaff() {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ color: "#9265cc" }}>
-                          <th> S.No.</th>
-                          <th>Employee ID </th>
-                          <th> DOJ </th>
-                          <th> Name </th>
-                          <th> Designation</th>
-                          <th> Reporting Manager </th>
-                          <th> Contact No </th>
-                          <th> Email ID</th>
-                          <th> Status </th>
-                          <th> Action </th>
+                        <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                          <th className="text-capitalize text-start"> S.No.</th>
+                          <th className="text-capitalize text-start">Emp_ID </th>
+                          <th className="text-capitalize text-start"> DOJ </th>
+                          <th className="text-capitalize text-start"> Name </th>
+                          <th className="text-capitalize text-start"> Designation</th>
+                          <th className="text-capitalize text-start"> Reporting_Manager </th>
+                          <th className="text-capitalize text-start"> Contact No </th>
+                          
+                          <th className="text-capitalize text-start"> Status </th>
+                          <th className="text-capitalize text-start"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       {staff?.map((data, index) => (
-                        <tr key={index} >
-                           <td>{pagination.from + index + 1}</td>
-                          <td></td>
-                          <td>{data?.doj}</td>
-                          <td>{data?.empName}</td>
-                          <td>{data?.designation}</td>
-                          <td>{data?.reportingManager}</td>
-                          <td>{data?.mobileNumber}</td>
-                          <td>{data?.email}</td>
-                          <td>{data?.status}</td>
+                        <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }} >
+                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start">{data?.employeeID}</td>
+                          <td className="text-capitalize text-start">{formatDate(data?.doj)}</td>
+                          <td className="text-capitalize text-start">{data?.empName}</td>
+                          <td className="text-capitalize text-start">{data?.designation}</td>
+                          <td className="text-capitalize text-start">{data?.reportingManager}</td>
+                          <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                          
+                          <td className="text-capitalize text-start">{data?.activeInactive}</td>
                           
                           <td>
                           <div className="d-flex">
@@ -349,7 +351,29 @@ function ListStaff() {
           </div>
           </div>
         </div>
-  
+        <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4">
+              Are you sure you want to Delete <br /> the selected Staff?
+            </h5>
+            <button
+              type="button"
+              className="btn btn-save mx-3"
+              onClick={deleteStaffData}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-cancel "
+              onClick={closePopup}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
 
         
