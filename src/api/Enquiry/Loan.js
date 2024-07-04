@@ -10,6 +10,7 @@ export const updateLoanEnquiry= (data) => {
 }
 
 
+
 export const getSingleLoanEnquiry = (data) => {
     return API.get(`${ Loan}/getSingleLoanEnquiry`, { params: { _id: data } })
 }

@@ -2,168 +2,204 @@ import React, { useEffect, useState } from 'react';
 import Flags from 'react-world-flags';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { saveProgram } from '../../api/Program';
-import { getallUniversity } from '../../api/university';
-import { getallModule } from "../../api/allmodule";
-import { getallIntake } from "../../api/intake";
-import { Form, Row, Col } from 'react-bootstrap';
-import Header from "../../compoents/header";
+import { createStaff } from '../../api/admin';
+import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
+
+
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import Select from 'react-select';
-export const addStaff = () => {
+export const AddStaff = () => {
 
 
   const initialState = {
-    typeOfClient: "",
-    businessName: "",
-    businessMailID: "",
-    businessContactNo: "",
-    website: "",
-    addressLine1: "",  // Street Address, City, State, Postal Code, Country
-    addressLine2: "",
-    addressLine3: "",
-    name: "",
-    contactNo: "",
-    emailID: "",
-    gstn: "",
-    status: "",
+    photo: "",
+    empName: "",
+    designation: "",
+    jobDescription: "",
+    reportingManager: "",
+    shiftTiming: "",// (Attendance to be calculated based on this)
+    areTheyEligibleForCasualLeave: "",// – Yes/No (Yes – Casual to be considered | No – Casual leave restricted)
+    doj: "", // (Date of Joining)
+    dob: "",    // (Date of Birth)
+    address: "",
+    email: "",
+    mobileNumber: "",
+    emergencyContactNo: "",
+    probationDuration: "",
+    salary: "",  // (Break Up with deduction – Manual)
+    idCard: "",    // – Yes / No (If ‘Yes’ card to be generated)
+    manageApplications: "",   // Yes/No
+    //If Yes, List Country & University The user can only handle applications of these universities and country
+    activeInactive: "",   // – User
+    teamLead: ""
 
-}
-const initialStateErrors = {
+  }
+  const initialStateErrors = {
+    photo: { required: false },
+    empName: { required: false },
+    designation: { required: false },
+    jobDescription: { required: false },
+    reportingManager: { required: false },
+    shiftTiming: { required: false },// (Attendance to be calculated based on this)
+    areTheyEligibleForCasualLeave: { required: false },// – Yes/No (Yes – Casual to be considered | No – Casual leave restricted)
+    doj: { required: false }, // (Date of Joining)
+    dob: { required: false },    // (Date of Birth)
+    address: { required: false },
+    email: { required: false, valid: false },
+    mobileNumber: { required: false, valid: false },
+    emergencyContactNo: { required: false, valid: false },
+    probationDuration: { required: false },
+    salary: { required: false },  // (Break Up with deduction – Manual)
+    idCard: { required: false },    // – Yes / No (If ‘Yes’ card to be generated)
+    manageApplications: { required: false },   // Yes/No
+    //If Yes, List Country & University The user can only handle applications of these universities and country
+    activeInactive: { required: false },   // – User
+    teamLead: { required: false }
 
-    typeOfClient: { required: false },
-    businessName: { required: false },
-    businessMailID: { required: false, valid: false },
-    businessContactNo: { required: false, valid: false },
-    website: { required: false },
-    addressLine2: { required: false },
-    addressLine3: { required: false },
-    addressLine1: { required: false },
-    name: { required: false },
-    contactNo: { required: false, valid: false },
-    emailID: { required: false, valid: false },
-    gstn: { required: false },
-    status: { required: false },
-}
-const [client, setClient] = useState(initialState)
-const [errors, setErrors] = useState(initialStateErrors)
-const [submitted, setSubmitted] = useState(false);
-const [type, setType] = useState([]);
+
+  }
+  const [staff, setStaff] = useState(initialState)
+  const [errors, setErrors] = useState(initialStateErrors)
+  const [submitted, setSubmitted] = useState(false);
 
 
-useEffect(() => {
-    
-    getAllClientDetails();
-  }, []);
 
-  const  getAllClientDetails = () => { 
-    getallClientModule()
-      .then((res) => {
-        console.log(res);
-        setType(res?.data?.result);
-      
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-const navigate = useNavigate()
-const handleValidation = (data) => {
+  const navigate = useNavigate()
+  const handleValidation = (data) => {
     let error = initialStateErrors;
 
 
-    if (data.typeOfClient === "") {
-        error.typeOfClient.required = true;
+
+
+    if (data.empName === "") {
+      error.empName.required = true;
     }
 
-    if (data.businessName === "") {
-        error.businessName.required = true;
+    if (data.designation === "") {
+      error.designation.required = true;
     }
+    if (data.jobDescription === "") {
+      error.jobDescription.required = true;
+    }
+    if (data.reportingManager === "") {
+      error.reportingManager = true;
+    }
+    if (data.shiftTiming === "") {
+      error.shiftTiming.required = true;
+    }
+    if (data.areTheyEligibleForCasualLeave === "") {
+      error.areTheyEligibleForCasualLeave.required = true;
+    }
+    if (data.doj === "") {
+      error.doj.required = true;
+    }
+    if (data.dob === "") {
+      error.dob.required = true;
+    }
+    if (data.address === "") {
+      error.address.required = true;
+    }
+    if (data.email === "") {
+      error.email.required = true;
+    }
+    if (data.mobileNumber === "") {
+      error.mobileNumber.required = true;
+    }
+    if (data.emergencyContactNo === "") {
+      error.emergencyContactNo.required = true;
 
-    if (data.businessMailID === "") {
-        error.businessMailID.required = true;
     }
-    if (data.businessContactNo === "") {
-        error.businessContactNo.required = true;
+    if (data.probationDuration === "") {
+      error.probationDuration.required = true;
+
     }
-    if (data.website === "") {
-        error.website.required = true;
+    if (data.salary === "") {
+      error.salary.required = true;
+
     }
-    if (data.addressLine1 === "") {
-        error.addressLine1.required = true;
+    if (data.idCard === "") {
+      error.idCard.required = true;
+
     }
-    if (data.name === "") {
-        error.name.required = true;
+    if (data.manageApplications === "") {
+      error.manageApplications.required = true;
+
     }
-    if (data.contactNo === "") {
-        error.contactNo.required = true;
+    if (data.teamLead === "") {
+      error.teamLead.required = true;
+
     }
-    if (data.emailID === "") {
-        error.emailID.required = true;
+    if (data.activeInactive === "") {
+      error.activeInactive.required = true;
+
     }
-    if (data.addressLine2 === "") {
-        error.addressLine2.required = true;
+    if (!isValidEmail(data.email)) {
+      error.email.valid = true;
     }
-    if (data.addressLine3 === "") {
-        error.addressLine3.required = true;
+    if (!isValidPhone(data.mobileNumber)) {
+      error.mobileNumber.valid = true;
     }
-    if (data.gstn === "") {
-        error.gstn.required = true;
-    }
-    if (data.status === "") {
-        error.status.required = true; 
-        
-    }
-    if (!isValidEmail(data.emailID)) {
-        error.emailID.valid = true;
-    }
-    if (!isValidPhone(data.contactNo)) {
-        error.contactNo.valid = true;
-    }
-    if (!isValidEmail(data.businessMailID)) {
-        error.businessMailID.valid = true;
-    }
-    if (!isValidPhone(data.businessContactNo)) {
-        error.businessContactNo.valid = true;
+  
+    if (!isValidPhone(data.emergencyContactNo)) {
+      error.emergencyContactNo.valid = true;
     }
     return error
-}
+  }
 
-const handleInputs = (event) => {
-    setClient({ ...client, [event?.target?.name]: event?.target?.value })
+  const handleInputs = (event) => {
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else { setStaff({ ...staff, [event?.target?.name]: event?.target?.value }) }
     if (submitted) {
-        const newError = handleValidation({ ...client, [event.target.name]: event.target.value })
-        setErrors(newError)
+      const newError = handleValidation({ ...staff, [event.target.name]: event.target.value })
+      setErrors(newError)
     }
-}
+  }
 
 
-const handleErrors = (obj) => {
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setStaff((staff) => ({
+        ...staff,
+        [name]: reader.result,
+      }));
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
+
+
+  const handleErrors = (obj) => {
     for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            const prop = obj[key];
-            if (prop.required === true || prop.valid === true) {
-                return false;
-            }
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
         }
+      }
     }
     return true;
-}
+  }
 
-const handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const newError = handleValidation(client);
+    const newError = handleValidation(staff);
     setErrors(newError);
     setSubmitted(true);
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveClient(client)
+      createStaff(staff)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/client");
+          navigate("/ListStaff");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -184,7 +220,7 @@ const handleSubmit = (event) => {
           <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div className="content-header ">
               <div className="content container-fluid">
-                <form  >
+                <form onSubmit={handleSubmit} >
                   <div className='row'>
                     <div className="col-xl-12 ">
                       <div className="card rounded-1 border-0 ">
@@ -192,76 +228,47 @@ const handleSubmit = (event) => {
                           <div className="card-title fw-semibold" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
                             Add Staff Details:
                           </div>
-
                         </div>
                         <div className="card-body">
-
                           <div className="row gy-4">
-
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
                                 {" "}
-                                Employee ID<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control  "
-                                placeholder="Enter Employee ID "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name=" Employee ID"
-
-                              />
-
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-
-
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                {" "}
-                               Photo<span className="text-danger">*</span>
+                                Photo<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="file"
-                                className="form-control  "
-                                placeholder="Upload  Photo "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '15px' }}
-                                name=" Photo"
-
+                                id="photo"
+                                name="photo"
+                                accept="image/*"
+                                className="form-control "
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                onChange={handleInputs}
                               />
-
-
-
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }} >
                                 {" "}
-                               Name<span className="text-danger">*</span>
+                                Name<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 className="form-control  "
                                 placeholder="Enter Name "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="Name"
+                                name="empName"
+                                onChange={handleInputs}
 
                               />
+                              {errors.empName.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
-
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
 
 
                             </div>
@@ -269,7 +276,7 @@ const handleSubmit = (event) => {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Role/Designation<span className="text-danger">*</span>
+                                Role/Designation<span className="text-danger">*</span>
                               </label>
 
                               <input
@@ -277,15 +284,18 @@ const handleSubmit = (event) => {
                                 className="form-control  "
                                 placeholder="Enter  Role/Designation "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name=" Role/Designation"
+                                name="designation"
+                                onChange={handleInputs}
 
                               />
+                              {errors.designation.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
 
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
 
 
                             </div>
@@ -294,20 +304,22 @@ const handleSubmit = (event) => {
 
                               <label style={{ color: "#231F20" }}>
                                 {" "}
-                               Job Description<span className="text-danger">*</span>
+                                Job Description<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 className="form-control "
                                 placeholder="Enter Job Description "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="Job Description"
+                                name="jobDescription"
+                                onChange={handleInputs}
 
                               />
-
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
+                              {errors.jobDescription.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
                             </div>
@@ -315,87 +327,80 @@ const handleSubmit = (event) => {
 
                               <label style={{ color: "#231F20" }}>
                                 {" "}
-                               Reporting Manager<span className="text-danger">*</span>
+                                Reporting Manager<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 className="form-control "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 placeholder="Enter  Reporting Manager"
-                                name=" Reporting Manager"
-
+                                name="reportingManager"
+                                onChange={handleInputs}
                               />
-
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-
-
+                              {errors.reportingManager.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
-
-                           
-
-
-
-
-
-
-
-
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Shift Timing   <span className="text-danger">*</span>
+                                Shift Timing   <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
                                 placeholder="Enter  Shift Timing"
-                                name="discountedValue"
-
+                                name="shiftTiming"
+                                onChange={handleInputs}
                               />
+                              {errors.shiftTiming.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Are they eligible for casual leave<span className="text-danger">*</span>
+                                Are they eligible for casual leave<span className="text-danger">*</span>
                               </label>
-
-
-                              <Select
-                                isMulti
-
-
-                                placeholder="Select   eligible for casual leave"
-                                name=" Are they eligible for casual leave"
-
-
-                              />
-
-
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-
-
+                              <select className='form-select' name="areTheyEligibleForCasualLeave" onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              >
+                                <option value="">EligibleForCasualLeave</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                              </select>
+                              {errors.areTheyEligibleForCasualLeave.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               DOJ <span className="text-danger">*</span>
+                                DOJ <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="date"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
                                 placeholder="Enter  DOJ "
-                                name=" DOJ "
+                                name="doj"
+                                onChange={handleInputs}
 
                               />
+                              {errors.doj.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
                             </div>
@@ -403,42 +408,51 @@ const handleSubmit = (event) => {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               DOB<span className="text-danger">*</span>
+                                DOB<span className="text-danger">*</span>
                               </label>
 
                               <input
-                                type="text"
+                                type="date"
                                 className="form-control  "
                                 placeholder="Enter  DOB "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name=" DOB"
+                                name="dob"
+                                onChange={handleInputs}
 
                               />
+                              {errors.dob.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
 
 
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Address 1 <span className="text-danger">*</span>
+                                Address 1 <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 className="form-control"
                                 placeholder="Enter Street/Door No"
-                                name="Street/Door "
+                                name="address"
+                                onChange={handleInputs}
 
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
 
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
  Address 2 <span className="text-danger">*</span>
@@ -471,21 +485,32 @@ const handleSubmit = (event) => {
 
 
 
-</div>
+</div> */}
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: '#231F20' }} className="">
-                               Personal Mail ID
+                                Personal Mail ID
                               </label>
                               <input
-  type="email"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter Personal Mail ID"
-  name=" mail-ID"
+                                type="email"
+                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                className="form-control"
+                                placeholder="Enter Personal Mail ID"
+                                name="email"
+                                onChange={handleInputs}
 
-/>
-                            
+                              />
+                              {errors.email.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.email.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid Email Id.
+                                </div>
+                              ) : null}
+
+
 
 
 
@@ -494,36 +519,54 @@ const handleSubmit = (event) => {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Personal Contact No<span className="text-danger">*</span>
+                                Personal Contact No<span className="text-danger">*</span>
                               </label>
                               <input
-  type="tel"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter Personal Contact No"
-  name="Personal Contact No"
+                                type="tel"
+                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                className="form-control"
+                                placeholder="Enter Personal Contact No"
+                                name="mobileNumber"
+                                onChange={handleInputs}
 
-/>
-
+                              />
+                              {errors.mobileNumber.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.mobileNumber.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid MobileNumber.
+                                </div>
+                              ) : null}
 
 
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: '#231F20' }} className="">
-                               Emergency Contact
+                                Emergency Contact
                               </label>
                               <input
-  type="tel"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter  Emergency Contact"
-  name=" Emergency Contact"
+                                type="tel"
+                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                className="form-control"
+                                placeholder="Enter  Emergency Contact"
+                                name="emergencyContactNo"
+                                onChange={handleInputs}
 
-/>
-                            
+                              />
+                              {errors.emergencyContactNo.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.emergencyContactNo.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid emergencyContactNo.
+                                </div>
+                              ) : null}
 
-                              
+
 
 
                             </div>
@@ -533,39 +576,51 @@ const handleSubmit = (event) => {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Probation Duration<span className="text-danger">*</span>
+                                Probation Duration<span className="text-danger">*</span>
                               </label>
                               <input
-  type="text"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter Probation Duration"
-  name="Probation Duration"
+                                type="text"
+                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                className="form-control"
+                                placeholder="Enter Probation Duration"
+                                name="probationDuration"
+                                onChange={handleInputs}
 
-/>
+                              />
+                              {errors.probationDuration.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Salary <span className="text-danger">*</span>
+                                Salary <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Enter  Salary"
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name=" Salary"
+                                name="salary"
+                                onChange={handleInputs}
 
                               />
+                              {errors.salary.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Privileges/Rights <span className="text-danger">*</span>
+                                Privileges/Rights <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
@@ -575,72 +630,86 @@ const handleSubmit = (event) => {
                                 name="Privileges/Rights "
 
                               />
+                              {errors.empName.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
-                            </div>
+                            </div> */}
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               ID Card <span className="text-danger">*</span>
+                                ID Card <span className="text-danger">*</span>
                               </label>
-                              <Select
-                                isMulti
-
-
-                                placeholder="Select   eligible for casual leave"
-                                name=" Are they eligible for casual leave"
-
-
-                              />
+                              <select className='form-select' onChange={handleInputs} name="idCard" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                                <option value="">Select Id Apporval</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                              </select>
+                              {errors.idCard.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Manage Applications  <span className="text-danger">*</span>
+                                Manage Applications  <span className="text-danger">*</span>
                               </label>
-                              <Select
-                                isMulti
-
-
-                                placeholder="Select   eligible for casual leave"
-                                name=" Are they eligible for casual leave"
-
-
-                              />
+                              <select name="manageApplications" onChange={handleInputs} className='form-select' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                                <option value={""}> Select Type</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                              </select>
+                              {errors.manageApplications.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Active/Inactive  <span className="text-danger">*</span>
+                                Status  <span className="text-danger">*</span>
                               </label>
-                              <Select
-                                isMulti
-
-
-                                placeholder="Select   eligible for casual leave"
-                                name=" Are they eligible for casual leave"
-
-
-                              />
+                              <select className='form-select' onChange={handleInputs} name="activeInactive" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                                <option value="">Select Type</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                              </select>
+                              {errors.activeInactive.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                               Team Lead   <span className="text-danger">*</span>
+                                Team Lead   <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Enter  Team Lead   "
                                 style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name=" Team Lead   "
+                                name="teamLead"
+                                onChange={handleInputs}
 
                               />
+                              {errors.teamLead.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
 
 
                             </div>
@@ -691,4 +760,4 @@ const handleSubmit = (event) => {
     </div>
   )
 }
-export default addStaff
+export default AddStaff;

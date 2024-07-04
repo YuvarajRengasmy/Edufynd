@@ -9,7 +9,6 @@ export const updateStudnetEnquiry= (data) => {
     return API.put(`${StudnetEnquiry}`, data)
 }
 
-
 export const getSingleStudnetEnquiry = (data) => {
     return API.get(`${StudnetEnquiry}/getSingleStudentEnquiry`, { params: { _id: data } })
 }
