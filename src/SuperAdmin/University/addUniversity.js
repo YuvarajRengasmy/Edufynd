@@ -805,7 +805,7 @@ function Profile() {
                           
 
                           </div>
-                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
                               Course Type<span className="text-danger">*</span>
@@ -861,7 +861,7 @@ function Profile() {
                             {
                               errors.costOfLiving.required ? <div className="text-danger form-text">This field is required.</div> : null
                             }
-                          </div> */}
+                          </div>
 
                       
                         
@@ -869,7 +869,7 @@ function Profile() {
 
 
 
-                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
                               Gross Tuition <span className="text-danger">*</span>
@@ -885,7 +885,7 @@ function Profile() {
                             {
                               errors.grossTuition.required ? <div className="text-danger form-text">This field is required.</div> : null
                             }
-                          </div> */}
+                          </div>
 
 
                           <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >

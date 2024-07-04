@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { isValidEmail, isValidPhone } from '../../../Utils/Validation';
 import { toast } from 'react-toastify';
 import { useNavigate, Link } from 'react-router-dom';
+import { getallUniversity } from '../../../api/university';
+
+import Select from 'react-select';
+import Flags from 'react-world-flags';
 import { saveForexEnquiry } from '../../../api/Enquiry/Forex';
 import Mastersidebar from '../../../compoents/sidebar';
 export const AddForex = () => {
@@ -49,11 +53,22 @@ export const AddForex = () => {
 
   }
   const [forex, setForex] = useState(initialState)
+  const [university, setUniversity] = useState()
   const [errors, setErrors] = useState(initialStateErrors)
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate()
 
 
+  useEffect(() => {
+    getAllUniversityList();
+   
+  }, [])
+
+  const getAllUniversityList = () => {
+    getallUniversity().then(res => {
+      setUniversity(res?.data?.result)
+    }).catch(err => { console.log(err) })
+  }
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
@@ -142,7 +157,14 @@ export const AddForex = () => {
   }
 
 
-  
+  const countryToDetails = {
+    "United States": { currency: "USD", flag: "us" },
+    "Canada": { currency: "CAD", flag: "ca" },
+    "United Kingdom": { currency: "GBP", flag: "gb" },
+    "Australia": { currency: "AUD", flag: "au" },
+    "India": { currency: "INR", flag: "in" },
+
+  };
 
 
   const handleErrors = (obj) => {
@@ -196,61 +218,120 @@ export const AddForex = () => {
   
                         <div className="col">
                           <label className="form-label" for="inputstudentname">Name of the Student</label>
-                          <input className="form-control" id="inputstudentname" type="text" name='studentname' placeholder='Enter Name of the Student'  style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                          <input className="form-control" name="studentname" onChange={handleInputs} id="inputstudentname" type="text"  placeholder='Enter Name of the Student'  style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                          {errors.studentName.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
                         </div>
-                        <div className="col">
-                          <label className="form-label" for="inputcountry">Country</label>
-                          <input className="form-control" id="inputcountry" type="text" name='country' placeholder="Enter Country" style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                      ) : null}
+                        
                         </div>
-                        <div className="col">
-                          <label className="form-label" for="inputcurrency">Currency  </label>
-                          <input className="form-control" id="inputEmail4" type="text" name='currency' placeholder='Enter Currency' style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label style={{ color: "#231F20" }}>Country<span className="text-danger">*</span></label>
+                      <select
+                        className="form-select rounded-2 p-2"
+                        name="country"
+                        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        onChange={handleInputs}
+                      >
+                        <option value="" disabled hidden>Select Country</option>
+                        {Object.keys(countryToDetails).map((country) => (
+                          <option key={country} value={country}>
+                            {country}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.country.required && (
+                        <div className="text-danger form-text">
+                          This field is required.
                         </div>
-    </div>
+                      )}
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label style={{ color: "#231F20" }}>Currency</label>
+                      <div className="d-flex align-items-center">
+                        {countryToDetails[forex.country] && (
+                          <Flags code={countryToDetails[forex.country].flag} className="me-2" style={{ width: '40px', height: '30px' }} />
+                        )}
+                        <input className='form-control' type="text" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} value={`${countryToDetails[forex.country]?.currency || ''}`} readOnly />
+                      </div>
+                      {errors.currency.required && (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+    
     <div className='row mb-3'>
    
                         <div className="col">
                           <label className="form-label" for="inputuniversity">University Name </label>
-                          <Select
-                        isMulti
+                          <input className="form-control" id="inputstudentid" name='universityName' onChange={handleInputs} type="text" placeholder="Enter Student ID" style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                            {errors.universityName.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
 
-
-                        placeholder="Select   University Name"
-                        name="University Name"
-                        style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}
-
-                      />
                         </div>
-                        <div className="col">
-                          <label className="form-label" for="inputstudentid">Student ID</label>
-                          <input className="form-control" id="inputstudentid" name='studentid' type="text" placeholder="Enter Student ID" style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
-                        </div>
+                        
                         <div className="col">
                           <label className="form-label" for="inputpassportno">Passport No</label>
-                          <input className="form-control" id="inputpassportno" name='passportno' type="text" placeholder='Enter Passport No' style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                          <input className="form-control" id="inputpassportno" onChange={handleInputs} name='passportno' type="text" placeholder='Enter Passport No' style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                          {errors.passportno.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
                         </div>
     </div>
     <div className='row mb-3'>
 
-                        <div className="col">
-                          <label className="form-label" for="inputprimarynumber">Primary Number</label>
-                          <input className="form-control" id="inputPrimarynumber" name='primarynumber' type="text" placeholder='Enter Primary Number' style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }} />
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputPrimaryNo">Primary Number</label>
+                      <input className="form-control" name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.primaryNumber.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
                         </div>
-                        <div className="col">
-                          <label className="form-label" for="inputwhatsappnumber">Whatsapp Number</label>
-                          <input className="form-control" id="inputwhatsappnumber" name='whatsappnumber' type="text" placeholder="Enter Whatsapp Number " style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                      ) : errors.primaryNumber.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid emergencyContactNo.
                         </div>
+                      ) : null}
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number</label>
+                      <input className="form-control" name="whatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.primaryNumber.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.primaryNumber.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid emergencyContactNo.
+                        </div>
+                      ) : null}
+                    </div>
+
+
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputEmail">Email ID</label>
+                      <input className="form-control" name="email" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.email.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.email.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid Email Id.
+                        </div>
+                      ) : null}
+                    </div>
                         <div className="col">
                           <label className="form-label" for="inputsource">Source</label>
-                          <Select
-                        isMulti
-
-
-                        placeholder="Select   University Name"
-                        name="University Name"
-                        style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}
-
-                      />
+                        
                        
                      
                         </div>
@@ -348,7 +429,7 @@ export const AddForex = () => {
                     
                     </div>
                         
-                      </form>
+        </form>
   </div>
 </div>
         
@@ -356,7 +437,8 @@ export const AddForex = () => {
                     
                </div>     
     </div>
-    </div>
+ </div>
+
   )
 }
 export default AddForex
