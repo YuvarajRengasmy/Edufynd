@@ -38,17 +38,18 @@ export const ViewLoanEnquiry = () => {
         <div className="content-wrapper" style={{ fontSize: '14px' }}>
           <div className="content-header">
             <div className="container">
-              <div className="card card-body border-0 rounded-0 shadow-sm p-4">
-                <h5 className='text-center text-uppercase'>Loan Enquiry Details</h5>
-                <hr className='text-dark border-4 border-dark rounded-3' />
-                <div className="border-0 text-bg-transparent mb-3 p-1">
-                  <div className="row g-0">
-                    <div className="col-md-4 align-self-center">
-                      <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" className="img-fluid w-100 mx-auto d-block" alt="profile" />
-                    </div>
-                    <div className="col-md-8">
+              <div className="card border-0 rounded-0 shadow-sm p-4">
+                <div className="card-header rounded-pill border-0 p-2"style={{backgroundColor:'#fe5722'}}>
+                <h4 className='text-center text-capitalize text-white' >Loan Enquiry Details</h4>
+                </div>
+              
+              
+                
+                  
+                   
+                    
                       <div className="card-body">
-                        <table className='table table-hover table-striped w-100'>
+                        <table className='table table-bordered table-hover table-primary ' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <tbody>
                             <tr>
                               <td className='fw-bold'>Student Name</td>
@@ -115,9 +116,10 @@ export const ViewLoanEnquiry = () => {
                                       href={loan.uploadPassport}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="btn btn-secondary btn-sm mx-2"
+                                      className="btn  btn-sm mx-2"
+                                      style={{backgroundColor:'#fe5722',color:'#fff',fontSize:'12px'}}
                                     >
-                                      View Passport Document
+                                     <i class="fa fa-eye" aria-hidden="true"></i>  View Passport
                                     </a>
                                   </div>
                                 ) : (
@@ -135,9 +137,10 @@ export const ViewLoanEnquiry = () => {
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       ref={pdfLinkRef} // Reference to trigger click
-                                      className="btn btn-secondary btn-sm mx-2"
+                                      className="btn  btn-sm mx-2"
+                                      style={{backgroundColor:'#fe5722',color:'#fff',fontSize:'12px'}}
                                     >
-                                      View Offer Letter
+                                    <i class="fa fa-eye" aria-hidden="true"></i>   View Offer Letter
                                     </a>
                                   </div>
                                 ) : (
@@ -148,9 +151,9 @@ export const ViewLoanEnquiry = () => {
                           </tbody>
                         </table>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                   
+                  
+                
               </div>
             </div>
           </div>
