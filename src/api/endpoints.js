@@ -24,3 +24,4 @@ export const Staff ="staff";
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";
 export const Loan ="loan";
+export const Forex ="forex";
