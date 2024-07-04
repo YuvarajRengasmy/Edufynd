@@ -32,9 +32,9 @@ export const AddLoanEnquiry = () => {
   }
   const initialStateErrors = {
     studentName: { required: false },
-    whatsAppNumber: { required: false ,valid:false },
-    primaryNumber: { required: false ,valid:false },
-    email: { required: false,valid:false },
+    whatsAppNumber: { required: false, valid: false },
+    primaryNumber: { required: false, valid: false },
+    email: { required: false, valid: false },
     doYouHaveAValidOfferFromAnyUniversity: { required: false },
     uploadOfferletter: { required: false },
     loanAmountRequired: { required: false },
@@ -81,14 +81,14 @@ export const AddLoanEnquiry = () => {
     if (data.loanAmountRequired === "") {
       error.loanAmountRequired.required = true;
     }
-  
+
     if (data.whatIsYourMonthlyIncome === "") {
       error.whatIsYourMonthlyIncome.required = true;
     }
     if (data.passportNumber === "") {
       error.passportNumber.required = true;
     }
-    if(data.uploadPassport === ""){
+    if (data.uploadPassport === "") {
       error.uploadPassport.required = true;
     }
 
@@ -105,7 +105,7 @@ export const AddLoanEnquiry = () => {
     if (data.incomeDetails === "") {
       error.incomeDetails.required = true;
     }
-    
+
 
 
     if (!isValidEmail(data.email)) {
@@ -124,7 +124,7 @@ export const AddLoanEnquiry = () => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
-    } else { setLoan({ ...loan, [event?.target?.name]: event?.target?.value })}
+    } else { setLoan({ ...loan, [event?.target?.name]: event?.target?.value }) }
     if (submitted) {
       const newError = handleValidation({ ...loan, [event.target.name]: event.target.value })
       setErrors(newError)
@@ -189,11 +189,11 @@ export const AddLoanEnquiry = () => {
           </nav>
           <div className='content-wrapper' style={{ backgroundColor: '#fff', fontSize: '13px' }}>
             <div className='content-header'>
-            <form className="p-1" onSubmit={handleSubmit}>
-              <div className='container card card-body p-4 border-0'>
-                <h4 className='card-title  fw-bold'>Add Loan Enquiry </h4>
-                <hr />
-              
+              <form className="p-1" onSubmit={handleSubmit}>
+                <div className='container card card-body p-4 border-0'>
+                  <h4 className='card-title  fw-bold'>Add Loan Enquiry </h4>
+                  <hr />
+
 
                   <div className='row g-3'>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -210,30 +210,30 @@ export const AddLoanEnquiry = () => {
                       <label className="form-label" for="inputPrimaryNo">Primary Number</label>
                       <input className="form-control" name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : errors.primaryNumber.valid ? (
-                                <div className="text-danger form-text">
-                                  Enter valid emergencyContactNo.
-                                </div>
-                              ) : null}
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.primaryNumber.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid emergencyContactNo.
+                        </div>
+                      ) : null}
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number</label>
                       <input className="form-control" name="whatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : errors.primaryNumber.valid ? (
-                                <div className="text-danger form-text">
-                                  Enter valid emergencyContactNo.
-                                </div>
-                              ) : null}
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.primaryNumber.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid emergencyContactNo.
+                        </div>
+                      ) : null}
                     </div>
-                  
-              
+
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail">Email ID</label>
                       <input className="form-control" name="email" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
@@ -258,7 +258,7 @@ export const AddLoanEnquiry = () => {
                         <option value="categorie2">No</option>
                       </select>
                       <br />
-                    
+
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputloanamount">Loan Amount Required</label>
@@ -270,37 +270,37 @@ export const AddLoanEnquiry = () => {
                       ) : null}
                     </div>
                     {loan.doYouHaveAValidOfferFromAnyUniversity === 'categorie1' ? (
-                        <div className="row">
-                          <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
+                      <div className="row">
+                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                           <label style={{ color: '#231F20' }} className="class-danger">Offerletter</label>
 
-<input
-  name="uploadOfferletter"
-  className="form-control"
-  type="file"
-  placeholder='Upload Offerletter'
-  style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  onChange={handleInputs}
-/>
-                          </div>
-                          <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
+                          <input
+                            name="uploadOfferletter"
+                            className="form-control"
+                            type="file"
+                            placeholder='Upload Offerletter'
+                            style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            onChange={handleInputs}
+                          />
+                        </div>
+                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                           <label style={{ color: '#231F20' }} className="class-danger">University Name</label>
 
-<input
-  name="universityName"
-  className="form-control"
-  type="text"
-  placeholder='Enter University Name'
-  style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  onChange={handleInputs}
-/>
-                          </div>
-                          
-
+                          <input
+                            name="universityName"
+                            className="form-control"
+                            type="text"
+                            placeholder='Enter University Name'
+                            style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            onChange={handleInputs}
+                          />
                         </div>
-                      ) : null}
-                 
-                
+
+
+                      </div>
+                    ) : null}
+
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputmonthlyincome">What is your monthly income?</label>
                       <input className="form-control" id="inputmonthlyincome" name='whatIsYourMonthlyIncome' onChange={handleInputs} type="text" placeholder='Enter What is your monthly income?' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
@@ -329,9 +329,9 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                 
 
-                  
+
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                       <label style={{ color: '#231F20' }} className="class-danger">
@@ -343,7 +343,7 @@ export const AddLoanEnquiry = () => {
                         <option value="No">No</option>
                       </select>
                       <br />
-                    
+
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputCo-ApplicantName"> Co-Applicant Name</label>
@@ -364,39 +364,39 @@ export const AddLoanEnquiry = () => {
                       ) : null}
                     </div>
                     {loan.didYouApplyForLoanElsewhere === 'categorie1' ? (
-                        <div className="row">
-                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                           <label style={{ color: '#231F20' }} className="class-danger">Choose TheBankYou Previously Applied</label>
+                      <div className="row">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: '#231F20' }} className="class-danger">Choose TheBankYou Previously Applied</label>
 
-<input
-  name="chooseTheBankYouPreviouslyApplied"
-  className="form-control"
-  type="text"
-  placeholder='Enter The ChooseTheBankYouPreviouslyApplied'
-  style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  onChange={handleInputs}
-/>
-                           </div>
-                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                           <label style={{ color: '#231F20' }} className="class-danger">Status Of Previous Application</label>
+                          <input
+                            name="chooseTheBankYouPreviouslyApplied"
+                            className="form-control"
+                            type="text"
+                            placeholder='Enter The ChooseTheBankYouPreviouslyApplied'
+                            style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            onChange={handleInputs}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: '#231F20' }} className="class-danger">Status Of Previous Application</label>
 
-<input
-  name="statusOfPreviousApplication"
-  className="form-control"
-  type="text"
-  placeholder='Enter The statusOfPreviousApplication'
-  style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  onChange={handleInputs}
-/>
-                           </div>
-                        
-                          
-
+                          <input
+                            name="statusOfPreviousApplication"
+                            className="form-control"
+                            type="text"
+                            placeholder='Enter The statusOfPreviousApplication'
+                            style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            onChange={handleInputs}
+                          />
                         </div>
 
-                      ) : null}
-                 
-                
+
+
+                      </div>
+
+                    ) : null}
+
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputCo-Applicantstatus"> Co-Applicant Employment Status</label>
                       <input className="form-control" id="inputCo-Applicantstatus" type="text" name='employmentStatus' onChange={handleInputs} placeholder='Enter  Co-Applicant Employment Status' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
@@ -423,34 +423,34 @@ export const AddLoanEnquiry = () => {
                         <option value="no">No</option>
                       </select>
 
-                    
+
                     </div>
 
                   </div>
                   <div className='row my-3'>
-                              <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
-                                <Link
+                    <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                      <Link
 
-                                  to=""
-                                  style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  className="btn btn-cancel border text-white w-50 m-2"
-                                >
-                                  Cancel
-                                </Link>
-                                <button
+                        to=""
+                        style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        className="btn btn-cancel border text-white w-50 m-2"
+                      >
+                        Cancel
+                      </Link>
+                      <button
 
-                                  style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
-                                  type="submit"
-                                  className="btn btn-save border text-white w-50 m-2"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
+                        type="submit"
+                        className="btn btn-save border text-white w-50 m-2"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
 
-                
-              </div>
+
+                </div>
               </form>
             </div>
 
