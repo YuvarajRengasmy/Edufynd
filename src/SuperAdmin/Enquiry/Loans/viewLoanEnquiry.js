@@ -32,17 +32,14 @@ export const ViewLoanEnquiry = () => {
           <div className="content-header">
             <div className="container">
               <div className="card card-body border-0 rounded-0 shadow-sm p-4">
-                <h5 className='text-center text-uppercase'>Loan Enquiry Details</h5>
-                <hr className='text-dark border-4 border-dark rounded-3' />
-                <div className="border-0 text-bg-transparent mb-3 p-1">
-                  <div className="row g-0">
-                    <div className="col-md-4 align-self-center">
-                      <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" className="img-fluid w-100 mx-auto d-block" alt="profile" />
-                    </div>
-                    <div className="col-md-8">
+                <div className=' card-haeder text-center text-captialize p-2' style={{backgroundColor:'#fe5722',color:'#fff'}}><h3>Loan Enquiry Details</h3></div>
+      
+                  
+                   
+                   
                       <div className="card-body">
-                        <table className='table table-hover table-striped w-100'>
-                          <tbody>
+                        <table className='table table-bordered table-striped-columns table-striped-columns-primary table-hover' >
+                          <tbody    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                             <tr>
                               <td className='fw-bold'>Student Name</td>
                               <td>{loan?.studentName}</td>
@@ -103,9 +100,10 @@ export const ViewLoanEnquiry = () => {
                               <td className='fw-bold'>Passport Document</td>
                               <td>
                                 {loan?.uploadPassport ? (
-                                  <a href={loan.uploadPassport} download="PassportDocument.pdf" className="btn btn-primary btn-sm">
-                                    Download Passport Document
+                                  <a href={loan.uploadPassport} download="PassportDocument.pdf" className="btn btn-sm"    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px',backgroundColor:'#fe5722',color:'#fff'  }}>
+                                     <i class="fa fa-download" aria-hidden="true"></i>
                                   </a>
+                                  
                                 ) : (
                                   'No document available'
                                 )}
@@ -115,8 +113,8 @@ export const ViewLoanEnquiry = () => {
                               <td className='fw-bold'>Offer Letter</td>
                               <td>
                                 {loan?.uploadOfferletter ? (
-                                  <a href={loan.uploadOfferletter} download="OfferLetter.pdf" className="btn btn-primary btn-sm">
-                                    Download Offer Letter
+                                  <a href={loan.uploadOfferletter} download="OfferLetter.pdf" className="btn btn-sm"   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px',backgroundColor:'#fe5722',color:'#fff' }}>
+                                      <i class="fa fa-download" aria-hidden="true"></i>
                                   </a>
                                 ) : (
                                   'No document available'
@@ -126,9 +124,9 @@ export const ViewLoanEnquiry = () => {
                           </tbody>
                         </table>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                   
+                  
+               
               </div>
             </div>
           </div>
