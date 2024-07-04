@@ -53,13 +53,14 @@ export const ListAccommodation = () => {
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">Filter University</h5>
+                        
+                            <h5 id="offcanvasRightLabel">Filter Accommodation</h5>
                             <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                           </div>
                           <div className="offcanvas-body ">
                             <form>
                               <div className="from-group mb-3">
-                                <label className="form-label">University Name</label>
+                                <label className="form-label">Date</label>
                                 <br />
                                 <input
                                   type="text"
@@ -67,9 +68,9 @@ export const ListAccommodation = () => {
                                   name="universityName"
                                 
                                   style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...University Name"
+                                  placeholder="Search...Date"
                                 />
-                                <label className="form-label">Campus</label>
+                                <label className="form-label">Passport No </label>
                                 <br />
                                 <input
                                   type="text"
@@ -77,9 +78,9 @@ export const ListAccommodation = () => {
                                   name="state"
                                 
                                   style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Campus"
+                                  placeholder="Search...Passport No "
                                 />
-                                <label className="form-label">Average Fees</label>
+                                <label className="form-label">Assigned to</label>
                                 <br />
                                 <input
                                   type="text"
@@ -87,9 +88,9 @@ export const ListAccommodation = () => {
                                   name="averageFees"
                                 
                                   style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Average Fees"
+                                  placeholder="Search...Assigned to"
                                 />
-                                <label className="form-label">Country</label>
+                                <label className="form-label">Assigned Partner</label>
                                 <br />
                                 <input
                                   type="text"
@@ -97,10 +98,10 @@ export const ListAccommodation = () => {
                                   name="country"
                                  
                                   style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Country"
+                                  placeholder="Search...Assigned Partner"
                                 />
 
-                                <label className="form-label">Popular Categories</label>
+                                <label className="form-label"> Status</label>
                                 <br />
                                 <input
                                   type="text"
@@ -108,7 +109,7 @@ export const ListAccommodation = () => {
                                   name="popularCategories"
                                
                                   style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Country"
+                                  placeholder="Search... Status"
                                 />
                               </div>
                               <div>
@@ -116,7 +117,7 @@ export const ListAccommodation = () => {
 
                                   data-bs-dismiss="offcanvas"
                                   className="btn btn-cancel border-0 text-white float-right bg"
-                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
                                   Reset

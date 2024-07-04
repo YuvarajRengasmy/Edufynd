@@ -46,6 +46,10 @@ import ViewStaff from "../SuperAdmin/Staff/viewStaff";
 import Application from "../SuperAdmin/Application/Application";
 import ViewUniversity1 from "../SuperAdmin/University/viewUniversity1";
 import ApplyJob from "../Students/Program/ApplyProgram";
+import Listinvoice from "../SuperAdmin/Invoices/Listinvoice";
+import Addinvoice from "../SuperAdmin/Invoices/Addinvoice";
+import Editinvoice from "../SuperAdmin/Invoices/Editinvoice";
+import Viewinvoice from "../SuperAdmin/Invoices/Viewinvoice";
 
 
 function SuperAdmin() {
@@ -95,6 +99,11 @@ function SuperAdmin() {
        <Route path = "/AddStaff" element={<AddStaff/>}/>
        <Route path = "/EditStaff" element={<EditStaff/>}/>
        <Route path = "/ViewStaff" element={<ViewStaff/>}/>
+       <Route path="/ListInvoice" element={<Listinvoice/>}/>
+       <Route path="/AddInvoice" element={<Addinvoice/>}/>
+       <Route path="/EditInvoice" element={<Editinvoice/>}/>
+       <Route path="/ViewInvoice" element={<Viewinvoice/>}/>
+
     
        
 

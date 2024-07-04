@@ -1,9 +1,9 @@
 import React from 'react'
-import Mastersidebar from '../../../compoents/sidebar';
+import Mastersidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
-export const ListLoanEnquiry = () => {
+export const Listinvoice = () => {
   return (
     <div><div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
     <div class="container-fluid">
@@ -53,14 +53,13 @@ export const ListLoanEnquiry = () => {
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
-                        
-                            <h5 id="offcanvasRightLabel">Filter University</h5>
+                            <h5 id="offcanvasRightLabel">Filter Invoice</h5>
                             <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                           </div>
                           <div className="offcanvas-body ">
                             <form>
                               <div className="from-group mb-3">
-                                <label className="form-label">Passport No</label>
+                                <label className="form-label">University Name</label>
                                 <br />
                                 <input
                                   type="text"
@@ -68,9 +67,9 @@ export const ListLoanEnquiry = () => {
                                   name="universityName"
                                 
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Passport No"
+                                  placeholder="Search...University Name"
                                 />
-                                <label className="form-label"> Date</label>
+                                <label className="form-label">Campus</label>
                                 <br />
                                 <input
                                   type="text"
@@ -78,9 +77,9 @@ export const ListLoanEnquiry = () => {
                                   name="state"
                                 
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search... Date"
+                                  placeholder="Search...Campus"
                                 />
-                                <label className="form-label">Assigned User</label>
+                                <label className="form-label">Average Fees</label>
                                 <br />
                                 <input
                                   type="text"
@@ -88,9 +87,9 @@ export const ListLoanEnquiry = () => {
                                   name="averageFees"
                                 
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Assigned User"
+                                  placeholder="Search...Average Fees"
                                 />
-                                <label className="form-label">Assigned Platform</label>
+                                <label className="form-label">Country</label>
                                 <br />
                                 <input
                                   type="text"
@@ -98,10 +97,10 @@ export const ListLoanEnquiry = () => {
                                   name="country"
                                  
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Assigned Platform"
+                                  placeholder="Search...Country"
                                 />
 
-                                <label className="form-label">Status</label>
+                                <label className="form-label">Popular Categories</label>
                                 <br />
                                 <input
                                   type="text"
@@ -109,7 +108,7 @@ export const ListLoanEnquiry = () => {
                                   name="popularCategories"
                                
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Status"
+                                  placeholder="Search...Country"
                                 />
                               </div>
                               <div>
@@ -117,7 +116,7 @@ export const ListLoanEnquiry = () => {
 
                                   data-bs-dismiss="offcanvas"
                                   className="btn btn-cancel border-0 text-white float-right bg"
-                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  style={{ backgroundColor: "#0f", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
                                   Reset
@@ -171,7 +170,7 @@ export const ListLoanEnquiry = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddLoanEnquiry">
+                      <Link class="btn btn-pix-primary" to="/AddInvoice">
                         <button
                           className="btn btn-outline border text-white  "
 
@@ -181,7 +180,7 @@ export const ListLoanEnquiry = () => {
                             class="fa fa-plus-circle me-2"
                             aria-hidden="true"
                           ></i>
-                          Add Loan Enquiry
+                          Add Invoice
                         </button>
                       </Link>
                     </li>
@@ -199,17 +198,13 @@ export const ListLoanEnquiry = () => {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ color: "#9265cc",fontSize:'13px' }}>
+                        <tr style={{ color: "#9265cc" }}>
                           <th> S.No.</th>
-                          <th> Date </th>
-                          <th>Student Name</th>
-                          <th>Passport No</th>
-                          <th>Contact No </th>
-                          <th> Email ID </th>
-                          <th>Assigned User</th>
-                          <th>Assigned Platform</th>
-                          <th>Status </th>
-                         
+                          <th> Date</th>
+                          <th>Invoice Number</th>
+                          <th> Sender Name  </th>
+                          <th> Receiver Name  </th>
+                        
                           <th> Action </th>
                         </tr>
                       </thead>
@@ -220,17 +215,14 @@ export const ListLoanEnquiry = () => {
                           <td></td>
                           <td></td>
                           <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                         
                           <td></td>
                           <td>
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewLoanEnquiry",
+                                        pathname: "/ViewInvoice",
                                        
                                       }}
                                     >
@@ -239,7 +231,7 @@ export const ListLoanEnquiry = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditLoanEnquiry",
+                                        pathname: "/EditInvoice",
                                         
                                       }}
                                     >
@@ -284,4 +276,4 @@ export const ListLoanEnquiry = () => {
     </div></div>
   )
 }
-export default ListLoanEnquiry
+export default Listinvoice

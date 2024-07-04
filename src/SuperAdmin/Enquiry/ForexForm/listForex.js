@@ -3,7 +3,7 @@ import Mastersidebar from '../../../compoents/sidebar';
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
-export const listForex = () => {
+export const ListForex = () => {
   return (
     <div>
        <div  style={{ fontFamily: 'Plus Jakarta Sans' }}>
@@ -60,7 +60,7 @@ export const listForex = () => {
                           <div className="offcanvas-body ">
                             <form>
                               <div className="from-group mb-3">
-                                <label className="form-label">University Name</label>
+                                <label className="form-label">Date</label>
                                 <br />
                                 <input
                                   type="text"
@@ -68,9 +68,9 @@ export const listForex = () => {
                                   name="universityName"
                                 
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...University Name"
+                                  placeholder="Search...Date"
                                 />
-                                <label className="form-label">Campus</label>
+                                <label className="form-label">Forex ID</label>
                                 <br />
                                 <input
                                   type="text"
@@ -78,9 +78,9 @@ export const listForex = () => {
                                   name="state"
                                 
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Campus"
+                                  placeholder="Search...Forex ID"
                                 />
-                                <label className="form-label">Average Fees</label>
+                                <label className="form-label">Passport No</label>
                                 <br />
                                 <input
                                   type="text"
@@ -88,9 +88,9 @@ export const listForex = () => {
                                   name="averageFees"
                                 
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Average Fees"
+                                  placeholder="Search...Passport No"
                                 />
-                                <label className="form-label">Country</label>
+                                <label className="form-label">Source</label>
                                 <br />
                                 <input
                                   type="text"
@@ -98,10 +98,10 @@ export const listForex = () => {
                                   name="country"
                                  
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Country"
+                                  placeholder="Search...Source"
                                 />
 
-                                <label className="form-label">Popular Categories</label>
+                                <label className="form-label">Status</label>
                                 <br />
                                 <input
                                   type="text"
@@ -109,7 +109,7 @@ export const listForex = () => {
                                   name="popularCategories"
                                
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Country"
+                                  placeholder="Search...Status"
                                 />
                               </div>
                               <div>
@@ -117,7 +117,7 @@ export const listForex = () => {
 
                                   data-bs-dismiss="offcanvas"
                                   className="btn btn-cancel border-0 text-white float-right bg"
-                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
                                   Reset
@@ -282,4 +282,4 @@ export const listForex = () => {
     </div>
   )
 }
-export default listForex
+export default ListForex
