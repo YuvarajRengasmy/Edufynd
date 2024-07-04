@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ViewDocument from "../Utils/DocmentView";
 import StudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/StudentForm";
 import EditStudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/EditStudentForm";
 import ListStudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/ListStudentForm";
@@ -35,6 +36,7 @@ function Enquiry() {
     <div>
       <BrowserRouter>
         <Routes>
+        <Route path="/viewdocument/:documentUrl" component={ViewDocument} />
          <Route path="/ViewStudentForm" element={<StudentForm/>}/>
          <Route path="/ListStudentForm" element={<ListStudentForm/>}/>
          <Route path="/EditStudentForm" element={<EditStudentForm/>}/>

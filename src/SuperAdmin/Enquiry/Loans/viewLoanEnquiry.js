@@ -1,16 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getSingleLoanEnquiry } from "../../../api/Enquiry/Loan";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Mastersidebar from '../../../compoents/sidebar';
 
 export const ViewLoanEnquiry = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [loan, setLoan] = useState(null);
+  const pdfLinkRef = useRef(null); // Reference for the hidden anchor
 
   useEffect(() => {
     getLoanDetails();
   }, []);
+
+  useEffect(() => {
+    if (loan?.uploadOfferletter) {
+      pdfLinkRef.current.click(); // Trigger the click event to open the PDF
+    }
+  }, [loan]);
 
   const getLoanDetails = () => {
     getSingleLoanEnquiry(id)
@@ -104,9 +111,14 @@ export const ViewLoanEnquiry = () => {
                               <td>
                                 {loan?.uploadPassport ? (
                                   <div>
-                                    <Link to={`(loan.uploadPassport)}`} className="btn btn-secondary btn-sm mx-2">
+                                    <a
+                                      href={loan.uploadPassport}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="btn btn-secondary btn-sm mx-2"
+                                    >
                                       View Passport Document
-                                    </Link>
+                                    </a>
                                   </div>
                                 ) : (
                                   'No document available'
@@ -118,9 +130,15 @@ export const ViewLoanEnquiry = () => {
                               <td>
                                 {loan?.uploadOfferletter ? (
                                   <div>
-                                    <Link to={`(loan.uploadOfferletter)}`} className="btn btn-secondary btn-sm mx-2">
+                                    <a
+                                      href={loan.uploadOfferletter}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      ref={pdfLinkRef} // Reference to trigger click
+                                      className="btn btn-secondary btn-sm mx-2"
+                                    >
                                       View Offer Letter
-                                    </Link>
+                                    </a>
                                   </div>
                                 ) : (
                                   'No document available'
