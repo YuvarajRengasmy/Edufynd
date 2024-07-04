@@ -1,9 +1,71 @@
-import React from 'react'
+import React, { useEffect ,useState } from "react";
+import {getallStaff,deleteStaff} from "../../api/staff";
 import Mastersidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
+import { toast } from "react-toastify";
+
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
-function listStaff() {
+function ListStaff() {
+
+
+
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+
+  
+  const [staff, setStaff] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+
+  useEffect(() => {
+    getAllStaffDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllStaffDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getallStaff(data)
+      .then((res) => {
+        console.log("yuvi",res)
+        setStaff(res?.data?.result);
+        setPagination({ ...pagination, count: res?.data?.result?.staffCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deleteStaffData = () => {
+    delete (deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllStaffDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
 
 
 
@@ -217,53 +279,63 @@ function listStaff() {
                         </tr>
                       </thead>
                       <tbody>
-                      
-                        <tr  >
+                      {staff?.map((data, index) => (
+                        <tr key={index} >
+                           <td>{pagination.from + index + 1}</td>
                           <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td>{data?.doj}</td>
+                          <td>{data?.empName}</td>
+                          <td>{data?.designation}</td>
+                          <td>{data?.reportingManager}</td>
+                          <td>{data?.mobileNumber}</td>
+                          <td>{data?.email}</td>
+                          <td>{data?.status}</td>
+                          
                           <td>
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/ViewStaff",
-                                       
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditStaff",
-                                        
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <button
-                                      className="dropdown-item"
-                                     
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </button>
-                                  </div>
+                          <div className="d-flex">
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/ViewStaff",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-eye text-primary me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/EditStaff",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-edit text-warning me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                </Link>
+                              </div>
+                             
                                 </td>
                         </tr>
                       
                       
-                        <tr>
-                          <td className="form-text text-danger" colSpan="9">
-                            No data
-                          </td>
-                        </tr>
+                    ))}
+                    {staff?.length === 0 ? (
+                     <tr>
+                       <td className="form-text text-danger" colSpan="9">
+                         No data In Staff
+                       </td>
+                     </tr>
+                    ) : null}
                      
                       </tbody>
                     </table>
@@ -288,4 +360,4 @@ function listStaff() {
     </div>
   )
 };
-export default listStaff;
+export default ListStaff;
