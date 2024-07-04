@@ -30,7 +30,7 @@ const Sidebar = () => {
   return (
     <div>
       <aside
-        className="main-sidebar elevation-10 d-none d-lg-block"
+        className="main-sidebar elevation-10 d-none   d-lg-block"
         style={{
           backgroundColor: "white",
           color: "black",
@@ -483,7 +483,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListInvoice"
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Raise Invoice
@@ -1382,7 +1382,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/AdminList"
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Admin
