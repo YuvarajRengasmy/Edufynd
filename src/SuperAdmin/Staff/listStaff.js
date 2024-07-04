@@ -265,33 +265,33 @@ function ListStaff() {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ color: "#9265cc" }}>
-                          <th> S.No.</th>
-                          <th>Employee ID </th>
-                          <th> DOJ </th>
-                          <th> Name </th>
-                          <th> Designation</th>
-                          <th> Reporting Manager </th>
-                          <th> Contact No </th>
-                          <th> Email ID</th>
-                          <th> Status </th>
-                          <th> Action </th>
+                        <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                           <th className="text-capitalize text-start"> S.No.</th>
+                           <th className="text-capitalize text-start">Employee ID </th>
+                           <th className="text-capitalize text-start"> DOJ </th>
+                           <th className="text-capitalize text-start"> Name </th>
+                           <th className="text-capitalize text-start"> Designation</th>
+                           <th className="text-capitalize text-start"> Reporting Manager </th>
+                           <th className="text-capitalize text-start"> Contact No </th>
+                           <th className="text-capitalize text-start"> Email ID</th>
+                           <th className="text-capitalize text-start"> Status </th>
+                           <th className="text-capitalize text-start"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       {staff?.map((data, index) => (
                         <tr key={index} >
-                           <td>{pagination.from + index + 1}</td>
-                          <td></td>
-                          <td>{data?.doj}</td>
-                          <td>{data?.empName}</td>
-                          <td>{data?.designation}</td>
-                          <td>{data?.reportingManager}</td>
-                          <td>{data?.mobileNumber}</td>
-                          <td>{data?.email}</td>
-                          <td>{data?.status}</td>
+                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start">{data?.doj}</td>
+                          <td className="text-capitalize text-start">{data?.empName}</td>
+                          <td className="text-capitalize text-start">{data?.designation}</td>
+                          <td className="text-capitalize text-start">{data?.reportingManager}</td>
+                          <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                          <td className="text-capitalize text-start">{data?.email}</td>
+                          <td className="text-capitalize text-start">{data?.status}</td>
                           
-                          <td>
+                          <td className="text-capitalize text-start">
                           <div className="d-flex">
                                 <Link
                                   className="dropdown-item"

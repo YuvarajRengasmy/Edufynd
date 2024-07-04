@@ -224,27 +224,29 @@ export const AddStaff = () => {
                       <div className="card rounded-1 border-0 ">
                         <div className="card-header  justify-content-between d-sm-flex d-block " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <div className="card-title fw-semibold" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                            Add Staff Details:
+                            Edit Staff Details:
                           </div>
+                          
                         </div>
+                        <label htmlFor="staffimage" className="file-upload" style={{ color: "#231F20" }}>
+                        <img src='https://via.placeholder.com/150' type='file' alt='staff image' className='img-fluid rounded-pill mx-auto d-block my-2'/>
+
+                        </label>
+
+                        <input
+                          name="staffimage"
+                          id="staffimage"
+                          type="file"
+                          accept="image/*"
+                          className="form-control "
+                          style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                         
+                        />
+                     
+                    
                         <div className="card-body">
                           <div className="row gy-4">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                {" "}
-                                Photo<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="file"
-                                id="photo"
-                                name="photo"
-                                accept="image/*"
-                                className="form-control "
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                onChange={handleInputs}
-                              />
-                            </div>
+                           
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }} >
