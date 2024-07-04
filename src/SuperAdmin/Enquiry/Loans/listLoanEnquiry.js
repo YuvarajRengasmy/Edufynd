@@ -276,7 +276,7 @@ export const ListLoanEnquiry = () => {
                           <th>Passport No</th>
                           <th>Contact No </th>
                           <th> Email ID </th>
-                          <th>coApplicantName</th>
+                          <th>Assigned Platform</th>
                           <th>Assigned User</th>
                          
                           <th>Status </th>
@@ -294,7 +294,7 @@ export const ListLoanEnquiry = () => {
                                     <td className="text-capitalize text-start">{data?.passportNumber}</td>
                                     <td className="text-capitalize text-start">{data?.primaryNumber}</td>
                                     <td className="text-capitalize text-start">{data?.email}</td>
-                                    <td className="text-capitalize text-start">{data?.coApplicantName}</td>
+                                    <td className="text-capitalize text-start">{data?.platform}</td>
                                     <td className="text-capitalize text-start">{data?.source}</td>
                                     <td className="text-capitalize text-start">{data?.assignedTo}</td>
                           <td>

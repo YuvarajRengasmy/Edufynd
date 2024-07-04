@@ -7,17 +7,13 @@ export const ViewLoanEnquiry = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [loan, setLoan] = useState(null);
-  const pdfLinkRef = useRef(null); // Reference for the hidden anchor
+ // Reference for the hidden anchor
 
   useEffect(() => {
     getLoanDetails();
   }, []);
 
-  useEffect(() => {
-    if (loan?.uploadOfferletter) {
-      pdfLinkRef.current.click(); // Trigger the click event to open the PDF
-    }
-  }, [loan]);
+ 
 
   const getLoanDetails = () => {
     getSingleLoanEnquiry(id)
@@ -134,7 +130,7 @@ export const ViewLoanEnquiry = () => {
                                       href={loan.uploadOfferletter}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      ref={pdfLinkRef} // Reference to trigger click
+                                      // Reference to trigger click
                                       className="btn btn-secondary btn-sm mx-2"
                                     >
                                       View Offer Letter
