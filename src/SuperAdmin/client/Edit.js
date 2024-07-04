@@ -206,7 +206,7 @@ function AddAgent() {
                     <div className="card rounded-2 border-0 ">
                       <div className="card-header justify-content-between d-sm-flex d-block " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="card-title" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                       Client Details :
+                    Edit   Client Details :
                         </div>
                         
                       </div>

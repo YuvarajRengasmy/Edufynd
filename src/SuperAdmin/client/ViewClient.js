@@ -11,36 +11,12 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function AddAgent() {
 
-    const location = useLocation();
-    const id = new URLSearchParams(location.search).get("id");
-  
-   
-    const [client, setClient] = useState('')
-
-   
-
-   
-
-    const navigate = useNavigate()
-   
-    useEffect(() => {
-        getClientDetails();
-  
-      }, []);
-    const getClientDetails = () => {
-        getSingleClient(id)
-          .then((res) => {
-            setClient(res?.data?.result);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
+    
 
  
 
     return (
-        <div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
             <div class="container-fluid">
                 <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
@@ -50,224 +26,94 @@ function AddAgent() {
                   
                 </nav>
            
-            <div className="content-wrapper "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header ">
-                    <div className="content container ">
-                        <form >
+                    <div className=" container-fluid">
+                        
                             <div className="row">
 
                             <div className="col-xl-12 ">
-                    <div className="card rounded-2 border-0 ">
-                      <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                       Client Details :
-                        </div>
+                    <div className="card rounded-0 p-4 border-0 ">
+                      <div className="card-header p-2 rounded-0  text-center  " style={{ backgroundColor: '#fe5722',color:'#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                        <h3 className='text-center'> View  Client Details </h3>
+                    
                         
                       </div>
                       <div className="card-body">
-                        <div className="row gy-4">
-
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                  
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Business Name<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                         
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                           
-                                            value={client?.businessName}
-                                            className="form-control "
-                                            placeholder="Enter Business Name"
-
-                                        />
-                                       
-                                    
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            Type of client <span className="text-danger">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                        <input
-                                            className="form-control "
-                                            value={client?.typeOfClient}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter businessMailID"
-                                          
-                                        /> 
-                                           
-                                           
-                                       
-                                    </div>
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Business MailID<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            className="form-control "
-                                            value={client?.businessMailID}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter businessMailID"
-                                          
-                                        />
-                                        
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            businessContactNo <span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            className="form-control "
-                                            value={client?.businessContactNo}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Contact Number "
-                                            name="businessContactNo"
-                                           
-                                        />
-                                        
-                                </div>
-
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                  
-                                        <label style={{ color: "#231F20" }}>
-                                            Website<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                          
-                                            className="form-control "
-                                            value={client?.website}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Website"
-                                           
-                                        />
-                                        
-                                    
-                                </div>
-
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                    
-                                        <label style={{ color: "#231F20" }}>
-                                            Staff Name<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                           
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Name"
-                                            value={client?.name}
-                                           
-                                        />
-                                       
-                                    
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            Staff Contact number<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Contact Number"
-                                            value={client?.contactNo}
-                                           
-                                        />
-                                        
-                                    
-                                </div>
-
-
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            Staff EmailID<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            value={client?.emailID}
-                                           
-                                        />
-                                        
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            AddressLine1?<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                        
-                                            className="form-control "
-                                            value={client?.addressLine1}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter No Area Street Name"
-                                           
-                                        />
-                                       
-                                   
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  
-                                        <label style={{ color: "#231F20" }}>
-                                            AddressLine2<span className="text-danger">*</span>
-                                        </label>
-                                        <input  
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter City State"
-                                            value={client?.addressLine2}  
-                                        />
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                        <label style={{ color: "#231F20" }}>
-                                            AddressLine3<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            className="form-control "
-                                            value={client?.addressLine3}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Country Pincode" 
-                                           
-                                        />  
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                        <label style={{ color: "#231F20" }}>
-                                            Gstn<span className="text-danger">*</span>
-                                        </label>
-                                        <input    
-                                            className="form-control"
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            value={client?.gstn}
-                                            placeholder="Enter Gstn"      
-                                        />      
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                        <label style={{ color: "#231F20" }}>
-                                            Status<span className="text-danger">*</span>
-                                        </label>
-                                        <input  
-                                            className="form-control"
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            value={client?.status}
-                                               
-                                        /> 
-                                </div>
-                              
+                      <table class="table table-bordered table-hover">
+        <tbody >
+          <tr>
+            <td>Client ID </td>
+            <td>John Doe</td>
+          </tr>
+          <tr>
+            <td>Type of client </td>
+            <td>+1234567890</td>
+          </tr>
+          <tr>
+            <td>Business Name</td>
+            <td>+0987654321</td>
+          </tr>
+          <tr>
+            <td>Business Mail ID</td>
+            <td>john.doe@example.com</td>
+          </tr>
+          <tr>
+            <td>Business Contact No</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Website</td>
+            <td>$50,000</td>
+          </tr>
+          <tr>
+            <td>Staff Name</td>
+            <td>$3,000</td>
+          </tr>
+          <tr>
+            <td>Staff Contact No</td>
+            <td>A12345678</td>
+          </tr>
+          <tr>
+            <td>Staff Email ID</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>Jane Doe</td>
+          </tr>
+          <tr>
+            <td>GSTN</td>
+            <td>45</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>Employed</td>
+          </tr>
+    
+          <tr>
+            <td>Passport Document</td>
+            <td>
+              <a href="path/to/passport.pdf" download="PassportDocument.pdf" class="btn btn-sm btn-custom">
+                <i class="fa fa-download" aria-hidden="true"></i> Download
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>Offer Letter</td>
+            <td>
+              <a href="path/to/offerletter.pdf" download="OfferLetter.pdf" class="btn btn-sm btn-custom">
+                <i class="fa fa-download" aria-hidden="true"></i> Download
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
                             </div>
                             </div>
                             </div>
                             </div>
-                            </div>
-                        </form>
+                       
                     </div>
                 </div>
             </div>

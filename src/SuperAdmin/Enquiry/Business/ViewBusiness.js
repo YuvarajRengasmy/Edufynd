@@ -40,18 +40,18 @@ export const ViewBusiness = () => {
         </nav>
         <div className="content-wrapper" style={{ fontSize: '14px' }}>
           <div className="content-header">
-            <div className="container">
-              <div className="card card-body  border-0 rounded-0 shadow-sm p-4 ">
-                <h5 className='text-center text-uppercase'>View Business Enquiry</h5>
-                <hr className='text-dark border-4 border-dark rounded-3'/>
-                <div class=" border-0 text-bg-transparent mb-3 p-1" >
-  <div class="row g-0">
-    <div class="col-md-4 align-self-center">
-      <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" class="img-fluid  w-100  mx-auto d-block " alt="profile-image"/>
-    </div>
-    <div class="col-md-8">
+            <div className="container-fluid">
+            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'>Business Enquiry Details</h5>
+                </div>
+             
+                
+  
+   
+   
       <div class="card-body">
-       <table className='table table-hover table-striped w-100'>
+      <table className='table table-hover table-bordered table-striped-columns mt-5'  style={{ fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
         <tbody >
           <tr >
             <td className='fw-bold'>Student Name  </td>
@@ -100,9 +100,9 @@ export const ViewBusiness = () => {
         </tbody>
        </table>
       </div>
-    </div>
-  </div>
-</div>
+   
+ 
+
                
                  
                 
