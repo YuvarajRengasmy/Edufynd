@@ -1,9 +1,79 @@
-import React from 'react'
-import Mastersidebar from '../../../compoents/sidebar';
+import React, { useEffect, useState } from "react";
+import { getallLoanEnquiry, getSingleLoanEnquiry, deleteLoanEnquiry } from "../../../api/Enquiry/Loan";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import { formatDate } from "../../../Utils/DateFormat";
+import Mastersidebar from "../../../compoents/sidebar";
+import { ExportCsvService } from "../../../Utils/Excel";
+import { templatePdf } from "../../../Utils/PdfMake";
+import { toast } from "react-toastify";
+
 import { FaFilter } from "react-icons/fa";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
 export const ListLoanEnquiry = () => {
+
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  const [loan, setLoan] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [filter, setFilter] = useState(false);
+
+  useEffect(() => {
+    getAllLoanDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllLoanDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getallLoanEnquiry(data)
+      .then((res) => {
+        setLoan(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deletLoanData = () => {
+    deleteLoanEnquiry(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllLoanDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
+
   return (
     <div><div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
     <div class="container-fluid">
@@ -206,32 +276,34 @@ export const ListLoanEnquiry = () => {
                           <th>Passport No</th>
                           <th>Contact No </th>
                           <th> Email ID </th>
+                          <th>coApplicantName</th>
                           <th>Assigned User</th>
-                          <th>Assigned Platform</th>
+                         
                           <th>Status </th>
                          
                           <th> Action </th>
                         </tr>
                       </thead>
                       <tbody>
-                      
-                        <tr  >
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                      {loan && loan.length > 0 ? (
+                                loan.map((data, index) => (
+                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
+                          <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                                    <td className="text-capitalize text-start" >{formatDate(data?.createdOn)}</td>
+                                    <td className="text-capitalize text-start">{data?.studentName}</td>
+                                    <td className="text-capitalize text-start">{data?.passportNumber}</td>
+                                    <td className="text-capitalize text-start">{data?.primaryNumber}</td>
+                                    <td className="text-capitalize text-start">{data?.email}</td>
+                                    <td className="text-capitalize text-start">{data?.coApplicantName}</td>
+                                    <td className="text-capitalize text-start">{data?.source}</td>
+                                    <td className="text-capitalize text-start">{data?.assignedTo}</td>
                           <td>
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/ViewLoanEnquiry",
-                                       
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
@@ -240,13 +312,16 @@ export const ListLoanEnquiry = () => {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/EditLoanEnquiry",
-                                        
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
                                     <button
                                       className="dropdown-item"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
                                      
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
@@ -254,13 +329,16 @@ export const ListLoanEnquiry = () => {
                                   </div>
                                 </td>
                         </tr>
-                      
-                      
+                       ))
+                      ) : (
                         <tr>
                           <td className="form-text text-danger" colSpan="9">
-                            No data
+                            N0 Data Found In Page
                           </td>
                         </tr>
+                      )}
+                      
+                       
                      
                       </tbody>
                     </table>
@@ -275,7 +353,32 @@ export const ListLoanEnquiry = () => {
           </div>
         </div>
   
-
+        <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
+          
+              Are you sure you want to Delete <br /> the selected StudnetEnquiry ?
+            </h5>
+            <button
+              type="button"
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              className="btn btn-danger mx-3"
+              onClick={deletLoanData}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-info "
+              onClick={closePopup}
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
         
         </div>
