@@ -19,6 +19,7 @@ export const OfferTAT ="offerTat";
 export const Payment ="paymentMethod";
 export const Tax ="tax";
 export const TypeOfClient ="typeOfClient";
+export const Staff ="staff";
 
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";

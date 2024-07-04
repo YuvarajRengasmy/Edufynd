@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Flags from 'react-world-flags';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { createStaff } from '../../api/admin';
+import { saveStaff } from '../../api/staff';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
 
 
@@ -33,7 +33,9 @@ export const AddStaff = () => {
     manageApplications: "",   // Yes/No
     //If Yes, List Country & University The user can only handle applications of these universities and country
     activeInactive: "",   // – User
-    teamLead: ""
+    teamLead: "",
+    password:"",
+    confirmPassword:""
 
   }
   const initialStateErrors = {
@@ -56,7 +58,9 @@ export const AddStaff = () => {
     manageApplications: { required: false },   // Yes/No
     //If Yes, List Country & University The user can only handle applications of these universities and country
     activeInactive: { required: false },   // – User
-    teamLead: { required: false }
+    teamLead: { required: false },
+    password: { required: false, valid: false },
+    confirmPassword: { required: false, valid: false },
 
 
   }
@@ -135,6 +139,18 @@ export const AddStaff = () => {
       error.activeInactive.required = true;
 
     }
+    if (data.password === "") {
+      error.password.required = true;
+    }
+    if (data.confirmPassword === "") {
+      error.confirmPassword.required = true;
+    }
+    if (!isValidPassword(data.password)) {
+      error.password.valid = true;
+    }
+    if (!isValidPassword(data.confirmPassword)) {
+      error.confirmPassword.valid = true;
+    }
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
@@ -196,7 +212,7 @@ export const AddStaff = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      createStaff(staff)
+      saveStaff(staff)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListStaff");
@@ -713,6 +729,66 @@ export const AddStaff = () => {
 
 
                             </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+ password  <span className="text-danger">*</span>
+</label>
+<input
+  type="text"
+  className="form-control"
+  placeholder="Enter  Password   "
+  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  name="password"
+  onChange={handleInputs}
+
+/>
+{errors.password.required ? (
+                                <div className="text-danger form-text">
+                                    This field is required.
+                                </div>
+                            ) : errors.password.valid ? (
+                                <div className="text-danger form-text">
+                                    A minimum 8 characters password contains a <br />
+                                    combination of {''}
+                                    <strong>uppercase, lowercase, {''}</strong>
+                                    <strong>special <br /> character{''}</strong> and <strong>number</strong>.
+                                </div>
+                            ) : null}
+
+
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+ confirmPassword <span className="text-danger">*</span>
+</label>
+<input
+  type="text"
+  className="form-control"
+  placeholder="Enter confirmPassword"   
+  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  name="confirmPassword"
+  onChange={handleInputs}
+
+/>
+{errors.confirmPassword.required ? (
+                                <div className="text-danger form-text">
+                                    This field is required.
+                                </div>
+                            ) : errors.confirmPassword.valid ? (
+                                <div className="text-danger form-text">
+                                    A minimum 8 characters password contains a <br />
+                                    combination of {''}
+                                    <strong>uppercase, lowercase, {''}</strong>
+                                    <strong>special <br /> character{''}</strong> and <strong>number</strong>.
+                                </div>
+                            ) : null}
+
+
+</div>
+
 
 
 
