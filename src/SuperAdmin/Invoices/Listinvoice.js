@@ -58,8 +58,9 @@ export const Listinvoice = () => {
                           </div>
                           <div className="offcanvas-body ">
                             <form>
+                         
                               <div className="from-group mb-3">
-                                <label className="form-label">University Name</label>
+                                <label className="form-label">Date</label>
                                 <br />
                                 <input
                                   type="text"
@@ -67,7 +68,7 @@ export const Listinvoice = () => {
                                   name="universityName"
                                 
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...University Name"
+                                  placeholder="Search...Date"
                                 />
                                 <label className="form-label">Campus</label>
                                 <br />
@@ -79,7 +80,7 @@ export const Listinvoice = () => {
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...Campus"
                                 />
-                                <label className="form-label">Average Fees</label>
+                                <label className="form-label">Invoice Number</label>
                                 <br />
                                 <input
                                   type="text"
@@ -87,9 +88,9 @@ export const Listinvoice = () => {
                                   name="averageFees"
                                 
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Average Fees"
+                                  placeholder="Search...Invoice Number"
                                 />
-                                <label className="form-label">Country</label>
+                                <label className="form-label">Sender Name </label>
                                 <br />
                                 <input
                                   type="text"
@@ -97,10 +98,10 @@ export const Listinvoice = () => {
                                   name="country"
                                  
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Country"
+                                  placeholder="Search...Sender Name "
                                 />
 
-                                <label className="form-label">Popular Categories</label>
+                                <label className="form-label">Receiver Name</label>
                                 <br />
                                 <input
                                   type="text"
@@ -108,7 +109,7 @@ export const Listinvoice = () => {
                                   name="popularCategories"
                                
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Country"
+                                  placeholder="Search...Receiver Name"
                                 />
                               </div>
                               <div>
@@ -116,7 +117,7 @@ export const Listinvoice = () => {
 
                                   data-bs-dismiss="offcanvas"
                                   className="btn btn-cancel border-0 text-white float-right bg"
-                                  style={{ backgroundColor: "#0f", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
                                   Reset
