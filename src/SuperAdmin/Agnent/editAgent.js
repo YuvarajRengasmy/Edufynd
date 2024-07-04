@@ -270,18 +270,20 @@ function AddAgent() {
 
                 <div className="content-wrapper ">
                     <div className="content-header ">
-                        <div className="content container-fluid ">
+                        <div className="container-fluid ">
+                            <div className="card card-body border-0 p-4">
                             <form onSubmit={handleSubmit}>
                                 <div className="content-page-header">
                                     <h5 className="text-bold" style={{ color: "#231F20" }}>
-                                        Add Agent
+                                       Edit Agent Details
+                                       <hr/>
                                     </h5>
                                 </div>
 
                                 <div className="row mb-3">
                                     <div className="col ">
                                         <label htmlFor="company" className="form-label">Source</label>
-                                        <input name="source" type="text" onChange={handleInputs} className="form-control" id="company" value={agent?.source} />
+                                        <input name="source" type="text" onChange={handleInputs} className="form-control" id="company" value={agent?.source}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.source.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -291,7 +293,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col ">
                                         <label htmlFor="company" className="form-label">Name</label>
-                                        <input name="agentName" type="text" onChange={handleInputs} className="form-control" id="company" value={agent?.agentName} />
+                                        <input name="agentName" type="text" onChange={handleInputs} className="form-control" id="company" value={agent?.agentName}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.agentName.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -301,7 +303,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Job" className="form-label">Business Name</label>
-                                        <input name="businessName" type="text" className="form-control" onChange={handleInputs} id="Job" value={agent?.businessName} />
+                                        <input name="businessName" type="text" className="form-control" onChange={handleInputs} id="Job" value={agent?.businessName}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.businessName.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -316,7 +318,7 @@ function AddAgent() {
                                 <div className="row mb-3">
                                         <div className="col">
                                             <label htmlFor="Country" className="form-label">Address Line1</label>
-                                            <input name="addressLine1" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine1} />
+                                            <input name="addressLine1" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine1}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                             {errors.addressLine1.required ? (
                                                 <span className="form-text text-danger">
                                                     This field is required.
@@ -327,7 +329,7 @@ function AddAgent() {
 
                                         <div className="col">
                                             <label htmlFor="Country" className="form-label">Address Line2</label>
-                                            <input name="addressLine2" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine2} />
+                                            <input name="addressLine2" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine2}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                             {errors.addressLine2.required ? (
                                                 <span className="form-text text-danger">
                                                     This field is required.
@@ -337,7 +339,7 @@ function AddAgent() {
                                         </div>
                                         <div className="col">
                                             <label htmlFor="Country" className="form-label">Address Line3</label>
-                                            <input name="addressLine3" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine3} />
+                                            <input name="addressLine3" type="text" onChange={handleInputs} className="form-control" id="Country" value={agent?.addressLine3}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                             {errors.addressLine3.required ? (
                                                 <span className="form-text text-danger">
                                                     This field is required.
@@ -349,7 +351,7 @@ function AddAgent() {
                                 <div className="row mb-3">
                                     <div className="col">
                                         <label htmlFor="Address" className="form-label">Email ID</label>
-                                        <input name="email" type="text" className="form-control" onChange={handleInputs} id="Address" value={agent?.email} />
+                                        <input name="email" type="text" className="form-control" onChange={handleInputs} id="Address" value={agent?.email}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                         {errors.email.required ? (
                                             <div className="text-danger form-text">
                                                 This field is required.
@@ -362,7 +364,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">Primary Number</label>
-                                        <input name="mobileNumber" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.mobileNumber} />
+                                        <input name="mobileNumber" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.mobileNumber}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                         {errors.mobileNumber.required ? (
                                             <div className="text-danger form-text">
                                                 This field is required.
@@ -377,7 +379,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">Whats App Number</label>
-                                        <input name="whatsAppNumber" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.whatsAppNumber} />
+                                        <input name="whatsAppNumber" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.whatsAppNumber}   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.whatsAppNumber.required ? (
                                             <div className="text-danger form-text">
                                                 This field is required.
@@ -430,7 +432,7 @@ function AddAgent() {
                                 <div className="row mb-3">
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label"> BankName</label>
-                                        <input name="bankName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.bankName} />
+                                        <input name="bankName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.bankName}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                         {errors.bankName.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -440,7 +442,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label"> Account Number</label>
-                                        <input name="accountNumber" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.accountNumber} />
+                                        <input name="accountNumber" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.accountNumber}   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                         {errors.accountNumber.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -450,7 +452,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">Account Name</label>
-                                        <input name="accountName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.accountName} />
+                                        <input name="accountName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.accountName}   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.accountName.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -464,7 +466,7 @@ function AddAgent() {
                                 <div className="row mb-3">
                                 <div className="col">
                                     <label htmlFor="Email" className="form-label">Branch</label>
-                                    <input name="branch" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.branch} />
+                                    <input name="branch" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.branch}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                     {errors.branch.required ? (
                                         <span className="form-text text-danger">
                                             This field is required.
@@ -474,7 +476,7 @@ function AddAgent() {
                                 </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">IFSC</label>
-                                        <input name="ifsc" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.ifsc} />
+                                        <input name="ifsc" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.ifsc}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.ifsc.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -484,7 +486,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Phone" className="form-label">PAN Number of Individual</label>
-                                        <input name="panNumberIndividual" type="text" onChange={handleInputs} className="form-control" id="Phone" value={agent?.panNumberIndividual} />
+                                        <input name="panNumberIndividual" type="text" onChange={handleInputs} className="form-control" id="Phone" value={agent?.panNumberIndividual}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                         {errors.panNumberIndividual.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -498,7 +500,7 @@ function AddAgent() {
                                 <div className="row mb-3">
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">PAN of Company </label>
-                                        <input name="panNumberCompany" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.panNumberCompany} />
+                                        <input name="panNumberCompany" type="text" onChange={handleInputs} className="form-control" id="Email" value={agent?.panNumberCompany}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}/>
                                         {errors.panNumberCompany.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -508,7 +510,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">GSTN </label>
-                                        <input name="gstn" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.gstn} />
+                                        <input name="gstn" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.gstn}   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.gstn.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -519,7 +521,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">INC </label>
-                                        <input name="inc" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.inc} />
+                                        <input name="inc" type="text" className="form-control" onChange={handleInputs} id="Email" value={agent?.inc}   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.inc.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -532,7 +534,7 @@ function AddAgent() {
                                 <div className="row mb-3">
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">Staff Name </label>
-                                        <input name="staffName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.staffName} />
+                                        <input name="staffName" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.staffName}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.staffName.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -542,7 +544,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">Staff Contact No</label>
-                                        <input name="staffContactNo" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.staffContactNo} />
+                                        <input name="staffContactNo" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.staffContactNo}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.staffName.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -552,7 +554,7 @@ function AddAgent() {
                                     </div>
                                     <div className="col">
                                         <label htmlFor="Email" className="form-label">Agents Commission</label>
-                                        <input name="agentsCommission" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.agentsCommission} />
+                                        <input name="agentsCommission" type="text" className="form-control" id="Email" onChange={handleInputs} value={agent?.agentsCommission}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                         {errors.agentsCommission.required ? (
                                             <span className="form-text text-danger">
                                                 This field is required.
@@ -575,8 +577,7 @@ function AddAgent() {
                                             className="form-control "
                                             style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             onChange={handleInputs}
-
-
+                                            
                                         />
                                     </div>
                                     <div className="col">
@@ -610,6 +611,8 @@ function AddAgent() {
                             </div>
                             </form>
 
+                            </div>
+                          
                         </div>
                     </div>
                 </div>

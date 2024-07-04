@@ -195,8 +195,8 @@ export const AddLoanEnquiry = () => {
                 <hr />
               
 
-                  <div className='row mb-3'>
-                    <div className="col">
+                  <div className='row g-3'>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputStudentName">Student Name</label>
 
                       <input className="form-control" onChange={handleInputs} name="studentName" id="inputStudentName" type="text" placeholder='Enter Student Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
@@ -206,7 +206,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPrimaryNo">Primary Number</label>
                       <input className="form-control" name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ? (
@@ -219,7 +219,7 @@ export const AddLoanEnquiry = () => {
                                 </div>
                               ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number</label>
                       <input className="form-control" name="whatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ? (
@@ -232,9 +232,9 @@ export const AddLoanEnquiry = () => {
                                 </div>
                               ) : null}
                     </div>
-                  </div>
-                  <div className='row mb-3'>
-                    <div className="col">
+                  
+              
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail">Email ID</label>
                       <input className="form-control" name="email" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.email.required ? (
@@ -258,19 +258,33 @@ export const AddLoanEnquiry = () => {
                         <option value="categorie2">No</option>
                       </select>
                       <br />
-                      {loan.doYouHaveAValidOfferFromAnyUniversity === 'categorie1' ? (
-                        <div className="form-group">
+                    
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputloanamount">Loan Amount Required</label>
+                      <input className="form-control" id="inputloanamount" type="text" placeholder='Enter Loan Amount Required' onChange={handleInputs} name='loanAmountRequired' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.loanAmountRequired.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
+                    </div>
+                    {loan.doYouHaveAValidOfferFromAnyUniversity === 'categorie1' ? (
+                        <div className="row">
+                          <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                           <label style={{ color: '#231F20' }} className="class-danger">Offerletter</label>
 
-                          <input
-                            name="uploadOfferletter"
-                            className="form-control"
-                            type="file"
-                            placeholder='Upload Offerletter'
-                            style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                            onChange={handleInputs}
-                          />
-                           <label style={{ color: '#231F20' }} className="class-danger">University Name</label>
+<input
+  name="uploadOfferletter"
+  className="form-control"
+  type="file"
+  placeholder='Upload Offerletter'
+  style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  onChange={handleInputs}
+/>
+                          </div>
+                          <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
+                          <label style={{ color: '#231F20' }} className="class-danger">University Name</label>
 
 <input
   name="universityName"
@@ -280,21 +294,14 @@ export const AddLoanEnquiry = () => {
   style={{ height: 30, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   onChange={handleInputs}
 />
+                          </div>
+                          
+
                         </div>
                       ) : null}
-                    </div>
-                    <div className="col">
-                      <label className="form-label" for="inputloanamount">Loan Amount Required</label>
-                      <input className="form-control" id="inputloanamount" type="text" placeholder='Enter Loan Amount Required' onChange={handleInputs} name='loanAmountRequired' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.loanAmountRequired.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className='row mb-3'>
-                    <div className="col">
+                 
+                
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputmonthlyincome">What is your monthly income?</label>
                       <input className="form-control" id="inputmonthlyincome" name='whatIsYourMonthlyIncome' onChange={handleInputs} type="text" placeholder='Enter What is your monthly income?' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.whatIsYourMonthlyIncome.required ? (
@@ -303,7 +310,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputmonthlyincome">Passport Number</label>
                       <input className="form-control" id="inputmonthlyincome" name='passportNumber' onChange={handleInputs} type="text" placeholder='Enter The Passport Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.passportNumber.required ? (
@@ -313,7 +320,7 @@ export const AddLoanEnquiry = () => {
                       ) : null}
                     </div>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputmonthlyincome">Upload Passport</label>
                       <input className="form-control" id="inputmonthlyincome" name='uploadPassport' onChange={handleInputs} type="file" placeholder='Upload In Passport Copy' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.uploadPassport.required ? (
@@ -322,9 +329,9 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                  </div>
+                 
 
-                  <div className='row mb-3'>
+                  
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                       <label style={{ color: '#231F20' }} className="class-danger">
@@ -336,34 +343,9 @@ export const AddLoanEnquiry = () => {
                         <option value="No">No</option>
                       </select>
                       <br />
-                      {loan.didYouApplyForLoanElsewhere === 'categorie1' ? (
-                        <div className="form-group">
-                          <label style={{ color: '#231F20' }} className="class-danger">Choose TheBankYou Previously Applied</label>
-
-                          <input
-                            name="chooseTheBankYouPreviouslyApplied"
-                            className="form-control"
-                            type="text"
-                            placeholder='Enter The ChooseTheBankYouPreviouslyApplied'
-                            style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                            onChange={handleInputs}
-                          /><br />
-                           <label style={{ color: '#231F20' }} className="class-danger">Status Of Previous Application</label>
-
-                          <input
-                            name="statusOfPreviousApplication"
-                            className="form-control"
-                            type="text"
-                            placeholder='Enter The statusOfPreviousApplication'
-                            style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                            onChange={handleInputs}
-                          />
-
-                        </div>
-
-                      ) : null}
+                    
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputCo-ApplicantName"> Co-Applicant Name</label>
                       <input className="form-control" id="inputCo-ApplicantName" name='coApplicantName' onChange={handleInputs} type="text" placeholder='Enter  Co-Applicant Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.coApplicantName.required ? (
@@ -372,7 +354,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputCo-Applicantage"> Co-Applicant Age</label>
                       <input className="form-control" id="inputCo-Applicantage" onChange={handleInputs} name='age' type="text" placeholder='Enter  Co-Applicant Age' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.age.required ? (
@@ -381,9 +363,41 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                  </div>
-                  <div className='row mb-3'>
-                    <div className="col">
+                    {loan.didYouApplyForLoanElsewhere === 'categorie1' ? (
+                        <div className="row">
+                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                           <label style={{ color: '#231F20' }} className="class-danger">Choose TheBankYou Previously Applied</label>
+
+<input
+  name="chooseTheBankYouPreviouslyApplied"
+  className="form-control"
+  type="text"
+  placeholder='Enter The ChooseTheBankYouPreviouslyApplied'
+  style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  onChange={handleInputs}
+/>
+                           </div>
+                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                           <label style={{ color: '#231F20' }} className="class-danger">Status Of Previous Application</label>
+
+<input
+  name="statusOfPreviousApplication"
+  className="form-control"
+  type="text"
+  placeholder='Enter The statusOfPreviousApplication'
+  style={{ height: 40, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  onChange={handleInputs}
+/>
+                           </div>
+                        
+                          
+
+                        </div>
+
+                      ) : null}
+                 
+                
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputCo-Applicantstatus"> Co-Applicant Employment Status</label>
                       <input className="form-control" id="inputCo-Applicantstatus" type="text" name='employmentStatus' onChange={handleInputs} placeholder='Enter  Co-Applicant Employment Status' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.employmentStatus.required ? (
@@ -392,7 +406,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputCo-Applicantdetails"> Co-Applicant Income Details</label>
                       <input className="form-control" id="inputCo-Applicantdetails" type="text" name="incomeDetails" onChange={handleInputs} placeholder="Enter  Co-Applicant Income Details" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.incomeDetails.required ? (
@@ -401,7 +415,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputcollateral">Will you submit your collateral if required</label>
                       <select className='form-select' name=' willyouSubmitYourCollateral' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} id="inputcollateral">
                         <option value="">Select collateral</option>
