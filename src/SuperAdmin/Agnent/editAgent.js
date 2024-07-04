@@ -271,11 +271,12 @@ function AddAgent() {
                 <div className="content-wrapper ">
                     <div className="content-header ">
                         <div className="container-fluid ">
-                            <div className="card card-body border-0">
+                            <div className="card card-body border-0 p-4">
                             <form onSubmit={handleSubmit}>
                                 <div className="content-page-header">
                                     <h5 className="text-bold" style={{ color: "#231F20" }}>
                                        Edit Agent Details
+                                       <hr/>
                                     </h5>
                                 </div>
 
