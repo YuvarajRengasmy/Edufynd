@@ -199,7 +199,7 @@ export const Listinvoice = () => {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ color: "#9265cc" }}>
+                        <tr  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th> S.No.</th>
                           <th> Date</th>
                           <th>Invoice Number</th>
@@ -211,7 +211,7 @@ export const Listinvoice = () => {
                       </thead>
                       <tbody>
                       
-                        <tr  >
+                        <tr  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
                           <td></td>
                           <td></td>
                           <td></td>
@@ -219,7 +219,7 @@ export const Listinvoice = () => {
                          
                           <td></td>
                           <td>
-                                  <div className="d-flex">
+                                  <div className="d-flex flex-row ">
                                     <Link
                                       className="dropdown-item"
                                       to={{
