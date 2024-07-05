@@ -322,357 +322,357 @@ export default function Masterproductlist() {
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Mastersidebar />
         </nav>
-   
-
-      <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className="content-header">
-          <div className="container-fluid">
-            <div className="row ">
-
-              <div >
-                <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                        style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
-                          fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px" // Adjust padding to fit the height
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <i className="fas fa-search" style={{ color: "black" }}></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li class="m-1">
 
 
-                    <div>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Program</h5>
-                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Agent Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="agentName"
-                                onChange={handleInputs}
-                                placeholder="Search...Agent Name"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-                              />
-                              <label className="form-label">Agent Code</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="agentCode"
-                                onChange={handleInputs}
-                                placeholder="Search...Agent Code"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+        <div className="content-wrapper px-4" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+          <div className="content-header">
+            <div className="container">
+              <div className="row ">
 
-                              />
-                              <label className="form-label">Mobile Number</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="mobileNumber"
-                                onChange={handleInputs}
-                                placeholder="Search...MobileNumber"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
-                              />
-                              <label className="form-label">Status</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                                onChange={handleInputs}
-                                placeholder="Search...Status"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
-                              />
+                <div >
+                  <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+                    <li className="flex-grow-1">
+                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                        <input
+                          type="search"
+                          placeholder="Search"
+                          aria-describedby="button-addon3"
+                          className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                          style={{
+                            borderColor: "#FE5722",
+                            paddingRight: "1.5rem",
+                            marginLeft: "0px",
+                            fontSize: "12px", // Keep the font size if it's correct
+                            height: "11px", // Set the height to 11px
+                            padding: "0px" // Adjust padding to fit the height
+                          }}
+                        />
+                        <span
+                          className="input-group-text bg-transparent border-0"
+                          id="button-addon3"
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer"
+                          }}
+                        >
+                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                        </span>
+                      </div>
+                    </li>
+                    <li class="m-1">
 
 
-                            </div>
-                            <div>
+                      <div>
+                        <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
+                        <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                          <div className="offcanvas-header">
+                            <h5 id="offcanvasRightLabel">Filter Agent</h5>
+                            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                          </div>
+                          <div className="offcanvas-body ">
+                            <form>
+                              <div className="from-group mb-3">
+                                <label className="form-label">Agent Name</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="agentName"
+                                  onChange={handleInputs}
+                                  placeholder="Search...Agent Name"
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                />
+                                <label className="form-label">Agent Code</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="agentCode"
+                                  onChange={handleInputs}
+                                  placeholder="Search...Agent Code"
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
 
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                onClick={filterAgentList}
-                                className="btn btn-save border text-white float-right mx-2"
-                                style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-                              >
-                                Apply
-                              </button>
-                              <button
+                                />
+                                <label className="form-label">Mobile Number</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="mobileNumber"
+                                  onChange={handleInputs}
+                                  placeholder="Search...MobileNumber"
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
 
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border text-white float-right bg"
+                                />
+                                <label className="form-label">Status</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="status"
+                                  onChange={handleInputs}
+                                  placeholder="Search...Status"
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
 
-                                onClick={resetFilter}
-                                style={{ backgroundColor: '#9265cc', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                />
 
-                              >
-                                Reset
-                              </button>
 
-                            </div>
-                          </form>
+                              </div>
+                              <div>
+                                <button
+
+                                  data-bs-dismiss="offcanvas"
+                                  className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-1 text-white float-right bg"
+
+                                  onClick={resetFilter}
+                                  style={{ backgroundColor: '#0f2239', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+
+                                >
+                                  Reset
+                                </button>
+                                <button
+                                  data-bs-dismiss="offcanvas"
+                                  type="submit"
+                                  onClick={filterAgentList}
+                                  className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-1 text-white float-right mx-2"
+                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                >
+                                  Apply
+                                </button>
+                            
+
+                              </div>
+                            </form>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
 
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={pdfDownload}>
-                      <button style={{ backgroundColor: "#E12929", fontSize: '11px' }} className="btn text-white ">
+                    </li>
+                    <li class="m-1">
+                      <Link onClick={pdfDownload}>
+                        <button style={{ backgroundColor: "#E12929", fontSize: '11px' }} className="btn text-white ">
+                          <span>
+                            <i class="fa fa-file-pdf" aria-hidden="true"></i>
+                          </span>
+                        </button>
+                      </Link>
+                    </li>
+                    <li class="m-1">
+                      <Link onClick={exportCsv} class="btn-filters">
                         <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
+                          <button style={{ backgroundColor: "#22A033", fontSize: '11px' }} className="btn text-white ">
+                            <i class="fa fa-file-excel" aria-hidden="true"></i>
+                          </button>
                         </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={exportCsv} class="btn-filters">
-                      <span>
-                        <button style={{ backgroundColor: "#22A033", fontSize: '11px' }} className="btn text-white ">
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
+                      </Link>
+                    </li>
 
-                  <li class="m-1">
-                    <Link onClick={openImportPopup} class="btn-filters">
-                      <span>
+                    <li class="m-1">
+                      <Link onClick={openImportPopup} class="btn-filters">
+                        <span>
+                          <button
+                            style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                            className="btn text-white "
+                          >
+                            <i class="fa fa fa-upload" aria-hidden="true"></i>
+                          </button>
+                        </span>
+                      </Link>
+                    </li>
+                    <li class="m-0">
+                      <Link class="btn btn-pix-primary" to="/AddAgent">
                         <button
+                          className="btn btn-outline border text-white  "
                           style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
-                          className="btn text-white "
                         >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
+                          <i
+                            class="fa fa-plus-circle me-2"
+                            aria-hidden="true"
+                          ></i>{" "}
+                          Add Agent
                         </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddAgent">
-                      <button
-                        className="btn btn-outline border text-white  "
-                        style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
-                      >
-                        <i
-                          class="fa fa-plus-circle me-2"
-                          aria-hidden="true"
-                        ></i>{" "}
-                        Add Agent
-                      </button>
-                    </Link>
-                  </li>
+                      </Link>
+                    </li>
 
-                </ol>
+                  </ol>
 
 
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-xl-12">
-            <div className="card mt-2">
-              <div className="card-body">
-                <div className="card-table">
-                  <div className="table-responsive">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="card mt-2">
+                <div className="card-body">
+                  <div className="card-table">
+                    <div className="table-responsive">
 
-                    <table className=" table card-table dataTable text-center">
-                      <thead>
-                        <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Source</th>
-                          <th className="text-capitalize text-start">Agent Name</th>
-                          <th className="text-capitalize text-start">Agent Code</th>
-                          <th className="text-capitalize text-start">Email</th>
-                          <th className="text-capitalize text-start">Mobile Number</th>
-                          <th className="text-capitalize text-start">Status</th>
-                          <th className="text-capitalize text-start">Created by</th>
-                          <th className="text-capitalize text-start">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {agent?.map((data, index) => (
-                          <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td></td>
-                            <td className="text-capitalize text-start">{data?.agentName}</td>
-                            <td className="text-capitalize text-start">{data?.agentCode}</td>
-
-                            <td className="text-capitalize text-start">{data?.email}</td>
-                            <td className="text-capitalize text-start">{data?.mobileNumber}</td>
-                            <td className="text-capitalize text-start">{data?.status}</td>
-                            <td className="text-capitalize text-start">{data?.createdBy}</td>
-                            <td>
-                              <div className="d-flex">
-                                <Link
-                                  className="dropdown-item"
-                                  to={{
-                                    pathname: "/ViewAgent",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                >
-                                  <i className="far fa-eye text-primary me-1"></i>
-
-                                </Link>
-                                <Link
-                                  className="dropdown-item"
-                                  to={{
-                                    pathname: "/EditAgent",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                >
-                                  <i className="far fa-edit text-warning me-1"></i>
-
-                                </Link>
-                                <Link
-                                  className="dropdown-item"
-                                  onClick={() => {
-                                    openPopup(data?._id);
-                                  }}
-                                >
-                                  <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                </Link>
-                              </div>
-
-                            </td>
+                      <table className=" table card-table dataTable text-center">
+                        <thead>
+                          <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                            <th className="text-capitalize text-start">S No</th>
+                            <th className="text-capitalize text-start">Source</th>
+                            <th className="text-capitalize text-start">Agent Name</th>
+                            <th className="text-capitalize text-start">Agent Code</th>
+                            <th className="text-capitalize text-start">Email</th>
+                            <th className="text-capitalize text-start">Mobile Number</th>
+                            <th className="text-capitalize text-start">Status</th>
+                            <th className="text-capitalize text-start">Created by</th>
+                            <th className="text-capitalize text-start">Action</th>
                           </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                          {agent?.map((data, index) => (
+                            <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                              <td></td>
+                              <td className="text-capitalize text-start">{data?.agentName}</td>
+                              <td className="text-capitalize text-start">{data?.agentCode}</td>
 
-                      </tbody>
-                    </table>
+                              <td className="text-capitalize text-start">{data?.email}</td>
+                              <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                              <td className="text-capitalize text-start">{data?.status}</td>
+                              <td className="text-capitalize text-start">{data?.createdBy}</td>
+                              <td>
+                                <div className="d-flex">
+                                  <Link
+                                    className="dropdown-item"
+                                    to={{
+                                      pathname: "/ViewAgent",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    <i className="far fa-eye text-primary me-1"></i>
+
+                                  </Link>
+                                  <Link
+                                    className="dropdown-item"
+                                    to={{
+                                      pathname: "/EditAgent",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    <i className="far fa-edit text-warning me-1"></i>
+
+                                  </Link>
+                                  <Link
+                                    className="dropdown-item"
+                                    onClick={() => {
+                                      openPopup(data?._id);
+                                    }}
+                                  >
+                                    <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                  </Link>
+                                </div>
+
+                              </td>
+                            </tr>
+                          ))}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="float-right my-2">
+                    <Pagination
+                      count={Math.ceil(pagination.count / pageSize)}
+                      onChange={handlePageChange}
+                      variant="outlined"
+                      shape="rounded"
+                      color="primary"
+                    />
                   </div>
                 </div>
-                <div className="float-right my-2">
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
-                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <Dialog open={open}>
-        <DialogContent>
-          <div className="text-center m-4">
-            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
-          
-              Are you sure you want to Delete <br /> the selected Product ?
-            </h5>
-            <button
-              type="button"
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              className="btn btn-danger mx-3"
-              onClick={deleteAgentData}
-            >
-              Yes
-            </button>
-            <button
-              type="button"
-              className="btn btn-info "
-              onClick={closePopup}
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-            >
-              No
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
-      <Dialog open={openFilter} fullWidth maxWidth="sm">
-        <DialogTitle>
-          Filter University
-          <IconButton className="float-right" onClick={closeFilterPopup}>
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
+        <Dialog open={open}>
+          <DialogContent>
+            <div className="text-center m-4">
+              <h5 className="mb-4" style={{ fontSize: "14px", fontFamily: 'Plus Jakarta Sans' }}>
 
-        </DialogContent>
-      </Dialog>
-      <Dialog open={openImport} fullWidth maxWidth="sm">
-        <DialogTitle>
-          Upload Program List
-          <IconButton className="float-right" onClick={closeImportPopup}>
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <form>
-            <div className="from-group mb-3">
-
-              <div className="mb-3">
-                <input
-                  type="file"
-                  name="file"
-                  className="form-control border-0 text-dark bg-transparent"
-                  onChange={handleFileChange}
-                />
-              </div>
-
-            </div>
-            <div>
-              <Link
-                to="/ListUniversity"
-                className="btn btn-cancel border text-white float-right bg"
-                style={{ backgroundColor: "#9265cc" }}
-
-              >
-                Cencel
-              </Link>
+                Are you sure you want to Delete <br /> the selected Product ?
+              </h5>
               <button
-                type="submit"
-                onClick={handleFileUpload}
-                className="btn btn-save border text-white float-right mx-2"
-                style={{ backgroundColor: "#9265cc" }}
+                type="button"
+                style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
+                className="btn btn-danger mx-3"
+                onClick={deleteAgentData}
               >
-                Apply
+                Yes
               </button>
-
+              <button
+                type="button"
+                className="btn btn-info "
+                onClick={closePopup}
+                style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
+              >
+                No
+              </button>
             </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
+        <Dialog open={openFilter} fullWidth maxWidth="sm">
+          <DialogTitle>
+            Filter University
+            <IconButton className="float-right" onClick={closeFilterPopup}>
+              <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+
+          </DialogContent>
+        </Dialog>
+        <Dialog open={openImport} fullWidth maxWidth="sm">
+          <DialogTitle>
+            Upload Program List
+            <IconButton className="float-right" onClick={closeImportPopup}>
+              <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            <form>
+              <div className="from-group mb-3">
+
+                <div className="mb-3">
+                  <input
+                    type="file"
+                    name="file"
+                    className="form-control  text-dark bg-transparent"
+                    onChange={handleFileChange}
+                  />
+                </div>
+
+              </div>
+              <div>
+                <Link
+                  to="/ListUniversity"
+                  className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-1 text-white float-right bg"
+                  style={{ backgroundColor: "#0f2239",fontSize:'14px' }}
+
+                >
+                  Cancel
+                </Link>
+                <button
+                  type="submit"
+                  onClick={handleFileUpload}
+                  className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill text-white float-right mx-2"
+                  style={{ backgroundColor: "#fe5722" }}
+                >
+                  Apply
+                </button>
+
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

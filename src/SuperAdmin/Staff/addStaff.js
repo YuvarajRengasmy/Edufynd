@@ -468,7 +468,7 @@ export const AddStaff = () => {
 
 
                             </div>
-                            {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
  Address 2 <span className="text-danger">*</span>
@@ -501,7 +501,7 @@ export const AddStaff = () => {
 
 
 
-</div> */}
+</div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: '#231F20' }} className="">
@@ -633,7 +633,7 @@ export const AddStaff = () => {
 
 
                             </div>
-                            {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
                                 Privileges/Rights <span className="text-danger">*</span>
@@ -653,7 +653,7 @@ export const AddStaff = () => {
                               ) : null}
 
 
-                            </div> */}
+                            </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>

@@ -511,7 +511,7 @@ export default function Masterproductlist() {
           </div>
           <div className="row">
             <div className="col-xl-12">
-              <div className="card ">
+              <div className="card border-0 ">
                 <div className="card-body">
                   <div className="card-table">
                     <div className="table-responsive">

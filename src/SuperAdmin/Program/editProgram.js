@@ -611,7 +611,7 @@ GRE/GMAT Requirement
 
 </div>
 
-                      {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
                           {" "}
@@ -637,7 +637,7 @@ GRE/GMAT Requirement
                           </div>
                         ) : null}
 
-                      </div> */}
+                      </div>
                      
                  
                       <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
