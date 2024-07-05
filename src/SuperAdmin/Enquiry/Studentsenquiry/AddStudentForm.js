@@ -151,23 +151,22 @@ export const AddStudentForm = () => {
 
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+      <div style={{fontFamily: 'Plus Jakarta Sans' }}>
         <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-          <div className='content-wrapper' style={{ backgroundColor: '#fff', fontSize: '14px' }}>
+          <div className='content-wrapper' style={{ fontSize: '14px' }}>
             <div className='content-header'>
-              <div className='container card card-body p-4 border-0'>
-                <h4 className='card-title text-center fw-bold'>Student Form</h4>
-                <hr />
+              <div className='container-fluid'>
+               
                 <form className="p-1" onSubmit={handleSubmit}>
 
-                  <div className='row mb-3'>
+                  <div className='row g-3'>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Source</label>
-                      <select onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name="source">
+                      <select onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12-px' }} className="form-select rounded-2 p-2 " name="source">
                         <option value="">Select Source</option>
                         <option value="walkin">Walk In</option>
                         <option value="direct">Direct</option>
@@ -179,9 +178,9 @@ export const AddStudentForm = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Student Name</label>
-                      <input className="form-control" type="text" id="inputEmail4" name='name' onChange={handleInputs} placeholder='Enter Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" type="text" id="inputEmail4" name='name' onChange={handleInputs} placeholder='Enter Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.name.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -190,9 +189,9 @@ export const AddStudentForm = () => {
 
                     </div>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">DOB</label>
-                      <input className="form-control" onChange={handleInputs} id="inputPassword4" type="date" placeholder='DOB' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} name="dob" />
+                      <input className="form-control" onChange={handleInputs} id="inputPassword4" type="date" placeholder='DOB' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} name="dob" />
                       {errors.dob.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -202,11 +201,11 @@ export const AddStudentForm = () => {
                     </div>
 
 
-                  </div>
-                  <div className='row mb-3'>
-                    <div className="col">
+                  
+                 
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">Email ID</label>
-                      <input className="form-control" onChange={handleInputs} id="inputPassword4" text="text" placeholder='Email ID' name="email" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" onChange={handleInputs} id="inputPassword4" text="text" placeholder='Email ID' name="email" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -219,9 +218,9 @@ export const AddStudentForm = () => {
 
                     </div>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">Passport No</label>
-                      <input className="form-control" onChange={handleInputs} name="passportNo" id="inputAddress" type="text" placeholder="Passport No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" onChange={handleInputs} name="passportNo" id="inputAddress" type="text" placeholder="Passport No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -229,9 +228,9 @@ export const AddStudentForm = () => {
                       ) : null}
 
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Contact Number</label>
-                      <input className="form-control" onChange={handleInputs} id="inputEmail4" type="text" name="primaryNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" onChange={handleInputs} id="inputEmail4" type="text" name="primaryNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -248,21 +247,21 @@ export const AddStudentForm = () => {
                     </div>
 
 
-                  </div>
-                  <div className='row mb-3'>
+                 
+                  
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">CGPA </label>
-                      <input className="form-control" onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.cgpa.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress"> Year passed</label>
-                      <input className="form-control" id="inputAddress" onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputAddress" onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.yearPassed.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -270,9 +269,9 @@ export const AddStudentForm = () => {
                       ) : null}
 
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Desired Country</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputEmail4" onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.desiredCountry.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -281,11 +280,11 @@ export const AddStudentForm = () => {
 
                     </div>
 
-                  </div>
-                  <div className='row mb-3'>
-                    <div className="col">
+                 
+                  
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">Desired Course</label>
-                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.desiredCourse.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -293,7 +292,7 @@ export const AddStudentForm = () => {
                       ) : null}
 
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">Do you need support for loan? </label>
                       <select className="form-control"
                         name="doYouNeedSupportForLoan"
@@ -311,9 +310,9 @@ export const AddStudentForm = () => {
                       ) : null}
 
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">WhatsApp Number</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="whatsAppNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="whatsAppNumber" placeholder='Contact Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.whatsAppNumber.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -328,11 +327,11 @@ export const AddStudentForm = () => {
                       }
 
                     </div>
-                  </div>
-                  <div className='row mb-3'>
-                    <div className="col">
+                  
+                  
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">Qualification</label>
-                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.qualification.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -341,9 +340,9 @@ export const AddStudentForm = () => {
 
                     </div>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4"> Assigned To</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.assignedTo.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -355,20 +354,22 @@ export const AddStudentForm = () => {
                       }
 
                     </div>
+                 
+                  <div className='row g-3'>
+                  <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
+
+
+<Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white ">
+  Cancel
+</Link>
+
+<button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white ">
+  Submit
+</button>
+
+</div>
                   </div>
-                  <div className='row mb-3'>
-                    <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
-
-
-                      <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/ClientList" className="btn btn-cancel border text-white w-10 m-2">
-                        Cancel
-                      </Link>
-
-                      <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border text-white w-10 m-2">
-                        Submit
-                      </button>
-
-                    </div>
+                 
 
                   </div>
 

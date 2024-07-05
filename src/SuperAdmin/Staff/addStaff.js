@@ -239,14 +239,18 @@ export const AddStaff = () => {
                 <form onSubmit={handleSubmit} >
                   <div className='row'>
                     <div className="col-xl-12 ">
-                      <div className="card rounded-1 border-0 ">
-                        <div className="card-header  justify-content-between d-sm-flex d-block " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <div className="card-title fw-semibold" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                            Add Staff Details:
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="row gy-4">
+                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                                            <div
+                                                className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                                                style={{ background: "#fe5722", color: "#fff" }}
+                                            >
+                                                <h5 className="text-center text-capitalize p-1">
+                                                    {" "}
+                                                    Add Staff Details
+                                                </h5>
+                                            </div>
+                        <div className="card-body mt-5">
+                          <div className="row g-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
@@ -384,11 +388,11 @@ export const AddStaff = () => {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
-                                Are they eligible for casual leave<span className="text-danger">*</span>
+                                Are They Eligible For Casual Leave<span className="text-danger">*</span>
                               </label>
                               <select className='form-select' name="areTheyEligibleForCasualLeave" onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               >
-                                <option value="">EligibleForCasualLeave</option>
+                                <option value="">Eligible For Casual Leave</option>
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                               </select>
@@ -732,7 +736,7 @@ export const AddStaff = () => {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
- password  <span className="text-danger">*</span>
+ Password  <span className="text-danger">*</span>
 </label>
 <input
   type="text"
@@ -762,12 +766,12 @@ export const AddStaff = () => {
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
- confirmPassword <span className="text-danger">*</span>
+ Confirm Password <span className="text-danger">*</span>
 </label>
 <input
   type="text"
   className="form-control"
-  placeholder="Enter confirmPassword"   
+  placeholder="Enter confirm Password"   
   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   name="confirmPassword"
   onChange={handleInputs}
@@ -788,13 +792,13 @@ export const AddStaff = () => {
 
 
 </div>
-                            <div className='row my-3'>
-                              <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                            <div className='row g-2'>
+                              <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                 <Link
 
                                   to=""
                                   style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  className="btn btn-cancel border text-white w-50 m-2"
+                                  className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                                 >
                                   Cancel
                                 </Link>
@@ -803,7 +807,7 @@ export const AddStaff = () => {
                                   style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
                                   type="submit"
-                                  className="btn btn-save border text-white w-50 m-2"
+                                  className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                                 >
                                   Submit
                                 </button>

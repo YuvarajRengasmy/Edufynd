@@ -203,10 +203,10 @@ export const AddForex = () => {
                                                 className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                                                 style={{ background: "#fe5722", color: "#fff" }}
                                             >
-                                                <h5 className="text-center text-capitalize p-1">
+                                                <h6 className="text-center text-capitalize p-1">
                                                     {" "}
-                                                    Forex Enquiry
-                                                </h5>
+                                                    Forex  Enquiry
+                                                </h6>
                                             </div>
                 <div className='card-body mt-5'>
                   <div className='row g-3'>
@@ -425,19 +425,19 @@ export const AddForex = () => {
 
 
                   <div className='row g-2'>
-                    <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
+                    <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
 
                         to="/ListForexForm"
                         style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                        className="btn btn-cancel border-0 fw-semibold text-uppercase text-white w-25 m-2"
+                        className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                       >
                         Cancel
                       </Link>
                       <button
 
                         style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                        type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
+                        type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                       >
                         Submit
                       </button>

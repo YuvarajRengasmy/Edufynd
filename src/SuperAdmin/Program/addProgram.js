@@ -294,7 +294,7 @@ function Profile() {
                             ) : null}
 
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
 
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -312,7 +312,7 @@ function Profile() {
                             ) : null}
 
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
 
                             <label style={{ color: "#231F20" }} >
                               {" "}
