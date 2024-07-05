@@ -425,14 +425,14 @@ export default function Masterproductlist() {
                                   name="popularCategories"
                                   onChange={handleInputs}
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Country"
+                                  placeholder="Search...Popular Categories"
                                 />
                               </div>
                               <div>
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white float-right fw-semibold bg text-uppercase"
+                                  className="btn btn-cancel border-0 text-white rounded-pill px-3 py-2 float-right fw-semibold bg text-uppercase"
                                   style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                   onClick={resetFilter}
                                 >
@@ -442,7 +442,7 @@ export default function Masterproductlist() {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   onClick={filterUniversityList}
-                                  className="btn btn-save border-0 text-white float-right fw-semibold text-uppercase mx-2"
+                                  className="btn btn-save border-0 text-white float-right rounded-pill px-3 py-2 fw-semibold text-uppercase mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -658,7 +658,7 @@ export default function Masterproductlist() {
                     type="file"
                     name="file"
                     style={{ fontSize: "14px" }}
-                    className="form-control border-0 text-dark bg-transparent"
+                    className="form-control  text-dark bg-transparent"
                     onChange={handleFileChange}
                   />
                 </div>
@@ -667,7 +667,7 @@ export default function Masterproductlist() {
               <div>
                 <Link
                   to="/ListUniversity"
-                  className="btn btn-cancel border-0 text-white float-right bg"
+                  className="btn btn-cancel border-0 fw-semibold text-uppercase py-2 px-3 rounded-pill text-white float-right bg"
                   style={{ backgroundColor: "#0f2239" }}
 
                 >
@@ -676,7 +676,7 @@ export default function Masterproductlist() {
                 <button
                   type="submit"
                   onClick={handleFileUpload}
-                  className="btn btn-save border-0 text-white float-right mx-2"
+                  className="btn btn-save border-0 text-white fw-semibold text-uppercase py-2 px-3 rounded-pill float-right mx-2"
                   style={{ backgroundColor: "#fe5722" }}
                 >
                   Apply

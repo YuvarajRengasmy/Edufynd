@@ -255,29 +255,26 @@ function Profile() {
 
 
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
 
         </nav>
 
-        <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header ">
             <div className="content container-fluid">
               <form onSubmit={handleSubmit} >
                 <div className='row'>
                   <div className="col-xl-12 ">
-                    <div className="card rounded-1 border-0 ">
-                      <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                          Add Program :
-                        </div>
+                  <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'> Add Program Details</h5>
+                </div>
+                      <div className="card-body mt-5">
 
-                      </div>
-                      <div className="card-body">
-
-                        <div className="row gy-4">
+                        <div className="row g-3">
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -337,7 +334,7 @@ function Profile() {
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
-                              Course Type<span className="text-danger">*</span>
+                              Course Type
                             </label>
 
 
@@ -406,7 +403,7 @@ function Profile() {
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-  Currency
+  Currency <span className="text-danger">*</span>
 </label>
 <div sm="9" className="d-flex align-items-center">
   {program.flag && (
@@ -433,7 +430,7 @@ function Profile() {
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-  Discounted Value  <span className="text-danger">*</span>
+  Discounted Value 
 </label>
 <input
   type="text"
@@ -451,7 +448,7 @@ function Profile() {
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
-                              Campus<span className="text-danger">*</span>
+                              Campus
                             </label>
 
 
@@ -646,7 +643,7 @@ function Profile() {
                           <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-  Academic requirement  <span className="text-danger">*</span>
+  Academic requirement 
 </label>
 <textarea
   className="form-control"
@@ -688,13 +685,13 @@ function Profile() {
 
 
 
-                         <div className='row mb-3'>
-                         <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                         <div className='row g-2'>
+                         <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
                             <Link
 
                               to="/ListUniversity"
                               style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              className="btn btn-cancel border text-white w-50 m-2"
+                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white w-25 m-2"
                             >
                               Cancel
                             </Link>
@@ -703,7 +700,7 @@ function Profile() {
                               style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
                               type="submit"
-                              className="btn btn-save border text-white w-50 m-2"
+                              className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
                             >
                               Submit
                             </button>

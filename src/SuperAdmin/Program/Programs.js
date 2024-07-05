@@ -314,14 +314,14 @@ export default function Masterproductlist() {
 
 
   return (
-    <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Mastersidebar />
         </nav>
      
 
-      <div className="content-wrapper px-4" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper px-4" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header">
           <div className="container">
             <div className="row ">
@@ -366,7 +366,7 @@ export default function Masterproductlist() {
                       <button className="btn btn-primary"  style={{ fontSize: '11px' }}  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Program</h5>
+                          <h5 id="offcanvasRightLabel">Filter  Program</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                         </div>
                         <div className="offcanvas-body ">
@@ -380,17 +380,19 @@ export default function Masterproductlist() {
                                 name="universityName"
                                 onChange={handleInputs}
                                 placeholder="Search...University Name"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
-                              <label className="form-label">Program Name</label>
+                              <label className="form-label">Program Title</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="programTitle"
                                 onChange={handleInputs}
-                                placeholder="Search...program Title"
+                                placeholder="Search...Program Title"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
-                              <label className="form-label">ApplicationFee</label>
+                              <label className="form-label">Application Fee</label>
                               <br />
                               <input
                                 type="text"
@@ -398,8 +400,9 @@ export default function Masterproductlist() {
                                 name="applicationFee"
                                 onChange={handleInputs}
                                 placeholder="Search...Application Fee"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
-                              <label className="form-label">CourseFee</label>
+                              <label className="form-label">Course Fee</label>
                               <br />
                               <input
                                 type="text"
@@ -407,6 +410,7 @@ export default function Masterproductlist() {
                                 name="courseFee"
                                 onChange={handleInputs}
                                 placeholder="Search...Course Fee"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
 
                              
@@ -415,8 +419,8 @@ export default function Masterproductlist() {
                               <button
 
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 text-white float-right bg"
-                                style={{ backgroundColor: "#fe5722" }}
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-3 py-1 text-white float-right bg"
+                                style={{ backgroundColor: "#0f2239" }}
                                 onClick={resetFilter}
                               >
                                 Reset
@@ -425,7 +429,7 @@ export default function Masterproductlist() {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 onClick={filterProgramList}
-                                className="btn btn-save border-0 text-white float-right mx-2"
+                                className="btn btn-save border-0 text-white fw-semibold text-uppercase rounded-pill px-3 py-1 float-right mx-2"
                                 style={{ backgroundColor: "#fe5722" }}
                               >
                                 Apply
@@ -448,7 +452,7 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link onClick={exportCsv} class="btn-filters">
+                    <Link onClick={exportCsv} class="btn-filters ">
                       <span>
                         <button   style={{ backgroundColor: "#22A033",fontSize: '11px'}} className="btn text-white ">
                           <i class="fa fa-file-excel" aria-hidden="true"></i>
@@ -472,7 +476,7 @@ export default function Masterproductlist() {
                   <li class="m-0">
                     <Link class="btn btn-pix-primary" to="/AddProgram">
                       <button
-                        className="btn btn-outline border text-white  "
+                        className="btn btn-outline border-0  text-white  "
                         style={{ backgroundColor: "#9265cc",fontSize: '11px'  }}
                       >
                         <i
@@ -493,7 +497,7 @@ export default function Masterproductlist() {
         </div>
         <div className="row">
           <div className="col-xl-12">
-            <div className="card mt-2">
+            <div className="card border-0 mt-2">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
@@ -581,14 +585,14 @@ export default function Masterproductlist() {
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-danger mx-3"
+              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
               onClick={deleteProgramData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel btn-success "
+              className="btn btn-cancel btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
               onClick={closePopup}
             >
               No
@@ -622,7 +626,7 @@ export default function Masterproductlist() {
             <input
               type="file"
               name="file"
-              className="form-control border-0 text-dark bg-transparent"
+              className="form-control  text-dark bg-transparent"
               onChange={handleFileChange}
             />
           </div>
@@ -631,7 +635,7 @@ export default function Masterproductlist() {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 text-white float-right bg"
+                className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-3 py-1 text-white float-right bg"
                 style={{ backgroundColor: "#0f2239" }}
 
               >
@@ -640,7 +644,7 @@ export default function Masterproductlist() {
               <button
                 type="submit"
                 onClick={handleFileUpload}
-                className="btn btn-save border-0 text-white float-right mx-2"
+                className="btn btn-save border-0 text-white fw-semibold text-uppercase rounded-pill px-3 py-1 float-right mx-2"
                 style={{ backgroundColor: "#fe5722" }}
               >
                 Apply

@@ -200,32 +200,32 @@ export const ListFlightTicket = () => {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ color: "#9265cc",fontSize:'13px' }}>
-                          <th> S.No.</th>
-                          <th> Date Added  </th>
-                          <th>Candidate ID  </th>
-                          <th> Name </th>
-                          <th> Position Applied  </th>
-                          <th> Experience </th>
-                          <th> Passport No  </th>
-                          <th> Status  </th>
-                          <th> User Assigned </th>
-                          <th> Action </th>
+                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                          <th className="text-capitalize text-start"> S.No.</th>
+                          <th className="text-capitalize text-start"> Date Added  </th>
+                          <th className="text-capitalize text-start">Candidate ID  </th>
+                          <th className="text-capitalize text-start"> Name </th>
+                          <th className="text-capitalize text-start"> Position Applied  </th>
+                          <th className="text-capitalize text-start"> Experience </th>
+                          <th className="text-capitalize text-start"> Passport No  </th>
+                          <th className="text-capitalize text-start"> Status  </th>
+                          <th className="text-capitalize text-start"> User Assigned </th>
+                          <th className="text-capitalize text-start"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       
-                        <tr  >
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td>
+                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"

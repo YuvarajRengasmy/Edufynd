@@ -200,25 +200,25 @@ export const Listinvoice = () => {
                     <table className=" table card-table dataTable text-center">
                       <thead>
                         <tr  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th> S.No.</th>
-                          <th> Date</th>
-                          <th>Invoice Number</th>
-                          <th> Sender Name  </th>
-                          <th> Receiver Name  </th>
+                          <th className="text-capitalize text-start"> S.No.</th>
+                          <th className="text-capitalize text-start"> Date</th>
+                          <th className="text-capitalize text-start">Invoice Number</th>
+                          <th className="text-capitalize text-start"> Sender Name  </th>
+                          <th className="text-capitalize text-start"> Receiver Name  </th>
                         
-                          <th> Action </th>
+                          <th className="text-capitalize text-start"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       
-                        <tr  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                        <tr  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start"></td>
                          
-                          <td></td>
-                          <td>
+                          <td className="text-capitalize text-start"></td>
+                          <td className="text-capitalize text-start">
                                   <div className="d-flex flex-row ">
                                     <Link
                                       className="dropdown-item"

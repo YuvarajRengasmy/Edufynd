@@ -28,19 +28,17 @@ function AddAgent() {
            
             <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header ">
-                    <div className=" container-fluid">
+                    <div className="container-fluid">
                         
-                            <div className="row">
+                           
 
-                            <div className="col-xl-12 ">
-                    <div className="card rounded-0 p-4 border-0 ">
-                      <div className="card-header p-2 rounded-0  text-center  " style={{ backgroundColor: '#fe5722',color:'#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <h3 className='text-center'> View  Client Details </h3>
-                    
-                        
-                      </div>
+                          
+                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'>View Client Details</h5>
+                </div>
                       <div className="card-body">
-                      <table class="table table-bordered table-hover">
+                      <table className='table table-hover table-bordered table-striped-columns mt-5'  style={{ fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
         <tbody >
           <tr>
             <td>Client ID </td>
@@ -111,8 +109,8 @@ function AddAgent() {
       </table>
                             </div>
                             </div>
-                            </div>
-                            </div>
+                          
+                            
                        
                     </div>
                 </div>
