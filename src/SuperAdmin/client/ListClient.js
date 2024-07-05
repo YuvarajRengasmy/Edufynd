@@ -389,7 +389,7 @@ export default function Masterproductlist() {
 
                                 data-bs-dismiss="offcanvas"
                                 className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-1 rounded-pill text-white float-right bg"
-                                style={{ backgroundColor: "#0f2239",color:'#fff' }}
+                                style={{ backgroundColor: "#0f2239",color:'#fff',fontSize:'14px' }}
                                 // onClick={resetFilter}
                               >
                                 Reset
@@ -399,7 +399,7 @@ export default function Masterproductlist() {
                                 type="submit"
                                 // onClick={filterProgramList}
                                 className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-1 rounded-pill text-white float-right mx-2"
-                                style={{ backgroundColor: "#fe5722",color:'#fff' }}
+                                style={{ backgroundColor: "#fe5722",color:'#fff',fontSize:'14px'  }}
                               >
                                 Apply
                               </button>
@@ -445,7 +445,7 @@ export default function Masterproductlist() {
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/AddClient">
                       <button
-                        className="btn btn-outline border text-white  "
+                        className="btn btn-outline border-0 text-white  "
                         style={{ backgroundColor: "#9265cc",fontSize:"11px" }}
                       >
                         <i
@@ -547,7 +547,7 @@ export default function Masterproductlist() {
           </div>
         </div>
       </div>
-      <Dialog open={open}>
+      <Dialog  open={open}>
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4">
@@ -557,7 +557,7 @@ export default function Masterproductlist() {
               type="button"
               className="btn btn-save btn-success px-4 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
               onClick={deleteClientData}
-              
+              style={{fontSize:'14px' }}
             >
               Yes
             </button>
@@ -565,6 +565,7 @@ export default function Masterproductlist() {
               type="button"
               className="btn btn-cancel  btn-danger px-4 py-1 border-0 rounded-pill fw-semibold text-uppercase "
               onClick={closePopup}
+              style={{fontSize:'14px' }}
             >
               No
             </button>
@@ -607,7 +608,7 @@ export default function Masterproductlist() {
               <Link
                 to="/ListUniversity"
                 className="btn btn-cancel border-0 rounded-pill text-uppercase px-4 py-1 fw-semibold text-white float-right bg"
-                style={{ backgroundColor: "#0f2239",color:'#fff' }}
+                style={{ backgroundColor: "#0f2239",color:'#fff',fontSize:'14px' }}
 
               >
                 Cancel
@@ -616,7 +617,7 @@ export default function Masterproductlist() {
                 type="submit"
                 // onClick={handleFileUpload}
                 className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-1 text-white float-right mx-2"
-                style={{ backgroundColor: "#fe5722",color:'#fff' }}
+                style={{ backgroundColor: "#fe5722",color:'#fff',fontSize:'14px' }}
               >
                 Apply
               </button>
