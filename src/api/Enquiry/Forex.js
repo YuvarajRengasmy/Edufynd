@@ -6,23 +6,23 @@ export const saveForexEnquiry = (data) => {
 }
 
 export const updateForexEnquiry= (data) => {
-    return API.put(`${Loan}`, data)
+    return API.put(`${Forex}`, data)
 }
 
 
 
 export const getSingleForexEnquiry = (data) => {
-    return API.get(`${Loan}/getSingleForexEnquiry`, { params: { _id: data } })
+    return API.get(`${Forex}/getSingleForexEnquiry`, { params: { _id: data } })
 }
 export const getallForexEnquiry = () => {
-    return API.get(`${Loan}`)
+    return API.get(`${ Forex }`)
 }
 export const deleteForexEnquiry= (data) => {
-    return API.delete(`${Loan}`, { params: { _id: data } });
+    return API.delete(`${Forex}`, { params: { _id: data } });
   };
 
   export const getFilterForexEnquiry= (data) => {
-    return API.put(`${Loan}/getFilterForex`, data);
+    return API.put(`${Forex}/getFilterForex`, data);
   };
 
 
