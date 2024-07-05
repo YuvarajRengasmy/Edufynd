@@ -289,7 +289,7 @@ export const ListLoanEnquiry = () => {
                                 loan.map((data, index) => (
                         <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                    <td className="text-capitalize text-start" >{formatDate(data?.createdOn)}</td>
+                                    <td className="text-capitalize text-start" >{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
                                     <td className="text-capitalize text-start">{data?.studentName}</td>
                                     <td className="text-capitalize text-start">{data?.passportNumber}</td>
                                     <td className="text-capitalize text-start">{data?.primaryNumber}</td>

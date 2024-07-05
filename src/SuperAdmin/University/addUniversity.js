@@ -22,10 +22,12 @@ import { updateUniversity, getSingleUniversity } from "../../api/university";
 
 function Profile() {
   const initialState = {
-    businessName: "",
     banner: "",
+    businessName: "",
     universityLogo: "",
     universityName: "",
+    about:"",
+    founded: "",
     courseType: "",
     country: "",
     state: "",
@@ -35,12 +37,9 @@ function Profile() {
     popularCategories: [],
     admissionRequirement: "",
     offerTAT: "",
-    email: "",
-    founded: "",
+    email:"",
     institutionType: "",
-    costOfLiving: "",
-    grossTuition: "",
-    applicationFees: "",
+    // costOfLiving: "",
     paymentMethod: "",
     amount: "",
     percentage: "",
@@ -70,9 +69,9 @@ function Profile() {
     offerTAT: { required: false },
     founded: { required: false },
     institutionType: { required: false },
-    costOfLiving: { required: false },
-    grossTuition: { required: false },
-    applicationFees: { required: false },
+    //  costOfLiving: { required: false },
+   // grossTuition: { required: false },
+    // applicationFees: { required: false },
     paymentMethod: { required: false },
     amount: { required: false },
     percentage: { required: false },
@@ -112,7 +111,7 @@ function Profile() {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
     if (data.businessName === "") error.businessName.required = true;
-    if (data.ranking === "") error.ranking.required = true;
+  
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
     if (data.popularCategories.length === 0) error.popularCategories.required = true;
@@ -120,7 +119,7 @@ function Profile() {
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-    if (data.costOfLiving === "") error.costOfLiving.required = true;
+    // if (data.costOfLiving === "") error.costOfLiving.required = true;
     if (data.grossTuition === "") error.grossTuition.required = true;
     if (data.applicationFees === "") error.applicationFees.required = true;
     if (data.paymentMethod === "") error.paymentMethod.required = true;
@@ -536,27 +535,22 @@ function Profile() {
                             />
 
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              About
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control "
-                              placeholder="Enter  About "
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="ranking"
-                              onChange={handleInputs}
-                            />
-                            {errors.ranking.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-
-
+                          <div className="col-lg-10">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                                About <span className="text-danger">*</span>
+                              </label>
+                              <textarea
+                                className="form-control"
+                                placeholder="Enter About"
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                rows="5" // You can adjust the number of rows as needed
+                                onChange={handleInputs}
+                                name="about"
+                              ></textarea>
+                            </div>
                           </div>
+                         
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -581,11 +575,7 @@ function Profile() {
                               {" "}
                               Country<span className="text-danger">*</span>
                             </label>
-                            {/* <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='country'>
-  <option value={""} disabled hidden >Select Country</option>
-  {country.map((data, index) =>
-    <option key={index} value={data?.country}>{data?.country}</option>)}
-</select> */}
+                          
                             <Select
                               placeholder="Select a country"
                               onChange={handleCountryChange}
@@ -635,7 +625,6 @@ function Profile() {
                             )}
 
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -649,13 +638,6 @@ function Profile() {
                               name="ranking"
                               onChange={handleInputs}
                             />
-                            {errors.ranking.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-
-
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -733,6 +715,25 @@ function Profile() {
                               </div>
                             ) : null}
                           </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label htmlFor="banner" style={{ color: "#231F20" }}>
+  {" "}
+  Banner<span className="text-danger">*</span>
+</label>
+
+<input
+  type="file"
+  id="banner"
+  name="banner"
+  accept="image/*"
+  className="form-control border-0 text-dark bg-transparent"
+  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  onChange={handleInputs}
+/>
+
+                          </div>
+
                           <div className="col-lg-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
@@ -750,26 +751,20 @@ function Profile() {
                           </div>
 
 
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        
+                          
+                         
 
-                            <label htmlFor="banner" style={{ color: "#231F20" }}>
-                              {" "}
-                              Banner<span className="text-danger">*</span>
-                            </label>
 
-                            <input
-                              type="file"
-                              id="banner"
-                              name="banner"
-                              accept="image/*"
-                              className="form-control border-0 text-dark bg-transparent"
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              onChange={handleInputs}
-                            />
+
+
+
+
+
+                          <div className="justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+
 
                           </div>
-
-                          {/* 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -792,17 +787,6 @@ function Profile() {
                                 Enter valid Email Id.
                               </div>
                             ) : null}
-
-                          </div> */}
-
-
-
-
-
-
-
-                          <div className="justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-
 
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -845,48 +829,14 @@ function Profile() {
                               errors.institutionType.required ? <div className="text-danger form-text">This field is required.</div> : null
                             }
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Cost Of living <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              placeholder="Enter cost of living"
-                              name="costOfLiving"
-                              onChange={handleInputs}
-                            />
-                            {
-                              errors.costOfLiving.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-                          </div>
+                         
 
 
 
 
 
 
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Gross Tuition <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter cost of living"
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="grossTuition"
-                              onChange={handleInputs}
-                            />
-                            {
-                              errors.grossTuition.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-                          </div>
-
+                         
 
                           <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
                             <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>

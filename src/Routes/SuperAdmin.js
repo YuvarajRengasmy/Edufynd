@@ -30,6 +30,7 @@ import ListClient from "../SuperAdmin/client/ListClient";
 import ViewClient from "../SuperAdmin/client/ViewClient";
 import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
+import CurrencySettings  from "../SuperAdmin/Settings/currencySetting";
 import UniversitySettings from "../SuperAdmin/Settings/universityModule";
 import ProgramModule from "../SuperAdmin/Settings/programModule";
 import ClientModule from "../SuperAdmin/Settings/clientModule";
@@ -86,6 +87,7 @@ function SuperAdmin() {
           <Route path="/EditClient" element={<EditClient />} />
           <Route path="/viewClient" element={<ViewClient/>}/>
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
+          <Route path="/CurrencySettings" element={<CurrencySettings/>}/>
           <Route path="/UniversitySettings" element={<UniversitySettings/>}/>
           <Route path="/ProgramModule" element={<ProgramModule/>}/>
           <Route path="/ClientModule" element={<ClientModule/>}/>
