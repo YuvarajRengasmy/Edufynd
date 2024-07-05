@@ -248,29 +248,26 @@ const getProgramDetails = () => {
 
 
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
 
         </nav>
     
-      <div className="content-wrapper me-5" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header ">
           <div className="content container-fluid">
             <form onSubmit={handleSubmit} >
               <div className='row'>
                 <div className="col-xl-12 ">
-                  <div className="card rounded-1 border-0 ">
-                    <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                      <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                       Edit Program :
-                      </div>
+                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'>Edit Program Details</h5>
+                </div>
+                    <div className="card-body mt-5">
 
-                    </div>
-                    <div className="card-body">
-
-                    <div className="row gy-4">
+                    <div className="row g-3">
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -279,7 +276,7 @@ const getProgramDetails = () => {
                           University Name<span className="text-danger">*</span>
                         </label>
                         <select onChange={handleInputs} value={program?.universityName ?? ""} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select rounded-2 p-2 " name='universityName'>
-                          <option value={""} disabled hidden style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >Select University</option>
+                          <option value={""} disabled hidden style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >Select University Name</option>
                           {university.map((data, index) =>
                             <option key={index} value={data?.universityName} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}> {data?.universityName}</option>)}
                         </select>
@@ -297,7 +294,7 @@ const getProgramDetails = () => {
                           University Id<span className="text-danger">*</span>
                         </label>
                         <select onChange={handleInputs} value={program?.universityName ?? ""} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select rounded-2 p-2 " name='universityId'>
-                          <option value={""} disabled hidden style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >Select UniversityId</option>
+                          <option value={""} disabled hidden style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >Select University Id</option>
                           {university.map((data, index) =>
                             <option key={index} value={data?.universityId} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}> {data?.universityName}</option>)}
                         </select>
@@ -330,7 +327,7 @@ const getProgramDetails = () => {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                         <label style={{ color: "#231F20" }}>
-                          Course Type<span className="text-danger">*</span>
+                          Course Type
                         </label>
 
 
@@ -340,7 +337,7 @@ const getProgramDetails = () => {
                           value={program?.courseType ? program?.courseType.map(courseType => ({ value: courseType, label: courseType })) : null}
 
                           options={courseTypeOptions}
-                          placeholder="Select courseType"
+                          placeholder="Select Course Type"
                           name="courseType"
                           onChange={handleSelectCourseChange}
                           styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
@@ -401,13 +398,13 @@ const getProgramDetails = () => {
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-  Currency
+  Currency<span className="text-danger">*</span>
 </label>
 <div sm="9" className="d-flex align-items-center">
   {program.flag && (
     <Flags code={program.flag} value={program.flag} className="me-2" style={{ width: '30px', height: '20px' }} onChange={handleInputs} name='flag' />
   )}
-  <input className='form-control'  placeholder='Autofetch currency' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="text" onChange={handleInputs} name='currency' value={`${program.currency}`} readOnly />
+  <input className='form-control'  placeholder='Autofetch Currency' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="text" onChange={handleInputs} name='currency' value={`${program.currency}`} readOnly />
 </div>
 {errors.currency.required ? (
   <div className="text-danger form-text">
@@ -419,13 +416,13 @@ const getProgramDetails = () => {
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-  Discounted Value  <span className="text-danger">*</span>
+  Discounted Value 
 </label>
 <input
   type="text"
   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   className="form-control"
-  placeholder="Enter DiscountedValue"
+  placeholder="Enter Discounted Value"
   value={program?.discountedValue ?? ""}
   name="discountedValue"
   onChange={handleInputs}
@@ -438,7 +435,7 @@ const getProgramDetails = () => {
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-  Campus<span className="text-danger">*</span>
+  Campus
 </label>
 
 
@@ -471,7 +468,7 @@ const getProgramDetails = () => {
   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   className="form-control"
   value={program?.courseFee ?? ""}
-  placeholder="Enter courseFees"
+  placeholder="Enter Course Fees"
   name="courseFee"
   onChange={handleInputs}
 />
@@ -483,7 +480,7 @@ const getProgramDetails = () => {
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-  InTake<span className="text-danger">*</span>
+  InTake
 </label>
 
 <Select
@@ -514,7 +511,7 @@ const getProgramDetails = () => {
   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   className="form-control"
   value={program?.duration ?? ""}
-  placeholder="Enter duration"
+  placeholder="Enter Duration"
   name="duration"
   onChange={handleInputs}
 />
@@ -529,7 +526,7 @@ const getProgramDetails = () => {
 <label style={{ color: '#231F20' }} className="">
 English language Test (ELT) Requirement
 </label>
-<select className="form-control" name="englishlanguageTest" onChange={handleInputs} >
+<select className="form-control" name="englishlanguageTest"  onChange={handleInputs} >
   <option value="">{program?.englishlanguageTest ?? ""}</option>
   <option value="categorie">Yes</option>
   <option value="no">No</option>
@@ -646,7 +643,7 @@ GRE/GMAT Requirement
                       <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
-Academic Requirementt <span className="text-danger">*</span>
+Academic Requirement 
 </label>
 <textarea
   className="form-control"
@@ -702,13 +699,13 @@ Academic Requirementt <span className="text-danger">*</span>
 
 
                     
-                      <div className='row mb-3'>
-                      <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                      <div className='row g-2'>
+                      <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
                         <Link
 
                           to="/ListUniversity"
                           style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                          className="btn btn-cancel border-0 text-white w-50 m-2"
+                          className="btn btn-cancel border-0 fw-semibold text-uppercase text-white w-25 m-2"
                         >
                           Cancel
                         </Link>
@@ -717,7 +714,7 @@ Academic Requirementt <span className="text-danger">*</span>
                           style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
                           type="submit"
-                          className="btn btn-save border-0 text-white w-50 m-2"
+                          className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
                         >
                           Submit
                         </button>

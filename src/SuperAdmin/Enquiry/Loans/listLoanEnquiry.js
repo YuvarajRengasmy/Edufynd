@@ -269,7 +269,7 @@ export const ListLoanEnquiry = () => {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ color: "#9265cc",fontSize:'13px' }}>
+                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start"> S.No.</th>
                           <th className="text-capitalize text-start"> Date </th>
                           <th className="text-capitalize text-start">Student Name</th>

@@ -211,25 +211,23 @@ const handleInputs = (event) => {
       };
     return (
         <>
-            <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div class="container-fluid">
                     <nav class="navbar navbar-vertical navbar-expand-lg">
                         <Sidebar />
                     </nav>
-                    <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                    <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="content-header ">
-                            <div className="content container ">    
-                                    <div className="row">
+                            <div className="content container-fluid ">    
+                                    <div className="row ">
                                         <div className="col-xl-12 ">
-                                            <div className="card rounded-2 border-0 ">
-                                                <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                                                    <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                                                       Add student Details :
-                                                    </div>
-                                                </div>
+                                        <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'> Add Student Details</h5>
+                </div>
                                                 <form onSubmit={handleSubmit}>
-                                                <div className="card-body">
-                                                    <div className="row gy-4">
+                                                <div className="card-body mt-5">
+                                                    <div className="row g-3">
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 {" "}
@@ -253,7 +251,7 @@ const handleInputs = (event) => {
                                                             <label style={{ color: "#231F20" }}>
                                                                 Student Name <span className="text-danger">*</span>
                                                             </label>
-                                                            <div className="d-flex gap-4">
+                                                            <div className="">
                                                                 <input
                                                                     type="text"
                                                                     style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
@@ -290,7 +288,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                ExpiryDate <span className="text-danger">*</span>
+                                                                Expiry Date <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="date"
@@ -447,7 +445,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                HighestQualification<span className="text-danger">*</span>
+                                                                Highest Qualification<span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -567,7 +565,7 @@ const handleInputs = (event) => {
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
-                                                                English Test Type<span className="text-danger">*</span>
+                                                                English Test Type
                                                             </label>
                                                             <select type="text"
                                                                 className="form-select"
@@ -586,7 +584,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Test Score<span className="text-danger">*</span>
+                                                                Test Score
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -599,7 +597,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Date Of Test<span className="text-danger">*</span>
+                                                                Date Of Test
                                                             </label>
                                                             <input
                                                                 type="date"
@@ -698,7 +696,7 @@ const handleInputs = (event) => {
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
-                                                                Visa Reason<span className="text-danger">*</span>
+                                                                Visa Reason
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -711,15 +709,15 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Do you have a travel history<span className="text-danger">*</span>
+                                                            Do Tou Have  Travel History<span className="text-danger">*</span>
                                                             </label>
                                                             <select type="text"
                                                                 className="form-select"
                                                                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                                placeholder="Enter Do you have a travel history"
+                                                                placeholder="Enter Do You Have  Travel History"
                                                                 name="doYouHaveTravelHistory"
                                                                 onChange={handleInputs} >
-                                                                <option value="">DoYouHaveTravelHistory</option>
+                                                                <option value="">Do You Have Trave lHistory</option>
                                                                 <option value="Yes">Yes</option>
                                                                 <option value="No">No</option>
                                                             </select>
@@ -797,12 +795,12 @@ const handleInputs = (event) => {
                                                                 </div>
                                                             ) : null}
                                                         </div>
-                                                        <div className='row my-3'>
-                                                        <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
-                                                            <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/ListStudent" className="btn btn-cancel border text-white w-25 m-2">
+                                                        <div className='row g-3'>
+                                                        <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
+                                                            <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/ListStudent" className="btn btn-cancel border-0 fw-semibold text-uppercase  text-white w-25 m-2">
                                                                 Cancel
                                                             </Link>
-                                                            <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border text-white w-25 m-2">
+                                                            <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2">
                                                                 Submit
                                                             </button>
                                                         </div>

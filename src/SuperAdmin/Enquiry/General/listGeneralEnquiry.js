@@ -286,17 +286,17 @@ export const ListGeneralEnquiry = () => {
                         <div className="table-responsive">
                           <table className=" table card-table dataTable text-center" style={{ color: "#9265cc", fontSize: '13px' }}>
                             <thead>
-                              <tr >
-                                <th> S.No.</th>
-                                <th> Date </th>
-                                <th> Student Code </th>
-                                <th> Name </th>
-                                <th> Contact Number </th>
-                                <th> Email ID </th>
-                                <th> Desired Country</th>
-                                <th> Source</th>
-                                <th> Assigned To</th>
-                                <th> Action</th>
+                              <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
+                                <th className="text-capitalize text-start"> S.No.</th>
+                                <th className="text-capitalize text-start"> Date </th>
+                                <th className="text-capitalize text-start"> Student Code </th>
+                                <th className="text-capitalize text-start"> Name </th>
+                                <th className="text-capitalize text-start"> Contact Number </th>
+                                <th className="text-capitalize text-start"> Email ID </th>
+                                <th className="text-capitalize text-start"> Desired Country</th>
+                                <th className="text-capitalize text-start"> Source</th>
+                                <th className="text-capitalize text-start"> Assigned To</th>
+                                <th className="text-capitalize text-start"> Action</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -304,14 +304,14 @@ export const ListGeneralEnquiry = () => {
                                 student.map((data, index) => (
                                   <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                                     <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                    <td>{formatDate(data?.createdOn)}</td>
-                                    <td>{data?.studentCode}</td>
-                                    <td>{data?.name}</td>
-                                    <td>{data?.primaryNumber}</td>
-                                    <td>{data?.email}</td>
-                                    <td>{data?.desiredCountry}</td>
-                                    <td>{data?.source}</td>
-                                    <td>{data?.assignedTo}</td>
+                                    <td className="text-capitalize text-start">{formatDate(data?.createdOn)}</td>
+                                    <td className="text-capitalize text-start">{data?.studentCode}</td>
+                                    <td className="text-capitalize text-start">{data?.name}</td>
+                                    <td className="text-capitalize text-start">{data?.primaryNumber}</td>
+                                    <td className="text-capitalize text-start">{data?.email}</td>
+                                    <td className="text-capitalize text-start">{data?.desiredCountry}</td>
+                                    <td className="text-capitalize text-start">{data?.source}</td>
+                                    <td className="text-capitalize text-start">{data?.assignedTo}</td>
                                     <td>
                                       <div className="d-flex">
                                         <Link

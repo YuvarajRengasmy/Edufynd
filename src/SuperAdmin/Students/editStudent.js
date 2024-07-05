@@ -230,25 +230,23 @@ const handleInputs = (event) => {
       };
     return (
         <>
-            <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div class="container-fluid">
                     <nav class="navbar navbar-vertical navbar-expand-lg">
                         <Sidebar />
                     </nav>
-                    <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                    <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="content-header ">
                             <div className="content container ">    
                                     <div className="row">
                                         <div className="col-xl-12 ">
-                                            <div className="card rounded-2 border-0 ">
-                                                <div className="card-header justify-content-between d-sm-flex d-block " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                                                    <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                                                      Edit Student Details :
-                                                    </div>
-                                                </div>
+                                        <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'> Add Student Details</h5>
+                </div>
                                                 <form onSubmit={handleSubmit}>
-                                                <div className="card-body">
-                                                    <div className="row gy-4">
+                                                <div className="card-body mt-5">
+                                                    <div className="row g-3">
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 {" "}
