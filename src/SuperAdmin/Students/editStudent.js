@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
-import { toast } from 'react-toastify';
-import {StudentSuperAdmin ,getSingleStudent } from '../../api/student';
+import React, { useEffect, useState } from "react";
+import {
+    isValidEmail,
+    isValidPassword,
+    isValidPhone,
+} from "../../Utils/Validation";
+import { toast } from "react-toastify";
+import { StudentSuperAdmin, getSingleStudent } from "../../api/student";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function AddAgent() {
-
-
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
-    const initialState = { 
+    const initialState = {
         source: "",
         name: "",
         passportNo: "",
@@ -41,11 +43,9 @@ function AddAgent() {
         contactNumber: "",
         whatsAppNumber: "",
         password: "",
-        confirmPassword: ""
-
-    }
+        confirmPassword: "",
+    };
     const initialStateErrors = {
-
         source: { required: false },
         name: { required: false },
         passportNo: { required: false },
@@ -77,13 +77,12 @@ function AddAgent() {
         contactNumber: { required: false, valid: false },
         whatsAppNumber: { required: false, valid: false },
         password: { required: false, valid: false },
-        confirmPassword: { required: false, valid: false }
-
-    }
-    const [student, setStudent] = useState(initialState)
-    const [errors, setErrors] = useState(initialStateErrors)
+        confirmPassword: { required: false, valid: false },
+    };
+    const [student, setStudent] = useState(initialState);
+    const [errors, setErrors] = useState(initialStateErrors);
     const [submitted, setSubmitted] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const handleValidation = (data) => {
         let error = initialStateErrors;
         if (data.source === "") {
@@ -138,31 +137,31 @@ function AddAgent() {
             error.doHaveAnyEnglishLanguageTest.required = true;
         }
         if (data.country === "") {
-            error.country.required = true
+            error.country.required = true;
         }
         if (data.desiredUniversity === "") {
-            error.desiredUniversity.required = true
+            error.desiredUniversity.required = true;
         }
         if (data.desiredCourse === "") {
-            error.desiredCourse.required = true
+            error.desiredCourse.required = true;
         }
         if (data.workExperience === "") {
-            error.workExperience.required = true
+            error.workExperience.required = true;
         }
         if (data.anyVisaRejections === "") {
-            error.anyVisaRejections.required = true
+            error.anyVisaRejections.required = true;
         }
         if (data.doYouHaveTravelHistory === "") {
-            error.doYouHaveTravelHistory.required = true
+            error.doYouHaveTravelHistory.required = true;
         }
         if (data.finance === "") {
-            error.finance.required = true
+            error.finance.required = true;
         }
         if (data.password === "") {
-            error.password.required = true
+            error.password.required = true;
         }
         if (data.confirmPassword === "") {
-            error.confirmPassword.required = true
+            error.confirmPassword.required = true;
         }
         if (!isValidPhone(data.contactNumber)) {
             error.contactNumber.valid = true;
@@ -179,36 +178,33 @@ function AddAgent() {
         if (!isValidEmail(data.email)) {
             error.email.valid = true;
         }
-        return error
-    }
-
+        return error;
+    };
 
     useEffect(() => {
         getStudentDetails();
-      
-      }, []);
-    
-      const getStudentDetails = () => {
+    }, []);
+
+    const getStudentDetails = () => {
         getSingleStudent(id)
-          .then((res) => {
-            setStudent(res?.data?.result);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }; 
+            .then((res) => {
+                setStudent(res?.data?.result);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
-const handleInputs = (event) => {
-        setStudent({ ...student, [event?.target?.name]: event?.target?.value })
+    const handleInputs = (event) => {
+        setStudent({ ...student, [event?.target?.name]: event?.target?.value });
         if (submitted) {
-            const newError = handleValidation({ ...student, [event.target.name]: event.target.value })
-            setErrors(newError)
+            const newError = handleValidation({
+                ...student,
+                [event.target.name]: event.target.value,
+            });
+            setErrors(newError);
         }
-    }
-
-
-
-   
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -219,32 +215,41 @@ const handleInputs = (event) => {
         const valid = allInputsValid.every((x) => x.required === false);
         if (valid) {
             StudentSuperAdmin(student)
-            .then((res) => {
-              toast.success(res?.data?.message);
-              navigate("/ListStudent");
-            })
-            .catch((err) => {
-              toast.error(err?.response?.data?.message);
-            });
+                .then((res) => {
+                    toast.success(res?.data?.message);
+                    navigate("/ListStudent");
+                })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
         }
-      };
+    };
     return (
         <>
-            <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
                 <div class="container-fluid">
                     <nav class="navbar navbar-vertical navbar-expand-lg">
                         <Sidebar />
                     </nav>
-                    <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                    <div
+                        className="content-wrapper "
+                        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                    >
                         <div className="content-header ">
-                            <div className="content container ">    
-                                    <div className="row">
-                                        <div className="col-xl-12 ">
+                            <div className="content container-fluid ">
+                                <div className="row">
+                                    <div className="col-xl-12 ">
                                         <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-                <h5 className='text-center text-capitalize p-1'> Add Student Details</h5>
-                </div>
-                                                <form onSubmit={handleSubmit}>
+                                            <div
+                                                className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                                                style={{ background: "#fe5722", color: "#fff" }}
+                                            >
+                                                <h5 className="text-center text-capitalize p-1">
+                                                    {" "}
+                                                    Edit Student Details
+                                                </h5>
+                                            </div>
+                                            <form onSubmit={handleSubmit}>
                                                 <div className="card-body mt-5">
                                                     <div className="row g-3">
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -254,7 +259,10 @@ const handleInputs = (event) => {
                                                             </label>
                                                             <input
                                                                 type="text"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 name="source"
                                                                 value={student?.source}
                                                                 onChange={handleInputs}
@@ -269,12 +277,16 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Student Name <span className="text-danger">*</span>
+                                                                Student Name{" "}
+                                                                <span className="text-danger">*</span>
                                                             </label>
-                                                            <div className="d-flex gap-4">
+                                                            <div className="">
                                                                 <input
                                                                     type="text"
-                                                                    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                    style={{
+                                                                        fontFamily: "Plus Jakarta Sans",
+                                                                        fontSize: "12px",
+                                                                    }}
                                                                     name="name"
                                                                     onChange={handleInputs}
                                                                     value={student?.name}
@@ -291,14 +303,18 @@ const handleInputs = (event) => {
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 {" "}
-                                                                Passport No<span className="text-danger">*</span>
+                                                                Passport No
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.passportNo}
                                                                 placeholder="Enter Passport No"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 name="passportNo"
                                                                 onChange={handleInputs}
                                                             />
@@ -310,67 +326,74 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                ExpiryDate <span className="text-danger">*</span>
+                                                                Expiry Date{" "}
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="date"
                                                                 className="form-control "
                                                                 value={student?.expiryDate}
-                                                                placeholder="Enter Contact Number "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Expiry Date "
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 name="expiryDate"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.expiryDate.required ?
+                                                            {errors.expiryDate.required ? (
                                                                 <span className="text-danger form-text profile_error">
                                                                     This field is required.
-
-                                                                </span> : null
-
-                                                            }
-
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-<label style={{ color: "#231F20" }}>
-    DOB<span className="text-danger">*</span>
-</label>
-<input
-    type="date"
-    className="form-control "
-    placeholder="Enter Name"
-    value={student?.dob}
-    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-    name="dob"
-    onChange={handleInputs}
-/>
-{errors.dob.required ? <span className="text-danger form-text profile_error">
-    This field is required.
-</span> : null}
-
-</div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                                                             <label style={{ color: "#231F20" }}>
-                                                                Citizenship<span className="text-danger">*</span>
+                                                                DOB<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="date"
+                                                                className="form-control "
+                                                                placeholder="Enter Name"
+                                                                value={student?.dob}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                name="dob"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.dob.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Citizenship
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.citizenship}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Citizenship"
                                                                 name="citizenship"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.citizenship.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
-
+                                                            {errors.citizenship.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
-                                                       
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 Gender<span className="text-danger">*</span>
                                                             </label>
@@ -378,20 +401,24 @@ const handleInputs = (event) => {
                                                                 type="text"
                                                                 className="form-select "
                                                                 placeholder="Contact Number"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 name="gender"
                                                                 value={student?.gender}
-                                                                onChange={handleInputs}>
+                                                                onChange={handleInputs}
+                                                            >
                                                                 <option value="">select Gender</option>
                                                                 <option value="male">Male</option>
                                                                 <option value="female">Female</option>
                                                                 <option value="others">Others</option>
                                                             </select>
-                                                            {errors.gender.required ?
+                                                            {errors.gender.required ? (
                                                                 <span className="text-danger form-text profile_error">
                                                                     This field is required.
-                                                                </span> : null
-                                                            }
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -401,7 +428,10 @@ const handleInputs = (event) => {
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.email}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Email ID"
                                                                 name="email"
                                                                 onChange={handleInputs}
@@ -417,112 +447,126 @@ const handleInputs = (event) => {
                                                             ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                                                             <label style={{ color: "#231F20" }}>
-                                                                Primary Number<span className="text-danger">*</span>
+                                                                Primary Number
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter  Primary Number"
                                                                 name="contactNumber"
                                                                 value={student?.contactNumber}
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.contactNumber.required ?
-
+                                                            {errors.contactNumber.required ? (
                                                                 <span className="text-danger form-text profile_error">
-
                                                                     This field is required.
-
-                                                                </span> : errors.contactNumber.valid ?
-                                                                    <span className="text-danger form-text profile_error">
-                                                                        Enter valid mobile number.
-                                                                    </span> : null
-
-                                                            }
-
+                                                                </span>
+                                                            ) : errors.contactNumber.valid ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    Enter valid mobile number.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                                                             <label style={{ color: "#231F20" }}>
-                                                                WhatsApp Number<span className="text-danger">*</span>
+                                                                WhatsApp Number
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.whatsAppNumber}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter The whatsAppNumber"
                                                                 name="whatsAppNumber"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.whatsAppNumber.required ?
-
+                                                            {errors.whatsAppNumber.required ? (
                                                                 <span className="text-danger form-text profile_error">
-
                                                                     This field is required.
-
-                                                                </span> : errors.whatsAppNumber.valid ?
-                                                                    <span className="text-danger form-text profile_error">
-                                                                        Enter valid whatsAppNumber.
-                                                                    </span> : null
-
-                                                            }
-
+                                                                </span>
+                                                            ) : errors.whatsAppNumber.valid ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    Enter valid whatsAppNumber.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Highest Qualification<span className="text-danger">*</span>
+                                                                Highest Qualification
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.highestQualification}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Highest Qualification"
                                                                 name="highestQualification"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.highestQualification.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.highestQualification.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Degree Name<span className="text-danger">*</span>
+                                                                Degree Name
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 value={student?.degreeName}
                                                                 className="form-control "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter  Degree Name"
                                                                 name="degreeName"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.degreeName.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
-
+                                                            {errors.degreeName.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                               Start Date<span className="text-danger">*</span>
+                                                                Start Date<span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="date"
                                                                 className="form-control "
                                                                 value={student?.academicYear}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter AcademicYear"
                                                                 name="academicYear"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.academicYear.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.academicYear.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -532,32 +576,42 @@ const handleInputs = (event) => {
                                                                 type="date"
                                                                 className="form-control "
                                                                 value={student?.yearPassed}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Academic Year"
                                                                 name="yearPassed"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.yearPassed.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
-
+                                                            {errors.yearPassed.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Institution<span className="text-danger">*</span>
+                                                                Institution
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.institution}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Institution"
                                                                 name="institution"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.institution.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.institution.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -567,82 +621,107 @@ const handleInputs = (event) => {
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.percentage}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Percentage"
                                                                 name="percentage"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.percentage.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.percentage.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
-                                                       
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Do have any English Language Test<span className="text-danger">*</span>
+                                                                Do have any English Language Test
+                                                                <span className="text-danger">*</span>
                                                             </label>
-                                                            <select type="text"
+                                                            <select
+                                                                type="text"
                                                                 className="form-select"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Do have any English Language Test"
                                                                 name="doHaveAnyEnglishLanguageTest"
                                                                 value={student?.doHaveAnyEnglishLanguageTest}
-                                                                onChange={handleInputs} >
-                                                                <option value="">Select English Test Type</option>
+                                                                onChange={handleInputs}
+                                                            >
+                                                                <option value="">
+                                                                    Select English Test Type
+                                                                </option>
                                                                 <option value="Yes">Yes</option>
                                                                 <option value="no">No</option>
                                                             </select>
-                                                            {errors.doHaveAnyEnglishLanguageTest.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
-
+                                                            {errors.doHaveAnyEnglishLanguageTest.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                                                             <label style={{ color: "#231F20" }}>
-                                                            English Test Type<span className="text-danger">*</span>
+                                                                English Test Type
+                                                                
                                                             </label>
-                                                            <select type="text"
+                                                            <select
+                                                                type="text"
                                                                 className="form-select"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter English Test Type"
                                                                 name="englishTestType"
                                                                 value={student?.englishTestType}
-                                                                onChange={handleInputs}>
-                                                                <option value="">Select English Test Type</option>
+                                                                onChange={handleInputs}
+                                                            >
+                                                                <option value="">
+                                                                    Select English Test Type
+                                                                </option>
                                                                 <option value="IELTS">IELTS</option>
                                                                 <option value="TOEFL">TOEFL</option>
                                                                 <option value="PTE">PTE</option>
                                                                 <option value="SAT">SAT</option>
                                                                 <option value="Other">Other</option>
-
                                                             </select>
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Test Score<span className="text-danger">*</span>
+                                                                Test Score
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.testScore}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Test Score"
                                                                 name="testScore"
                                                                 onChange={handleInputs}
-                                                            />                                                     
+                                                            />
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                DateOfTest<span className="text-danger">*</span>
+                                                                Date Of Test
                                                             </label>
                                                             <input
                                                                 type="date"
                                                                 className="form-control "
                                                                 value={student?.dateOfTest}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                                placeholder="Enter dateOfTest"
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                placeholder="Enter Date Of Test"
                                                                 name="dateOfTest"
                                                                 onChange={handleInputs}
                                                             />
@@ -654,99 +733,131 @@ const handleInputs = (event) => {
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter country"
                                                                 name="country"
                                                                 value={student?.country}
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.country.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.country.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Desired University<span className="text-danger">*</span>
+                                                                Desired University
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Desired University"
                                                                 name="desiredUniversity"
                                                                 value={student?.desiredUniversity}
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.desiredUniversity.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
-
+                                                            {errors.desiredUniversity.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Desired Course<span className="text-danger">*</span>
+                                                                Desired Course
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Desired Course"
                                                                 name="desiredCourse"
                                                                 value={student?.desiredCourse}
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.desiredCourse.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.desiredCourse.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Work Experience<span className="text-danger">*</span>
+                                                                Work Experience
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.workExperience}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Work Experience"
                                                                 name="workExperience"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.workExperience.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
-
+                                                            {errors.workExperience.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Any Visa Rejections<span className="text-danger">*</span>
+                                                                Any Visa Rejections
+                                                                <span className="text-danger">*</span>
                                                             </label>
-                                                            <select type="text"
+                                                            <select
+                                                                type="text"
                                                                 className="form-select"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Any Visa Rejections"
                                                                 name="anyVisaRejections"
                                                                 value={student?.anyVisaRejections}
-                                                                onChange={handleInputs}>
+                                                                onChange={handleInputs}
+                                                            >
                                                                 <option value="">AnyVisaRejections</option>
                                                                 <option value="yes">Yes</option>
                                                                 <option value="No">No</option>
                                                             </select>
 
-                                                            {errors.anyVisaRejections.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.anyVisaRejections.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                                                             <label style={{ color: "#231F20" }}>
-                                                                Visa Reason<span className="text-danger">*</span>
+                                                                Visa Reason
+                                                               
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.visaReason}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Vis aReason"
                                                                 name="visaReason"
                                                                 onChange={handleInputs}
@@ -754,23 +865,30 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Do You Have Travel History<span className="text-danger">*</span>
+                                                                Do You Have Travel History
+                                                                <span className="text-danger">*</span>
                                                             </label>
-                                                            <select type="text"
+                                                            <select
+                                                                type="text"
                                                                 className="form-select"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Do You Have Travel History"
                                                                 name="doYouHaveTravelHistory"
                                                                 value={student?.doYouHaveTravelHistory}
-                                                                onChange={handleInputs} >
+                                                                onChange={handleInputs}
+                                                            >
                                                                 <option value="">DoYouHaveTravelHistory</option>
                                                                 <option value="Yes">Yes</option>
                                                                 <option value="No">No</option>
                                                             </select>
-                                                            {errors.doYouHaveTravelHistory.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
-
+                                                            {errors.doYouHaveTravelHistory.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -779,19 +897,22 @@ const handleInputs = (event) => {
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Finance"
                                                                 name="finance"
                                                                 value={student?.finance}
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.finance.required ? <span className="text-danger form-text profile_error">
-                                                                This field is required.
-                                                            </span> : null}
+                                                            {errors.finance.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
-                                                      
-                                                   
-                                                     
+
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 Password<span className="text-danger">*</span>
@@ -799,7 +920,10 @@ const handleInputs = (event) => {
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Password"
                                                                 name="password"
                                                                 value={student?.password}
@@ -811,22 +935,30 @@ const handleInputs = (event) => {
                                                                 </div>
                                                             ) : errors.password.valid ? (
                                                                 <div className="text-danger form-text">
-                                                                    A minimum 8 characters password contains a <br />
-                                                                    combination of {''}
-                                                                    <strong>uppercase, lowercase, {''}</strong>
-                                                                    <strong>special <br /> character{''}</strong> and <strong>number</strong>.
+                                                                    A minimum 8 characters password contains a{" "}
+                                                                    <br />
+                                                                    combination of {""}
+                                                                    <strong>uppercase, lowercase, {""}</strong>
+                                                                    <strong>
+                                                                        special <br /> character{""}
+                                                                    </strong>{" "}
+                                                                    and <strong>number</strong>.
                                                                 </div>
                                                             ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Confirm Password<span className="text-danger">*</span>
+                                                                Confirm Password
+                                                                <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control "
                                                                 value={student?.confirmPassword}
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
                                                                 placeholder="Enter Confirm Password"
                                                                 name="confirmPassword"
                                                                 onChange={handleInputs}
@@ -837,24 +969,43 @@ const handleInputs = (event) => {
                                                                 </div>
                                                             ) : errors.confirmPassword.valid ? (
                                                                 <div className="text-danger form-text">
-                                                                    A minimum 8 characters password contains a <br />
-                                                                    combination of {''}
-                                                                    <strong>uppercase, lowercase, {''}</strong>
-                                                                    <strong>special <br /> character{''}</strong> and <strong>number</strong>.
+                                                                    A minimum 8 characters password contains a{" "}
+                                                                    <br />
+                                                                    combination of {""}
+                                                                    <strong>uppercase, lowercase, {""}</strong>
+                                                                    <strong>
+                                                                        special <br /> character{""}
+                                                                    </strong>{" "}
+                                                                    and <strong>number</strong>.
                                                                 </div>
                                                             ) : null}
                                                         </div>
-                                                        <div className='row my-3'>
-                                                        <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
-                                                            <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/ListStudent" className="btn btn-cancel border text-white w-25 m-2">
-                                                                Cancel
-                                                            </Link>
-                                                            <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border text-white w-25 m-2">
-                                                                Submit
-                                                            </button>
+                                                        <div className="row g-2">
+                                                            <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
+                                                                <Link
+                                                                    style={{
+                                                                        backgroundColor: "#231F20",
+                                                                        fontFamily: "Plus Jakarta Sans",
+                                                                        fontSize: "14px",
+                                                                    }}
+                                                                    to="/ListStudent"
+                                                                    className="btn btn-cancel border-0 fw-semibold text-uppercase  text-white w-25 m-2"
+                                                                >
+                                                                    Cancel
+                                                                </Link>
+                                                                <button
+                                                                    style={{
+                                                                        backgroundColor: "#FE5722",
+                                                                        fontFamily: "Plus Jakarta Sans",
+                                                                        fontSize: "14px",
+                                                                    }}
+                                                                    type="submit"
+                                                                    className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
+                                                                >
+                                                                    Submit
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        </div>
-                                                       
                                                     </div>
                                                 </div>
                                             </form>
