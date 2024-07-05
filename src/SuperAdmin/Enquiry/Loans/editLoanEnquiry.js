@@ -66,10 +66,6 @@ export const AddLoanEnquiry = () => {
   useEffect(() => {
     getLoanDetails();
   }, []);
-
-
-
-
   const getLoanDetails = () => {
     getSingleLoanEnquiry(id)
       .then((res) => {
