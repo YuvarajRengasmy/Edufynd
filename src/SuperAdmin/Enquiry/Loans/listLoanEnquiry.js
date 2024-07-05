@@ -270,18 +270,18 @@ export const ListLoanEnquiry = () => {
                     <table className=" table card-table dataTable text-center">
                       <thead>
                         <tr style={{ color: "#9265cc",fontSize:'13px' }}>
-                          <th> S.No.</th>
-                          <th> Date </th>
-                          <th>Student Name</th>
-                          <th>Passport No</th>
-                          <th>Contact No </th>
-                          <th> Email ID </th>
-                          <th>Assigned Platform</th>
-                          <th>Assigned User</th>
+                          <th className="text-capitalize text-start"> S.No.</th>
+                          <th className="text-capitalize text-start"> Date </th>
+                          <th className="text-capitalize text-start">Student Name</th>
+                          <th className="text-capitalize text-start">Passport No</th>
+                          <th className="text-capitalize text-start">Contact No </th>
+                          <th className="text-capitalize text-start"> Email ID </th>
+                          <th className="text-capitalize text-start">Assigned Platform</th>
+                          <th className="text-capitalize text-start">Assigned User</th>
                          
-                          <th>Status </th>
+                          <th className="text-capitalize text-start">Status </th>
                          
-                          <th> Action </th>
+                          <th className="text-capitalize text-start"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -345,8 +345,14 @@ export const ListLoanEnquiry = () => {
                   </div>
                 </div>
                 <div className="float-right my-2">
-                  <Pagination variant="outlined" shape="rounded" color="primary"/>
-                </div>
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
               </div>
             </div>
           </div>
@@ -358,7 +364,7 @@ export const ListLoanEnquiry = () => {
           <div className="text-center m-4">
             <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
           
-              Are you sure you want to Delete <br /> the selected StudnetEnquiry ?
+              Are you sure you want to Delete <br /> the selected LoanEnquiry ?
             </h5>
             <button
               type="button"

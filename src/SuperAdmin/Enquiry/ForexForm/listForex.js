@@ -1,9 +1,82 @@
-import React from 'react'
-import Mastersidebar from '../../../compoents/sidebar';
+import React, { useEffect, useState } from "react";
+import { getallForexEnquiry, getSingleForexEnquiry, deleteForexEnquiry } from "../../../api/Enquiry/Forex";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import { formatDate } from "../../../Utils/DateFormat";
+import Mastersidebar from "../../../compoents/sidebar";
+import { ExportCsvService } from "../../../Utils/Excel";
+import { templatePdf } from "../../../Utils/PdfMake";
+import { toast } from "react-toastify";
+
 import { FaFilter } from "react-icons/fa";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
 export const ListForex = () => {
+
+
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  const [forex, setForex] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [filter, setFilter] = useState(false);
+
+  useEffect(() => {
+    getAllForexDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllForexDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getallForexEnquiry(data)
+      .then((res) => {
+        setForex(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deletForexData = () => {
+    deleteForexEnquiry(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllForexDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
+
+
+
   return (
     <div>
        <div  style={{ fontFamily: 'Plus Jakarta Sans' }}>
@@ -199,36 +272,38 @@ export const ListForex = () => {
                   <div className="table-responsive">
                     <table className=" table card-table dataTable text-center">
                       <thead>
-                        <tr style={{ color: "#9265cc" }}>
-                          <th> S.No.</th>
-                          <th> Date </th>
-                          <th>Forex ID </th>
-                          <th> Student Name</th>
-                          <th> Passport No </th>
-                          <th> Source </th>
-                          <th> Assigned to</th>
-                          <th> Status </th>
-                          <th> Action </th>
+                        <tr style={{ color: "#9265cc",fontSize:'13px' }}>
+                          <th className="text-capitalize text-start"> S.No.</th>
+                          <th className="text-capitalize text-start"> Date </th>
+                          <th className="text-capitalize text-start">Forex ID </th>
+                          <th className="text-capitalize text-start"> Student Name</th>
+                          <th className="text-capitalize text-start"> Passport No </th>
+                          <th className="text-capitalize text-start"> Source </th>
+                          <th className="text-capitalize text-start" > Assigned to</th>
+                          <th className="text-capitalize text-start"> Status </th>
+                          <th className="text-capitalize text-start"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       
-                        <tr  >
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td>
+                      {forex && forex.length > 0 ? (
+                                forex.map((data, index) => (
+                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
+                          <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start">{formatDate(data?.createdOn)}</td>
+                          <td className="text-capitalize text-start">{data?.forexID}</td>
+                          <td className="text-capitalize text-start">{data?.studentName}</td>
+                          <td className="text-capitalize text-start">{data?.passportNo}</td>
+                          <td className="text-capitalize text-start">{data?.source}</td>
+                          <td className="text-capitalize text-start">{data?.assignedTo}</td>
+                          <td className="text-capitalize text-start">{data?.status}</td>
+                          <td className="text-capitalize text-start">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/ViewForexForm",
-                                       
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
@@ -237,41 +312,74 @@ export const ListForex = () => {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/EditForexForm",
-                                        
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
                                     <button
                                       className="dropdown-item"
-                                     
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
                                     </button>
                                   </div>
                                 </td>
                         </tr>
-                      
-                      
-                        <tr>
-                          <td className="form-text text-danger" colSpan="9">
-                            No data
-                          </td>
-                        </tr>
-                     
+                    ))
+                  ) : (
+                    <tr>
+                      <td className="form-text text-danger" colSpan="9">
+                        N0 Data Found In Page
+                      </td>
+                    </tr>
+                  )}
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <div className="float-right my-2">
-                  <Pagination variant="outlined" shape="rounded" color="primary"/>
-                </div>
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
               </div>
             </div>
           </div>
           </div>
         </div>
-  
+        <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
+          
+              Are you sure you want to Delete <br /> the selected ForexEnquiry ?
+            </h5>
+            <button
+              type="button"
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              className="btn btn-danger mx-3"
+              onClick={deletForexData}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-info "
+              onClick={closePopup}
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
 
         

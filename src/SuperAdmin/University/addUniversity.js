@@ -659,42 +659,42 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  Average Fees<span className="text-danger">*</span>
-</label>
-<input
-  type="text"
-  className="form-control"
-  placeholder="Enter Average Fees"
-  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  name="averageFees"
-  onChange={handleInputs}
-/>
-{
-  errors.averageFees.required ? <div className="text-danger form-text">This field is required.</div> : null
-}
-</div>
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Average Fees<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Average Fees"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              name="averageFees"
+                              onChange={handleInputs}
+                            />
+                            {
+                              errors.averageFees.required ? <div className="text-danger form-text">This field is required.</div> : null
+                            }
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  Popular Categories <span className="text-danger">*</span>
-</label>
-<Select
-  isMulti
-  options={popularCategoriesOptions}
-  name="popularCategories"
-  onChange={handleSelectChange}
-  styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
->
+                            <label style={{ color: "#231F20" }}>
+                              Popular Categories <span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              options={popularCategoriesOptions}
+                              name="popularCategories"
+                              onChange={handleSelectChange}
+                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                            >
 
-</Select>
-{errors.popularCategories.required && (
-  <div className="text-danger form-text">
-    This field is required.
-  </div>
-)}
-</div>
-{/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            </Select>
+                            {errors.popularCategories.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
   Application Fees<span className="text-danger">*</span>
@@ -711,29 +711,29 @@ function Profile() {
   errors.applicationFees.required ? <div className="text-danger form-text">This field is required.</div> : null
 }
 </div> */}
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  {" "}
-  Offer TAT<span className="text-danger">*</span>
-</label>
-<select
-  className="form-control"
-  name="offerTAT"
-  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  onChange={handleInputs}
-> <option value={" "}>select OfferTAT</option>
-  {offerTAT.map((data, index) =>
-    <option key={index} value={data?.offerTAT}> {data?.offerTAT}</option>)}
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Offer TAT<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-control"
+                              name="offerTAT"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              onChange={handleInputs}
+                            > <option value={" "}>select OfferTAT</option>
+                              {offerTAT.map((data, index) =>
+                                <option key={index} value={data?.offerTAT}> {data?.offerTAT}</option>)}
 
-</select>
-{errors.offerTAT.required ? (
-  <div className="text-danger form-text">
-    This field is required.
-  </div>
-) : null}
-</div>
-<div className="col-lg-12">
+                            </select>
+                            {errors.offerTAT.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-lg-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
                                 Admission Requirement <span className="text-danger">*</span>
@@ -769,7 +769,7 @@ function Profile() {
 
                           </div>
 
-{/* 
+                          {/* 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -797,12 +797,12 @@ function Profile() {
 
 
 
-                         
+
 
 
 
                           <div className="justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          
+
 
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -863,9 +863,9 @@ function Profile() {
                             }
                           </div>
 
-                      
-                        
-                        
+
+
+
 
 
 
@@ -1067,7 +1067,7 @@ function Profile() {
                             ) : null}
                           </div>
 
-                          
+
                           <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
                             <Link
                               style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
