@@ -499,11 +499,11 @@ function AddAgent() {
                                         </span> : null}
                                    
                                 </div>
-                                <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                                    <Link style={{ backgroundColor: "#0f2239" }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase text-white w-25 m-2">
+                                <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                                    <Link style={{ backgroundColor: "#0f2239", fontSize: '14px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white m-2">
                                         Cancel
                                     </Link>
-                                    <button style={{ backgroundColor: "#fe5722" }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2">
+                                    <button style={{ backgroundColor: "#fe5722", fontSize: '14px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2">
                                         Submit
                                     </button>
                                 </div>
