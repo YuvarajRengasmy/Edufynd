@@ -392,7 +392,7 @@ function AddAgent() {
 
 
                                     </div>
-                                    {/* <div className="col ">
+                                    <div className="col ">
                                         <label htmlFor="company" className="form-label">Password</label>
                                         <input name="password" type="text" onChange={handleInputs} className="form-control" id="company" value={agent?.password} />
 
@@ -425,7 +425,7 @@ function AddAgent() {
                                             </div>
                                         ) : null}
 
-                                    </div> */}
+                                    </div>
 
                                 </div>
                               

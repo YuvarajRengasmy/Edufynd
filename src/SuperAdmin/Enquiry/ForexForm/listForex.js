@@ -84,7 +84,7 @@ export const ListForex = () => {
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper'>
+        <div className='content-wrapper px-4'>
 
         <div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">

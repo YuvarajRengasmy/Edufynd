@@ -78,9 +78,9 @@ function ListStaff() {
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper' style={{ backgroundColor: '#fff' }}>
-
-        <div className='col-xl-12'  >
+        <div className='content-wrapper px-4' >
+<div className='content-header'>
+<div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     
                     <li className="flex-grow-1">
@@ -122,7 +122,7 @@ function ListStaff() {
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">Filter University</h5>
+                            <h5 id="offcanvasRightLabel">Filter Staff</h5>
                             <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                           </div>
                           <div className="offcanvas-body ">
@@ -184,7 +184,7 @@ function ListStaff() {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white float-right bg"
+                                  className="btn btn-cancel border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right bg"
                                   style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
@@ -194,7 +194,7 @@ function ListStaff() {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                  
-                                  className="btn btn-save border-0 text-white float-right mx-2"
+                                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -241,7 +241,7 @@ function ListStaff() {
                     <li class="m-1">
                       <Link class="btn btn-pix-primary" to="/AddStaff">
                         <button
-                          className="btn btn-outline border text-white  "
+                          className="btn btn-outline border-0 text-white  "
 
                           style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                         >
@@ -258,8 +258,10 @@ function ListStaff() {
 
 
                 </div>
+</div>
+        
                 <div className="row">
-          <div className="container">
+          <div className="container-fluid">
           <div className="col-md-12">
             <div className="card mt-2 border-0">
               <div className="card-body">
@@ -359,15 +361,17 @@ function ListStaff() {
             </h5>
             <button
               type="button"
-              className="btn btn-save mx-3"
+              className="btn btn-save btn-danger fw-semibold text-uppercase rounded-pill px-4 py-2 mx-3"
               onClick={deleteStaffData}
+              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel "
+              className="btn btn-cancel btn-success fw-semibold text-uppercase rounded-pill px-4 py-2 "
               onClick={closePopup}
+              style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
             >
               No
             </button>

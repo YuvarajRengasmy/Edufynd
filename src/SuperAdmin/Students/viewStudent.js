@@ -17,10 +17,11 @@ function Profile() {
                     </nav>
           
             <div className="content-wrapper"  >
-            <div className="container-fluid p-4">
+              <div className="content-header">
+              <div className="container-fluid">
   <div className="row">
     <div className="col">
-      <div className="card border-0 shadow text-bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-0 text-bg-white p-4">
         <div className="bg-transparent mb-3 ">
           <div className="row g-0">
             <div className="col-md-3 text-center">
@@ -186,6 +187,8 @@ function Profile() {
     </div>
   </div>
 </div>
+              </div>
+           
 
             </div>
             </div>

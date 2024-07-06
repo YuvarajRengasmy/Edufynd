@@ -22,46 +22,50 @@ export const ViewFlightTicket = () => {
     <div class="card-body">
     <table className='table table-hover table-bordered table-striped-columns mt-5'  style={{ fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
       <tbody >
-        <tr >
-          <td className='fw-bold'>Student Name  </td>
-          <td>JayJo</td>
+      <tr >
+            <td className='fw-bold'>Name of the Student  </td>
+            <td>JayJo</td>
+           
+          </tr>
+       
+          <tr >
+            <td className='fw-bold'>Passport Number </td>
+            <td>KIRA1234LIG</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Source: Student/Agent  </td>
+            <td>17/01/2000</td>
+          </tr>
          
-        </tr>
-        <tr >
-          <td className='fw-bold'>Date Of Birth  </td>
-          <td>17/01/2000</td>
-        </tr>
-        <tr >
-          <td className='fw-bold'>Passport No  </td>
-          <td>KIRA1234LIG</td>
-        </tr>
-        <tr >
-          <td className='fw-bold'>Source  </td>
-          <td>123456789</td>
-        </tr>
-        <tr >
-          <td className='fw-bold'>Agent Name</td>
-          <td>JayJo@gmail.com</td>
-        </tr> <tr >
-          <td className='fw-bold'>CGPA / Year passed  </td>
-          <td>9.8 CGPA</td>
-        </tr>
-        <tr >
-          <td className='fw-bold'>Business Name </td>
-          <td>New York</td>
-        </tr>
-        <tr >
-          <td className='fw-bold'>Primary Number  </td>
-          <td>Game Devlepor</td>
-        </tr>
-        <tr >
-          <td className='fw-bold'>WhatsApp Number  </td>
-          <td>No</td>
-        </tr>
-        <tr >
-          <td className='fw-bold'>Email ID  </td>
-          <td>Game Devlepor</td>
-        </tr>
+          <tr >
+            <td className='fw-bold'>Agent Name </td>
+            <td>JayJo@gmail.com</td>
+          </tr> <tr >
+            <td className='fw-bold'>AgentBusiness Name  </td>
+            <td>9.8 CGPA</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Agent Primary Number</td>
+            <td>JayJo@gmail.com</td>
+          </tr> <tr >
+            <td className='fw-bold'>Agent WhatsApp Number  </td>
+            <td>9.8 CGPA</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Agent Email ID </td>
+            <td>JayJo@gmail.com</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Student Primary Number </td>
+            <td>JayJo@gmail.com</td>
+          </tr> <tr >
+            <td className='fw-bold'>Student  WhatsApp number </td>
+            <td>9.8 CGPA</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Student Email ID </td>
+            <td>9.8 CGPA</td>
+          </tr>
         <tr >
           <td className='fw-bold'>Location: From  </td>
           <td>No</td>

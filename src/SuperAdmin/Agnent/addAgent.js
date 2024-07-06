@@ -377,7 +377,7 @@ function AddAgent() {
                              
                            
                           
-                            {/* <div className="col ">
+                            <div className="col ">
                                 <label htmlFor="company" className="form-label">Password</label>
                                 <input name="password"  type="text" onChange={handleInputs} placeholder="Enter" className="form-control" id="company" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.password.required ? (
@@ -396,7 +396,7 @@ function AddAgent() {
                                   </span>
                                 ) : null}
 
-                              </div> */}
+                              </div>
                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Email" className="form-label"> Bank Name</label>
                                 <input name="bankName" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Bank Name" value={agent?.bankName}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
