@@ -4,7 +4,8 @@ import Select from 'react-select';
 import { Link} from "react-router-dom";
 export const AddApplication = () => {
   return (
-    <div> <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
+    <div> 
+        <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
@@ -112,7 +113,7 @@ export const AddApplication = () => {
                           <input className="form-control" id="inputtraveldate" name='traveldate' type="text" placeholder="Enter Assign To "  style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
                         </div>
     </div>
-                    <div className='row g-3'>
+                    <div className='row g-4'>
                     <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                     <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="#" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2">
                                         Cancel
