@@ -1,9 +1,90 @@
-import React from 'react'
-import Mastersidebar from '../../../compoents/sidebar';
+import React, { useEffect, useState } from "react";
+import { getallAccommodationEnquiry, getSingleAccommodationEnquiry, deleteAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import { formatDate } from "../../../Utils/DateFormat";
+import Mastersidebar from "../../../compoents/sidebar";
+import { ExportCsvService } from "../../../Utils/Excel";
+import { templatePdf } from "../../../Utils/PdfMake";
+import { toast } from "react-toastify";
+
 import { FaFilter } from "react-icons/fa";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
+
+
+
 export const ListAccommodation = () => {
+
+
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  const [accommodation, setAccommodation] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [filter, setFilter] = useState(false);
+
+  useEffect(() => {
+    getAllAccommodationDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllAccommodationDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getallAccommodationEnquiry(data)
+      .then((res) => {
+        setAccommodation(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deletAccommodationData = () => {
+    deleteAccommodationEnquiry(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllAccommodationDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div><div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
     <div class="container-fluid">
@@ -212,23 +293,25 @@ export const ListAccommodation = () => {
                         </tr>
                       </thead>
                       <tbody>
+                      {accommodation && accommodation.length > 0 ? (
+                                accommodation.map((data, index) => (
                       
-                        <tr  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
-                          <td  className="text-capitalize text-start"></td>
-                          <td  className="text-capitalize text-start"></td>
-                          <td  className="text-capitalize text-start"></td>
-                          <td  className="text-capitalize text-start"></td>
-                          <td  className="text-capitalize text-start"></td>
-                          <td  className="text-capitalize text-start"></td>
-                          <td  className="text-capitalize text-start"></td>
-                          <td  className="text-capitalize text-start"></td>
+                          <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
+                          <td  className="text-capitalize text-start">{pagination.from + index + 1} </td>
+                          <td  className="text-capitalize text-start">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
+                          <td  className="text-capitalize text-start">{data?.studentName}</td>
+                          <td  className="text-capitalize text-start">{data?.passportNumber}</td>
+                          <td  className="text-capitalize text-start">{data?.source}</td>
+                          <td  className="text-capitalize text-start">{data?.assignedTo}</td>
+                          <td  className="text-capitalize text-start">{data?.assignedPartner}</td>
+                          <td  className="text-capitalize text-start">{data?.status}</td>
                           <td  className="text-capitalize text-start">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/ViewAccommodation",
-                                       
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
@@ -237,41 +320,75 @@ export const ListAccommodation = () => {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/EditAccommodation",
-                                        
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
                                     <button
                                       className="dropdown-item"
-                                     
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
                                     </button>
                                   </div>
                                 </td>
                         </tr>
-                      
-                      
-                        <tr>
-                          <td className="form-text text-danger" colSpan="9">
-                            No data
-                          </td>
-                        </tr>
-                     
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="form-text text-danger" colSpan="9">
+                          N0 Data Found In Page
+                        </td>
+                      </tr>
+                    )}
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <div className="float-right my-2">
-                  <Pagination variant="outlined" shape="rounded" color="primary"/>
-                </div>
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
               </div>
             </div>
           </div>
           </div>
         </div>
-  
+        <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
+          
+              Are you sure you want to Delete <br /> the selected AccommodationEnquiry ?
+            </h5>
+            <button
+              type="button"
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              className="btn btn-danger mx-3"
+              onClick={deletAccommodationData}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-info "
+              onClick={closePopup}
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
 
 
         
@@ -281,4 +398,4 @@ export const ListAccommodation = () => {
     </div></div>
   )
 }
-export default  ListAccommodation
+export default  ListAccommodation;

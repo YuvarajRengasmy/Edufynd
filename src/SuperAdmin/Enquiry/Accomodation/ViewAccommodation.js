@@ -1,6 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { getSingleAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
+import { useLocation } from "react-router-dom";
+import Flags from 'react-world-flags';
 import Mastersidebar from '../../../compoents/sidebar';
 export const ViewAccommodation = () => {
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  const [accommodation, setAccommodation] = useState(null);
+
+  useEffect(() => {
+    getAccommodationDetails();
+  }, []);
+
+  const getAccommodationDetails = () => {
+    getSingleAccommodationEnquiry(id)
+      .then((res) => {
+        console.log("res", res);
+        setAccommodation(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
   return (
     <div className="student-form" style={{ fontFamily: 'Plus Jakarta Sans' }}>
       <div className="container-fluid">
@@ -24,65 +51,65 @@ export const ViewAccommodation = () => {
         <tbody >
           <tr >
             <td className='fw-bold'>Name of the Student  </td>
-            <td>JayJo</td>
+            <td>{accommodation?.studentName}</td>
            
           </tr>
        
           <tr >
             <td className='fw-bold'>Passport Number </td>
-            <td>KIRA1234LIG</td>
+            <td>{accommodation?.passportNumber}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Source: Student/Agent  </td>
-            <td>17/01/2000</td>
+            <td>{accommodation?.source}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Agent ID  </td>
-            <td>123456789</td>
+            <td>{accommodation?.agentId}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Agent Name </td>
-            <td>JayJo@gmail.com</td>
+            <td>{accommodation?.agentName}</td>
           </tr> <tr >
             <td className='fw-bold'>AgentBusiness Name  </td>
-            <td>9.8 CGPA</td>
+            <td>{accommodation?.businessName}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Agent Primary Number</td>
-            <td>JayJo@gmail.com</td>
+            <td>{accommodation?.agentPrimaryNumber}</td>
           </tr> <tr >
             <td className='fw-bold'>Agent WhatsApp Number  </td>
-            <td>9.8 CGPA</td>
+            <td>{accommodation?.agentWhatsAppNumber}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Agent Email ID </td>
-            <td>JayJo@gmail.com</td>
+            <td>{accommodation?.agentEmail}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Student Primary Number </td>
-            <td>JayJo@gmail.com</td>
+            <td>{accommodation?.primaryNumber}</td>
           </tr> <tr >
             <td className='fw-bold'>Student  WhatsApp number </td>
-            <td>9.8 CGPA</td>
+            <td>{accommodation?.whatsAppNumber}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Student Email ID </td>
-            <td>9.8 CGPA</td>
+            <td>{accommodation?.email}</td>
           </tr>
           <tr >
             <td className='fw-bold'>University Name </td>
-            <td>JayJo@gmail.com</td>
+            <td>{accommodation?.universityName}</td>
           </tr> <tr >
             <td className='fw-bold'>Holding Offer from the University (Yes/No) </td>
-            <td>9.8 CGPA</td>
+            <td>{accommodation?.holdingOfferFromTheUniversity}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Location where accommodation is required </td>
-            <td>9.8 CGPA</td>
+            <td>{accommodation?.locationWhereAccommodationIsRequired}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Assigned To (List Staff) Multiple Assign</td>
-            <td>9.8 CGPA</td>
+            <td>{accommodation?.assignedTo}</td>
           </tr>
         
         </tbody>

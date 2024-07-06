@@ -12,7 +12,7 @@ export const updateAccommodationEnquiry= (data) => {
 
 
 export const getSingleAccommodationEnquiry = (data) => {
-    return API.get(`${Accommodation}/getSingleLoanEnquiry`, { params: { _id: data } })
+    return API.get(`${Accommodation}/getSingleAccommodation`, { params: { _id: data } })
 }
 export const getallAccommodationEnquiry = () => {
     return API.get(`${Accommodation}`)
@@ -22,7 +22,7 @@ export const deleteAccommodationEnquiry= (data) => {
   };
 
   export const getFilterAccommodationEnquiry= (data) => {
-    return API.put(`${Accommodation}/getFilterLoanEnquiry`, data);
+    return API.put(`${Accommodation}/getFilterAccommodation`, data);
   };
 
 
