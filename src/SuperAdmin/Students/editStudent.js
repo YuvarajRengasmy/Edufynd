@@ -981,7 +981,7 @@ function AddAgent() {
                                                             ) : null}
                                                         </div>
                                                         <div className="row g-2">
-                                                            <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
+                                                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                                                                 <Link
                                                                     style={{
                                                                         backgroundColor: "#231F20",
@@ -989,7 +989,7 @@ function AddAgent() {
                                                                         fontSize: "14px",
                                                                     }}
                                                                     to="/ListStudent"
-                                                                    className="btn btn-cancel border-0 fw-semibold text-uppercase  text-white w-25 m-2"
+                                                                    className="btn btn-cancel border-0 fw-semibold text-uppercase  text-white px-4 py-2 m-2"
                                                                 >
                                                                     Cancel
                                                                 </Link>
@@ -1000,7 +1000,7 @@ function AddAgent() {
                                                                         fontSize: "14px",
                                                                     }}
                                                                     type="submit"
-                                                                    className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
+                                                                    className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                                                                 >
                                                                     Submit
                                                                 </button>
