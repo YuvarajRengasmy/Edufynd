@@ -26,3 +26,4 @@ export const Staff ="staff";
 export const StudnetEnquiry ="studentEnquiry";
 export const Loan ="loan";
 export const Forex ="forex";
+export const Accommodation ="accommodation";
