@@ -15,6 +15,7 @@ export const AddRecieverInvoice = () => {
   <form className="p-1">
    
 <div className='row g-3'>
+    
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputTax">Tax </label>
                           <select class="form-select" aria-label="Default select example1"   >
@@ -58,6 +59,12 @@ export const AddRecieverInvoice = () => {
                        
                         <h4 className='card-title  fw-bold mt-5'>Receiver Name  </h4>
                         <hr/>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputreceivername">Receiver Name</label>
+                          <input className="form-control" id="inputreceivername" name='recievername' type="text" placeholder="Enter Reciever Name " style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
+                       
+                     
+                        </div>
    
                          <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                       <label className="form-label" for="inputAgentName">Agent Name</label>
