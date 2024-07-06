@@ -2,8 +2,10 @@
 import { FaFilter } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
-import { saveCountryModule , getFilterCountryModule , getallCountryModule , deleteCountryModule , getSingleAllCountryModule , updateCountryModule  } from '../../../api/universityModule/country';
-import {getallCountry} from "../../../api/globalsettings";
+import { saveCountryModule , getFilterCountryModule , getallCountryModule , deleteCountryModule , getSingleAllCountryModule , updateCountryModule,   } from '../../../api/universityModule/country';
+
+import {  getFilterCountry } from '../../../api/globalsettings';
+
 import { toast } from 'react-toastify';
 import React, { useEffect, useState, useRef } from "react";
 import { ExportCsvService } from "../../../Utils/Excel";
@@ -29,7 +31,7 @@ export default function GlobalSettings() {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
 
-  const [country, setCountry] = useState([]);
+  const [countries, setCountries] = useState([]);
   const ZERO = 0;
   const pageSize = 5;
   const [pagination, setPagination] = useState({
@@ -61,19 +63,22 @@ export default function GlobalSettings() {
       limit: 10,
       page: pagination.from,
     };
-    getallCountry(data)
+    getFilterCountry(data)
       .then((res) => {
         console.log(res);
-        setCountry(res?.data?.result);
+        setCountries(res?.data?.result?.countryList);
         setPagination({
           ...pagination,
-          count: res?.data?.result,
+          count: res?.data?.result?.countryCount,
         });
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+
+
   const getModuleDetails = () => {
     const data = {
       country: inputs.country,
@@ -494,8 +499,12 @@ Country Name<span className="text-danger">*</span>
 </label>
 <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='country'>
   <option value={""}  >Select Country</option>
-  {country.map((data, index) =>
-    <option key={index} value={data?.businessName}> {data?.country}</option>)}
+  {countries.map((country, index) =>
+          Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
+  
+    <option key={`${index}-${countryIndex}`} value={countryName} >{countryName}</option>
+  ))
+)}
 </select>
 {errors.country.required ? (
   <div className="text-danger form-text">

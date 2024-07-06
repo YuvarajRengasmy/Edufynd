@@ -145,46 +145,19 @@ export default function GlobalSettings() {
     setOpen(true);
     setDeleteId(data);
   };
-  const openEditPopup = (intake) => {
-    setIsEdit(true);
-    setEditId(intake._id);
-    setInputs({
-      intakeName: intake.intakeName,
-      startDate: intake.startDate,
-      endDate: intake.endDate,
-    });
-    const modalElement = document.getElementById("addCountryModal");
-    if (modalElement) {
-      const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
-      bootstrapModal.show();
-    }
+  const handleAddModule = () => {
+    setInputs(initialStateInputs)
+    setSubmitted(false)
+    setErrors(initialStateErrors)
+
+  }
+  const handleEditModule = (data) => {
+    setInputs(data); // Set the form inputs to the data of the item being edited
+    setIsEdit(true); // Set editing mode to true
+    setEditId(data._id); // Set the ID of the item being edited
+    setSubmitted(false); // Reset submitted state
+    setErrors(initialStateErrors); // Reset errors
   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const newError = handleValidation(inputs);
-//     setErrors(newError);
-//     setSubmitted(true);
-//     const allInputsValid = Object.values(newError).every((x) => !x.required);
-//     if (allInputsValid) {
-//       saveIntake(inputs)
-//         .then((res) => {
-//           toast.success(res?.data?.message);
-//           event.target.reset();
-//           setInputs(initialStateInputs);
-//           setErrors(initialStateErrors);
-//           setSubmitted(false);
-//           getAllIntakeDetails();
-//           if (modalRef.current) {
-//             modalRef.current.hide();
-//           } // Refresh the list after adding new status
-//         })
-//         .catch((err) => {
-//           toast.error(err?.response?.data?.message);
-//         });
-//     }
-//   };
-
 const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
@@ -396,6 +369,7 @@ const handleSubmit = (event) => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#addCountryModal"
+                      onClick={() => { handleAddModule() }}
                     >
                       Add Intake
                     </button>
@@ -455,17 +429,21 @@ const handleSubmit = (event) => {
                 </thead>
                 <tbody>
                   {intakeList.length > 0 ? (
-                    intakeList.map((intake, index) => (
+                    intakeList.map((data, index) => (
                       <tr key={index}  style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
                         <td>{pagination.from + index + 1}</td>
-                        <td>{intake.intakeName}</td>
-                        <td>{intake.startDate}</td>
-                        <td>{intake.endDate}</td>
+                        <td>{data.intakeName}</td>
+                        <td>{data.startDate}</td>
+                        <td>{data.endDate}</td>
                         <td>
-                        <button type="button" className="btn btn-info btn-sm m-1" onClick={() => openEditPopup(intake)} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
+                        <button type="button" className="btn btn-info btn-sm m-1"
+                            data-bs-toggle="modal"
+                           data-bs-target="#addCountryModal"
+                       onClick={() => { handleEditModule(data) }}
+                         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
                           <button
                             className="btn btn-danger btn-sm m-2"
-                            onClick={() => openPopup(intake._id)}
+                            onClick={() => openPopup(data._id)}
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                           >
                             Delete

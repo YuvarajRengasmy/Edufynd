@@ -4,8 +4,9 @@ import {Currency} from "./endpoints"
 export const saveCurrency = (data) => {
     return API.post(`${Currency}`, data)
 }
+
 export const updateCurrency = (data) => {
-    return API.put(`${Currency}`, data)
+    return API.put(`${Currency}`, data, {params: { _id: data._id }},)
 }
 export const getSingleCurrency = (data) => {
     return API.get(`${Currency}/getSingleCurrency`, { params: { _id: data } })
