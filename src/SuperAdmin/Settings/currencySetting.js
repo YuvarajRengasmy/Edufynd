@@ -28,6 +28,9 @@ export default function GlobalSettings() {
   const [deleteId, setDeleteId] = useState();
   const [inputs, setInputs] = useState(initialStateInputs);
   const [filter, setFilter] = useState(false);
+  const [isEdit, setIsEdit] = useState(false); // Track if editing
+  const [editId, setEditId] = useState(null); // Track the id of the item being edited
+ 
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
@@ -40,8 +43,7 @@ export default function GlobalSettings() {
   });
   const [currency, setCurrency] = useState([]);
   const [country, setCountry] = useState([]);
-  const [isEdit, setIsEdit] = useState(false); // New state to check if the modal is in edit mode
-  const [editId, setEditId] = useState(null); 
+
   const modalRef = useRef(null);
 
 
@@ -186,28 +188,29 @@ export default function GlobalSettings() {
     setErrors(initialStateErrors); // Reset errors
   };
 
-const handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
+
     const allInputsValid = Object.values(newError).every((x) => !x.required);
     if (allInputsValid) {
+      const data = {
+        ...inputs,
+        _id: editId, // If editing, include the ID in the data
+      };
+
       if (isEdit) {
-        updateCurrency({ ...inputs, id: editId }) // Pass the ID for updating
+        updateCurrency(data)
           .then((res) => {
             toast.success(res?.data?.message);
             event.target.reset();
             setInputs(initialStateInputs);
             setErrors(initialStateErrors);
             setSubmitted(false);
-            setIsEdit(false);
             getAllCurrencyDetails();
-            const modalElement = document.getElementById("addCountryModal");
-            if (modalElement) {
-              const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
-              bootstrapModal.hide();
-            }
+            closePopup();
           })
           .catch((err) => {
             toast.error(err?.response?.data?.message);
@@ -221,11 +224,7 @@ const handleSubmit = (event) => {
             setErrors(initialStateErrors);
             setSubmitted(false);
             getAllCurrencyDetails();
-            const modalElement = document.getElementById("addCountryModal");
-            if (modalElement) {
-              const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
-              bootstrapModal.hide();
-            }
+            closePopup();
           })
           .catch((err) => {
             toast.error(err?.response?.data?.message);
@@ -396,7 +395,7 @@ const handleSubmit = (event) => {
                       }}
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target="addPopularModal5"
+                      data-bs-target="#addPopularModal5"
                       onClick={() => { handleAddModule() }}
                     >
                       Add Currency
@@ -465,12 +464,7 @@ const handleSubmit = (event) => {
 
                         <td>{data.currency}</td>
                         <td>
-                        <button type="button" 
-                        className="btn btn-info btn-sm m-1"
-                        data-bs-toggle="modal"
-                            data-bs-target="#addPopularModal5"
-                            onClick={() => { handleEditModule(data) }}
-                          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
+                       
                           <button
                             className="btn btn-danger btn-sm m-2"
                             type="button"
