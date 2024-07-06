@@ -289,13 +289,13 @@ export default function Masterproductlist() {
         </nav>
      
 
-      <div className="content-wrapper px-4 " style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className="content-header">
-          <div className="container-fluid">
+      <div className="content-wrapper" style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+       
+          <div className="container">
+          <div className="content-header">
             <div className="row ">
-
-              <div >
-                <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+            <div className="col-xl-12">
+            <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
                 <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
@@ -388,7 +388,7 @@ export default function Masterproductlist() {
                               <button
 
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-1 rounded-pill text-white float-right bg"
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
                                 style={{ backgroundColor: "#0f2239",color:'#fff',fontSize:'14px' }}
                                 // onClick={resetFilter}
                               >
@@ -398,7 +398,7 @@ export default function Masterproductlist() {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-1 rounded-pill text-white float-right mx-2"
+                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
                                 style={{ backgroundColor: "#fe5722",color:'#fff',fontSize:'14px'  }}
                               >
                                 Apply
@@ -446,7 +446,7 @@ export default function Masterproductlist() {
                     <Link class="btn btn-pix-primary" to="/AddClient">
                       <button
                         className="btn btn-outline border-0 text-white  "
-                        style={{ backgroundColor: "#9265cc",fontSize:"11px" }}
+                        style={{ backgroundColor: "#fe5722",fontSize:"12px" }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
@@ -458,13 +458,12 @@ export default function Masterproductlist() {
                   </li>
 
                 </ol>
-
-
-              </div>
             </div>
-          </div>
-        </div>
-        <div className="row">
+           
+            
+            </div>
+            </div>
+            <div className="row">
           <div className="col-xl-12">
             <div className="card mt-2 border-0">
               <div className="card-body">
@@ -546,6 +545,9 @@ export default function Masterproductlist() {
             </div>
           </div>
         </div>
+          </div>
+        
+        
       </div>
       <Dialog  open={open}>
         <DialogContent>
@@ -555,7 +557,7 @@ export default function Masterproductlist() {
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-success px-4 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
               onClick={deleteClientData}
               style={{fontSize:'14px' }}
             >
@@ -563,7 +565,7 @@ export default function Masterproductlist() {
             </button>
             <button
               type="button"
-              className="btn btn-cancel  btn-danger px-4 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-cancel  btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase "
               onClick={closePopup}
               style={{fontSize:'14px' }}
             >
@@ -607,7 +609,7 @@ export default function Masterproductlist() {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-4 py-1 fw-semibold text-white float-right bg"
+                className="btn btn-cancel border-0 rounded-pill text-uppercase px-4 py-2 fw-semibold text-white float-right bg"
                 style={{ backgroundColor: "#0f2239",color:'#fff',fontSize:'14px' }}
 
               >
@@ -616,7 +618,7 @@ export default function Masterproductlist() {
               <button
                 type="submit"
                 // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-1 text-white float-right mx-2"
+                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
                 style={{ backgroundColor: "#fe5722",color:'#fff',fontSize:'14px' }}
               >
                 Apply
