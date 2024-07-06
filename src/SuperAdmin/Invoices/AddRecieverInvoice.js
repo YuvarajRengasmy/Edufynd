@@ -20,8 +20,8 @@ export const AddRecieverInvoice = () => {
                           <label className="form-label" for="inputTax">Tax </label>
                           <select class="form-select" aria-label="Default select example1"   >
   <option >Select Tax</option>
-  <option value="1" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>Yes</option>
-  <option value="2" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>No</option>
+  <option value="Yes" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>Yes</option>
+  <option value="No" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>No</option>
  
 </select>
 <br/>

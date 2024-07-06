@@ -468,10 +468,10 @@ export default function GlobalSettings() {
                           <button
                             className="btn btn-danger btn-sm m-2"
                             type="button"
-                            
+                            onClick={() => openPopup(data._id)}
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                           >
-                            Delete
+                           <i className="icon-trash"></i> 
                           </button>
                         </td>
                       </tr>

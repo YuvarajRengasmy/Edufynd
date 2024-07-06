@@ -11,7 +11,7 @@ export const getSingleIntake = (data) => {
     return API.get(`${Intake}/getSingleInTake`, { params: { _id: data } })
 }
 export const getallIntake = () => {
-    return API.get(`${Intake}/getAllInTake`)
+    return API.get(`${Intake}`)
 }
 export const deleteIntake = (data) => {
     return API.delete(`${Intake}`, { params: { _id: data } });
