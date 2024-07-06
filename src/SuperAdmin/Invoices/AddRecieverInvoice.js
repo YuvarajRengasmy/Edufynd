@@ -1,10 +1,8 @@
 import React from 'react'
 import Mastersidebar from '../../compoents/sidebar';
-import Select from 'react-select';
-export const Addinvoice = () => {
+export const AddRecieverInvoice = () => {
   return (
-    <div> 
-      <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
+    <div> <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
@@ -50,62 +48,12 @@ export const Addinvoice = () => {
                         </div>
                         </div>
 
-                       <h4 className='card-title  fw-bold mt-5'>Sender Name  </h4>
-    <hr/>
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputClientname">Client Name</label>
-                          <input className="form-control" id="inputClientname" type="text" name='Clientname' placeholder='Enter Client Name'  style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputuniversity">University Name </label>
-                          <select class="form-select" aria-label="Default select example4"   >
-  <option >Select University</option>
-  <option value="1" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>Yes</option>
-  <option value="2" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>No</option>
- 
-</select>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputapplicationid">Application ID </label>
-                          <select class="form-select" aria-label="Default select example5"   >
-  <option >Select Application ID</option>
-  <option value="1" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>Yes</option>
-  <option value="2" selected style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}>No</option>
- 
-</select>
-                       
-                        </div>
+   
 
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputcurrency">Currency </label>
-                          <input className="form-control" id="inputcurrency" name='currency' type="text" placeholder="Enter Currency" style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputcommission">Commission</label>
-                          <input className="form-control" id="inputcomission" name='commission' type="text" placeholder="Enter Commission" style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputamountreceived">Amount to be received Currency</label>
-                          <input className="form-control" id="inputamountreceived" name='amountreceived' type="text" placeholder='Enter Amount to be received Currency' style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
-                        </div>
   
     
 
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputprimarynumber">Amount Received in INR& Currency</label>
-                          <input className="form-control" id="inputPrimarynumber" name='amountreceived' type="text" placeholder='EnterAmount Received in INR& Currency' style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }} />
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputinrvalue">INR Value </label>
-                          <input className="form-control" id="inputinrvalue" name='inrvalue' type="text" placeholder="Enter INR Value " style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputreceivername">Receiver Name</label>
-                          <input className="form-control" id="inputreceivername" name='recievername' type="text" placeholder="Enter Reciever Name " style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
-                       
-                     
-                        </div>
+                    
                       
                        
                         <h4 className='card-title  fw-bold mt-5'>Receiver Name  </h4>
@@ -196,8 +144,7 @@ export const Addinvoice = () => {
         </div>
                     
                </div>     
-    </div>
-    </div>
+    </div></div>
   )
 }
-export default Addinvoice
+export default AddRecieverInvoice
