@@ -28,6 +28,7 @@ function Profile() {
     banner: "",
     universityLogo: "",
     universityName: "",
+    about:"",
     courseType: "",
     country: "",
     state: "",
@@ -40,10 +41,8 @@ function Profile() {
     email: "",
     founded: "",
     institutionType: "",
-    costOfLiving: "",
-    grossTuition: "",
-    applicationFees: "",
-    paymentMethod: "",
+    
+   paymentMethod: "",
     amount: "",
     percentage: "",
     eligibilityForCommission: "",
@@ -59,6 +58,7 @@ function Profile() {
     businessName: { required: false },
     universityLogo: { required: false },
     banner: { required: false },
+    about: { required: false },
     universityName: { required: false },
     email: { required: false, valid: false },
     country: { required: false },
@@ -72,9 +72,7 @@ function Profile() {
     offerTAT: { required: false },
     founded: { required: false },
     institutionType: { required: false },
-    costOfLiving: { required: false },
-    grossTuition: { required: false },
-    applicationFees: { required: false },
+   
     paymentMethod: { required: false },
     amount: { required: false },
     percentage: { required: false },
@@ -114,7 +112,7 @@ function Profile() {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
     if (data.businessName === "") error.businessName.required = true;
-    if (data.ranking === "") error.ranking.required = true;
+  
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
     if (data.popularCategories.length === 0) error.popularCategories.required = true;
@@ -122,9 +120,7 @@ function Profile() {
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-    if (data.costOfLiving === "") error.costOfLiving.required = true;
-    if (data.grossTuition === "") error.grossTuition.required = true;
-    if (data.applicationFees === "") error.applicationFees.required = true;
+   
     if (data.paymentMethod === "") error.paymentMethod.required = true;
     if (data.eligibilityForCommission === "") error.eligibilityForCommission.required = true;
     if (data.countryName === "") error.countryName.required = true;
@@ -629,10 +625,7 @@ function Profile() {
                                 This field is required.
                               </div>
                             ) : null}
-                          </div>
-
-
-{/* 
+                          </div> 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -657,7 +650,7 @@ function Profile() {
                               </div>
                             ) : null}
 
-                          </div> */}
+                          </div> 
 
                           
 
@@ -670,7 +663,7 @@ function Profile() {
                             </div>
 
                           </div>
-                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>
  Course Type<span className="text-danger">*</span>
@@ -713,24 +706,22 @@ function Profile() {
                               errors.institutionType.required ? <div className="text-danger form-text">This field is required.</div> : null
                             }
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Cost Of living <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              value={university?.costOfLiving}
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              placeholder="Enter cost of living"
-                              name="costOfLiving"
-                              onChange={handleInputs}
-                            />
-                            {
-                              errors.costOfLiving.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-                          </div> */}
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                                About <span className="text-danger">*</span>
+                              </label>
+                              <textarea
+                                className="form-control"
+                                placeholder="Enter About"
+                                value={university?.about}
+                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                rows="5" // You can adjust the number of rows as needed
+                                onChange={handleInputs}
+                                name="about"
+                              ></textarea>
+                            </div>
+                          </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
 <label style={{ color: "#231F20" }}>

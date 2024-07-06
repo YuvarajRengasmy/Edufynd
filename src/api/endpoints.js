@@ -18,6 +18,7 @@ export const Institution ="institutionType";
 export const OfferTAT ="offerTat";
 export const Payment ="paymentMethod";
 export const Tax ="tax";
+export const Currency ="currency";
 export const TypeOfClient ="typeOfClient";
 export const Staff ="staff";
 

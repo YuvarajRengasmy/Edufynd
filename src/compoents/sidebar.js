@@ -1089,7 +1089,15 @@ const Sidebar = () => {
                                 href="/GlobalSettings"
                                 className="nav-link  text-capitalize fw-semibold"
                               >
-                                Country & Currency
+                                Country 
+                              </a>
+                            </li>
+                            <li className="nav-item">
+                              <a
+                                href="/CurrencySettings"
+                                className="nav-link  text-capitalize fw-semibold"
+                              >
+                                Currency
                               </a>
                             </li>
                             <li className="nav-item">

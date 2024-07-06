@@ -11,7 +11,7 @@ export const getSingleCountry = (data) => {
     return API.get(`${Country}/getSingleCountry`, { params: { _id: data } })
 }
 export const getallCountry = () => {
-    return API.get(`${Country}/getAllCountry`)
+    return API.get(`${Country}/`)
 }
 export const deleteCountry = (data) => {
     return API.delete(`${Country}`, { params: { _id: data } });
