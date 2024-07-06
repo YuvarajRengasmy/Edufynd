@@ -52,6 +52,8 @@ import Editinvoice from "../SuperAdmin/Invoices/Editinvoice";
 import Viewinvoice from "../SuperAdmin/Invoices/Viewinvoice";
 import AddSenderInvoice from "../SuperAdmin/Invoices/AddSenderInvoice";
 import AddRecieverInvoice from "../SuperAdmin/Invoices/AddRecieverInvoice";
+import AddApplication from "../SuperAdmin/Application/AddApplication";
+import EditApplication from "../SuperAdmin/Application/EditApplication";
 
 
 function SuperAdmin() {
@@ -107,6 +109,8 @@ function SuperAdmin() {
       <Route path="/AddRecieverInvoice" element={<AddRecieverInvoice/>}/>
        <Route path="/EditInvoice" element={<Editinvoice/>}/>
        <Route path="/ViewInvoice" element={<Viewinvoice/>}/>
+       <Route path="/AddApplication" element={<AddApplication/>}/>
+       <Route path='/EditApplication' element={<EditApplication/>}/>
 
     
        

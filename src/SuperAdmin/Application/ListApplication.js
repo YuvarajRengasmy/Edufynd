@@ -289,12 +289,13 @@ export default function Masterproductlist() {
         </nav>
      
 
-      <div className="content-wrapper px-4 " style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="content-wrapper  " style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="container-fluid">
         <div className="content-header">
-          <div className="container-fluid">
+          
             <div className="row ">
 
-              <div >
+              <div className="col-xl-12" >
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                 <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -334,48 +335,52 @@ export default function Masterproductlist() {
                       <button className="btn btn-primary" style={{fontSize:"11px"}} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Program</h5>
+                          <h5 id="offcanvasRightLabel">Filter Application</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                         </div>
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">Client Name</label>
+                              <label className="form-label">Applicant Code</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="businessName"
                                 onChange={handleInputs}
-                                placeholder="Search...Business Name"
+                                placeholder="Search...Applicant Code"
+                                style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
-                              <label className="form-label">ContactNo </label>
+                              <label className="form-label">University Applied </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="businessContactNo"
                                 onChange={handleInputs}
-                                placeholder="Search...Business ContactNo"
+                                placeholder="Search...University Applied"
+                                style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
                              
-                              <label className="form-label">Status</label>
+                              <label className="form-label">Course Applied</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="status"
                                 onChange={handleInputs}
-                                placeholder="Search...status"
+                                placeholder="Search...Course Applied"
+                                style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
-                              <label className="form-label">ClientId</label>
+                              <label className="form-label">Status</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="clientID"
                                 onChange={handleInputs}
-                                placeholder="Search...ClientId"
+                                placeholder="Search...Status"
+                                style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               />
 
                              
@@ -384,8 +389,8 @@ export default function Masterproductlist() {
                               <button
 
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border text-white float-right bg"
-                                style={{ backgroundColor: "#9265cc" }}
+                                className="btn btn-cancel border-0 px-4 py-2 rounded-pill fw-semibold text-uppercase text-white float-right bg"
+                                style={{ backgroundColor: "#0f2239",fontSize:'12px'}}
                                 // onClick={resetFilter}
                               >
                                 Reset
@@ -394,8 +399,8 @@ export default function Masterproductlist() {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 // onClick={filterProgramList}
-                                className="btn btn-save border text-white float-right mx-2"
-                                style={{ backgroundColor: "#9265cc" }}
+                                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
+                                style={{ backgroundColor: "#fe5722",fontSize:'12px' }}
                               >
                                 Apply
                               </button>
@@ -438,6 +443,21 @@ export default function Masterproductlist() {
                       </span>
                     </Link>
                   </li>
+                  <li class="m-1">
+                      <Link class="btn btn-pix-primary" to="/AddApplication">
+                        <button
+                          className="btn btn-outline border-0 text-white  "
+
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        >
+                          <i
+                            class="fa fa-plus-circle me-2"
+                            aria-hidden="true"
+                          ></i>
+                          Add Application
+                        </button>
+                      </Link>
+                    </li>
                  
                 </ol>
 
@@ -445,23 +465,25 @@ export default function Masterproductlist() {
               </div>
             </div>
           </div>
-        </div>
+       
         <div className="row">
           <div className="col-xl-12">
-            <div className="card mt-2">
+            <div className="card mt-2 border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
 
-                    <table className=" table card-table dataTable text-center">
+                    <table className=" table card-table dataTable table-responsive-sm text-center">
                       <thead>
                         <tr  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Applicant Code</th>
                           <th className="text-capitalize text-start">Date</th>
+                          <th className="text-capitalize text-start">Applicant Code</th>
+                         
                           <th className="text-capitalize text-start">Applicant Name</th>
                           <th className="text-capitalize text-start">University Applied</th>
-                          <th className="text-capitalize text-start">Course Name</th>
+                          <th className="text-capitalize text-start">Course Applied</th>
+                          <th className="text-capitalize text-start">Status</th>
                           <th className="text-capitalize text-start">Action</th>
                         </tr>
                       </thead>
@@ -469,18 +491,20 @@ export default function Masterproductlist() {
                         {application?.map((data, index) => (
                           <tr key={index}  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.applicationCode}</td>
                             <td className="text-capitalize text-start">{getMonthYear(data?.modifiedOn)}</td>
+                            <td className="text-capitalize text-start">{data?.applicationCode}</td>
+                           
                             <td className="text-capitalize text-start">{data?.name}</td>
                             <td className="text-capitalize text-start">{data?.universityName}</td>
                             <td className="text-capitalize text-start">{data?.course}</td>
+                            <td></td>
                            
                             <td>
                               <div className="d-flex">
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/ViewClient",
+                                    pathname: "/Application",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -490,7 +514,7 @@ export default function Masterproductlist() {
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/EditClient",
+                                    pathname: "/EditApplication",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -529,6 +553,7 @@ export default function Masterproductlist() {
             </div>
           </div>
         </div>
+        </div>
       </div>
       <Dialog open={open}>
         <DialogContent>
@@ -538,15 +563,17 @@ export default function Masterproductlist() {
             </h5>
             <button
               type="button"
-              className="btn btn-save mx-3"
+              className="btn btn-save btn-success text-white px-4 py-2 rounded-pill fw-semibold text-uppercase mx-3"
               onClick={deleteApplicationData}
+              style={{fontSize:'12px'}}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel "
+              className="btn btn-cancel btn-danger text-white px-4 py-2 rounded-pill fw-semibold text-uppercase "
               onClick={closePopup}
+              style={{fontSize:'12px'}}
             >
               No
             </button>
@@ -579,8 +606,9 @@ export default function Masterproductlist() {
             <input
               type="file"
               name="file"
-              className="form-control border-0 text-dark bg-transparent"
+              className="form-control  text-dark bg-transparent"
               onChange={handleFileChange}
+             
             />
           </div>
 
@@ -588,17 +616,17 @@ export default function Masterproductlist() {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border text-white float-right bg"
-                style={{ backgroundColor: "#9265cc" }}
+                className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
+                style={{ backgroundColor: "#0f2239",fontSize:'12px' }}
 
               >
-                Cencel
+                Cancel
               </Link>
               <button
                 type="submit"
                 // onClick={handleFileUpload}
-                className="btn btn-save border text-white float-right mx-2"
-                style={{ backgroundColor: "#9265cc" }}
+                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
+                style={{ backgroundColor: "#fe5722",fontSize:'12px' }}
               >
                 Apply
               </button>
