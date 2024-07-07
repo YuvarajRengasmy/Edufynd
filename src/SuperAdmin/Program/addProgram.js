@@ -255,23 +255,23 @@ function Profile() {
 
 
   return (
-    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
 
         </nav>
 
-        <div className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header ">
             <div className="content container-fluid">
               <form onSubmit={handleSubmit} >
                 <div className='row'>
                   <div className="col-xl-12 ">
-                  <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-                <h5 className='text-center text-capitalize p-1'> Add Program Details</h5>
-                </div>
+                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                      <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{ background: '#fe5722', color: '#fff' }}>
+                        <h5 className='text-center text-capitalize p-1'> Add Program Details</h5>
+                      </div>
                       <div className="card-body mt-5">
 
                         <div className="row g-3">
@@ -402,24 +402,22 @@ function Profile() {
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  Currency <span className="text-danger">*</span>
-</label>
-<div sm="9" className="d-flex align-items-center">
-  {program.flag && (
-    <Flags code={program.flag} className="me-2" style={{ width: '30px', height: '20px' }} onChange={handleInputs} name='flag' />
-  )}
-  <input className='form-control' placeholder='Autofetch currency' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="text" onChange={handleInputs} name='currency' value={`${program.currency}`} readOnly />
-</div>
-{errors.currency.required ? (
-  <div className="text-danger form-text">
-    This field is required.
-  </div>
-) : null}
+                            <label style={{ color: "#231F20" }}>
+                              Currency <span className="text-danger">*</span>
+                            </label>
+                            <div sm="9" className="d-flex align-items-center">
+                              {program.flag && (
+                                <Flags code={program.flag} className="me-2" style={{ width: '30px', height: '20px' }} onChange={handleInputs} name='flag' />
+                              )}
+                              <input className='form-control' placeholder='Autofetch currency' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="text" onChange={handleInputs} name='currency' value={`${program.currency}`} readOnly />
+                            </div>
+                            {errors.currency.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
 
-</div>
-
-
+                          </div>
 
 
 
@@ -427,24 +425,26 @@ function Profile() {
 
 
 
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  Discounted Value 
-</label>
-<input
-  type="text"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter DiscountedValue"
-  name="discountedValue"
-  onChange={handleInputs}
-/>
-{
-  errors.discountedValue.required ? <div className="text-danger form-text">This field is required.</div> : null
-}
 
-</div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label style={{ color: "#231F20" }}>
+                              Discounted Value
+                            </label>
+                            <input
+                              type="text"
+                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              className="form-control"
+                              placeholder="Enter DiscountedValue"
+                              name="discountedValue"
+                              onChange={handleInputs}
+                            />
+                            {
+                              errors.discountedValue.required ? <div className="text-danger form-text">This field is required.</div> : null
+                            }
+
+                          </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -471,22 +471,22 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  Course Fees <span className="text-danger">*</span>
-</label>
-<input
-  type="text"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter courseFees"
-  name="courseFee"
-  onChange={handleInputs}
-/>
-{
-  errors.courseFee.required ? <div className="text-danger form-text">This field is required.</div> : null
-}
+                            <label style={{ color: "#231F20" }}>
+                              Course Fees <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              className="form-control"
+                              placeholder="Enter courseFees"
+                              name="courseFee"
+                              onChange={handleInputs}
+                            />
+                            {
+                              errors.courseFee.required ? <div className="text-danger form-text">This field is required.</div> : null
+                            }
 
-</div>
+                          </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -512,55 +512,55 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  Duration <span className="text-danger">*</span>
-</label>
-<input
-  type="text"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter duration"
-  name="duration"
-  onChange={handleInputs}
-/>
+                            <label style={{ color: "#231F20" }}>
+                              Duration <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              className="form-control"
+                              placeholder="Enter duration"
+                              name="duration"
+                              onChange={handleInputs}
+                            />
 
-{
-  errors.duration.required ? <div className="text-danger form-text">This field is required.</div> : null
-}
+                            {
+                              errors.duration.required ? <div className="text-danger form-text">This field is required.</div> : null
+                            }
 
-</div>
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: '#231F20' }} className="">
-  English language Test (ELT) Requirement
-</label>
-<select className="form-control" name="englishlanguageTest" onChange={handleInputs} >
-  <option value="">Select Type</option>
-  <option value="categorie">Yes</option>
-  <option value="no">No</option>
-</select>
-<br /><br />
-{program.englishlanguageTest === 'categorie' && (
-  <div className="row mb-6">
-    <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
-      TextBox
-    </label>
-    <div className="col-md-8 col-lg-9">
-      <textarea
-        name="textBox"
-        placeholder='Enter textBox'
-        className="form-control"
-        type="text"
-        style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px', height: 100 }}
+                            <label style={{ color: '#231F20' }} className="">
+                              English language Test (ELT) Requirement
+                            </label>
+                            <select className="form-control" name="englishlanguageTest" onChange={handleInputs} >
+                              <option value="">Select Type</option>
+                              <option value="categorie">Yes</option>
+                              <option value="no">No</option>
+                            </select>
+                            <br /><br />
+                            {program.englishlanguageTest === 'categorie' && (
+                              <div className="row mb-6">
+                                <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
+                                  TextBox
+                                </label>
+                                <div className="col-md-8 col-lg-9">
+                                  <textarea
+                                    name="textBox"
+                                    placeholder='Enter textBox'
+                                    className="form-control"
+                                    type="text"
+                                    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px', height: 100 }}
 
-        onChange={handleInputs}
+                                    onChange={handleInputs}
 
-      />
-    </div>
-  </div>
-)}
+                                  />
+                                </div>
+                              </div>
+                            )}
 
-</div>
+                          </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -580,36 +580,36 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: '#231F20' }} className="">
-  GRE/GMAT Requirement
-</label>
-<select className="form-control" name="greGmatRequirement" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
-  <option value="">Select Type</option>
-  <option value="categories">Yes</option>
-  <option value="no">No</option>
-</select>
-<br /><br />
-{program.greGmatRequirement === 'categories' && (
-  <div className="row mb-6">
-    <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
-      score
-    </label>
-    <div className="col-md-8 col-lg-9">
-      <textarea
-        name="score"
-        className="form-control"
-        placeholder='Enter score'
-        style={{ backgroundColor: '#fff', height: 100, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-        type="text"
+                            <label style={{ color: '#231F20' }} className="">
+                              GRE/GMAT Requirement
+                            </label>
+                            <select className="form-control" name="greGmatRequirement" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
+                              <option value="">Select Type</option>
+                              <option value="categories">Yes</option>
+                              <option value="no">No</option>
+                            </select>
+                            <br /><br />
+                            {program.greGmatRequirement === 'categories' && (
+                              <div className="row mb-6">
+                                <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
+                                  score
+                                </label>
+                                <div className="col-md-8 col-lg-9">
+                                  <textarea
+                                    name="score"
+                                    className="form-control"
+                                    placeholder='Enter score'
+                                    style={{ backgroundColor: '#fff', height: 100, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                    type="text"
 
-        onChange={handleInputs}
+                                    onChange={handleInputs}
 
-      />
-    </div>
-  </div>
-)}
+                                  />
+                                </div>
+                              </div>
+                            )}
 
-</div>
+                          </div>
 
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -639,23 +639,23 @@ function Profile() {
                             ) : null}
 
                           </div>
-                          
+
                           <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  Academic requirement 
-</label>
-<textarea
-  className="form-control"
-  placeholder="Enter Academic requirement "
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  name="academicRequirement"
-  rows="5" // You can adjust the number of rows as needed
-  onChange={handleInputs}
+                            <label style={{ color: "#231F20" }}>
+                              Academic requirement
+                            </label>
+                            <textarea
+                              className="form-control"
+                              placeholder="Enter Academic requirement "
+                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              name="academicRequirement"
+                              rows="5" // You can adjust the number of rows as needed
+                              onChange={handleInputs}
 
-></textarea>
+                            ></textarea>
 
-</div>
+                          </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -675,9 +675,6 @@ function Profile() {
                             }
 
                           </div>
-                       
-
-                       
 
 
 
@@ -685,29 +682,32 @@ function Profile() {
 
 
 
-                         <div className='row g-2'>
-                         <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                            <Link
 
-                              to="/ListUniversity"
-                              style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white w-25 m-2"
-                            >
-                              Cancel
-                            </Link>
-                            <button
 
-                              style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
-                              type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
-                            >
-                              Submit
-                            </button>
+                          <div className='row g-2'>
+                            <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
+                              <Link
+
+                                to="/ListUniversity"
+                                style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white w-25 m-2"
+                              >
+                                Cancel
+                              </Link>
+                              <button
+
+                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+
+                                type="submit"
+                                className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
+                              >
+                                Submit
+                              </button>
+                            </div>
                           </div>
-                         </div>
 
-                        
+
                         </div>
                       </div>
                     </div>
