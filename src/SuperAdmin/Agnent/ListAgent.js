@@ -324,12 +324,13 @@ export default function Masterproductlist() {
         </nav>
 
 
-        <div className="content-wrapper px-4" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="container">
           <div className="content-header">
-            <div className="container">
+            
               <div className="row ">
 
-                <div >
+                <div className="col-xl-12" >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -425,7 +426,7 @@ export default function Masterproductlist() {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-1 text-white float-right bg"
+                                  className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
 
                                   onClick={resetFilter}
                                   style={{ backgroundColor: '#0f2239', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
@@ -437,7 +438,7 @@ export default function Masterproductlist() {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   onClick={filterAgentList}
-                                  className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-1 text-white float-right mx-2"
+                                  className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -486,8 +487,8 @@ export default function Masterproductlist() {
                     <li class="m-0">
                       <Link class="btn btn-pix-primary" to="/AddAgent">
                         <button
-                          className="btn btn-outline border text-white  "
-                          style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                          className="btn btn-outline border-0  text-white  "
+                          style={{ backgroundColor: "#fe5722", fontSize: '12px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -504,15 +505,15 @@ export default function Masterproductlist() {
                 </div>
               </div>
             </div>
-          </div>
+         
           <div className="row">
             <div className="col-xl-12">
-              <div className="card mt-2">
+              <div className="card mt-2 border-0 ">
                 <div className="card-body">
                   <div className="card-table">
                     <div className="table-responsive">
 
-                      <table className=" table card-table dataTable text-center">
+                      <table className=" table card-table dataTable table-responsive-sm text-center">
                         <thead>
                           <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                             <th className="text-capitalize text-start">S No</th>
@@ -591,6 +592,7 @@ export default function Masterproductlist() {
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
         <Dialog open={open}>
@@ -603,14 +605,14 @@ export default function Masterproductlist() {
               <button
                 type="button"
                 style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
-                className="btn btn-danger mx-3"
+                className="btn btn-success rounded-pill border-0 px-4 py-2 text-white fw-semibold text-uppercase mx-3"
                 onClick={deleteAgentData}
               >
                 Yes
               </button>
               <button
                 type="button"
-                className="btn btn-info "
+                className="btn btn-danger border-0 rounded-pill text-white fw-semibold text-uppercase px-4 py-2 "
                 onClick={closePopup}
                 style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
               >
@@ -654,7 +656,7 @@ export default function Masterproductlist() {
               <div>
                 <Link
                   to="/ListUniversity"
-                  className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-1 text-white float-right bg"
+                  className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
                   style={{ backgroundColor: "#0f2239",fontSize:'14px' }}
 
                 >
@@ -663,8 +665,8 @@ export default function Masterproductlist() {
                 <button
                   type="submit"
                   onClick={handleFileUpload}
-                  className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill text-white float-right mx-2"
-                  style={{ backgroundColor: "#fe5722" }}
+                  className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right mx-2"
+                  style={{ backgroundColor: "#fe5722",fontSize:'14px' }}
                 >
                   Apply
                 </button>

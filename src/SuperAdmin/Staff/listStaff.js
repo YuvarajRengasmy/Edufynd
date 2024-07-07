@@ -78,9 +78,11 @@ function ListStaff() {
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper px-4' >
-<div className='content-header'>
-<div className='col-xl-12'  >
+        <div className='content-wrapper ' >
+          <div className="container ">
+          <div className='content-header'>
+<div className="row">
+  <div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     
                     <li className="flex-grow-1">
@@ -243,7 +245,7 @@ function ListStaff() {
                         <button
                           className="btn btn-outline border-0 text-white  "
 
-                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -258,16 +260,22 @@ function ListStaff() {
 
 
                 </div>
+                </div>
+
 </div>
+          </div>
+         
+        
+
         
                 <div className="row">
-          <div className="container-fluid">
+          <div className="col-xl-12">
           <div className="col-md-12">
             <div className="card mt-2 border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
-                    <table className=" table card-table dataTable text-center">
+                    <table className=" table card-table dataTable table-responsive-sm text-center">
                       <thead>
                         <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
                           <th className="text-capitalize text-start"> S.No.</th>
@@ -353,6 +361,11 @@ function ListStaff() {
           </div>
           </div>
         </div>
+        
+
+
+        
+        </div>
         <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
@@ -378,10 +391,6 @@ function ListStaff() {
           </div>
         </DialogContent>
       </Dialog>
-
-
-        
-        </div>
                     
                </div>     
     </div>

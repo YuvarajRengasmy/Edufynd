@@ -682,29 +682,25 @@ function Profile() {
 
 
 
+                         <div className='row g-2'>
+                         <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                            <Link
 
+                              to="/ListUniversity"
+                              style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                            >
+                              Cancel
+                            </Link>
+                            <button
 
+                              style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
 
-                          <div className='row g-2'>
-                            <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                              <Link
-
-                                to="/ListUniversity"
-                                style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white w-25 m-2"
-                              >
-                                Cancel
-                              </Link>
-                              <button
-
-                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-
-                                type="submit"
-                                className="btn btn-save border-0 fw-semibold text-uppercase text-white w-25 m-2"
-                              >
-                                Submit
-                              </button>
-                            </div>
+                              type="submit"
+                              className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                            >
+                              Submit
+                            </button>
                           </div>
 
 
@@ -712,6 +708,7 @@ function Profile() {
                       </div>
                     </div>
                   </div>
+                </div>
                 </div>
               </form>
             </div>

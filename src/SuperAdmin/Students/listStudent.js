@@ -329,12 +329,13 @@ export default function Masterproductlist() {
       
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="container">
         <div className="content-header">
-          <div className="container-fluid">
-            <div className="row g-3 ">
+         
+            <div className="row">
 
              
-            <div >
+            <div className="col-xl-12" >
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                 <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -388,6 +389,7 @@ export default function Masterproductlist() {
                                 name="universityName"
                                 onChange={handleInputs}
                                 placeholder="Search...University Name"
+                                style={{ fontSize: '12px' }}
                               />
                               <label className="form-label">Program Name</label>
                               <br />
@@ -397,6 +399,7 @@ export default function Masterproductlist() {
                                 name="programTitle"
                                 onChange={handleInputs}
                                 placeholder="Search...program Title"
+                                style={{ fontSize: '12px' }}
                               />
                               <label className="form-label">ApplicationFee</label>
                               <br />
@@ -406,6 +409,7 @@ export default function Masterproductlist() {
                                 name="applicationFee"
                                 onChange={handleInputs}
                                 placeholder="Search...Application Fee"
+                                style={{ fontSize: '12px' }}
                               />
                               <label className="form-label">CourseFee</label>
                               <br />
@@ -415,6 +419,7 @@ export default function Masterproductlist() {
                                 name="courseFee"
                                 onChange={handleInputs}
                                 placeholder="Search...Course Fee"
+                                style={{ fontSize: '12px' }}
                               />
 
                              
@@ -423,9 +428,10 @@ export default function Masterproductlist() {
                               <button
 
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 rounded-pill px-3 py-1 text-uppercase fw-semibold text-white float-right bg"
-                                style={{ backgroundColor: "#0f2239" }}
+                                className="btn btn-cancel border-0 rounded-pill px-4 py-2 text-uppercase fw-semibold text-white float-right bg"
+                                style={{ backgroundColor: "#0f2239",fontSize:'14px' }}
                                 onClick={resetFilter}
+
                               >
                                 Reset
                               </button>
@@ -433,8 +439,8 @@ export default function Masterproductlist() {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 onClick={filterStudentList}
-                                className="btn btn-save border-0 rounded-pill px-3 py-1 text-uppercase fw-semibold text-white float-right mx-2"
-                                style={{ backgroundColor: "#fe5722" }}
+                                className="btn btn-save border-0 rounded-pill px-4 py-2 text-uppercase fw-semibold text-white float-right mx-2"
+                                style={{ backgroundColor: "#fe5722",fontSize:'14px' }}
                               >
                                 Apply
                               </button>
@@ -478,10 +484,10 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddStudentSA">
+                    <Link class="btn btn-pix-primary border-0" to="/AddStudentSA">
                       <button
                         className="btn btn-outline border text-white  "
-                        style={{ backgroundColor: "#9265cc",fontSize: '11px'  }}
+                        style={{ backgroundColor: "#fe5722",fontSize: '12px'  }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
@@ -493,10 +499,11 @@ export default function Masterproductlist() {
                   </li>
 
                 </ol>
-
+                </div>
 
               </div>
-             
+              </div>
+              <div className="row">
               <div className="col-xl-12">
        
        <div className="card mt-2 border-0">
@@ -582,6 +589,13 @@ export default function Masterproductlist() {
          </div>
        </div>
      </div>
+              </div>
+             
+          
+        </div>
+       
+      </div>
+             
    
          <Dialog open={open}>
    <DialogContent>
@@ -664,11 +678,7 @@ export default function Masterproductlist() {
  </Dialog>
               
         
-            </div>
-          </div>
-        </div>
-       
-      </div>
+   
     
     </div>
     </div>

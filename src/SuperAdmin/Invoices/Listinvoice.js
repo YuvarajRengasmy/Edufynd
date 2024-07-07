@@ -171,7 +171,7 @@ export const Listinvoice = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddInvoice">
+                      <Link class="btn btn-pix-primary" to="/AddSenderInvoice">
                         <button
                           className="btn btn-outline border text-white  "
 
@@ -181,7 +181,22 @@ export const Listinvoice = () => {
                             class="fa fa-plus-circle me-2"
                             aria-hidden="true"
                           ></i>
-                          Add Invoice
+                          Add Sender Invoice
+                        </button>
+                      </Link>
+                    </li>
+                    <li class="">
+                      <Link class="btn btn-pix-primary" to="/AddRecieverInvoice">
+                        <button
+                          className="btn btn-outline border text-white  "
+
+                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                        >
+                          <i
+                            class="fa fa-plus-circle me-2"
+                            aria-hidden="true"
+                          ></i>
+                          Add Receiver Invoice
                         </button>
                       </Link>
                     </li>
