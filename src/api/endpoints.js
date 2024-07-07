@@ -28,3 +28,6 @@ export const Loan ="loan";
 export const Forex ="forex";
 export const Accommodation ="accommodation";
 export const Flight ="flight";
+
+// Invoice
+export const SenderInvoice ="senderInvoice";
