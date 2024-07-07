@@ -64,7 +64,7 @@ export const EditAccommodation = () => {
     count: 0,
   })
   const [university, setUniversity] = useState()
-  const [accommodation, setAccommodation] = useState({})
+  const [accommodation, setAccommodation] = useState(initialState)
   const [errors, setErrors] = useState(initialStateErrors)
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate()
