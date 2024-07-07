@@ -1,6 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+
+import { toast } from 'react-toastify';
+import { useNavigate, Link } from 'react-router-dom';
+import { saveFSenderInvoice  } from "../../api/invoice/sender";
 import Mastersidebar from '../../compoents/sidebar';
 export const AddSenderInvoice = () => {
+  const initialState = {
+    tax:"",
+    gst:"",
+    tds:"",
+    clientName:"",
+    universityName:"",
+    applicationID:"",
+    currency:"",
+    commission:"",
+    amountToBeReceivedCurrency:"",
+    amountReceivedInINRAndCurrency:"",
+    INRValue:"",
+    date:"",
+  }
+
+
+
+
   return (
     <div> <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
     <div className="container-fluid">

@@ -1,8 +1,8 @@
 import API from "../api"
 import { SenderInvoice } from "../endpoints"
 
-export const saveFlightEnquiry = (data) => {
-    return API.post(`${SenderInvoice}`, data)
+export const saveFSenderInvoice = (data) => {
+    return API.post(`${SenderInvoice}/senderInvoice`, data)
 }
 
 export const updateFlightEnquiry= (data) => {
