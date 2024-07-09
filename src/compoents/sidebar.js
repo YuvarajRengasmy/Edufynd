@@ -1178,7 +1178,7 @@ const Sidebar = () => {
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
                               <a
-                                href="#"
+                                href="/UniversitySettings"
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 University
@@ -1192,14 +1192,7 @@ const Sidebar = () => {
                                 Email
                               </a>
                             </li>
-                            <li className="nav-item">
-                              <a
-                                href="/UniversitySettings"
-                                className="nav-link  text-capitalize fw-semibold"
-                              >
-                                Country & Currency{" "}
-                              </a>
-                            </li>
+                          
                             <li className="nav-item">
                               <a
                                 href="/ClientModule"
@@ -1208,14 +1201,7 @@ const Sidebar = () => {
                                 Status
                               </a>
                             </li>
-                            <li className="nav-item">
-                              <a
-                                href="#"
-                                className="nav-link  text-capitalize fw-semibold"
-                              >
-                                Intake{" "}
-                              </a>
-                            </li>
+                          
                             <li className="nav-item">
                               <a
                                 href="#"

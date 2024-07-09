@@ -23,8 +23,8 @@ export const UniversityModule = () => {
                             <PopularCatageries />
                         </div>
                         <div className='col-lg-6'>
-                        <Country />
-                           
+                        {/* <Country /> */}
+                        <Tax />
                         </div>
                     </div>
                     <div className="row">
@@ -45,7 +45,7 @@ export const UniversityModule = () => {
                     </div>
                     <div className="row">
                         <div className='col-lg-6'>
-                            <Tax />
+                          
                         </div>
                         
                     </div>
