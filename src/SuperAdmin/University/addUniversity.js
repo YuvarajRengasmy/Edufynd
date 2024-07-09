@@ -60,7 +60,7 @@ function Profile() {
     businessName: { required: false },
     universityLogo: { required: false },
     banner: { required: false },
-    intake: { required: false },
+    inTake: { required: false },
     universityName: { required: false },
     email: { required: false, valid: false },
     country: { required: false },
@@ -109,7 +109,7 @@ function Profile() {
   const [lgas, setLGAs] = useState([]);
   const [selectedLGAs, setSelectedLGAs] = useState([]);
   const [type, setType] = useState([]);
-  const [intake, setIntake] = useState([]);
+  const [inTake, setInTake] = useState([]);
   const ZERO = 0;
   const [selectedCourseType, setSelectedCourseType] = useState([]);
   let countryRegion = null;
@@ -119,7 +119,7 @@ function Profile() {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
     if (data.businessName === "") error.businessName.required = true;
-    if(data.intake === "") error.intake.required = true;
+    if(data.inTake === "") error.inTake.required = true;
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
@@ -171,7 +171,7 @@ function Profile() {
     getallIntake()
       .then((res) => {
         console.log(res);
-        setIntake(res?.data?.result);
+        setInTake(res?.data?.result);
 
       })
       .catch((err) => {
@@ -382,23 +382,17 @@ function Profile() {
     const newError = handleValidation(university);
     setErrors(newError);
     setSubmitted(true);
-
-
     const selectedCountryLabel = countries.find(country => country.value === selectedCountry)?.label || "";
     const selectedStatesLabels = selectedStates.map(state => state.label);
     const selectedLGAsLabels = selectedLGAs.map(lga => lga.label);
-
-
     const updatedUniversity = {
       ...university,
       country: selectedCountryLabel,
       state: selectedStatesLabels,
       lga: selectedLGAsLabels
     };
-
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
-
     if (valid) {
       saveUniversity(updatedUniversity)
         .then((res) => {
@@ -424,7 +418,7 @@ function Profile() {
   };
   const popularCategoriesOptions = categorie.map((data) => ({ value: data.popularCategories, label: data.popularCategories }));
   const courseTypeOptions = type.map((data) => ({ value: data.courseType, label: data.courseType }));
-  const intakeOptions = intake.map((data) => ({ value: data.intake, label: data.intake }));
+  const intakeOptions = inTake.map((data) => ({ value: data.intakeName, label: data.intakeName }));
 
 
 
@@ -756,17 +750,16 @@ function Profile() {
                             <label style={{ color: "#231F20" }}>
                               InTake<span className="text-danger">*</span>
                             </label>
-
                             <Select
                               isMulti
-                            
                               options={intakeOptions}
-                              placeholder="Select InTake"
-                              name="intake"
+                              name="inTake"
                               onChange={handleSelectChange}
                               styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
-                            />
-                            {errors.intake.required ? (
+                            >
+
+                            </Select>
+                            {errors.inTake.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>

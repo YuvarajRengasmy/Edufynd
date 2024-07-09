@@ -15,7 +15,7 @@ const AddSenderInvoice = () => {
     universityName: "",
     applicationID: "",
     currency: "",
-  
+     paidFeesAmmount:0,
     fixedAmount: "",
     courseFeesAmount: 0,
     scholarshipAmount: "",
@@ -31,7 +31,7 @@ const AddSenderInvoice = () => {
     universityName: { required: false },
     applicationID: { required: false },
     currency: { required: false },
-  
+  paidFeesAmmount: { required: false },
     
     fixedAmount: { required: false },
     courseFeesAmount: { required: false },
@@ -314,6 +314,15 @@ const AddSenderInvoice = () => {
                                   value={invoice?.paidFeesPercentage}
                                   type="number"
                                   placeholder='Enter Percentage'
+                                  style={{ height: 50 }}
+                                  onChange={handleInputs}
+                                />
+                                <input
+                                  name="paidFeesAmmount"
+                                  className="form-control"
+                                 
+                                  type="number"
+                                  placeholder='Enter Ammount'
                                   style={{ height: 50 }}
                                   onChange={handleInputs}
                                 />
