@@ -17,7 +17,7 @@ const AddSenderInvoice = () => {
     currency: "",
   
     fixedAmount: "",
-    courseFeesAmount: "",
+    courseFeesAmount: 0,
     scholarshipAmount: "",
     paidFeesPercentage: "",
     courseFeesPercentage: "",
@@ -106,8 +106,8 @@ const AddSenderInvoice = () => {
             currency: selectedUniversity.currency,
             paymentMethod: selectedUniversity.paymentMethod,
             fixedAmount: selectedUniversity.amount,
-            courseFeesPercentage: selectedUniversity.percentage,
-            paidFeesPercentage: selectedUniversity.percentage,
+            courseFeesPercentage: selectedUniversity.courseFeesPercentage,
+            paidFeesPercentage: selectedUniversity.paidFeesPercentage,
           };
         }
       }
@@ -269,12 +269,12 @@ const AddSenderInvoice = () => {
                             </label>
                             <select value={invoice?.paymentMethod} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select" name="paymentMethod" onChange={handleInputs}>
                               <option value="">Select Payment Type</option>
-                              <option value="categorie1">Fixed Ammount</option>
-                              <option value="categorie2">courseFeesPercentage</option>
-                              <option value="categorie3">paidFeesPercentage</option>
+                              <option value="Fixed">Fixed Ammount</option>
+                              <option value="CourseFees">courseFeesPercentage</option>
+                              <option value="PaidFees">paidFeesPercentage</option>
                             </select>
                             <br />
-                            {invoice.paymentMethod === 'categorie1' ? (
+                            {invoice.paymentMethod === 'Fixed' ? (
                               <div className="form-group">
                                 <label style={{ color: '#231F20' }} className="class-danger">Fixed Amount</label>
 
@@ -289,22 +289,22 @@ const AddSenderInvoice = () => {
                                 />
 
                               </div>
-                            ) : invoice.paymentMethod === 'categorie2' ? (
+                            ) : invoice.paymentMethod === 'CourseFees' ? (
                               <div className="form-group">
                                 <label style={{ color: '#231F20' }} className="class-danger"> Course Fees Percentage</label>
 
                                 <input
-                                  name="paidFeesPercentage"
+                                  name="courseFeesPercentage"
                                   className="form-control"
-                                  value={invoice?.paidFeesPercentage}
-                                  type="text"
+                                  value={invoice?.courseFeesPercentage}
+                                  type="number"
                                   placeholder='Enter Percentage'
                                   style={{ height: 50 }}
                                   onChange={handleInputs}
                                 />
 
                               </div>
-                            ) : invoice.paymentMethod === 'categorie3' ? (
+                            ) : invoice.paymentMethod === 'PaidFees' ? (
                               <div className="form-group">
                                 <label style={{ color: '#231F20' }} className="class-danger"> PaidFees Percentage</label>
 
@@ -312,7 +312,7 @@ const AddSenderInvoice = () => {
                                   name="paidFeesPercentage"
                                   className="form-control"
                                   value={invoice?.paidFeesPercentage}
-                                  type="text"
+                                  type="number"
                                   placeholder='Enter Percentage'
                                   style={{ height: 50 }}
                                   onChange={handleInputs}
@@ -324,14 +324,14 @@ const AddSenderInvoice = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" htmlFor="inputCourseFeesAmount">Course Fees Amount</label>
-                      <input className="form-control" id="inputCourseFeesAmount" type="text" name='courseFeesAmount' placeholder='Enter Course Fees Amount' value={invoice.courseFeesAmount} onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control" id="inputCourseFeesAmount" type="number" name='courseFeesAmount' placeholder='Enter Course Fees Amount' value={invoice.courseFeesAmount} onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.courseFeesAmount.required && (
                         <div className="text-danger form-text">This field is required.</div>
                       )}
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" htmlFor="inputScholarshipAmount">Scholarship Amount</label>
-                      <input className="form-control" id="inputScholarshipAmount" type="text" name='scholarshipAmount' placeholder='Enter Scholarship Amount' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control" id="inputScholarshipAmount" type="number" name='scholarshipAmount' placeholder='Enter Scholarship Amount' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.scholarshipAmount.required && (
                         <div className="text-danger form-text">This field is required.</div>
                       )}

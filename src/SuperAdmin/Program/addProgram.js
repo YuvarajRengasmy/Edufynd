@@ -29,7 +29,7 @@ function Profile() {
     currency: "",
     discountedValue: "",
     campus: "",
-    courseFee: "",
+    courseFee: 0,
     duration: "",
     englishlanguageTest: "",
     textBox: "",
@@ -105,7 +105,6 @@ function Profile() {
   const getAllIntakeDetails = () => {
     getallIntake()
       .then((res) => {
-        console.log(res);
         setIntake(res?.data?.result);
 
       })
@@ -475,7 +474,7 @@ function Profile() {
                               Course Fees <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"
+                              type="number"
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               className="form-control"
                               placeholder="Enter courseFees"
