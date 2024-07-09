@@ -1,9 +1,82 @@
-import React from 'react'
-import Mastersidebar from '../../../compoents/sidebar';
+import React, { useEffect, useState } from "react";
+import { getallFlightEnquiry, getSingleFlightEnquiry, deleteFlightEnquiry } from "../../../api/Enquiry/flight";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import { formatDate } from "../../../Utils/DateFormat";
+import Mastersidebar from "../../../compoents/sidebar";
+import { ExportCsvService } from "../../../Utils/Excel";
+import { templatePdf } from "../../../Utils/PdfMake";
+import { toast } from "react-toastify";
+
 import { FaFilter } from "react-icons/fa";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
 export const ListFlightTicket = () => {
+
+
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  const [flight, setFlight] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [filter, setFilter] = useState(false);
+
+  useEffect(() => {
+    getAllFlightDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllFlightDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getallFlightEnquiry(data)
+      .then((res) => {
+        setFlight(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const deletFlightData = () => {
+    deleteFlightEnquiry(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllFlightDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+
+
+
+
   return (
     <div>
       <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
@@ -205,25 +278,27 @@ export const ListFlightTicket = () => {
                           <th className="text-capitalize text-start"> Date Added  </th>
                           <th className="text-capitalize text-start">Candidate ID  </th>
                           <th className="text-capitalize text-start"> Name </th>
-                          <th className="text-capitalize text-start"> Position Applied  </th>
-                          <th className="text-capitalize text-start"> Experience </th>
                           <th className="text-capitalize text-start"> Passport No  </th>
+                          <th className="text-capitalize text-start"> Date Of Travel  </th>
+                          <th className="text-capitalize text-start"> From</th>
+                          <th className="text-capitalize text-start"> To</th>
                           <th className="text-capitalize text-start"> Status  </th>
-                          <th className="text-capitalize text-start"> User Assigned </th>
                           <th className="text-capitalize text-start"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       
-                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start"></td>
+                      {flight && flight.length > 0 ? (
+                                flight.map((data, index) => (
+                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
+                          <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
+                          <td className="text-capitalize text-start">{data?.flightID}</td>
+                          <td className="text-capitalize text-start">{data?.studentName}</td>
+                          <td className="text-capitalize text-start">{data?.passportNo}</td>
+                          <td className="text-capitalize text-start">{formatDate(data?.dateOfTravel?data?.dateOfTravel:"-")}</td>
+                          <td className="text-capitalize text-start">{data?.from}</td>
+                          <td className="text-capitalize text-start">{data?.to}</td>
                           <td className="text-capitalize text-start"></td>
                           <td className="text-capitalize text-start">
                                   <div className="d-flex">
@@ -254,27 +329,63 @@ export const ListFlightTicket = () => {
                                   </div>
                                 </td>
                         </tr>
-                      
-                      
+                        ))
+                      ) : (
                         <tr>
                           <td className="form-text text-danger" colSpan="9">
-                            No data
+                            N0 Data Found In Page
                           </td>
                         </tr>
+                      )}
+                      
+                       
                      
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <div className="float-right my-2">
-                  <Pagination variant="outlined" shape="rounded" color="primary"/>
-                </div>
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
               </div>
             </div>
           </div>
           </div>
         </div>
   
+
+        <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
+          
+              Are you sure you want to Delete <br /> the selected FlightEnquiry ?
+            </h5>
+            <button
+              type="button"
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              className="btn btn-danger mx-3"
+              onClick={deletFlightData}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-info "
+              onClick={closePopup}
+              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
 
         

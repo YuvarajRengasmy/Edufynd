@@ -2,27 +2,27 @@ import API from "../api"
 import { SenderInvoice } from "../endpoints"
 
 export const saveFSenderInvoice = (data) => {
-    return API.post(`${SenderInvoice}/senderInvoice`, data)
+    return API.post(`${SenderInvoice}`, data)
 }
 
-export const updateFlightEnquiry= (data) => {
+export const updateSenderInvoice = (data) => {
     return API.put(`${SenderInvoice}`, data)
 }
 
 
 
-export const getSingleFlightEnquiry = (data) => {
-    return API.get(`${SenderInvoice}/getSingleFlightEnquiry`, { params: { _id: data } })
+export const getSingleSenderInvoice = (data) => {
+    return API.get(`${SenderInvoice}/getSingleSenderInvoice`, { params: { _id: data } })
 }
-export const getallFlightEnquiry = () => {
+export const getallSenderInvoice = () => {
     return API.get(`${SenderInvoice}`)
 }
-export const deleteFlightEnquiry= (data) => {
+export const deleteSenderInvoice = (data) => {
     return API.delete(`${SenderInvoice}`, { params: { _id: data } });
   };
 
-  export const getFilterFlightEnquiry= (data) => {
-    return API.put(`${SenderInvoice}/getFilterFlightEnquiry`, data);
+  export const getFilterSenderInvoice= (data) => {
+    return API.put(`${SenderInvoice}/getFilterSenderInvoice`, data);
   };
 
 

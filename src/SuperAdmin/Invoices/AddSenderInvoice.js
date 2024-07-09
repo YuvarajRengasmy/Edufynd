@@ -11,36 +11,33 @@ const AddSenderInvoice = () => {
     tax: "",
     gst: "",
     tds: "",
-    clientName: "",
+    businessName: "",
     universityName: "",
     applicationID: "",
     currency: "",
-    commission: "",
-    amountToBeReceivedCurrency: "",
-    amountReceivedInINRAndCurrency: "",
-    INRValue: "",
+  
     fixedAmount: "",
-    courseFeesAmount: 0,
-    scholarshipAmount: 0,
-    paidFeesAmount: 0
+    courseFeesAmount: "",
+    scholarshipAmount: "",
+    paidFeesPercentage: "",
+    courseFeesPercentage: "",
   };
 
   const initialStateErrors = {
     tax: { required: false },
     gst: { required: false },
     tds: { required: false },
-    clientName: { required: false },
+    businessName: { required: false },
     universityName: { required: false },
     applicationID: { required: false },
     currency: { required: false },
-    commission: { required: false },
-    amountToBeReceivedCurrency: { required: false },
-    amountReceivedInINRAndCurrency: { required: false },
-    INRValue: { required: false },
+  
+    
     fixedAmount: { required: false },
     courseFeesAmount: { required: false },
     scholarshipAmount: { required: false },
-    paidFeesAmount: { required: false }
+    paidFeesPercentage: { required: false },
+     courseFeesPercentage: { required: false }
   };
 
   const [invoice, setInvoice] = useState(initialState);
@@ -76,8 +73,8 @@ const AddSenderInvoice = () => {
     if (data.tax === "") {
       error.tax.required = true;
     }
-    if (data.clientName === "") {
-      error.clientName.required = true;
+    if (data.businessName === "") {
+      error.businessName.required = true;
     }
     if (data.universityName === "") {
       error.universityName.required = true;
@@ -105,12 +102,12 @@ const AddSenderInvoice = () => {
           return {
             ...updatedInvoice,
             universityName: selectedUniversity.universityName,
-            clientName: selectedUniversity.businessName,
+            businessName: selectedUniversity.businessName,
             currency: selectedUniversity.currency,
             paymentMethod: selectedUniversity.paymentMethod,
             fixedAmount: selectedUniversity.amount,
-            courseFeesAmount: selectedUniversity.percentage,
-            paidFeesAmount: selectedUniversity.percentage,
+            courseFeesPercentage: selectedUniversity.percentage,
+            paidFeesPercentage: selectedUniversity.percentage,
           };
         }
       }
@@ -158,7 +155,7 @@ const AddSenderInvoice = () => {
       saveFSenderInvoice(invoice)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListLoanEnquiry");
+          navigate("/ListInvoice");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -197,21 +194,16 @@ const AddSenderInvoice = () => {
                             <label className="form-label" htmlFor="inputGST">GST</label>
                             <select className="form-select" aria-label="Default select example2" onChange={handleInputs} name={'gst'}>
                               <option>Select GST</option>
-                              <option value="Yes" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
+                              <option value="18" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
                               <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
                             </select>
-                            {invoice.gst === 'Yes' && (
-                              <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-                                <label className="form-label" htmlFor="inputGSTValue">GST Value</label>
-                                <input className="form-control" id="inputGSTValue" type="text" name='gst' onChange={handleInputs} placeholder='Enter GST' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                              </div>
-                            )}
+                            
                           </div>
                           <div className="col">
                             <label className="form-label" htmlFor="inputTDS">TDS</label>
                             <select className="form-select" aria-label="Default select example3" onChange={handleInputs} name='tds'>
                               <option>Select TDS</option>
-                              <option value="Yes" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
+                              <option value="5" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
                               <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
                             </select>
                             {errors.tds.required && (
@@ -239,8 +231,8 @@ const AddSenderInvoice = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" htmlFor="inputClientName">Client Name</label>
-                      <input className="form-control" id="inputClientName" type="text" name='clientName' value={invoice.clientName} placeholder='Enter Client Name' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.clientName.required && (
+                      <input className="form-control" id="inputClientName" type="text" name='businessName' value={invoice.businessName} placeholder='Enter Client Name' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.businessName.required && (
                         <div className="text-danger form-text">This field is required.</div>
                       )}
                     </div>
@@ -270,13 +262,66 @@ const AddSenderInvoice = () => {
                     
                    
                    
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputFixedAmount">Fixed Amount</label>
-                      <input className="form-control" id="inputFixedAmount" type="text" name='fixedAmount' placeholder='Enter Fixed Amount' value={invoice.fixedAmount} onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.fixedAmount.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
+                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label style={{ color: '#231F20' }} className="class-danger">
+                              Payment Method
+                            </label>
+                            <select value={invoice?.paymentMethod} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select" name="paymentMethod" onChange={handleInputs}>
+                              <option value="">Select Payment Type</option>
+                              <option value="categorie1">Fixed Ammount</option>
+                              <option value="categorie2">courseFeesPercentage</option>
+                              <option value="categorie3">paidFeesPercentage</option>
+                            </select>
+                            <br />
+                            {invoice.paymentMethod === 'categorie1' ? (
+                              <div className="form-group">
+                                <label style={{ color: '#231F20' }} className="class-danger">Fixed Amount</label>
+
+                                <input
+                                  name="fixedAmount"
+                                  className="form-control"
+                                  type="text"
+                                  placeholder='Enter Amount'
+                                  value={invoice?.fixedAmount}
+                                  style={{ height: 50 }}
+                                  onChange={handleInputs}
+                                />
+
+                              </div>
+                            ) : invoice.paymentMethod === 'categorie2' ? (
+                              <div className="form-group">
+                                <label style={{ color: '#231F20' }} className="class-danger"> Course Fees Percentage</label>
+
+                                <input
+                                  name="paidFeesPercentage"
+                                  className="form-control"
+                                  value={invoice?.paidFeesPercentage}
+                                  type="text"
+                                  placeholder='Enter Percentage'
+                                  style={{ height: 50 }}
+                                  onChange={handleInputs}
+                                />
+
+                              </div>
+                            ) : invoice.paymentMethod === 'categorie3' ? (
+                              <div className="form-group">
+                                <label style={{ color: '#231F20' }} className="class-danger"> PaidFees Percentage</label>
+
+                                <input
+                                  name="paidFeesPercentage"
+                                  className="form-control"
+                                  value={invoice?.paidFeesPercentage}
+                                  type="text"
+                                  placeholder='Enter Percentage'
+                                  style={{ height: 50 }}
+                                  onChange={handleInputs}
+                                />
+
+                              </div>
+                            ) :null}
+                          </div>
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" htmlFor="inputCourseFeesAmount">Course Fees Amount</label>
                       <input className="form-control" id="inputCourseFeesAmount" type="text" name='courseFeesAmount' placeholder='Enter Course Fees Amount' value={invoice.courseFeesAmount} onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />

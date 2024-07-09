@@ -22,7 +22,7 @@ export const deleteFlightEnquiry= (data) => {
   };
 
   export const getFilterFlightEnquiry= (data) => {
-    return API.put(`${Loan}/getFilterFlightEnquiry`, data);
+    return API.put(`${Flight}/getFilterFlightEnquiry`, data);
   };
 
 
