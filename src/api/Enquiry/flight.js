@@ -9,10 +9,8 @@ export const updateFlightEnquiry= (data) => {
     return API.put(`${Flight}`, data)
 }
 
-
-
 export const getSingleFlightEnquiry = (data) => {
-    return API.get(`${Flight}/getSingleFlightEnquiry`, { params: { _id: data } })
+    return API.get(`${Flight}/getSingleFlightEnquiry`,{params: {_id:data}})
 }
 export const getallFlightEnquiry = () => {
     return API.get(`${Flight}`)

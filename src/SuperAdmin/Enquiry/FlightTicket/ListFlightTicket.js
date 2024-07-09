@@ -306,7 +306,7 @@ export const ListFlightTicket = () => {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/ViewFlightTicket",
-                                       
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
@@ -315,14 +315,16 @@ export const ListFlightTicket = () => {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/EditFlightTicket",
-                                        
+                                        search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
                                     <button
                                       className="dropdown-item"
-                                     
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
                                     </button>

@@ -6,7 +6,7 @@ import Mastersidebar from '../../../compoents/sidebar';
 export const ViewFlightTicket = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-  const [flight, setFlight] = useState({});
+  const [flight, setFlight] = useState(null);
 
   useEffect(() => {
     getFlightDetails();
