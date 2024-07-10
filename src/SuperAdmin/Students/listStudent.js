@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
 import { getallStudent, deleteStudent , getFilterStudent } from "../../api/student";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
@@ -316,6 +317,32 @@ export default function Masterproductlist() {
       });
   };
 
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
@@ -381,44 +408,44 @@ export default function Masterproductlist() {
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">University Name</label>
+                              <label className="form-label">Student Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="universityName"
                                 onChange={handleInputs}
-                                placeholder="Search...University Name"
+                                placeholder="Search...Student Name"
                                 style={{ fontSize: '12px' }}
                               />
-                              <label className="form-label">Program Name</label>
+                              <label className="form-label">Student Code</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="programTitle"
                                 onChange={handleInputs}
-                                placeholder="Search...program Title"
+                                placeholder="Search...Student Code"
                                 style={{ fontSize: '12px' }}
                               />
-                              <label className="form-label">ApplicationFee</label>
+                              <label className="form-label">Email</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="applicationFee"
                                 onChange={handleInputs}
-                                placeholder="Search...Application Fee"
+                                placeholder="Search...Email"
                                 style={{ fontSize: '12px' }}
                               />
-                              <label className="form-label">CourseFee</label>
+                              <label className="form-label">Status</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
                                 name="courseFee"
                                 onChange={handleInputs}
-                                placeholder="Search...Course Fee"
+                                placeholder="Search...Status"
                                 style={{ fontSize: '12px' }}
                               />
 
@@ -511,23 +538,24 @@ export default function Masterproductlist() {
            <div className="card-table">
              <div className="table-responsive">
 
-               <table className=" table card-table dataTable text-center">
+               <table className=" table card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
                  <thead>
-                   <tr  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                     <th className="text-capitalize text-start">S No</th>
-                     <th className="text-capitalize text-start">Student Name</th>
-                     <th className="text-capitalize text-start">Student Code</th>
+                   <tr  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                     <th className="text-capitalize text-start sortable-handle">S No</th>
+                     <th className="text-capitalize text-start sortable-handle">Student Name</th>
+                     <th className="text-capitalize text-start sortable-handle">Student Code</th>
                   
-                     <th className="text-capitalize text-start">Email</th>
-                     <th className="text-capitalize text-start">Mobile Number</th>
-                     <th className="text-capitalize text-start">Status</th>
-                     <th className="text-capitalize text-start">Created by</th>
-                     <th className="text-capitalize text-start">Action</th>
+                     <th className="text-capitalize text-start sortable-handle">Email</th>
+                     <th className="text-capitalize text-start  sortable-handle">Mobile Number</th>
+                     <th className="text-capitalize text-start sortable-handle">Status</th>
+                     <th className="text-capitalize text-start sortable-handle">Created by</th>
+                     <th className="text-capitalize text-start sortable-handle">Action</th>
                    </tr>
                  </thead>
                  <tbody>
                    {student?.map((data, index) => (
-                     <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                     <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                        <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                        <td className="text-capitalize text-start">{data?.name?data?.name: data?.superAdminId?.studentName}</td>
                        <td className="text-capitalize text-start">{data?.studentCode}</td>
@@ -605,16 +633,16 @@ export default function Masterproductlist() {
        </h5>
        <button
          type="button"
-         className="btn btn-danger mx-3"
-         style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+         className="btn btn-danger fw-semibold text-uppercase px-4 py-2 rounded-pill text-white border-0 mx-3"
+         style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}
          onClick={deleteStudentData}
        >
          Yes
        </button>
        <button
          type="button"
-         className="btn btn-info "
-         style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+         className="btn btn-success fw-semibold text-uppercase px-4 py-2 rounded-pill text-white border-0 "
+         style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}
          onClick={closePopup}
        >
          No

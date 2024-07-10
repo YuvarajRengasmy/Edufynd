@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
 import { getallLoanEnquiry, getSingleLoanEnquiry, deleteLoanEnquiry } from "../../../api/Enquiry/Loan";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
@@ -70,6 +71,32 @@ export const ListLoanEnquiry = () => {
   };
 
 
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
@@ -80,10 +107,12 @@ export const ListLoanEnquiry = () => {
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper' style={{ backgroundColor: '#fff' }}>
-
-        <div className='col-xl-12'  >
-                  <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+        <div className='content-wrapper' style={{fontSize:'14px' }}>
+          <div className="container">
+            <div className="row">
+            <div className='col-xl-12'  >
+        <div className="content-header">
+              <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     
                     <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -119,12 +148,12 @@ export const ListLoanEnquiry = () => {
                     <li class="m-1">
 
 
-                      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                      <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
                         
-                            <h5 id="offcanvasRightLabel">Filter University</h5>
+                            <h5 id="offcanvasRightLabel">Filter Loan</h5>
                             <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                           </div>
                           <div className="offcanvas-body ">
@@ -186,7 +215,7 @@ export const ListLoanEnquiry = () => {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white float-right bg"
+                                  className="btn btn-cancel border-0  rounded-pill px-4 py-2 text-uppercase fw-semibold text-white float-right bg"
                                   style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
@@ -196,7 +225,7 @@ export const ListLoanEnquiry = () => {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                  
-                                  className="btn btn-save border-0 text-white float-right mx-2"
+                                  className="btn btn-save border-0 rounded-pill px-4 py-2 text-uppercase fw-semibold text-white float-right mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -243,9 +272,9 @@ export const ListLoanEnquiry = () => {
                     <li class="m-1">
                       <Link class="btn btn-pix-primary" to="/AddLoanEnquiry">
                         <button
-                          className="btn btn-outline border text-white  "
+                          className="btn btn-outline border-0 text-white  "
 
-                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -257,37 +286,40 @@ export const ListLoanEnquiry = () => {
                     </li>
 
                   </ol>
+              </div>
 
 
                 </div>
-                <div className="row">
-          <div className="container">
-          <div className="col-md-12">
-            <div className="card mt-2 border-0">
+            </div>
+            <div className="row">
+          
+          <div className="col-xl-12">
+            <div className="card  border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
-                    <table className=" table card-table dataTable text-center">
+                    <table className=" table card-table dataTable text-center"style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
                       <thead>
-                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start"> S.No.</th>
-                          <th className="text-capitalize text-start"> Date </th>
-                          <th className="text-capitalize text-start">Student Name</th>
-                          <th className="text-capitalize text-start">Passport No</th>
-                          <th className="text-capitalize text-start">Contact No </th>
-                          <th className="text-capitalize text-start"> Email ID </th>
-                          <th className="text-capitalize text-start">Assigned Platform</th>
-                          <th className="text-capitalize text-start">Assigned User</th>
+                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                          <th className="text-capitalize text-start sortable-handle"> Date </th>
+                          <th className="text-capitalize text-start sortable-handle">Student Name</th>
+                          <th className="text-capitalize text-start sortable-handle">Passport No</th>
+                          <th className="text-capitalize text-start sortable-handle">Contact No </th>
+                          <th className="text-capitalize text-start sortable-handle"> Email ID </th>
+                          <th className="text-capitalize text-start sortable-handle">Assigned Platform</th>
+                          <th className="text-capitalize text-start sortable-handle">Assigned User</th>
                          
-                          <th className="text-capitalize text-start">Status </th>
+                          <th className="text-capitalize text-start sortable-handle">Status </th>
                          
-                          <th className="text-capitalize text-start"> Action </th>
+                          <th className="text-capitalize text-start sortable-handle"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       {loan && loan.length > 0 ? (
                                 loan.map((data, index) => (
-                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
+                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}  >
                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                                     <td className="text-capitalize text-start" >{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
                                     <td className="text-capitalize text-start">{data?.studentName}</td>
@@ -305,8 +337,12 @@ export const ListLoanEnquiry = () => {
                                         pathname: "/ViewLoanEnquiry",
                                         search: `?id=${data?._id}`,
                                       }}
+                                      data-bs-toggle="tooltip"
+                                 
+                                      title="View"
+                                     
                                     >
-                                      <i className="far fa-eye text-primary me-1"></i>
+                                      <i className="far fa-eye text-primary me-1" ></i>
                                     </Link>
                                     <Link
                                       className="dropdown-item"
@@ -314,6 +350,9 @@ export const ListLoanEnquiry = () => {
                                         pathname: "/EditLoanEnquiry",
                                         search: `?id=${data?._id}`,
                                       }}
+                                      data-bs-toggle="tooltip"
+                                 
+                                      title="Edit"
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
@@ -322,6 +361,9 @@ export const ListLoanEnquiry = () => {
                                       onClick={() => {
                                         openPopup(data?._id);
                                       }}
+                                      data-bs-toggle="tooltip"
+                                 
+                                      title="Delete"
                                      
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
@@ -356,9 +398,17 @@ export const ListLoanEnquiry = () => {
               </div>
             </div>
           </div>
-          </div>
+          
         </div>
+          </div>
+
+      
+              
   
+       
+
+        
+        </div>
         <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
@@ -368,26 +418,23 @@ export const ListLoanEnquiry = () => {
             </h5>
             <button
               type="button"
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              className="btn btn-danger mx-3"
+              style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}
+              className="btn btn-danger border-0 rounded-pill px-4 py-2 fw-semibold text-uppercase mx-3 text-white"
               onClick={deletLoanData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-info "
+              className="btn btn-success border-0 rounded-pill px-4 py-2 fw-semibold text-uppercase text-white "
               onClick={closePopup}
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}
             >
               No
             </button>
           </div>
         </DialogContent>
       </Dialog>
-
-        
-        </div>
                     
                </div>     
     </div></div>

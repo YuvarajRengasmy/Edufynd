@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
 import { getallStudnetEnquiry, getSingleStudnetEnquiry, deleteStudnetEnquiry } from "../../../api/Enquiry/student";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
@@ -88,19 +89,47 @@ export const ListStudentForm = () => {
   };
 
 
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+      <div style={{ fontFamily: 'Plus Jakarta Sans' }}>
         <div class="container-fluid">
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-          <div className='content-wrapper' style={{ backgroundColor: '#fff' }}>
-
-            <div className='col-xl-12'  >
+          <div className='content-wrapper' style={{fontSize:'14px' }}>
+            <div className="container">
+              <div className="content-header">
+              <div className="row">
+         <div className='col-xl-12'  >
               <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
 
                 <li className="flex-grow-1">
@@ -141,13 +170,13 @@ export const ListStudentForm = () => {
                     <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                     <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                       <div className="offcanvas-header">
-                        <h5 id="offcanvasRightLabel">Filter University</h5>
+                        <h5 id="offcanvasRightLabel">Filter Student Enquiry</h5>
                         <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                       </div>
                       <div className="offcanvas-body ">
                         <form>
                           <div className="from-group mb-3">
-                            <label className="form-label">University Name</label>
+                            <label className="form-label">Student Code</label>
                             <br />
                             <input
                               type="text"
@@ -155,9 +184,9 @@ export const ListStudentForm = () => {
                               name="universityName"
 
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              placeholder="Search...University Name"
+                              placeholder="Search...Student Code"
                             />
-                            <label className="form-label">Campus</label>
+                            <label className="form-label">Name</label>
                             <br />
                             <input
                               type="text"
@@ -165,9 +194,9 @@ export const ListStudentForm = () => {
                               name="state"
 
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              placeholder="Search...Campus"
+                              placeholder="Search...Name"
                             />
-                            <label className="form-label">Average Fees</label>
+                            <label className="form-label">Desired Country</label>
                             <br />
                             <input
                               type="text"
@@ -175,9 +204,9 @@ export const ListStudentForm = () => {
                               name="averageFees"
 
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              placeholder="Search...Average Fees"
+                              placeholder="Search...Desired Country"
                             />
-                            <label className="form-label">Country</label>
+                            <label className="form-label">Source</label>
                             <br />
                             <input
                               type="text"
@@ -185,10 +214,10 @@ export const ListStudentForm = () => {
                               name="country"
 
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              placeholder="Search...Country"
+                              placeholder="Search...Source"
                             />
 
-                            <label className="form-label">Popular Categories</label>
+                            <label className="form-label">Assigned To</label>
                             <br />
                             <input
                               type="text"
@@ -196,15 +225,15 @@ export const ListStudentForm = () => {
                               name="popularCategories"
 
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              placeholder="Search...Country"
+                              placeholder="Search...Assigned To"
                             />
                           </div>
                           <div>
                             <button
 
                               data-bs-dismiss="offcanvas"
-                              className="btn btn-cancel border-0 text-white float-right bg"
-                              style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                              className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right bg"
+                              style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
 
                             >
                               Reset
@@ -213,7 +242,7 @@ export const ListStudentForm = () => {
                               data-bs-dismiss="offcanvas"
                               type="submit"
 
-                              className="btn btn-save border-0 text-white float-right mx-2"
+                              className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right mx-2"
                               style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                             >
                               Apply
@@ -260,9 +289,9 @@ export const ListStudentForm = () => {
                 <li class="m-1">
                   <Link class="btn btn-pix-primary" to="/AddStudentForm">
                     <button
-                      className="btn btn-outline border text-white  "
+                      className="btn btn-outline border-0 text-white  "
 
-                      style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                      style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                     >
                       <i
                         class="fa fa-plus-circle me-2"
@@ -277,32 +306,37 @@ export const ListStudentForm = () => {
 
 
             </div>
+         </div>
+              </div>
+          
+           
             <div className="row">
-              <div className="container">
-                <div className="col-md-12">
-                  <div className="card mt-2 border-0">
+              
+                <div className="col-xl-12">
+                  <div className="card border-0">
                     <div className="card-body">
                       <div className="card-table">
                         <div className="table-responsive">
-                          <table className=" table card-table dataTable text-center" style={{ color: "#9265cc", fontSize: '13px' }}>
+                          <table className=" table card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
                             <thead>
-                              <tr >
-                                <th className="text-capitalize text-start"> S.No.</th>
-                                <th className="text-capitalize text-start"> Date </th>
-                                <th className="text-capitalize text-start"> Student Code </th>
-                                <th className="text-capitalize text-start"> Name </th>
-                                <th className="text-capitalize text-start"> Contact Number </th>
-                                <th className="text-capitalize text-start"> Email ID </th>
-                                <th className="text-capitalize text-start"> Desired Country</th>
-                                <th className="text-capitalize text-start"> Source</th>
-                                <th className="text-capitalize text-start"> Assigned To</th>
-                                <th className="text-capitalize text-start"> Action</th>
+                              <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
+                                <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                                <th className="text-capitalize text-start sortable-handle"> Date </th>
+                                <th className="text-capitalize text-start sortable-handle"> Student Code </th>
+                                <th className="text-capitalize text-start sortable-handle"> Name </th>
+                                <th className="text-capitalize text-start sortable-handle"> Contact Number </th>
+                                <th className="text-capitalize text-start sortable-handle"> Email ID </th>
+                                <th className="text-capitalize text-start sortable-handle"> Desired Country</th>
+                                <th className="text-capitalize text-start sortable-handle"> Source</th>
+                                <th className="text-capitalize text-start sortable-handle"> Assigned To</th>
+                                <th className="text-capitalize text-start sortable-handle"> Action</th>
                               </tr>
                             </thead>
                             <tbody>
                               {student && student.length > 0 ? (
                                 student.map((data, index) => (
-                                  <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                                  <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                                     <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                                     <td className="text-capitalize text-start" > {formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
                                    
@@ -369,38 +403,41 @@ export const ListStudentForm = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+             
             </div>
-            <Dialog open={open}>
+            </div>
+       
+         
+
+
+
+          </div>
+          <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
           
-              Are you sure you want to Delete <br /> the selected StudnetEnquiry ?
+              Are you sure you want to Delete <br /> the selected Student Enquiry ?
             </h5>
             <button
               type="button"
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              className="btn btn-danger mx-3"
+              style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}
+              className="btn btn-danger rounded-pill px-4 py-2 fw-semibold text-uppercase mx-3"
               onClick={deletStudentData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-info "
+              className="btn btn-success rounded-pill px-4 py-2 fw-semibold text-uppercase "
               onClick={closePopup}
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}
             >
               No
             </button>
           </div>
         </DialogContent>
       </Dialog>
-
-
-
-          </div>
 
         </div>
       </div>

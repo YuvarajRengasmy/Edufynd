@@ -43,7 +43,7 @@ const Sidebar = () => {
           scrollbarWidth: "none",
         }}
       >
-        <div className="  shadow-lg rounded  ">
+        <div className="  shadow-lg   ">
           <div className="sidebar">
             <div className="user-panel mt-2  d-flex">
               <div className="info  mt-1">

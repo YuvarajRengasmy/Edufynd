@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
 import { getallForexEnquiry, getSingleForexEnquiry, deleteForexEnquiry } from "../../../api/Enquiry/Forex";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
@@ -71,7 +72,32 @@ export const ListForex = () => {
   };
 
 
+  const tableRef = useRef(null);
 
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
@@ -84,9 +110,13 @@ export const ListForex = () => {
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper px-4'>
-
-        <div className='col-xl-12'  >
+        <div className='content-wrapper'>
+          <div className="container">
+          
+           
+              <div className="row">
+              <div className='col-xl-12'  >
+              <div className="content-header">
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     
                     <li className="flex-grow-1">
@@ -127,7 +157,7 @@ export const ListForex = () => {
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">Filter University</h5>
+                            <h5 id="offcanvasRightLabel">Filter Forex</h5>
                             <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                           </div>
                           <div className="offcanvas-body ">
@@ -189,7 +219,7 @@ export const ListForex = () => {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white float-right bg"
+                                  className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
                                   style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
@@ -199,7 +229,7 @@ export const ListForex = () => {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                  
-                                  className="btn btn-save border-0 text-white float-right mx-2"
+                                  className="btn btn-save border-0 text-uppercase fw-semibold rounded-pill px-4 py-2  text-white float-right mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -244,11 +274,11 @@ export const ListForex = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddForexForm">
+                      <Link class="btn btn-pix-primary " to="/AddForexForm">
                         <button
-                          className="btn btn-outline border text-white  "
+                          className="btn btn-outline border-0 text-white  "
 
-                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -263,32 +293,35 @@ export const ListForex = () => {
 
 
                 </div>
-                <div className="row">
-          <div className="container">
-          <div className="col-md-12">
-            <div className="card mt-2 border-0">
+              </div>
+            </div>
+            <div className="row">
+          
+          <div className="col-xl-12">
+            <div className="card  border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
-                    <table className=" table card-table dataTable text-center">
+                    <table className=" table card-table dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
                       <thead>
-                        <tr style={{ color: "#9265cc",fontSize:'13px' }}>
-                          <th className="text-capitalize text-start"> S.No.</th>
-                          <th className="text-capitalize text-start"> Date </th>
-                          <th className="text-capitalize text-start">Forex ID </th>
-                          <th className="text-capitalize text-start"> Student Name</th>
-                          <th className="text-capitalize text-start"> Passport No </th>
-                          <th className="text-capitalize text-start"> Source </th>
-                          <th className="text-capitalize text-start" > Assigned to</th>
-                          <th className="text-capitalize text-start"> Status </th>
-                          <th className="text-capitalize text-start"> Action </th>
+                        <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                          <th className="text-capitalize text-start sortable-handle"> Date </th>
+                          <th className="text-capitalize text-start sortable-handle">Forex ID </th>
+                          <th className="text-capitalize text-start sortable-handle"> Student Name</th>
+                          <th className="text-capitalize text-start sortable-handle"> Passport No </th>
+                          <th className="text-capitalize text-start sortable-handle"> Source </th>
+                          <th className="text-capitalize text-start sortable-handle" > Assigned to</th>
+                          <th className="text-capitalize text-start sortable-handle"> Status </th>
+                          <th className="text-capitalize text-start sortable-handle"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       
                       {forex && forex.length > 0 ? (
                                 forex.map((data, index) => (
-                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
+                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}  >
                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                           <td className="text-capitalize text-start">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
                           <td className="text-capitalize text-start">{data?.forexID}</td>
@@ -352,26 +385,35 @@ export const ListForex = () => {
               </div>
             </div>
           </div>
+          
+        </div>
           </div>
+
+       
+                
+      
+
+
+        
         </div>
         <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
           
-              Are you sure you want to Delete <br /> the selected ForexEnquiry ?
+              Are you sure you want to Delete <br /> the selected Forex  Enquiry ?
             </h5>
             <button
               type="button"
               style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              className="btn btn-danger mx-3"
+              className="btn btn-danger rounded-pill fw-semibold text-uppercase px-4 py-2 mx-3"
               onClick={deletForexData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-info "
+              className="btn btn-success rounded-pill fw-semibold text-uppercase px-4 py-2 "
               onClick={closePopup}
               style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
             >
@@ -380,10 +422,6 @@ export const ListForex = () => {
           </div>
         </DialogContent>
       </Dialog>
-
-
-        
-        </div>
                     
                </div>     
     </div>
