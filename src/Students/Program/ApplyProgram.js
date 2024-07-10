@@ -25,7 +25,7 @@ export const Course = () => {
         inTake: "",
         universityName: "",
         course: "",
-        courseFees: ""
+        courseFees:0
     };
 
     const initialStateErrors = {

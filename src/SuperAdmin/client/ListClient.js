@@ -474,12 +474,13 @@ export default function Masterproductlist() {
                       <thead>
                         <tr  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                           <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Date</th>
-                          <th className="text-capitalize text-start">Client ID</th>
+                          <th className="text-capitalize text-start">Client Code</th>
+                          <th className="text-capitalize text-start">Type of Client</th>
                           <th className="text-capitalize text-start">Client Name</th>
-                          <th className="text-capitalize text-start">Contact</th>
+                          <th className="text-capitalize text-start">Primary No</th>
                           <th className="text-capitalize text-start">Email ID</th>
                           <th className="text-capitalize text-start">Status</th>
+                          <th className="text-capitalize text-start">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -487,9 +488,10 @@ export default function Masterproductlist() {
                           <tr key={index}  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                             <td className="text-capitalize text-start">{data?.clientID}</td>
+                            <td className="text-capitalize text-start">{data?.typeOfClient}</td>
                             <td className="text-capitalize text-start">{data?.businessName}</td>
-                            <td className="text-capitalize text-start">{data?.businessMailID}</td>
                             <td className="text-capitalize text-start">{data?.businessContactNo}</td>
+                            <td className="text-capitalize text-start">{data?.businessMailID}</td>
                             <td className="text-capitalize text-start">{data?.status}</td>
                             <td>
                               <div className="d-flex">

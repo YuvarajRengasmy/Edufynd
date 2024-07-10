@@ -5,6 +5,7 @@ import Flags from 'react-world-flags';
 import Mastersidebar from '../../../compoents/sidebar';
 
 export const ViewForex = () => {
+  
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [forex, setForex] = useState(null);

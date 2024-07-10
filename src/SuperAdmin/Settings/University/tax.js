@@ -274,7 +274,7 @@ export default function GlobalSettings() {
               <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                 <li className="flex-grow-1">
                   <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
-                    <h1 className="text-bold" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '15px' }}>Popular Catgeries</h1>
+                    <h1 className="text-bold" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '15px' }}>Tax</h1>
 
 
                   </div>

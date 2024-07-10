@@ -29,7 +29,7 @@ function Profile() {
     currency: "",
     discountedValue: "",
     campus: "",
-    courseFee: "",
+    courseFee: 0,
     duration: "",
     englishlanguageTest: "",
     textBox: "",
@@ -105,7 +105,6 @@ function Profile() {
   const getAllIntakeDetails = () => {
     getallIntake()
       .then((res) => {
-        console.log(res);
         setIntake(res?.data?.result);
 
       })
@@ -475,7 +474,7 @@ function Profile() {
                               Course Fees <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"
+                              type="number"
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               className="form-control"
                               placeholder="Enter courseFees"
@@ -682,33 +681,33 @@ function Profile() {
 
 
 
-                         <div className='row g-2'>
-                         <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                            <Link
+                          <div className='row g-2'>
+                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                              <Link
 
-                              to="/ListUniversity"
-                              style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                            >
-                              Cancel
-                            </Link>
-                            <button
+                                to="/ListUniversity"
+                                style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                              >
+                                Cancel
+                              </Link>
+                              <button
 
-                              style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
 
-                              type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
-                            >
-                              Submit
-                            </button>
+                                type="submit"
+                                className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                              >
+                                Submit
+                              </button>
+                            </div>
+
+
                           </div>
-
-
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </div>
               </form>
             </div>
