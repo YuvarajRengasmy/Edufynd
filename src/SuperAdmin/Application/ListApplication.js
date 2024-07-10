@@ -454,7 +454,7 @@ export default function Masterproductlist() {
                             class="fa fa-plus-circle me-2"
                             aria-hidden="true"
                           ></i>
-                          Add Application
+                          Add  Application
                         </button>
                       </Link>
                     </li>
