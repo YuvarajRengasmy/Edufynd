@@ -15,12 +15,12 @@ const AddSenderInvoice = () => {
     universityName: "",
     applicationID: "",
     currency: "",
-     paidFeesAmmount:0,
-    fixedAmount: "",
-    courseFeesAmount: 0,
-    scholarshipAmount: "",
-    paidFeesPercentage: "",
-    courseFeesPercentage: "",
+     paidFeesAmount:null,
+    fixedAmount: null,
+    courseFeesAmount: null,
+    scholarshipAmount: null,
+    paidFeesPercentage: null,
+    courseFeesPercentage: null,
   };
 
   const initialStateErrors = {
@@ -31,7 +31,7 @@ const AddSenderInvoice = () => {
     universityName: { required: false },
     applicationID: { required: false },
     currency: { required: false },
-  paidFeesAmmount: { required: false },
+  paidFeesAmount: { required: false },
     
     fixedAmount: { required: false },
     courseFeesAmount: { required: false },
@@ -318,7 +318,7 @@ const AddSenderInvoice = () => {
                                   onChange={handleInputs}
                                 />
                                 <input
-                                  name="paidFeesAmmount"
+                                  name="paidFeesAmount"
                                   className="form-control"
                                  
                                   type="number"

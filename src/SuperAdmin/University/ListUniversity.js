@@ -519,12 +519,12 @@ export default function Masterproductlist() {
                         <thead>
                           <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
                             <th className="text-capitalize text-start">S No</th>
-                            <th className="text-capitalize text-start">Client Name</th>
+                            <th className="text-capitalize text-start">University Code</th>
                             <th className="text-capitalize text-start">University Name</th>
                             <th className="text-capitalize text-start">Campus</th>
-                            <th className="text-capitalize text-start">Average Fees</th>
-                            <th className="text-capitalize text-start">Popular Categories</th>
-                            <th className="text-capitalize text-start">Country</th>
+                            <th className="text-capitalize text-start">Commission</th>
+                            <th className="text-capitalize text-start">No of Applications</th>
+                      
                             <th className="text-capitalize text-start">Action</th>
                           </tr>
                         </thead>
@@ -534,19 +534,19 @@ export default function Masterproductlist() {
                             return (
                               <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
                                 <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                <td className="text-capitalize text-start">{data?.businessName}</td>
+                                <td className="text-capitalize text-start">{data?.universityCode}</td>
                                 <td className="text-capitalize text-start">{getDisplayText(data?.universityName, isExpanded)}</td>
-                                <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "),isExpanded)}
-
-                                
-
-                                </td>
-                                <td className="text-capitalize text-start">{data?.averageFees}</td>
-                                <td className="text-capitalize text-start">
-                                  {getDisplayText(data?.popularCategories?.join(", "), isExpanded)}
-                                 
-                                </td>
-                                <td className="text-capitalize text-start">{data?.country}</td>
+                                <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "),isExpanded)} </td>
+                                <td className="text-capitalize text-start"> <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/EditUniversity",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit  me-1"> {data?.paymentMethod}</i>
+                                    </Link></td>
+                                <td className="text-capitalize text-start">{data?.noofApplications}</td>
                                 <td>
                                   <div className="d-flex">
                                     <Link
@@ -678,7 +678,63 @@ export default function Masterproductlist() {
             </form>
           </DialogContent>
         </Dialog>
-      
+        {/* <div className="modal fade" id="addCountryModal" tabIndex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true" ref={modalRef}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="addCountryModalLabel">{isEdit }</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="mb-3">
+                  <label htmlFor="intakeName" className="form-label">Intake Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="intakeName"
+                    name="intakeName"
+                    value={inputs.intakeName}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.intakeName.required && (
+                    <span className="text-danger">Intake Name is required</span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="startDate" className="form-label">Start Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="startDate"
+                    name="startDate"
+                    value={inputs.startDate}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.startDate.required && (
+                    <span className="text-danger">Start Date is required</span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="endDate" className="form-label">End Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="endDate"
+                    name="endDate"
+                    value={inputs.endDate}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.endDate.required && (
+                    <span className="text-danger">End Date is required</span>
+                  )}
+                </div>
+                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div> */}
         </div>
     </div>
   );

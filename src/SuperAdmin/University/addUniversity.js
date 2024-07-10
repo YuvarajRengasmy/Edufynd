@@ -864,6 +864,7 @@ function Profile() {
                             </label>
                             <select style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select" name="paymentMethod" onChange={handleInputs}>
                               <option value="">Select Payment Type</option>
+                              
                               <option value="Fixed">Fixed</option>
                               <option value="CourseFees">CourseFees</option>
                               <option value="PaidFees">PaidFees</option>
