@@ -71,6 +71,8 @@ function Profile() {
   const [university, setUniversity] = useState([]);
   const [selectedIntake, setSelectedIntake] = useState([]);
   const [selectedCourseType, setSelectedCourseType] = useState([]);
+  const [campuses, setCampuses] = useState([{ id: 1, fields: { ...initialState } }]);
+
   const [selectedCampuses, setSelectedCampuses] = useState();
 
   const [type, setType] = useState([]);
@@ -219,6 +221,9 @@ function Profile() {
 
   };
 
+  const addCampus = () => {
+    setCampuses([...campuses, { id: campuses.length + 1, fields: { ...initialState } }]);
+  };
   const campusOptions = program?.state ? program.state.map(state => ({ value: state, label: state })) : [];
   const lgaOptions = program?.lga && program.lga.length > 0 ? program.lga.map(lga => ({ value: lga, label: lga })) : [];
 
@@ -444,6 +449,9 @@ function Profile() {
                             }
 
                           </div>
+                          {campuses.map((campus, index) => (
+        <div className='row g-3' key={index}>
+          <h5>Campus {campus?.campus}</h5>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -528,6 +536,19 @@ function Profile() {
                             }
 
                           </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-5">
+                          <label className='visually-hidden' style={{ color: "#231F20" }}>
+                              Duration <span className="text-danger">*</span>
+                            </label>
+                          <a type="button" className='btn btn-primary ' onClick={addCampus}>
+        Add Campus
+      </a>
+
+
+</div>
+                          </div>
+                        ))}
+                       
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: '#231F20' }} className="">
