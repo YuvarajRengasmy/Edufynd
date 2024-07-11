@@ -274,6 +274,33 @@ function Profile() {
                       <div className="card-body mt-5">
 
                         <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  {" "}
+  Country<span className="text-danger">*</span>
+</label>
+<select
+  className="form-select rounded-2 p-2 "
+  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  name="country"
+  value={program?.country ?? ""}
+  onChange={handleInputs}
+> <option value={""} disabled hidden >Select Country</option>
+  {Object.keys(countryToDetails).map((country) => (
+    <option key={country} value={country}>
+      {country}
+    </option>
+  ))}
+</select>
+
+{errors.country.required ? (
+  <div className="text-danger form-text">
+    This field is required.
+  </div>
+) : null}
+
+</div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -435,248 +462,6 @@ function Profile() {
                             }
 
                           </div>
-                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Campus
-                            </label>
-                           
-                            <Select
-                              value={selectedCampuses}
-                              options={lgaOptions.length > 0 ? lgaOptions : campusOptions}
-                              placeholder="Select Campus"
-                              name="campus"
-                              onChange={handleSelectChange}
-                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
-                              className="react-select-container rounded-2"
-                            />
-
-                          </div> */}
-                            <div className="col-lg-4 col-md-6 col-sm-6">
-          <div>
-            <button
-              type="button"
-              onClick={addCampus}
-              style={{ marginTop: '1.8rem', backgroundColor: '#9265cc' }}
-              className="btn text-white"
-            >
-              Add Campus
-            </button>
-          </div>
-        </div>
-                    
-
-        {campuses.map((campus, index) => (
-          
-                <div  key={index}>
-          <div className="col-lg-4 col-md-6 col-sm-6">
-            <div style={{ marginTop: '1rem' }}>
-              <label>Campus:</label>
-              
-              <select
-                value={campus.campus}
-                onChange={(e) => handleInputChange(index, 'campus', e.target.value)}
-                name='campus'
-                className="form-control"
-              >
-                <option value="">Select Campus</option>
-                {optionsToRender.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            </div>
-             <div className="row mt-3">
-            <div className="col-lg-4 col-md-6 col-sm-6">
-            <div style={{ marginTop: '1rem' }}>
-              <label>Intake:</label>
-              <select
-                value={campus.inTake}
-                onChange={(e) => handleInputChange(index, 'inTake', e.target.value)}
-                name='inTake'
-                className="form-control"
-              >
-                <option value="">Select Intake</option>
-                {inTakeOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option> 
-                ))}
-              </select>
-            
-             
-            </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-6">
-            <div style={{ marginTop: '1rem' }}>
-              <label>Course Fees:</label>
-              <input
-                type="text"
-                value={campus.courseFees}
-                name='courseFees'
-                onChange={(e) => handleInputChange(index, 'courseFees', e.target.value)}
-                className="form-control"
-              />
-            </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-6">
-            <div style={{ marginTop: '1rem' }}>
-              <label>Duration:</label>
-              <input
-                type="text"
-                value={campus.duration}
-                name='duration'
-                onChange={(e) => handleInputChange(index, 'duration', e.target.value)}
-                className="form-control"
-              />
-            </div>
-          </div>
-          <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
-          <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-          campus
-          </div>
-
-        </div>
-          </div>
-          </div>
-          
-        
-        ))}
-
-                         
-
-
-
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: '#231F20' }} className="">
-                              English language Test (ELT) Requirement
-                            </label>
-                            <select className="form-control" name="englishlanguageTest" onChange={handleInputs} >
-                              <option value="">Select Type</option>
-                              <option value="categorie">Yes</option>
-                              <option value="no">No</option>
-                            </select>
-                            <br /><br />
-                            {program.englishlanguageTest === 'categorie' && (
-                              <div className="row mb-6">
-                                <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
-                                  TextBox
-                                </label>
-                                <div className="col-md-8 col-lg-9">
-                                  <textarea
-                                    name="textBox"
-                                    placeholder='Enter textBox'
-                                    className="form-control"
-                                    type="text"
-                                    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px', height: 100 }}
-
-                                    onChange={handleInputs}
-
-                                  />
-                                </div>
-                              </div>
-                            )}
-
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              University Interview <span className="text-danger">*</span>
-                            </label>
-                            <select className="form-control" name="universityInterview" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
-                              <option value="">Select Type</option>
-                              <option value="yes">Yes</option>
-                              <option value="no">No</option>
-                            </select>
-
-                            {
-                              errors.universityInterview.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: '#231F20' }} className="">
-                              GRE/GMAT Requirement
-                            </label>
-                            <select className="form-control" name="greGmatRequirement" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
-                              <option value="">Select Type</option>
-                              <option value="categories">Yes</option>
-                              <option value="no">No</option>
-                            </select>
-                            <br /><br />
-                            {program.greGmatRequirement === 'categories' && (
-                              <div className="row mb-6">
-                                <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
-                                  score
-                                </label>
-                                <div className="col-md-8 col-lg-9">
-                                  <textarea
-                                    name="score"
-                                    className="form-control"
-                                    placeholder='Enter score'
-                                    style={{ backgroundColor: '#fff', height: 100, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                    type="text"
-
-                                    onChange={handleInputs}
-
-                                  />
-                                </div>
-                              </div>
-                            )}
-
-                          </div>
-
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Country<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select rounded-2 p-2 "
-                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="country"
-                              value={program?.country ?? ""}
-                              onChange={handleInputs}
-                            > <option value={""} disabled hidden >Select Country</option>
-                              {Object.keys(countryToDetails).map((country) => (
-                                <option key={country} value={country}>
-                                  {country}
-                                </option>
-                              ))}
-                            </select>
-
-                            {errors.country.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-
-                          </div>
-
-                          <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Academic requirement
-                            </label>
-                            <textarea
-                              className="form-control"
-                              placeholder="Enter Academic requirement "
-                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="academicRequirement"
-                              rows="5" // You can adjust the number of rows as needed
-                              onChange={handleInputs}
-
-                            ></textarea>
-
-                          </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -695,6 +480,229 @@ function Profile() {
                             }
 
                           </div>
+                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Campus
+                            </label>
+                           
+                            <Select
+                              value={selectedCampuses}
+                              options={lgaOptions.length > 0 ? lgaOptions : campusOptions}
+                              placeholder="Select Campus"
+                              name="campus"
+                              onChange={handleSelectChange}
+                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                              className="react-select-container rounded-2"
+                            />
+
+                          </div> */}
+                            <div className="col-lg-12 col-md-12 col-sm-12">
+          <div>
+            <button
+              type="button"
+              onClick={addCampus}
+              style={{ backgroundColor: '#fe5722',fontSize:'14px' }}
+              className="btn text-white"
+            >
+              Add Campus <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+                    
+
+        {campuses.map((campus, index) => (
+          
+                <div  key={index}>
+          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            
+              <label>Campus</label>
+              
+              <select
+              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                value={campus.campus}
+                onChange={(e) => handleInputChange(index, 'campus', e.target.value)}
+                name='campus'
+                className="form-select"
+                placeholder='Enter Campus'
+              >
+                <option value="">Select Campus</option>
+                {optionsToRender.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+           
+            </div>
+             <div className="row mt-3">
+            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div >
+              <label>Intake</label>
+              <select
+               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                value={campus.inTake}
+                onChange={(e) => handleInputChange(index, 'inTake', e.target.value)}
+                name='inTake'
+                className="form-select"
+                placeholder='Enter Intake'
+              >
+                <option value="">Select Intake</option>
+                {inTakeOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option> 
+                ))}
+              </select>
+            
+             
+            </div>
+            </div>
+            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div >
+              <label>Course Fees</label>
+              <input
+               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                type="text"
+                value={campus.courseFees}
+                name='courseFees'
+                onChange={(e) => handleInputChange(index, 'courseFees', e.target.value)}
+                className="form-control"
+                placeholder='Enter Course Fees'
+              />
+            </div>
+            </div>
+            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div>
+              <label>Duration</label>
+              <input
+               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                type="text"
+                value={campus.duration}
+                name='duration'
+                onChange={(e) => handleInputChange(index, 'duration', e.target.value)}
+                className="form-control"
+                placeholder='Enter Duration'
+              />
+            </div>
+          </div>
+        
+          </div>
+          </div>
+          
+        
+        ))}
+
+                         
+
+
+
+
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label style={{ color: '#231F20' }} className="">
+                              English language Test (ELT) Requirement
+                            </label>
+                            <select className="form-control" name="englishlanguageTest" onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                              <option value="">Select Type</option>
+                              <option value="categorie">Yes</option>
+                              <option value="no">No</option>
+                            </select>
+                            <br /><br />
+                            {program.englishlanguageTest === 'categorie' && (
+                              <div className="row ">
+                                 <div className="col-md-12 col-lg-12">
+                                <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
+                                  TextBox
+                                </label>
+                               
+                                  <textarea
+                                    name="textBox"
+                                    placeholder='Enter TextBox'
+                                    className="form-control"
+                                    type="text"
+                                    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px', height: 100 }}
+
+                                    onChange={handleInputs}
+
+                                  />
+                                </div>
+                              </div>
+                            )}
+
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: '#231F20' }} className="">
+  GRE/GMAT Requirement
+</label>
+<select className="form-control" name="greGmatRequirement" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
+  <option value="">Select Type</option>
+  <option value="categories">Yes</option>
+  <option value="no">No</option>
+</select>
+<br /><br />
+{program.greGmatRequirement === 'categories' && (
+  <div className="row">
+      <div className="col-md-12 col-lg-12">
+    <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
+      Score
+    </label>
+  
+      <textarea
+        name="score"
+        className="form-control"
+        placeholder='Enter Score'
+        style={{ backgroundColor: '#fff', height: 100, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+        type="text"
+
+        onChange={handleInputs}
+
+      />
+    </div>
+  </div>
+)}
+
+</div>
+
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                            <label style={{ color: "#231F20" }}>
+                              University Interview <span className="text-danger">*</span>
+                            </label>
+                            <select className="form-control" name="universityInterview" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs}>
+                              <option value="">Select Type</option>
+                              <option value="yes">Yes</option>
+                              <option value="no">No</option>
+                            </select>
+
+                            {
+                              errors.universityInterview.required ? <div className="text-danger form-text">This field is required.</div> : null
+                            }
+
+                          </div>
+                        
+
+
+                          
+
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                            <label style={{ color: "#231F20" }}>
+                              Academic requirement
+                            </label>
+                            <textarea
+                              className="form-control"
+                              placeholder="Enter Academic requirement "
+                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              name="academicRequirement"
+                              rows="5" // You can adjust the number of rows as needed
+                              onChange={handleInputs}
+
+                            ></textarea>
+
+                          </div>
+
+                          
 
 
 

@@ -441,7 +441,7 @@ function Profile() {
                           id="banner"
                           type="file"
                           accept="image/*"
-                          className="form-control border-0 text-dark bg-transparent"
+                          className="form-control  border-0 text-dark bg-transparent"
                           style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                           onChange={handleInputs}
                         />
@@ -453,7 +453,7 @@ function Profile() {
                           id="fileInputImage"
                           type="file"
                           accept="image/*"
-                          className="form-control border-0 text-dark bg-transparent"
+                          className="form-control  border-0 text-dark bg-transparent"
                           style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                           onChange={handleInputs}
                         />
@@ -488,7 +488,7 @@ function Profile() {
                               Institution Type <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-control"
+                              className="form-control "
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="institutionType"
                               onChange={handleInputs}
@@ -509,7 +509,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className="form-control  "
                               placeholder="Enter name"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="universityName"
@@ -584,7 +584,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className="form-control  "
                               placeholder="Enter E-Mail"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="email"
@@ -608,7 +608,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className="form-control  "
                               placeholder="Enter Website"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="website"
@@ -644,7 +644,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control"
+                              className="form-control "
                               placeholder="Enter founded"
                               name="founded"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
@@ -661,7 +661,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className="form-control  "
                               placeholder="Enter Country "
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="ranking"
@@ -695,7 +695,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control"
+                              className="form-control "
                               placeholder="Enter Average Fees"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="averageFees"
@@ -733,7 +733,7 @@ function Profile() {
                               Offer TAT<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-control"
+                              className="form-control "
                               name="offerTAT"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               onChange={handleInputs}
@@ -753,7 +753,7 @@ function Profile() {
                                 About <span className="text-danger">*</span>
                               </label>
                               <textarea
-                                className="form-control"
+                                className="form-control "
                                 placeholder="Enter About"
                                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 rows="5" // You can adjust the number of rows as needed
@@ -768,7 +768,7 @@ function Profile() {
                                 Admission Requirement <span className="text-danger">*</span>
                               </label>
                               <textarea
-                                className="form-control"
+                                className="form-control "
                                 placeholder="Enter admission requirements"
                                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 rows="5" // You can adjust the number of rows as needed
@@ -799,7 +799,7 @@ function Profile() {
                                 <label style={{ color: '#231F20' }} className="class-danger">Amount</label>
                                 <input
                                   name="amount"
-                                  className="form-control"
+                                  className="form-control "
                                   type="text"
                                   placeholder='Enter Amount'
                                   style={{ height: 50 }}
@@ -811,7 +811,7 @@ function Profile() {
                                 <label style={{ color: '#231F20' }} className="class-danger">CourseFees</label>
                                 <input
                                   name="courseFeesPercentage"
-                                  className="form-control"
+                                  className="form-control "
                                   type="text"
                                   placeholder='Enter Percentage'
                                   style={{ height: 50 }}
@@ -823,7 +823,7 @@ function Profile() {
                                 <label style={{ color: '#231F20' }} className="class-danger">PaidFees</label>
                                 <input
                                   name="paidFeesPercentage"
-                                  className="form-control"
+                                  className="form-control "
                                   type="text"
                                   placeholder='Enter Paid Percentage'
                                   style={{ height: 50 }}
@@ -840,7 +840,7 @@ function Profile() {
                             <input
                               type="text"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              className="form-control "
+                              className="form-control  "
                               placeholder="Enter Eligibility for Commission"
                               name="eligibilityForCommission"
                               onChange={handleInputs}
@@ -883,7 +883,7 @@ function Profile() {
                               {university.flag && (
                                 <Flags code={university.flag} className="me-2" style={{ width: '40px', height: '30px' }} onChange={handleInputs} name='flag' />
                               )}
-                              <input className='form-control' type="text" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs} name='currency' value={`${university.currency}`} readOnly />
+                              <input className='form-control ' type="text" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs} name='currency' value={`${university.currency}`} readOnly />
                             </div>
                             {errors.currency.required ? (
                               <div className="text-danger form-text">
@@ -899,7 +899,7 @@ function Profile() {
                             <input
                               type="text"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              className="form-control "
+                              className="form-control  "
                               placeholder="Enter paymentTAT Link"
                               name="paymentTAT"
                               onChange={handleInputs}
