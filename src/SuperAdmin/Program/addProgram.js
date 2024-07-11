@@ -22,15 +22,15 @@ function Profile() {
     universityName: "",
     universityId: "",
     programTitle: "",
-    inTake: "",
+   
     country: "",
     courseType: "",
     applicationFee: "",
     currency: "",
     discountedValue: "",
-    campus: "",
-    courseFee: 0,
-    duration: "",
+   
+ 
+  
     englishlanguageTest: "",
     textBox: "",
     universityInterview: "",
@@ -38,7 +38,8 @@ function Profile() {
     score: "",
     academicRequirement: "",
     commission: "",
-    universityLogo: ""
+    universityLogo: "",
+    campuses: [{ id: 1, campus: '', inTake: '', duration: '', courseFees: '' }],
   }
 
   const initialStateErrors = {
@@ -46,14 +47,14 @@ function Profile() {
     universityId: { required: false },
     country: { required: false },
     programTitle: { required: false },
-    inTake: { required: false },
+   
     courseType: { required: false },
     applicationFee: { required: false },
     currency: { required: false },
     discountedValue: { required: false },
-    campus: { required: false },
-    courseFee: { required: false },
-    duration: { required: false },
+   
+  
+   
     englishlanguageTest: { required: false },
     textBox: { required: false },
     universityInterview: { required: false },
@@ -67,13 +68,13 @@ function Profile() {
   }
   const [program, setProgram] = useState(initialState)
   const [errors, setErrors] = useState(initialStateErrors)
+  const [campuses, setCampuses] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [university, setUniversity] = useState([]);
   const [selectedIntake, setSelectedIntake] = useState([]);
   const [selectedCourseType, setSelectedCourseType] = useState([]);
-  const [campuses, setCampuses] = useState([{ id: 1, fields: { ...initialState } }]);
-
-  const [selectedCampuses, setSelectedCampuses] = useState();
+  const [selectedCampuses, setSelectedCampuses] = useState([]);
+  const [campusInputs, setCampusInputs] = useState([]);
 
   const [type, setType] = useState([]);
   const [intake, setIntake] = useState([]);
@@ -126,31 +127,21 @@ function Profile() {
     if (data.country === "") {
       error.country.required = true;
     }
-    // if (data.courseType === "") {
-    //   error.courseType.required = true;
-    // }
+ 
     if (data.programTitle === "") {
       error.programTitle.required = true;
     }
-    // if (data.inTake === "") {
-    //   error.inTake.required = true;
-    // }
+
     if (data.applicationFee === "") {
       error.applicationFee.required = true;
     }
     if (data.currency === "") {
       error.currency.required = true;
     }
-    // if (data.campus === "") {
-    //   error.campus.required = true;
-    // }
+  
 
-    if (data.courseFee === "") {
-      error.courseFee.required = true;
-    }
-    if (data.duration === "") {
-      error.duration.required = true;
-    }
+   
+    
     if (data.universityInterview === "") {
       error.universityInterview.required = true;
     }
@@ -162,21 +153,23 @@ function Profile() {
     }
     return error
   }
-
-
-  const handleSelectChange = (selectedOptions) => {
-    setSelectedCampuses(selectedOptions);
+ 
+  const addCampus = () => {
+    const newCampus = {
+      campus: '',
+      inTake: '',
+      courseFees: '',
+      duration: ''
+    };
+    setCampuses([...campuses, newCampus]);
   };
-  const handleSelectCourseChange = (selectedOptions) => {
-    setSelectedCourseType(selectedOptions)
-
+ 
+  const handleInputChange = (index, fieldName, value) => {
+    const updatedCampuses = [...campuses];
+    updatedCampuses[index][fieldName] = value;
+    setCampuses(updatedCampuses);
   };
-  const handleSelectIntake = (selectedOptions) => {
-    setSelectedIntake(selectedOptions)
-
-  };
-
-  const handleInputs = (event) => {
+  const handleInputs = (event, ) => {
     const { name, value } = event.target;
 
     setProgram((prevProgram) => {
@@ -196,21 +189,26 @@ function Profile() {
             universityLogo: selectedUniversity.universityLogo,
             state: selectedUniversity.state,
             lga: selectedUniversity.lga,
-            courseType: selectedUniversity.courseType, // assuming 'popularCategories' is a single value
-
-            country: selectedUniversity.country, // if country is a field in university data
+            courseType: selectedUniversity.courseType,
+            country: selectedUniversity.country,
           };
         }
       }
 
-
       return updatedProgram;
     });
+
+  
 
     if (submitted) {
       const newError = handleValidation({ ...program, [name]: value });
       setErrors(newError);
     }
+  };
+
+  const handleSelectCourseChange = (selectedOptions) => {
+    setSelectedCourseType(selectedOptions)
+
   };
   const countryToDetails = {
     "United States": { currency: "USD", flag: "us" },
@@ -221,17 +219,12 @@ function Profile() {
 
   };
 
-  const addCampus = () => {
-    setCampuses([...campuses, { id: campuses.length + 1, fields: { ...initialState } }]);
-  };
   const campusOptions = program?.state ? program.state.map(state => ({ value: state, label: state })) : [];
   const lgaOptions = program?.lga && program.lga.length > 0 ? program.lga.map(lga => ({ value: lga, label: lga })) : [];
-
-
-
+  const optionsToRender = lgaOptions.length > 0 ? lgaOptions : campusOptions;
   const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
-  // const courseTypeOptions = type.map((data) => ({ value: data.courseType, label: data.courseType }));
   const inTakeOptions = intake.map((data) => ({ value: data.intakeName, label: data.intakeName }));
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -243,9 +236,11 @@ function Profile() {
     if (valid) {
       saveProgram({
         ...program,
-        campus: selectedCampuses ? selectedCampuses.map(option => option.value) : [],
+        campuses: campuses,
         courseType: selectedCourseType ? selectedCourseType.map(option => option.value) : [],
-        inTake: selectedIntake ? selectedIntake.map(option => option.value) : [],
+
+       
+       
       })
         .then((res) => {
           toast.success(res?.data?.message);
@@ -422,15 +417,6 @@ function Profile() {
                             ) : null}
 
                           </div>
-
-
-
-
-
-
-
-
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -449,106 +435,120 @@ function Profile() {
                             }
 
                           </div>
-                          {campuses.map((campus, index) => (
-        <div className='row g-3' key={index}>
-          <h5>Campus {campus?.campus}</h5>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
+                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Campus
                             </label>
-
-
+                           
                             <Select
-                              isMulti
                               value={selectedCampuses}
                               options={lgaOptions.length > 0 ? lgaOptions : campusOptions}
                               placeholder="Select Campus"
                               name="campus"
                               onChange={handleSelectChange}
                               styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                              className="react-select-container rounded-2"
                             />
 
-                            {errors.campus.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
+                          </div> */}
+                            <div className="col-lg-4 col-md-6 col-sm-6">
+          <div>
+            <button
+              type="button"
+              onClick={addCampus}
+              style={{ marginTop: '1.8rem', backgroundColor: '#9265cc' }}
+              className="btn text-white"
+            >
+              Add Campus
+            </button>
+          </div>
+        </div>
+                    
 
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        {campuses.map((campus, index) => (
+          
+                <div  key={index}>
+          <div className="col-lg-4 col-md-6 col-sm-6">
+            <div style={{ marginTop: '1rem' }}>
+              <label>Campus:</label>
+              
+              <select
+                value={campus.campus}
+                onChange={(e) => handleInputChange(index, 'campus', e.target.value)}
+                name='campus'
+                className="form-control"
+              >
+                <option value="">Select Campus</option>
+                {optionsToRender.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            </div>
+             <div className="row mt-3">
+            <div className="col-lg-4 col-md-6 col-sm-6">
+            <div style={{ marginTop: '1rem' }}>
+              <label>Intake:</label>
+              <select
+                value={campus.inTake}
+                onChange={(e) => handleInputChange(index, 'inTake', e.target.value)}
+                name='inTake'
+                className="form-control"
+              >
+                <option value="">Select Intake</option>
+                {inTakeOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option> 
+                ))}
+              </select>
+            
+             
+            </div>
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-6">
+            <div style={{ marginTop: '1rem' }}>
+              <label>Course Fees:</label>
+              <input
+                type="text"
+                value={campus.courseFees}
+                name='courseFees'
+                onChange={(e) => handleInputChange(index, 'courseFees', e.target.value)}
+                className="form-control"
+              />
+            </div>
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-6">
+            <div style={{ marginTop: '1rem' }}>
+              <label>Duration:</label>
+              <input
+                type="text"
+                value={campus.duration}
+                name='duration'
+                onChange={(e) => handleInputChange(index, 'duration', e.target.value)}
+                className="form-control"
+              />
+            </div>
+          </div>
+          <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
+          <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
+          campus
+          </div>
 
-                            <label style={{ color: "#231F20" }}>
-                              Course Fees <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="number"
-                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              className="form-control"
-                              placeholder="Enter courseFees"
-                              name="courseFee"
-                              onChange={handleInputs}
-                            />
-                            {
-                              errors.courseFee.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
+        </div>
+          </div>
+          </div>
+          
+        
+        ))}
 
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              InTake<span className="text-danger">*</span>
-                            </label>
-
-                            <Select
-                              isMulti
-                              value={selectedIntake}
-                              options={inTakeOptions}
-                              placeholder="Select InTake"
-                              name="inTake"
-                              onChange={handleSelectIntake}
-                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
-                            />
-                            {errors.inTake.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Duration <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              className="form-control"
-                              placeholder="Enter duration"
-                              name="duration"
-                              onChange={handleInputs}
-                            />
-
-                            {
-                              errors.duration.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-5">
-                          <label className='visually-hidden' style={{ color: "#231F20" }}>
-                              Duration <span className="text-danger">*</span>
-                            </label>
-                          <a type="button" className='btn btn-primary ' onClick={addCampus}>
-        Add Campus
-      </a>
+                         
 
 
-</div>
-                          </div>
-                        ))}
-                       
+
+
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: '#231F20' }} className="">

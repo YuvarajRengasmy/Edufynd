@@ -518,8 +518,8 @@ export default function Masterproductlist() {
                             <td className="text-capitalize text-start">{data?.universityName}</td>
                             <td className="text-capitalize text-start">{data?.programTitle}</td>
                             <td className="text-capitalize text-start">{data?.applicationFee}</td>
-                            <td className="text-capitalize text-start">{data?.courseFee}</td>
-                            <td>
+                            <td className="text-capitalize text-start">{data?.campuses?.length > 0 ? data?.campuses[1]?.courseFees : "Not Available"}</td>
+                             <td>
                               <div className="d-flex">
                                 <Link
                                   className="dropdown-item"
