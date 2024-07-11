@@ -14,6 +14,7 @@ export const AllModule ="course";
 export const Commission ="commissionPaid";
 export const Categories ="popularCourse";
 export const CountryModule ="countryName";
+export const CommissionPage ="commission";
 export const Institution ="institutionType";
 export const OfferTAT ="offerTat";
 export const Payment ="paymentMethod";
@@ -21,6 +22,7 @@ export const Tax ="tax";
 export const Currency ="currency";
 export const TypeOfClient ="typeOfClient";
 export const Staff ="staff";
+export const Year ="year";
 
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";

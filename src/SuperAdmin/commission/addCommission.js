@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { saveClient } from '../../api/client';
+import { saveCommission } from '../../api/commission';
 import { getallCurrency } from '../../api/currency';
+import { getallTaxModule } from "../../api/universityModule/tax";
 import { getUniversitiesByCountry } from '../../api/university';
 import Flags from 'react-world-flags';
 
@@ -13,7 +14,7 @@ function AddCommission() {
     const initialState = {
         country: "",
         universityName: "",
-        businessName: "",
+      
         paymentMethod: "",
         amount: null,
         percentage: null,
@@ -24,13 +25,13 @@ function AddCommission() {
         currency: "",
         flag: "",
         clientName: "",
-        years: [{ id: 1, year: '', courseType: '', inTake1: '', inTake2: '', inTake3: "", value1: null, value2: null, value3: null }],
+        // years: [{ id: 1, year: '', courseType: '', inTake1: '', inTake2: '', inTake3: "", value1: null, value2: null, value3: null }],
     };
 
     const initialStateErrors = {
         country: { required: false },
         universityName: { required: false },
-        businessName: { required: false },
+      
         paymentMethod: { required: false },
         amount: { required: false },
         percentage: { required: false },
@@ -48,12 +49,14 @@ function AddCommission() {
     const [errors, setErrors] = useState(initialStateErrors);
     const [submitted, setSubmitted] = useState(false);
     const [countries, setCountries] = useState([]);
+    const [tax, setTax] = useState([]);
     const [universities, setUniversities] = useState([]);
     const [filteredUniversities, setFilteredUniversities] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         getAllCurrencyDetails();
+        getAllTaxDetails();
     }, []);
 
     const getAllCurrencyDetails = () => {
@@ -65,6 +68,17 @@ function AddCommission() {
                 console.log(err);
             });
     };
+    const getAllTaxDetails = () => {
+        getallTaxModule()
+          .then((res) => {
+            console.log(res);
+            setTax(res?.data?.result);
+    
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
 
     const handleValidation = (data) => {
         let error = initialStateErrors;
@@ -86,6 +100,7 @@ function AddCommission() {
         if (!data.paymentType) {
             error.paymentType.required = true;
         }
+
         return error;
     };
 
@@ -126,14 +141,8 @@ function AddCommission() {
                 setCommission(prevState => ({
                     ...prevState,
                     universityId: selectedUniversity._id,
-                    paymentMethod: selectedUniversity.paymentMethod,
-                    tax: selectedUniversity.tax,
                     clientName: selectedUniversity.businessName,
-                    amount: selectedUniversity.amount,
-                    percentage: selectedUniversity.percentage,
-                    commissionPaidOn: selectedUniversity.commissionPaidOn,
-                    eligibility: selectedUniversity.eligibilityForCommission,
-                    tax: selectedUniversity.tax,
+
                 }));
             }
         }
@@ -152,10 +161,10 @@ function AddCommission() {
         const allInputsValid = Object.values(newError);
         const valid = allInputsValid.every((x) => x.required === false);
         if (valid) {
-            saveClient(commission)
+            saveCommission(commission)
                 .then((res) => {
                     toast.success(res?.data?.message);
-                    navigate("/client");
+                    navigate("/ListCommission");
                 })
                 .catch((err) => {
                     toast.error(err?.response?.data?.message);
@@ -223,7 +232,7 @@ function AddCommission() {
                                                         <select
                                                             className="form-select"
                                                             name="paymentMethod"
-                                                            value={commission.paymentMethod}
+
                                                             onChange={handleInputs}
                                                         >
                                                             <option value="">Select Payment Type</option>
@@ -232,49 +241,54 @@ function AddCommission() {
                                                         </select>
                                                         {errors.paymentMethod.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
 
+
+                                                    </div>
+                                                    <div className='row g-2'>
                                                         {commission.paymentMethod === 'Fixed' ? (
-                                                            <div className="form-group">
+                                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                                 <label style={{ color: '#231F20' }}>Fixed Amount</label>
                                                                 <input
                                                                     name="amount"
                                                                     className="form-control"
                                                                     type="text"
                                                                     placeholder='Enter Amount'
-                                                                    value={commission?.amount}
-                                                                    style={{ height: 50 }}
+
+
                                                                     onChange={handleInputs}
                                                                 />
                                                             </div>
                                                         ) : commission.paymentMethod === 'Percentage' ? (
-                                                            <div className="form-group">
-                                                                <label style={{ color: '#231F20' }}>Course Fees Percentage</label>
-                                                                <input
-                                                                    name="percentage"
-                                                                    className="form-control"
-                                                                    value={commission?.percentage}
-                                                                    type="number"
-                                                                    placeholder='Enter Percentage'
-                                                                    style={{ height: 50 }}
-                                                                    onChange={handleInputs}
-                                                                />
+                                                            <div className='row g-2'>
+                                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                                    <label style={{ color: "#231F20" }}>Commission Paid On<span className="text-danger">*</span></label>
+                                                                    <select
+                                                                        className="form-select"
+                                                                        name="commissionPaidOn"
+                                                                        onChange={handleInputs}
+                                                                    >
+                                                                        <option value="">Select Commission Paid On</option>
+                                                                        <option value="CourseFees">Course Fees</option>
+                                                                        <option value="PaidFees">Paid Fees</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                                    <label style={{ color: '#231F20' }}>Course Fees Percentage</label>
+                                                                    <input
+                                                                        name="percentage"
+                                                                        className="form-control"
+
+                                                                        type="number"
+                                                                        placeholder='Enter Percentage'
+
+                                                                        onChange={handleInputs}
+                                                                    />
+                                                                </div>
+
                                                             </div>
                                                         ) : null}
                                                     </div>
 
-                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                        <label style={{ color: "#231F20" }}>Commission Paid On<span className="text-danger">*</span></label>
-                                                        <select
-                                                            className="form-select"
-                                                            name="commissionPaidOn"
-                                                            value={commission.commissionPaidOn}
-                                                            onChange={handleInputs}
-                                                        >
-                                                            <option value="">Select Commission Paid On</option>
-                                                            <option value="CourseFees">Course Fees</option>
-                                                            <option value="PaidFees">Paid Fees</option>
-                                                        </select>
-                                                        {errors.commissionPaidOn.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
-                                                    </div>
+
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Eligibility<span className="text-danger">*</span></label>
@@ -284,7 +298,20 @@ function AddCommission() {
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Tax<span className="text-danger">*</span></label>
-                                                        <input type="text" value={commission?.tax} className="form-control" placeholder="Enter Tax" name="tax" onChange={handleInputs} />
+                                                        <select
+                              className='form-select rounded-2 p-2 '
+                              name="tax"
+                              onChange={handleInputs}
+                              
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              displayEmpty
+                              inputProps={{ 'aria-label': 'Without label' }}
+                            >
+                              <option value="">Select Tax</option>
+                              {tax.map((data, index) =>
+                                <option key={index} value={data?.tax}> {data?.tax}</option>)}
+                            </select>
+
                                                         {errors.tax.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
 
@@ -294,29 +321,29 @@ function AddCommission() {
                                                         {errors.clientName.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
 
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  visually-hidden">
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Currency
+                                                        </label>
+                                                        <div sm="9" className="d-flex align-items-center">
+                                                            {commission.flag && (
+                                                                <Flags code={commission.flag} className="me-2" style={{ width: '40px', height: '30px' }} onChange={handleInputs} name='flag' />
+                                                            )}
+                                                            <input className='form-control' type="text" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs} name='currency' value={`${commission.currency}`} readOnly />
+                                                        </div>
+                                                        {errors.currency.required ? (
+                                                            <div className="text-danger form-text">
+                                                                This field is required.
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Currency
-                            </label>
-                            <div sm="9" className="d-flex align-items-center">
-                              {commission.flag && (
-                                <Flags code={commission.flag} className="me-2" style={{ width: '40px', height: '30px' }} onChange={handleInputs} name='flag' />
-                              )}
-                              <input className='form-control' type="text" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs} name='currency' value={`${commission.currency}`} readOnly />
-                            </div>
-                            {errors.currency.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-                                                  
-                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                        <label style={{ color: "#231F20" }}>Currency<span className="text-danger">*</span></label>
-                                                       <select className="form-select" value={commission?.paymentType} aria-label="Default select example" name="paymentType" onChange={handleInputs}>
+                                                        <label style={{ color: "#231F20" }}>Payment Type<span className="text-danger">*</span></label>
+                                                        <select className="form-select" value={commission?.paymentType} aria-label="Default select example" name="paymentType" onChange={handleInputs}>
                                                             <option value=""> select Payment Type</option>
                                                             <option value="One_Time">One Time</option>
-                                                            <option value="Semester">  Semester   </option> 
+                                                            <option value="Semester">  Semester   </option>
                                                         </select>
                                                         {errors.paymentType.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>

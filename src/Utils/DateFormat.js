@@ -42,3 +42,10 @@ export const formatDate = (data) => {
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 };
+
+export const formatYear = (data) => {
+  const date = new Date(data);
+ 
+  const year = date.getFullYear();
+  return `${year}`;
+};
