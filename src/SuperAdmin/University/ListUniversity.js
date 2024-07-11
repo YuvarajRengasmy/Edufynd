@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
+
 import { getallUniversity, deleteUniversity, saveUniversity, getFilterUniversity } from "../../api/university";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
@@ -109,7 +111,7 @@ export default function Masterproductlist() {
       limit: 10,
       page: pagination.from,
     };
-    
+
     getFilterUniversity(data)
       .then((res) => {
         setUniversity(res?.data?.result?.universityList);
@@ -310,27 +312,54 @@ export default function Masterproductlist() {
       });
   };
 
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
 
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
-     
-        <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
-            <Mastersidebar />
-          </nav>
-        
+    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
 
-        <div className="content-wrapper px-4 " style={{ backgroundColor: '#fff' }}>
-          <div className="content-header ">
-            <div className="container">
-             
+      <div class="container-fluid">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
+          <Mastersidebar />
+        </nav>
 
-                <div className='col-xl-12'  >
+
+        <div className="content-wrapper  " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+
+          <div className="container">
+
+            <div className="row">
+              <div className='col-xl-12'  >
+                <div className="content-header ">
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                    
+
                     <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
@@ -365,7 +394,7 @@ export default function Masterproductlist() {
                     <li class="m-1">
 
 
-                      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                      <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                           <div className="offcanvas-header">
@@ -385,7 +414,7 @@ export default function Masterproductlist() {
                                   style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   placeholder="Search...University Name"
                                 />
-                                
+
                                 <label className="form-label">Campus</label>
                                 <br />
                                 <input
@@ -432,8 +461,8 @@ export default function Masterproductlist() {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white rounded-pill px-3 py-2 float-right fw-semibold bg text-uppercase"
-                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  className="btn btn-cancel border-0 text-white rounded-pill px-4 py-2 float-right fw-semibold bg text-uppercase"
+                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                   onClick={resetFilter}
                                 >
                                   Reset
@@ -442,8 +471,8 @@ export default function Masterproductlist() {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   onClick={filterUniversityList}
-                                  className="btn btn-save border-0 text-white float-right rounded-pill px-3 py-2 fw-semibold text-uppercase mx-2"
-                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  className="btn btn-save border-0 text-white float-right rounded-pill px-4 py-2 fw-semibold text-uppercase mx-2"
+                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 >
                                   Apply
                                 </button>
@@ -467,7 +496,7 @@ export default function Masterproductlist() {
                     <li class="m-1">
                       <Link onClick={exportCsv} class="btn-filters">
                         <span>
-                          <button style={{ backgroundColor: "#22A033",fontSize: '11px'  }} className="btn text-white ">
+                          <button style={{ backgroundColor: "#22A033", fontSize: '11px' }} className="btn text-white ">
                             <i class="fa fa-file-excel" aria-hidden="true"></i>
                           </button>
                         </span>
@@ -478,7 +507,7 @@ export default function Masterproductlist() {
                       <Link onClick={openImportPopup} class="btn-filters">
                         <span>
                           <button
-                            style={{ backgroundColor: "#9265cc",fontSize: '11px'  }}
+                            style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
                             className="btn text-white "
                           >
                             <i class="fa fa fa-upload" aria-hidden="true"></i>
@@ -487,11 +516,11 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn  border-0"  to="/AddUniversity">
+                      <Link class="btn  border-0" to="/AddUniversity">
                         <button
-                          className="btn  text-white  "
+                          className="btn border-0 text-white  "
 
-                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -506,97 +535,106 @@ export default function Masterproductlist() {
 
 
                 </div>
-           
+
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-xl-12">
-              <div className="card border-0 ">
-                <div className="card-body">
-                  <div className="card-table">
-                    <div className="table-responsive">
-                      <table className="table card-table dataTable text-center">
-                        <thead>
-                          <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                            <th className="text-capitalize text-start">S No</th>
-                            <th className="text-capitalize text-start">University Code</th>
-                            <th className="text-capitalize text-start">University Name</th>
-                            <th className="text-capitalize text-start">Campus</th>
-                            <th className="text-capitalize text-start">Commission</th>
-                            <th className="text-capitalize text-start">No of Applications</th>
-                      
-                            <th className="text-capitalize text-start">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {university?.map((data, index) => {
-                            const isExpanded = !!expandedRows[index];
-                            return (
-                              <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                                <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                <td className="text-capitalize text-start">{data?.universityCode}</td>
-                                <td className="text-capitalize text-start">{getDisplayText(data?.universityName, isExpanded)}</td>
-                                <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "),isExpanded)} </td>
-                                <td className="text-capitalize text-start"> <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditUniversity",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit  me-1"> {data?.paymentMethod}</i>
-                                    </Link></td>
-                                <td className="text-capitalize text-start">{data?.noofApplications}</td>
-                                <td>
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/ViewUniversity",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditUniversity",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <button
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card border-0 ">
+                  <div className="card-body">
+                    <div className="card-table">
+                      <div className="table-responsive">
+                        <table className="table card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
+                          ref={tableRef}>
+                          <thead>
+                            <tr style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+                              <th className="text-capitalize text-start sortable-handle">S No</th>
+                              <th className="text-capitalize text-start sortable-handle">University Code</th>
+                              <th className="text-capitalize text-start sortable-handle">University Name</th>
+                              <th className="text-capitalize text-start sortable-handle">Campus</th>
+                              <th className="text-capitalize text-start sortable-handle">Commission</th>
+                              <th className="text-capitalize text-start sortable-handle">No of Applications</th>
+
+                              <th className="text-capitalize text-start sortable-handle">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {university?.map((data, index) => {
+                              const isExpanded = !!expandedRows[index];
+                              return (
+                                <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
+                                  <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                                  <td className="text-capitalize text-start">{data?.universityCode}</td>
+                                  <td className="text-capitalize text-start">{getDisplayText(data?.universityName, isExpanded)}</td>
+                                  <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "), isExpanded)} </td>
+                                  <td className="text-capitalize text-start"> <Link
+                                    className="dropdown-item"
+                                    to={{
+                                      pathname: "/EditUniversity",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    <i className="far fa-edit  me-1"> {data?.paymentMethod}</i>
+                                  </Link></td>
+                                  <td className="text-capitalize text-start">{data?.noofApplications}</td>
+                                  <td>
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/ViewUniversity",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="View"
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/EditUniversity",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="Edit"
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <button
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="Delete"
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                  <div className="float-right my-2">
-                    <Pagination
-                      count={Math.ceil(pagination.count / pageSize)}
-                      onChange={handlePageChange}
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                    />
+                    <div className="float-right my-2">
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
         <Dialog open={open}>
           <DialogContent>
@@ -606,7 +644,7 @@ export default function Masterproductlist() {
               </h5>
               <button
                 type="button"
-                className="btn btn-success mx-3"
+                className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                 onClick={deleteUniversityData}
               >
@@ -614,7 +652,7 @@ export default function Masterproductlist() {
               </button>
               <button
                 type="button"
-                className="btn btn-danger"
+                className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                 onClick={closePopup}
               >
@@ -649,8 +687,8 @@ export default function Masterproductlist() {
                   <input
                     type="file"
                     name="file"
-                    style={{ fontSize: "14px" }}
-                    className="form-control  text-dark bg-transparent"
+                    style={{ fontSize: "12px" }}
+                    className="form-control   text-dark bg-transparent"
                     onChange={handleFileChange}
                   />
                 </div>
@@ -659,8 +697,8 @@ export default function Masterproductlist() {
               <div>
                 <Link
                   to="/ListUniversity"
-                  className="btn btn-cancel border-0 fw-semibold text-uppercase py-2 px-3 rounded-pill text-white float-right bg"
-                  style={{ backgroundColor: "#0f2239" }}
+                  className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-right bg"
+                  style={{ backgroundColor: "#0f2239", fontSize: '12px' }}
 
                 >
                   Cancel
@@ -668,8 +706,8 @@ export default function Masterproductlist() {
                 <button
                   type="submit"
                   onClick={handleFileUpload}
-                  className="btn btn-save border-0 text-white fw-semibold text-uppercase py-2 px-3 rounded-pill float-right mx-2"
-                  style={{ backgroundColor: "#fe5722" }}
+                  className="btn btn-save border-0 text-white fw-semibold text-uppercase py-1 px-3 rounded-pill float-right mx-2"
+                  style={{ backgroundColor: "#fe5722", fontSize: '12px' }}
                 >
                   Apply
                 </button>
@@ -735,7 +773,7 @@ export default function Masterproductlist() {
           </div>
         </div>
       </div> */}
-        </div>
+      </div>
     </div>
   );
 }
