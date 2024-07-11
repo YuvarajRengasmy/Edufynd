@@ -186,22 +186,20 @@ function AddAgent() {
             <div class="container-fluid">
                 <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
-                    <nav className='navbar navbar-top navbar-expand'>
-                    <Header />
-                    </nav>
+                   
                   
                 </nav>
            
-            <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                 <div className="content-header ">
-                    <div className="content container-fluid ">
+                    <div className=" container-fluid ">
                         <form onSubmit={handleSubmit}>
                             <div className="row">
 
                             <div className="col-xl-12 ">
                             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                 <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-                <h5 className='text-center text-capitalize p-1'> Edit Client Details</h5>
+                <h6 className='text-center text-capitalize p-1'> Edit Client Details</h6>
                 </div>
                       <div className="card-body mt-5">
                         <div className="row gy-4">
@@ -212,7 +210,7 @@ function AddAgent() {
                                    </label>
                                    <div className="">
                                        
-                                       <select onChange={handleInputs} style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
+                                       <select onChange={handleInputs} style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select  "  name="typeOfClient">
                          <option value={""}  >{client?.typeOfClient}</option>
                          {type.map((data, index) =>
                            <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}
@@ -234,10 +232,10 @@ function AddAgent() {
                                         <input
                                             type="text"
                                             name="businessName"
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             onChange={handleInputs}
                                             value={client?.businessName}
-                                            className="form-control "
+                                            className="form-control form-control-sm "
                                             placeholder="Enter Business Name"
 
                                         />
@@ -255,9 +253,9 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
+                                            className="form-control form-control-sm "
                                             value={client?.website}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter Website"
                                             name="website"
                                             onChange={handleInputs}
@@ -276,9 +274,9 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
+                                            className="form-control form-control-sm "
                                             value={client?.businessMailID}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter Business Mail ID"
                                             name="businessMailID"
                                             onChange={handleInputs}
@@ -301,9 +299,9 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
+                                            className="form-control form-control-sm "
                                             value={client?.businessContactNo}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter Business Contact Number "
                                             name="businessContactNo"
                                             onChange={handleInputs}
@@ -329,8 +327,8 @@ function AddAgent() {
                                   </label>
                                   <input
                                       type="text"
-                                      className="form-control"
-                                      style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                      className="form-control form-control-sm"
+                                      style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                       value={client?.whatsappNumber}
                                       placeholder="Enter WhatsApp Number"
                                       name="whatsappNumber"
@@ -352,8 +350,8 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            className="form-control form-control-sm "
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter Staff Name"
                                             value={client?.name}
                                             name="name"
@@ -371,8 +369,8 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            className="form-control form-control-sm "
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter Staff Contact No"
                                             value={client?.contactNo}
                                             name="contactNo"
@@ -402,8 +400,8 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            className="form-control form-control-sm "
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             value={client?.emailID}
                                             placeholder="Enter Staff Email ID"
                                             name="emailID"
@@ -427,9 +425,9 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
+                                            className="form-control form-control-sm "
                                             value={client?.addressLine1}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter No Area Street Name"
                                             name="addressLine1"
                                             onChange={handleInputs}
@@ -446,8 +444,8 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            className="form-control form-control-sm "
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter City State"
                                             value={client?.addressLine2}
                                             name="addressLine2"
@@ -465,9 +463,9 @@ function AddAgent() {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control "
+                                            className="form-control form-control-sm "
                                             value={client?.addressLine3}
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             placeholder="Enter Country Pincode"
                                             name="addressLine3"
                                             onChange={handleInputs}
@@ -480,10 +478,10 @@ function AddAgent() {
                                
                              
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                    <Link style={{ backgroundColor: "#0f2239", fontSize: '14px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white m-2">
+                                    <Link style={{ backgroundColor: "#0f2239", fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-3 py-1 text-white m-1">
                                         Cancel
                                     </Link>
-                                    <button style={{ backgroundColor: "#fe5722", fontSize: '14px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2">
+                                    <button style={{ backgroundColor: "#fe5722", fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-3 py-1 text-white  m-1">
                                         Submit
                                     </button>
                                 </div>
