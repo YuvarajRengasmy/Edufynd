@@ -20,10 +20,7 @@ function AddAgent() {
             <div class="container-fluid">
                 <nav class="navbar navbar-vertical navbar-expand-lg">
                     <Sidebar />
-                    <nav className='navbar navbar-top navbar-expand'>
-                    <Header />
-                    </nav>
-                  
+                    
                 </nav>
            
             <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
