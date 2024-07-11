@@ -368,7 +368,7 @@ function Profile() {
                     <div className="card rounded-0 shadow-sm border-0 ">
                       <div className=' position-relative'>
                         <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="card-img-top rounded-0 " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60.8rem', height: '12rem', objectFit: 'cover' }} />
+                          <img class="card-img-top rounded-0 " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60.9rem', height: '12rem', objectFit: 'cover' }} />
                         </label>
                         <input
                           name="banner"
@@ -394,7 +394,7 @@ function Profile() {
                       </div>
                       <div className="card-header rounded-0 bg-white " >
                        
-                        <h5 style={{ fontVariant:'all-small-caps',fontWeight:'bold'}}> University Details </h5> 
+                        <h5 style={{ fontVariant:'all-small-caps',fontWeight:'bold'}}>Add  University Details </h5> 
                        
                       </div>
                       <div className="card-body p-4">
