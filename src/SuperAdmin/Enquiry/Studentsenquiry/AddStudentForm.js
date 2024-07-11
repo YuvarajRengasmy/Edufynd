@@ -159,6 +159,11 @@ export const AddStudentForm = () => {
           <div className='content-wrapper' style={{ fontSize: '14px' }}>
             <div className='content-header'>
               <div className='container-fluid'>
+              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'> Add Student Enquiry Details</h5>
+                </div>
+                      <div className="card-body mt-5">
                
                 <form className="p-1" onSubmit={handleSubmit}>
 
@@ -342,7 +347,7 @@ export const AddStudentForm = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4"> Assigned To</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' Assigned To Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.assignedTo.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -356,7 +361,7 @@ export const AddStudentForm = () => {
                     </div>
                  
                   <div className='row g-3'>
-                  <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
+                  <div className='d-flex flex-row align-item-center justify-content-end gap-3'>
 
 
 <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white ">
@@ -374,6 +379,8 @@ export const AddStudentForm = () => {
                   </div>
 
                 </form>
+                </div>
+                </div>
               </div>
             </div>
 

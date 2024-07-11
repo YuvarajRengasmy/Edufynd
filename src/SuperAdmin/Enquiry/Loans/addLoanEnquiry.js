@@ -182,17 +182,26 @@ export const AddLoanEnquiry = () => {
 
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+      <div style={{  fontFamily: 'Plus Jakarta Sans' }}>
         <div className="container-fluid">
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-          <div className='content-wrapper' style={{ backgroundColor: '#fff', fontSize: '13px' }}>
+          <div className='content-wrapper' style={{  fontSize: '13px' }}>
             <div className='content-header'>
               <form className="p-1" onSubmit={handleSubmit}>
-                <div className='container card card-body p-4 border-0'>
-                  <h4 className='card-title  fw-bold'>Add Loan Enquiry </h4>
-                  <hr />
+                <div className='container-fluid'>
+                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div
+                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                      style={{ background: "#fe5722", color: "#fff" }}
+                    >
+                      <h6 className="text-center text-capitalize p-1">
+                        {" "}
+                       Add Loan Enquiry
+                      </h6>
+                    </div>
+                    <div className='card-body mt-5'>
 
 
                   <div className='row g-3'>
@@ -427,28 +436,29 @@ export const AddLoanEnquiry = () => {
                     </div>
 
                   </div>
-                  <div className='row my-3'>
-                    <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                  <div className='row g-3'>
+                    <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
 
                         to=""
-                        style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                        className="btn btn-cancel border text-white w-50 m-2"
+                        style={{ backgroundColor: '#0f2239', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                        className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                       >
                         Cancel
                       </Link>
                       <button
 
-                        style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
 
                         type="submit"
-                        className="btn btn-save border text-white w-50 m-2"
+                        className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                       >
                         Submit
                       </button>
                     </div>
                   </div>
-
+</div>
+</div>
 
                 </div>
               </form>

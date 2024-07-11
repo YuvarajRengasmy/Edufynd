@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
+
 import { getallFlightEnquiry, getSingleFlightEnquiry, deleteFlightEnquiry } from "../../../api/Enquiry/flight";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
@@ -70,6 +72,32 @@ export const ListFlightTicket = () => {
       });
   };
 
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
@@ -85,9 +113,11 @@ export const ListFlightTicket = () => {
             <Mastersidebar />
           </nav>
         <div className='content-wrapper' >
-
-        <div className='col-xl-12'  >
-                  <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+<div className="container">
+  <div className="row">
+  <div className='col-xl-12'  >
+    <div className="content-header">
+    <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     
                     <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -190,7 +220,7 @@ export const ListFlightTicket = () => {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white float-right bg"
+                                  className="btn btn-cancel border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right bg"
                                   style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
@@ -200,7 +230,7 @@ export const ListFlightTicket = () => {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                  
-                                  className="btn btn-save border-0 text-white float-right mx-2"
+                                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -247,9 +277,9 @@ export const ListFlightTicket = () => {
                     <li class="m-1">
                       <Link class="btn btn-pix-primary" to="/AddFlightTicket">
                         <button
-                          className="btn btn-outline border text-white  "
+                          className="btn btn-outline border-0 text-white  "
 
-                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -261,127 +291,136 @@ export const ListFlightTicket = () => {
                     </li>
 
                   </ol>
+    </div>
+                 
 
 
                 </div>
-                <div className="row">
-          <div className="container">
-          <div className="col-md-12">
-            <div className="card mt-2 border-0">
-              <div className="card-body">
-                <div className="card-table">
-                  <div className="table-responsive">
-                    <table className=" table card-table dataTable text-center">
-                      <thead>
-                        <tr style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start"> S.No.</th>
-                          <th className="text-capitalize text-start"> Date Added  </th>
-                          <th className="text-capitalize text-start">Candidate ID  </th>
-                          <th className="text-capitalize text-start"> Name </th>
-                          <th className="text-capitalize text-start"> Passport No  </th>
-                          <th className="text-capitalize text-start"> Date Of Travel  </th>
-                          <th className="text-capitalize text-start"> From</th>
-                          <th className="text-capitalize text-start"> To</th>
-                          <th className="text-capitalize text-start"> Status  </th>
-                          <th className="text-capitalize text-start"> Action </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      
-                      {flight && flight.length > 0 ? (
-                                flight.map((data, index) => (
-                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
-                          <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                          <td className="text-capitalize text-start">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
-                          <td className="text-capitalize text-start">{data?.flightID}</td>
-                          <td className="text-capitalize text-start">{data?.studentName}</td>
-                          <td className="text-capitalize text-start">{data?.passportNo}</td>
-                          <td className="text-capitalize text-start">{formatDate(data?.dateOfTravel?data?.dateOfTravel:"-")}</td>
-                          <td className="text-capitalize text-start">{data?.from}</td>
-                          <td className="text-capitalize text-start">{data?.to}</td>
-                          <td className="text-capitalize text-start"></td>
-                          <td className="text-capitalize text-start">
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/ViewFlightTicket",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditFlightTicket",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <button
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </button>
-                                  </div>
-                                </td>
-                        </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td className="form-text text-danger" colSpan="9">
-                            N0 Data Found In Page
-                          </td>
-                        </tr>
-                      )}
-                      
-                       
+  </div>
+  <div className="row">
+         
+         <div className="col-xl-12">
+          
+           <div className="card  border-0">
+             <div className="card-body">
+               <div className="card-table">
+                 <div className="table-responsive">
+                   <table className=" table card-table dataTable text-center"
+                   style={{ color: '#9265cc', fontSize: '13px' }}
+                   ref={tableRef}>
+                     <thead>
+                       <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                         <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                         <th className="text-capitalize text-start sortable-handle"> Date Added  </th>
+                         <th className="text-capitalize text-start sortable-handle">Candidate ID  </th>
+                         <th className="text-capitalize text-start sortable-handle"> Name </th>
+                         <th className="text-capitalize text-start sortable-handle"> Passport No  </th>
+                         <th className="text-capitalize text-start sortable-handle"> Date Of Travel  </th>
+                         <th className="text-capitalize text-start sortable-handle"> From</th>
+                         <th className="text-capitalize text-start sortable-handle"> To</th>
+                         <th className="text-capitalize text-start sortable-handle"> Status  </th>
+                         <th className="text-capitalize text-start sortable-handle"> Action </th>
+                       </tr>
+                     </thead>
+                     <tbody>
                      
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div className="float-right my-2">
-                        <Pagination
-                          count={Math.ceil(pagination.count / pageSize)}
-                          onChange={handlePageChange}
-                          variant="outlined"
-                          shape="rounded"
-                          color="primary"
-                        />
-                      </div>
-              </div>
-            </div>
-          </div>
-          </div>
-        </div>
+                     {flight && flight.length > 0 ? (
+                               flight.map((data, index) => (
+                       <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}  >
+                         <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                         <td className="text-capitalize text-start">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
+                         <td className="text-capitalize text-start">{data?.flightID}</td>
+                         <td className="text-capitalize text-start">{data?.studentName}</td>
+                         <td className="text-capitalize text-start">{data?.passportNo}</td>
+                         <td className="text-capitalize text-start">{formatDate(data?.dateOfTravel?data?.dateOfTravel:"-")}</td>
+                         <td className="text-capitalize text-start">{data?.from}</td>
+                         <td className="text-capitalize text-start">{data?.to}</td>
+                         <td className="text-capitalize text-start"></td>
+                         <td className="text-capitalize text-start">
+                                 <div className="d-flex">
+                                   <Link
+                                     className="dropdown-item"
+                                     to={{
+                                       pathname: "/ViewFlightTicket",
+                                       search: `?id=${data?._id}`,
+                                     }}
+                                   >
+                                     <i className="far fa-eye text-primary me-1"></i>
+                                   </Link>
+                                   <Link
+                                     className="dropdown-item"
+                                     to={{
+                                       pathname: "/EditFlightTicket",
+                                       search: `?id=${data?._id}`,
+                                     }}
+                                   >
+                                     <i className="far fa-edit text-warning me-1"></i>
+                                   </Link>
+                                   <button
+                                     className="dropdown-item"
+                                     onClick={() => {
+                                       openPopup(data?._id);
+                                     }}
+                                   >
+                                     <i className="far fa-trash-alt text-danger me-1"></i>
+                                   </button>
+                                 </div>
+                               </td>
+                       </tr>
+                       ))
+                     ) : (
+                       <tr>
+                         <td className="form-text text-danger" colSpan="9">
+                           N0 Data Found In Page
+                         </td>
+                       </tr>
+                     )}
+                     
+                      
+                    
+                     </tbody>
+                   </table>
+                 </div>
+               </div>
+               <div className="float-right my-2">
+                       <Pagination
+                         count={Math.ceil(pagination.count / pageSize)}
+                         onChange={handlePageChange}
+                         variant="outlined"
+                         shape="rounded"
+                         color="primary"
+                       />
+                     </div>
+             </div>
+           </div>
+         </div>
+         
+       </div>
+</div>
+        
+              
   
 
         <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
-            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
+            <h5 className="mb-4"    style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}>
           
               Are you sure you want to Delete <br /> the selected FlightEnquiry ?
             </h5>
             <button
               type="button"
               style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              className="btn btn-danger mx-3"
+              className="btn btn-danger rounded-pill px-4 py-2 fw-semibold text-uppercase border-0 mx-3"
               onClick={deletFlightData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-info "
+              className="btn btn-success rounded-pill px-4 py-2 fw-semibold text-uppercase border-0"
               onClick={closePopup}
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              style={{fontSize:"12px",fontFamily: 'Plus Jakarta Sans'}}
             >
               No
             </button>

@@ -215,13 +215,16 @@ export const AddForex = () => {
             <div className='content-header'>
             <form className="p-1" onSubmit={handleSubmit}>
 
-              <div className='container card card-body p-4 border-0'>
-                <h4 className='card-title text-center fw-bold'>Edit Forex Enquiry </h4>
-                <hr />
+              <div className='container-fluid'>
+              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h5 className='text-center text-capitalize p-1'> Edit Forex Enquiry Details</h5>
+                </div>
+                      <div className="card-body mt-5">
               
-                  <div className='row mb-3'>
+                  <div className='row g-3'>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputstudentname">Name of the Student</label>
                       <input className="form-control" name="studentName" value={forex?.studentName} onChange={handleInputs} id="inputstudentname" type="text" placeholder='Enter Name of the Student' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.studentName.required ? (
@@ -263,11 +266,11 @@ export const AddForex = () => {
                       </div>
 
                     </div>
-                  </div>
+                  
 
-                  <div className='row mb-3'>
+                 
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">University Name </label>
                       <input className="form-control" id="inputstudentid" value={forex?.universityName} name='universityName' onChange={handleInputs} type="text" placeholder="Enter Student ID" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.universityName.required ? (
@@ -278,7 +281,7 @@ export const AddForex = () => {
 
                     </div>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpassportno">Passport No</label>
                       <input className="form-control" id="inputpassportno" value={forex?.passportNo} onChange={handleInputs} name='passportNo' type="text" placeholder='Enter Passport No' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.passportNo.required ? (
@@ -288,7 +291,7 @@ export const AddForex = () => {
                       ) : null}
                     </div>
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputamount">Amount In Currency</label>
                       <input className="form-control" id="inputamount" value={forex?.amountInCurrency} onChange={handleInputs} name='amountInCurrency' type="text" placeholder='Enter Amount In Currency' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.amountInCurrency.required ? (
@@ -298,8 +301,8 @@ export const AddForex = () => {
                       ) : null}
                     </div>
 
-                  </div>
-                  <div className='row mb-3'>
+                  
+                 
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPrimaryNo">Primary Number</label>
@@ -344,10 +347,10 @@ export const AddForex = () => {
                     </div>
 
 
-                  </div>
-                  <div className='row mb-3'>
+                
+                
 
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputsource">Source</label>
                       <select className='form-select' value={forex?.source} onChange={handleInputs} name='source' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
                         <option value="">Select In Source</option>
@@ -360,7 +363,7 @@ export const AddForex = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpayment">Payment Type </label>
                       <select className='form-select' value={forex?.paymentType} onChange={handleInputs} name='paymentType' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} id='inputpayment'>
                         <option>Payment Type</option>
@@ -379,7 +382,7 @@ export const AddForex = () => {
                       ) : null}
 
                     </div>
-                    <div className="col">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputassignedto">Assigned To </label>
                       <select className='form-select' value={forex?.assignedTo} onChange={handleInputs} name='assignedTo' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} id='inputassignedto'>
                         <option>Assigned To</option>
@@ -394,8 +397,8 @@ export const AddForex = () => {
                     </div>
 
                     {forex.source === 'Agent' ? (
-                      <div className="row mb-3">
-                        <div className='col'>
+                      <div className="row g-2">
+                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                           <label className="form-label" for="inputAgentName">Agent Name</label>
                           <input className="form-control" value={forex?.agentName} id="inputAgentName" onChange={handleInputs} type="text" name='agentName' placeholder='Enter Agent Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                           {errors.agentName.required ? (
@@ -404,26 +407,26 @@ export const AddForex = () => {
                             </div>
                           ) : null}
                         </div>
-                        <div className='col'>
+                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                           <label className="form-label" for="inputbusinessname">Business Name</label>
                           <input className="form-control" value={forex?.businessName} id="inputbusinessname" type="text" onChange={handleInputs} name='businessName' placeholder='Enter Business Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
                         </div>
-                        <div className="col">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputPrimaryNo">Primary Number</label>
                           <input className="form-control" value={forex?.agentPrimaryNumber} name="agentPrimaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
                         </div>
 
 
-                        <div className="col">
-                          <label className="form-label" for="inputWhatsAppNumber">agentWhatsAppNumber</label>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputWhatsAppNumber">Agent WhatsApp Number</label>
                           <input className="form-control" value={forex?.agentWhatsAppNumber} name="agentWhatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
                         </div>
 
 
-                        <div className="col">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputEmail">Agent Email ID</label>
                           <input className="form-control" value={forex?.agentEmail} name="agentEmail" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
@@ -437,24 +440,26 @@ export const AddForex = () => {
                   </div>
 
 
-                  <div className='row my-3'>
-                    <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                  <div className='row g-2 '>
+                    <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
 
                         to="/ListForexForm"
-                        style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                        className="btn btn-cancel border text-white w-50 m-2"
+                        style={{ backgroundColor: '#0f2239', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                       >
                         Cancel
                       </Link>
                       <button
 
                         style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                        type="submit" className="btn btn-save border text-white w-50 m-2"
+                        type="submit" className="btn btn-save  border-0 fw-semibold text-uppercase px-4 py-2  text-white  m-2"
                       >
                         Submit
                       </button>
                     </div>
+                  </div>
+                  </div>
                   </div>
 
               

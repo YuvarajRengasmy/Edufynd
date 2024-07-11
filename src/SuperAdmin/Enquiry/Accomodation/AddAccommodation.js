@@ -222,7 +222,7 @@ export const AddAccommodation = () => {
                                             >
                                                 <h6 className="text-center text-capitalize p-1">
                                                     {" "}
-                                                   Accommodation Enquiry
+                                                  Add Accommodation Enquiry
                                                 </h6>
                                             </div>
                 <div className='card-body mt-5'>

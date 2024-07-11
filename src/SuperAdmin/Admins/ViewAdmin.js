@@ -38,99 +38,62 @@ function AddAgent() {
                     <Sidebar />
                    
                 </nav>
-                <nav class="navbar navbar-vertical navbar-expand">
-                <Header />
-                   
-                </nav>
+               
                
          
             <div className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                <div className="content-header mt-3">
-                    <div className="content container-fluid w-75">
-                        <form >
-                            <div className="content-page-header">
-                                <h5 className="text-bold" style={{ color: "#231F20" }}>
-                                   View Admin
-                                </h5>
-                            </div>
-                            <div className="row">
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Admin Name<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            placeholder="Enter Admin name"
-                                            name="adminName"
-                                            value={admin?.name}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Email<span className="text-danger">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            <input
-                                                type="text"
-                                                className="form-control "
-                                                placeholder="Enter Passport No"
-                                                name="Country"
-                                                value={admin?.email}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Password<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            name="Country"
-                                            value={admin?.password}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Role <span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            placeholder="Enter Role"
-                                            name="role"
-                                            value={admin?.role}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Contact number<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className="form-control "
-                                            placeholder="Contact Number"
-                                            name="contactNumber"
-                                            value={admin?.contactNumber}
-                                        />
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </form>
-                    </div>
+                <div className="content-header ">
+                <div className="container-fluid">
+            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+                <h6 className='text-center text-capitalize p-1'>View Admin Details</h6>
+                </div>
+             
+                
+  
+   
+   
+      <div class="card-body">
+      <table className='table table-hover table-bordered table-striped-columns mt-5'  style={{ fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
+        <tbody >
+          <tr >
+            <td className='fw-bold'>Admin Name  </td>
+            <td>Admin Name</td>
+           
+          </tr>
+          <tr >
+            <td className='fw-bold'>Role  </td>
+            <td>Role</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Email  </td>
+            <td>Email</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Contact Number  </td>
+            <td>Contact number</td>
+          </tr>
+          <tr >
+            <td className='fw-bold'>Password </td>
+            <td>Password</td>
+          </tr> <tr >
+            <td className='fw-bold'>Confirm Password  </td>
+            <td>Confirm Password</td>
+          </tr>
+        
+        </tbody>
+       </table>
+      </div>
+   
+ 
+
+               
+                 
+                
+                  
+                
+              </div>
+            </div>
                 </div>
             </div>
             </div>

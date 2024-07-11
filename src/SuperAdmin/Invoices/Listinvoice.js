@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
 import { getallSenderInvoice, getSingleSenderInvoice, deleteSenderInvoice } from "../../api/invoice/sender";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
@@ -71,6 +72,32 @@ export const Listinvoice = () => {
         console.log(err);
       });
   };
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
@@ -78,15 +105,17 @@ export const Listinvoice = () => {
 
 
   return (
-    <div><div  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
+    <div><div  style={{  fontFamily: 'Plus Jakarta Sans',fontSize:'14px' }}>
     <div class="container-fluid">
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-        <div className='content-wrapper' style={{ backgroundColor: '#fff' }}>
-
-        <div className='col-xl-12'  >
-                  <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+        <div className='content-wrapper' style={{ fontFamily: 'Plus Jakarta Sans',fontSize:'14px' }}>
+    <div className="container">
+      <div className="row">
+      <div className='col-xl-12'  >
+        <div className="content-header">
+        <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
                     
                     <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -189,7 +218,7 @@ export const Listinvoice = () => {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white float-right bg"
+                                  className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2 rounded-pill text-white float-right bg"
                                   style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                  
                                 >
@@ -199,7 +228,7 @@ export const Listinvoice = () => {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                  
-                                  className="btn btn-save border-0 text-white float-right mx-2"
+                                  className="btn btn-save border-0 text-white  text-uppercase fw-semibold px-4 py-2 rounded-pill float-right mx-2"
                                   style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                 >
                                   Apply
@@ -246,9 +275,9 @@ export const Listinvoice = () => {
                     <li class="m-1">
                       <Link class="btn btn-pix-primary" to="/AddSenderInvoice">
                         <button
-                          className="btn btn-outline border text-white  "
+                          className="btn btn-outline border-0 text-white  "
 
-                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -261,9 +290,9 @@ export const Listinvoice = () => {
                     <li class="">
                       <Link class="btn btn-pix-primary" to="/AddRecieverInvoice">
                         <button
-                          className="btn btn-outline border text-white  "
+                          className="btn btn-outline border-0 text-white  "
 
-                          style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -275,33 +304,37 @@ export const Listinvoice = () => {
                     </li>
 
                   </ol>
+        </div>
+                 
 
 
                 </div>
-                <div className="row">
-          <div className="container">
-          <div className="col-md-12">
-            <div className="card mt-2 border-0">
+      </div>
+      <div className="row">
+          
+          <div className="col-xl-12">
+            <div className="card  border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
-                    <table className=" table card-table dataTable text-center">
+                    <table className=" table card-table dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
                       <thead>
-                        <tr  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start"> S.No.</th>
-                          <th className="text-capitalize text-start"> Date</th>
-                          <th className="text-capitalize text-start">Invoice Number</th>
-                          <th className="text-capitalize text-start"> clientName  </th>
-                          <th className="text-capitalize text-start"> Sender Name  </th>
+                        <tr  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                          <th className="text-capitalize text-start sortable-handle"> Date</th>
+                          <th className="text-capitalize text-start sortable-handle">Invoice Number</th>
+                          <th className="text-capitalize text-start sortable-handle"> clientName  </th>
+                          <th className="text-capitalize text-start sortable-handle"> Sender Name  </th>
                         
                         
-                          <th className="text-capitalize text-start"> Action </th>
+                          <th className="text-capitalize text-start sortable-handle"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
                       {invoice && invoice.length > 0 ? (
                                 invoice.map((data, index) => (
-                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  >
+                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}  >
                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                           <td className="text-capitalize text-start">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
                           <td className="text-capitalize text-start">{data?.senderInvoiceNumber}</td>
@@ -366,7 +399,16 @@ export const Listinvoice = () => {
               </div>
             </div>
           </div>
-          </div>
+         
+        </div>
+    </div>
+       
+                
+       
+
+
+
+        
         </div>
         <Dialog open={open}>
         <DialogContent>
@@ -394,11 +436,6 @@ export const Listinvoice = () => {
           </div>
         </DialogContent>
       </Dialog>
-
-
-
-        
-        </div>
                     
                </div>     
     </div></div>

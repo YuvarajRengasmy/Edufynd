@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
 import {getallClient, deleteClient  } from "../../api/client";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
@@ -278,6 +279,32 @@ export default function Masterproductlist() {
   };
 
 
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
@@ -470,22 +497,22 @@ export default function Masterproductlist() {
                 <div className="card-table">
                   <div className="table-responsive">
 
-                    <table className=" table card-table  dataTable text-center">
+                    <table className=" table card-table  dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}  ref={tableRef}>
                       <thead>
-                        <tr  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Client Code</th>
-                          <th className="text-capitalize text-start">Type of Client</th>
-                          <th className="text-capitalize text-start">Client Name</th>
-                          <th className="text-capitalize text-start">Primary No</th>
-                          <th className="text-capitalize text-start">Email ID</th>
-                          <th className="text-capitalize text-start">Status</th>
-                          <th className="text-capitalize text-start">Action</th>
+                        <tr  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <th className="text-capitalize text-start sortable-handle">S No</th>
+                          <th className="text-capitalize text-start sortable-handle">Client Code</th>
+                          <th className="text-capitalize text-start sortable-handle">Type of Client</th>
+                          <th className="text-capitalize text-start sortable-handle">Client Name</th>
+                          <th className="text-capitalize text-start sortable-handle">Primary No</th>
+                          <th className="text-capitalize text-start sortable-handle">Email ID</th>
+                          <th className="text-capitalize text-start sortable-handle">Status</th>
+                          <th className="text-capitalize text-start sortable-handle">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {client?.map((data, index) => (
-                          <tr key={index}  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <tr key={index}  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                             <td className="text-capitalize text-start">{data?.clientID}</td>
                             <td className="text-capitalize text-start">{data?.typeOfClient}</td>
