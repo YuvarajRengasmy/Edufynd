@@ -449,11 +449,11 @@ function Profile() {
                 <div className="row">
 
                   <div className="col-xl-12 ">
-                    <div className="card rounded-2 border-0 ">
+                    <div className="card rounded-0 border-0 ">
                       <div className=' position-relative'>
 
                         <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="card-img-top  " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60rem', height: '12rem', objectFit: 'cover' }} />
+                          <img class="card-img-top rounded-0 " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60.8rem', height: '12rem', objectFit: 'cover' }} />
 
                         </label>
 
@@ -469,7 +469,7 @@ function Profile() {
 
 
                         <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="img-fluid rounded-pill position-absolute  " src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} alt="image" style={{ width: '8rem', height: '7rem', left: '40%', top: '20%' }} />
+                          <img class="img-fluid rounded-pill position-absolute  " src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} alt="image" style={{ width: '8rem', height: '8rem', left: '45%', top: '15%' }} />
                         </label>
 
                         <input
