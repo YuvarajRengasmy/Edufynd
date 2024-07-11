@@ -8,15 +8,11 @@ import { saveUniversity } from '../../api/university';
 import { getallCategories } from '../../api/universityModule/categories';
 import { getallOfferTatModule } from '../../api/universityModule/offerTat';
 import { getallInstitutionModule } from '../../api/universityModule/institutation';
-import { getallTaxModule } from "../../api/universityModule/tax";
-import { getallCommission } from "../../api/universityModule/commission";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from 'react-select';
-import Flags from 'react-world-flags';
 import CountryRegion from "countryregionjs";
-import { updateUniversity, getSingleUniversity } from "../../api/university";
 
 
 
@@ -83,8 +79,7 @@ function Profile() {
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
-  const [tax, setTax] = useState([]);
-  const [commission, setCommission] = useState([]);
+
   const [states, setStates] = useState([]);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -124,8 +119,7 @@ function Profile() {
     getAllCourseDetails();
     getOfferTatList();
     getAllInstitutionDetails();
-    getAllTaxDetails();
-    getAllCommission();
+   
     getAllIntakeDetails();
   }, []);
 
@@ -205,28 +199,7 @@ function Profile() {
         console.log(err);
       });
   };
-  const getAllTaxDetails = () => {
-    getallTaxModule()
-      .then((res) => {
-        console.log(res);
-        setTax(res?.data?.result);
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllCommission = () => {
-    getallCommission()
-      .then((res) => {
-        console.log(res);
-        setCommission(res?.data?.result);
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  
 
 
 

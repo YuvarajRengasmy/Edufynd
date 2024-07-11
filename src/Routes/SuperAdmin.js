@@ -36,6 +36,9 @@ import ProgramModule from "../SuperAdmin/Settings/programModule";
 import ClientModule from "../SuperAdmin/Settings/clientModule";
 import Status from "../SuperAdmin/Settings/Status"
 import Intake from "../SuperAdmin/Settings/intake"
+import Year from "../SuperAdmin/Settings/Year"
+
+
 import ListApplication from "../SuperAdmin/Application/ListApplication";
 import ListStaff from "../SuperAdmin/Staff/listStaff";
 import AddStaff from "../SuperAdmin/Staff/addStaff";
@@ -101,6 +104,7 @@ function SuperAdmin() {
           <Route path="/ClientModule" element={<ClientModule/>}/>
           <Route path="/Status" element={<Status/>}/>
           <Route path="/Intake" element={<Intake/>}/>
+          <Route path="/YearSetting" element={<Year/>}/>
           <Route path='/ListApplication' element={<ListApplication/>}/>
           <Route path='/Application' element={<Application/>}/>
        <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>

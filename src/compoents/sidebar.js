@@ -1118,6 +1118,14 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a
+                                href="/YearSetting"
+                                className="nav-link  text-capitalize fw-semibold"
+                              >
+                                Year
+                              </a>
+                            </li>
+                            <li className="nav-item">
+                              <a
                                 href="#"
                                 className="nav-link  text-capitalize fw-semibold"
                               >
