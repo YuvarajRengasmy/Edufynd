@@ -552,7 +552,7 @@ export default function Masterproductlist() {
                               <th className="text-capitalize text-start sortable-handle">University Code</th>
                               <th className="text-capitalize text-start sortable-handle">University Name</th>
                               <th className="text-capitalize text-start sortable-handle">Campus</th>
-                              <th className="text-capitalize text-start sortable-handle">Commission</th>
+                              <th className="text-capitalize text-start sortable-handle">Popular Categories</th>
                               <th className="text-capitalize text-start sortable-handle">No of Applications</th>
 
                               <th className="text-capitalize text-start sortable-handle">Action</th>
@@ -567,15 +567,9 @@ export default function Masterproductlist() {
                                   <td className="text-capitalize text-start">{data?.universityCode}</td>
                                   <td className="text-capitalize text-start">{getDisplayText(data?.universityName, isExpanded)}</td>
                                   <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "), isExpanded)} </td>
-                                  <td className="text-capitalize text-start"> <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/EditUniversity",
-                                      search: `?id=${data?._id}`,
-                                    }}
-                                  >
-                                    <i className="far fa-edit  me-1"> {data?.paymentMethod}</i>
-                                  </Link></td>
+                                  <td className="text-capitalize text-start">  {getDisplayText(data?.popularCategories.join(", "), isExpanded)}  </td>
+                                   
+                               
                                   <td className="text-capitalize text-start">{data?.noofApplications}</td>
                                   <td>
                                     <div className="d-flex">
