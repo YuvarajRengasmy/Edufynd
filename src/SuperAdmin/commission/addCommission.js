@@ -187,59 +187,41 @@ function AddCommission() {
                 </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
-                       
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                   
-                                   <label style={{ color: "#231F20" }}>
-                                   Country <span className="text-danger">*</span>
-                                   </label>
-                                   <div className="">
-                                       
-                                       <select onChange={handleInputs} style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 "  name="typeOfClient">
-                         <option value={""}  >Select Client Type</option>
-                         {type.map((data, index) =>
-                           <option key={index} value={data?.typeOfClient}> {data?.typeOfClient}</option>)}
-                       </select>
-                                       {errors.typeOfClient.required ? (
-                                           <div className="text-danger form-text">
-                                               This field is required.
-                                           </div>
-                                       ) : null}
-                                  
-                               </div>
-                           </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Business Name<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            name="businessName"
-                                            onChange={handleInputs}
-                                            className="form-control "
-                                            placeholder="Enter Business Name"
+                                    <label style={{ color: "#231F20" }}>
+                                        {" "}
+                                        Country<span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                        name="businessName"
+                                        onChange={handleInputs}
+                                        className="form-control "
+                                        placeholder="Enter Country"
 
-                                        />
-                                        {errors.businessName.required ? (
-                                            <div className="text-danger form-text">
-                                                This field is required.
-                                            </div>
-                                        ) : null}
-                                    
-                                </div>
+                                    />
+                                    {errors.businessName.required ? (
+                                        <div className="text-danger form-text">
+                                            This field is required.
+                                        </div>
+                                    ) : null}
+                                
+                            </div>
+                       
+                           
+                               
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            Website<span className="text-danger">*</span>
+                                        University<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                            placeholder="Enter Website"
+                                            placeholder="Enter University"
                                             name="website"
                                             onChange={handleInputs}
                                         />
@@ -252,12 +234,12 @@ function AddCommission() {
                                    
                                         <label style={{ color: "#231F20" }}>
                                             {" "}
-                                            Business Mail ID<span className="text-danger">*</span>
+                                            Payment Method<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
-                                            placeholder="Enter Business Mail ID"
+                                            placeholder="Enter Payment Method"
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             name="businessMailID"
                                             onChange={handleInputs}
@@ -276,12 +258,12 @@ function AddCommission() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     
                                         <label style={{ color: "#231F20" }}>
-                                            Business Contact No <span className="text-danger">*</span>
+                                        Commission Paid On<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
-                                            placeholder="Enter Contact No "
+                                            placeholder="Enter Commission Paid On "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             name="businessContactNo"
                                             onChange={handleInputs}
@@ -306,12 +288,12 @@ function AddCommission() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     
                                         <label style={{ color: "#231F20" }}>
-                                            Staff Name<span className="text-danger">*</span>
+                                        Eligibility<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
-                                            placeholder="Enter Staff Name"
+                                            placeholder="Enter Eligibility"
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             name="name"
                                             onChange={handleInputs}
@@ -324,12 +306,12 @@ function AddCommission() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   
                                         <label style={{ color: "#231F20" }}>
-                                            Staff Contact No<span className="text-danger">*</span>
+                                        Tax<span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control "
-                                            placeholder="Enter Staff Contact No"
+                                            placeholder="Enter Tax"
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                             name="contactNo"
                                             onChange={handleInputs}
