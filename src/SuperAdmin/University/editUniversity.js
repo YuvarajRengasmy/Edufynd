@@ -368,7 +368,7 @@ function Profile() {
         </div>
         <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header ">
-            <div className="content container-fluid ">
+            <div className=" container-fluid ">
               <form onSubmit={handleSubmit} >
 
                 <div className="row">
@@ -395,7 +395,7 @@ function Profile() {
   />
   <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20", cursor: "pointer" }}>
     <img
-      className="img-fluid rounded-pill position-absolute profile-logo"
+      className="img-fluid rounded-pill img-thumbnail position-absolute profile-logo"
       src={university?.universityLogo || "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"}
       alt="Logo"
       style={{ width: '8rem', height: '8rem', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
@@ -417,7 +417,7 @@ function Profile() {
                        <h5 style={{ fontVariant:'all-small-caps',fontWeight:'bold'}}>Edit  University Details </h5> 
                       
                      </div>
-                      <div className="card-body">
+                      <div className="card-body ">
                         <div className="row gy-4">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 

@@ -380,7 +380,7 @@ function Profile() {
                           onChange={handleInputs}
                         />
                         <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="img-fluid rounded-pill position-absolute  " src={university?.universityLogo ? university?.universityLogo : "https://placehold.co/128x128"} alt="image" style={{ width: '8rem', height: '8rem', left: '45%', top: '15%' }} />
+                          <img class="img-fluid rounded-pill img-thumbnail position-absolute profile-logo  " src={university?.universityLogo ? university?.universityLogo : "https://placehold.co/128x128"} alt="image"  style={{ width: '8rem', height: '8rem', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} />
                         </label>
                         <input
                           name="universityLogo"
