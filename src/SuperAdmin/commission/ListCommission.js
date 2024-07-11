@@ -18,266 +18,7 @@ import { FaFilter } from "react-icons/fa";
 export default function Masterproductlist() {
 
 
-  const initialState = {
-    typeOfClient: "",
-    businessName: "",
-    businessMailID: "",
-    businessContactNo: "",
-    website: "",
-    addressLine1: "",  // Street Address, City, State, Postal Code, Country
-    addressLine2: "",
-    addressLine3: "",
-    name: "",
-    contactNo: "",
-    emailID: "",
-    gstn: "",
-    status: "",
-
-  }
-
-  const [client, setClient] = useState([]);
-
-  const [submitted, setSubmitted] = useState(false);
-
-  const [file, setFile] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [inputs, setInputs] = useState(false);
-  const [openFilter, setOpenFilter] = useState(false);
-  const [openImport, setOpenImport] = useState(false);
-  const [filter, setFilter] = useState(false);
-  const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
-
-
-
-  useEffect(() => {
-
-    getClientList();
-  }, []);
-
-
-
-  const getClientList = () => {
-    getallClient()
-      .then((res) => {
-        const value = res?.data?.result;
-        setClient(value);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
-  };
-  const openPopup = (data) => {
-    setOpen(true);
-    setDeleteId(data);
-  };
-
-  const closePopup = () => {
-    setOpen(false);
-  };
-  const deleteClientData = () => {
-    deleteClient(deleteId)
-      .then((res) => {
-        toast.success(res?.data?.message);
-        closePopup();
-        getClientList();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
-
-  const closeFilterPopup = () => {
-    setOpenFilter(false);
-  };
-
-  const handleInputs = (event) => {
-    setClient({ ...client, [event.target.name]: event.target.value });
-  };
-  const openImportPopup = () => {
-    setOpenImport(true);
-  };
-
-  const closeImportPopup = () => {
-    setOpenImport(false);
-  };
-
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-
-
-
-
-  const pdfDownload = (event) => {
-    event?.preventDefault();
-
-    getallClient(client)
-      .then((res) => {
-        var result = res?.data?.result;
-        var tablebody = [];
-        tablebody.push([
-          {
-            text: "S.NO",
-            fontSize: 11,
-            alignment: "center",
-            margin: [5, 5],
-            bold: true,
-          },
-          {
-            text: "ClientId",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-            text: "BusinessName",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-            text: "BusinessMailID",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-            text: "BusinessContactNo",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-
-            text: "Status",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          }
-
-        ]);
-        result.forEach((element, index) => {
-          tablebody.push([
-            {
-              text: index + 1,
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-              border: [true, false, true, true],
-            },
-            {
-              text: element?.clientID ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
-            {
-              text: element?.businessName ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
-
-            {
-              text: element?.businessMailID ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
-            {
-              text: element?.businessContactNo ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
-            {
-
-              text: element?.status ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            }
-
-          ]);
-        });
-        templatePdf("clientList", tablebody, "landscape");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const exportCsv = (event) => {
-    event?.preventDefault();
-
-    getallClient(client)
-      .then((res) => {
-        var result = res?.data?.result;
-        let list = [];
-        result?.forEach((res) => {
-          list.push({
-            clientID: res?.clientID ?? "-",
-            businessName: res?.businessName ?? "-",
-            businessMailID: res?.businessMailID ?? "-",
-            businessContactNo: res?.businessContactNo ?? "-",
-            status: res?.status ?? "-",
-
-
-          });
-        });
-        let header1 = [
-          "clientID",
-          "businessName",
-          "businessMailID",
-          "businessContactNo",
-          "status",
-
-
-
-        ];
-        let header2 = [
-          "Client Id",
-          "Business Name",
-          "Business MailID",
-          "Business ContactNo",
-          "Status",
-
-        ];
-        ExportCsvService.downloadCsv(
-          list,
-          "clientList",
-          "Client List",
-
-          header1,
-          header2
-        );
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  
 
   const tableRef = useRef(null);
 
@@ -374,7 +115,7 @@ export default function Masterproductlist() {
                                   type="text"
                                   className="form-control"
                                   name="businessName"
-                                  onChange={handleInputs}
+                                 
                                   placeholder="Search...Client Name"
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
@@ -384,7 +125,7 @@ export default function Masterproductlist() {
                                   type="text"
                                   className="form-control"
                                   name="businessContactNo"
-                                  onChange={handleInputs}
+                                 
                                   placeholder="Search...Client Contact No"
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
@@ -395,7 +136,7 @@ export default function Masterproductlist() {
                                   type="text"
                                   className="form-control"
                                   name="status"
-                                  onChange={handleInputs}
+                                 
                                   placeholder="Search...Status"
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
@@ -405,7 +146,7 @@ export default function Masterproductlist() {
                                   type="text"
                                   className="form-control"
                                   name="clientID"
-                                  onChange={handleInputs}
+                                 
                                   placeholder="Search...Client Id"
                                   style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
@@ -440,7 +181,7 @@ export default function Masterproductlist() {
 
                     </li>
                     <li class="m-1">
-                      <Link onClick={pdfDownload}>
+                      <Link >
                         <button style={{ backgroundColor: "#E12929", fontSize: "11px" }} className="btn text-white ">
                           <span>
                             <i class="fa fa-file-pdf" aria-hidden="true"></i>
@@ -449,7 +190,7 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link onClick={exportCsv} class="btn-filters">
+                      <Link  class="btn-filters">
                         <span>
                           <button style={{ backgroundColor: "#22A033", fontSize: "11px" }} className="btn text-white ">
                             <i class="fa fa-file-excel" aria-hidden="true"></i>
@@ -459,7 +200,7 @@ export default function Masterproductlist() {
                     </li>
 
                     <li class="m-1">
-                      <Link onClick={openImportPopup} class="btn-filters">
+                      <Link class="btn-filters">
                         <span>
                           <button
                             style={{ backgroundColor: "#9265cc", fontSize: "11px" }}
@@ -512,14 +253,14 @@ export default function Masterproductlist() {
                             </tr>
                           </thead>
                           <tbody>
-                            {client?.map((data, index) => (
-                              <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                                <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                <td className="text-capitalize text-start">{data?.clientID}</td>
-                                <td className="text-capitalize text-start">{data?.typeOfClient}</td>
-                                <td className="text-capitalize text-start">{data?.businessName}</td>
-                                <td className="text-capitalize text-start">{data?.businessContactNo}</td>
-                                <td className="text-capitalize text-start">{data?.businessMailID}</td>
+                            
+                              <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                                <td className="text-capitalize text-start"></td>
+                                <td className="text-capitalize text-start"></td>
+                                <td className="text-capitalize text-start"></td>
+                                <td className="text-capitalize text-start"></td>
+                                <td className="text-capitalize text-start"></td>
+                                <td className="text-capitalize text-start"></td>
                               
                                 <td>
                                   <div className="d-flex">
@@ -527,7 +268,7 @@ export default function Masterproductlist() {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/ViewCommission",
-                                        search: `?id=${data?._id}`,
+                                        
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -539,7 +280,7 @@ export default function Masterproductlist() {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/EditCommission",
-                                        search: `?id=${data?._id}`,
+                                        
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"
@@ -549,9 +290,7 @@ export default function Masterproductlist() {
                                     </Link>
                                     <Link
                                       className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
+                                  
                                       data-bs-toggle="tooltip"
                                       title="Delete"
                                     >
@@ -562,7 +301,7 @@ export default function Masterproductlist() {
 
                                 </td>
                               </tr>
-                            ))}
+                           
 
                           </tbody>
                         </table>
@@ -570,8 +309,7 @@ export default function Masterproductlist() {
                     </div>
                     <div className="float-right my-2">
                       <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
+                      
                         variant="outlined"
                         shape="rounded"
                         color="primary"
@@ -585,7 +323,7 @@ export default function Masterproductlist() {
 
 
         </div>
-        <Dialog open={open}>
+        <Dialog >
           <DialogContent>
             <div className="text-center p-4">
               <h5 className="mb-4" style={{fontSize:'14px'}}>
@@ -594,7 +332,7 @@ export default function Masterproductlist() {
               <button
                 type="button"
                 className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
-                onClick={deleteClientData}
+                
                 style={{ fontSize: '12px' }}
               >
                 Yes
@@ -602,7 +340,7 @@ export default function Masterproductlist() {
               <button
                 type="button"
                 className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
-                onClick={closePopup}
+                
                 style={{ fontSize: '12px' }}
               >
                 No
@@ -610,10 +348,10 @@ export default function Masterproductlist() {
             </div>
           </DialogContent>
         </Dialog>
-        <Dialog open={openFilter} fullWidth maxWidth="sm">
+        <Dialog  fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University
-            <IconButton className="float-right" onClick={closeFilterPopup}>
+            <IconButton className="float-right" >
               <i className="fa fa-times fa-xs" aria-hidden="true"></i>
             </IconButton>
           </DialogTitle>
@@ -621,10 +359,10 @@ export default function Masterproductlist() {
 
           </DialogContent>
         </Dialog>
-        <Dialog open={openImport} fullWidth maxWidth="sm">
+        <Dialog fullWidth maxWidth="sm">
           <DialogTitle>
             Upload University List
-            <IconButton className="float-right" onClick={closeImportPopup}>
+            <IconButton className="float-right" >
               <i className="fa fa-times fa-xs" aria-hidden="true"></i>
             </IconButton>
           </DialogTitle>
@@ -637,7 +375,7 @@ export default function Masterproductlist() {
                     type="file"
                     name="file"
                     className="form-control text-dark bg-transparent"
-                    onChange={handleFileChange}
+                   
                     style={{fontSize:'14px'}}
                   />
                 </div>
