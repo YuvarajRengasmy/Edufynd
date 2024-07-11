@@ -12,7 +12,7 @@ export const getSingleCurrency = (data) => {
     return API.get(`${Currency}/getSingleCurrency`, { params: { _id: data } })
 }
 export const getallCurrency = () => {
-    return API.get(`${Currency}/getAllCurrency`)
+    return API.get(`${Currency}/`)
 }
 export const deleteCurrency = (data) => {
     return API.delete(`${Currency}`, { params: { _id: data } });
