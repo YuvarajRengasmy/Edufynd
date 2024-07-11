@@ -102,6 +102,7 @@ export const Course = () => {
                                             <li class="nav-item" role="presentation"><a class="nav-link text-uppercase" id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Campus</a></li>
                                             <li class="nav-item" role="presentation"><a class="nav-link text-uppercase" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false" tabindex="-1">inTake</a></li>
                                         </ul>
+                                        
                                         <div class="tab-content mt-3" id="myTabContent" style={{ height: "350px", overflowY: "auto", scrollbarWidth: 'none' }}>
                                             <div class="tab-pane fade active show" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
                                                 <p style={{ textAlign: 'justify' }}>{program?.academicRequirement}</p>
@@ -110,19 +111,26 @@ export const Course = () => {
                                             <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
                                                 <div className='row'>
                                                     <div className=' border-0 pt-3 px-4'>
-                                                        <div className='row'>
-                                                            {Array.isArray(program?.campus) &&
-                                                                program.campus.map((campus, index) => (
-                                                                    <div key={index} className='col-sm-4'>
-                                                                        <div className="card border-0 rounded-3 shadow " style={{ width: '8rem', height: "11rem" }}>
-                                                                            <img src={program?.universityLogo ? program?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
-                                                                            <div className="card-body">
-                                                                                <p className="card-text text-center">{campus}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                ))}
-                                                        </div>
+                                                    <div className='row'>
+    {Array.isArray(program?.campuses) &&
+        program.campuses.map((campus, index) => (
+            <div key={index} className='col-sm-4'>
+                <div className="card border-0 rounded-3 shadow" style={{ width: '8rem', height: "11rem" }}>
+                    <img
+                        src={program.universityLogo ? program.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"}
+                        className="card-img-top"
+                        style={{ width: '8rem', height: "7rem" }}
+                        alt="img"
+                    />
+                    <div className="card-body">
+                        <p className="card-text text-center">{campus.campus}</p>
+                      
+                    </div>
+                </div>
+            </div>
+        ))}
+</div>
+
 
 
                                                     </div>
@@ -132,12 +140,12 @@ export const Course = () => {
                                                 <div className='row'>
                                                     <div className=' border-0 pt-3 px-4'>
                                                         <div className='row'>
-                                                            {Array.isArray(program?.inTake) &&
-                                                                program.inTake.map((inTake, index) => (
+                                                        {Array.isArray(program?.campuses) &&
+        program.campuses.map((campus, index) => (
                                                                     <div key={index} className='col-sm-4'>
                                                                         <div className="card border-0 rounded-3 shadow " >
                                                                             <div className="card-header bg-primary">
-                                                                                <p className="text-center text-uppercase fw-semibold">{inTake}</p>
+                                                                                <p className="text-center text-uppercase fw-semibold">{campus?.inTake}</p>
                                                                             </div>
 
                                                                             <div className="card-body">
@@ -206,7 +214,7 @@ export const Course = () => {
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
-                                                        <div className="h6   fw-normal">{program?.duration}</div>
+                                                        <div className="h6   fw-normal">{program?.campuses?.length > 0 ? program?.campuses[1]?.duration : "Not Available"}</div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Discounted Value</div>

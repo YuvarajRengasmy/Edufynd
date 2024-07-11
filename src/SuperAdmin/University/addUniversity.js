@@ -119,7 +119,7 @@ function Profile() {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
     if (data.businessName === "") error.businessName.required = true;
-    if(data.inTake === "") error.inTake.required = true;
+    if (data.inTake === "") error.inTake.required = true;
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
@@ -270,7 +270,6 @@ function Profile() {
       console.log("Error: ", error);
     };
   };
-
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -293,23 +292,17 @@ function Profile() {
       setErrors(newError);
     }
   };
-
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
     setUniversity({ ...university, [name]: values });
   };
- 
-
-
-
   const getCountryRegionInstance = () => {
     if (!countryRegion) {
       countryRegion = new CountryRegion();
     }
     return countryRegion;
   };
-
   useEffect(() => {
     const getCountries = async () => {
       try {
@@ -324,7 +317,6 @@ function Profile() {
     }
     getCountries();
   }, []);
-
   useEffect(() => {
     const getStates = async () => {
       try {
@@ -341,7 +333,6 @@ function Profile() {
       getStates();
     }
   }, [selectedCountry]);
-
   useEffect(() => {
     const getLGAs = async () => {
       try {
@@ -361,19 +352,15 @@ function Profile() {
       getLGAs();
     }
   }, [selectedStates, selectedCountry]);
-
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption.value);
     setSelectedStates([]);
     setSelectedLGAs([]); // Reset selected LGAs when country changes
   };
-
-
   const handleStateChange = (selectedOptions) => {
     setSelectedStates(selectedOptions || []);
     setSelectedLGAs([]); // Reset selected LGAs when states change
   };
-
   const handleLGAChange = (selectedOptions) => {
     setSelectedLGAs(selectedOptions || []);
   };
@@ -404,26 +391,16 @@ function Profile() {
         });
     }
   };
-
-
-
-
   const countryToDetails = {
     "United States": { currency: "USD", flag: "us" },
     "Canada": { currency: "CAD", flag: "ca" },
     "United Kingdom": { currency: "GBP", flag: "gb" },
     "Australia": { currency: "AUD", flag: "au" },
     "India": { currency: "INR", flag: "in" },
-
   };
   const popularCategoriesOptions = categorie.map((data) => ({ value: data.popularCategories, label: data.popularCategories }));
   const courseTypeOptions = type.map((data) => ({ value: data.courseType, label: data.courseType }));
   const intakeOptions = inTake.map((data) => ({ value: data.intakeName, label: data.intakeName }));
-
-
-
-
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -441,31 +418,24 @@ function Profile() {
   };
 
   return (
-
     <>
       <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div class="container-fluid">
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Sidebar />
-
           </nav>
         </div>
         <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header ">
             <div className="content container-fluid ">
               <form onSubmit={handleSubmit} >
-
                 <div className="row">
-
                   <div className="col-xl-12 ">
                     <div className="card rounded-2 border-0 ">
                       <div className=' position-relative'>
-
                         <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
                           <img class="card-img-top  " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60rem', height: '12rem', objectFit: 'cover' }} />
-
                         </label>
-
                         <input
                           name="banner"
                           id="banner"
@@ -475,12 +445,9 @@ function Profile() {
                           style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                           onChange={handleInputs}
                         />
-
-
                         <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
                           <img class="img-fluid rounded-pill position-absolute  " src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} alt="image" style={{ width: '8rem', height: '7rem', left: '40%', top: '20%' }} />
                         </label>
-
                         <input
                           name="universityLogo"
                           id="fileInputImage"
@@ -495,7 +462,6 @@ function Profile() {
                         <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
                           University Details :
                         </div>
-
                       </div>
                       <div className="card-body">
                         <div className="row gy-4">
@@ -651,7 +617,6 @@ function Profile() {
                             {errors.website.required ? <div className="text-danger form-text">This field is required.</div> : null}
 
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -689,8 +654,6 @@ function Profile() {
                               errors.founded.required ? <div className="text-danger form-text">This field is required.</div> : null
                             }
                           </div>
-
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -725,9 +688,6 @@ function Profile() {
                               </div>
                             )}
                           </div>
-
-
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
@@ -745,7 +705,7 @@ function Profile() {
                               errors.averageFees.required ? <div className="text-danger form-text">This field is required.</div> : null
                             }
                           </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
                               InTake<span className="text-danger">*</span>
@@ -768,30 +728,26 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-  {" "}
-  Offer TAT<span className="text-danger">*</span>
-</label>
-<select
-  className="form-control"
-  name="offerTAT"
-  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  onChange={handleInputs}
-> <option value={" "}>select OfferTAT</option>
-  {offerTAT.map((data, index) =>
-    <option key={index} value={data?.offerTAT}> {data?.offerTAT}</option>)}
-
-</select>
-{errors.offerTAT.required ? (
-  <div className="text-danger form-text">
-    This field is required.
-  </div>
-) : null}
-</div>
-
-                       
-
-<div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Offer TAT<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-control"
+                              name="offerTAT"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              onChange={handleInputs}
+                            > <option value={" "}>select OfferTAT</option>
+                              {offerTAT.map((data, index) =>
+                                <option key={index} value={data?.offerTAT}> {data?.offerTAT}</option>)}
+                            </select>
+                            {errors.offerTAT.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
                                 About <span className="text-danger">*</span>
@@ -806,9 +762,6 @@ function Profile() {
                               ></textarea>
                             </div>
                           </div>
-                         
-                         
-
                           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
@@ -824,47 +777,18 @@ function Profile() {
                               ></textarea>
                             </div>
                           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                          
-
-
-
-
-
-
-
-
-
-
-
-
                           <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
                             <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
                               Commission Details :
                             </div>
 
                           </div>
-
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                             <label style={{ color: '#231F20' }} className="class-danger">
                               Payment Method
                             </label>
                             <select style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select" name="paymentMethod" onChange={handleInputs}>
                               <option value="">Select Payment Type</option>
-                              
                               <option value="Fixed">Fixed</option>
                               <option value="CourseFees">CourseFees</option>
                               <option value="PaidFees">PaidFees</option>
@@ -873,7 +797,6 @@ function Profile() {
                             {university.paymentMethod === 'Fixed' ? (
                               <div className="form-group">
                                 <label style={{ color: '#231F20' }} className="class-danger">Amount</label>
-
                                 <input
                                   name="amount"
                                   className="form-control"
@@ -882,12 +805,10 @@ function Profile() {
                                   style={{ height: 50 }}
                                   onChange={handleInputs}
                                 />
-
                               </div>
                             ) : university.paymentMethod === 'CourseFees' ? (
                               <div className="form-group">
                                 <label style={{ color: '#231F20' }} className="class-danger">CourseFees</label>
-
                                 <input
                                   name="courseFeesPercentage"
                                   className="form-control"
@@ -896,12 +817,10 @@ function Profile() {
                                   style={{ height: 50 }}
                                   onChange={handleInputs}
                                 />
-
                               </div>
                             ) : university.paymentMethod === 'PaidFees' ? (
                               <div className="form-group">
                                 <label style={{ color: '#231F20' }} className="class-danger">PaidFees</label>
-
                                 <input
                                   name="paidFeesPercentage"
                                   className="form-control"
@@ -910,11 +829,9 @@ function Profile() {
                                   style={{ height: 50 }}
                                   onChange={handleInputs}
                                 />
-
                               </div>
                             ) : null}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -934,7 +851,6 @@ function Profile() {
                               </div>
                             ) : null}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -953,16 +869,13 @@ function Profile() {
                                 </option>
                               ))}
                             </select>
-
                             {errors.countryName.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
                             ) : null}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                             <label style={{ color: "#231F20" }}>
                               Currency
                             </label>
@@ -978,7 +891,6 @@ function Profile() {
                               </div>
                             ) : null}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -994,7 +906,6 @@ function Profile() {
                             />
 
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -1018,14 +929,9 @@ function Profile() {
                               </div>
                             ) : null}
                           </div>
-
-
-
-
                           <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
                             <Link
                               style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-
                               to="/ListUniversity"
                               className="btn btn-cancel border text-white w-50 m-2"
                             >
@@ -1033,7 +939,6 @@ function Profile() {
                             </Link>
                             <button
                               style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-
                               type="submit"
                               className="btn btn-save border text-white w-50 m-2"
                             >
