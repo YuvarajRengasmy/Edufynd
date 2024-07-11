@@ -24,6 +24,7 @@
     "jspdf": "^2.5.1",
     "pdfmake": "^0.2.10",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
     "react-flow-renderer": "^10.3.17",
