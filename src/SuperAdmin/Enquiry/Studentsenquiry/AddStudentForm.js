@@ -456,15 +456,15 @@ export const AddStudentForm = () => {
 
                     </div>
                  
-                  <div className='row g-3'>
-                  <div className='d-flex flex-row align-item-center justify-content-end gap-2 '>
+                  <div className='row g-4'>
+                  <div className='d-flex flex-row align-item-center justify-content-end gap-3 '>
 
 
-<Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white m-1 ">
+<Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white">
   Cancel
 </Link>
 
-<button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white m-1 ">
+<button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  ">
   Submit
 </button>
 
