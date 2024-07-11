@@ -318,7 +318,7 @@ export default function Masterproductlist() {
     const table = tableRef.current;
 
     // Apply SortableJS to the table headers
-    const Sortable = new Sortable(table.querySelector('thead tr'), {
+    const sortable = new Sortable(table.querySelector('thead tr'), {
       animation: 150,
       swapThreshold: 0.5,
       handle: '.sortable-handle',
@@ -335,7 +335,7 @@ export default function Masterproductlist() {
     });
 
     return () => {
-      Sortable.destroy();
+      sortable.destroy();
     };
   }, []);
 
