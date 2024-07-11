@@ -322,7 +322,7 @@ export default function Masterproductlist() {
             
               <div className="row ">
                 <div className="col-xl-12">
-                  <div className="content-header">
+                <div className="content-header">
                   <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -471,7 +471,7 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddClient">
+                      <Link class="btn btn-pix-primary" to="/AddCommission">
                         <button
                           className="btn btn-outline border-0 text-white  "
                           style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -480,7 +480,7 @@ export default function Masterproductlist() {
                             class="fa fa-plus-circle me-2"
                             aria-hidden="true"
                           ></i>{" "}
-                          Add Client
+                           Add Commission
                         </button>
                       </Link>
                     </li>
@@ -502,13 +502,13 @@ export default function Masterproductlist() {
                           <thead>
                             <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                               <th className="text-capitalize text-start sortable-handle">S No</th>
-                              <th className="text-capitalize text-start sortable-handle">Client Code</th>
-                              <th className="text-capitalize text-start sortable-handle">Type of Client</th>
-                              <th className="text-capitalize text-start sortable-handle">Client Name</th>
-                              <th className="text-capitalize text-start sortable-handle">Primary No</th>
-                              <th className="text-capitalize text-start sortable-handle">Email ID</th>
-                              <th className="text-capitalize text-start sortable-handle">Status</th>
-                              <th className="text-capitalize text-start sortable-handle">Action</th>
+                              <th className="text-capitalize text-start sortable-handle">University Code</th>
+                              <th className="text-capitalize text-start sortable-handle">University Name</th>
+                              <th className="text-capitalize text-start sortable-handle">Commission</th>
+                              <th className="text-capitalize text-start sortable-handle">Primary Campus</th>
+                              <th className="text-capitalize text-start sortable-handle">No of Applications</th>
+                              <th className="text-capitalize text-start sortable-handle">Action </th>
+                              
                             </tr>
                           </thead>
                           <tbody>
@@ -520,13 +520,13 @@ export default function Masterproductlist() {
                                 <td className="text-capitalize text-start">{data?.businessName}</td>
                                 <td className="text-capitalize text-start">{data?.businessContactNo}</td>
                                 <td className="text-capitalize text-start">{data?.businessMailID}</td>
-                                <td className="text-capitalize text-start">{data?.status}</td>
+                              
                                 <td>
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewClient",
+                                        pathname: "/ViewCommission",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -538,7 +538,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditClient",
+                                        pathname: "/EditCommission",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
