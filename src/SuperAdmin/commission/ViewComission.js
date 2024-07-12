@@ -41,7 +41,7 @@ export const ViewComission = () => {
     <td></td>
   </tr>
   <tr>
-    <td>Commission Paid On*</td>
+    <td>Commission Paid On</td>
     <td></td>
   </tr>
   <tr>
