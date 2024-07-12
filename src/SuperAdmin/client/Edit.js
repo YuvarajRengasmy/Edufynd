@@ -295,14 +295,14 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                                    
                                         <label style={{ color: "#231F20" }}>
-                                            Business Contact No <span className="text-danger">*</span>
+                                           Primary No <span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control form-control-sm "
                                             value={client?.businessContactNo}
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-                                            placeholder="Enter Business Contact Number "
+                                            placeholder="Enter Primary No "
                                             name="businessContactNo"
                                             onChange={handleInputs}
                                         />
@@ -362,6 +362,31 @@ function AddAgent() {
                                         </span> : null}
                                     
                                 </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                   
+                                   <label style={{ color: "#231F20" }}>
+                                       Staff Email ID<span className="text-danger">*</span>
+                                   </label>
+                                   <input
+                                       type="text"
+                                       className="form-control form-control-sm "
+                                       style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                       value={client?.emailID}
+                                       placeholder="Enter Staff Email ID"
+                                       name="emailID"
+                                       onChange={handleInputs}
+                                   />
+                                   {errors.emailID.required ? (
+                                       <div className="text-danger form-text">
+                                           This field is required.
+                                       </div>
+                                   ) : errors.emailID.valid ? (
+                                       <div className="text-danger form-text">
+                                           Enter valid Email Id.
+                                       </div>
+                                   ) : null}
+                              
+                           </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
                                         <label style={{ color: "#231F20" }}>
@@ -393,31 +418,7 @@ function AddAgent() {
                              
 
 
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            Staff Email ID<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control form-control-sm "
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-                                            value={client?.emailID}
-                                            placeholder="Enter Staff Email ID"
-                                            name="emailID"
-                                            onChange={handleInputs}
-                                        />
-                                        {errors.emailID.required ? (
-                                            <div className="text-danger form-text">
-                                                This field is required.
-                                            </div>
-                                        ) : errors.emailID.valid ? (
-                                            <div className="text-danger form-text">
-                                                Enter valid Email Id.
-                                            </div>
-                                        ) : null}
-                                   
-                                </div>
+                              
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                                    
                                         <label style={{ color: "#231F20" }}>
@@ -478,10 +479,10 @@ function AddAgent() {
                                
                              
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                    <Link style={{ backgroundColor: "#0f2239", fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-3 py-1 text-white m-1">
+                                    <Link style={{ backgroundColor: "#0f2239", fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white m-1">
                                         Cancel
                                     </Link>
-                                    <button style={{ backgroundColor: "#fe5722", fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-3 py-1 text-white  m-1">
+                                    <button style={{ backgroundColor: "#fe5722", fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-1">
                                         Submit
                                     </button>
                                 </div>

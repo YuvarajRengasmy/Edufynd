@@ -276,12 +276,12 @@ function AddAgent() {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     
                                         <label style={{ color: "#231F20" }}>
-                                            Business Contact No <span className="text-danger">*</span>
+                                          Primary Number <span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             className="form-control form-control-sm"
-                                            placeholder="Enter Contact No "
+                                            placeholder="Enter  Primary Number "
                                             style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
                                             name="businessContactNo"
                                             onChange={handleInputs}
@@ -300,6 +300,24 @@ function AddAgent() {
                                         }
                                    
                                 </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                   
+                                   <label style={{ color: "#231F20" }}>
+                                       WhatsApp Number<span className="text-danger">*</span>
+                                   </label>
+                                   <input
+                                       type="text"
+                                       className="form-control form-control-sm"
+                                       style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                       placeholder="Enter WhatsApp Number"
+                                       name="whatsAppNumber"
+                                       onChange={handleInputs}
+                                   />
+                                   {errors.whatsAppNumber.required ? <span className="text-danger form-text profile_error">
+                                       This field is required.
+                                   </span> : null}
+                               
+                           </div>
 
                                
 
@@ -321,34 +339,7 @@ function AddAgent() {
                                         </span> : null}
                                     
                                 </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  
-                                        <label style={{ color: "#231F20" }}>
-                                            Staff Contact No<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control  form-control-sm"
-                                            placeholder="Enter Staff Contact No"
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-                                            name="contactNo"
-                                            onChange={handleInputs}
-                                        />
-                                        {errors.contactNo.required ?
-
-                                            <span className="text-danger form-text profile_error">
-
-                                                This field is required.
-
-                                            </span> : errors.contactNo.valid ?
-                                                <span className="text-danger form-text profile_error">
-                                                    Enter valid mobile number.
-                                                </span> : null
-
-                                        }
-                                    
-                                </div>
-
+                              
 
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
@@ -375,23 +366,34 @@ function AddAgent() {
                                     
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                   
-                                        <label style={{ color: "#231F20" }}>
-                                            WhatsApp Number<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control form-control-sm"
-                                            style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-                                            placeholder="Enter WhatsApp Number"
-                                            name="whatsAppNumber"
-                                            onChange={handleInputs}
-                                        />
-                                        {errors.whatsAppNumber.required ? <span className="text-danger form-text profile_error">
-                                            This field is required.
-                                        </span> : null}
-                                    
-                                </div>
+                                  
+                                  <label style={{ color: "#231F20" }}>
+                                      Staff Contact No<span className="text-danger">*</span>
+                                  </label>
+                                  <input
+                                      type="text"
+                                      className="form-control  form-control-sm"
+                                      placeholder="Enter Staff Contact No"
+                                      style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                      name="contactNo"
+                                      onChange={handleInputs}
+                                  />
+                                  {errors.contactNo.required ?
+
+                                      <span className="text-danger form-text profile_error">
+
+                                          This field is required.
+
+                                      </span> : errors.contactNo.valid ?
+                                          <span className="text-danger form-text profile_error">
+                                              Enter valid mobile number.
+                                          </span> : null
+
+                                  }
+                              
+                          </div>
+
+                             
                                
                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                    
@@ -451,10 +453,10 @@ function AddAgent() {
                                
                                
                                 <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                                    <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-3 py-1  m-2">
+                                    <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2">
                                         Cancel
                                     </Link>
-                                    <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white px-3 py-1 m-2">
+                                    <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2">
                                         Submit
                                     </button>
                                 </div>
