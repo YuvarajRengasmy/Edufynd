@@ -368,7 +368,7 @@ function Profile() {
                     <div className="card rounded-0 shadow-sm border-0 ">
                       <div className=' position-relative'>
                         <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="card-img-top rounded-0 " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60.8rem', height: '12rem', objectFit: 'cover' }} />
+                          <img class="card-img-top rounded-0 " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60.9rem', height: '12rem', objectFit: 'cover' }} />
                         </label>
                         <input
                           name="banner"
@@ -380,7 +380,7 @@ function Profile() {
                           onChange={handleInputs}
                         />
                         <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="img-fluid rounded-pill position-absolute  " src={university?.universityLogo ? university?.universityLogo : "https://placehold.co/128x128"} alt="image" style={{ width: '8rem', height: '8rem', left: '45%', top: '15%' }} />
+                          <img class="img-fluid rounded-pill img-thumbnail position-absolute profile-logo  " src={university?.universityLogo ? university?.universityLogo : "https://placehold.co/128x128"} alt="image"  style={{ width: '8rem', height: '8rem', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} />
                         </label>
                         <input
                           name="universityLogo"
@@ -394,7 +394,7 @@ function Profile() {
                       </div>
                       <div className="card-header rounded-0 bg-white " >
                        
-                        <h5 style={{ fontVariant:'all-small-caps',fontWeight:'bold'}}> University Details </h5> 
+                        <h5 style={{ fontVariant:'all-small-caps',fontWeight:'bold'}}>Add  University Details </h5> 
                        
                       </div>
                       <div className="card-body p-4">

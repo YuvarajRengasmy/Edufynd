@@ -368,52 +368,56 @@ function Profile() {
         </div>
         <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header ">
-            <div className="content container-fluid ">
+            <div className=" container-fluid ">
               <form onSubmit={handleSubmit} >
 
                 <div className="row">
 
                   <div className="col-xl-12 ">
                     <div className="card rounded-0 border-0 ">
-                      <div className=' position-relative'>
+                    <div className='position-relative' >
+  <label htmlFor="banner" className="file-upload" style={{ color: "#231F20", cursor: "pointer" }}>
+    <img
+      className="card-img-top rounded-0"
+      src={university?.banner || "https://wallpapercave.com/wp/wp6837474.jpg"}
+      alt="Banner"
+      style={{ width: '60.9rem', height: '12rem', objectFit: 'cover' }}
+    />
+  </label>
+  <input
+    name="banner"
+    id="banner"
+    type="file"
+    accept="image/*"
+    className="form-control border-0 text-dark bg-transparent"
+    style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+    onChange={handleInputs}
+  />
+  <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20", cursor: "pointer" }}>
+    <img
+      className="img-fluid rounded-pill img-thumbnail position-absolute profile-logo"
+      src={university?.universityLogo || "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"}
+      alt="Logo"
+      style={{ width: '8rem', height: '8rem', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
+    />
+  </label>
+  <input
+    name="universityLogo"
+    id="fileInputImage"
+    type="file"
+    accept="image/*"
+    className="form-control border-0 text-dark bg-transparent"
+    style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+    onChange={handleInputs}
+  />
+</div>
 
-                        <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="card-img-top rounded-0 " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60.8rem', height: '12rem', objectFit: 'cover' }} />
-
-                        </label>
-
-                        <input
-                          name="banner"
-                          id="banner"
-                          type="file"
-                          accept="image/*"
-                          className="form-control border-0 text-dark bg-transparent"
-                          style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                          onChange={handleInputs}
-                        />
-
-
-                        <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="img-fluid rounded-pill position-absolute  " src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} alt="image" style={{ width: '8rem', height: '8rem', left: '45%', top: '15%' }} />
-                        </label>
-
-                        <input
-                          name="universityLogo"
-                          id="fileInputImage"
-                          type="file"
-                          accept="image/*"
-                          className="form-control border-0 text-dark bg-transparent"
-                          style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                          onChange={handleInputs}
-                        />
-                      </div>
-                      <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                          University Details :
-                        </div>
-
-                      </div>
-                      <div className="card-body">
+                      <div className="card-header rounded-0 bg-white " >
+                       
+                       <h5 style={{ fontVariant:'all-small-caps',fontWeight:'bold'}}>Edit  University Details </h5> 
+                      
+                     </div>
+                      <div className="card-body ">
                         <div className="row gy-4">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -421,7 +425,7 @@ function Profile() {
                               {" "}
                               Client Name<span className="text-danger">*</span>
                             </label>
-                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} value={university?.businessName} className="form-select rounded-2 p-2 " name='businessName'>
+                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} value={university?.businessName} className="form-select rounded-1 form-select-lg " name='businessName'>
                               <option value={""} disabled hidden >{university?.businessName}</option>
                               {client.map((data, index) =>
                                 <option key={index} value={data?.businessName}> {data?.businessName}</option>)}
@@ -434,6 +438,26 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
+<label style={{ color: "#231F20" }}>
+  Institution Type <span className="text-danger">*</span>
+</label>
+<select
+  className="form-select form-select-lg"
+  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  name="institutionType"
+  onChange={handleInputs}
+  value={university?.institutionType}
+>
+  <option value={" "}>Select Institution Type</option>
+  {institutation.map((data, index) =>
+    <option key={index} value={data?.institutionType}> {data?.institutionType}</option>)}
+</select>
+{
+  errors.institutionType.required ? <div className="text-danger form-text">This field is required.</div> : null
+}
+</div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
                             <label style={{ color: "#231F20" }} >
                               {" "}
                               University Name<span className="text-danger">*</span>
@@ -441,7 +465,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control "
-                              placeholder="Enter name"
+                              placeholder="Enter University name"
                               value={university?.universityName}
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="universityName"
@@ -453,30 +477,13 @@ function Profile() {
                               </div>
                             ) : null}
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Founded Year <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter founded"
-                              value={university?.founded}
-                              name="founded"
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              onChange={handleInputs}
-                            />
-                            {
-                              errors.founded.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-                          </div>
+                         
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Country Name<span className="text-danger">*</span>
                             </label>
                             <Select
-                              placeholder="Select a country"
+                              placeholder="Select a Country"
                               onChange={handleCountryChange}
                               options={countries}
                               value={university?.country ? { value: university.country, label: university.country } : null}
@@ -496,7 +503,7 @@ function Profile() {
                             </label>
                             {states.length !== ZERO && (
                               <Select
-                                placeholder="Select a state"
+                                placeholder="Select a State"
                                 isMulti
                                 onChange={handleStateChange}
                                 value={university?.state ? university?.state.map(state => ({ value: state, label: state })) : null}
@@ -520,7 +527,7 @@ function Profile() {
                             </label>
                             {lgas.length !== ZERO && (
                               <Select
-                                placeholder="Select a Substate"
+                                placeholder="Select a City"
                                 isMulti
                                 onChange={handleLGAChange}
                                 value={university?.lga ? university.lga.map(lga => ({ value: lga, label: lga })) : selectedLGAs}
@@ -529,27 +536,6 @@ function Profile() {
                                 className="submain-one-form-body-subsection-select"
                               />
                             )}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Ranking
-                            </label>
-                            <input
-                              type="text"
-                              value={university?.ranking}
-                              className="form-control "
-                              placeholder="Enter Country "
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="ranking"
-                              onChange={handleInputs}
-                            />
-                            {errors.ranking.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -576,56 +562,134 @@ function Profile() {
                             ) : null}
 
                           </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-                          <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                            <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                              Course Details :
-                            </div>
+<label style={{ color: "#231F20" }}>
+  Course Type<span className="text-danger">*</span>
+</label>
 
-                          </div>
+<Select
+  isMulti
+  options={courseTypeOptions}
+  value={university?.courseType ? university?.courseType.map(courseType => ({ value: courseType, label: courseType })) : null}
+  name="courseType"
+  onChange={handleSelectChange}
+  styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+/>
+
+{errors.courseType.required && (
+  <div className="text-danger form-text">
+    This field is required.
+  </div>
+)}
+</div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  Founded Year <span className="text-danger">*</span>
+</label>
+<input
+  type="text"
+  className="form-control"
+  placeholder="Enter Founded Year"
+  value={university?.founded}
+  name="founded"
+  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  onChange={handleInputs}
+/>
+{
+  errors.founded.required ? <div className="text-danger form-text">This field is required.</div> : null
+}
+</div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
-                              Course Type<span className="text-danger">*</span>
+                              Ranking
                             </label>
-
-                            <Select
-                              isMulti
-                              options={courseTypeOptions}
-                              value={university?.courseType ? university?.courseType.map(courseType => ({ value: courseType, label: courseType })) : null}
-                              name="courseType"
-                              onChange={handleSelectChange}
-                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                            <input
+                              type="text"
+                              value={university?.ranking}
+                              className="form-control "
+                              placeholder="Enter Ranking "
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              name="ranking"
+                              onChange={handleInputs}
                             />
-
-                            {errors.courseType.required && (
+                            {errors.ranking.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            )}
+                            ) : null}
                           </div>
-
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-                            <label style={{ color: "#231F20" }}>
-                              Institution Type <span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-control"
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="institutionType"
-                              onChange={handleInputs}
-                              value={university?.institutionType}
-                            >
-                              <option value={" "}>Select Institution Type</option>
-                              {institutation.map((data, index) =>
-                                <option key={index} value={data?.institutionType}> {data?.institutionType}</option>)}
-                            </select>
-                            {
-                              errors.institutionType.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-                          </div>
+<label style={{ color: "#231F20" }}>
+  Popular Categories<span className="text-danger">*</span>
+</label>
+
+<Select
+  isMulti
+  options={popularCategoriesOptions}
+  value={university?.popularCategories ? university?.popularCategories.map(popularCategories => ({ value: popularCategories, label: popularCategories })) : null}
+  name="popularCategories"
+  onChange={handleSelectChange}
+  styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+/>
+
+{errors.popularCategories.required && (
+  <div className="text-danger form-text">
+    This field is required.
+  </div>
+)}
+</div>
+                          
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  Average Fees<span className="text-danger">*</span>
+</label>
+<input
+  type="text"
+  className="form-control"
+  value={university?.averageFees}
+  placeholder="Enter Average Fees"
+  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  name="averageFees"
+  onChange={handleInputs}
+/>
+{
+  errors.averageFees.required ? <div className="text-danger form-text">This field is required.</div> : null
+}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  {" "}
+  Offer TAT<span className="text-danger">*</span>
+</label>
+<select
+  className="form-control"
+  name="offerTAT"
+  value={university?.offerTAT}
+  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  onChange={handleInputs}
+> <option value={" "}>select OfferTAT</option>
+  {offerTAT.map((data, index) =>
+    <option key={index} value={data?.offerTAT}> {data?.offerTAT}</option>)}
+
+</select>
+{errors.offerTAT.required ? (
+  <div className="text-danger form-text">
+    This field is required.
+  </div>
+) : null}
+</div>
+                     
+                       
+
+
+                      
                           <div className="col-lg-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
@@ -642,68 +706,7 @@ function Profile() {
                               ></textarea>
                             </div>
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Average Fees<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              value={university?.averageFees}
-                              placeholder="Enter Average Fees"
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              name="averageFees"
-                              onChange={handleInputs}
-                            />
-                            {
-                              errors.averageFees.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              Popular Categories<span className="text-danger">*</span>
-                            </label>
-
-                            <Select
-                              isMulti
-                              options={popularCategoriesOptions}
-                              value={university?.popularCategories ? university?.popularCategories.map(popularCategories => ({ value: popularCategories, label: popularCategories })) : null}
-                              name="popularCategories"
-                              onChange={handleSelectChange}
-                              styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
-                            />
-
-                            {errors.popularCategories.required && (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            )}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Offer TAT<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-control"
-                              name="offerTAT"
-                              value={university?.offerTAT}
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              onChange={handleInputs}
-                            > <option value={" "}>select OfferTAT</option>
-                              {offerTAT.map((data, index) =>
-                                <option key={index} value={data?.offerTAT}> {data?.offerTAT}</option>)}
-
-                            </select>
-                            {errors.offerTAT.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
+                        
                           <div className="col-lg-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
@@ -711,7 +714,7 @@ function Profile() {
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="Enter admission requirements"
+                                placeholder="Enter Admission Requirements"
                                 value={university?.admissionRequirement}
                                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 rows="5" // You can adjust the number of rows as needed
@@ -721,12 +724,12 @@ function Profile() {
                             </div>
                           </div>
                           
-                          <div className='row mb-3'><div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                          <div className='row g-2'><div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
                               style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
                               to="/ListUniversity"
-                              className="btn btn-cancel border-0 text-white w-50 m-2"
+                              className="btn btn-cancel border-0 px-4 py-2 text-uppercase fw-semibold text-white  m-1"
                             >
                               Cancel
                             </Link>
@@ -734,9 +737,9 @@ function Profile() {
                               style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
                               type="submit"
-                              className="btn btn-save border-0 text-white w-50 m-2"
+                              className="btn btn-save border-0 px-4 py-2 text-uppercase fw-semibold text-white  m-1"
                             >
-                              Save
+                              Submit
                             </button>
                           </div> </div>
 
