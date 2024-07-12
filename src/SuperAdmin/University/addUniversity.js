@@ -23,11 +23,11 @@ function Profile() {
     businessName: "",
     universityLogo: "",
     universityName: "",
-    website: "",
     about: "",
     founded: "",
     courseType: "",
     country: "",
+    website: "",
     inTake: "",
     state: "",
     lga: "",
@@ -39,7 +39,6 @@ function Profile() {
     email: "",
     institutionType: "",
     // costOfLiving: "",
-  
  
   };
 
