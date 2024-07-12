@@ -1,6 +1,6 @@
 import React from 'react'
 import Sidebar from "../../compoents/sidebar";
-export const ViewComission = () => {
+export const ViewNotifications = () => {
   return (
     <>  <div  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
     <div class="container-fluid">
@@ -19,7 +19,7 @@ export const ViewComission = () => {
                   
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
         <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-        <h5 className='text-center text-capitalize p-1'>View Commission Details</h5>
+        <h5 className='text-center text-capitalize p-1'>View Notifications Details</h5>
         </div>
               <div className="card-body">
               <table className='table table-hover table-bordered table-striped-columns mt-5'  style={{ fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
@@ -103,4 +103,4 @@ export const ViewComission = () => {
 </div></>
   )
 }
-export default ViewComission
+export default ViewNotifications

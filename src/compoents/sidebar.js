@@ -264,14 +264,7 @@ const Sidebar = () => {
                           Agents
                         </a>
                       </li>
-                      <li className="nav-item">
-                        <a
-                          href="/client"
-                          className="nav-link  text-capitalize fw-semibold"
-                        >
-                          Client
-                        </a>
-                      </li>
+                     
                     </ul>
                   </div>
                 </li>
@@ -678,7 +671,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <a
-                    href="#"
+                    href="/ListMarketing"
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -702,7 +695,7 @@ const Sidebar = () => {
                 </li>{" "}
                 <li className="nav-item ">
                   <a
-                    href="#"
+                    href="ListNotifications"
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -726,7 +719,7 @@ const Sidebar = () => {
                 </li>{" "}
                 <li className="nav-item ">
                   <a
-                    href="#"
+                    href="/ListMeetings"
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -750,7 +743,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <a
-                    href="#"
+                    href="/ListTraining"
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -844,7 +837,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <a
-                    href="#"
+                    href="/ListEvents"
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -892,7 +885,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <a
-                    href="#"
+                    href="/ListTestimonials"
                     className="nav-link"
                     style={{
                       color: "#231f20",
