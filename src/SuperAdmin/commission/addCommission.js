@@ -6,6 +6,7 @@ import { saveCommission } from '../../api/commission';
 import { getallCurrency } from '../../api/currency';
 import { getFilterYear } from '../../api/year';
 import { getallTaxModule } from "../../api/universityModule/tax";
+import { FaTrash } from "react-icons/fa";
 import { getUniversitiesByCountry } from '../../api/university';
 import Flags from 'react-world-flags';
 
@@ -27,7 +28,8 @@ function AddCommission() {
         currency: "",
         flag: "",
         clientName: "",
-        years: [{ id: 1, year: '', courseType: '', inTake1: '', inTake2: '', inTake3: "", value1: null, value2: null, value3: null }],
+        years: [{ id: 1, year: '', courseTypes: [{ courseType: '', inTake: '', value: null }] }],
+
     };
 
     const initialStateErrors = {
@@ -44,6 +46,7 @@ function AddCommission() {
         flag: { required: false },
         clientName: { required: false },
         currency: { required: false },
+      
     };
 
     const [commission, setCommission] = useState(initialState);
@@ -53,9 +56,11 @@ function AddCommission() {
     const [tax, setTax] = useState([]);
     const [universities, setUniversities] = useState([]);
     const [years, setYears] = useState([]);
+    const [year, setYear] = useState([]);
+    const [currency, setCurrency] = useState([]);
     const [filteredUniversities, setFilteredUniversities] = useState([]);
     const ZERO = 0;
-    const pageSize = 3;
+    const pageSize = 5;
     const [pagination, setPagination] = useState({
       count: 0,
       from: 0,
@@ -80,12 +85,12 @@ function AddCommission() {
     };
     const getAllYearDetails = () => {
         const data = {
-            limit: 3,
+            limit: 10,
             page: pagination.from,
           };
         getFilterYear(data)
             .then((res) => {
-                setYears(res?.data?.result?.yearList || []);
+                setYear(res?.data?.result?.yearList || []);
                 setPagination({
                     ...pagination,
                     count: res?.data?.result?.yearCount || 0,
@@ -133,22 +138,38 @@ function AddCommission() {
     const addYear = () => {
         const newYear = {
             year: '',
-            courseType: '',
-            inTake1: '',
-            inTake2: '',
-            inTake3: '',
-            value1: null,
-            value2: null,
-            value3: null,
+            courseTypes: [{ courseType: '', intake: '', value: null }],
         };
         setYears([...years, newYear]);
     };
-    const handleInputChange = (index, fieldName, value) => {
-        const updatedCommission = [...years];
-        updatedCommission[index][fieldName] = value;
-        setYears(updatedCommission);
+
+    const addCourseType = (yearIndex) => {
+        const updatedYears = [...years];
+        updatedYears[yearIndex].courseTypes.push({ courseType: '', intake: '', value: null });
+        setYears(updatedYears);
     };
-    const YearOptions = years.map((data) => ({ value: data.year, label: data.year }));
+
+    const removeCourseType = (yearIndex, courseTypeIndex) => {
+        // Create a copy of the year object from state
+        const updatedYear = { ...year };
+    
+        // Remove the courseType at the specified index
+        updatedYear.courseTypes.splice(courseTypeIndex, 1);
+    
+        // Update the state with the modified year object
+        // Assuming you have a setState function to update the state
+        setYear(updatedYear); // Replace setYear with your state setter function
+    };
+    const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
+        const updatedYears = [...years];
+        if (courseTypeIndex !== null) {
+            updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
+        } else {
+            updatedYears[yearIndex][fieldName] = value;
+        }
+        setYears(updatedYears);
+    };
+    const yearOptions = year.map((data) => ({ value: data.year, label: data.year }));
 
     const fetchCountryDetails = (selectedCountry) => {
         const selectedCountryData = countries.find(c => c.country === selectedCountry);
@@ -191,6 +212,10 @@ function AddCommission() {
                     courseType: selectedUniversity.courseType,
 
                 }));
+                setYears(prevYears => prevYears.map(year => ({
+                    ...year,
+                    courseTypes: [{ courseType: selectedUniversity.courseType, intake: '', value: null }],
+                })));
             }
         }
 
@@ -206,18 +231,37 @@ function AddCommission() {
         const to = (page - 1) * pageSize + pageSize;
         setPagination({ ...pagination, from: from, to: to });
       };
-    const handleSubmit = (event) => {
+      const handleSubmit = (event) => {
         event.preventDefault();
+    
+        // Validate the commission data
         const newError = handleValidation(commission);
         setErrors(newError);
         setSubmitted(true);
+    
+        // Check if all inputs are valid
         const allInputsValid = Object.values(newError);
         const valid = allInputsValid.every((x) => x.required === false);
+    
         if (valid) {
-            saveCommission({
+            // Prepare years data for submission
+            const yearsData = years.map((year) => ({
+                year: year.year,
+                courseTypes: year.courseTypes.map((courseType) => ({
+                    courseType: courseType.courseType,
+                    inTake: courseType.inTake,
+                    value: courseType.value,
+                })),
+            }));
+    
+            // Prepare commission data including years
+            const dataToSave = {
                 ...commission,
-                years: years,
-            })
+                years: yearsData,
+            };
+    
+            // Call API to save commission
+            saveCommission(dataToSave)
                 .then((res) => {
                     toast.success(res?.data?.message);
                     navigate("/ListCommission");
@@ -227,6 +271,7 @@ function AddCommission() {
                 });
         }
     };
+    
 
     return (
         <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
@@ -403,110 +448,159 @@ function AddCommission() {
                                                         </select>
                                                         {errors.paymentType.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
-                                                    <div className="col-lg-12 col-md-12 col-sm-12">
-                                                        <div>
-                                                            <button
-                                                                type="button"
-                                                                onClick={addYear}
-                                                                style={{ backgroundColor: '#fe5722', fontSize: '14px' }}
-                                                                className="btn text-white"
-                                                            >
-                                                                Add Year <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    {years.map((data, index) => (
-
-                                                        <div key={index}>
-                                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                                                                <label>Year</label>
-
-                                                                <select
-                                                                    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                                    value={data.year}
-                                                                    onChange={(e) => handleInputChange(index, 'year', e.target.value)}
-                                                                    name='year'
-                                                                    className="form-select"
-                                                                    placeholder='Enter Year'
-                                                                >
-                                                                    <option value="">Select year</option>
-                                                                    {YearOptions.map((option) => (
-                                                                        <option key={option.value} value={option.value}>
-                                                                            {option.label}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
-
-                                                            </div>
-                                                            <div className="row mt-3">
-                                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                                    <div >
-                                                                        <label>courseType</label>
-                                                                        <select
-                                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                                            value={data.courseType}
-                                                                            onChange={(e) => handleInputChange(index, 'courseType', e.target.value)}
-                                                                            name='courseType'
-                                                                            className="form-select"
-                                                                            placeholder='Enter Course Type'
-                                                                        >
-                                                                            <option>Select Course Type</option>
-                                                                            {universities.map((uni) => (
-                                                                                <option key={uni._id} value={uni.courseType}>
-                                                                                    {uni.courseType}
-                                                                                </option>
-                                                                            ))}
-                                                                        </select>
-
-
+                                                    <div className='row g-2'>
+                                                     <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                                                  
+                                                 <button
+                                                     type="button"
+                                                     className="btn text-white ml-2"
+                                                     style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                                     onClick={addYear}
+                                                 >
+                                                     Add Year
+                                                 </button>
+                                                 </div>
+                                                 </div>
+                                                    <div className="row g-3 mt-3">
+                                                    <div className="col-12">
+                                                    
+                                                        {years.map((year, yearIndex) => (
+                                                            <div key={yearIndex} className="year-section mb-3">
+                                                              
+                                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                                    <label style={{ color: "#231F20" }}>Year</label>
+                                                                    <select
+              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                value={year?.year}
+                onChange={(e) => handleInputChange(yearIndex, null, 'year', e.target.value)}
+                name='year'
+                className="form-select mb-3 "
+                placeholder='Enter Year'
+              >
+                <option value="">Select Year</option>
+                {yearOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+               
+              </select>
+                                                                      
                                                                     </div>
+                                                                    <div >
+                                                                    <div>
+                                                                    {year?.courseTypes && year?.courseTypes.map((courseType, courseTypeIndex) => (
+                                                                        <div className='row g-3' key={courseTypeIndex} >
+                                                                         
+                                                                         <div className=' col-xl-4 col-lg-6 col-md-6 col-sm-12' >
+                                                                            <label style={{ color: "#231F20" }}>Course Type</label>
+                                                                            <select
+                                                                                className="form-select"
+                                                                                value={courseType.courseType}
+                                                                                onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'courseType', e.target.value)}
+                                                                            >
+                                                                                <option value="">Select Course Type</option>
+
+                                                                                {(universities.find(uni => uni.universityName === commission.universityName)?.courseType || []).map((type, idx) => (
+                                                                                    <option key={idx} value={type}>
+                                                                                        {type}
+                                                                                    </option>
+                                                                                ))}
+                                                                            </select>
+                                                                            </div>
+                                                                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'  >
+                                                                            <label style={{ color: "#231F20" }}>inTake</label>
+                                                                            <select
+                                                                                className="form-select"
+                                                                                value={courseType.inTake}
+                                                                                onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'inTake', e.target.value)}
+                                                                            >
+                                                                                <option value="">Select inTake</option>
+
+                                                                                {(universities.find(uni => uni.universityName === commission.universityName)?.inTake || []).map((type, idx) => (
+                                                                                    <option key={idx} value={type}>
+                                                                                        {type}
+                                                                                    </option>
+                                                                                ))}
+                                                                            </select>
+                                                                            </div>
+                                                                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'  >
+                                                                            <label style={{ color: "#231F20" }}>value</label>
+                                                                            <input
+                                                                                className="form-control"
+                                                                                type="text"
+                                                                                name='value'
+                                                                                placeholder="Value"
+                                                                                value={courseType.value}
+                                                                                onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'value', e.target.value)}
+                                                                            />
+                                                                            </div>
+                                                                           
+                                                                            <div className='add-customer-btns mb-40 d-flex justify-content-end ml-auto'>
+                        <button
+                            type="button"
+                            className="btn text-white ml-2 mb-3"
+                            onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
+                            style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                        >
+                         <FaTrash />
+                        </button>
+                    </div>
+                                                          
+                                                                     
+                                                                       
+                                                                   
                                                                 </div>
-                                                                {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-      <div >
-        <label>Course Fees</label>
-        <input
-         style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-          type="text"
-          value={campus.courseFees}
-          name='courseFees'
-          onChange={(e) => handleInputChange(index, 'courseFees', e.target.value)}
-          className="form-control"
-          placeholder='Enter Course Fees'
-        />
-      </div>
-      </div>
-      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-      <div>
-        <label>Duration</label>
-        <input
-         style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-          type="text"
-          value={campus.duration}
-          name='duration'
-          onChange={(e) => handleInputChange(index, 'duration', e.target.value)}
-          className="form-control"
-          placeholder='Enter Duration'
-        />
-      </div>
-    </div> */}
-
-
+                                                                     ))}
+                                                                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                <button
+                    type="button"
+                    className="btn text-white ml-2"
+                    onClick={() => addCourseType(yearIndex)}
+                    style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                >
+                    Add Course
+                </button>
+            </div>
+                                                                     
+                                                                    </div>
                                                             </div>
-                                                            
-
-                                                        </div>
-
-
-                                                    ))}
+                                                          
+                                                           
+                                                    </div>
+                                                    
+                                                        ))}
+                                                       
+                                                    </div>
+                                                </div>
 
 
                                                 </div>
 
 
-                                                <div className="col-xl-12">
-                                                    <button type="submit" className="btn btn-primary mt-4">Save</button>
-                                                </div>
+                                                <div className='row g-2'>
+                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                              <Link
+
+                                to="/ListCommission"
+                                style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                              >
+                                Cancel
+                              </Link>
+                              <button
+
+                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+
+                                type="submit"
+                                className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                              >
+                                Submit
+                              </button>
+                            </div>
+
+
+                          </div>
                                             </div>
                                         </div>
                                     </div>
