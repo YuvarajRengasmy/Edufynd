@@ -63,7 +63,46 @@ export const ViewComission = () => {
 
 </tbody>
 </table>
+<div className='card border-0 rounded-0 my-3'>
+  <h6 className='card-header text-center fw-semibold text-uppercase my-2 rounded-0 bg-white'>Year</h6>
+  <div className='card-body'>
+  <div class="row justify-content-center align-items-center">
+  <div class="col-sm-4 mb-3 mb-sm-0">
+    <div class="card  border-0">
+      <div class="card-body">
+        <h5 class=" text-center">UG</h5>
+        <p class="card-text">Intake - </p>
+        <p class="card-text">Value - </p>
+       
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card border-0">
+      <div class="card-body">
+        <h5 class=" text-center">PG</h5>
+        <p class="card-text">Intake - </p>
+        <p class="card-text">Value - </p>
+      
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card  border-0">
+      <div class="card-body">
+        <h5 class=" text-center">PG</h5>
+        <p class="card-text">Intake - </p>
+        <p class="card-text">Value - </p>
+      
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+</div>
                     </div>
+                  
                     </div>
                   
                     
