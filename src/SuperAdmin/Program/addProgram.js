@@ -47,14 +47,10 @@ function Profile() {
     universityId: { required: false },
     country: { required: false },
     programTitle: { required: false },
-   
     courseType: { required: false },
     applicationFee: { required: false },
     currency: { required: false },
     discountedValue: { required: false },
-   
-  
-   
     englishlanguageTest: { required: false },
     textBox: { required: false },
     universityInterview: { required: false },
