@@ -28,260 +28,160 @@ export const AddEvents = () => {
             <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
             <h5 className='text-center text-capitalize p-1'> Add Events Details</h5>
             </div>
-                  <div className="card-body mt-5">
-                    <div className="row g-3">
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                
-                                <label style={{ color: "#231F20" }}>
-                                    {" "}
-                                    Country<span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                    name="businessName"
-                                    
-                                    className="form-control "
-                                    placeholder="Enter Country"
-
-                                />
-                               
-                                    <div className="text-danger form-text">
-                                        This field is required.
-                                    </div>
-                               
-                            
-                        </div>
-                   
-                       
-                           
+            <div className="card-body mt-5">
+                          <div className="row g-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                               
-                                    <label style={{ color: "#231F20" }}>
-                                    University<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        placeholder="Enter University"
-                                        name="website"
-                                        
-                                    />
-                                   <span className="text-danger form-text profile_error">
-                                        This field is required.
-                                    </span> 
-                               
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                               
-                                    <label style={{ color: "#231F20" }}>
-                                        {" "}
-                                        Payment Method<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        placeholder="Enter Payment Method"
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        name="businessMailID"
-                                        
-                                    />
-                                    
-                                        <div className="text-danger form-text">
-                                            This field is required.
-                                        </div>
-                                    
-                                        <div className="text-danger form-text">
-                                            Enter valid Email Id.
-                                        </div>
-                                   
-                                
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                
-                                    <label style={{ color: "#231F20" }}>
-                                    Commission Paid On<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        placeholder="Enter Commission Paid On "
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        name="businessContactNo"
-                                        
-                                    />
-                                  
+                              <label style={{ color: "#231F20" }}>
+                                Type of Users{" "}
+                                <span className="text-danger">*</span>
+                              </label>
 
-                                        <span className="text-danger form-text profile_error">
-
-                                            This field is required.
-
-                                        </span> 
-                                            <span className="text-danger form-text profile_error">
-                                                Enter valid mobile number.
-                                            </span> 
-                               
+                              <select
+                                class="form-select form-select-lg"
+                                aria-label="Default select example"
+                                style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                              >
+                                <option selected>Select User</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Student">Student</option>
+                                <option value="Agent">Agent</option>
+                              </select>
                             </div>
 
-                           
-
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                
-                                    <label style={{ color: "#231F20" }}>
-                                    Eligibility<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        placeholder="Enter Eligibility"
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        name="name"
-                                        
-                                    />
-                                    <span className="text-danger form-text profile_error">
-                                        This field is required.
-                                    </span> 
-                                
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                UserName<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter UserName"
+                                name="Username"
+                              />
                               
-                                    <label style={{ color: "#231F20" }}>
-                                    Tax<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        placeholder="Enter Tax"
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        name="contactNo"
-                                        
-                                    />
-                                    
-
-                                        <span className="text-danger form-text profile_error">
-
-                                            This field is required.
-
-                                        </span>
-                                            <span className="text-danger form-text profile_error">
-                                                Enter valid mobile number.
-                                            </span> : null
-
-                                    
-                                
-                            </div>
-
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                               
-                                    <label style={{ color: "#231F20" }}>
-                                        Staff Email ID<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        placeholder="Enter Staff Email ID"
-                                        name="emailID"
-                                        
-                                    />
-                                   
-                                        <div className="text-danger form-text">
-                                            This field is required.
-                                        </div>
-                                    
-                                        <div className="text-danger form-text">
-                                            Enter valid Email Id.
-                                        </div>
-                                  
-                                
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                               
-                                    <label style={{ color: "#231F20" }}>
-                                        whatsApp Number<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        placeholder="Enter WhatsApp Number"
-                                        name="whatsAppNumber"
-                                        
-                                    />
-                                    <span className="text-danger form-text profile_error">
-                                        This field is required.
-                                    </span> 
-                                
+                              <label style={{ color: "#231F20" }}>
+                             Event Topic<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Event Topic"
+                                name="Username"
+                              />
+                              
                             </div>
-                           
-                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                               
-                               <label style={{ color: "#231F20" }}>
-                                   Address Line1<span className="text-danger">*</span>
-                               </label>
-                               <input
-                                   type="text"
-                                   className="form-control "
-                                   style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                   placeholder="Enter No Area Street Name"
-                                   name="addressLine1"
-                                   
-                               />
-                                <span className="text-danger form-text profile_error">
-                                   This field is required.
-                               </span> 
-                         
-                       </div>
+                          
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                
-                                    <label style={{ color: "#231F20" }}>
-                                        Address Line2<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        placeholder="Enter City State"
-                                        name="addressLine2"
-                                        
-                                    />
-                                    <span className="text-danger form-text profile_error">
-                                        This field is required.
-                                    </span> 
-                               
+                              <label style={{ color: "#231F20" }}>
+                             University<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter   University"
+                                name="Username"
+                              />
+                              
                             </div>
+                            
+                            
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                
-                                    <label style={{ color: "#231F20" }}>
-                                        Pin<span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control "
-                                        style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                        placeholder="Enter Country Pincode"
-                                        name="addressLine3"
-                                        
-                                    />
-                                    <span className="text-danger form-text profile_error">
-                                        This field is required.
-                                    </span> 
-                               
+                              <label style={{ color: "#231F20" }}>
+                             Date<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="date"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Date"
+                                name="Username"
+                              />
+                              
                             </div>
+                          
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                             Date Time< span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="datetime-local"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Date"
+                                name="Username"
+                              />
+                              
+                            </div>
+                          
+                            
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                             Venue<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Venue"
+                                name="Username"
+                              />
+                              
+                            </div>
+                            
                            
-                           
-                           
+                            
+
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                                <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/ClientList" className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2">
-                                    Cancel
-                                </Link>
-                                <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2">
-                                    Submit
-                                </button>
+                              <Link
+                                style={{
+                                  backgroundColor: "#231F20",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                to="/ClientList"
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                              >
+                                Cancel
+                              </Link>
+                              <button
+                                style={{
+                                  backgroundColor: "#FE5722",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                type="submit"
+                                className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              >
+                                Submit
+                              </button>
                             </div>
-                            </div>
+                          </div>
                         </div>
                         </div>
                         </div>

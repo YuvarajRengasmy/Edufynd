@@ -75,6 +75,60 @@ export const AddNotifications = () => {
                               />
                               
                             </div>
+                            <div className="row gy-2 ">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Subject<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Subject"
+                                name="Username"
+                              />
+                              
+                            </div>
+                            </div>
+                            <div className="row gy-2 ">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Content<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Content"
+                                name="Username"
+                              />
+                              
+                            </div>
+                            </div>
+                            <div className="row gy-2 ">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Image upload<span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="file"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Image upload"
+                                name="Username"
+                              />
+                              
+                            </div>
+                            </div>
                            
                             
 
