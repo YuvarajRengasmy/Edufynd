@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import {StudentSuperAdmin  } from '../../api/student';
+import { StudentSuperAdmin } from '../../api/student';
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
-
+import { MdCameraAlt } from "react-icons/md";
 function AddAgent() {
-    const initialState = { 
+    const initialState = {
         source: "",
         name: "",
         passportNo: "",
@@ -179,7 +179,7 @@ function AddAgent() {
         return error
     }
 
-const handleInputs = (event) => {
+    const handleInputs = (event) => {
         setStudent({ ...student, [event?.target?.name]: event?.target?.value })
         if (submitted) {
             const newError = handleValidation({ ...student, [event.target.name]: event.target.value })
@@ -189,7 +189,7 @@ const handleInputs = (event) => {
 
 
 
-   
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -200,34 +200,59 @@ const handleInputs = (event) => {
         const valid = allInputsValid.every((x) => x.required === false);
         if (valid) {
             StudentSuperAdmin(student)
-            .then((res) => {
-              toast.success(res?.data?.message);
-              navigate("/ListStudent");
-            })
-            .catch((err) => {
-              toast.error(err?.response?.data?.message);
-            });
+                .then((res) => {
+                    toast.success(res?.data?.message);
+                    navigate("/ListStudent");
+                })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message);
+                });
         }
-      };
+    };
     return (
         <>
-            <div style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div class="container-fluid">
                     <nav class="navbar navbar-vertical navbar-expand-lg">
                         <Sidebar />
                     </nav>
-                    <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+                    <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="content-header ">
-                            <div className="content container-fluid ">    
-                                    <div className="row ">
-                                        <div className="col-xl-12 ">
+                            <div className="content container-fluid ">
+                                <div className="row ">
+                                    <div className="col-xl-12 ">
                                         <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-                <h5 className='text-center text-capitalize p-1'> Add Student Details</h5>
-                </div>
-                                                <form onSubmit={handleSubmit}>
-                                                <div className="card-body mt-5">
-                                                    <div className="row g-3">
+                                            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{ background: '#fe5722', color: '#fff' }}>
+                                                <h5 className='text-center text-capitalize p-1'> Add Student Details</h5>
+                                            </div>
+                                            <form onSubmit={handleSubmit}>
+                                         
+                                                <div className="card-body mt-2 ">
+                                                    <div className="row g-3 ">
+                                                    <div className="position-relative d-inline-block">
+  <img 
+    className="img-fluid rounded-circle img-thumbnail mx-auto d-block" 
+    src="https://placehold.co/128x128" 
+    alt="student-image"  
+    style={{ width: '8rem', height: '8rem' }} 
+  />
+  <label 
+    htmlFor="fileInputImage" 
+    className="position-absolute fs-6 rounded-circle "
+    style={{ cursor: 'pointer',bottom:'5%',left:'53.5%', transform: 'translate(25%, 25%)',color:'#0f2239' }}
+  >
+    <i className="fas fa-camera"></i>
+  </label>
+  <input
+    name="universityLogo"
+    id="fileInputImage"
+    type="file"
+    accept="image/*"
+    className="form-control border-0 text-dark bg-transparent"
+    style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  />
+</div>
+
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 {" "}
@@ -307,7 +332,7 @@ const handleInputs = (event) => {
                                                             }
 
                                                         </div>
-                                                       
+
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
@@ -328,22 +353,22 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-<label style={{ color: "#231F20" }}>
-    Citizenship<span className="text-danger">*</span>
-</label>
-<input
-    type="text"
-    className="form-control "
-    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-    placeholder="Enter Citizenship"
-    name="citizenship"
-    onChange={handleInputs}
-/>
-{errors.citizenship.required ? <span className="text-danger form-text profile_error">
-    This field is required.
-</span> : null}
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Citizenship<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Citizenship"
+                                                                name="citizenship"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.citizenship.required ? <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span> : null}
 
-</div>
+                                                        </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
@@ -392,7 +417,7 @@ const handleInputs = (event) => {
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
-                                                           Primary Number<span className="text-danger">*</span>
+                                                                Primary Number<span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -419,7 +444,7 @@ const handleInputs = (event) => {
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
-                                                            WhatsApp Number <span className="text-danger">*</span>
+                                                                WhatsApp Number <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -478,7 +503,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                               Start Date<span className="text-danger">*</span>
+                                                                Start Date<span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="date"
@@ -541,11 +566,11 @@ const handleInputs = (event) => {
                                                                 This field is required.
                                                             </span> : null}
                                                         </div>
-                                                     
+
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                                                             <label style={{ color: "#231F20" }}>
-                                                            Do have any English Language Test <span className="text-danger">*</span>
+                                                                Do have any English Language Test <span className="text-danger">*</span>
                                                             </label>
                                                             <select type="text"
                                                                 className="form-select"
@@ -593,7 +618,7 @@ const handleInputs = (event) => {
                                                                 placeholder="Enter testScore"
                                                                 name="testScore"
                                                                 onChange={handleInputs}
-                                                            />                                                     
+                                                            />
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -610,7 +635,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Desired Country <span className="text-danger">*</span>
+                                                                Desired Country <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -626,7 +651,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Desired University <span className="text-danger">*</span>
+                                                                Desired University <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -643,7 +668,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Desired Course <span className="text-danger">*</span>
+                                                                Desired Course <span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -659,7 +684,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Work Experience<span className="text-danger">*</span>
+                                                                Work Experience<span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -676,7 +701,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Any Visa Rejections<span className="text-danger">*</span>
+                                                                Any Visa Rejections<span className="text-danger">*</span>
                                                             </label>
                                                             <select type="text"
                                                                 className="form-select"
@@ -709,7 +734,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Do Tou Have  Travel History<span className="text-danger">*</span>
+                                                                Do Tou Have  Travel History<span className="text-danger">*</span>
                                                             </label>
                                                             <select type="text"
                                                                 className="form-select"
@@ -728,7 +753,7 @@ const handleInputs = (event) => {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                            Finance<span className="text-danger">*</span>
+                                                                Finance<span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -742,9 +767,9 @@ const handleInputs = (event) => {
                                                                 This field is required.
                                                             </span> : null}
                                                         </div>
-                                                     
-                                                       
-                                                      
+
+
+
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 Password<span className="text-danger">*</span>
@@ -796,16 +821,16 @@ const handleInputs = (event) => {
                                                             ) : null}
                                                         </div>
                                                         <div className='row g-3'>
-                                                        <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                                                            <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/ListStudent" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2">
-                                                                Cancel
-                                                            </Link>
-                                                            <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2">
-                                                                Submit
-                                                            </button>
+                                                            <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                                                                <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/ListStudent" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2">
+                                                                    Cancel
+                                                                </Link>
+                                                                <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        </div>
-                                                       
+
                                                     </div>
                                                 </div>
                                             </form>

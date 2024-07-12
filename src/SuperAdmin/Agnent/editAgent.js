@@ -275,11 +275,34 @@ function AddAgent() {
                 <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
                 <h5 className='text-center text-capitalize p-1'> Edit Agent Details</h5>
                 </div>
-                      <div className="card-body mt-5">
-                           
-                            
-                                <form onSubmit={handleSubmit}>
-                                <div className="row g-3">
+                
+                <form onSubmit={handleSubmit}>
+                                                
+                <div className="card-body mt-2 ">
+                                                    <div className="row g-3 ">
+                                                    <div className="position-relative d-inline-block">
+  <img 
+    className="img-fluid rounded-circle img-thumbnail mx-auto d-block" 
+    src="https://placehold.co/128x128" 
+    alt="student-image"  
+    style={{ width: '8rem', height: '8rem' }} 
+  />
+  <label 
+    htmlFor="fileInputImage" 
+    className="position-absolute fs-6 rounded-circle "
+    style={{ cursor: 'pointer',bottom:'5%',left:'53.5%', transform: 'translate(25%, 25%)',color:'#0f2239' }}
+  >
+    <i className="fas fa-camera"></i>
+  </label>
+  <input
+    name="universityLogo"
+    id="fileInputImage"
+    type="file"
+    accept="image/*"
+    className="form-control border-0 text-dark bg-transparent"
+    style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  />
+</div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                                         <label htmlFor="company" className="form-label">Source</label>
                                         <input name="source" type="text" onChange={handleInputs} className="form-control" id="company" value={agent?.source}    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
@@ -608,8 +631,9 @@ function AddAgent() {
                                 </div>
                             
                             </div>
-                            </form></div>
-
+                           
+                            </div>
+                            </form>
                             </div>
                           
                         </div>
