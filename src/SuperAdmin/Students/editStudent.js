@@ -276,7 +276,8 @@ function AddAgent() {
     style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   />
 </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+<div className='row'>
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 {" "}
                                                                 Source<span className="text-danger">*</span>
@@ -299,6 +300,19 @@ function AddAgent() {
                                                                 </div>
                                                             ) : null}
                                                         </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>
+                                                                Source <span className="text-danger">*</span>
+                                                            </label>
+                                                        <select class="form-select form-select-lg rounded-2" aria-label="Default select example"    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+  <option selected>Select Source</option>
+  <option value="Walk In">Walk In</option>
+  <option value="Social Media">Social Media</option>
+ 
+</select>
+</div>
+</div>
+                                                       
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 Student Name{" "}
@@ -323,6 +337,51 @@ function AddAgent() {
                                                                     </div>
                                                                 ) : null}
                                                             </div>
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Citizenship
+                                                                <span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                value={student?.citizenship}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                placeholder="Enter Citizenship"
+                                                                name="citizenship"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.citizenship.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                DOB<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="date"
+                                                                className="form-control text-uppercase "
+                                                                placeholder="Enter Name"
+                                                                value={student?.dob}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                name="dob"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.dob.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -355,7 +414,7 @@ function AddAgent() {
                                                             </label>
                                                             <input
                                                                 type="date"
-                                                                className="form-control "
+                                                                className="form-control text-uppercase"
                                                                 value={student?.expiryDate}
                                                                 placeholder="Enter Expiry Date "
                                                                 style={{
@@ -371,51 +430,8 @@ function AddAgent() {
                                                                 </span>
                                                             ) : null}
                                                         </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                            <label style={{ color: "#231F20" }}>
-                                                                DOB<span className="text-danger">*</span>
-                                                            </label>
-                                                            <input
-                                                                type="date"
-                                                                className="form-control "
-                                                                placeholder="Enter Name"
-                                                                value={student?.dob}
-                                                                style={{
-                                                                    fontFamily: "Plus Jakarta Sans",
-                                                                    fontSize: "12px",
-                                                                }}
-                                                                name="dob"
-                                                                onChange={handleInputs}
-                                                            />
-                                                            {errors.dob.required ? (
-                                                                <span className="text-danger form-text profile_error">
-                                                                    This field is required.
-                                                                </span>
-                                                            ) : null}
-                                                        </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                            <label style={{ color: "#231F20" }}>
-                                                                Citizenship
-                                                                <span className="text-danger">*</span>
-                                                            </label>
-                                                            <input
-                                                                type="text"
-                                                                className="form-control "
-                                                                value={student?.citizenship}
-                                                                style={{
-                                                                    fontFamily: "Plus Jakarta Sans",
-                                                                    fontSize: "12px",
-                                                                }}
-                                                                placeholder="Enter Citizenship"
-                                                                name="citizenship"
-                                                                onChange={handleInputs}
-                                                            />
-                                                            {errors.citizenship.required ? (
-                                                                <span className="text-danger form-text profile_error">
-                                                                    This field is required.
-                                                                </span>
-                                                            ) : null}
-                                                        </div>
+                                                        
+                                                      
 
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -423,7 +439,7 @@ function AddAgent() {
                                                             </label>
                                                             <select
                                                                 type="text"
-                                                                className="form-select "
+                                                                className="form-select form-select-lg rounded-2 "
                                                                 placeholder="Contact Number"
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
@@ -433,7 +449,7 @@ function AddAgent() {
                                                                 value={student?.gender}
                                                                 onChange={handleInputs}
                                                             >
-                                                                <option value="">select Gender</option>
+                                                                <option value="">Select Gender</option>
                                                                 <option value="male">Male</option>
                                                                 <option value="female">Female</option>
                                                                 <option value="others">Others</option>
@@ -572,11 +588,57 @@ function AddAgent() {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
+                                                                Percentage<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                value={student?.percentage}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                placeholder="Enter Percentage"
+                                                                name="percentage"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.percentage.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Institution Name
+                                                                <span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                value={student?.institution}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                placeholder="Enter Institution Name"
+                                                                name="institution"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.institution.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
                                                                 Start Date<span className="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="date"
-                                                                className="form-control "
+                                                                className="form-control text-uppercase "
                                                                 value={student?.academicYear}
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
@@ -598,7 +660,7 @@ function AddAgent() {
                                                             </label>
                                                             <input
                                                                 type="date"
-                                                                className="form-control "
+                                                                className="form-control text-uppercase "
                                                                 value={student?.yearPassed}
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
@@ -614,60 +676,59 @@ function AddAgent() {
                                                                 </span>
                                                             ) : null}
                                                         </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <div className="card-header border-0 rounded-0 " style={{ background: '#fe5722', color: '#fff' }}>
+                                                <h6 className='text-start text-capitalize pt-1'>Work Experience</h6>
+                                            </div>     
+                                                       
+                                                      
+<div className="row g-3">
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Institution
-                                                                <span className="text-danger">*</span>
+                                                            Duration
                                                             </label>
                                                             <input
-                                                                type="text"
-                                                                className="form-control "
-                                                                value={student?.institution}
-                                                                style={{
-                                                                    fontFamily: "Plus Jakarta Sans",
-                                                                    fontSize: "12px",
-                                                                }}
-                                                                placeholder="Enter Institution"
-                                                                name="institution"
-                                                                onChange={handleInputs}
+                                                                type="datetime-local"
+                                                                className="form-control  text-uppercase"
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Duration"
+                                                                name="duration"
+                                                               
                                                             />
-                                                            {errors.institution.required ? (
-                                                                <span className="text-danger form-text profile_error">
-                                                                    This field is required.
-                                                                </span>
-                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Percentage<span className="text-danger">*</span>
+                                                            Last Employeer
                                                             </label>
                                                             <input
-                                                                type="text"
-                                                                className="form-control "
-                                                                value={student?.percentage}
-                                                                style={{
-                                                                    fontFamily: "Plus Jakarta Sans",
-                                                                    fontSize: "12px",
-                                                                }}
-                                                                placeholder="Enter Percentage"
-                                                                name="percentage"
+                                                                type="Text"
+                                                                className="form-control  "
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Last Employeer"
+                                                                name="lastemployer"
+                                                               
+                                                            />
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                            Last Designation
+                                                            </label>
+                                                            <input
+                                                                type="Text"
+                                                                className="form-control  "
+                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                placeholder="Enter Last Designation"
+                                                                name="testScore"
                                                                 onChange={handleInputs}
                                                             />
-                                                            {errors.percentage.required ? (
-                                                                <span className="text-danger form-text profile_error">
-                                                                    This field is required.
-                                                                </span>
-                                                            ) : null}
                                                         </div>
-
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 Do have any English Language Test
                                                                 <span className="text-danger">*</span>
                                                             </label>
                                                             <select
                                                                 type="text"
-                                                                className="form-select"
+                                                                className="form-select form-select-lg rounded-2"
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
                                                                     fontSize: "12px",
@@ -689,6 +750,8 @@ function AddAgent() {
                                                                 </span>
                                                             ) : null}
                                                         </div>
+</div>
+                                                      
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
                                                                 English Test Type
@@ -696,7 +759,7 @@ function AddAgent() {
                                                             </label>
                                                             <select
                                                                 type="text"
-                                                                className="form-select"
+                                                                className="form-select form-select-lg rounded-2"
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
                                                                     fontSize: "12px",
@@ -739,7 +802,7 @@ function AddAgent() {
                                                             </label>
                                                             <input
                                                                 type="date"
-                                                                className="form-control "
+                                                                className="form-control  text-uppercase "
                                                                 value={student?.dateOfTest}
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
@@ -750,96 +813,34 @@ function AddAgent() {
                                                                 onChange={handleInputs}
                                                             />
                                                         </div>
+                                                        <div className="row g-3">
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Country<span className="text-danger">*</span>
+                                                                Do You Have Travel History
+                                                                <span className="text-danger">*</span>
                                                             </label>
-                                                            <input
+                                                            <select
                                                                 type="text"
-                                                                className="form-control "
+                                                                className="form-select form-select-lg rounded-2"
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
                                                                     fontSize: "12px",
                                                                 }}
-                                                                placeholder="Enter country"
-                                                                name="country"
-                                                                value={student?.country}
+                                                                placeholder="Enter Do You Have Travel History"
+                                                                name="doYouHaveTravelHistory"
+                                                                value={student?.doYouHaveTravelHistory}
                                                                 onChange={handleInputs}
-                                                            />
-                                                            {errors.country.required ? (
+                                                            >
+                                                                <option value="">DoYouHaveTravelHistory</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                            {errors.doYouHaveTravelHistory.required ? (
                                                                 <span className="text-danger form-text profile_error">
                                                                     This field is required.
                                                                 </span>
                                                             ) : null}
                                                         </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                            <label style={{ color: "#231F20" }}>
-                                                                Desired University
-                                                                <span className="text-danger">*</span>
-                                                            </label>
-                                                            <input
-                                                                type="text"
-                                                                className="form-control "
-                                                                style={{
-                                                                    fontFamily: "Plus Jakarta Sans",
-                                                                    fontSize: "12px",
-                                                                }}
-                                                                placeholder="Enter Desired University"
-                                                                name="desiredUniversity"
-                                                                value={student?.desiredUniversity}
-                                                                onChange={handleInputs}
-                                                            />
-                                                            {errors.desiredUniversity.required ? (
-                                                                <span className="text-danger form-text profile_error">
-                                                                    This field is required.
-                                                                </span>
-                                                            ) : null}
-                                                        </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                            <label style={{ color: "#231F20" }}>
-                                                                Desired Course
-                                                                <span className="text-danger">*</span>
-                                                            </label>
-                                                            <input
-                                                                type="text"
-                                                                className="form-control "
-                                                                style={{
-                                                                    fontFamily: "Plus Jakarta Sans",
-                                                                    fontSize: "12px",
-                                                                }}
-                                                                placeholder="Enter Desired Course"
-                                                                name="desiredCourse"
-                                                                value={student?.desiredCourse}
-                                                                onChange={handleInputs}
-                                                            />
-                                                            {errors.desiredCourse.required ? (
-                                                                <span className="text-danger form-text profile_error">
-                                                                    This field is required.
-                                                                </span>
-                                                            ) : null}
-                                                        </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                            <label style={{ color: "#231F20" }}>
-                                                                Work Experience
-                                                                <span className="text-danger">*</span>
-                                                            </label>
-                                                            <input
-                                                                type="text"
-                                                                className="form-control "
-                                                                value={student?.workExperience}
-                                                                style={{
-                                                                    fontFamily: "Plus Jakarta Sans",
-                                                                    fontSize: "12px",
-                                                                }}
-                                                                placeholder="Enter Work Experience"
-                                                                name="workExperience"
-                                                                onChange={handleInputs}
-                                                            />
-                                                            {errors.workExperience.required ? (
-                                                                <span className="text-danger form-text profile_error">
-                                                                    This field is required.
-                                                                </span>
-                                                            ) : null}
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
@@ -848,7 +849,7 @@ function AddAgent() {
                                                             </label>
                                                             <select
                                                                 type="text"
-                                                                className="form-select"
+                                                                className="form-select form-select-lg rounded-2"
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
                                                                     fontSize: "12px",
@@ -889,26 +890,68 @@ function AddAgent() {
                                                         </div>
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
-                                                                Do You Have Travel History
+                                                                Desired University
                                                                 <span className="text-danger">*</span>
                                                             </label>
-                                                            <select
+                                                            <input
                                                                 type="text"
-                                                                className="form-select"
+                                                                className="form-control "
                                                                 style={{
                                                                     fontFamily: "Plus Jakarta Sans",
                                                                     fontSize: "12px",
                                                                 }}
-                                                                placeholder="Enter Do You Have Travel History"
-                                                                name="doYouHaveTravelHistory"
-                                                                value={student?.doYouHaveTravelHistory}
+                                                                placeholder="Enter Desired University"
+                                                                name="desiredUniversity"
+                                                                value={student?.desiredUniversity}
                                                                 onChange={handleInputs}
-                                                            >
-                                                                <option value="">DoYouHaveTravelHistory</option>
-                                                                <option value="Yes">Yes</option>
-                                                                <option value="No">No</option>
-                                                            </select>
-                                                            {errors.doYouHaveTravelHistory.required ? (
+                                                            />
+                                                            {errors.desiredUniversity.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                              Desired  Country<span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                placeholder="Enter Desired country"
+                                                                name="country"
+                                                                value={student?.country}
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.country.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+                                                       
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Desired Course
+                                                                <span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                placeholder="Enter Desired Course"
+                                                                name="desiredCourse"
+                                                                value={student?.desiredCourse}
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.desiredCourse.required ? (
                                                                 <span className="text-danger form-text profile_error">
                                                                     This field is required.
                                                                 </span>
@@ -936,6 +979,32 @@ function AddAgent() {
                                                                 </span>
                                                             ) : null}
                                                         </div>
+                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                            <label style={{ color: "#231F20" }}>
+                                                                Work Experience
+                                                                <span className="text-danger">*</span>
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control "
+                                                                value={student?.workExperience}
+                                                                style={{
+                                                                    fontFamily: "Plus Jakarta Sans",
+                                                                    fontSize: "12px",
+                                                                }}
+                                                                placeholder="Enter Work Experience"
+                                                                name="workExperience"
+                                                                onChange={handleInputs}
+                                                            />
+                                                            {errors.workExperience.required ? (
+                                                                <span className="text-danger form-text profile_error">
+                                                                    This field is required.
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+                                                     
+                                                        
+                                                     
 
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                             <label style={{ color: "#231F20" }}>
