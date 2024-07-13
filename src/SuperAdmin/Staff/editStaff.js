@@ -249,9 +249,32 @@ const handleValidation = (data) => {
                                                     Edit Staff Details
                                                 </h5>
                                             </div>
-                        <div className="card-body mt-5">
-                          <div className="row g-3">
-
+                                                   
+                                            <div className="card-body mt-2 ">
+                                                    <div className="row g-3 ">
+                                                    <div className="position-relative d-inline-block">
+  <img 
+    className="img-fluid rounded-circle img-thumbnail mx-auto d-block" 
+    src="https://placehold.co/128x128" 
+    alt="student-image"  
+    style={{ width: '8rem', height: '8rem' }} 
+  />
+  <label 
+    htmlFor="fileInputImage" 
+    className="position-absolute fs-6 rounded-circle "
+    style={{ cursor: 'pointer',bottom:'5%',left:'53.5%', transform: 'translate(25%, 25%)',color:'#0f2239' }}
+  >
+    <i className="fas fa-camera"></i>
+  </label>
+  <input
+    name="universityLogo"
+    id="fileInputImage"
+    type="file"
+    accept="image/*"
+    className="form-control border-0 text-dark bg-transparent"
+    style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  />
+</div>
                     
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
       <label style={{ color: "#231F20" }} htmlFor="fileInputImage">
