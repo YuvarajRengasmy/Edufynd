@@ -254,7 +254,7 @@ function AddAgent() {
                    
                 
         
-            <div className="content-wrapper ">
+            <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
                 <div className="content-header">
                     <div className="container-fluid">
                     <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -284,23 +284,14 @@ function AddAgent() {
     id="fileInputImage"
     type="file"
     accept="image/*"
-    className="form-control border-0 text-dark bg-transparent"
+    className="form-control rounded-2 border-0 text-dark bg-transparent"
     style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   />
 </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="company" className="form-label">Source</label>
-                                <input name="source"  type="text" onChange={handleInputs} placeholder="Enter Source" className="form-control" id="company"    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                                {errors.source.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
+                         
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="company" className="form-label">Name</label>
-                                <input name="agentName"  type="text" onChange={handleInputs} placeholder="Enter Name" className="form-control" id="company" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <input name="agentName"  type="text" onChange={handleInputs} placeholder="Enter Name" className="form-control rounded-2" id="company" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.agentName.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -310,7 +301,7 @@ function AddAgent() {
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Job" className="form-label">Business Name</label>
-                                <input name="businessName" type="text" className="form-control" onChange={handleInputs} placeholder="Enter Business Name" id="Job"  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                                <input name="businessName" type="text" className="form-control rounded-2" onChange={handleInputs} placeholder="Enter Business Name" id="Job"  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                 {errors.businessName.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -318,45 +309,16 @@ function AddAgent() {
                                 ) : null}
 
                               </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Job" className="form-label">Business Website</label>
+                                <input name="businessName" type="text" className="form-control rounded-2"  placeholder="Enter Business Website" id="Job"  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                               
+
+                              </div>
                              
-                            
-                          
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Country" className="form-label">Address Line1</label>
-                                <input name="addressLine1" type="text" onChange={handleInputs} placeholder="Enter Address Line1<" className="form-control" id="Country" value={agent?.addressLine1} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                                {errors.addressLine1.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                          
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Country" className="form-label">Address Line2</label> 
-                                <input name="addressLine2" type="text" onChange={handleInputs} placeholder="Enter Address Line2" className="form-control" id="Country" value={agent?.addressLine2}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                                {errors.addressLine2.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Country" className="form-label">Address Line3</label>
-                                <input name="addressLine3" type="text" onChange={handleInputs} placeholder="Enter Address Line3" className="form-control" id="Country" value={agent?.addressLine3} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                                {errors.addressLine3.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                          
-                            
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Address" className="form-label">Email ID</label>
-                                <input name="email" type="text" className="form-control" onChange={handleInputs} placeholder="Enter Email ID" id="Address" value={agent?.email} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <input name="email" type="text" className="form-control rounded-2" onChange={handleInputs} placeholder="Enter Email ID" id="Address" value={agent?.email} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.email.required ? (
                                   <div className="text-danger form-text">
                                     This field is required.
@@ -369,7 +331,7 @@ function AddAgent() {
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Email" className="form-label">Primary Number</label>
-                                <input name="mobileNumber" type="text" className="form-control" onChange={handleInputs} placeholder="Enter Primary Number" id="Email" value={agent?.mobileNumber} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <input name="mobileNumber" type="text" className="form-control rounded-2" onChange={handleInputs} placeholder="Enter Primary Number" id="Email" value={agent?.mobileNumber} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.mobileNumber.required ? (
                                   <div className="text-danger form-text">
                                     This field is required.
@@ -384,7 +346,7 @@ function AddAgent() {
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Email" className="form-label">Whats App Number</label>
-                                <input name="whatsAppNumber" type="text" onChange={handleInputs} placeholder="Enter WhatsApp Number" className="form-control" id="Email" value={agent?.whatsAppNumber} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <input name="whatsAppNumber" type="text" onChange={handleInputs} placeholder="Enter WhatsApp Number" className="form-control rounded-2" id="Email" value={agent?.whatsAppNumber} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.whatsAppNumber.required ? (
                                   <div className="text-danger form-text">
                                     This field is required.
@@ -397,78 +359,23 @@ function AddAgent() {
 
 
                               </div>
-                             
-                           
+
                           
-                            <div className="col ">
-                                <label htmlFor="company" className="form-label">Password</label>
-                                <input name="password"  type="text" onChange={handleInputs} placeholder="Enter" className="form-control" id="company" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                                {errors.password.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Job" className="form-label">Confirm Password</label>
-                                <input name="confirmPassword" type="text" className="form-control" onChange={handleInputs} placeholder="Enter" id="Job" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                                {errors.confirmPassword.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Email" className="form-label"> Bank Name</label>
-                                <input name="bankName" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Bank Name" value={agent?.bankName}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                                {errors.bankName.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Email" className="form-label"> Account Number</label>
-                                <input name="accountNumber" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Account Number" value={agent?.accountNumber} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                                {errors.accountNumber.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Email" className="form-label">Account Name</label>
-                                <input name="accountName" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Account Name" value={agent?.accountName} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                                {errors.accountName.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                             
-                        
-                             
-                           
-                            
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label htmlFor="Email" className="form-label">Branch</label>
-                              <input name="branch" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Branch" value={agent?.branch} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                              {errors.branch.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                                <label htmlFor="Country" className="form-label">Address Line1</label>
+                                <input name="addressLine1" type="text" onChange={handleInputs} placeholder="Enter Address Line1" className="form-control rounded-2" id="Country" value={agent?.addressLine1} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                                {errors.addressLine1.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
 
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Email" className="form-label">IFSC</label>
-                                <input name="ifsc" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter IFSC" value={agent?.ifsc}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                                {errors.ifsc.required ? (
+                              </div>
+                          
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Country" className="form-label">Address Line2</label> 
+                                <input name="addressLine2" type="text" onChange={handleInputs} placeholder="Enter Address Line2" className="form-control rounded-2" id="Country" value={agent?.addressLine2}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                                {errors.addressLine2.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
                                   </span>
@@ -476,8 +383,35 @@ function AddAgent() {
 
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Phone" className="form-label">PAN Number of Individual</label>
-                                <input name="panNumberIndividual" type="text" onChange={handleInputs} placeholder="Enter PAN Number of Individual" className="form-control" id="Phone" value={agent?.panNumberIndividual} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <label htmlFor="Country" className="form-label">Address Line3</label>
+                                <input name="addressLine3" type="text" onChange={handleInputs} placeholder="Enter Address Line3" className="form-control rounded-2" id="Country" value={agent?.addressLine3} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                {errors.addressLine3.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="Email" className="form-label">Registration No </label>
+                                <input name="registrationno" type="text"  placeholder="Enter Registration No" className="form-control rounded-2" id="Email"  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                              
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Email" className="form-label">GSTN </label>
+                                <input name="gstn" type="text" className="form-control rounded-2" onChange={handleInputs} placeholder="Enter GSTN " id="Email" value={agent?.gstn} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                {errors.gstn.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Phone" className="form-label">PAN (Individual/Company)</label>
+                                <input name="panNumberIndividual" type="text" onChange={handleInputs} placeholder="Enter PAN (Individual/Company)" className="form-control rounded-2" id="Phone" value={agent?.panNumberIndividual} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.panNumberIndividual.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -489,49 +423,12 @@ function AddAgent() {
                            
                             
                            
-                          
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Email" className="form-label">PAN of Company </label>
-                                <input name="panNumberCompany" type="text" onChange={handleInputs} placeholder="Enter PAN of Company" className="form-control" id="Email" value={agent?.panNumberCompany} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                                {errors.panNumberCompany.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Email" className="form-label">GSTN </label>
-                                <input name="gstn" type="text" className="form-control" onChange={handleInputs} placeholder="Enter GSTN " id="Email" value={agent?.gstn} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
-                                {errors.gstn.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="Email" className="form-label">INC </label>
-                                <input name="inc" type="text" className="form-control" onChange={handleInputs} placeholder="Enter INC" id="Email" value={agent?.inc} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                                {errors.inc.required ? (
-                                  <span className="form-text text-danger">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-
-
-                              </div>
                              
-                           
-                           
-                          
-                           
+                             
                             
-                           
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Email" className="form-label">Staff Name </label>
-                                <input name="staffName" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Staff Name" value={agent?.staffName} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <input name="staffName" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter Staff Name" value={agent?.staffName} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.staffName.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -541,7 +438,7 @@ function AddAgent() {
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Email" className="form-label">Staff Contact No</label>
-                                <input name="staffContactNo" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Staff Contact No" value={agent?.staffContactNo} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <input name="staffContactNo" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter Staff Contact No" value={agent?.staffContactNo} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.staffName.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -550,8 +447,87 @@ function AddAgent() {
 
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Email" className="form-label">Staff WhatsApp Number</label>
+                                <input name="staffwhatsappnumber" type="text" className="form-control rounded-2" id="Email"  placeholder="Enter  WhatsApp Number" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                              
+
+                              </div>
+                             
+                           
+                        
+                           
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Email" className="form-label">Account Name</label>
+                                <input name="accountName" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter Account Name" value={agent?.accountName} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                {errors.accountName.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Email" className="form-label"> Account Number</label>
+                                <input name="accountNumber" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter Account Number" value={agent?.accountNumber} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                {errors.accountNumber.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                        
+                             
+                        
+                             
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label htmlFor="Email" className="form-label">Account Type</label>
+                              <input name="AccountType" type="text" className="form-control rounded-2" id="text" o placeholder="Enter Account Type" value={agent?.branch} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                            
+
+                            </div>
+
+                        
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label htmlFor="Email" className="form-label">IFSC</label>
+                                <input name="ifsc" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter IFSC" value={agent?.ifsc}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                                {errors.ifsc.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label htmlFor="Email" className="form-label">Swift</label>
+                              <input name="swift" type="text" className="form-control rounded-2" id="text" o placeholder="Enter Swift" value={agent?.branch} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                            
+
+                            </div>
+
+                          
+
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="Email" className="form-label"> Bank Name</label>
+                                <input name="bankName" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter Bank Name" value={agent?.bankName}  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                                {errors.bankName.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                             
+                           
+                           
+                          
+                           
+                            
+                           
+                          
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Email" className="form-label">Agents Commission</label>
-                                <input name="agentsCommission" type="text" className="form-control" id="Email" onChange={handleInputs} placeholder="Enter Agents Commission" value={agent?.agentsCommission} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                <input name="agentsCommission" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter Agents Commission" value={agent?.agentsCommission} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
                                 {errors.agentsCommission.required ? (
                                   <span className="form-text text-danger">
                                     This field is required.
@@ -564,21 +540,7 @@ function AddAgent() {
                          
 
 
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label htmlFor="universityLogo" className="form-label" >Agent Business Logo</label>
-
-                                <input
-                                  type="file"
-                                  id="universityLogo"
-                                  name="agentBusinessLogo"
-                                  accept="image/*"
-                                  className="form-control "
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  onChange={handleInputs} placeholder="Enter"
-                                 
-
-                                />
-                              </div>
+                            
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label htmlFor="Email" className="form-label">Country Interested</label>
 
@@ -595,19 +557,112 @@ function AddAgent() {
                                 </Select>
 
                               </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label htmlFor="Email" className="form-label">Do require visa filing support </label>
+                              <select class="form-select form-select-lg rounded-2" aria-label="Default select example" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+  <option selected>Do require visa filing support </option>
+  <option value="Yes">Yes</option>
+  <option value="No">No</option>
+
+</select>
+                            
+
+                            </div>
+
+
+
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="company" className="form-label">Source</label>
+                                <input name="source"  type="text" onChange={handleInputs} placeholder="Enter Source" className="form-control rounded-2" id="company"    style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                                {errors.source.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="Email" className="form-label">PAN of Company </label>
+                                <input name="panNumberCompany" type="text" onChange={handleInputs} placeholder="Enter PAN of Company" className="form-control rounded-2" id="Email" value={agent?.panNumberCompany} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                {errors.panNumberCompany.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                              <label htmlFor="Email" className="form-label">Branch</label>
+                              <input name="branch" type="text" className="form-control rounded-2" id="Email" onChange={handleInputs} placeholder="Enter Branch" value={agent?.branch} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                              {errors.branch.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+
+                            </div>
+                        
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="Email" className="form-label">INC </label>
+                                <input name="inc" type="text" className="form-control rounded-2" onChange={handleInputs} placeholder="Enter INC" id="Email" value={agent?.inc} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                                {errors.inc.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="universityLogo" className="form-label" >Agent Business Logo</label>
+
+                                <input
+                                  type="file"
+                                  id="universityLogo"
+                                  name="agentBusinessLogo"
+                                  accept="image/*"
+                                  className="form-control rounded-2 "
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  onChange={handleInputs} placeholder="Enter"
+                                 
+
+                                />
+                              </div>
+
+                                
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="company" className="form-label">Password</label>
+                                <input name="password"  type="text" onChange={handleInputs} placeholder="Enter" className="form-control rounded-2" id="company" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                {errors.password.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                                <label htmlFor="Job" className="form-label">Confirm Password</label>
+                                <input name="confirmPassword" type="text" className="form-control rounded-2" onChange={handleInputs} placeholder="Enter" id="Job" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}  />
+                                {errors.confirmPassword.required ? (
+                                  <span className="form-text text-danger">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+
+                              </div>
                             
                             </div>
-                            <div className="row g-2">
-                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                    <Link style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="#" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2">
+                          
+                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto mt-4">
+                                    <Link style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} to="#" className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2">
                                         Cancel
                                     </Link>
-                                    <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border-0  px-4 py-2 text-uppercase fw-semibold text-white  m-2">
+                                    <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} type="submit" className="btn btn-save border-0  px-4 py-2 text-uppercase fw-semibold text-white  m-2">
                                         Submit
                                     </button>
                                 </div>
                             
-                            </div>
+                          
                         
                         
                            
