@@ -3,6 +3,8 @@ import { RiCoinsFill } from "react-icons/ri";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { IoMdRocket } from "react-icons/io";
+import { IoMailUnread } from "react-icons/io5";
 import {
   RiProjectorFill,
   RiMapPin2Line,
@@ -17,6 +19,8 @@ import { Chip } from "@mui/material";
 import Flags from "react-world-flags";
 import { Input } from "reactstrap";
 import Sidebar from "../../compoents/sidebar";
+import { FaUniversity } from "react-icons/fa";
+import { FaGlobeAmericas } from "react-icons/fa";
 const UserProfile = () => {
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
@@ -89,59 +93,61 @@ const UserProfile = () => {
   };
   return (
     <>
-      <div className="container-fluid ">
-        <div className="row">
-          <div className="col-lg-2">
+      <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="container-fluid">
+          <div className="navbar navbar-vertical navbar-expand-lg">
             <Sidebar />
           </div>
-          <div className="col-lg-10">
-            <div className="card border-0 rounded-2 mt-3  ">
-              <div className="card-header rounded-top border-0   img-1 ">
-                <div className="row g-3 mt-2">
-                  <div className="col-md-4 d-flex justify-content-center align-items-start">
-                    <img
-                      src={
-                        university?.universityLogo
-                          ? university?.universityLogo
-                          : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
-                      }
-                      className="img-fluid rounded-circle img-thumbnail"
-                      style={{ width: "150px", height: "150px" }}
-                      alt="Berry College Campus"
-                    />
-                  </div>
-                  <div className="col-md-5 ">
-                    <div className="d-flex flex-column">
-                      <p className="text-white">{university?.universityName}</p>
-                      <p className="text-white">{university?.country}</p>
-                      <div className="text-bg-light d-inline shadow border-1 rounded p-2 mt-2 mb-2">
-                        <span className="text-secondary fw-bolder d-flex align-items-center d-inline justify-content-center gap-2 text-uppercase">
-                          UniverSity Rank:{" "}
-                          <span>
-                            <RiCoinsFill className="text-warning fs-5" />{" "}
-                            {university?.ranking}
-                          </span>{" "}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-3 ">
-                    <div className="d-flex flex-column justify-content-end align-items-center">
-                      <div className=" text-white ">
-                        <Link
-                          to={university?.website}
-                          className="text-decoration-none text-white"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {university?.website}
-                        </Link>
-                      </div>
-                      <br />
-                      <div className=" text-white ">{university?.email}</div>
-                    </div>
-                  </div>
-                </div>
+          <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+          <div className="container-fluid ">
+            <div className="row">
+              <div className="col-xl-12">
+              <div className="  border-0 rounded-0 bg-transparent p-3 ">
+              <div className="card border-0 rounded-0  ">
+              <div className="card-header rounded-0 border-0   img-1 ">
+              <div className="row g-3 mt-2">
+  <div className="col-md-4 ">
+    <img
+      src={
+        university?.universityLogo
+          ? university?.universityLogo
+          : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
+      }
+      className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
+      style={{ width: "9rem", height: "9rem" }}
+      alt="Berry College Campus"
+    />
+  </div>
+  <div className="col-md-8">
+    <div className="d-flex flex-row justify-content-between align-items-start">
+      <div className="d-flex flex-column">
+        <p className="text-white mb-1 fw-bold"><span  className="me-2" style={{color:'#fe5722'}}><FaUniversity /></span> {university?.universityName}</p>
+        <p className="text-white mb-1"><span className="me-2" style={{color:'#fe5722'}}><FaGlobeAmericas /></span> {university?.country}</p>
+      </div>
+      <div className="d-flex flex-column align-items-end">
+       <Link
+          to={university?.website}
+          className="text-decoration-none text-white mb-1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span className="me-2" style={{color:'#fe5722'}}><IoMdRocket /></span>  {university?.website}
+        </Link>
+        <div className="text-white mb-1"> <span className="me-2" style={{color:'#fe5722'}}> <IoMailUnread /></span> {university?.email}</div>
+      </div>
+    </div>
+    <div className="bg-white text-dark shadow border-0  align-self-end rounded-1 mt-4 p-3">
+      <span className="text-secondary fw-bolder d-flex align-items-center gap-2 text-capitalize " style={{fontSize:'13px'}}>
+        University Rank: 
+        <span>
+          <RiCoinsFill className="text-warning " /> 
+          {university?.ranking}
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+
               </div>
               <div className="card-body bg-white rounded-bottom px-4">
                 <div className="row mt-2 g-4">
@@ -222,7 +228,7 @@ const UserProfile = () => {
                         role="tabpanel"
                         aria-labelledby="home-tab"
                       >
-                        <p>{university?.admissionRequirement} </p>
+                        <p className="clearfix" style={{textAlign:'justify'}}>{university?.admissionRequirement} </p>
                       </div>
                       <div
                         class="tab-pane fade"
@@ -325,7 +331,7 @@ const UserProfile = () => {
 
                   <div className="col-lg-6">
                     <div
-                      className="alert alert-primary text-center "
+                      className="alert alert-primary text-center fw-semibold  text-uppercase "
                       role="alert"
                     >
                       University Details.
@@ -335,18 +341,18 @@ const UserProfile = () => {
                       <div className="card-body">
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               OfferTAT
                             </div>
-                            <div className="h6 fw-normal">
+                            <div className="fw-semibold text-capitalize">
                               {university?.offerTAT}
                             </div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Delivery Currency
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               <Flags
                                 code={university?.flag}
                                 width={40}
@@ -358,54 +364,54 @@ const UserProfile = () => {
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Average Fees
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.averageFees}
                             </div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Application Fees
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.applicationFees}
                             </div>
                           </div>
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6  ">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Founded
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.founded}
                             </div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Institution Type
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.institutionType}
                             </div>
                           </div>
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Cost Of Living
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.costOfLiving}
                             </div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Gross Tuition
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.grossTuition}
                             </div>
                           </div>
@@ -416,18 +422,18 @@ const UserProfile = () => {
                       <div className="card-body">
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               payment Method
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.paymentMethod}
                             </div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               amount/percentage
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.amount
                                 ? university?.amount
                                 : university?.percentage
@@ -438,36 +444,36 @@ const UserProfile = () => {
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Eligibility For Commission
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.eligibilityForCommission}
                             </div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Payment TAT
                             </div>
-                            <div className="h6 fw-normal">
+                            <div className="fw-nsemibold">
                               {university?.paymentTAT}
                             </div>
                           </div>
                         </div>
                         <div className="row gy-3 py-2">
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Tax
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.tax}
                             </div>
                           </div>
                           <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">
+                            <div className=" fw-light text-lead text-capitalize">
                               Commission PaidOn
                             </div>
-                            <div className="h6  fw-normal">
+                            <div className=" fw-semibold text-capitalize">
                               {university?.commissionPaidOn}
                             </div>
                           </div>
@@ -479,17 +485,17 @@ const UserProfile = () => {
                   <div className="row g-3">
                     <div className="d-flex flex-row align-items-start justify-content-between">
                       <div
-                        className="h6 text-decoration-underline text-uppercase "
+                        className="text-semibold text-decoration-underline text-uppercase "
                         style={{ color: "#fe5722" }}
                       >
                         Other Courses You May Be Interested In
                       </div>
                     </div>
                     {program?.map((data, index) => (
-                      <div key={index} className="col-lg-4">
+                      <div key={index} className="col-lg-4 ">
                         <div
                           className="card mb-3  border-0  shadow"
-                          style={{ width: "20rem", height: "15rem" }}
+                          
                         >
                           <div className="row g-0 align-items-center justify-content-center">
                             <div className="col-md-4">
@@ -499,26 +505,26 @@ const UserProfile = () => {
                                     ? data?.universityLogo
                                     : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
                                 }
-                                className="img-fluid rounded-pill"
+                                className="img-fluid rounded-pill img-thumbnail mx-auto d-block"
                                 alt="Course Image"
-                                style={{ width: "7rem", height: "7rem" }}
+                                style={{ width: "5rem", height: "5rem" }}
                               />
                             </div>
                             <div className="col-md-8">
                               <div className="card-body">
-                                <h6 className="card-title ">
+                                <h6 className="university-name" style={{fontSize:'14px',fontWeight:'bold'}}>
                                   {data?.universityName}
                                 </h6>
-                                <p className="card-text">
-                                  CourseName :- {data?.programTitle}
+                                <p className="course-name" style={{fontSize:'12px'}}>
+                                 <b> CourseName -</b> {data?.programTitle}
                                 </p>
-                                <p className="card-text">
-                                  Duration :- {data?.duration}
+                                <p className="duration" style={{fontSize:'12px'}}>
+                                 <b>Duration -</b>  {data?.duration}
                                 </p>
 
                                 <button
-                                  className="btn  rounded-pill text-white text-uppercase px-4 py-2"
-                                  style={{ backgroundColor: "#fe5722" }}
+                                  className="btn btn-sm  rounded-pill text-white text-uppercase fw-semibold px-3 py-1"
+                                  style={{ backgroundColor: "#fe5722",fontSize:'12px' }}
                                 >
                                   Apply Now
                                 </button>
@@ -529,7 +535,7 @@ const UserProfile = () => {
                       </div>
                     ))}
                   </div>
-                  <nav aria-label="Page navigation example justify-content-end">
+                  <nav aria-label="Page navigation example justify-content-end  text-end">
                     <ul className="pagination">
                       <li className="page-item">
                         <a className="page-link" href="#" aria-label="Previous">
@@ -557,7 +563,18 @@ const UserProfile = () => {
                 </div>
               </div>
             </div>
-          </div>
+              </div>
+             
+              </div>
+            </div>
+         
+         
+         
+
+            </div>
+            
+            </div>
+         
         </div>
       </div>
     </>

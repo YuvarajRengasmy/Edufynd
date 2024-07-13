@@ -1,7 +1,9 @@
 .img-1{
-    background-image: url('https://media.studentcrowd.net/q90/content/uniawards-2022/liverpool-uni.jpeg');
+    background-image: url('https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     background-blend-mode: multiply;
+    background-position: center;
+    
 }
