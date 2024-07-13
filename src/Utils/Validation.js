@@ -24,10 +24,10 @@ export const isValidName = (name) => {
   const nameRegex = /^[a-zA-Z\s]+$/;
   return nameRegex.test(name);
 }
-
-
-
-
+export const isValidNumberLessThanOrEqualTo35 = (number) => {
+  // Check if the number is a valid number and 35 or less
+  return !isNaN(number) && Number(number) <= 35;
+};
 export const  isValidPinCode= (number) => {
   // Check if number is a string and matches the regex for a number with up to 6 digits
   return typeof number === 'string' && /^\d{1,6}$/.test(number);
@@ -35,4 +35,8 @@ export const  isValidPinCode= (number) => {
 export const isValidYear = (year) => {
   // Check if year is a string and matches the regex for a four-digit number
   return typeof year === 'string' && /^\d{4}$/.test(year);
+};
+export const isValidNumber = (number) => {
+  // Check if number is a string and matches the regex for a number with up to 3 digits
+  return typeof number === 'string' && /^\d{1,3}$/.test(number);
 };

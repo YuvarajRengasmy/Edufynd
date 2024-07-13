@@ -6,8 +6,8 @@ import { saveCommission } from '../../api/commission';
 import { getallCurrency } from '../../api/currency';
 import { getFilterYear } from '../../api/year';
 import { getallTaxModule } from "../../api/universityModule/tax";
-import { getUniversitiesByCountry } from '../../api/university';
 import { FaTrash } from "react-icons/fa";
+import { getUniversitiesByCountry } from '../../api/university';
 import Flags from 'react-world-flags';
 
 import Sidebar from "../../compoents/sidebar";
@@ -17,10 +17,7 @@ function AddCommission() {
     const initialState = {
         country: "",
         universityName: "",
-
         paymentMethod: "",
-        amount: null,
-        percentage: null,
         commissionPaidOn: "",
         eligibility: "",
         tax: "",
@@ -36,8 +33,6 @@ function AddCommission() {
         country: { required: false },
         universityName: { required: false },
         paymentMethod: { required: false },
-        amount: { required: false },
-        percentage: { required: false },
         commissionPaidOn: { required: false },
         eligibility: { required: false },
         tax: { required: false },
@@ -57,6 +52,7 @@ function AddCommission() {
     const [universities, setUniversities] = useState([]);
     const [years, setYears] = useState([]);
     const [year, setYear] = useState([]);
+    const [currency, setCurrency] = useState([]);
     const [filteredUniversities, setFilteredUniversities] = useState([]);
     const ZERO = 0;
     const pageSize = 5;
@@ -111,8 +107,47 @@ function AddCommission() {
             });
     };
 
+
+
+    const validateYears = (years) => {
+        const errors = [];
+        for (let i = 0; i < years.length; i++) {
+            const year = years[i];
+            const yearErrors = {};
+    
+            if (!year.year) {
+                yearErrors.year = 'Year is required.';
+            }
+    
+            yearErrors.courseTypes = [];
+            for (let j = 0; j < year.courseTypes.length; j++) {
+                const courseType = year.courseTypes[j];
+                const courseTypeErrors = {};
+    
+                if (!courseType.courseType) {
+                    courseTypeErrors.courseType = 'Course Type is required.';
+                }
+    
+                if (!courseType.inTake) {
+                    courseTypeErrors.inTake = 'Intake is required.';
+                }
+    
+                if (courseType.value === null || courseType.value === '') {
+                    courseTypeErrors.value = 'Value is required.';
+                } else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
+                    courseTypeErrors.value = 'Value must be a number less than 35.';
+                }
+    
+                yearErrors.courseTypes[j] = courseTypeErrors;
+            }
+    
+            errors[i] = yearErrors;
+        }
+        return errors;
+    };
+    
     const handleValidation = (data) => {
-        let error = initialStateErrors;
+        let error = { ...initialStateErrors }; // Ensure initialStateErrors is copied properly
         if (!data.country) {
             error.country.required = true;
         }
@@ -131,9 +166,30 @@ function AddCommission() {
         if (!data.paymentType) {
             error.paymentType.required = true;
         }
-
+        if (!data.years) {
+            error.years.required = true;
+        }
+        if (!isValidNumberLessThan35(data.eligibility)) {
+            error.eligibility.valid = true;
+        }
+    
+        const yearValidationErrors = validateYears(data.years);
+        if (yearValidationErrors.some(yearError => Object.keys(yearError).length > 0)) {
+            error.years = {
+                required: false,
+                valid: true,
+                message: 'Please fix the errors in the year fields.'
+            };
+            error.yearErrors = yearValidationErrors;
+        }
+    
         return error;
     };
+    
+    const isValidNumberLessThan35 = (value) => {
+        return !isNaN(value) && Number(value) < 35;
+    };
+    
     const addYear = () => {
         const newYear = {
             year: '',
@@ -142,34 +198,43 @@ function AddCommission() {
         setYears([...years, newYear]);
     };
 
-    const addCourseType = (yearIndex) => {
-        const updatedYears = [...years];
-        updatedYears[yearIndex].courseTypes.push({ courseType: '', intake: '', value: null });
-        setYears(updatedYears);
-    };
-
-    const removeCourseType = (yearIndex, courseTypeIndex) => {
-        // Create a copy of the year object from state
-        const updatedYear = { ...year };
-    
-        // Remove the courseType at the specified index
-        updatedYear.courseTypes.splice(courseTypeIndex, 1);
-    
-        // Update the state with the modified year object
-        // Assuming you have a setState function to update the state
-        setYear(updatedYear); // Replace setYear with your state setter function
-    };
-    const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
-        const updatedYears = [...years];
-        if (courseTypeIndex !== null) {
-            updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
+    const handleInputChange = (yearIndex, courseTypeIndex, field, value) => {
+        const newYears = [...years];
+        if (courseTypeIndex === null) {
+            newYears[yearIndex][field] = value;
         } else {
-            updatedYears[yearIndex][fieldName] = value;
+            newYears[yearIndex].courseTypes[courseTypeIndex][field] = value;
         }
-        setYears(updatedYears);
+        setYears(newYears);
+    
+        const validationErrors = handleValidation({ ...commission, years: newYears });
+        setErrors(validationErrors);
     };
+    
+    
+    const addCourseType = (yearIndex) => {
+        const newYears = [...years];
+        newYears[yearIndex].courseTypes.push({ courseType: '', inTake: '', value: '' });
+        setYears(newYears);
+    };
+    
+    const removeCourseType = (yearIndex, courseTypeIndex) => {
+        const newYears = [...years];
+        newYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+        setYears(newYears);
+    };
+    
+    // const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
+    //     const updatedYears = [...years];
+    //     if (courseTypeIndex !== null) {
+    //         updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
+    //     } else {
+    //         updatedYears[yearIndex][fieldName] = value;
+    //     }
+    //     setYears(updatedYears);
+    // };
     const yearOptions = year.map((data) => ({ value: data.year, label: data.year }));
- 
+
     const fetchCountryDetails = (selectedCountry) => {
         const selectedCountryData = countries.find(c => c.country === selectedCountry);
         if (selectedCountryData) {
@@ -230,6 +295,19 @@ function AddCommission() {
         const to = (page - 1) * pageSize + pageSize;
         setPagination({ ...pagination, from: from, to: to });
       };
+
+      const handleErrors = (obj) => {
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const prop = obj[key];
+            if (prop.required === true || prop.valid === true) {
+              return false;
+            }
+          }
+        }
+        return true;
+      };
+    
       const handleSubmit = (event) => {
         event.preventDefault();
     
@@ -237,12 +315,7 @@ function AddCommission() {
         const newError = handleValidation(commission);
         setErrors(newError);
         setSubmitted(true);
-    
-        // Check if all inputs are valid
-        const allInputsValid = Object.values(newError);
-        const valid = allInputsValid.every((x) => x.required === false);
-    
-        if (valid) {
+        if (handleErrors(newError)) {
             // Prepare years data for submission
             const yearsData = years.map((year) => ({
                 year: year.year,
@@ -344,20 +417,7 @@ function AddCommission() {
 
                                                     </div>
                                                     <div className='row g-2'>
-                                                        {commission.paymentMethod === 'Fixed' ? (
-                                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                                <label style={{ color: '#231F20' }}>Fixed Amount</label>
-                                                                <input
-                                                                    name="amount"
-                                                                    className="form-control"
-                                                                    type="text"
-                                                                    placeholder='Enter Amount'
-
-
-                                                                    onChange={handleInputs}
-                                                                />
-                                                            </div>
-                                                        ) : commission.paymentMethod === 'Percentage' ? (
+                                                        { commission.paymentMethod === 'Percentage' ? (
                                                             <div className='row g-2'>
                                                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                                     <label style={{ color: "#231F20" }}>Commission Paid On<span className="text-danger">*</span></label>
@@ -371,19 +431,7 @@ function AddCommission() {
                                                                         <option value="PaidFees">Paid Fees</option>
                                                                     </select>
                                                                 </div>
-                                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                                    <label style={{ color: '#231F20' }}>Course Fees Percentage</label>
-                                                                    <input
-                                                                        name="percentage"
-                                                                        className="form-control"
-
-                                                                        type="number"
-                                                                        placeholder='Enter Percentage'
-
-                                                                        onChange={handleInputs}
-                                                                    />
-                                                                </div>
-
+                                                               
                                                             </div>
                                                         ) : null}
                                                     </div>
@@ -393,7 +441,12 @@ function AddCommission() {
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Eligibility<span className="text-danger">*</span></label>
                                                         <input type="text" value={commission?.eligibility} className="form-control" placeholder="Enter Eligibility" name="eligibility" onChange={handleInputs} />
-                                                        {errors.eligibility.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
+                                                        {errors.eligibility.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              )}
+                             
                                                     </div>
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -447,37 +500,37 @@ function AddCommission() {
                                                         </select>
                                                         {errors.paymentType.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
-
                                                     <div className='row g-2'>
                                                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                                                   
                                                  <button
                                                      type="button"
-                                                     className="btn btn-outline-primary ml-2"
+                                                     className="btn text-white ml-2"
+                                                     style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                                                      onClick={addYear}
                                                  >
                                                      Add Year
                                                  </button>
+
                                                  </div>
                                                  </div>
                                                     <div className="row g-3 mt-3">
                                                     <div className="col-12">
-                                                       
-                                                        {years.map((year, yearIndex) => (
+                                              
+                                                    {years.map((year, yearIndex) => (
                                                             <div key={yearIndex} className="year-section mb-3">
                                                               
-                                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                                     <label style={{ color: "#231F20" }}>Year</label>
                                                                     <select
               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
                 value={year?.year}
                 onChange={(e) => handleInputChange(yearIndex, null, 'year', e.target.value)}
-
                 name='year'
-                className="form-select mb-3"
-                placeholder='Enter Campus'
+                className="form-select mb-3 "
+                placeholder='Enter Year'
               >
-                <option value="">Select Campus</option>
+                <option value="">Select Year</option>
                 {yearOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -546,12 +599,13 @@ function AddCommission() {
                          <FaTrash />
                         </button>
                     </div>
+                                                          
                                                                      
                                                                        
                                                                    
                                                                 </div>
                                                                      ))}
-                                                                        <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                                                                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                 <button
                     type="button"
                     className="btn text-white ml-2"
@@ -564,17 +618,18 @@ function AddCommission() {
                                                                      
                                                                     </div>
                                                             </div>
-                                                         
+                                                          
                                                            
                                                     </div>
                                                     
                                                         ))}
-                                                       
+ 
                                                     </div>
                                                 </div>
 
 
                                                 </div>
+
 
                                                 <div className='row g-2'>
                             <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
@@ -599,7 +654,8 @@ function AddCommission() {
 
 
                           </div>
-                                            </div>                                        </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
