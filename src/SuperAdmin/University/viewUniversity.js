@@ -106,7 +106,7 @@ const UserProfile = () => {
               <div className="card border-0 rounded-0  ">
               <div className="card-header rounded-0 border-0   img-1 ">
               <div className="row g-3 mt-2">
-  <div className="col-md-4 ">
+  <div className="col-lg-4 ">
     <img
       src={
         university?.universityLogo
@@ -118,7 +118,7 @@ const UserProfile = () => {
       alt="Berry College Campus"
     />
   </div>
-  <div className="col-md-8">
+  <div className="col-lg-8">
     <div className="d-flex flex-row justify-content-between align-items-start">
       <div className="d-flex flex-column">
         <p className="text-white mb-1 fw-bold"><span  className="me-2" style={{color:'#fe5722'}}><FaUniversity /></span> {university?.universityName}</p>
@@ -151,7 +151,7 @@ const UserProfile = () => {
               </div>
               <div className="card-body bg-white rounded-bottom px-4">
                 <div className="row mt-2 g-4">
-                  <div className="col-lg-6">
+                  <div className="col-md-7">
                     <ul
                       class="nav nav-underline fs-9"
                       id="myTab"
@@ -287,9 +287,9 @@ const UserProfile = () => {
                                   (popularCategories, index) => (
                                     <div
                                       key={index}
-                                      className="card shadow border-1 rounded p-2 mt-2 mb-2"
+                                      className="card card-body shadow border-0 rounded  mb-2 "
                                     >
-                                      <span className="text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase">
+                                      <span className="text-dark fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase">
                                         {" "}
                                         {popularCategories}
                                       </span>
@@ -314,9 +314,9 @@ const UserProfile = () => {
                                   (courseType, index) => (
                                     <div
                                       key={index}
-                                      className="card shadow border-1 rounded p-2 mt-2 mb-2"
+                                      className="card card-body shadow border-0 rounded  mb-2"
                                     >
-                                      <span className="text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase">
+                                      <span className="text-dark fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase">
                                         {courseType}
                                       </span>
                                     </div>
@@ -329,7 +329,7 @@ const UserProfile = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-6">
+                  <div className="col-md-5">
                     <div
                       className="alert alert-primary text-center fw-semibold  text-uppercase "
                       role="alert"
@@ -485,20 +485,20 @@ const UserProfile = () => {
                   <div className="row g-3">
                     <div className="d-flex flex-row align-items-start justify-content-between">
                       <div
-                        className="text-semibold text-decoration-underline text-uppercase "
-                        style={{ color: "#fe5722" }}
+                        className="text-semibold text-decoration-underline fw-semibold text-uppercase "
+                        style={{ color: "#fe5722",fontSize:'14px' }}
                       >
                         Other Courses You May Be Interested In
                       </div>
                     </div>
                     {program?.map((data, index) => (
-                      <div key={index} className="col-lg-4 ">
+                      <div key={index} className="col-md-4 ">
                         <div
                           className="card mb-3  border-0  shadow"
                           
                         >
                           <div className="row g-0 align-items-center justify-content-center">
-                            <div className="col-md-4">
+                            <div className="col-md-4 ">
                               <img
                                 src={
                                   data?.universityLogo
