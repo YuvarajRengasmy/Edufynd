@@ -367,6 +367,91 @@ export const AddStaff = () => {
 
 
                             </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  DOJ <span className="text-danger">*</span>
+</label>
+<input
+  type="date"
+  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  className="form-control"
+  placeholder="Enter  DOJ "
+  name="doj"
+  onChange={handleInputs}
+
+/>
+{errors.doj.required ? (
+  <span className="form-text text-danger">
+    This field is required.
+  </span>
+) : null}
+
+
+</div>
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+
+<label style={{ color: "#231F20" }}>
+  {" "}
+  Reporting Manager<span className="text-danger">*</span>
+</label>
+<input
+  type="text"
+  className="form-control "
+  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  placeholder="Enter  Reporting Manager"
+  name="reportingManager"
+  onChange={handleInputs}
+/>
+{errors.reportingManager.required ? (
+  <span className="form-text text-danger">
+    This field is required.
+  </span>
+) : null}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  Shift Timing   <span className="text-danger">*</span>
+</label>
+<input
+  type="text"
+  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  className="form-control"
+  placeholder="Enter  Shift Timing"
+  name="shiftTiming"
+  onChange={handleInputs}
+/>
+{errors.shiftTiming.required ? (
+  <span className="form-text text-danger">
+    This field is required.
+  </span>
+) : null}
+
+
+</div>
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+Probation Duration<span className="text-danger">*</span>
+</label>
+<input
+type="text"
+style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+className="form-control"
+placeholder="Enter Probation Duration"
+name="probationDuration"
+onChange={handleInputs}
+
+/>
+{errors.probationDuration.required ? (
+<span className="form-text text-danger">
+This field is required.
+</span>
+) : null}
+
+</div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -391,48 +476,8 @@ export const AddStaff = () => {
 
 
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-
-                              <label style={{ color: "#231F20" }}>
-                                {" "}
-                                Reporting Manager<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                placeholder="Enter  Reporting Manager"
-                                name="reportingManager"
-                                onChange={handleInputs}
-                              />
-                              {errors.reportingManager.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                            </div>
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                Shift Timing   <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
-                                placeholder="Enter  Shift Timing"
-                                name="shiftTiming"
-                                onChange={handleInputs}
-                              />
-                              {errors.shiftTiming.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
 
 
-                            </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
@@ -450,28 +495,7 @@ export const AddStaff = () => {
                                 </span>
                               ) : null}
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                DOJ <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
-                                placeholder="Enter  DOJ "
-                                name="doj"
-                                onChange={handleInputs}
-
-                              />
-                              {errors.doj.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-
-                            </div>
+                          
 
                            
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -618,27 +642,7 @@ export const AddStaff = () => {
 
 
 
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                Probation Duration<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
-                                placeholder="Enter Probation Duration"
-                                name="probationDuration"
-                                onChange={handleInputs}
-
-                              />
-                              {errors.probationDuration.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-                            </div>
+                         
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
