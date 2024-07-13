@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
+import { isValidEmail,  isValidPhone,isValidWebsite  } from '../../Utils/Validation';
 import { toast } from 'react-toastify';
 import { updateClient,getSingleClient } from '../../api/client';
 import {getallClientModule} from "../../api/universityModule/clientModule";
@@ -36,7 +36,7 @@ function AddAgent() {
         businessName: { required: false },
         businessMailID: { required: false, valid: false },
         businessContactNo: { required: false, valid: false },
-        website: { required: false },
+        website: { required: false, valid:false },
         addressLine2: { required: false },
         addressLine3: { required: false },
         addressLine1: { required: false },
@@ -125,6 +125,9 @@ function AddAgent() {
         }
         if (!isValidPhone(data.businessContactNo)) {
             error.businessContactNo.valid = true;
+        }
+        if (!isValidWebsite(data.website)) {
+            error.website.valid = true;
         }
         return error
     }
@@ -260,9 +263,16 @@ function AddAgent() {
                                             name="website"
                                             onChange={handleInputs}
                                         />
-                                        {errors.website.required ? <span className="text-danger form-text profile_error">
-                                            This field is required.
-                                        </span> : null}
+                                          {errors.website.required && (
+        <span className="text-danger form-text profile_error">
+            This field is required.
+        </span>
+    )}
+    {errors.website.valid && (
+        <div className="text-danger form-text">
+            Enter a valid Website URL.
+        </div>
+    )}
                                     
                                 </div>
                                
