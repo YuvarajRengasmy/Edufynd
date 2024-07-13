@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { getSingleClient } from "../../api/client";
+import { Link, useLocation } from "react-router-dom";
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
@@ -45,64 +47,40 @@ const DraggableRow = ({ index, id, moveRow, label, value }) => {
 };
 
 const AddAgent = () => {
-    const [rows, setRows] = useState([
-        { id: 1, label: 'Client ID', value: '' },
-        { id: 2, label: 'Type of client', value: '' },
-        { id: 3, label: 'Business Name', value: '' },
-        { id: 4, label: 'Business Mail ID', value: '' },
-        { id: 5, label: 'Business Contact No', value: '' },
-        { id: 6, label: 'Website', value: '' },
-        { id: 7, label: 'Staff Name', value: '' },
-        { id: 8, label: 'Staff Contact No', value: '' },
-        { id: 9, label: 'Staff Email ID', value: '' },
-        { id: 10, label: 'Address', value: '' },
-        { id: 11, label: 'GSTN', value: '' },
-        { id: 12, label: 'Status', value: '' },
-        { id: 13, label: 'Passport Document', value: '' },
-        { id: 14, label: 'Offer Letter', value: '' },
-    ]);
+    const location = useLocation();
+    const id = new URLSearchParams(location.search).get("id");
+    const [client, setClient] = useState(null);
+    const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        // Replace this with your actual data fetching logic
-        const fetchData = async () => {
-            // Simulating data fetch
-            const fetchedData = {
-                clientId: '12345',
-                clientType: 'Business',
-                businessName: 'Example Business',
-                businessMail: 'example@business.com',
-                businessContact: '+1234567890',
-                website: 'www.example.com',
-                staffName: 'John Doe',
-                staffContact: '+0987654321',
-                staffEmail: 'john.doe@example.com',
-                address: '123 Business Street',
-                gstn: 'GST123456',
-                status: 'Active',
-                passportDoc: 'path/to/passport.pdf',
-                offerLetter: 'path/to/offerletter.pdf'
-            };
-
-            setRows([
-                { id: 1, label: 'Client ID', value: fetchedData.clientId },
-                { id: 2, label: 'Type of client', value: fetchedData.clientType },
-                { id: 3, label: 'Business Name', value: fetchedData.businessName },
-                { id: 4, label: 'Business Mail ID', value: fetchedData.businessMail },
-                { id: 5, label: 'Business Contact No', value: fetchedData.businessContact },
-                { id: 6, label: 'Website', value: fetchedData.website },
-                { id: 7, label: 'Staff Name', value: fetchedData.staffName },
-                { id: 8, label: 'Staff Contact No', value: fetchedData.staffContact },
-                { id: 9, label: 'Staff Email ID', value: fetchedData.staffEmail },
-                { id: 10, label: 'Address', value: fetchedData.address },
-                { id: 11, label: 'GSTN', value: fetchedData.gstn },
-                { id: 12, label: 'Status', value: fetchedData.status },
-                { id: 13, label: 'Passport Document', value: fetchedData.passportDoc },
-                { id: 14, label: 'Offer Letter', value: fetchedData.offerLetter },
-            ]);
-        };
-
-        fetchData();
+        getClientDetails();
     }, []);
+
+    const getClientDetails = async () => {
+        try {
+            const res = await getSingleClient(id);
+            const clientData = res?.data?.result;
+
+            setClient(clientData);
+            setRows([
+                { id: 1, label: 'Client ID', value: clientData?.clientID },
+                { id: 2, label: 'Type of client', value: clientData?.typeOfClient },
+                { id: 3, label: 'Business Name', value: clientData?.businessName },
+                { id: 4, label: 'Business Mail ID', value: clientData?.businessMailID },
+                { id: 5, label: 'Business Contact No', value: clientData?.businessContactNo },
+                { id: 6, label: 'Website', value: clientData?.website },
+                { id: 7, label: 'Staff Name', value: clientData?.name },
+                { id: 8, label: 'Staff Contact No', value: clientData?.contactNo },
+                { id: 9, label: 'Staff Email ID', value: clientData?.emailID },
+                { id: 10, label: 'Address', value: clientData?.addressLine1 },
+                { id: 11, label: 'GSTN', value: clientData?.gstn },
+                { id: 12, label: 'Status', value: clientData?.staffStatus },
+           
+            ]);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     const moveRow = useCallback((dragIndex, hoverIndex) => {
         const draggedRow = rows[dragIndex];
