@@ -1,14 +1,10 @@
-// export function isValidEmail(email) {
-//   return /\S+@\S+\.\S+/.test(email);
-// }
+
 
 export function isValidPassword(pass) {
   return /^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W])/.test(pass);
 }
 
-// export function isValidPhone(phone) {
-//   return /^[789]\d{9,9}$/.test(phone);
-// }
+
 
 export const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,17 +24,15 @@ export const isValidName = (name) => {
   const nameRegex = /^[a-zA-Z\s]+$/;
   return nameRegex.test(name);
 }
-// export const isValidPinCode = (pinCode) => {
-//   // Check if pinCode is a string and contains only digits
-//   return typeof pinCode === 'string' && /^\d+$/.test(pinCode);
-// };
 
-export const isValidPinCode = (pinCode) => {
-  // Check if pinCode is a string and contains only digits
-  if (typeof pinCode !== 'string' || !/^\d+$/.test(pinCode)) {
-      return false;
-  }
 
-  // Check if pinCode is exactly 6 digits long
-  return pinCode.length === 6;
+
+
+export const  isValidPinCode= (number) => {
+  // Check if number is a string and matches the regex for a number with up to 6 digits
+  return typeof number === 'string' && /^\d{1,6}$/.test(number);
+};
+export const isValidYear = (year) => {
+  // Check if year is a string and matches the regex for a four-digit number
+  return typeof year === 'string' && /^\d{4}$/.test(year);
 };
