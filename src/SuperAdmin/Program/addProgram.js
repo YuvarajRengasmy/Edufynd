@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Flags from 'react-world-flags';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { isValidNumber} from "../../Utils/Validation";
 import { saveProgram } from '../../api/Program';
 import { getallUniversity } from '../../api/university';
 import { getallModule } from "../../api/allmodule";
@@ -146,17 +147,23 @@ function Profile() {
     }
     if (data.currency === "") {
       error.currency.required = true;
-    }
-  
-
-   
-    
+    }  
     if (data.universityInterview === "") {
       error.universityInterview.required = true;
     }
     
     if (data.universityLogo === "") {
       error.universityLogo.required = true;
+    }
+    if (data.discountedValue === "") {
+      error.discountedValue.required = true;
+    }
+
+    if (!isValidNumber(data.applicationFee)) {
+      error.applicationFee.valid = true;
+    }
+    if (!isValidNumber(data.discountedValue)) {
+      error.discountedValue.valid = true;
     }
     return error
   }
@@ -443,11 +450,16 @@ const fetchCountryDetails = (selectedCountry) => {
                               name="applicationFee"
                               onChange={handleInputs}
                             />
-                            {errors.applicationFee.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
+                             {errors.applicationFee.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              )}
+                              {errors.applicationFee.valid && (
+                                <div className="text-danger form-text">
+                                  Name should contain only letters.
+                                </div>
+                              )}
 
                           </div>
 
@@ -482,9 +494,16 @@ const fetchCountryDetails = (selectedCountry) => {
                               name="discountedValue"
                               onChange={handleInputs}
                             />
-                            {
-                              errors.discountedValue.required ? <div className="text-danger form-text">This field is required.</div> : null
-                            }
+                            {errors.discountedValue.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              )}
+                              {errors.discountedValue.valid && (
+                                <div className="text-danger form-text">
+                                  Name should contain only letters.
+                                </div>
+                              )}
 
                           </div>
                          

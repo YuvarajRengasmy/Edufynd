@@ -107,6 +107,44 @@ function AddCommission() {
             });
     };
 
+
+
+    const validateYears = (years) => {
+        const errors = [];
+        for (let i = 0; i < years.length; i++) {
+            const year = years[i];
+            const yearErrors = {};
+    
+            if (!year.year) {
+                yearErrors.year = 'Year is required.';
+            }
+    
+            yearErrors.courseTypes = [];
+            for (let j = 0; j < year.courseTypes.length; j++) {
+                const courseType = year.courseTypes[j];
+                const courseTypeErrors = {};
+    
+                if (!courseType.courseType) {
+                    courseTypeErrors.courseType = 'Course Type is required.';
+                }
+    
+                if (!courseType.inTake) {
+                    courseTypeErrors.inTake = 'Intake is required.';
+                }
+    
+                if (courseType.value === null || courseType.value === '') {
+                    courseTypeErrors.value = 'Value is required.';
+                } else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
+                    courseTypeErrors.value = 'Value must be a number less than 35.';
+                }
+    
+                yearErrors.courseTypes[j] = courseTypeErrors;
+            }
+    
+            errors[i] = yearErrors;
+        }
+        return errors;
+    };
     const handleValidation = (data) => {
         let error = initialStateErrors;
         if (!data.country) {
@@ -126,6 +164,19 @@ function AddCommission() {
         }
         if (!data.paymentType) {
             error.paymentType.required = true;
+        }
+        if(!data.years){
+            error.years.required = true;
+        }
+   
+          const yearValidationErrors = validateYears(data.years);
+        if (yearValidationErrors.some(yearError => Object.keys(yearError).length > 0)) {
+            errors.years = {
+                required: false,
+                valid: true,
+                message: 'Please fix the errors in the year fields.'
+            };
+            errors.yearErrors = yearValidationErrors;
         }
 
         return error;
@@ -372,7 +423,12 @@ function AddCommission() {
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Eligibility<span className="text-danger">*</span></label>
                                                         <input type="text" value={commission?.eligibility} className="form-control" placeholder="Enter Eligibility" name="eligibility" onChange={handleInputs} />
-                                                        {errors.eligibility.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
+                                                        {errors.eligibility.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              )}
+                             
                                                     </div>
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -437,6 +493,7 @@ function AddCommission() {
                                                  >
                                                      Add Year
                                                  </button>
+
                                                  </div>
                                                  </div>
                                                     <div className="row g-3 mt-3">
@@ -548,7 +605,8 @@ function AddCommission() {
                                                     </div>
                                                     
                                                         ))}
-                                                       
+
+
                                                     </div>
                                                 </div>
 
