@@ -10,6 +10,7 @@ import { getallInstitutionModule } from '../../api/universityModule/institutatio
 import { getallModule } from "../../api/allmodule";
 import Sidebar from "../../compoents/sidebar";
 import Select from 'react-select';
+import { getallIntake } from "../../api/intake";
 import CountryRegion from "countryregionjs";
 import { updateUniversity, getSingleUniversity } from "../../api/university";
 
@@ -38,6 +39,8 @@ function Profile() {
     email: "",
     founded: "",
     institutionType: "",
+    website: "",
+    inTake: "",
 
    
   };
@@ -60,6 +63,8 @@ function Profile() {
     offerTAT: { required: false },
     founded: { required: false },
     institutionType: { required: false },
+    website: { required: false },
+    inTake: { required: false },
   };
 
   const [university, setUniversity] = useState(initialState);
@@ -78,6 +83,8 @@ function Profile() {
   const [lgas, setLGAs] = useState([]);
   const [selectedLGAs, setSelectedLGAs] = useState([]);
   const [type, setType] = useState([]);
+  const [inTake, setInTake] = useState([]);
+
   const ZERO = 0;
   const [selectedCourseType, setSelectedCourseType] = useState([]);
   let countryRegion = null;
@@ -87,7 +94,8 @@ function Profile() {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
     if (data.businessName === "") error.businessName.required = true;
-
+    if (data.inTake === "") error.inTake.required = true;
+    if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
     if (data.popularCategories.length === 0) error.popularCategories.required = true;
@@ -106,7 +114,8 @@ function Profile() {
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
-    getAllInstitutionDetails();
+    getAllInstitutionDetails();  
+    getAllIntakeDetails();
   
   }, []);
 
@@ -183,7 +192,16 @@ function Profile() {
         console.log(err);
       });
   };
-
+  const getAllIntakeDetails = () => {
+    getallIntake()
+      .then((res) => {
+        console.log(res);
+        setInTake(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
 
 
@@ -339,6 +357,7 @@ function Profile() {
   };
   const popularCategoriesOptions = categorie.map((data) => ({ value: data.popularCategories, label: data.popularCategories }));
   const courseTypeOptions = type.map((data) => ({ value: data.courseType, label: data.courseType }));
+  const intakeOptions = inTake.map((data) => ({ value: data.intakeName, label: data.intakeName }));
 
   const customStyles = {
     control: (provided) => ({
@@ -506,7 +525,7 @@ function Profile() {
                                 placeholder="Select a State"
                                 isMulti
                                 onChange={handleStateChange}
-                                value={university?.state ? university?.state.map(state => ({ value: state, label: state })) : null}
+                                value={university?.state ? university.state.map(state => ({ value: state, label: state })) : null}
 
 
                                 options={states}
@@ -685,12 +704,50 @@ function Profile() {
   </div>
 ) : null}
 </div>
-                     
-                       
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Website<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={university?.website}
+                              className="form-control "
+                              placeholder="Enter Website"
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              name="website"
+                              onChange={handleInputs}
+                            />
+                            {errors.website.required ? <div className="text-danger form-text">This field is required.</div> : null}
+
+                          </div>                
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  InTake<span className="text-danger">*</span>
+</label>
+<Select
+  isMulti
+  options={intakeOptions}
+  value={university?.inTake ? university?.inTake.map(inTake => ({ value: inTake, label: inTake })) : null}
+  name="inTake"
+  onChange={handleSelectChange}
+  styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+  placeholder='Select InTake'
+>
+
+</Select>
+{errors.inTake.required ? (
+  <div className="text-danger form-text">
+    This field is required.
+  </div>
+) : null}
+
+</div>
 
 
                       
-                          <div className="col-lg-12">
+                          <div className="col-lg-6">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
                                 About <span className="text-danger">*</span>
@@ -707,7 +764,7 @@ function Profile() {
                             </div>
                           </div>
                         
-                          <div className="col-lg-12">
+                          <div className="col-lg-6">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
                                 Admission Requirement <span className="text-danger">*</span>
