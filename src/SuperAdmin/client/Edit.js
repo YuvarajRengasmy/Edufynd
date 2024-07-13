@@ -199,7 +199,7 @@ function AddAgent() {
 
           <div
             className="content-wrapper "
-            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
               <div className="content container-fluid ">
@@ -229,9 +229,9 @@ function AddAgent() {
                                   value={client?.typeOfClient}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "11px",
+                                    fontSize: "12px",
                                   }}
-                                  className="form-select  "
+                                  className="form-select form-select-lg rounded-2  "
                                   name="typeOfClient"
                                 >
                                   <option value={""}>Select Client Type</option>
@@ -263,11 +263,11 @@ function AddAgent() {
                                 value={client?.businessName}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 name="businessName"
                                 onChange={handleInputs}
-                                className="form-control form-control-sm  "
+                                className="form-control rounded-2   "
                                 placeholder="Enter Business Name"
                               />
                               {errors.businessName.required && (
@@ -283,17 +283,17 @@ function AddAgent() {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Website<span className="text-danger">*</span>
+                              Business  Website<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 value={client?.website}
-                                className="form-control form-control-sm "
+                                className="form-control rounded-2  "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
-                                placeholder="Enter Website"
+                                placeholder="Enter Business Website"
                                 name="website"
                                 onChange={handleInputs}
                               />
@@ -308,6 +308,7 @@ function AddAgent() {
                                 </div>
                               )}
                             </div>
+
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 {" "}
@@ -317,11 +318,11 @@ function AddAgent() {
                               <input
                                 type="text"
                                 value={client?.businessMailID}
-                                className="form-control form-control-sm "
+                                className="form-control rounded-2  "
                                 placeholder="Enter Business Mail ID"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 name="businessMailID"
                                 onChange={handleInputs}
@@ -338,17 +339,17 @@ function AddAgent() {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Business Contact No{" "}
+                                Business  Primary Number{" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 value={client?.businessContactNo}
-                                className="form-control form-control-sm"
-                                placeholder="Enter Contact No "
+                                className="form-control rounded-2 "
+                                placeholder="Enter Business Primary Number "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 name="businessContactNo"
                                 onChange={handleInputs}
@@ -363,7 +364,34 @@ function AddAgent() {
                                 </span>
                               ) : null}
                             </div>
-
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                               Business WhatsApp Number
+                                <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={client?.whatsAppNumber}
+                                className="form-control rounded-2 "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter Business WhatsApp Number"
+                                name="whatsAppNumber"
+                                onChange={handleInputs}
+                              />
+                              {errors.whatsAppNumber.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              )}
+                              {errors.whatsAppNumber.valid && (
+                                <div className="text-danger form-text">
+                                  Enter a valid WhatsApp Number.
+                                </div>
+                              )}
+                            </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Staff Name<span className="text-danger">*</span>
@@ -371,11 +399,11 @@ function AddAgent() {
                               <input
                                 type="text"
                                 value={client?.name}
-                                className="form-control form-control-sm "
+                                className="form-control rounded-2  "
                                 placeholder="Enter Staff Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 name="name"
                                 onChange={handleInputs}
@@ -391,33 +419,7 @@ function AddAgent() {
                                 </div>
                               )}
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Staff Contact No
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                value={client?.contactNo}
-                                className="form-control  form-control-sm"
-                                placeholder="Enter Staff Contact No"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                                name="contactNo"
-                                onChange={handleInputs}
-                              />
-                              {errors.contactNo.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : errors.contactNo.valid ? (
-                                <span className="text-danger form-text profile_error">
-                                  Enter valid mobile number.
-                                </span>
-                              ) : null}
-                            </div>
+                          
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -427,10 +429,10 @@ function AddAgent() {
                               <input
                                 type="text"
                                 value={client?.emailID}
-                                className="form-control form-control-sm "
+                                className="form-control rounded-2  "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 placeholder="Enter Staff Email ID"
                                 name="emailID"
@@ -448,31 +450,30 @@ function AddAgent() {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                WhatsApp Number
+                                Staff Contact Number
                                 <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                value={client?.whatsAppNumber}
-                                className="form-control form-control-sm"
+                                value={client?.contactNo}
+                                className="form-control rounded-2  "
+                                placeholder="Enter Staff Contact Number"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
-                                placeholder="Enter WhatsApp Number"
-                                name="whatsAppNumber"
+                                name="contactNo"
                                 onChange={handleInputs}
                               />
-                              {errors.whatsAppNumber.required && (
+                              {errors.contactNo.required ? (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              )}
-                              {errors.whatsAppNumber.valid && (
-                                <div className="text-danger form-text">
-                                  Enter a valid WhatsApp Number.
-                                </div>
-                              )}
+                              ) : errors.contactNo.valid ? (
+                                <span className="text-danger form-text profile_error">
+                                  Enter valid mobile number.
+                                </span>
+                              ) : null}
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -483,10 +484,10 @@ function AddAgent() {
                               <input
                                 type="text"
                                 value={client?.addressLine1}
-                                className="form-control form-control-sm"
+                                className="form-control rounded-2 "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 placeholder="Enter No Area Street Name"
                                 name="addressLine1"
@@ -506,10 +507,10 @@ function AddAgent() {
                               <input
                                 type="text"
                                 value={client?.addressLine2}
-                                className="form-control form-control-sm "
+                                className="form-control rounded-2  "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 placeholder="Enter City State"
                                 name="addressLine2"
@@ -528,10 +529,10 @@ function AddAgent() {
                               <input
                                 type="text"
                                 value={client?.addressLine3}
-                                className="form-control form-control-sm "
+                                className="form-control rounded-2  "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 placeholder="Enter Country Pincode"
                                 name="addressLine3"
@@ -556,7 +557,7 @@ function AddAgent() {
                                   fontSize: "12px",
                                 }}
                                 to="/client"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-3 py-1  m-2"
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                               >
                                 Cancel
                               </Link>
@@ -567,7 +568,7 @@ function AddAgent() {
                                   fontSize: "12px",
                                 }}
                                 type="submit"
-                                className="btn btn-save border-0 fw-semibold text-uppercase text-white px-3 py-1 m-2"
+                                className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                               >
                                 Submit
                               </button>
