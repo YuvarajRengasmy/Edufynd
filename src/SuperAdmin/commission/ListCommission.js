@@ -536,14 +536,14 @@ export default function Masterproductlist() {
                     <div className="card-table">
                       <div className="table-responsive">
                         <table
-                          className=" table card-table  dataTable text-center"
+                          className=" table card-table table-hover  dataTable text-center"
                           style={{ color: "#9265cc", fontSize: "12px" }}
                           ref={tableRef}
                         >
-                          <thead>
+                          <thead className="table-light">
                             <tr
                               style={{
-                                backgroundColor: "#fff",
+                               
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}

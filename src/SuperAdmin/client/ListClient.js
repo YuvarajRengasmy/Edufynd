@@ -498,9 +498,9 @@ export default function Masterproductlist() {
                     <div className="card-table">
                       <div className="table-responsive">
 
-                        <table className=" table card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
-                          <thead>
-                            <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                        <table className=" table   card-table table-hover  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
+                          <thead class="table-light">
+                            <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                               <th className="text-capitalize text-start sortable-handle">S No</th>
                               <th className="text-capitalize text-start sortable-handle">Client Code</th>
                               <th className="text-capitalize text-start sortable-handle">Type of Client</th>

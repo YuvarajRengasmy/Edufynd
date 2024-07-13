@@ -97,21 +97,29 @@ const UserProfile = () => {
                   <div className="col-md-4 d-flex justify-content-center align-items-start">
                     <img
                       src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"}
-                      className="img-fluid rounded-circle" style={{ width: "150px", height: "150px" }}
+                      className="img-fluid rounded-circle img-thumbnail" style={{ width: "150px", height: "150px" }}
                       alt="Berry College Campus"
                     />
                   </div>
-                  <div className="col-md-8 d-flex justify-content-start  align-items-">
-                    <div className="px-1 py-2">
-
+                  <div className="col-md-5 ">
+               
+                    <div className="d-flex flex-column">
+                   
                       <p className='text-white'>{university?.universityName}</p>
                       <p className="text-white">{university?.country}</p>
-                      <div className='card shadow border-1 rounded p-2 mt-2 mb-2'>
-                        <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>UniverSity Rank: <span><RiCoinsFill className='text-warning fs-5' /> {university?.ranking}</span> </span>
+                      <div className='text-bg-light d-inline shadow border-1 rounded p-2 mt-2 mb-2'>
+                        <span className='text-secondary fw-bolder d-flex align-items-center d-inline justify-content-center gap-2 text-uppercase'>UniverSity Rank: <span><RiCoinsFill className='text-warning fs-5' /> {university?.ranking}</span> </span>
                       </div>
 
                     </div>
+                   
                   </div>
+                  <div className="col-md-3 ">
+                  <div className="d-flex flex-column justify-content-end align-items-center">
+                    <div className=' text-white '><Link to='https://g.co/kgs/NAeHrRg' className='text-decoration-none text-white' >WWW.edufynd.com</Link></div><br/>
+                    <div className=' text-white '>edufynd123@gmail.com</div>
+                    </div>
+               </div>
                 </div>
 
 

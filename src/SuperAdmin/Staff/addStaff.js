@@ -233,7 +233,7 @@ export const AddStaff = () => {
 
           </nav>
 
-          <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+          <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
             <div className="content-header ">
               <div className="content container-fluid">
                 <form onSubmit={handleSubmit} >
@@ -275,7 +275,7 @@ export const AddStaff = () => {
     style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
   />
 </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
 
                               <label style={{ color: "#231F20" }}>
                                 {" "}
@@ -316,6 +316,30 @@ export const AddStaff = () => {
 
 
                             </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<label style={{ color: "#231F20" }}>
+  DOB<span className="text-danger">*</span>
+</label>
+
+<input
+  type="date"
+  className="form-control  text "
+  placeholder="Enter  DOB "
+  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+  name="dob"
+  onChange={handleInputs}
+
+/>
+{errors.dob.required ? (
+  <span className="form-text text-danger">
+    This field is required.
+  </span>
+) : null}
+
+
+
+</div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
@@ -449,30 +473,7 @@ export const AddStaff = () => {
 
                             </div>
 
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                DOB<span className="text-danger">*</span>
-                              </label>
-
-                              <input
-                                type="date"
-                                className="form-control  "
-                                placeholder="Enter  DOB "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="dob"
-                                onChange={handleInputs}
-
-                              />
-                              {errors.dob.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-
-
-                            </div>
+                           
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                               <label style={{ color: "#231F20" }}>
