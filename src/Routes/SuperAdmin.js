@@ -36,6 +36,9 @@ import ProgramModule from "../SuperAdmin/Settings/programModule";
 import ClientModule from "../SuperAdmin/Settings/clientModule";
 import Status from "../SuperAdmin/Settings/Status"
 import Intake from "../SuperAdmin/Settings/intake"
+import Year from "../SuperAdmin/Settings/Year"
+
+
 import ListApplication from "../SuperAdmin/Application/ListApplication";
 import ListStaff from "../SuperAdmin/Staff/listStaff";
 import AddStaff from "../SuperAdmin/Staff/addStaff";
@@ -59,6 +62,34 @@ import AddCommission from "../SuperAdmin/commission/addCommission";
 import EditCommission from "../SuperAdmin/commission/EditComission";
 import ViewComission from "../SuperAdmin/commission/ViewComission";
 import ListCommission from "../SuperAdmin/commission/ListCommission";
+import { ListNotifications } from "../SuperAdmin/Notifications/ListNotifications";
+import EditNotifications from "../SuperAdmin/Notifications/EditNotifications";
+import AddNotifications from "../SuperAdmin/Notifications/AddNotifications";
+import ViewNotifications from "../SuperAdmin/Notifications/ViewNotifications";
+import ListTraining from "../SuperAdmin/Training/ListTraining";
+import ListTestimonials from "../SuperAdmin/Testimonials/ListTestimonials";
+import ListPromotions from "../SuperAdmin/Promotion/ListPromotions";
+import ListMeetings from "../SuperAdmin/Meetings/ListMeetings";
+import ListMarketing from "../SuperAdmin/Marketing/ListMarketing";
+import ListEvents from "../SuperAdmin/Events/ListEvents";
+import AddEvents from "../SuperAdmin/Events/AddEvents";
+import EditEvents from "../SuperAdmin/Events/EditEvents";
+import AddMarketing from "../SuperAdmin/Marketing/AddMarketing";
+import EditMarketing from "../SuperAdmin/Marketing/EditMarketing";
+import AddMeetings from "../SuperAdmin/Meetings/AddMeetings";
+import EditMeetings from "../SuperAdmin/Meetings/EditMeetings";
+import AddPromotions from "../SuperAdmin/Promotion/AddPromotions";
+import EditPromotions from "../SuperAdmin/Promotion/EditPromotions";
+import AddTestimonials from "../SuperAdmin/Testimonials/AddTestimonials";
+import EditTestimonials from "../SuperAdmin/Testimonials/EditTestimonials";
+import AddTraining from "../SuperAdmin/Training/AddTraining";
+import EditTraining from "../SuperAdmin/Training/EditTraining";
+import ViewTraining from "../SuperAdmin/Training/ViewTraining";
+import ViewEvents from "../SuperAdmin/Events/ViewEvents";
+import ViewMarketing from "../SuperAdmin/Marketing/ViewMarketing";
+import ViewMeetings from "../SuperAdmin/Meetings/ViewMeetings";
+import ViewPromotion from "../SuperAdmin/Promotion/ViewPromotion";
+import ViewTestimonials from "../SuperAdmin/Testimonials/ViewTestimonials";
 
 
 function SuperAdmin() {
@@ -101,6 +132,7 @@ function SuperAdmin() {
           <Route path="/ClientModule" element={<ClientModule/>}/>
           <Route path="/Status" element={<Status/>}/>
           <Route path="/Intake" element={<Intake/>}/>
+          <Route path="/YearSetting" element={<Year/>}/>
           <Route path='/ListApplication' element={<ListApplication/>}/>
           <Route path='/Application' element={<Application/>}/>
        <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>
@@ -121,6 +153,42 @@ function SuperAdmin() {
        <Route path="/EditCommission" element={<EditCommission/>}/>
        <Route path="/ViewCommission" element={<ViewComission/>}/>
        <Route path="/ListCommission" element={<ListCommission/>}/>
+       <Route path="/ListNotifications" element={<ListNotifications/>}/>
+       <Route path="/EditNotifications" element={<EditNotifications/>}/>
+       <Route path="/AddNotifications" element={<AddNotifications/>}/>
+       <Route path="/ViewNotifications" element={<ViewNotifications/>}/>
+
+
+       <Route path="/ListTraining" element={<ListTraining/>}/>
+       <Route path="/AddTraining" element={<AddTraining/>}/>
+       <Route path="/EditTraining" element={<EditTraining/>}/>
+       <Route path="/ViewTraining" element={<ViewTraining/>}/>
+      
+       <Route path="/ListEvents" element={<ListEvents/>}/>
+       <Route path="/AddEvents" element={<AddEvents/>}/>
+       <Route path="/EditEvents" element={<EditEvents/>}/>
+       <Route path="/ViewEvents" element={<ViewEvents/>}/>
+
+       <Route path="/ListMarketing" element={<ListMarketing/>}/>
+       <Route path="/AddMarketing" element={<AddMarketing/>}/>
+       <Route path="/EditMarketing" element={<EditMarketing/>}/>
+       <Route path="/ViewMarketing" element={<ViewMarketing/>}/>
+      
+       <Route path="/ListMeetings" element={<ListMeetings/>}/>
+       <Route path="/AddMeetings" element={<AddMeetings/>}/>
+       <Route path="/EditMeetings" element={<EditMeetings/>}/>
+       <Route path="/ViewMeetings" element={<ViewMeetings/>}/>
+
+       <Route path="/ListPromotions" element={<ListPromotions/>}/>
+       <Route path="/AddPromotions" element={<AddPromotions/>}/>
+       <Route path="/EditPromotions" element={<EditPromotions/>}/>
+       <Route path="/ViewPromotion" element={<ViewPromotion/>}/>
+
+       <Route path="/ListTestimonials" element={<ListTestimonials/>}/>
+       <Route path="/AddTestimonials" element={<AddTestimonials/>}/>
+       <Route path="/EditTestimonials" element={<EditTestimonials/>}/>
+       <Route path="/ViewTestimonials" element={<ViewTestimonials/>}/>
+      
       
 
     

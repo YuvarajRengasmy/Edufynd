@@ -8,15 +8,11 @@ import { saveUniversity } from '../../api/university';
 import { getallCategories } from '../../api/universityModule/categories';
 import { getallOfferTatModule } from '../../api/universityModule/offerTat';
 import { getallInstitutionModule } from '../../api/universityModule/institutation';
-import { getallTaxModule } from "../../api/universityModule/tax";
-import { getallCommission } from "../../api/universityModule/commission";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from 'react-select';
-import Flags from 'react-world-flags';
 import CountryRegion from "countryregionjs";
-import { updateUniversity, getSingleUniversity } from "../../api/university";
 
 
 
@@ -27,11 +23,11 @@ function Profile() {
     businessName: "",
     universityLogo: "",
     universityName: "",
-    website: "",
     about: "",
     founded: "",
     courseType: "",
     country: "",
+    website: "",
     inTake: "",
     state: "",
     lga: "",
@@ -43,7 +39,6 @@ function Profile() {
     email: "",
     institutionType: "",
     // costOfLiving: "",
-  
  
   };
 
@@ -83,8 +78,7 @@ function Profile() {
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
-  const [tax, setTax] = useState([]);
-  const [commission, setCommission] = useState([]);
+
   const [states, setStates] = useState([]);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -124,8 +118,7 @@ function Profile() {
     getAllCourseDetails();
     getOfferTatList();
     getAllInstitutionDetails();
-    getAllTaxDetails();
-    getAllCommission();
+   
     getAllIntakeDetails();
   }, []);
 
@@ -205,28 +198,7 @@ function Profile() {
         console.log(err);
       });
   };
-  const getAllTaxDetails = () => {
-    getallTaxModule()
-      .then((res) => {
-        console.log(res);
-        setTax(res?.data?.result);
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllCommission = () => {
-    getallCommission()
-      .then((res) => {
-        console.log(res);
-        setCommission(res?.data?.result);
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  
 
 
 
@@ -386,16 +358,16 @@ function Profile() {
             <Sidebar />
           </nav>
         </div>
-        <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header ">
-            <div className="content container-fluid ">
+            <div className=" container-fluid ">
               <form onSubmit={handleSubmit} >
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card rounded-2 border-0 ">
+                    <div className="card rounded-0 shadow-sm border-0 ">
                       <div className=' position-relative'>
                         <label htmlFor="banner" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="card-img-top  " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60rem', height: '12rem', objectFit: 'cover' }} />
+                          <img class="card-img-top rounded-0 " src={university?.banner ? university?.banner : "https://wallpapercave.com/wp/wp6837474.jpg"} alt="image" style={{ width: '60.9rem', height: '12rem', objectFit: 'fill' }} />
                         </label>
                         <input
                           name="banner"
@@ -407,7 +379,7 @@ function Profile() {
                           onChange={handleInputs}
                         />
                         <label htmlFor="fileInputImage" className="file-upload" style={{ color: "#231F20" }}>
-                          <img class="img-fluid rounded-pill position-absolute  " src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} alt="image" style={{ width: '8rem', height: '7rem', left: '40%', top: '20%' }} />
+                          <img class="img-fluid rounded-pill img-thumbnail position-absolute profile-logo  " src={university?.universityLogo ? university?.universityLogo : "https://placehold.co/128x128"} alt="image"  style={{ width: '8rem', height: '8rem', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} />
                         </label>
                         <input
                           name="universityLogo"
@@ -419,20 +391,20 @@ function Profile() {
                           onChange={handleInputs}
                         />
                       </div>
-                      <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                          University Details :
-                        </div>
+                      <div className="card-header rounded-0 bg-white " >
+                       
+                        <h5 style={{ fontVariant:'all-small-caps',fontWeight:'bold'}}>Add  University Details </h5> 
+                       
                       </div>
-                      <div className="card-body">
-                        <div className="row gy-4">
+                      <div className="card-body p-4">
+                        <div className="row g-3">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
                             <label style={{ color: "#231F20" }}>
                               {" "}
                               Client Name<span className="text-danger">*</span>
                             </label>
-                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='businessName'>
+                            <select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select rounded-1 form-select-lg  " name='businessName'>
                               <option value={""} disabled hidden >Select Client</option>
                               {client.map((data, index) =>
                                 <option key={index} value={data?.businessName}> {data?.businessName}</option>)}
@@ -449,7 +421,7 @@ function Profile() {
                               Institution Type <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-1"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="institutionType"
                               onChange={handleInputs}
@@ -471,7 +443,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control "
-                              placeholder="Enter name"
+                              placeholder="Enter University Name"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="universityName"
                               onChange={handleInputs}
@@ -490,11 +462,11 @@ function Profile() {
                             </label>
 
                             <Select
-                              placeholder="Select a country"
+                              placeholder="Select  Country"
                               onChange={handleCountryChange}
                               options={countries}
                               styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
+                              className="submain-one-form-body-subsection-select "
                             />
                             {errors.country.required ? (
                               <div className="text-danger form-text">
@@ -508,7 +480,7 @@ function Profile() {
                             </label>
                             {states.length !== ZERO && (
                               <Select
-                                placeholder="Select a state"
+                                placeholder="Select  State"
                                 isMulti
                                 onChange={handleStateChange}
                                 options={states}
@@ -528,7 +500,7 @@ function Profile() {
                             </label>
                             {lgas.length !== ZERO && (
                               <Select
-                                placeholder="Select a Substate"
+                                placeholder="Select  City"
                                 isMulti
                                 onChange={handleLGAChange}
                                 options={lgas}
@@ -589,6 +561,7 @@ function Profile() {
                               name="courseType"
                               onChange={handleSelectChange}
                               styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                              placeholder='Select Course Type'
                             >
 
                             </Select>
@@ -606,7 +579,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter founded"
+                              placeholder="Enter Founded Year"
                               name="founded"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               onChange={handleInputs}
@@ -623,7 +596,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control "
-                              placeholder="Enter Country "
+                              placeholder="Enter Ranking "
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               name="ranking"
                               onChange={handleInputs}
@@ -640,6 +613,7 @@ function Profile() {
                               name="popularCategories"
                               onChange={handleSelectChange}
                               styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                              placeholder='Select Popular Categories'
                             >
 
                             </Select>
@@ -677,6 +651,7 @@ function Profile() {
                               name="inTake"
                               onChange={handleSelectChange}
                               styles={{ container: base => ({ ...base, fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }) }}
+                              placeholder='Select InTake'
                             >
 
                             </Select>
@@ -694,11 +669,12 @@ function Profile() {
                               Offer TAT<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-1"
                               name="offerTAT"
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               onChange={handleInputs}
-                            > <option value={" "}>select OfferTAT</option>
+                              
+                            > <option value={" "}>Select OfferTAT</option>
                               {offerTAT.map((data, index) =>
                                 <option key={index} value={data?.offerTAT}> {data?.offerTAT}</option>)}
                             </select>
@@ -730,7 +706,7 @@ function Profile() {
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="Enter admission requirements"
+                                placeholder="Enter Admission Requirements"
                                 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 rows="5" // You can adjust the number of rows as needed
                                 onChange={handleInputs}
@@ -738,32 +714,27 @@ function Profile() {
                               ></textarea>
                             </div>
                           </div>
-                          <div className="card-header justify-content-between d-sm-flex d-block" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
-                            <div className="card-title" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '16px' }}>
-                              Commission Details :
-                            </div>
-
-                          </div>
+                   
                         
                          
                           
                          
                        
                          
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end w-50 ml-auto">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
                               style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               to="/ListUniversity"
-                              className="btn btn-cancel border text-white w-50 m-2"
+                              className="btn btn-cancel border-0 px-4 py-2 fw-semibold text-uppercase text-white  m-1"
                             >
                               Cancel
                             </Link>
                             <button
                               style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               type="submit"
-                              className="btn btn-save border text-white w-50 m-2"
+                              className="btn btn-save border-0 px-4 py-2 fw-semibold text-uppercase text-white m-1"
                             >
-                              Save
+                              Submit
                             </button>
                           </div>
                         </div>
