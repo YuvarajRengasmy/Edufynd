@@ -156,7 +156,7 @@ export const AddStudentForm = () => {
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-          <div className='content-wrapper' style={{ fontSize: '14px' }}>
+          <div className='content-wrapper' style={{ fontSize: '13px' }}>
             <div className='content-header'>
               <div className='container-fluid'>
               <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -168,10 +168,10 @@ export const AddStudentForm = () => {
                 <form className="p-1" onSubmit={handleSubmit}>
 
                   <div className='row g-3'>
-
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div className='row g-3'>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Source</label>
-                      <select onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select form-select-lg " name="source">
+                      <select onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select form-select-lg rounded-2 " name="source">
                         <option value="">Select Source</option>
                         <option value="walkin">Walk In</option>
                         <option value="direct">Direct</option>
@@ -183,21 +183,13 @@ export const AddStudentForm = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputEmail4">List</label>
-                      <select  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select  form-select-lg   " name="source">
-                        <option value="">Select Source</option>
-                        <option value="walkin">Walk In</option>
-                        <option value="direct">Direct</option>
-                        <option value="others">Others</option>
-                      </select>
-                   
-                      
-                     
-                    </div>
+                  </div>
+
+                    
+                  
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Student Name</label>
-                      <input className="form-control" type="text" id="inputEmail4" name='name' onChange={handleInputs} placeholder='Enter Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" type="text" id="inputEmail4" name='name' onChange={handleInputs} placeholder='Enter Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.name.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -207,7 +199,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label className="form-label" for="inputgender">Gender</label>
-                    <select class="form-select form-select-lg" aria-label="Default select example" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                    <select class="form-select form-select-lg rounded-2" aria-label="Default select example" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
   <option selected>Select Gender</option>
   <option value="Male">Male</option>
   <option value="Female">Female</option>
@@ -220,7 +212,7 @@ export const AddStudentForm = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">DOB</label>
-                      <input className="form-control" onChange={handleInputs} id="inputPassword4" type="date" placeholder='DOB' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} name="dob" />
+                      <input className="form-control rounded-2" onChange={handleInputs} id="inputPassword4" type="date" placeholder='DOB' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} name="dob" />
                       {errors.dob.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -230,7 +222,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">CitizenShip</label>
-                      <input className="form-control" id="inputPassword4" type="text" placeholder='Enter CitizenShip' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} name="citizenship" />
+                      <input className="form-control rounded-2" id="inputPassword4" type="text" placeholder='Enter CitizenShip' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} name="citizenship" />
                     
                         
                    
@@ -238,7 +230,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">Passport No</label>
-                      <input className="form-control" onChange={handleInputs} name="passportNo" id="inputAddress" type="text" placeholder="Enter Passport No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" onChange={handleInputs} name="passportNo" id="inputAddress" type="text" placeholder="Enter Passport No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -248,7 +240,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputExpiry">Expiry Date</label>
-                      <input className="form-control"  name="expirydate" id="inputAddress" type="Date" placeholder="Enter Expiry Date" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2"  name="expirydate" id="inputAddress" type="Date" placeholder="Enter Expiry Date" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                      
 
                     </div>
@@ -257,7 +249,7 @@ export const AddStudentForm = () => {
                  
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">Email ID</label>
-                      <input className="form-control" onChange={handleInputs} id="inputPassword4" text="text" placeholder='Enter Email ID' name="email" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" onChange={handleInputs} id="inputPassword4" text="text" placeholder='Enter Email ID' name="email" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -273,7 +265,7 @@ export const AddStudentForm = () => {
                    
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Primary Number</label>
-                      <input className="form-control" onChange={handleInputs} id="inputEmail4" type="text" name="primaryNumber" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" onChange={handleInputs} id="inputEmail4" type="text" name="primaryNumber" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -290,7 +282,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">WhatsApp Number</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="whatsAppNumber" placeholder='Enter WhatsApp Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputEmail4" onChange={handleInputs} type="text" name="whatsAppNumber" placeholder='Enter WhatsApp Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.whatsAppNumber.required ?
 
                         <span className="text-danger form-text profile_error">
@@ -309,7 +301,7 @@ export const AddStudentForm = () => {
                       
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">Qualification</label>
-                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Enter Qualification' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Enter Qualification' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.qualification.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -322,7 +314,7 @@ export const AddStudentForm = () => {
                   
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress"> Year passed</label>
-                      <input className="form-control" id="inputAddress" onChange={handleInputs} name="yearPassed" type="text" placeholder="Enter Passed Year" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputAddress" onChange={handleInputs} name="yearPassed" type="text" placeholder="Enter Passed Year" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.yearPassed.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -332,7 +324,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">CGPA </label>
-                      <input className="form-control" onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder=" Enter CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder=" Enter CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.cgpa.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -341,7 +333,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Desired Country</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} name="desiredCountry" type="text" placeholder='Enter Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputEmail4" onChange={handleInputs} name="desiredCountry" type="text" placeholder='Enter Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.desiredCountry.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -351,7 +343,7 @@ export const AddStudentForm = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">Desired University</label>
-                      <input className="form-control" id="inputPassword4"  type="text" name="desireduniversity" placeholder='Enter Desired University' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputPassword4"  type="text" name="desireduniversity" placeholder='Enter Desired University' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                     
                       
 
@@ -360,7 +352,7 @@ export const AddStudentForm = () => {
                   
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">Desired Course</label>
-                      <input className="form-control" id="inputPassword4" onChange={handleInputs} type="text" name="desiredCourse" placeholder='Enter Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputPassword4" onChange={handleInputs} type="text" name="desiredCourse" placeholder='Enter Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.desiredCourse.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -368,9 +360,11 @@ export const AddStudentForm = () => {
                       ) : null}
 
                     </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div className='row g-3'>
+
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">Do You Hold Any Other Offer? </label>
-                      <select className="form-select form-select-lg"
+                      <select className="form-select form-select-lg rounded-2"
                         name="doYouNeedSupportForLoan"
                         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         onChange={handleInputs}>
@@ -382,41 +376,59 @@ export const AddStudentForm = () => {
                      
 
                     </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputAddress">Do You Hold Any Other Offer? </label>
-                      <select className="form-select form-select-lg"
-                        name="doYouNeedSupportForLoan"
-                        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                        onChange={handleInputs}>
-                        <option value=""> Yes/No </option>
-                        <option value="yes"> Yes </option>
-                        <option value="no">No </option>
-
-                      </select>
-                     
-
                     </div>
+                   
+                   
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4"> Country</label>
-                      <input className="form-control" id="inputEmail4"  type="text" name="assignedTo" placeholder=' Enter Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputEmail4"  type="text" name="assignedTo" placeholder=' Enter Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                      
 
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">University</label>
-                      <input className="form-control" id="inputEmail4"  type="text" name="assignedTo" placeholder='Enter University ' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputEmail4"  type="text" name="University" placeholder='Enter University ' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                    
 
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">Program</label>
-                      <input className="form-control" id="inputEmail4" type="text" name="assignedTo" placeholder='Enter Program' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputEmail4" type="text" name="Program" placeholder='Enter Program' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                    
+                    </div>
+                    <div className='row g-3'>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputEmail4">Referee Name</label>
+                      <input className="form-control rounded-2" id="inputEmail4" type="text" name="RefereeName" placeholder='Enter Referee Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                     
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputEmail4">Referee Contact</label>
+                      <input className="form-control rounded-2" id="inputEmail4" type="text" name="RefereeContact" placeholder='Enter Referee Contact' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                    
+                    </div>
+                    </div>
+                    <div className='row g-3'>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputEmail4">Request Loan Support</label>
+                      <input className="form-control rounded-2" id="inputEmail4" type="text" name="RequestLoanSupport" placeholder='Enter Request Loan sSupport' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                    
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputEmail4">Register for IELTS class</label>
+                      <input className="form-control rounded-2" id="inputEmail4" type="text" name="RegisterforIELTSclass" placeholder='Enter Register for IELTS class' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                    
+                    </div>
+                    </div>
+
+
+                 
+                  
+
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                       <label className="form-label" for="inputAddress">Do you need support for loan? </label>
-                      <select className="form-control"
+                      <select className="form-control rounded-2"
                         name="doYouNeedSupportForLoan"
                         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         onChange={handleInputs}>
@@ -432,18 +444,14 @@ export const AddStudentForm = () => {
                       ) : null}
 
                     </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputEmail4">Register for IELTS class</label>
-                      <input className="form-control" id="inputEmail4" type="text" name="assignedTo" placeholder='Enter Register for IELTS class' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                    
-                    </div>
+                
                 
                   
              
 
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                       <label className="form-label" for="inputEmail4"> Assigned To</label>
-                      <input className="form-control" id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' Assigned To Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputEmail4" onChange={handleInputs} type="text" name="assignedTo" placeholder=' Assigned To Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.assignedTo.required ?
 
                         <span className="text-danger form-text profile_error">
