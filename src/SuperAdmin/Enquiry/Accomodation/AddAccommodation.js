@@ -210,7 +210,7 @@ export const AddAccommodation = () => {
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-          <div className='content-wrapper' style={{ fontSize: '14px' }}>
+          <div className='content-wrapper' style={{ fontSize: '13px' }}>
             <div className='content-header'>
             <form className="p-1" onSubmit={handleSubmit}>
 
@@ -229,7 +229,7 @@ export const AddAccommodation = () => {
                   <div className='row g-3'>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputsource">Source<span className="text-danger">*</span></label>
-                      <select className='form-select form-select-lg' onChange={handleInputs} name='source' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
+                      <select className='form-select form-select-lg rounded-2 ' onChange={handleInputs} name='source' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
                         <option value="">Select In Source</option>
                         <option value="Agent">Agent</option>
                         <option value="Student">Student</option>
@@ -244,7 +244,7 @@ export const AddAccommodation = () => {
                       <>
                         <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                           <label className="form-label" for="inputAgentName">Agent Name</label>
-                          <input className="form-control" id="inputAgentName" onChange={handleInputs} type="text" name='agentName' placeholder='Enter Agent Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <input className="form-control rounded-2" id="inputAgentName" onChange={handleInputs} type="text" name='agentName' placeholder='Enter Agent Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                           {errors.agentName.required ? (
                             <div className="text-danger form-text">
                               This field is required.
@@ -253,24 +253,24 @@ export const AddAccommodation = () => {
                         </div>
                         <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                           <label className="form-label" for="inputbusinessname">Business Name</label>
-                          <input className="form-control" id="inputbusinessname" type="text" onChange={handleInputs} name='businessName' placeholder='Enter Business Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <input className="form-control rounded-2" id="inputbusinessname" type="text" onChange={handleInputs} name='businessName' placeholder='Enter Business Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputEmail">Agent Email ID</label>
-                          <input className="form-control" name="agentEmail" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <input className="form-control rounded-2" name="agentEmail" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputPrimaryNo">Agent  Primary Number</label>
-                          <input className="form-control" name="agentPrimaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <input className="form-control rounded-2" name="agentPrimaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
                         </div>
 
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputWhatsAppNumber">Agent   WhatsApp Number</label>
-                          <input className="form-control" name="agentWhatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <input className="form-control rounded-2" name="agentWhatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
                         </div>
 
@@ -281,7 +281,7 @@ export const AddAccommodation = () => {
                     ) : null}
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputstudentname">Name of the Student<span className="text-danger">*</span></label>
-                      <input className="form-control" name="studentName" onChange={handleInputs} id="inputstudentname" type="text" placeholder='Enter Name of the Student' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" name="studentName" onChange={handleInputs} id="inputstudentname" type="text" placeholder='Enter Name of the Student' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.studentName.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -291,7 +291,7 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpassportno">Passport No<span className="text-danger">*</span></label>
-                      <input className="form-control" id="inputpassportno" onChange={handleInputs} name='passportNumber' type="text" placeholder='Enter Passport No' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputpassportno" onChange={handleInputs} name='passportNumber' type="text" placeholder='Enter Passport No' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.passportNumber.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -300,13 +300,13 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpassportno">Expiry Date<span className="text-danger">*</span></label>
-                      <input className="form-control" id="inputpassportno"  name='expirydate' type="date" placeholder='Enter Expiry Date' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputpassportno"  name='expirydate' type="date" placeholder='Enter Expiry Date' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                      
                     </div>
                     
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail">Email ID<span className="text-danger">*</span></label>
-                      <input className="form-control" name="email" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" name="email" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -322,7 +322,7 @@ export const AddAccommodation = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPrimaryNo">Primary Number<span className="text-danger">*</span></label>
-                      <input className="form-control" name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.primaryNumber.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -335,7 +335,7 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number<span className="text-danger">*</span></label>
-                      <input className="form-control" name="whatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" name="whatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.whatsAppNumber.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -348,7 +348,7 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">University Name<span className="text-danger">*</span> </label>
-                      <input className="form-control" id="inputstudentid" name='universityName' onChange={handleInputs} type="text" placeholder="Enter Student ID" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputstudentid" name='universityName' onChange={handleInputs} type="text" placeholder="Enter Student ID" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.universityName.required ? (
                         <div className="text-danger form-text">
                           This field is required.
@@ -358,37 +358,37 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">Course<span className="text-danger">*</span> </label>
-                      <input className="form-control" id="inputstudentid" name='course'  type="text" placeholder="Enter Course" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputstudentid" name='course'  type="text" placeholder="Enter Course" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       
 
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">Accommodation Type<span className="text-danger">*</span> </label>
-                      <input className="form-control" id="inputstudentid" name='AccommodationType'  type="text" placeholder="Enter Accommodation Type" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputstudentid" name='AccommodationType'  type="text" placeholder="Enter Accommodation Type" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       
 
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">Country<span className="text-danger">*</span> </label>
-                      <input className="form-control" id="inputstudentid" name='Country'  type="text" placeholder="EnterCountry" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputstudentid" name='Country'  type="text" placeholder="EnterCountry" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       
 
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">State<span className="text-danger">*</span> </label>
-                      <input className="form-control" id="inputstudentid" name='State'  type="text" placeholder="Enter State" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputstudentid" name='State'  type="text" placeholder="Enter State" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       
 
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">City<span className="text-danger">*</span> </label>
-                      <input className="form-control" id="inputstudentid" name='City'  type="text" placeholder="Enter City" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputstudentid" name='City'  type="text" placeholder="Enter City" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       
 
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputassignedto">Assigned To <span className="text-danger">*</span></label>
-                      <select className='form-select' onChange={handleInputs} name='assignedTo' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} id='inputassignedto'>
+                      <select className='form-select form-select-lg rounded-2' onChange={handleInputs} name='assignedTo' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} id='inputassignedto'>
                         <option>Assigned To</option>
                         <option>Agent</option>
                         <option>Admin</option>
@@ -402,7 +402,7 @@ export const AddAccommodation = () => {
                   
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">Finalised By<span className="text-danger">*</span> </label>
-                      <input className="form-control" id="inputstudentid" name='  Finalised By'  type="text" placeholder="Enter   Finalised By" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      <input className="form-control rounded-2" id="inputstudentid" name='  Finalised By'  type="text" placeholder="Enter   Finalised By" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       
 
                     </div>
@@ -411,7 +411,7 @@ export const AddAccommodation = () => {
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label style={{ color: "#231F20" }}>Location<span className="text-danger">*</span></label>
                       <select
-                        className="form-select rounded-2 p-2"
+                        className="form-select  form-select-lg rounded-2"
                         name="locationWhereAccommodationIsRequired"
                         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         onChange={handleInputs}
@@ -449,7 +449,7 @@ export const AddAccommodation = () => {
                 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpayment">Holding Offer From The University<span className="text-danger">*</span> </label>
-                      <select className='form-select' onChange={handleInputs} name='holdingOfferFromTheUniversity' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} id='inputpayment'>
+                      <select className='form-select form-select-lg rounded-2 ' onChange={handleInputs} name='holdingOfferFromTheUniversity' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} id='inputpayment'>
                         <option>Select Type</option>
                         <option value="No"> Yes</option>
                        
