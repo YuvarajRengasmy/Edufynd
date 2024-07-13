@@ -28,3 +28,17 @@ export const isValidName = (name) => {
   const nameRegex = /^[a-zA-Z\s]+$/;
   return nameRegex.test(name);
 }
+// export const isValidPinCode = (pinCode) => {
+//   // Check if pinCode is a string and contains only digits
+//   return typeof pinCode === 'string' && /^\d+$/.test(pinCode);
+// };
+
+export const isValidPinCode = (pinCode) => {
+  // Check if pinCode is a string and contains only digits
+  if (typeof pinCode !== 'string' || !/^\d+$/.test(pinCode)) {
+      return false;
+  }
+
+  // Check if pinCode is exactly 6 digits long
+  return pinCode.length === 6;
+};
