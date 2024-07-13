@@ -17,10 +17,7 @@ function AddCommission() {
     const initialState = {
         country: "",
         universityName: "",
-
         paymentMethod: "",
-        amount: null,
-        percentage: null,
         commissionPaidOn: "",
         eligibility: "",
         tax: "",
@@ -36,8 +33,6 @@ function AddCommission() {
         country: { required: false },
         universityName: { required: false },
         paymentMethod: { required: false },
-        amount: { required: false },
-        percentage: { required: false },
         commissionPaidOn: { required: false },
         eligibility: { required: false },
         tax: { required: false },
@@ -231,6 +226,19 @@ function AddCommission() {
         const to = (page - 1) * pageSize + pageSize;
         setPagination({ ...pagination, from: from, to: to });
       };
+
+      const handleErrors = (obj) => {
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const prop = obj[key];
+            if (prop.required === true || prop.valid === true) {
+              return false;
+            }
+          }
+        }
+        return true;
+      };
+    
       const handleSubmit = (event) => {
         event.preventDefault();
     
@@ -238,12 +246,7 @@ function AddCommission() {
         const newError = handleValidation(commission);
         setErrors(newError);
         setSubmitted(true);
-    
-        // Check if all inputs are valid
-        const allInputsValid = Object.values(newError);
-        const valid = allInputsValid.every((x) => x.required === false);
-    
-        if (valid) {
+        if (handleErrors(newError)) {
             // Prepare years data for submission
             const yearsData = years.map((year) => ({
                 year: year.year,
@@ -345,20 +348,7 @@ function AddCommission() {
 
                                                     </div>
                                                     <div className='row g-2'>
-                                                        {commission.paymentMethod === 'Fixed' ? (
-                                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                                <label style={{ color: '#231F20' }}>Fixed Amount</label>
-                                                                <input
-                                                                    name="amount"
-                                                                    className="form-control"
-                                                                    type="text"
-                                                                    placeholder='Enter Amount'
-
-
-                                                                    onChange={handleInputs}
-                                                                />
-                                                            </div>
-                                                        ) : commission.paymentMethod === 'Percentage' ? (
+                                                        { commission.paymentMethod === 'Percentage' ? (
                                                             <div className='row g-2'>
                                                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                                     <label style={{ color: "#231F20" }}>Commission Paid On<span className="text-danger">*</span></label>
@@ -372,19 +362,7 @@ function AddCommission() {
                                                                         <option value="PaidFees">Paid Fees</option>
                                                                     </select>
                                                                 </div>
-                                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                                    <label style={{ color: '#231F20' }}>Course Fees Percentage</label>
-                                                                    <input
-                                                                        name="percentage"
-                                                                        className="form-control"
-
-                                                                        type="number"
-                                                                        placeholder='Enter Percentage'
-
-                                                                        onChange={handleInputs}
-                                                                    />
-                                                                </div>
-
+                                                               
                                                             </div>
                                                         ) : null}
                                                     </div>
