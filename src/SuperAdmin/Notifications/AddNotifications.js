@@ -7,8 +7,19 @@ import {getallClientModule} from "../../api/universityModule/clientModule";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { RichTextEditor } from '@mantine/rte';
+
+
 
 export const AddNotifications = () => {
+
+
+
   return (
     <>
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
@@ -94,20 +105,20 @@ export const AddNotifications = () => {
                             </div>
                             </div>
                             <div className="row gy-2 ">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                              Content<span className="text-danger">*</span>
+                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                             Content<span className="text-danger">*</span>
                               </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Content"
-                                name="Username"
-                              />
+                            <RichTextEditor
+         
+          placeholder="Start writing your content here..."
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+           
+          }}
+        />
+       
                               
                             </div>
                             </div>

@@ -1,19 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallClient, deleteClient } from "../../api/client";
+
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/sidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
-import { toast } from "react-toastify";
+
+import Mastersidebar from "../../../compoents/sidebar";
+
 
 import { FaFilter } from "react-icons/fa";
-import ListAgent from "../Admins/AdminList";
 
 
-export const ListMarketing = () => {
+export const ListCampaign = () => {
 
   const tableRef = useRef(null);
 
@@ -194,7 +191,7 @@ export const ListMarketing = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddMarketing">
+                    <Link class="btn btn-pix-primary" to="/AddCampaign">
                       <button
                         className="btn btn-outline border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -203,7 +200,7 @@ export const ListMarketing = () => {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                         Add Marketing
+                         Add Campaign
                       </button>
                     </Link>
                   </li>
@@ -247,7 +244,7 @@ export const ListMarketing = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewMarketing",
+                                      pathname: "/ViewCampaign",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -259,7 +256,7 @@ export const ListMarketing = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditMarketing",
+                                      pathname: "/EditCampaign",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -387,4 +384,4 @@ export const ListMarketing = () => {
   </div>
   )
 }
-export default ListMarketing
+export default ListCampaign
