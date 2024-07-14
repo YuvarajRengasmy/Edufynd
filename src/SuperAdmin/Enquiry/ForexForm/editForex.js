@@ -211,7 +211,7 @@ export const AddForex = () => {
           <nav className="navbar navbar-vertical navbar-expand-lg">
             <Mastersidebar />
           </nav>
-          <div className='content-wrapper' style={{ fontSize: '14px' }}>
+          <div className='content-wrapper' style={{ fontSize: '13px' }}>
             <div className='content-header'>
             <form className="p-1" onSubmit={handleSubmit}>
 
@@ -223,11 +223,154 @@ export const AddForex = () => {
                       <div className="card-body mt-5">
               
                   <div className='row g-3'>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputsource">Source</label>
+                      <select className='form-select' value={forex?.source} onChange={handleInputs} name='source' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
+                        <option value="">Select In Source</option>
+                        <option value="Agent">Agent</option>
+                        <option value="Student">Student</option>
+                      </select>
+                      {errors.source.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
+                    </div>
+                    {forex.source === 'Agent' ? (
+                      <>
+                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
+                          <label className="form-label" for="inputAgentName">Agent Name</label>
+                          <input className="form-control" value={forex?.agentName} id="inputAgentName" onChange={handleInputs} type="text" name='agentName' placeholder='Enter Agent Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          {errors.agentName.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
+                          <label className="form-label" for="inputbusinessname">Business Name</label>
+                          <input className="form-control" value={forex?.businessName} id="inputbusinessname" type="text" onChange={handleInputs} name='businessName' placeholder='Enter Business Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
 
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputEmail">Agent Email ID</label>
+                          <input className="form-control" value={forex?.agentEmail} name="agentEmail" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputPrimaryNo">Primary Number</label>
+                          <input className="form-control" value={forex?.agentPrimaryNumber} name="agentPrimaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+
+                        </div>
+
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputWhatsAppNumber">Agent WhatsApp Number</label>
+                          <input className="form-control" value={forex?.agentWhatsAppNumber} name="agentWhatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+
+                        </div>
+
+
+                    
+
+                      </>
+                    ) : null}
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputstudentname">Name of the Student</label>
                       <input className="form-control" name="studentName" value={forex?.studentName} onChange={handleInputs} id="inputstudentname" type="text" placeholder='Enter Name of the Student' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                       {errors.studentName.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
+
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputpassportno">Passport No</label>
+                      <input className="form-control" id="inputpassportno" value={forex?.passportNo} onChange={handleInputs} name='passportNo' type="text" placeholder='Enter Passport No' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.passportNo.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputpassportno">Expiry Date<span className="text-danger">*</span></label>
+                      <input className="form-control rounded-2" id="inputpassportno" name='Expirydate' type="date" placeholder='Enter ExpiryDate' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                   
+                    </div>
+
+
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputEmail">Email ID</label>
+                      <input className="form-control" name="email" value={forex?.email} onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.email.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.email.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid Email Id.
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputPrimaryNo">Primary Number</label>
+                      <input className="form-control" name="primaryNumber" value={forex?.primaryNumber} onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.primaryNumber.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.primaryNumber.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid emergencyContactNo.
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number</label>
+                      <input className="form-control" name="whatsAppNumber" value={forex?.whatsAppNumber} onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.whatsAppNumber.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : errors.whatsAppNumber.valid ? (
+                        <div className="text-danger form-text">
+                          Enter valid emergencyContactNo.
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputuniversity">University Name </label>
+                      <input className="form-control" id="inputstudentid" value={forex?.universityName} name='universityName' onChange={handleInputs} type="text" placeholder="Enter Student ID" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.universityName.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
+
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputuniversity">Course<span className="text-danger">*</span> </label>
+                      <input className="form-control rounded-2" id="inputstudentid" name='Course'  type="text" placeholder="Enter Course" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                    
+
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputpayment">Payment Type </label>
+                      <select className='form-select' value={forex?.paymentType} onChange={handleInputs} name='paymentType' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} id='inputpayment'>
+                        <option>Payment Type</option>
+                        <option value="Tuition_Fees"> Tuition Fees</option>
+                        <option value="GIC">GIC</option>
+                        <option value="Insurance">Insurance</option>
+                        <option value="Accommodation">Accommodation</option>
+                        <option value=" Ticket"> Ticket</option>
+                        <option value="Application_Fees">Application Fees</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      {errors.paymentType.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>
@@ -270,26 +413,9 @@ export const AddForex = () => {
 
                  
 
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputuniversity">University Name </label>
-                      <input className="form-control" id="inputstudentid" value={forex?.universityName} name='universityName' onChange={handleInputs} type="text" placeholder="Enter Student ID" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.universityName.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
+                  
 
-                    </div>
-
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputpassportno">Passport No</label>
-                      <input className="form-control" id="inputpassportno" value={forex?.passportNo} onChange={handleInputs} name='passportNo' type="text" placeholder='Enter Passport No' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.passportNo.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
-                    </div>
+                
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputamount">Amount In Currency</label>
@@ -304,84 +430,14 @@ export const AddForex = () => {
                   
                  
 
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputPrimaryNo">Primary Number</label>
-                      <input className="form-control" name="primaryNumber" value={forex?.primaryNumber} onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.primaryNumber.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : errors.primaryNumber.valid ? (
-                        <div className="text-danger form-text">
-                          Enter valid emergencyContactNo.
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number</label>
-                      <input className="form-control" name="whatsAppNumber" value={forex?.whatsAppNumber} onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.whatsAppNumber.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : errors.whatsAppNumber.valid ? (
-                        <div className="text-danger form-text">
-                          Enter valid emergencyContactNo.
-                        </div>
-                      ) : null}
-                    </div>
-
-
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputEmail">Email ID</label>
-                      <input className="form-control" name="email" value={forex?.email} onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.email.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : errors.email.valid ? (
-                        <div className="text-danger form-text">
-                          Enter valid Email Id.
-                        </div>
-                      ) : null}
-                    </div>
+               
 
 
                 
                 
 
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputsource">Source</label>
-                      <select className='form-select' value={forex?.source} onChange={handleInputs} name='source' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
-                        <option value="">Select In Source</option>
-                        <option value="Agent">Agent</option>
-                        <option value="Student">Student</option>
-                      </select>
-                      {errors.source.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputpayment">Payment Type </label>
-                      <select className='form-select' value={forex?.paymentType} onChange={handleInputs} name='paymentType' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} id='inputpayment'>
-                        <option>Payment Type</option>
-                        <option value="Tuition_Fees"> Tuition Fees</option>
-                        <option value="GIC">GIC</option>
-                        <option value="Insurance">Insurance</option>
-                        <option value="Accommodation">Accommodation</option>
-                        <option value=" Ticket"> Ticket</option>
-                        <option value="Application_Fees">Application Fees</option>
-                        <option value="Other">Other</option>
-                      </select>
-                      {errors.paymentType.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
-
-                    </div>
+                   
+                   
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputassignedto">Assigned To </label>
                       <select className='form-select' value={forex?.assignedTo} onChange={handleInputs} name='assignedTo' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} id='inputassignedto'>
@@ -395,57 +451,35 @@ export const AddForex = () => {
                         </div>
                       ) : null}
                     </div>
-
-                    {forex.source === 'Agent' ? (
-                      <div className="row g-2">
-                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
-                          <label className="form-label" for="inputAgentName">Agent Name</label>
-                          <input className="form-control" value={forex?.agentName} id="inputAgentName" onChange={handleInputs} type="text" name='agentName' placeholder='Enter Agent Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.agentName.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputamount">Mark up<span className="text-danger">*</span></label>
+                      <input className="form-control rounded-2" id="inputamount" name='Markup' type="text" placeholder='Enter Mark up' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                     
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputamount">Profit (Value*Mark up)<span className="text-danger">*</span></label>
+                      <input className="form-control rounded-2" id="inputamount" onChange={handleInputs} name='Profit' type="text" placeholder='Enter Profit' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.amountInCurrency.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
                         </div>
-                        <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
-                          <label className="form-label" for="inputbusinessname">Business Name</label>
-                          <input className="form-control" value={forex?.businessName} id="inputbusinessname" type="text" onChange={handleInputs} name='businessName' placeholder='Enter Business Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputPrimaryNo">Primary Number</label>
-                          <input className="form-control" value={forex?.agentPrimaryNumber} name="agentPrimaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
-                        </div>
+                      ) : null}
+                    </div>
 
 
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputWhatsAppNumber">Agent WhatsApp Number</label>
-                          <input className="form-control" value={forex?.agentWhatsAppNumber} name="agentWhatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
-                        </div>
-
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputEmail">Agent Email ID</label>
-                          <input className="form-control" value={forex?.agentEmail} name="agentEmail" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
-                        </div>
-
-                      </div>
-                    ) : null}
+                 
 
 
 
                   </div>
 
 
-                  <div className='row g-2 '>
+                  <div className='row g-3 '>
                     <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
 
                         to="/ListForexForm"
-                        style={{ backgroundColor: '#0f2239', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        style={{ backgroundColor: '#231f20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                       >
                         Cancel
