@@ -1202,6 +1202,14 @@ const Sidebar = () => {
                                 Status
                               </a>
                             </li>
+                            <li className="nav-item">
+                              <a
+                                href="/ClientModule"
+                                className="nav-link  text-capitalize fw-semibold"
+                              >
+                                Status
+                              </a>
+                            </li>
                           
                             <li className="nav-item">
                               <a

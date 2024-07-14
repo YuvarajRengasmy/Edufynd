@@ -258,31 +258,20 @@ function AddAgent() {
                                                                 {" "}
                                                                 Source<span className="text-danger">*</span>
                                                             </label>
-                                                            <input
-                                                                type="text"
-                                                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                                name="source"
-                                                                onChange={handleInputs}
-                                                                className="form-control "
-                                                                placeholder="Enter Source"
-                                                            />
+                                                            <select class="form-select form-select-lg rounded-2" aria-label="Default select example"    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+  <option selected>Select Source</option>
+  <option value="Walk In">Walk In</option>
+  <option value="Social Media">Social Media</option>
+  <option value="agent">Agent</option>
+ 
+</select>
                                                             {errors.source.required ? (
                                                                 <div className="text-danger form-text">
                                                                     This field is required.
                                                                 </div>
                                                             ) : null}
                                                         </div>
-                                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                        <label style={{ color: "#231F20" }}>
-                                                                Source <span className="text-danger">*</span>
-                                                            </label>
-                                                        <select class="form-select form-select-lg rounded-2" aria-label="Default select example"    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-  <option selected>Select Source</option>
-  <option value="Walk In">Walk In</option>
-  <option value="Social Media">Social Media</option>
- 
-</select>
-</div>
+                                                    
                                                        </div>
                                                        
                                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
