@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidebar from "../../compoents/sidebar";
-export const ViewMarketing = () => {
+import Sidebar from "../../../compoents/sidebar";
+export const ViewDailyTask = () => {
   return (
     <>  <div  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
     <div class="container-fluid">
@@ -103,4 +103,4 @@ export const ViewMarketing = () => {
 </div></>
   )
 }
-export default ViewMarketing
+export default ViewDailyTask

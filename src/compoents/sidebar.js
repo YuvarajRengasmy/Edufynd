@@ -18,6 +18,7 @@ const Sidebar = () => {
     privileges: false,
     Projects: false,
     Reports: false,
+    Marketing: false,
   });
 
   const toggleDropdown = (key) => {
@@ -669,30 +670,83 @@ const Sidebar = () => {
                     </ul>
                   </div>
                 </li>
-                <li className="nav-item ">
+                <li className="nav-item" style={{ position: "relative" }}>
                   <a
-                    href="/ListMarketing"
+                    href="#"
                     className="nav-link"
+                    data-bs-toggle="collapse"
+                    aria-expanded={isOpen.Projects}
+                    aria-controls="collapse17"
                     style={{
                       color: "#231f20",
                       fontSize: "12px",
                       fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
+                    onClick={() => toggleDropdown("Marketing")}
                   >
+                    <div>
+                      <i
+                        className="nav-icon fas fa-id-card"
+                        style={{
+                          color: "#fe5722",
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                        }}
+                      />
+                      <span
+                        style={{ fontSize: "12px", fontWeight: "bold" }}
+                        className="pe-2 "
+                      >
+                        Marketing
+                      </span>
+                    </div>
                     <i
-                      className="nav-icon fas fa-flag "
+                      className={`fa fa-angle-right ${isOpen.Marketing? "rotate-icon" : ""
+                        }`}
+                      aria-hidden="true"
                       style={{
-                        color: "#fe5722",
+                        color: "#231f20",
                         fontSize: "12px",
                         fontWeight: "bold",
                       }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Marketing
-                    </p>
+                    />
                   </a>
-                </li>{" "}
+                  <div
+                    className={`collapse ${isOpen.Marketing ? "show" : ""}`}
+                    id="collapse17"
+                  >
+                    <ul className="nav d-flex flex-column border-0 ps-4">
+                      <li className="nav-item">
+                        <a
+                          href="/ListSocialMedia"
+                          className="nav-link  text-capitalize fw-semibold"
+                        >
+                         Social Media
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          href="/ListCampaign"
+                          className="nav-link text-capitalize fw-semibold"
+                        >
+                         Campaigns
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          href="/ListDailyTask"
+                          className="nav-link text-capitalize fw-semibold"
+                        >
+                         Daily Task
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              
                 <li className="nav-item ">
                   <a
                     href="ListNotifications"
@@ -813,7 +867,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <a
-                    href="/Demo"
+                    href="ListPromotions"
                     className="nav-link"
                     style={{
                       color: "#231f20",

@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { saveClient } from '../../api/client';
-import {getallClientModule} from "../../api/universityModule/clientModule";
-import Header from "../../compoents/header";
-import Sidebar from "../../compoents/sidebar";
+
+import { RichTextEditor } from '@mantine/rte';
+import Sidebar from "../../../compoents/sidebar";
 import { Link } from "react-router-dom";
 
-export const AddEvents = () => {
+
+export const EditDailyTask = () => {
   return (
-    <>
     <div  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div class="container-fluid">
             <nav class="navbar navbar-vertical navbar-expand-lg">
@@ -26,13 +22,13 @@ export const AddEvents = () => {
               <div className="col-xl-12 ">
               <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
             <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-            <h5 className='text-center text-capitalize p-1'> Add Events Details</h5>
+            <h5 className='text-center text-capitalize p-1'> Add Meetings Details</h5>
             </div>
             <div className="card-body mt-5">
                           <div className="row g-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Type of Users{" "}
+                              Host Name{" "}
                                 <span className="text-danger">*</span>
                               </label>
 
@@ -44,7 +40,7 @@ export const AddEvents = () => {
                                     fontSize: "12px",
                                   }}
                               >
-                                <option selected>Select User</option>
+                                <option selected>Select Host Name</option>
                                 <option value="Staff">Staff</option>
                                 <option value="Student">Student</option>
                                 <option value="Agent">Agent</option>
@@ -53,7 +49,7 @@ export const AddEvents = () => {
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                UserName<span className="text-danger">*</span>
+                              Attendees<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
@@ -62,14 +58,15 @@ export const AddEvents = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter UserName"
+                                placeholder="Enter Attendees"
                                 name="Username"
                               />
                               
                             </div>
+                            <div className="row gy-2 ">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                             Event Topic<span className="text-danger">*</span>
+                              Subject<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
@@ -78,33 +75,35 @@ export const AddEvents = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter  Event Topic"
+                                placeholder="Enter  Subject"
                                 name="Username"
                               />
                               
                             </div>
-                          
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                             University<span className="text-danger">*</span>
+                            </div>
+                            <div className="row gy-2 ">
+                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                             Content<span className="text-danger">*</span>
                               </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter   University"
-                                name="Username"
-                              />
+                            <RichTextEditor
+       
+          placeholder="Start writing your content here..."
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+            minHeight: '200px', overflowY: 'auto'
+           
+          }}
+        />
+       
                               
                             </div>
-                            
-                            
+                            </div>
+                            <div className="row gy-2 ">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                             Date<span className="text-danger">*</span>
+                              Date<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="date"
@@ -118,42 +117,23 @@ export const AddEvents = () => {
                               />
                               
                             </div>
-                          
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                              Time< span className="text-danger">*</span>
+                              Time<span className="text-danger">*</span>
                               </label>
                               <input
-                                type="time"
+                                type='time'
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter  Date"
+                                placeholder="Enter  Time"
                                 name="Username"
                               />
                               
                             </div>
-                          
-                            
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                             Venue<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Venue"
-                                name="Username"
-                              />
-                              
                             </div>
-                            
                            
                             
 
@@ -192,7 +172,6 @@ export const AddEvents = () => {
         </div>
         </div>
     </div>
-    </>
   )
 }
-export default AddEvents
+export default EditDailyTask

@@ -135,7 +135,7 @@ export const AddRecieverInvoice = () => {
                           <button className="btn w-25 " type="submit" style={{backgroundColor:'#fe5722',color:'#fff'}}>Save</button>
                         
                        
-                          <button className="btn w-25 " style={{backgroundColor:'#0f2239',color:'#fff'}} type="submit">Cancel</button>
+                          <button className="btn w-25 " style={{backgroundColor:'#0f2239',color:'#fff'}} type="reset">Cancel</button>
                         
                       </div>
 </div>

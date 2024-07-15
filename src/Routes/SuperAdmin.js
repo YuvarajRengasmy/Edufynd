@@ -70,12 +70,9 @@ import ListTraining from "../SuperAdmin/Training/ListTraining";
 import ListTestimonials from "../SuperAdmin/Testimonials/ListTestimonials";
 import ListPromotions from "../SuperAdmin/Promotion/ListPromotions";
 import ListMeetings from "../SuperAdmin/Meetings/ListMeetings";
-import ListMarketing from "../SuperAdmin/Marketing/ListMarketing";
 import ListEvents from "../SuperAdmin/Events/ListEvents";
 import AddEvents from "../SuperAdmin/Events/AddEvents";
 import EditEvents from "../SuperAdmin/Events/EditEvents";
-import AddMarketing from "../SuperAdmin/Marketing/AddMarketing";
-import EditMarketing from "../SuperAdmin/Marketing/EditMarketing";
 import AddMeetings from "../SuperAdmin/Meetings/AddMeetings";
 import EditMeetings from "../SuperAdmin/Meetings/EditMeetings";
 import AddPromotions from "../SuperAdmin/Promotion/AddPromotions";
@@ -86,10 +83,21 @@ import AddTraining from "../SuperAdmin/Training/AddTraining";
 import EditTraining from "../SuperAdmin/Training/EditTraining";
 import ViewTraining from "../SuperAdmin/Training/ViewTraining";
 import ViewEvents from "../SuperAdmin/Events/ViewEvents";
-import ViewMarketing from "../SuperAdmin/Marketing/ViewMarketing";
 import ViewMeetings from "../SuperAdmin/Meetings/ViewMeetings";
 import ViewPromotion from "../SuperAdmin/Promotion/ViewPromotion";
 import ViewTestimonials from "../SuperAdmin/Testimonials/ViewTestimonials";
+import AddSocialMedia from "../SuperAdmin/Marketing/SocialMedia/AddSocialMedia";
+import EditSocialMedia from "../SuperAdmin/Marketing/SocialMedia/EditSocialMedia";
+import ListSocialMedia from "../SuperAdmin/Marketing/SocialMedia/ListSocialMedia";
+import ViewSocialMedia from "../SuperAdmin/Marketing/SocialMedia/ViewSocialMedia";
+import ListCampaign from "../SuperAdmin/Marketing/Campaign/ListCampaign";
+import AddCampaign from "../SuperAdmin/Marketing/Campaign/AddCampaign";
+import EditCampaign from "../SuperAdmin/Marketing/Campaign/EditCampaign";
+import ViewCampaign from "../SuperAdmin/Marketing/Campaign/ViewCampaign";
+import ListDailyTask from "../SuperAdmin/Marketing/DailyTask/ListDailyTask";
+import EditDailyTask from "../SuperAdmin/Marketing/DailyTask/EditDailyTask";
+import AddDailyTask from "../SuperAdmin/Marketing/DailyTask/AddDailyTask";
+import ViewDailyTask from "../SuperAdmin/Marketing/DailyTask/ViewDailyTask";
 
 
 function SuperAdmin() {
@@ -169,10 +177,27 @@ function SuperAdmin() {
        <Route path="/EditEvents" element={<EditEvents/>}/>
        <Route path="/ViewEvents" element={<ViewEvents/>}/>
 
-       <Route path="/ListMarketing" element={<ListMarketing/>}/>
-       <Route path="/AddMarketing" element={<AddMarketing/>}/>
-       <Route path="/EditMarketing" element={<EditMarketing/>}/>
-       <Route path="/ViewMarketing" element={<ViewMarketing/>}/>
+    
+
+       <Route path="/AddSocialMedia" element={<AddSocialMedia/>}/>
+       <Route path="/EditSocialMedia" element={<EditSocialMedia/>}/>
+       <Route path="/ListSocialMedia" element={<ListSocialMedia/>}/>
+       <Route path="/ViewSocialMedia" element={<ViewSocialMedia/>}/>
+
+
+
+       <Route path="/ListCampaign" element={<ListCampaign/>}/>
+       <Route path="/AddCampaign" element={<AddCampaign/>}/>
+       <Route path="/EditCampaign" element={<EditCampaign/>}/>
+       <Route path="/ViewCampaign" element={<ViewCampaign/>}/>
+
+    
+   <Route path="/ListDailyTask" element={<ListDailyTask/>}/>
+   <Route path="/EditDailyTask" element={<EditDailyTask/>}/>
+   <Route path="/AddDailyTask" element={<AddDailyTask/>}/>
+   <Route path="/ViewDailyTask" element={<ViewDailyTask/>}/>
+       
+
       
        <Route path="/ListMeetings" element={<ListMeetings/>}/>
        <Route path="/AddMeetings" element={<AddMeetings/>}/>
