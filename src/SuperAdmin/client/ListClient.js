@@ -8,16 +8,9 @@ import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
 import { FaFilter } from "react-icons/fa";
 
-
-
-
-
 export default function Masterproductlist() {
-
-
   const initialState = {
     typeOfClient: "",
     businessName: "",
@@ -32,9 +25,7 @@ export default function Masterproductlist() {
     emailID: "",
     gstn: "",
     status: "",
-
   }
-
   const [client, setClient] = useState([]);
 
   const [submitted, setSubmitted] = useState(false);

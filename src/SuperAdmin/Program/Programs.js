@@ -50,7 +50,7 @@ export default function Masterproductlist() {
       limit: 10,
       page: pagination.from,
     };
-    getallProgram(data)
+    getFilterProgram(data)
     .then((res) => {
       setProgaram(res?.data?.result?.programList);
       setPagination({

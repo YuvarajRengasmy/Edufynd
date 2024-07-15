@@ -23,20 +23,17 @@ function Profile() {
     universityName: "",
     universityId: "",
     programTitle: "",
-
     country: "",
     courseType: "",
     applicationFee: "",
     currency: "",
     discountedValue: "",
-
     englishlanguageTest: "",
     textBox: "",
     universityInterview: "",
     greGmatRequirement: "",
     score: "",
     academicRequirement: "",
-
     universityLogo: "",
     campuses: [{ id: 1, campus: "", inTake: "", duration: "", courseFees: "" }],
   };
