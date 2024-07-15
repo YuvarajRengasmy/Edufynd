@@ -1,8 +1,16 @@
-
+export const isValidBankAccountNumber = (accountNumber) => {
+ 
+  const regex = /^\d{9,18}$/;
+  return regex.test(accountNumber);
+};
 
 export function isValidPassword(pass) {
   return /^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W])/.test(pass);
 }
+export const isValidPAN = (pan) => {
+  const panRegex = /[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+  return panRegex.test(pan);
+};
 
 
 
@@ -25,23 +33,18 @@ export const isValidName = (name) => {
   return nameRegex.test(name);
 }
 export const isValidNumberLessThanOrEqualTo35 = (number) => {
-  // Check if the number is a valid number and 35 or less
   return !isNaN(number) && Number(number) <= 35;
 };
 export const  isValidPinCode= (number) => {
-  // Check if number is a string and matches the regex for a number with up to 6 digits
   return typeof number === 'string' && /^\d{1,6}$/.test(number);
 };
 export const isValidYear = (year) => {
-  // Check if year is a string and matches the regex for a four-digit number
   return typeof year === 'string' && /^\d{4}$/.test(year);
 };
 export const isValidNumber = (number) => {
-  // Check if number is a string and matches the regex for a number with up to 3 digits
   return typeof number === 'string' && /^\d{1,3}$/.test(number);
 };
 export const isValidNo = (number) => {
-  // Check if number is a string and matches the regex for a number with up to 3 digits
   return typeof number === 'string' && /^\d{1,2}$/.test(number);
 };
 
@@ -69,4 +72,14 @@ export const isValidDob = (dob) => {
 
 export const isValidCourseFees = (courseFees) => {
   return /^\d{4}$/.test(courseFees);
+};
+
+export const isValidPassportNumber = (passportNumber) => {
+  const passportRegex = /^[A-Z0-9]{5,17}$/;
+  return passportRegex.test(passportNumber);
+};
+
+export const isValidGSTN = (gstn) => {
+  const gstnRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/;
+  return gstnRegex.test(gstn);
 };
