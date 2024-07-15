@@ -88,7 +88,7 @@ export const AddTraining = () => {
                               Time<span className="text-danger">*</span>
                               </label>
                               <input
-                                type='datetime-local'
+                                type='time'
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -220,6 +220,7 @@ export const AddTraining = () => {
           style={{
             fontFamily: "Plus Jakarta Sans",
             fontSize: "12px",
+            minHeight: '200px', overflowY: 'auto'
            
           }}
         />
@@ -232,17 +233,17 @@ export const AddTraining = () => {
                             
 
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                              <Link
+                            <button
                                 style={{
                                   backgroundColor: "#231F20",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                to="/ClientList"
+                                type='reset'
                                 className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                               >
                                 Cancel
-                              </Link>
+                              </button>
                               <button
                                 style={{
                                   backgroundColor: "#FE5722",
