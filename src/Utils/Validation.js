@@ -40,10 +40,32 @@ export const isValidNumber = (number) => {
   // Check if number is a string and matches the regex for a number with up to 3 digits
   return typeof number === 'string' && /^\d{1,3}$/.test(number);
 };
+export const isValidNo = (number) => {
+  // Check if number is a string and matches the regex for a number with up to 3 digits
+  return typeof number === 'string' && /^\d{1,2}$/.test(number);
+};
 
 export const isValidDuration = (duration) => {
   return duration === '1year' || duration === '2year';
 };
+
+export const isValidDob = (dob) => {
+  const today = new Date();
+  const birthDate = new Date(dob);
+  const age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+  const dayDifference = today.getDate() - birthDate.getDate();
+
+  if (age > 17) {
+    return true;
+  } else if (age === 17) {
+    if (monthDifference > 0 || (monthDifference === 0 && dayDifference >= 0)) {
+      return true;
+    }
+  }
+  return false;
+};
+
 
 export const isValidCourseFees = (courseFees) => {
   return /^\d{4}$/.test(courseFees);

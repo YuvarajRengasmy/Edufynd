@@ -13,6 +13,9 @@ import { getallClientModule } from "../../api/universityModule/clientModule";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+import CountryRegion from "countryregionjs";
+
 
 function AddAgent() {
   const initialState = {
@@ -21,7 +24,10 @@ function AddAgent() {
     businessMailID: "",
     businessContactNo: "",
     website: "",
-    addressLine1: "", // Street Address, City, State, Postal Code, Country
+    country: "",
+    state: "",
+    lga: "",
+    addressLine1: "",
     addressLine2: "",
     addressLine3: "",
     name: "",
@@ -36,6 +42,9 @@ function AddAgent() {
     businessContactNo: { required: false, valid: false },
     website: { required: false, valid: false },
     addressLine2: { required: false },
+    country:{ required: false },
+    state: { required: false },
+    lga: { required: false },
     addressLine3: { required: false },
     addressLine1: { required: false },
     name: { required: false },
@@ -47,6 +56,15 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState([]);
+  let countryRegion = null;
+  const ZERO = 0;
+
+  const [states, setStates] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedStates, setSelectedStates] = useState([]);
+  const [lgas, setLGAs] = useState([]);
+  const [selectedLGAs, setSelectedLGAs] = useState([]);
 
   useEffect(() => {
     getAllClientDetails();
@@ -136,14 +154,94 @@ function AddAgent() {
   };
 
   const handleInputs = (event) => {
-    setClient({ ...client, [event?.target?.name]: event?.target?.value });
+    const { name, value } = event.target;
+    const updatedClient = { ...client, [name]: value };
+    
+    setClient(updatedClient);
+    
     if (submitted) {
-      const newError = handleValidation({
-        ...client,
-        [event.target.name]: event.target.value,
-      });
+      const newError = handleValidation(updatedClient);
       setErrors(newError);
     }
+  };
+  
+  const getCountryRegionInstance = () => {
+    if (!countryRegion) {
+      countryRegion = new CountryRegion();
+    }
+    return countryRegion;
+  };
+  useEffect(() => {
+    const getCountries = async () => {
+      try {
+        const countries = await getCountryRegionInstance().getCountries();
+        setCountries(
+          countries.map((country) => ({
+            value: country.id,
+            label: country.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getCountries();
+  }, []);
+  useEffect(() => {
+    const getStates = async () => {
+      try {
+        const states = await getCountryRegionInstance().getStates(
+          selectedCountry
+        );
+        setStates(
+          states.map((userState) => ({
+            value: userState?.id,
+            label: userState?.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (selectedCountry) {
+      getStates();
+    }
+  }, [selectedCountry]);
+  useEffect(() => {
+    const getLGAs = async () => {
+      try {
+        const allLGAs = await Promise.all(
+          selectedStates.map(async (state) => {
+            const lgas = await getCountryRegionInstance().getLGAs(
+              selectedCountry,
+              state.value
+            );
+            return lgas.map((lga) => ({
+              value: lga?.id,
+              label: lga?.name,
+            }));
+          })
+        );
+        setLGAs(allLGAs.flat());
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (selectedStates.length > 0) {
+      getLGAs();
+    }
+  }, [selectedStates, selectedCountry]);
+  const handleCountryChange = (selectedOption) => {
+    setSelectedCountry(selectedOption.value);
+    setSelectedStates([]);
+    setSelectedLGAs([]); // Reset selected LGAs when country changes
+  };
+  const handleStateChange = (selectedOptions) => {
+    setSelectedStates(selectedOptions || []);
+    setSelectedLGAs([]); // Reset selected LGAs when states change
+  };
+  const handleLGAChange = (selectedOptions) => {
+    setSelectedLGAs(selectedOptions || []);
   };
 
   const handleErrors = (obj) => {
@@ -163,9 +261,20 @@ function AddAgent() {
     const newError = handleValidation(client);
     setErrors(newError);
     setSubmitted(true);
-
+  
+    const selectedCountryLabel = countries.find((country) => country.value === selectedCountry)?.label || "";
+    const selectedStatesLabels = selectedStates.map((state) => state.label).join(", ");
+    const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label).join(", ");
+  
+    const updatedClient = {
+      ...client,
+      country: selectedCountryLabel,
+      state: selectedStatesLabels,
+      lga: selectedLGAsLabels,
+    };
+  
     if (handleErrors(newError)) {
-      saveClient(client)
+      saveClient(updatedClient)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/client");
@@ -173,9 +282,28 @@ function AddAgent() {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    } else {
+      toast.error("Please fill mandatory fields");
     }
   };
+  
+  
 
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4.91319px",
+      fontSize: "11px",
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#3B0051" : "#F2CCFF",
+      ":hover": {
+        color: "black",
+      },
+    }),
+  };
   return (
     <>
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
@@ -524,6 +652,63 @@ function AddAgent() {
                                 </span>
                               ) : null}
                             </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Country<span className="text-danger">*</span>
+                            </label>
+
+                            <Select
+                              placeholder="Select  Country"
+                              onChange={handleCountryChange}
+                              options={countries}
+                              name="country"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select "
+                            />
+                            {errors.country.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              State<span className="text-danger">*</span>
+                            </label>
+                            {states.length !== ZERO && (
+                              <Select
+                                placeholder="Select  State"
+                            isMulti
+                                onChange={handleStateChange}
+                                options={states}
+                                name="state"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                            )}
+                            {errors.state.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              City<span className="text-danger">*</span>
+                            </label>
+                            {lgas.length !== ZERO && (
+                              <Select
+                                placeholder="Select  City"
+                              isMulti
+                                onChange={handleLGAChange}
+                                options={lgas}
+                                name="lga"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                            )}
+                          </div>
 
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                               <Link

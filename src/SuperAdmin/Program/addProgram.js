@@ -807,11 +807,11 @@ const fetchCountryDetails = (selectedCountry) => {
                             </label>
                             <select className="form-control" name="englishlanguageTest" onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                               <option value="">Select Type</option>
-                              <option value="categorie">Yes</option>
+                              <option value="englishlanguageTest">Yes</option>
                               <option value="no">No</option>
                             </select>
                             <br /><br />
-                            {program.englishlanguageTest === 'categorie' && (
+                            {program.englishlanguageTest === 'englishlanguageTest' && (
                               <div className="row ">
                                  <div className="col-md-12 col-lg-12">
                                 <label style={{ color: '#231F20' }} className="col-md-4 col-lg-3 col-form-label">
