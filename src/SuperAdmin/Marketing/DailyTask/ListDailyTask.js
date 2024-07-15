@@ -9,37 +9,37 @@ import Mastersidebar from "../../../compoents/sidebar";
 
 import { FaFilter } from "react-icons/fa";
 
+export const ListDailyTask = () => {
 
-export const ListCampaign = () => {
 
-  const tableRef = useRef(null);
+    const tableRef = useRef(null);
 
-  useEffect(() => {
-    const table = tableRef.current;
-
-    // Apply SortableJS to the table headers
-    const sortable = new Sortable(table.querySelector('thead tr'), {
-      animation: 150,
-      swapThreshold: 0.5,
-      handle: '.sortable-handle',
-      onEnd: (evt) => {
-        const oldIndex = evt.oldIndex;
-        const newIndex = evt.newIndex;
-
-        // Move the columns in the tbody
-        table.querySelectorAll('tbody tr').forEach((row) => {
-          const cells = Array.from(row.children);
-          row.insertBefore(cells[oldIndex], cells[newIndex]);
-        });
-      }
-    });
-
-    return () => {
-      sortable.destroy();
-    };
-  }, []);
-
+    useEffect(() => {
+      const table = tableRef.current;
   
+      // Apply SortableJS to the table headers
+      const sortable = new Sortable(table.querySelector('thead tr'), {
+        animation: 150,
+        swapThreshold: 0.5,
+        handle: '.sortable-handle',
+        onEnd: (evt) => {
+          const oldIndex = evt.oldIndex;
+          const newIndex = evt.newIndex;
+  
+          // Move the columns in the tbody
+          table.querySelectorAll('tbody tr').forEach((row) => {
+            const cells = Array.from(row.children);
+            row.insertBefore(cells[oldIndex], cells[newIndex]);
+          });
+        }
+      });
+  
+      return () => {
+        sortable.destroy();
+      };
+    }, []);
+
+
   return (
     <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
     <div class="container-fluid">
@@ -193,7 +193,7 @@ export const ListCampaign = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddCampaign">
+                    <Link class="btn btn-pix-primary" to="/AddDailyTask">
                       <button
                         className="btn btn-outline border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -202,7 +202,7 @@ export const ListCampaign = () => {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                         Add Campaign
+                         Add DailyTask
                       </button>
                     </Link>
                   </li>
@@ -246,7 +246,7 @@ export const ListCampaign = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewCampaign",
+                                      pathname: "/ViewDailyTask",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -258,7 +258,7 @@ export const ListCampaign = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditCampaign",
+                                      pathname: "/EditDailyTask",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -386,4 +386,4 @@ export const ListCampaign = () => {
   </div>
   )
 }
-export default ListCampaign
+export default ListDailyTask

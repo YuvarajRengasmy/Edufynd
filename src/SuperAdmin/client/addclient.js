@@ -52,6 +52,8 @@ function AddAgent() {
     emailID: { required: false, valid: false },
     whatsAppNumber: { required: false, valid: false },
   };
+
+  
   const [client, setClient] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);

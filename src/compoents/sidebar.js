@@ -735,6 +735,14 @@ const Sidebar = () => {
                          Campaigns
                         </a>
                       </li>
+                      <li className="nav-item">
+                        <a
+                          href="/ListDailyTask"
+                          className="nav-link text-capitalize fw-semibold"
+                        >
+                         Daily Task
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </li>

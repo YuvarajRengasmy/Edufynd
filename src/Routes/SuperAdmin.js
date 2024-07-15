@@ -94,6 +94,10 @@ import ListCampaign from "../SuperAdmin/Marketing/Campaign/ListCampaign";
 import AddCampaign from "../SuperAdmin/Marketing/Campaign/AddCampaign";
 import EditCampaign from "../SuperAdmin/Marketing/Campaign/EditCampaign";
 import ViewCampaign from "../SuperAdmin/Marketing/Campaign/ViewCampaign";
+import ListDailyTask from "../SuperAdmin/Marketing/DailyTask/ListDailyTask";
+import EditDailyTask from "../SuperAdmin/Marketing/DailyTask/EditDailyTask";
+import AddDailyTask from "../SuperAdmin/Marketing/DailyTask/AddDailyTask";
+import ViewDailyTask from "../SuperAdmin/Marketing/DailyTask/ViewDailyTask";
 
 
 function SuperAdmin() {
@@ -186,8 +190,12 @@ function SuperAdmin() {
        <Route path="/AddCampaign" element={<AddCampaign/>}/>
        <Route path="/EditCampaign" element={<EditCampaign/>}/>
        <Route path="/ViewCampaign" element={<ViewCampaign/>}/>
+
     
-   
+   <Route path="/ListDailyTask" element={<ListDailyTask/>}/>
+   <Route path="/EditDailyTask" element={<EditDailyTask/>}/>
+   <Route path="/AddDailyTask" element={<AddDailyTask/>}/>
+   <Route path="/ViewDailyTask" element={<ViewDailyTask/>}/>
        
 
       
