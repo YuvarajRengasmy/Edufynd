@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { toast } from 'react-toastify';
 import { clearStorage } from '../Utils/storage';
 import { Link } from 'react-router-dom';
