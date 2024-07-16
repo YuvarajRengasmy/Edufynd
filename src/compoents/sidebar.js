@@ -961,7 +961,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="#"
+                  to="/ListBlog"
                     
                     className="nav-link"
                     style={{
@@ -1009,32 +1009,8 @@ const Sidebar = () => {
                     </p>
                   </Link>
                 </li>
-                {/* <li className="nav-item  ">
-                  <Link
-                  to=""
-                    href="/StudentDashBoard"
-                    className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <i
-                      className="nav-icon fas fa-user "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                   
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Student
-                    </p>
-                  </Link>
-                </li> */}
-                {/* <li className="nav-item  ">
+            
+                <li className="nav-item  ">
                   <Link
                   to=""
                     href="/AdminList"
@@ -1058,8 +1034,8 @@ const Sidebar = () => {
                       Admin
                     </p>
                   </Link>
-                </li> */}
-                {/* <li className="nav-item" style={{ position: 'relative' }}>
+                </li>
+                <li className="nav-item" style={{ position: 'relative' }}>
         <Link
         to=""
           
@@ -1084,7 +1060,7 @@ const Sidebar = () => {
             to=""  className="nav-link  text-capitalize fw-semibold">Class Schedule</Link></li>
           </ul>
         </div>
-      </li> */}
+      </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                   to="#"
@@ -1325,11 +1301,11 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/ClientModule"
+                              to="#"
                                 
                                 className="nav-link  text-capitalize fw-semibold"
                               >
-                                Status
+                               Intake
                               </Link>
                             </li>
                           
