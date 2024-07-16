@@ -98,6 +98,10 @@ import ListDailyTask from "../SuperAdmin/Marketing/DailyTask/ListDailyTask";
 import EditDailyTask from "../SuperAdmin/Marketing/DailyTask/EditDailyTask";
 import AddDailyTask from "../SuperAdmin/Marketing/DailyTask/AddDailyTask";
 import ViewDailyTask from "../SuperAdmin/Marketing/DailyTask/ViewDailyTask";
+import ListBlog from "../SuperAdmin/Blog/ListBlog";
+import AddBlog from "../SuperAdmin/Blog/AddBlog";
+import ViewBlog from "../SuperAdmin/Blog/ViewBlog";
+import EditBlog from "../SuperAdmin/Blog/EditBlog";
 
 
 function SuperAdmin() {
@@ -214,6 +218,10 @@ function SuperAdmin() {
        <Route path="/EditTestimonials" element={<EditTestimonials/>}/>
        <Route path="/ViewTestimonials" element={<ViewTestimonials/>}/>
       
+      <Route path="/ListBlog" element={<ListBlog/>}/>
+      <Route path="/AddBlog" element={<AddBlog/>}/>
+      <Route path="/EditBlog" element={<EditBlog/>}/>
+      <Route path="/ViewBlog" element={<ViewBlog/>}/>
       
 
     
