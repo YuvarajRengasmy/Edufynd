@@ -26,7 +26,6 @@ function AddCommission() {
   const initialState = {
     country: "",
     universityName: "",
-
     paymentMethod: "",
     amount: null,
     percentage: null,
