@@ -48,8 +48,9 @@ const Sidebar = () => {
           <div className="sidebar">
             <div className="user-panel mt-2  d-flex">
               <div className="info  mt-1">
-                <a
-                  href="/DashBoard"
+                <Link
+                to="/DashBoard"
+                
                   className="brand-text font-weight-light text-decoration-none"
                 >
                   <img
@@ -58,7 +59,7 @@ const Sidebar = () => {
                     className="img-fluid "
                     style={{ width: "100%" }}
                   />
-                </a>
+                </Link>
               </div>
             </div>
             <nav>
@@ -69,8 +70,9 @@ const Sidebar = () => {
                 data-accordion="false"
               >
                 <li className="nav-item mt-1 ">
-                  <a
-                    href="/"
+                  <Link
+                  to="/DashBoard"
+                   
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -89,11 +91,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Dashboard
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item  ">
-                  <a
-                    href="/client"
+                  <Link
+                  to="/client"
+                  
                     className="nav-link "
                     style={{
                       color: "#231f20",
@@ -113,11 +116,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Client
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item  ">
-                  <a
-                    href="/ListUniversity"
+                  <Link
+                  to="/ListUniversity"
+                   
                     className="nav-link "
                     style={{
                       color: "#231f20",
@@ -137,11 +141,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       University
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item  ">
-                  <a
-                    href="/ListCommission"
+                  <Link
+                  to="/ListCommission"
+                  
                     className="nav-link "
                     style={{
                       color: "#231f20",
@@ -161,11 +166,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Commission
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="/Programs"
+                  <Link
+                  to="/Programs"
+                    href=""
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -185,11 +191,11 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Program
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                   to="#"
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.users}
@@ -234,44 +240,48 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.users ? "show" : ""}`}
                     id="collapse3"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListStudent"
+                        <Link
+                        to="/ListStudent"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Students
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListStaff"
+                        <Link
+                        to="/ListStaff"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           {" "}
                           Staffs
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListAgent"
+                        <Link
+                        to="/ListAgent"
+                          href=""
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Agents
-                        </a>
+                        </Link>
                       </li>
                      
                     </ul>
                   </div>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="/ListApplication"
+                  <Link
+                  to="/ListApplication"
+                   
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -291,11 +301,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Application
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                   
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.enquiry}
@@ -337,74 +348,82 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.enquiry ? "show" : ""}`}
                     id="collapse1"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListStudentForm"
+                        <Link
+                        to="/ListStudentForm"
+                         
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Student{" "}
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListForexForm"
+                        <Link
+                        to="/ListForexForm"
+                         
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           FOREX{" "}
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListAccommodation"
+                        <Link
+                        to="/ListAccommodation"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Accommodation
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListFlightTicket"
+                        <Link
+                        to="/ListFlightTicket"
+                         
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Flight
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListLoanEnquiry"
+                        <Link
+                        to="/ListLoanEnquiry"
+                         
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Loan
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListBusinessEnquiry"
+                        <Link
+                        to="/ListBusinessEnquiry"
+                         
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Business Enquiry
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListGeneralEnquiry"
+                        <Link
+                        to="/ListGeneralEnquiry"
+                         
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           General Enquiry
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                  
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.finance}
@@ -445,58 +464,64 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.finance ? "show" : ""}`}
                     id="collapse2"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Income{" "}
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Expense
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Raise Quotations
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListInvoice"
+                        <Link
+                        to="/ListInvoice"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Raise Invoice
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Income Report
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.hrms}
@@ -537,74 +562,82 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.hrms ? "show" : ""}`}
                     id="collapse5"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Staffs
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Attendance
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Payroll
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Leave
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-uppercase fw-semibold"
                         >
                           KPI{" "}
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Policies
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Performance Report
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
@@ -645,34 +678,37 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.Projects ? "show" : ""}`}
                     id="collapse12"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Project
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Task
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
@@ -713,43 +749,47 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.Marketing ? "show" : ""}`}
                     id="collapse17"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListSocialMedia"
+                        <Link
+                        to="/ListSocialMedia"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                          Social Media
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListCampaign"
+                        <Link
+                        to="/ListCampaign"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                          Campaigns
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListDailyTask"
+                        <Link
+                        to="/ListDailyTask"
+                         
                           className="nav-link text-capitalize fw-semibold"
                         >
                          Daily Task
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
               
                 <li className="nav-item ">
-                  <a
-                    href="ListNotifications"
+                  <Link
+                  to="/ListNotifications"
+                   
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -769,11 +809,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Notifications
                     </p>
-                  </a>
+                  </Link>
                 </li>{" "}
                 <li className="nav-item ">
-                  <a
-                    href="/ListMeetings"
+                  <Link
+                  to="/ListMeetings"
+                    
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -793,11 +834,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Meetings
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="/ListTraining"
+                  <Link
+                  to="/ListTraining"
+                    
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -817,11 +859,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Training Material{" "}
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -839,11 +882,12 @@ const Sidebar = () => {
                     />{" "}
                     {/* Admin Icon */}
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>Chat</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -863,10 +907,11 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Email
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
+                  <Link
+                  to=""
                     href="ListPromotions"
                     className="nav-link"
                     style={{
@@ -887,11 +932,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Promotions
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="/ListEvents"
+                  <Link
+                  to="/ListEvents"
+                   
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -911,11 +957,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Events
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -935,11 +982,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "11px", fontWeight: "bold" }}>
                       Blogs
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
-                  <a
-                    href="/ListTestimonials"
+                  <Link
+                  to="/ListTestimonials"
+                   
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -959,10 +1007,11 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Testimonials
                     </p>
-                  </a>
+                  </Link>
                 </li>
                 {/* <li className="nav-item  ">
-                  <a
+                  <Link
+                  to=""
                     href="/StudentDashBoard"
                     className="nav-link"
                     style={{
@@ -983,10 +1032,11 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Student
                     </p>
-                  </a>
+                  </Link>
                 </li> */}
                 {/* <li className="nav-item  ">
-                  <a
+                  <Link
+                  to=""
                     href="/AdminList"
                     className="nav-link"
                     style={{
@@ -1007,11 +1057,12 @@ const Sidebar = () => {
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Admin
                     </p>
-                  </a>
+                  </Link>
                 </li> */}
                 {/* <li className="nav-item" style={{ position: 'relative' }}>
-        <a
-          href="#"
+        <Link
+        to=""
+          
           className="nav-link"
           data-bs-toggle="collapse"
           aria-expanded={isOpen.elt}
@@ -1024,17 +1075,20 @@ const Sidebar = () => {
             <p style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2 text-uppercase'> ELT</p>
           </div>
           <i className={`fa fa-angle-right ${isOpen.elt ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
-        </a>
+        </Link>
         <div className={`collapse ${isOpen.elt ? 'show' : ''}`} id="collapse4">
           <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><a href="#" className="nav-link text-capitalize fw-semibold">Booking</a></li>
-            <li className='nav-item'><a href="#" className="nav-link  text-capitalize fw-semibold">Class Schedule</a></li>
+            <li className='nav-item'><Link
+            to=""  className="nav-link text-capitalize fw-semibold">Booking</Link></li>
+            <li className='nav-item'><Link
+            to=""  className="nav-link  text-capitalize fw-semibold">Class Schedule</Link></li>
           </ul>
         </div>
       </li> */}
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.settings}
@@ -1075,15 +1129,16 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.settings ? "show" : ""}`}
                     id="collapse6"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.globalSettings}
@@ -1116,7 +1171,7 @@ const Sidebar = () => {
                               fontWeight: "bold",
                             }}
                           />
-                        </a>
+                        </Link>
                         <div
                           className={`collapse ${isOpen.globalSettings ? "show" : ""
                             }`}
@@ -1124,75 +1179,84 @@ const Sidebar = () => {
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <a
-                                href=""
+                              <Link
+                              to="#"
+                              
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 Email{" "}
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/GlobalSettings"
+                              <Link
+                              to="/GlobalSettings"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Country 
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/CurrencySettings"
+                              <Link
+                              to="/CurrencySettings"
+                               
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Currency
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/Status"
+                              <Link
+                              to="/Status"
+                                
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 Status{" "}
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/Intake"
+                              <Link
+                              to="/Intake"
+                               
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Intake
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/YearSetting"
+                              <Link
+                              to="/YearSetting"
+                              
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Year
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
+                              <Link
+                              to="#"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Privileges
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
+                              <Link
+                              to="#"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Dashboard
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         </div>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.modules}
@@ -1225,60 +1289,66 @@ const Sidebar = () => {
                               fontWeight: "bold",
                             }}
                           />
-                        </a>
+                        </Link>
                         <div
                           className={`collapse ${isOpen.modules ? "show" : ""}`}
                           id="collapse8"
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <a
-                                href="/UniversitySettings"
+                              <Link
+                              to="/UniversitySettings"
+                                
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 University
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/ProgramModule"
+                              <Link
+                              to="/ProgramModule"
+                               
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Email
-                              </a>
+                              </Link>
                             </li>
                           
                             <li className="nav-item">
-                              <a
-                                href="/ClientModule"
+                              <Link
+                              to="/ClientModule"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Status
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/ClientModule"
+                              <Link
+                              to="/ClientModule"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Status
-                              </a>
+                              </Link>
                             </li>
                           
                             <li className="nav-item">
-                              <a
-                                href="#"
+                              <Link
+                              to="#"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Custom Module
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         </div>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.privileges}
@@ -1311,7 +1381,7 @@ const Sidebar = () => {
                               fontWeight: "bold",
                             }}
                           />
-                        </a>
+                        </Link>
                         <div
                           className={`collapse ${isOpen.privileges ? "show" : ""
                             }`}
@@ -1319,36 +1389,40 @@ const Sidebar = () => {
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <a
-                                href="#"
+                              <Link
+                              to="#"
+                                
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 program
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
+                              <Link
+                              to="#"
+                                
                                 className="nav-link  text-uppercase fw-semibold"
                               >
                                 hrm
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
+                              <Link
+                              to="#"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 attendance
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
+                              <Link
+                              to="#"
+                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 payroll
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         </div>
@@ -1357,8 +1431,9 @@ const Sidebar = () => {
                   </div>
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link
+                  to="#"
+                    
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Reports}
@@ -1399,51 +1474,56 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.Reports ? "show" : ""}`}
                     id="collapse4"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Employee
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Agent
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Students
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link
+                        to="#"
+                          
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Branch
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/AdminList"
+                        <Link
+                        to="/AdminList"
+                        
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Admin
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
