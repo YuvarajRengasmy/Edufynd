@@ -41,7 +41,7 @@ function AddCommission() {
         flag: { required: false },
         clientName: { required: false },
         currency: { required: false },
-      
+
     };
 
     const [commission, setCommission] = useState(initialState);
@@ -57,9 +57,9 @@ function AddCommission() {
     const ZERO = 0;
     const pageSize = 5;
     const [pagination, setPagination] = useState({
-      count: 0,
-      from: 0,
-      to: pageSize,
+        count: 0,
+        from: 0,
+        to: pageSize,
     });
     const navigate = useNavigate();
 
@@ -82,14 +82,14 @@ function AddCommission() {
         const data = {
             limit: 10,
             page: pagination.from,
-          };
+        };
         getFilterYear(data)
             .then((res) => {
                 setYear(res?.data?.result?.yearList || []);
                 setPagination({
                     ...pagination,
                     count: res?.data?.result?.yearCount || 0,
-                  });
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -114,33 +114,33 @@ function AddCommission() {
         for (let i = 0; i < years.length; i++) {
             const year = years[i];
             const yearErrors = {};
-    
+
             if (!year.year) {
                 yearErrors.year = 'Year is required.';
             }
-    
+
             yearErrors.courseTypes = [];
             for (let j = 0; j < year.courseTypes.length; j++) {
                 const courseType = year.courseTypes[j];
                 const courseTypeErrors = {};
-    
+
                 if (!courseType.courseType) {
                     courseTypeErrors.courseType = 'Course Type is required.';
                 }
-    
+
                 if (!courseType.inTake) {
                     courseTypeErrors.inTake = 'Intake is required.';
                 }
-    
+
                 if (courseType.value === null || courseType.value === '') {
                     courseTypeErrors.value = 'Value is required.';
                 } else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
                     courseTypeErrors.value = 'Value must be a number less than 35.';
                 }
-    
+
                 yearErrors.courseTypes[j] = courseTypeErrors;
             }
-    
+
             errors[i] = yearErrors;
         }
         return errors;
@@ -165,11 +165,11 @@ function AddCommission() {
         if (!data.paymentType) {
             error.paymentType.required = true;
         }
-        if(!data.years){
+        if (!data.years) {
             error.years.required = true;
         }
-   
-          const yearValidationErrors = validateYears(data.years);
+
+        const yearValidationErrors = validateYears(data.years);
         if (yearValidationErrors.some(yearError => Object.keys(yearError).length > 0)) {
             errors.years = {
                 required: false,
@@ -198,10 +198,10 @@ function AddCommission() {
     const removeCourseType = (yearIndex, courseTypeIndex) => {
         // Create a copy of the year object from state
         const updatedYear = { ...year };
-    
+
         // Remove the courseType at the specified index
         updatedYear.courseTypes.splice(courseTypeIndex, 1);
-    
+
         // Update the state with the modified year object
         // Assuming you have a setState function to update the state
         setYear(updatedYear); // Replace setYear with your state setter function
@@ -276,23 +276,23 @@ function AddCommission() {
         const from = (page - 1) * pageSize;
         const to = (page - 1) * pageSize + pageSize;
         setPagination({ ...pagination, from: from, to: to });
-      };
+    };
 
-      const handleErrors = (obj) => {
+    const handleErrors = (obj) => {
         for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            const prop = obj[key];
-            if (prop.required === true || prop.valid === true) {
-              return false;
+            if (obj.hasOwnProperty(key)) {
+                const prop = obj[key];
+                if (prop.required === true || prop.valid === true) {
+                    return false;
+                }
             }
-          }
         }
         return true;
-      };
-    
-      const handleSubmit = (event) => {
+    };
+
+    const handleSubmit = (event) => {
         event.preventDefault();
-    
+
         // Validate the commission data
         const newError = handleValidation(commission);
         setErrors(newError);
@@ -307,13 +307,13 @@ function AddCommission() {
                     value: courseType.value,
                 })),
             }));
-    
+
             // Prepare commission data including years
             const dataToSave = {
                 ...commission,
                 years: yearsData,
             };
-    
+
             // Call API to save commission
             saveCommission(dataToSave)
                 .then((res) => {
@@ -325,7 +325,7 @@ function AddCommission() {
                 });
         }
     };
-    
+
 
     return (
         <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
@@ -334,7 +334,7 @@ function AddCommission() {
                     <Sidebar />
                 </nav>
 
-                <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
                     <div className="content-header">
                         <div className="content container-fluid">
                             <form onSubmit={handleSubmit}>
@@ -349,12 +349,13 @@ function AddCommission() {
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Country<span className="text-danger">*</span></label>
                                                         <select
-                                                            className="form-select"
+                                                            className="form-select  form-select-lg  rounded-2"
                                                             name="country"
                                                             value={commission.country}
                                                             onChange={handleCountryChange}
+                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         >
-                                                            <option value="">Select Country</option>
+                                                            <option value=""  >Select Country</option>
                                                             {countries.map((country) => (
                                                                 <option key={country._id} value={country.country}>
                                                                     {country.country}
@@ -367,10 +368,11 @@ function AddCommission() {
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>University<span className="text-danger">*</span></label>
                                                         <select
-                                                            className="form-select"
+                                                            className="form-select form-select-lg rounded-2"
                                                             name="universityName"
                                                             value={commission.universityName}
                                                             onChange={handleInputs}
+                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         >
                                                             <option value="">Select University</option>
                                                             {universities.map((uni) => (
@@ -385,10 +387,11 @@ function AddCommission() {
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Payment Method<span className="text-danger">*</span></label>
                                                         <select
-                                                            className="form-select"
+                                                            className="form-select form-select-lg rounded-2"
                                                             name="paymentMethod"
 
                                                             onChange={handleInputs}
+                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                         >
                                                             <option value="">Select Payment Type</option>
                                                             <option value="Fixed">Fixed Amount</option>
@@ -399,21 +402,22 @@ function AddCommission() {
 
                                                     </div>
                                                     <div className='row g-2'>
-                                                        { commission.paymentMethod === 'Percentage' ? (
+                                                        {commission.paymentMethod === 'Percentage' ? (
                                                             <div className='row g-2'>
                                                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                                     <label style={{ color: "#231F20" }}>Commission Paid On<span className="text-danger">*</span></label>
                                                                     <select
-                                                                        className="form-select"
+                                                                        className="form-select form-select-lg rounded-2"
                                                                         name="commissionPaidOn"
                                                                         onChange={handleInputs}
+                                                                        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                                     >
                                                                         <option value="">Select Commission Paid On</option>
                                                                         <option value="CourseFees">Course Fees</option>
                                                                         <option value="PaidFees">Paid Fees</option>
                                                                     </select>
                                                                 </div>
-                                                               
+
                                                             </div>
                                                         ) : null}
                                                     </div>
@@ -422,19 +426,19 @@ function AddCommission() {
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Eligibility<span className="text-danger">*</span></label>
-                                                        <input type="text" value={commission?.eligibility} className="form-control" placeholder="Enter Eligibility" name="eligibility" onChange={handleInputs} />
+                                                        <input type="text" value={commission?.eligibility} className="form-control rounded-2" placeholder="Enter Eligibility" name="eligibility" onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
                                                         {errors.eligibility.required && (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              )}
-                             
+                                                            <span className="text-danger form-text profile_error">
+                                                                This field is required.
+                                                            </span>
+                                                        )}
+
                                                     </div>
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Tax<span className="text-danger">*</span></label>
                                                         <select
-                                                            className='form-select rounded-2 p-2 '
+                                                            className='form-select form-select-lg rounded-2 rounded-2 p-2 '
                                                             name="tax"
                                                             onChange={handleInputs}
 
@@ -452,7 +456,7 @@ function AddCommission() {
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                                         <label style={{ color: "#231F20" }}>Client Name<span className="text-danger">*</span></label>
-                                                        <input type="text" value={commission?.clientName} className="form-control" placeholder="Enter Client Name" name="clientName" onChange={handleInputs} />
+                                                        <input type="text" value={commission?.clientName} className="form-control rounded-2" placeholder="Enter Client Name" name="clientName" onChange={handleInputs} />
                                                         {errors.clientName.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
 
@@ -464,7 +468,7 @@ function AddCommission() {
                                                             {commission.flag && (
                                                                 <Flags code={commission.flag} className="me-2" style={{ width: '40px', height: '30px' }} onChange={handleInputs} name='flag' />
                                                             )}
-                                                            <input className='form-control' type="text" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs} name='currency' value={`${commission.currency}`} readOnly />
+                                                            <input className='form-control rounded-2' type="text" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} onChange={handleInputs} name='currency' value={`${commission.currency}`} readOnly />
                                                         </div>
                                                         {errors.currency.required ? (
                                                             <div className="text-danger form-text">
@@ -475,168 +479,171 @@ function AddCommission() {
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Payment Type<span className="text-danger">*</span></label>
-                                                        <select className="form-select" value={commission?.paymentType} aria-label="Default select example" name="paymentType" onChange={handleInputs}>
+                                                        <select className="form-select form-select-lg rounded-2" value={commission?.paymentType} aria-label="Default select example" name="paymentType" onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                                                             <option value=""> select Payment Type</option>
                                                             <option value="One_Time">One Time</option>
                                                             <option value="Semester">  Semester   </option>
                                                         </select>
                                                         {errors.paymentType.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
-                                                    <div className='row g-2'>
-                                                     <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                                  
-                                                 <button
-                                                     type="button"
-                                                     className="btn text-white ml-2"
-                                                     style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                                                     onClick={addYear}
-                                                 >
-                                                     Add Year
-                                                 </button>
+                                                    <div className='row g-3'>
+                                                        <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
 
-                                                 </div>
-                                                 </div>
+                                                            <button
+                                                                type="button"
+                                                                className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
+                                                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                onClick={addYear}
+                                                            >
+                                                                <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>    Add Year
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
                                                     <div className="row g-3 mt-3">
-                                                    <div className="col-12">
-                                                    
-                                                        {years.map((year, yearIndex) => (
-                                                            <div key={yearIndex} className="year-section mb-3">
-                                                              
-                                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                                    <label style={{ color: "#231F20" }}>Year</label>
-                                                                    <select
-              style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                value={year?.year}
-                onChange={(e) => handleInputChange(yearIndex, null, 'year', e.target.value)}
-                name='year'
-                className="form-select mb-3 "
-                placeholder='Enter Year'
-              >
-                <option value="">Select Year</option>
-                {yearOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-               
-              </select>
-                                                                      
+                                                        <div className="col-12">
+
+                                                            {years.map((year, yearIndex) => (
+                                                                <div key={yearIndex} className="year-section mb-3">
+
+                                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                                        <label style={{ color: "#231F20" }}>Year</label>
+                                                                        <select
+                                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                                                            value={year?.year}
+                                                                            onChange={(e) => handleInputChange(yearIndex, null, 'year', e.target.value)}
+                                                                            name='year'
+                                                                            className="form-select form-select-lg rounded-2 mb-3 "
+                                                                            placeholder='Enter Year'
+                                                                        >
+                                                                            <option value="">Select Year</option>
+                                                                            {yearOptions.map((option) => (
+                                                                                <option key={option.value} value={option.value}>
+                                                                                    {option.label}
+                                                                                </option>
+                                                                            ))}
+
+                                                                        </select>
+
                                                                     </div>
                                                                     <div >
-                                                                    <div>
-                                                                    {year?.courseTypes && year?.courseTypes.map((courseType, courseTypeIndex) => (
-                                                                        <div className='row g-3' key={courseTypeIndex} >
-                                                                         
-                                                                         <div className=' col-xl-4 col-lg-6 col-md-6 col-sm-12' >
-                                                                            <label style={{ color: "#231F20" }}>Course Type</label>
-                                                                            <select
-                                                                                className="form-select"
-                                                                                value={courseType.courseType}
-                                                                                onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'courseType', e.target.value)}
-                                                                            >
-                                                                                <option value="">Select Course Type</option>
+                                                                        <div>
+                                                                            {year?.courseTypes && year?.courseTypes.map((courseType, courseTypeIndex) => (
+                                                                                <div className='row g-3' key={courseTypeIndex} >
 
-                                                                                {(universities.find(uni => uni.universityName === commission.universityName)?.courseType || []).map((type, idx) => (
-                                                                                    <option key={idx} value={type}>
-                                                                                        {type}
-                                                                                    </option>
-                                                                                ))}
-                                                                            </select>
-                                                                            </div>
-                                                                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'  >
-                                                                            <label style={{ color: "#231F20" }}>inTake</label>
-                                                                            <select
-                                                                                className="form-select"
-                                                                                value={courseType.inTake}
-                                                                                onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'inTake', e.target.value)}
-                                                                            >
-                                                                                <option value="">Select inTake</option>
+                                                                                    <div className=' col-xl-4 col-lg-6 col-md-6 col-sm-12' >
+                                                                                        <label style={{ color: "#231F20" }}>Course Type</label>
+                                                                                        <select
+                                                                                            className="form-select form-select-lg rounded-2"
+                                                                                            value={courseType.courseType}
+                                                                                            onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'courseType', e.target.value)}
+                                                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                                        >
+                                                                                            <option value="">Select Course Type</option>
 
-                                                                                {(universities.find(uni => uni.universityName === commission.universityName)?.inTake || []).map((type, idx) => (
-                                                                                    <option key={idx} value={type}>
-                                                                                        {type}
-                                                                                    </option>
-                                                                                ))}
-                                                                            </select>
+                                                                                            {(universities.find(uni => uni.universityName === commission.universityName)?.courseType || []).map((type, idx) => (
+                                                                                                <option key={idx} value={type}>
+                                                                                                    {type}
+                                                                                                </option>
+                                                                                            ))}
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'  >
+                                                                                        <label style={{ color: "#231F20" }}>InTake</label>
+                                                                                        <select
+                                                                                            className="form-select form-select-lg rounded-2"
+                                                                                            value={courseType.inTake}
+                                                                                            onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'inTake', e.target.value)}
+                                                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                                        >
+                                                                                            <option value="">Select InTake</option>
+
+                                                                                            {(universities.find(uni => uni.universityName === commission.universityName)?.inTake || []).map((type, idx) => (
+                                                                                                <option key={idx} value={type}>
+                                                                                                    {type}
+                                                                                                </option>
+                                                                                            ))}
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'  >
+                                                                                        <label style={{ color: "#231F20" }}>Value</label>
+                                                                                        <input
+                                                                                            className="form-control rounded-2"
+                                                                                            type="text"
+                                                                                            name='value'
+                                                                                            placeholder="Enter Value"
+                                                                                            value={courseType.value}
+                                                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                                            onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'value', e.target.value)}
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div className='add-customer-btns mb-40 d-flex justify-content-end ml-auto'>
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="btn btn-sm text-bg-danger text-white ml-2 mb-3"
+                                                                                            onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
+                                                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                                        >
+                                                                                            <FaTrash />
+                                                                                        </button>
+                                                                                    </div>
+
+
+
+
+                                                                                </div>
+                                                                            ))}
+                                                                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn text-uppercase px-4 py-2 fw-semibold  text-white ml-2"
+                                                                                    onClick={() => addCourseType(yearIndex)}
+                                                                                    style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                                >
+                                                                                    <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>   Add Course
+                                                                                </button>
                                                                             </div>
-                                                                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'  >
-                                                                            <label style={{ color: "#231F20" }}>value</label>
-                                                                            <input
-                                                                                className="form-control"
-                                                                                type="text"
-                                                                                name='value'
-                                                                                placeholder="Value"
-                                                                                value={courseType.value}
-                                                                                onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'value', e.target.value)}
-                                                                            />
-                                                                            </div>
-                                                                           
-                                                                            <div className='add-customer-btns mb-40 d-flex justify-content-end ml-auto'>
-                        <button
-                            type="button"
-                            className="btn text-white ml-2 mb-3"
-                            onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
-                            style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                        >
-                         <FaTrash />
-                        </button>
-                    </div>
-                                                          
-                                                                     
-                                                                       
-                                                                   
-                                                                </div>
-                                                                     ))}
-                                                                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                <button
-                    type="button"
-                    className="btn text-white ml-2"
-                    onClick={() => addCourseType(yearIndex)}
-                    style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                >
-                    Add Course
-                </button>
-            </div>
-                                                                     
+
+                                                                        </div>
                                                                     </div>
-                                                            </div>
-                                                          
-                                                           
-                                                    </div>
-                                                    
-                                                        ))}
 
 
+                                                                </div>
+
+                                                            ))}
+
+
+                                                        </div>
                                                     </div>
-                                                </div>
 
 
                                                 </div>
 
 
                                                 <div className='row g-2'>
-                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                              <Link
+                                                    <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                                                        <Link
 
-                                to="/ListCommission"
-                                style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                              >
-                                Cancel
-                              </Link>
-                              <button
+                                                           type='reset'
+                                                            style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                                                        >
+                                                            Cancel
+                                                        </Link>
+                                                        <button
 
-                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                                            style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
 
-                                type="submit"
-                                className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
-                              >
-                                Submit
-                              </button>
-                            </div>
+                                                            type="submit"
+                                                            className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                                                        >
+                                                            Submit
+                                                        </button>
+                                                    </div>
 
 
-                          </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
