@@ -156,35 +156,69 @@ function AddCommission() {
 
     return error;
   };
+  // const addYear = () => {
+  //   const newYear = {
+  //     year: "",
+  //     courseTypes: [{ courseType: "", intake: "", value: null }],
+  //   };
+  //   setYears([...years, newYear]);
+  // };
+ 
   const addYear = () => {
     const newYear = {
-      year: "",
-      courseTypes: [{ courseType: "", intake: "", value: null }],
+      year: '',
+      courseTypes: [
+        {
+          courseType: '',
+          inTake: '',
+          value: '',
+        },
+      ],
     };
-    setYears([...years, newYear]);
+    setCommission(prevCommission => ({
+      ...prevCommission,
+      years: [...(prevCommission.years || []), newYear],
+    }));
   };
+  
+  // const addCourseType = (yearIndex) => {
+  //   const updatedYears = [...years];
+  //   updatedYears[yearIndex].courseTypes.push({
+  //     courseType: "",
+  //     intake: "",
+  //     value: null,
+  //   });
+  //   setYears(updatedYears);
+  // };
 
   const addCourseType = (yearIndex) => {
-    const updatedYears = [...years];
-    updatedYears[yearIndex].courseTypes.push({
-      courseType: "",
-      intake: "",
-      value: null,
+    const newCourseType = {
+      courseType: '',
+      inTake: '',
+      value: '',
+    };
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.push(newCourseType);
+    setCommission({
+      ...commission,
+      years: updatedYears,
     });
-    setYears(updatedYears);
   };
+  
+
+ 
+  
+  
 
   const removeCourseType = (yearIndex, courseTypeIndex) => {
-    // Create a copy of the year object from state
-    const updatedYear = { ...year };
-
-    // Remove the courseType at the specified index
-    updatedYear.courseTypes.splice(courseTypeIndex, 1);
-
-    // Update the state with the modified year object
-    // Assuming you have a setState function to update the state
-    setYear(updatedYear); // Replace setYear with your state setter function
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+    setCommission({
+      ...commission,
+      years: updatedYears,
+    });
   };
+  
   const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
     const updatedYears = [...years];
     if (courseTypeIndex !== null) {
@@ -194,6 +228,9 @@ function AddCommission() {
     }
     setYears(updatedYears);
   };
+
+
+  
   const yearOptions = year.map((data) => ({
     value: data.year,
     label: data.year,
@@ -718,6 +755,10 @@ function AddCommission() {
     </div>
   </div>
 ))}
+
+
+
+
 
                             </div>
                           </div>
