@@ -176,14 +176,14 @@ const Register = () => {
                         style={{ fontSize: '1rem' }} >
                         Student
                       </button>
-                     {/* <button
+                     <button
                         className={`btn rounded-5 border-0  fw-bold ${type === 'superAdmin' ? 'active bg-white  text-success signup-button' : ''}`}
                         type="button"
                         aria-selected="false"
                         role='tab' onClick={() => handleSinUpType('superAdmin')}
                         style={{ fontSize: '1rem' }}>
                       SAdmin
-                      </button>  */}
+                      </button> 
                       <button
                         className={`btn rounded-5 border-0 text-white  fw-semibold ${type === 'agent' ? 'active bg-success bg-gradient px-2 py-1 text-dark signup-button' : ''}`}
                         type="button"
