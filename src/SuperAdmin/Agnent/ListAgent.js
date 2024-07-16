@@ -3,7 +3,7 @@ import Sortable from 'sortablejs';
 import { getallAgent, deleteAgent, getFilterAgent } from "../../api/agent";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-
+import { formatDate } from "../../Utils/DateFormat";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -545,7 +545,7 @@ export default function Masterproductlist() {
                         <thead className="table-light">
                           <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
-                            <th className="text-capitalize text-start sortable-handle">Source</th>
+                      
                             <th className="text-capitalize text-start sortable-handle">Agent Name</th>
                             <th className="text-capitalize text-start sortable-handle">Agent Code</th>
                             <th className="text-capitalize text-start sortable-handle">Email</th>
@@ -559,14 +559,15 @@ export default function Masterproductlist() {
                           {agent?.map((data, index) => (
                             <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                               <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                              <td></td>
+                        
                               <td className="text-capitalize text-start">{data?.agentName}</td>
                               <td className="text-capitalize text-start">{data?.agentCode}</td>
 
                               <td className="text-capitalize text-start">{data?.email}</td>
                               <td className="text-capitalize text-start">{data?.mobileNumber}</td>
                               <td className="text-capitalize text-start">{data?.status}</td>
-                              <td className="text-capitalize text-start">{data?.createdBy}</td>
+                              <td className="text-capitalize text-start">{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)}</td>
+
                               <td>
                                 <div className="d-flex">
                                   <Link
