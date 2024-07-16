@@ -20,6 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function AddAgent() {
   const initialState = {
+    
     businessName: "",
     agentName: "",
     addressLine1: "",

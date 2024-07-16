@@ -11,6 +11,7 @@ export const getallCommission = () => {
 export const getFilterCommission = (data) => {
   return API.put(`${CommissionPage}/getUniversityFilterCommission`, data);
 };
+
 export const getSingleCommission = (data) => {
     return API.get(`${CommissionPage}/getSingleCommission`, { params: { _id: data } });
   };

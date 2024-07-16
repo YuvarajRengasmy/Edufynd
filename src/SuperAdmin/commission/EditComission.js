@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   IconButton,
   Pagination,
 } from "@mui/material";
-import { saveCommission } from "../../api/commission";
+import { updatedCommission,getSingleCommission } from "../../api/commission";
 import { getallCurrency } from "../../api/currency";
 import { getFilterYear } from "../../api/year";
 import { getallTaxModule } from "../../api/universityModule/tax";
@@ -17,9 +17,12 @@ import { getUniversitiesByCountry } from "../../api/university";
 import Flags from "react-world-flags";
 
 import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
 
 function AddCommission() {
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
   const initialState = {
     country: "",
     universityName: "",
@@ -82,6 +85,7 @@ function AddCommission() {
     getAllCurrencyDetails();
     getAllTaxDetails();
     getAllYearDetails();
+    getEditCommissionDetails();
   }, [pagination.from, pagination.to]);
 
   const getAllCurrencyDetails = () => {
@@ -120,7 +124,15 @@ function AddCommission() {
         console.log(err);
       });
   };
-
+  const getEditCommissionDetails = () => {
+    getSingleCommission (id)
+        .then((res) => {
+            setCommission(res?.data?.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (!data.country) {
@@ -290,7 +302,7 @@ function AddCommission() {
       };
 
       // Call API to save commission
-      saveCommission(dataToSave)
+      updatedCommission(dataToSave)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListCommission");
@@ -335,6 +347,7 @@ function AddCommission() {
                             <select
                               className="form-select"
                               name="country"
+                              
                               value={commission.country}
                               onChange={handleCountryChange}
                             >
@@ -389,6 +402,7 @@ function AddCommission() {
                             </label>
                             <select
                               className="form-select"
+                              value={commission?.paymentMethod}
                               name="paymentMethod"
                               onChange={handleInputs}
                             >
@@ -403,20 +417,7 @@ function AddCommission() {
                             ) : null}
                           </div>
                           <div className="row g-2">
-                            {commission.paymentMethod === "Fixed" ? (
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Fixed Amount
-                                </label>
-                                <input
-                                  name="amount"
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="Enter Amount"
-                                  onChange={handleInputs}
-                                />
-                              </div>
-                            ) : commission.paymentMethod === "Percentage" ? (
+                            { commission.paymentMethod === "Percentage" ? (
                               <div className="row g-2">
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
@@ -427,8 +428,9 @@ function AddCommission() {
                                     className="form-select"
                                     name="commissionPaidOn"
                                     onChange={handleInputs}
+                                    value={commission?.commissionPaidOn}
                                   >
-                                    <option value="">
+                                    <option value="PaidFees">
                                       Select Commission Paid On
                                     </option>
                                     <option value="CourseFees">
@@ -437,18 +439,7 @@ function AddCommission() {
                                     <option value="PaidFees">Paid Fees</option>
                                   </select>
                                 </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Course Fees Percentage
-                                  </label>
-                                  <input
-                                    name="percentage"
-                                    className="form-control"
-                                    type="number"
-                                    placeholder="Enter Percentage"
-                                    onChange={handleInputs}
-                                  />
-                                </div>
+                              
                               </div>
                             ) : null}
                           </div>
@@ -480,6 +471,7 @@ function AddCommission() {
                               className="form-select rounded-2 p-2 "
                               name="tax"
                               onChange={handleInputs}
+                              value={commission?.tax}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -608,7 +600,7 @@ function AddCommission() {
                                         fontFamily: "Plus Jakarta Sans",
                                         fontSize: "14px",
                                       }}
-                                      value={year?.year}
+                                      value={commission?.years?.year }
                                       onChange={(e) =>
                                         handleInputChange(
                                           yearIndex,
