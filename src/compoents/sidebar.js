@@ -1282,7 +1282,16 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/ProgramModule"
+                              to="/CourseType"
+                               
+                                className="nav-link  text-capitalize fw-semibold"
+                              >
+                               Course Type
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                              to="#"
                                
                                 className="nav-link  text-capitalize fw-semibold"
                               >

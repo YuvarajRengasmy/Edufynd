@@ -140,7 +140,7 @@ function SuperAdmin() {
           <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
           <Route path="/CurrencySettings" element={<CurrencySettings/>}/>
           <Route path="/UniversitySettings" element={<UniversitySettings/>}/>
-          <Route path="/ProgramModule" element={<ProgramModule/>}/>
+          <Route path="/CourseType" element={<ProgramModule/>}/>
           <Route path="/ClientModule" element={<ClientModule/>}/>
           <Route path="/Status" element={<Status/>}/>
           <Route path="/Intake" element={<Intake/>}/>
