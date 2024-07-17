@@ -25,6 +25,7 @@
     "crypto-js": "^4.2.0",
     "currency-formatter": "^1.5.9",
     "draft-js": "^0.11.7",
+    "dropzone": "^6.0.0-beta.2",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "http-proxy-middleware": "^3.0.0",
