@@ -1305,7 +1305,7 @@ const Sidebar = () => {
                                 
                                 className="nav-link  text-capitalize fw-semibold"
                               >
-                                Status
+                                Client
                               </Link>
                             </li>
                             <li className="nav-item">
