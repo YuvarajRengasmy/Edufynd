@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ function AddAgent() {
     const [inputs, setInputs] = useState(initialState)
     const [errors, setErrors] = useState(initialStateErrors)
     const [submitted, setSubmitted] = useState(false);
-    const [type, setType] = useState('admin');
+    // const [type, setType] = useState('admin');
 
 
     const navigate = useNavigate()

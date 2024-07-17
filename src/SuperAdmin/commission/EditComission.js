@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-} from "@mui/material";
+
 import { updatedCommission,getSingleCommission } from "../../api/commission";
 import { getallCurrency } from "../../api/currency";
 import { getFilterYear } from "../../api/year";
@@ -69,9 +63,6 @@ function AddCommission() {
   const [universities, setUniversities] = useState([]);
   const [years, setYears] = useState([]);
   const [year, setYear] = useState([]);
-  const [currency, setCurrency] = useState([]);
-  const [filteredUniversities, setFilteredUniversities] = useState([]);
-  const ZERO = 0;
   const pageSize = 5;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -304,11 +295,11 @@ function AddCommission() {
     }
   };
 
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
-  };
+  // const handlePageChange = (event, page) => {
+  //   const from = (page - 1) * pageSize;
+  //   const to = (page - 1) * pageSize + pageSize;
+  //   setPagination({ ...pagination, from: from, to: to });
+  // };
   const handleSubmit = (event) => {
     event.preventDefault();
 

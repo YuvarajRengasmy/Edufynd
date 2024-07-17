@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Header from "./HeaderHome";
 import Footer from "../../compoents/Footer";
 import { CiSearch } from 'react-icons/ci';
@@ -76,7 +76,7 @@ export default function Event() {
             <div className="row g-5">
               <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style={{ minHeight: 400 }}>
                 <div className="position-relative h-100">
-                  <img className="img-fluid position-absolute w-100 h-100" src="https://themewagon.github.io/elearning/img/about.jpg" alt style={{ objectFit: 'cover' }} />
+                  <img className="img-fluid position-absolute w-100 h-100" src="https://themewagon.github.io/elearning/img/about.jpg" alt='#' style={{ objectFit: 'cover' }} />
                 </div>
               </div>
               <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -104,7 +104,7 @@ export default function Event() {
                     <p className="mb-0"><i className="fa fa-arrow-right  me-2" style={{color:"#fe5722"}} />International Certificate</p>
                   </div>
                 </div>
-                <a className="btn text-white py-2 px-3 mt-2 border-0 rounded-2" href="#" style={{backgroundColor:"#fe5722"}}>Read More</a>
+                <a href="#" className="btn text-white py-2 px-3 mt-2 border-0 rounded-2"   style={{backgroundColor:"#fe5722"}} >Read More</a>
               </div>
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function Event() {
               <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div className="team-item bg-light">
                   <div className="overflow-hidden">
-                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt />
+                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt="#" />
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
                     <div className="bg-light d-flex justify-content-center pt-2 px-1">
@@ -137,7 +137,7 @@ export default function Event() {
               <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div className="team-item bg-light">
                   <div className="overflow-hidden">
-                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt />
+                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt="#" />
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
                   <div className="bg-light d-flex justify-content-center pt-2 px-1">
@@ -155,7 +155,7 @@ export default function Event() {
               <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div className="team-item bg-light">
                   <div className="overflow-hidden">
-                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt />
+                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt="#" />
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
                   <div className="bg-light d-flex justify-content-center pt-2 px-1">
@@ -173,7 +173,7 @@ export default function Event() {
               <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                 <div className="team-item bg-light">
                   <div className="overflow-hidden">
-                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt />
+                    <img className="img-fluid" src="https://themewagon.github.io/elearning/img/team-1.jpg" alt="#" />
                   </div>
                   <div className="position-relative d-flex justify-content-center" style={{ marginTop: '-23px' }}>
                   <div className="bg-light d-flex justify-content-center pt-2 px-1">

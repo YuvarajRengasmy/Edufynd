@@ -1,6 +1,6 @@
 import React from 'react'
 import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
+
 import { RichTextEditor } from '@mantine/rte';
 export const EditBlog = () => {
   return (
@@ -22,7 +22,7 @@ export const EditBlog = () => {
         <h5 className='text-center text-capitalize p-1'> Edit Blog Details</h5>
         </div>
         <div className="card-body mt-5">
-        <div className='text-end'><a className='btn text-uppercase fw-semibold px-4 py-2  ' style={{backgroundColor:'#fe5722',color:'#fff',fontSize:'12px'}}>
+        <div className='text-end'><a href="/ViewBlog" className='btn text-uppercase fw-semibold px-4 py-2' style={{backgroundColor:'#fe5722',color:'#fff',fontSize:'12px'}}>
 
 
         <i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Add Tags</a></div>
