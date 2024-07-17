@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from "../../compoents/sidebar";
-export const ViewMarketing = () => {
+
+export const ViewBlog  = () => {
   return (
     <>  <div  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
     <div class="container-fluid">
@@ -19,76 +20,36 @@ export const ViewMarketing = () => {
                   
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
         <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-        <h5 className='text-center text-capitalize p-1'>View Marketing Details</h5>
+        <h5 className='text-center text-capitalize p-1'>View Blog Details</h5>
         </div>
               <div className="card-body">
               <table className='table table-hover table-bordered table-striped-columns mt-5'  style={{ fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
 <tbody >
   <tr>
-    <td>Client ID </td>
-    <td>John Doe</td>
+    <td>Title </td>
+    <td>Title</td>
   </tr>
   <tr>
-    <td>Type of client </td>
-    <td>+1234567890</td>
+    <td>Introduction </td>
+    <td>Introduction</td>
   </tr>
   <tr>
-    <td>Business Name</td>
-    <td>+0987654321</td>
+    <td>Content1</td>
+    <td>Content1</td>
   </tr>
   <tr>
-    <td>Business Mail ID</td>
-    <td>john.doe@example.com</td>
+    <td>Content2</td>
+    <td>Content2</td>
   </tr>
   <tr>
-    <td>Business Contact No</td>
-    <td>Yes</td>
+    <td>Content3</td>
+    <td>Content3</td>
   </tr>
   <tr>
-    <td>Website</td>
-    <td>$50,000</td>
+    <td>Tags</td>
+    <td>Tags</td>
   </tr>
-  <tr>
-    <td>Staff Name</td>
-    <td>$3,000</td>
-  </tr>
-  <tr>
-    <td>Staff Contact No</td>
-    <td>A12345678</td>
-  </tr>
-  <tr>
-    <td>Staff Email ID</td>
-    <td>No</td>
-  </tr>
-  <tr>
-    <td>Address</td>
-    <td>Jane Doe</td>
-  </tr>
-  <tr>
-    <td>GSTN</td>
-    <td>45</td>
-  </tr>
-  <tr>
-    <td>Status</td>
-    <td>Employed</td>
-  </tr>
-
-  <tr>
-    <td>Passport Document</td>
-    <td>
-      <a href="path/to/passport.pdf" download="PassportDocument.pdf" class="btn btn-sm btn-custom">
-        <i class="fa fa-download" aria-hidden="true"></i> Download
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>Offer Letter</td>
-    <td>
-      <a href="path/to/offerletter.pdf" download="OfferLetter.pdf" class="btn btn-sm btn-custom">
-        <i class="fa fa-download" aria-hidden="true"></i> Download
-      </a>
-    </td>
-  </tr>
+ 
 </tbody>
 </table>
                     </div>
@@ -103,4 +64,4 @@ export const ViewMarketing = () => {
 </div></>
   )
 }
-export default ViewMarketing
+export default ViewBlog

@@ -46,60 +46,8 @@ export const ViewForex = () => {
                           <td>{forex.forexID}</td>
                         </tr>
                         <tr>
-                          <td className='fw-bold'>Student Name</td>
-                          <td>{forex.studentName}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Country</td>
-                          <td>{forex.country}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Flag</td>
-                          <td><Flags code={forex.flag} className="me-2" name="flag" style={{ width: '40px', height: '30px' }} /></td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Currency</td>
-                          <td>{forex.currency}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>University Name</td>
-                          <td>{forex.universityName}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Passport No</td>
-                          <td>{forex.passportNo}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Email ID</td>
-                          <td>{forex.email}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Primary Number</td>
-                          <td>{forex.primaryNumber}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>WhatsApp Number</td>
-                          <td>{forex.whatsAppNumber}</td>
-                        </tr>
-                        <tr>
                           <td className='fw-bold'>Source</td>
                           <td>{forex.source}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Payment Type</td>
-                          <td>{forex.paymentType}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Amount In Currency</td>
-                          <td>{forex.amountInCurrency}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Assigned To</td>
-                          <td>{forex.assignedTo}</td>
-                        </tr>
-                        <tr>
-                          <td className='fw-bold'>Status</td>
-                          <td>{forex.status ? forex.status : "-"}</td>
                         </tr>
                         <tr>
                           <td className='fw-bold'>Agent Name</td>
@@ -121,6 +69,80 @@ export const ViewForex = () => {
                           <td className='fw-bold'>Agent Email</td>
                           <td>{forex.agentEmail}</td>
                         </tr>
+                        <tr>
+                          <td className='fw-bold'>Student Name</td>
+                          <td>{forex.studentName}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Passport No</td>
+                          <td>{forex.passportNo}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Expiry Date</td>
+                          <td>Expiry Date</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Email ID</td>
+                          <td>{forex.email}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Primary Number</td>
+                          <td>{forex.primaryNumber}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>WhatsApp Number</td>
+                          <td>{forex.whatsAppNumber}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>University Name</td>
+                          <td>{forex.universityName}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Course</td>
+                          <td>Course</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Payment Type</td>
+                          <td>{forex.paymentType}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Country</td>
+                          <td>{forex.country}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Flag</td>
+                          <td><Flags code={forex.flag} className="me-2" name="flag" style={{ width: '40px', height: '30px' }} /></td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Currency</td>
+                          <td>{forex.currency}</td>
+                        </tr>
+                      
+                      
+                    
+                      
+                      
+                        <tr>
+                          <td className='fw-bold'>Amount In Currency</td>
+                          <td>{forex.amountInCurrency}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Assigned To</td>
+                          <td>{forex.assignedTo}</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Mark up</td>
+                          <td>Mark up</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Profit (Value*Mark up)</td>
+                          <td>Profit (Value*Mark up)</td>
+                        </tr>
+                        <tr>
+                          <td className='fw-bold'>Status</td>
+                          <td>{forex.status ? forex.status : "-"}</td>
+                        </tr>
+                      
                       </tbody>
                     </table>
                   ) : (

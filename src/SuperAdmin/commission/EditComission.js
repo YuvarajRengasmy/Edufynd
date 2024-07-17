@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-} from "@mui/material";
-import { saveCommission } from "../../api/commission";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
+import { updatedCommission,getSingleCommission } from "../../api/commission";
 import { getallCurrency } from "../../api/currency";
 import { getFilterYear } from "../../api/year";
 import { getallTaxModule } from "../../api/universityModule/tax";
@@ -17,13 +11,15 @@ import { getUniversitiesByCountry } from "../../api/university";
 import Flags from "react-world-flags";
 
 import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
 
 function AddCommission() {
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
   const initialState = {
     country: "",
     universityName: "",
-
     paymentMethod: "",
     amount: null,
     percentage: null,
@@ -67,9 +63,6 @@ function AddCommission() {
   const [universities, setUniversities] = useState([]);
   const [years, setYears] = useState([]);
   const [year, setYear] = useState([]);
-  const [currency, setCurrency] = useState([]);
-  const [filteredUniversities, setFilteredUniversities] = useState([]);
-  const ZERO = 0;
   const pageSize = 5;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -82,6 +75,7 @@ function AddCommission() {
     getAllCurrencyDetails();
     getAllTaxDetails();
     getAllYearDetails();
+    getEditCommissionDetails();
   }, [pagination.from, pagination.to]);
 
   const getAllCurrencyDetails = () => {
@@ -120,7 +114,16 @@ function AddCommission() {
         console.log(err);
       });
   };
-
+  const getEditCommissionDetails = () => {
+    getSingleCommission (id)
+        .then((res) => {
+            console.log(res?.data?.result);
+            setCommission(res?.data?.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (!data.country) {
@@ -144,35 +147,69 @@ function AddCommission() {
 
     return error;
   };
+  // const addYear = () => {
+  //   const newYear = {
+  //     year: "",
+  //     courseTypes: [{ courseType: "", intake: "", value: null }],
+  //   };
+  //   setYears([...years, newYear]);
+  // };
+ 
   const addYear = () => {
     const newYear = {
-      year: "",
-      courseTypes: [{ courseType: "", intake: "", value: null }],
+      year: '',
+      courseTypes: [
+        {
+          courseType: '',
+          inTake: '',
+          value: '',
+        },
+      ],
     };
-    setYears([...years, newYear]);
+    setCommission(prevCommission => ({
+      ...prevCommission,
+      years: [...(prevCommission.years || []), newYear],
+    }));
   };
+  
+  // const addCourseType = (yearIndex) => {
+  //   const updatedYears = [...years];
+  //   updatedYears[yearIndex].courseTypes.push({
+  //     courseType: "",
+  //     intake: "",
+  //     value: null,
+  //   });
+  //   setYears(updatedYears);
+  // };
 
   const addCourseType = (yearIndex) => {
-    const updatedYears = [...years];
-    updatedYears[yearIndex].courseTypes.push({
-      courseType: "",
-      intake: "",
-      value: null,
+    const newCourseType = {
+      courseType: '',
+      inTake: '',
+      value: '',
+    };
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.push(newCourseType);
+    setCommission({
+      ...commission,
+      years: updatedYears,
     });
-    setYears(updatedYears);
   };
+  
+
+ 
+  
+  
 
   const removeCourseType = (yearIndex, courseTypeIndex) => {
-    // Create a copy of the year object from state
-    const updatedYear = { ...year };
-
-    // Remove the courseType at the specified index
-    updatedYear.courseTypes.splice(courseTypeIndex, 1);
-
-    // Update the state with the modified year object
-    // Assuming you have a setState function to update the state
-    setYear(updatedYear); // Replace setYear with your state setter function
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+    setCommission({
+      ...commission,
+      years: updatedYears,
+    });
   };
+  
   const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
     const updatedYears = [...years];
     if (courseTypeIndex !== null) {
@@ -182,6 +219,9 @@ function AddCommission() {
     }
     setYears(updatedYears);
   };
+
+
+  
   const yearOptions = year.map((data) => ({
     value: data.year,
     label: data.year,
@@ -255,11 +295,11 @@ function AddCommission() {
     }
   };
 
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
-  };
+  // const handlePageChange = (event, page) => {
+  //   const from = (page - 1) * pageSize;
+  //   const to = (page - 1) * pageSize + pageSize;
+  //   setPagination({ ...pagination, from: from, to: to });
+  // };
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -290,7 +330,7 @@ function AddCommission() {
       };
 
       // Call API to save commission
-      saveCommission(dataToSave)
+      updatedCommission(dataToSave)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListCommission");
@@ -335,6 +375,7 @@ function AddCommission() {
                             <select
                               className="form-select"
                               name="country"
+                              
                               value={commission.country}
                               onChange={handleCountryChange}
                             >
@@ -365,7 +406,7 @@ function AddCommission() {
                               value={commission.universityName}
                               onChange={handleInputs}
                             >
-                              <option value="">Select University</option>
+                              <option value="">{commission.universityName}</option>
                               {universities.map((uni) => (
                                 <option
                                   key={uni._id}
@@ -389,6 +430,7 @@ function AddCommission() {
                             </label>
                             <select
                               className="form-select"
+                              value={commission?.paymentMethod}
                               name="paymentMethod"
                               onChange={handleInputs}
                             >
@@ -403,20 +445,7 @@ function AddCommission() {
                             ) : null}
                           </div>
                           <div className="row g-2">
-                            {commission.paymentMethod === "Fixed" ? (
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Fixed Amount
-                                </label>
-                                <input
-                                  name="amount"
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="Enter Amount"
-                                  onChange={handleInputs}
-                                />
-                              </div>
-                            ) : commission.paymentMethod === "Percentage" ? (
+                            { commission.paymentMethod === "Percentage" ? (
                               <div className="row g-2">
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
@@ -427,8 +456,9 @@ function AddCommission() {
                                     className="form-select"
                                     name="commissionPaidOn"
                                     onChange={handleInputs}
+                                    value={commission?.commissionPaidOn}
                                   >
-                                    <option value="">
+                                    <option value="PaidFees">
                                       Select Commission Paid On
                                     </option>
                                     <option value="CourseFees">
@@ -437,18 +467,7 @@ function AddCommission() {
                                     <option value="PaidFees">Paid Fees</option>
                                   </select>
                                 </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Course Fees Percentage
-                                  </label>
-                                  <input
-                                    name="percentage"
-                                    className="form-control"
-                                    type="number"
-                                    placeholder="Enter Percentage"
-                                    onChange={handleInputs}
-                                  />
-                                </div>
+                              
                               </div>
                             ) : null}
                           </div>
@@ -480,6 +499,7 @@ function AddCommission() {
                               className="form-select rounded-2 p-2 "
                               name="tax"
                               onChange={handleInputs}
+                              value={commission?.tax}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -593,196 +613,144 @@ function AddCommission() {
                           </div>
                           <div className="row g-3 mt-3">
                             <div className="col-12">
-                              {years.map((year, yearIndex) => (
-                                <div
-                                  key={yearIndex}
-                                  className="year-section mb-3"
-                                >
-                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>
-                                      Year
-                                    </label>
-                                    <select
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "14px",
-                                      }}
-                                      value={year?.year}
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          yearIndex,
-                                          null,
-                                          "year",
-                                          e.target.value
-                                        )
-                                      }
-                                      name="year"
-                                      className="form-select mb-3 "
-                                      placeholder="Enter Year"
-                                    >
-                                      <option value="">Select Year</option>
-                                      {yearOptions.map((option) => (
-                                        <option
-                                          key={option.value}
-                                          value={option.value}
-                                        >
-                                          {option.label}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
-                                  <div>
-                                    <div>
-                                      {year?.courseTypes &&
-                                        year?.courseTypes.map(
-                                          (courseType, courseTypeIndex) => (
-                                            <div
-                                              className="row g-3"
-                                              key={courseTypeIndex}
-                                            >
-                                              <div className=" col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  Course Type
-                                                </label>
-                                                <select
-                                                  className="form-select"
-                                                  value={courseType.courseType}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "courseType",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select Course Type
-                                                  </option>
+                            {commission?.years && commission?.years?.map((year, yearIndex) => (
+  <div key={yearIndex} className="year-section mb-3">
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <label style={{ color: "#231F20" }}>Year</label>
+      <select
+        style={{
+          backgroundColor: "#fff",
+          fontFamily: "Plus Jakarta Sans",
+          fontSize: "14px",
+        }}
+        value={year.year}  // Changed this line
+        onChange={(e) =>
+          handleInputChange(yearIndex, null, "year", e.target.value)
+        }
+        name="year"
+        className="form-select mb-3"
+        placeholder="Enter Year"
+      >
+        <option value="">Select Year</option>
+        {yearOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+    <div>
+      {year?.courseTypes &&
+        year?.courseTypes.map((courseType, courseTypeIndex) => (
+          <div className="row g-3" key={courseTypeIndex}>
+            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label style={{ color: "#231F20" }}>Course Type</label>
+              <select
+                className="form-select"
+                value={courseType.courseType}
+                onChange={(e) =>
+                  handleInputChange(
+                    yearIndex,
+                    courseTypeIndex,
+                    "courseType",
+                    e.target.value
+                  )
+                }
+              >
+                <option value="">{courseType.courseType}</option>
+                {(
+                  universities.find(
+                    (uni) => uni.universityName === commission.universityName
+                  )?.courseType || []
+                ).map((type, idx) => (
+                  <option key={idx} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label style={{ color: "#231F20" }}>inTake</label>
+              <select
+                className="form-select"
+                value={courseType.inTake}
+                onChange={(e) =>
+                  handleInputChange(
+                    yearIndex,
+                    courseTypeIndex,
+                    "inTake",
+                    e.target.value
+                  )
+                }
+              >
+                <option value="">{courseType.inTake}</option>
+                {(
+                  universities.find(
+                    (uni) => uni.universityName === commission.universityName
+                  )?.inTake || []
+                ).map((type, idx) => (
+                  <option key={idx} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label style={{ color: "#231F20" }}>Value</label>
+              <input
+                className="form-control"
+                type="text"
+                name="value"
+                placeholder="Value"
+                value={courseType.value}
+                onChange={(e) =>
+                  handleInputChange(
+                    yearIndex,
+                    courseTypeIndex,
+                    "value",
+                    e.target.value
+                  )
+                }
+              />
+            </div>
+            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+              <button
+                type="button"
+                className="btn text-white ml-2 mb-3"
+                onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
+                style={{
+                  backgroundColor: "#FE5722",
+                  fontFamily: "Plus Jakarta Sans",
+                  fontSize: "14px",
+                }}
+              >
+                <FaTrash />
+              </button>
+            </div>
+          </div>
+        ))}
+      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+        <button
+          type="button"
+          className="btn text-white ml-2"
+          onClick={() => addCourseType(yearIndex)}
+          style={{
+            backgroundColor: "#FE5722",
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "14px",
+          }}
+        >
+          Add Course
+        </button>
+      </div>
+    </div>
+  </div>
+))}
 
-                                                  {(
-                                                    universities.find(
-                                                      (uni) =>
-                                                        uni.universityName ===
-                                                        commission.universityName
-                                                    )?.courseType || []
-                                                  ).map((type, idx) => (
-                                                    <option
-                                                      key={idx}
-                                                      value={type}
-                                                    >
-                                                      {type}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  inTake
-                                                </label>
-                                                <select
-                                                  className="form-select"
-                                                  value={courseType.inTake}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "inTake",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select inTake
-                                                  </option>
 
-                                                  {(
-                                                    universities.find(
-                                                      (uni) =>
-                                                        uni.universityName ===
-                                                        commission.universityName
-                                                    )?.inTake || []
-                                                  ).map((type, idx) => (
-                                                    <option
-                                                      key={idx}
-                                                      value={type}
-                                                    >
-                                                      {type}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  value
-                                                </label>
-                                                <input
-                                                  className="form-control"
-                                                  type="text"
-                                                  name="value"
-                                                  placeholder="Value"
-                                                  value={courseType.value}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "value",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                />
-                                              </div>
 
-                                              <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                                <button
-                                                  type="button"
-                                                  className="btn text-white ml-2 mb-3"
-                                                  onClick={() =>
-                                                    removeCourseType(
-                                                      yearIndex,
-                                                      courseTypeIndex
-                                                    )
-                                                  }
-                                                  style={{
-                                                    backgroundColor: "#FE5722",
-                                                    fontFamily:
-                                                      "Plus Jakarta Sans",
-                                                    fontSize: "14px",
-                                                  }}
-                                                >
-                                                  <FaTrash />
-                                                </button>
-                                              </div>
-                                            </div>
-                                          )
-                                        )}
-                                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                        <button
-                                          type="button"
-                                          className="btn text-white ml-2"
-                                          onClick={() =>
-                                            addCourseType(yearIndex)
-                                          }
-                                          style={{
-                                            backgroundColor: "#FE5722",
-                                            fontFamily: "Plus Jakarta Sans",
-                                            fontSize: "14px",
-                                          }}
-                                        >
-                                          Add Course
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
+
+
                             </div>
                           </div>
                         </div>

@@ -1,46 +1,45 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallClient, deleteClient } from "../../api/client";
+
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/sidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
-import { toast } from "react-toastify";
+
+import Mastersidebar from "../../../compoents/sidebar";
+
 
 import { FaFilter } from "react-icons/fa";
-import ListAgent from "../Admins/AdminList";
+
+export const ListDailyTask = () => {
 
 
-export const ListMarketing = () => {
+    const tableRef = useRef(null);
 
-  const tableRef = useRef(null);
+    useEffect(() => {
+      const table = tableRef.current;
+  
+      // Apply SortableJS to the table headers
+      const sortable = new Sortable(table.querySelector('thead tr'), {
+        animation: 150,
+        swapThreshold: 0.5,
+        handle: '.sortable-handle',
+        onEnd: (evt) => {
+          const oldIndex = evt.oldIndex;
+          const newIndex = evt.newIndex;
+  
+          // Move the columns in the tbody
+          table.querySelectorAll('tbody tr').forEach((row) => {
+            const cells = Array.from(row.children);
+            row.insertBefore(cells[oldIndex], cells[newIndex]);
+          });
+        }
+      });
+  
+      return () => {
+        sortable.destroy();
+      };
+    }, []);
 
-  useEffect(() => {
-    const table = tableRef.current;
 
-    // Apply SortableJS to the table headers
-    const sortable = new Sortable(table.querySelector('thead tr'), {
-      animation: 150,
-      swapThreshold: 0.5,
-      handle: '.sortable-handle',
-      onEnd: (evt) => {
-        const oldIndex = evt.oldIndex;
-        const newIndex = evt.newIndex;
-
-        // Move the columns in the tbody
-        table.querySelectorAll('tbody tr').forEach((row) => {
-          const cells = Array.from(row.children);
-          row.insertBefore(cells[oldIndex], cells[newIndex]);
-        });
-      }
-    });
-
-    return () => {
-      sortable.destroy();
-    };
-  }, []);
   return (
     <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
     <div class="container-fluid">
@@ -194,7 +193,7 @@ export const ListMarketing = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddMarketing">
+                    <Link class="btn btn-pix-primary" to="/AddDailyTask">
                       <button
                         className="btn btn-outline border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -203,7 +202,7 @@ export const ListMarketing = () => {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                         Add Marketing
+                         Add DailyTask
                       </button>
                     </Link>
                   </li>
@@ -221,9 +220,9 @@ export const ListMarketing = () => {
                   <div className="card-table">
                     <div className="table-responsive">
 
-                      <table className=" table card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
-                        <thead>
-                          <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                      <table className=" table table-hover card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
+                        <thead className="table-light">
+                          <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
                             <th className="text-capitalize text-start sortable-handle">Date</th>
                             <th className="text-capitalize text-start sortable-handle">Subject</th>
@@ -247,7 +246,7 @@ export const ListMarketing = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewMarketing",
+                                      pathname: "/ViewDailyTask",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -259,7 +258,7 @@ export const ListMarketing = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditMarketing",
+                                      pathname: "/EditDailyTask",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -387,4 +386,4 @@ export const ListMarketing = () => {
   </div>
   )
 }
-export default ListMarketing
+export default ListDailyTask

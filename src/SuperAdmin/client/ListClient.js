@@ -8,16 +8,9 @@ import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
 import { FaFilter } from "react-icons/fa";
 
-
-
-
-
 export default function Masterproductlist() {
-
-
   const initialState = {
     typeOfClient: "",
     businessName: "",
@@ -32,9 +25,7 @@ export default function Masterproductlist() {
     emailID: "",
     gstn: "",
     status: "",
-
   }
-
   const [client, setClient] = useState([]);
 
   const [submitted, setSubmitted] = useState(false);
@@ -498,9 +489,9 @@ export default function Masterproductlist() {
                     <div className="card-table">
                       <div className="table-responsive">
 
-                        <table className=" table card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
-                          <thead>
-                            <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                        <table className=" table   card-table table-hover  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
+                          <thead class="table-light">
+                            <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                               <th className="text-capitalize text-start sortable-handle">S No</th>
                               <th className="text-capitalize text-start sortable-handle">Client Code</th>
                               <th className="text-capitalize text-start sortable-handle">Type of Client</th>

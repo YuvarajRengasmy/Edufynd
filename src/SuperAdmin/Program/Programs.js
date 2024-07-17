@@ -50,7 +50,7 @@ export default function Masterproductlist() {
       limit: 10,
       page: pagination.from,
     };
-    getallProgram(data)
+    getFilterProgram(data)
     .then((res) => {
       setProgaram(res?.data?.result?.programList);
       setPagination({
@@ -525,10 +525,10 @@ export default function Masterproductlist() {
                 <div className="card-table">
                   <div className="table-responsive">
 
-                    <table className=" table card-table dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}
+                    <table className=" table table-hover card-table dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}
               ref={tableRef}>
-                      <thead>
-                        <tr  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                      <thead className="table-light">
+                        <tr  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                           <th className="text-capitalize text-start sortable-handle">S No</th>
                           <th className="text-capitalize text-start sortable-handle">University Name</th>
                           <th className="text-capitalize text-start sortable-handle">programTitle</th>

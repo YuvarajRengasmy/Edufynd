@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -176,14 +176,14 @@ const Register = () => {
                         style={{ fontSize: '1rem' }} >
                         Student
                       </button>
-                     {/* <button
+                     <button
                         className={`btn rounded-5 border-0  fw-bold ${type === 'superAdmin' ? 'active bg-white  text-success signup-button' : ''}`}
                         type="button"
                         aria-selected="false"
                         role='tab' onClick={() => handleSinUpType('superAdmin')}
                         style={{ fontSize: '1rem' }}>
                       SAdmin
-                      </button>  */}
+                      </button> 
                       <button
                         className={`btn rounded-5 border-0 text-white  fw-semibold ${type === 'agent' ? 'active bg-success bg-gradient px-2 py-1 text-dark signup-button' : ''}`}
                         type="button"
@@ -289,7 +289,7 @@ const Register = () => {
                   </div>
                 </div>
                 <div className="col-lg-6 d-none d-lg-block bg-register-image" >
-                  <img src='https://media.istockphoto.com/id/1390864016/vector/educational-tourism-abstract-concept-vector-illustration.jpg?s=612x612&w=0&k=20&c=mhkj3CUSexYWJA2m7oJGdW_4p-N0U-Sw9_DME5nwuV0=' className='img-fluid object-fit-fill' style={{width:'100%'}}/>
+                  <img src='https://media.istockphoto.com/id/1390864016/vector/educational-tourism-abstract-concept-vector-illustration.jpg?s=612x612&w=0&k=20&c=mhkj3CUSexYWJA2m7oJGdW_4p-N0U-Sw9_DME5nwuV0=' alt='#' className='img-fluid object-fit-fill' style={{width:'100%'}}/>
                 </div>
                
               </div>

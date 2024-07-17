@@ -1,180 +1,210 @@
-import React, { useEffect, useState } from 'react';
-import Flags from 'react-world-flags';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { saveStaff } from '../../api/staff';
-import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
-
+import React, { useEffect, useState } from "react";
+import Flags from "react-world-flags";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { saveStaff,getallStaff } from "../../api/staff";
+import {
+  isValidPhone,
+  isValidEmail,
+  isValidName,
+  isValidDob,
+} from "../../Utils/Validation";
 
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
-import Select from 'react-select';
+import Select from "react-select";
 export const AddStaff = () => {
-
-
   const initialState = {
     photo: "",
     empName: "",
+    dob: "",
     designation: "",
-    jobDescription: "",
+    doj: "",
     reportingManager: "",
-    shiftTiming: "",// (Attendance to be calculated based on this)
-    areTheyEligibleForCasualLeave: "",// – Yes/No (Yes – Casual to be considered | No – Casual leave restricted)
-    doj: "", // (Date of Joining)
-    dob: "",    // (Date of Birth)
-    address: "",
+    shiftTiming: "",
+    probationDuration: "",
     email: "",
+    team: "",
+    staffList: [],
+    personalMail: "",
     mobileNumber: "",
     emergencyContactNo: "",
-    probationDuration: "",
-    salary: "",  // (Break Up with deduction – Manual)
-    idCard: "",    // – Yes / No (If ‘Yes’ card to be generated)
-    manageApplications: "",   // Yes/No
-    //If Yes, List Country & University The user can only handle applications of these universities and country
-    activeInactive: "",   // – User
-    teamLead: "",
-    password:"",
-    confirmPassword:""
-
-  }
+    address: "",
+    address2: "",
+    pin: "",
+    country: "",
+    state: "",
+    city: "",
+    idCard: "",
+    status: "",
+    privileges: "",
+    companyAssests: "",
+    mobileName: "",
+    brandName: "",
+    imei: "",
+    phoneNumber: "",
+    laptopName: "",
+    brand: "",
+    modelName: "",
+    ipAddress: "",
+    userName: "",
+    loginPassword: "",
+  };
   const initialStateErrors = {
     photo: { required: false },
     empName: { required: false },
+    dob: { required: false }, // (Date of Birth)
     designation: { required: false },
-    jobDescription: { required: false },
-    reportingManager: { required: false },
-    shiftTiming: { required: false },// (Attendance to be calculated based on this)
-    areTheyEligibleForCasualLeave: { required: false },// – Yes/No (Yes – Casual to be considered | No – Casual leave restricted)
     doj: { required: false }, // (Date of Joining)
-    dob: { required: false },    // (Date of Birth)
-    address: { required: false },
+    reportingManager: { required: false },
+    shiftTiming: { required: false }, // (Attendance to be calculated based on this)
+    probationDuration: { required: false },
     email: { required: false, valid: false },
+    team: { required: false },
+    staffList: { required: false },
+    personalMail: { required: false, valid: false },
     mobileNumber: { required: false, valid: false },
     emergencyContactNo: { required: false, valid: false },
-    probationDuration: { required: false },
-    salary: { required: false },  // (Break Up with deduction – Manual)
-    idCard: { required: false },    // – Yes / No (If ‘Yes’ card to be generated)
-    manageApplications: { required: false },   // Yes/No
-    //If Yes, List Country & University The user can only handle applications of these universities and country
-    activeInactive: { required: false },   // – User
-    teamLead: { required: false },
-    password: { required: false, valid: false },
-    confirmPassword: { required: false, valid: false },
-
-
-  }
-  const [staff, setStaff] = useState(initialState)
-  const [errors, setErrors] = useState(initialStateErrors)
+    address: { required: false },
+    address2: { required: false },
+    pin: { required: false },
+    country: { required: false },
+    state: { required: false },
+    city: { required: false },
+    idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
+    status: { required: false },
+    privileges: { required: false },
+    companyAssests: { required: false },
+    mobileName: { required: false },
+    brandName: { required: false },
+    imei: { required: false },
+    phoneNumber: { required: false },
+    laptopName: { required: false },
+    brand: { required: false },
+    modelName: { required: false },
+    ipAddress: { required: false },
+    userName: { required: false },
+    loginPassword: { required: false },
+  };
+  const [staff, setStaff] = useState(initialState);
+  const [staffs, setStaffs] = useState([]);
+  const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
 
+  const navigate = useNavigate();
 
 
-  const navigate = useNavigate()
+  useEffect(() => {
+    getAllStaffDetails();
+  }, []);
+
+  const getAllStaffDetails = () => {
+    getallStaff()
+      .then((res) => {
+        console.log(res);
+        setStaffs(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-
-
-
     if (data.empName === "") {
       error.empName.required = true;
+    }
+    if (data.dob === "") {
+      error.dob.required = true;
     }
 
     if (data.designation === "") {
       error.designation.required = true;
     }
-    if (data.jobDescription === "") {
-      error.jobDescription.required = true;
-    }
+
     if (data.reportingManager === "") {
       error.reportingManager = true;
     }
     if (data.shiftTiming === "") {
       error.shiftTiming.required = true;
     }
-    if (data.areTheyEligibleForCasualLeave === "") {
-      error.areTheyEligibleForCasualLeave.required = true;
-    }
+
     if (data.doj === "") {
       error.doj.required = true;
-    }
-    if (data.dob === "") {
-      error.dob.required = true;
-    }
-    if (data.address === "") {
-      error.address.required = true;
     }
     if (data.email === "") {
       error.email.required = true;
     }
+    if (data.team === "") {
+      error.team.required = true;
+    }
+    if (data.personalMail === "") {
+      error.personalMail.required = true;
+    }
+    if (data.address === "") {
+      error.address.required = true;
+    }
+
     if (data.mobileNumber === "") {
       error.mobileNumber.required = true;
     }
     if (data.emergencyContactNo === "") {
       error.emergencyContactNo.required = true;
-
     }
     if (data.probationDuration === "") {
       error.probationDuration.required = true;
-
     }
-    if (data.salary === "") {
-      error.salary.required = true;
 
-    }
     if (data.idCard === "") {
       error.idCard.required = true;
+    }
 
+    if (data.status === "") {
+      error.status.required = true;
     }
-    if (data.manageApplications === "") {
-      error.manageApplications.required = true;
-
+    if (data.privileges === "") {
+      error.privileges.required = true;
     }
-    if (data.teamLead === "") {
-      error.teamLead.required = true;
-
+    if (data.companyAssests === "") {
+      error.companyAssests.required = true;
     }
-    if (data.activeInactive === "") {
-      error.activeInactive.required = true;
-
+    if (!isValidName(data.empName)) {
+      error.empName.valid = true;
     }
-    if (data.password === "") {
-      error.password.required = true;
-    }
-    if (data.confirmPassword === "") {
-      error.confirmPassword.required = true;
-    }
-    if (!isValidPassword(data.password)) {
-      error.password.valid = true;
-    }
-    if (!isValidPassword(data.confirmPassword)) {
-      error.confirmPassword.valid = true;
+    if (!isValidDob(data.dob)) {
+      error.dob.valid = true;
     }
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
+    if (!isValidEmail(data.personalMail)) {
+      error.personalMail.valid = true;
+    }
     if (!isValidPhone(data.mobileNumber)) {
       error.mobileNumber.valid = true;
     }
-  
     if (!isValidPhone(data.emergencyContactNo)) {
       error.emergencyContactNo.valid = true;
     }
-    return error
-  }
+    return error;
+  };
 
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
-    } else { setStaff({ ...staff, [event?.target?.name]: event?.target?.value }) }
-    if (submitted) {
-      const newError = handleValidation({ ...staff, [event.target.name]: event.target.value })
-      setErrors(newError)
+    } else {
+      setStaff({ ...staff, [event?.target?.name]: event?.target?.value });
     }
-  }
-
+    if (submitted) {
+      const newError = handleValidation({
+        ...staff,
+        [event.target.name]: event.target.value,
+      });
+      setErrors(newError);
+    }
+  };
 
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
@@ -190,7 +220,13 @@ export const AddStaff = () => {
       console.log("Error: ", error);
     };
   };
-
+  const handleSelectChange = (selectedOptions, action) => {
+    const { name } = action;
+    const values = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    setStaff({ ...staff, [name]: values });
+  };
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -202,16 +238,14 @@ export const AddStaff = () => {
       }
     }
     return true;
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(staff);
     setErrors(newError);
     setSubmitted(true);
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-    if (valid) {
+    if (handleErrors(newError)) {
       saveStaff(staff)
         .then((res) => {
           toast.success(res?.data?.message);
@@ -222,161 +256,195 @@ export const AddStaff = () => {
         });
     }
   };
-
+  const staffOption = staffs.map((data) => ({
+    value: data.empName,
+    label: data.empName,
+  }));
 
   return (
     <div>
-      <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <div class="container-fluid">
           <nav class="navbar navbar-vertical navbar-expand-lg">
             <Sidebar />
-
           </nav>
 
-          <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+          <div
+            className="content-wrapper"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+          >
             <div className="content-header ">
               <div className="content container-fluid">
-                <form onSubmit={handleSubmit} >
-                  <div className='row'>
+                <form onSubmit={handleSubmit}>
+                  <div className="row">
                     <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                                            <div
-                                                className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                                                style={{ background: "#fe5722", color: "#fff" }}
-                                            >
-                                                <h5 className="text-center text-capitalize p-1">
-                                                    {" "}
-                                                    Add Staff Details
-                                                </h5>
-                                            </div>
-                                                     
-                                            <div className="card-body mt-2 ">
-                                                    <div className="row g-3 ">
-                                                    <div className="position-relative d-inline-block">
-  <img 
-    className="img-fluid rounded-circle img-thumbnail mx-auto d-block" 
-    src="https://placehold.co/128x128" 
-    alt="student-image"  
-    style={{ width: '8rem', height: '8rem' }} 
-  />
-  <label 
-    htmlFor="fileInputImage" 
-    className="position-absolute fs-6 rounded-circle "
-    style={{ cursor: 'pointer',bottom:'5%',left:'53.5%', transform: 'translate(25%, 25%)',color:'#0f2239' }}
-  >
-    <i className="fas fa-camera"></i>
-  </label>
-  <input
-    name="universityLogo"
-    id="fileInputImage"
-    type="file"
-    accept="image/*"
-    className="form-control border-0 text-dark bg-transparent"
-    style={{ display: "none", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  />
-</div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                        <div
+                          className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                          style={{ background: "#fe5722", color: "#fff" }}
+                        >
+                          <h5 className="text-center text-capitalize p-1">
+                            {" "}
+                            Add Staff Details
+                          </h5>
+                        </div>
 
-                              <label style={{ color: "#231F20" }}>
-                                {" "}
-                                Photo<span className="text-danger">*</span>
+                        <div className="card-body mt-2 ">
+                          <div className="row g-3 ">
+                            <div className="position-relative d-inline-block">
+                              <img
+                                className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
+                                src={
+                                  staff?.photo
+                                    ? staff?.photo
+                                    : "https://placehold.co/128x128"
+                                }
+                                alt="student-image"
+                                style={{ width: "8rem", height: "8rem" }}
+                              />
+                              <label
+                                htmlFor="fileInputImage"
+                                className="position-absolute fs-6 rounded-circle "
+                                style={{
+                                  cursor: "pointer",
+                                  bottom: "5%",
+                                  left: "53.5%",
+                                  transform: "translate(25%, 25%)",
+                                  color: "#0f2239",
+                                }}
+                              >
+                                <i className="fas fa-camera"></i>
                               </label>
                               <input
-                                type="file"
-                                id="photo"
                                 name="photo"
+                                id="fileInputImage"
+                                type="file"
                                 accept="image/*"
-                                className="form-control "
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                className="form-control border-0 text-dark bg-transparent"
+                                style={{
+                                  display: "none",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
                                 onChange={handleInputs}
                               />
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
 
-                              <label style={{ color: "#231F20" }} >
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
                                 {" "}
                                 Name<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className="form-control  "
+                                className="form-control rounded-2  "
                                 placeholder="Enter Name "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
                                 name="empName"
                                 onChange={handleInputs}
-
                               />
                               {errors.empName.required ? (
-                                <span className="form-text text-danger">
+                                <div className="text-danger form-text">
                                   This field is required.
-                                </span>
+                                </div>
+                              ) : errors.empName.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter Vaild Letter Only .
+                                </div>
                               ) : null}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                DOB<span className="text-danger">*</span>
+                              </label>
 
-
-
-
+                              <input
+                                type="date"
+                                className="form-control rounded-2  text "
+                                placeholder="Enter  DOB "
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="dob"
+                                onChange={handleInputs}
+                              />
+                              {errors.dob.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.dob.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter Vaild 15 Year Age Completed .
+                                </div>
+                              ) : null}
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Role/Designation<span className="text-danger">*</span>
+                                Role/Designation
+                                <span className="text-danger">*</span>
                               </label>
 
                               <input
                                 type="text"
-                                className="form-control  "
+                                className="form-control rounded-2  "
                                 placeholder="Enter  Role/Designation "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
                                 name="designation"
                                 onChange={handleInputs}
-
                               />
                               {errors.designation.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
                               ) : null}
-
-
-
-
-
                             </div>
-
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                {" "}
-                                Job Description<span className="text-danger">*</span>
+                                DOJ <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
-                                className="form-control "
-                                placeholder="Enter Job Description "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="jobDescription"
+                                type="date"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter  DOJ "
+                                name="doj"
                                 onChange={handleInputs}
-
                               />
-                              {errors.jobDescription.required ? (
+                              {errors.doj.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
                               ) : null}
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-
                               <label style={{ color: "#231F20" }}>
                                 {" "}
-                                Reporting Manager<span className="text-danger">*</span>
+                                Reporting Manager
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                className="form-control rounded-2 "
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
                                 placeholder="Enter  Reporting Manager"
                                 name="reportingManager"
                                 onChange={handleInputs}
@@ -389,14 +457,18 @@ export const AddStaff = () => {
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Shift Timing   <span className="text-danger">*</span>
+                                Shift Timing{" "}
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
                                 placeholder="Enter  Shift Timing"
                                 name="shiftTiming"
                                 onChange={handleInputs}
@@ -406,143 +478,47 @@ export const AddStaff = () => {
                                   This field is required.
                                 </span>
                               ) : null}
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Are They Eligible For Casual Leave<span className="text-danger">*</span>
-                              </label>
-                              <select className='form-select' name="areTheyEligibleForCasualLeave" onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              >
-                                <option value="">Eligible For Casual Leave</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                              </select>
-                              {errors.areTheyEligibleForCasualLeave.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                DOJ <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
-                                placeholder="Enter  DOJ "
-                                name="doj"
-                                onChange={handleInputs}
-
-                              />
-                              {errors.doj.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-
-                            </div>
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                DOB<span className="text-danger">*</span>
-                              </label>
-
-                              <input
-                                type="date"
-                                className="form-control  "
-                                placeholder="Enter  DOB "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="dob"
-                                onChange={handleInputs}
-
-                              />
-                              {errors.dob.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-
-
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                Address 1 <span className="text-danger">*</span>
+                                Probation Duration
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
-                                placeholder="Enter Street/Door No"
-                                name="address"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter Probation Duration"
+                                name="probationDuration"
                                 onChange={handleInputs}
-
                               />
-                              {errors.address.required ? (
+                              {errors.probationDuration.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
                               ) : null}
-
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-<label style={{ color: "#231F20" }}>
- Address 2 <span className="text-danger">*</span>
-</label>
-<input
-  type="text"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter City Name"
-  name="City"
-
-/>
-
-
-
-</div>
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-<label style={{ color: "#231F20" }}>
- Address 3 <span className="text-danger">*</span>
-</label>
-<input
-  type="text"
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  className="form-control"
-  placeholder="Enter State"
-  name="State"
-
-/>
-
-
-
-</div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: '#231F20' }} className="">
-                                Personal Mail ID
+                              <label style={{ color: "#231F20" }}>
+                                {" "}
+                                Official Mail
+                                <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="email"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
-                                placeholder="Enter Personal Mail ID"
+                                type="text"
+                                className="form-control rounded-2 "
+                                placeholder="Enter Official Mail "
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
                                 name="email"
                                 onChange={handleInputs}
-
                               />
                               {errors.email.required ? (
                                 <div className="text-danger form-text">
@@ -550,29 +526,102 @@ export const AddStaff = () => {
                                 </div>
                               ) : errors.email.valid ? (
                                 <div className="text-danger form-text">
-                                  Enter valid Email Id.
+                                  Enter Vaild email Id .
                                 </div>
                               ) : null}
-
-
-
-
-
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Personal Contact No<span className="text-danger">*</span>
+                                Team <span className="text-danger">*</span>
+                              </label>
+                              <select
+                                name="team"
+                                onChange={handleInputs}
+                                className="form-select form-select-lg"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <option value={""}> Select Team</option>
+                                <option value="team">Yes</option>
+                                <option value="no">No</option>
+                              </select>
+                              {errors.team.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                            </div>
+                            {staff.team === "team" && (
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Staff List{" "}
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Select
+                                  isMulti
+                                  placeholder="Select Staff"
+                                  name="staffList"
+                                  
+                                  options={staffOption}
+                                  onChange={handleSelectChange}
+                                  styles={{
+                                    container: (base) => ({
+                                      ...base,
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }),
+                                  }}
+                                ></Select>
+                              </div>
+                            )}
+
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }} className="">
+                                Personal Mail ID
+                              </label>
+                              <input
+                                type="text"
+                                name="personalMail"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter Personal Mail ID"
+                                onChange={handleInputs}
+                              />
+                              {errors.personalMail.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.personalMail.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter valid Email Id.
+                                </div>
+                              ) : null}
+                            </div>
+
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Personal Contact No
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="tel"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
                                 placeholder="Enter Personal Contact No"
                                 name="mobileNumber"
                                 onChange={handleInputs}
-
                               />
                               {errors.mobileNumber.required ? (
                                 <div className="text-danger form-text">
@@ -583,22 +632,22 @@ export const AddStaff = () => {
                                   Enter valid MobileNumber.
                                 </div>
                               ) : null}
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: '#231F20' }} className="">
+                              <label style={{ color: "#231F20" }} className="">
                                 Emergency Contact
                               </label>
                               <input
                                 type="tel"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
                                 placeholder="Enter  Emergency Contact"
                                 name="emergencyContactNo"
                                 onChange={handleInputs}
-
                               />
                               {errors.emergencyContactNo.required ? (
                                 <div className="text-danger form-text">
@@ -609,85 +658,130 @@ export const AddStaff = () => {
                                   Enter valid emergencyContactNo.
                                 </div>
                               ) : null}
-
-
-
-
                             </div>
 
-
-
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Probation Duration<span className="text-danger">*</span>
+                                Address 1 <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                className="form-control"
-                                placeholder="Enter Probation Duration"
-                                name="probationDuration"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter Street/Door No"
+                                name="address"
                                 onChange={handleInputs}
-
                               />
-                              {errors.probationDuration.required ? (
+                              {errors.address.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
                               ) : null}
-
                             </div>
-
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Salary <span className="text-danger">*</span>
+                                Address 2 <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className="form-control"
-                                placeholder="Enter  Salary"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="salary"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter City Name"
+                                name="address2"
                                 onChange={handleInputs}
-
                               />
-                              {errors.salary.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Privileges/Rights <span className="text-danger">*</span>
+                                Pin <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className="form-control"
-                                placeholder="Enter Privileges/Rights "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="Privileges/Rights "
-
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter State"
+                                name="pin"
+                                onChange={handleInputs}
                               />
-                              {errors.empName.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Country <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter State"
+                                name="country"
+                                onChange={handleInputs}
+                              />
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                State <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter State"
+                                name="state"
+                                onChange={handleInputs}
+                              />
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                City <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control rounded-2"
+                                placeholder="Enter State"
+                                name="city"
+                                onChange={handleInputs}
+                              />
+                            </div>
 
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 ID Card <span className="text-danger">*</span>
                               </label>
-                              <select className='form-select' onChange={handleInputs} name="idCard" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                              <select
+                                className="form-select form-select-lg rounded-2"
+                                onChange={handleInputs}
+                                name="idCard"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
                                 <option value="">Select Id Apporval</option>
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
@@ -697,139 +791,306 @@ export const AddStaff = () => {
                                   This field is required.
                                 </span>
                               ) : null}
-
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Manage Applications  <span className="text-danger">*</span>
+                                Status <span className="text-danger">*</span>
                               </label>
-                              <select name="manageApplications" onChange={handleInputs} className='form-select' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                                <option value={""}> Select Type</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                              </select>
-                              {errors.manageApplications.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-
-
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                              <label style={{ color: "#231F20" }}>
-                                Status  <span className="text-danger">*</span>
-                              </label>
-                              <select className='form-select' onChange={handleInputs} name="activeInactive" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                              <select
+                                className="form-select form-select-lg rounded-2"
+                                onChange={handleInputs}
+                                name="status"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
                                 <option value="">Select Type</option>
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
                               </select>
-                              {errors.activeInactive.required ? (
+                              {errors.status.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
                               ) : null}
-
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
                               <label style={{ color: "#231F20" }}>
-                                Team Lead   <span className="text-danger">*</span>
+                                Privileges/Rights{" "}
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className="form-control"
-                                placeholder="Enter  Team Lead   "
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                name="teamLead"
+                                className="form-control rounded-2"
+                                placeholder="Enter Privileges/Rights "
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="privileges"
                                 onChange={handleInputs}
-
                               />
-                              {errors.teamLead.required ? (
+                              {errors.privileges.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
                               ) : null}
-
-
                             </div>
+
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-<label style={{ color: "#231F20" }}>
- Password  <span className="text-danger">*</span>
-</label>
-<input
-  type="text"
-  className="form-control"
-  placeholder="Enter  Password   "
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  name="password"
-  onChange={handleInputs}
-
-/>
-{errors.password.required ? (
-                                <div className="text-danger form-text">
-                                    This field is required.
+                              <label style={{ color: "#231F20" }}>
+                                Company Assessts{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <select
+                                name="companyAssests"
+                                onChange={handleInputs}
+                                className="form-select form-select-lg rounded-2"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <option value={""}>
+                                  {" "}
+                                  Select Company Assessts
+                                </option>
+                                <option value="companyAssests">Yes</option>
+                                <option value="no">No</option>
+                              </select>
+                              {errors.companyAssests.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                            </div>
+                            {staff.companyAssests === "companyAssests" && (
+                              <>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    Labtop Assessts{" "}
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <select
+                                    name="laptopName"
+                                    onChange={handleInputs}
+                                    className="form-select form-select-lg rounded-2"
+                                    style={{
+                                      backgroundColor: "#fff",
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                  >
+                                    <option value={""}>
+                                      {" "}
+                                      Select LabTop Assessts
+                                    </option>
+                                    <option value="labtopAssessts">Yes</option>
+                                    <option value="no">No</option>
+                                  </select>
                                 </div>
-                            ) : errors.password.valid ? (
-                                <div className="text-danger form-text">
-                                    A minimum 8 characters password contains a <br />
-                                    combination of {''}
-                                    <strong>uppercase, lowercase, {''}</strong>
-                                    <strong>special <br /> character{''}</strong> and <strong>number</strong>.
+                                {staff.laptopName === "labtopAssessts" && (
+                                  <div className="row g-3">
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Brand Name
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  Brand Name"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="brand"
+                                        onChange={handleInputs}
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Model
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  Model"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="modelName"
+                                        onChange={handleInputs}
+                                      />
+                                    </div>
+
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        IP Address
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  IP Address"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="ipAddress"
+                                        onChange={handleInputs}
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        UserName
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  UserName"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="userName"
+                                        handleInputs={handleInputs}
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Password
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  Password"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="loginPassword"
+                                        onChange={handleInputs}
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    Mobile Assessts
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <select
+                                    name="mobileName"
+                                    onChange={handleInputs}
+                                    className="form-select form-select-lg rounded-2"
+                                    style={{
+                                      backgroundColor: "#fff",
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                  >
+                                    <option value={""}>
+                                      {" "}
+                                      Select Mobile Assessts
+                                    </option>
+                                    <option value="mobileName">Yes</option>
+                                    <option value="no">No</option>
+                                  </select>
                                 </div>
-                            ) : null}
-
-
-</div>
-
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-<label style={{ color: "#231F20" }}>
- Confirm Password <span className="text-danger">*</span>
-</label>
-<input
-  type="text"
-  className="form-control"
-  placeholder="Enter confirm Password"   
-  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-  name="confirmPassword"
-  onChange={handleInputs}
-
-/>
-{errors.confirmPassword.required ? (
-                                <div className="text-danger form-text">
-                                    This field is required.
-                                </div>
-                            ) : errors.confirmPassword.valid ? (
-                                <div className="text-danger form-text">
-                                    A minimum 8 characters password contains a <br />
-                                    combination of {''}
-                                    <strong>uppercase, lowercase, {''}</strong>
-                                    <strong>special <br /> character{''}</strong> and <strong>number</strong>.
-                                </div>
-                            ) : null}
-
-
-</div>
-                            <div className='row g-2'>
+                                {staff.mobileName === "mobileName" && (
+                                  <div className="row g-3">
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Brand Name
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  Brand Name"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="brandName"
+                                        onChange={handleInputs}
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        IMEI
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  IMEI"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="imei"
+                                        onChange={handleInputs}
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Phone Number
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Enter  Phone Number"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="phoneNumber"
+                                        onChange={handleInputs}
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                              </>
+                            )}
+                            <div className="row g-2">
                               <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                 <Link
-
                                   to=""
-                                  style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#231F20",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                                 >
                                   Cancel
                                 </Link>
                                 <button
-
-                                  style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-
+                                  style={{
+                                    backgroundColor: "#FE5722",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   type="submit"
                                   className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                                 >
@@ -837,8 +1098,6 @@ export const AddStaff = () => {
                                 </button>
                               </div>
                             </div>
-
-
                           </div>
                         </div>
                       </div>
@@ -851,6 +1110,6 @@ export const AddStaff = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default AddStaff;

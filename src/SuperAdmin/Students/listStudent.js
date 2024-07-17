@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallStudent, deleteStudent , getFilterStudent } from "../../api/student";
+import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent } from "../../api/student";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
+import { formatDate } from "../../Utils/DateFormat";
+
 import { toast } from "react-toastify";
 import { getStudentId,getSuperAdminId } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
@@ -54,15 +56,16 @@ export default function Masterproductlist() {
     
 
     };
-    getallStudent(data)
+    getFilterStudentAdmin(data)
     
     .then((res) => {
-    
-    
-      setStudent(res?.data?.result);
+      const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
+      });
+      setStudent(sortedStudents);
       setPagination({
         ...pagination,
-        count: res?.data?.result,
+        count: res?.data?.result?.studentCount,
       });
     })
     .catch((err) => {
@@ -538,10 +541,10 @@ export default function Masterproductlist() {
            <div className="card-table">
              <div className="table-responsive">
 
-               <table className=" table card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
+               <table className=" table table-hover card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
               ref={tableRef}>
-                 <thead>
-                   <tr  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                 <thead className="table-light">
+                   <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                      <th className="text-capitalize text-start sortable-handle">S No</th>
                      <th className="text-capitalize text-start sortable-handle">Student Name</th>
                      <th className="text-capitalize text-start sortable-handle">Student Code</th>
@@ -563,7 +566,7 @@ export default function Masterproductlist() {
                        <td className="text-capitalize text-start">{data?.email}</td>
                        <td className="text-capitalize text-start">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null}</td>
                        <td className="text-capitalize text-start">{data?.status}</td>
-                       <td className="text-capitalize text-start">{data?.modifiedOn}</td>
+                       <td className="text-capitalize text-start">{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)}</td>
                        <td>
                          <div className="d-flex">
                            <Link

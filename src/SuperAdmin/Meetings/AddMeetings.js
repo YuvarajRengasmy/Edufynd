@@ -7,7 +7,7 @@ import {getallClientModule} from "../../api/universityModule/clientModule";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
-
+import { RichTextEditor } from '@mantine/rte';
 export const AddMeetings = () => {
   return (
     <>
@@ -86,20 +86,21 @@ export const AddMeetings = () => {
                             </div>
                             </div>
                             <div className="row gy-2 ">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                              Content<span className="text-danger">*</span>
+                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                             Content<span className="text-danger">*</span>
                               </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Content"
-                                name="Username"
-                              />
+                            <RichTextEditor
+       
+          placeholder="Start writing your content here..."
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+            minHeight: '200px', overflowY: 'auto'
+           
+          }}
+        />
+       
                               
                             </div>
                             </div>
@@ -125,7 +126,7 @@ export const AddMeetings = () => {
                               Time<span className="text-danger">*</span>
                               </label>
                               <input
-                                type='datetime-local'
+                                type='time'
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -141,17 +142,17 @@ export const AddMeetings = () => {
                             
 
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                              <Link
+                            <button
                                 style={{
                                   backgroundColor: "#231F20",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                to="/ClientList"
+                                type='reset'
                                 className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                               >
                                 Cancel
-                              </Link>
+                              </button>
                               <button
                                 style={{
                                   backgroundColor: "#FE5722",
