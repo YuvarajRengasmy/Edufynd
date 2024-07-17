@@ -1299,15 +1299,7 @@ const Sidebar = () => {
                               </Link>
                             </li>
                           
-                            <li className="nav-item">
-                              <Link
-                              to="/ClientModule"
-                                
-                                className="nav-link  text-capitalize fw-semibold"
-                              >
-                                Client
-                              </Link>
-                            </li>
+                        
                             <li className="nav-item">
                               <Link
                               to="#"
@@ -1315,6 +1307,15 @@ const Sidebar = () => {
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                Intake
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                              to="/ClientModule"
+                                
+                                className="nav-link  text-capitalize fw-semibold"
+                              >
+                                Client
                               </Link>
                             </li>
                           
