@@ -174,10 +174,7 @@ export const Course = () => {
 
 
 
-                                            <div id="campusCollapse" className="collapse">
-                                                <h4>Campus</h4>
-
-                                            </div>
+                                           
                                         </div>
                                     </div>
 
@@ -208,7 +205,7 @@ export const Course = () => {
                                                     </div>
                                                     <div className="col-sm-6 ">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
-                                                        <div className="h6  fw-normal ">{program?.courseFee}</div>
+                                                        <div className="h6  fw-normal ">{program?.campuses?.length > 0 ? program?.campuses[1]?.courseFees : "Not Available"}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row gy-3 py-2">
