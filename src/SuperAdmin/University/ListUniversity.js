@@ -165,7 +165,7 @@ export default function Masterproductlist() {
     }
   };
 
-  const [expandedRows, setExpandedRows] = useState({});
+  const [expandedRows, setExpandedRows] = useState([]);
 
   const toggleRow = (index) => {
     setExpandedRows((prev) => ({
@@ -553,7 +553,7 @@ export default function Masterproductlist() {
                               <th className="text-capitalize text-start sortable-handle">University Name</th>
                               <th className="text-capitalize text-start sortable-handle">Campus</th>
                               <th className="text-capitalize text-start sortable-handle">Popular Categories</th>
-                              <th className="text-capitalize text-start sortable-handle">No of Applications</th>
+                              <th className="text-capitalize text-start sortable-handle">App</th>
 
                               <th className="text-capitalize text-start sortable-handle">Action</th>
                             </tr>
