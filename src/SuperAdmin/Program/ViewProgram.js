@@ -193,15 +193,28 @@ export const Course = () => {
                                                         <div className="fs-6 fw-light text-lead text-capitalize">CourseType</div>
                                                         <div className="h6 ">{program?.courseType}</div>
                                                     </div>
-                                                    <div className="col-sm-6">
+                                                    <div className="col-sm-6 visually-hidden">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
                                                         <div className="h6  fw-normal "><Flags code={program?.flag} width={40} height={20} /> {program?.currency}</div>
                                                     </div>
+                                                   
+                                                    <div className="col-sm-6">
+                                                        <div className="fs-6 fw-light text-lead text-capitalize"> Commission</div>
+                                                        <div className="h6  fw-normal ">{program?.commission}</div>
+                                                    </div>
+                                              
+                                            
                                                 </div>
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Application Fee</div>
-                                                        <div className="h6  fw-normal ">{program?.applicationFee}</div>
+                                                        <div className="h6  fw-normal "> 
+                                                        
+                                                        {program?.finalValue?program?.finalValue:program?.applicationFee?program?.applicationFee:"Not Available"}
+
+                                                        <del>{program?.applicationFee?program?.applicationFee:"Not Available"}</del> 
+                                                    
+                                                        </div>
                                                     </div>
                                                     <div className="col-sm-6 ">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Estimated Annual Course Fee</div>
@@ -211,19 +224,15 @@ export const Course = () => {
                                                 <div className="row gy-3 py-2">
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Duration</div>
-                                                        <div className="h6   fw-normal">{program?.campuses?.length > 0 ? program?.campuses[1]?.duration : "Not Available"}</div>
+                                                        <div className="h6   fw-normal">{program?.campuses?.length > 0 ? program?.campuses[1]?.duration : "Not Available"}
+                                                        </div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="fs-6 fw-light text-lead text-capitalize">Discounted Value</div>
-                                                        <div className="h6  fw-normal ">{program?.discoubtedValue}</div>
+                                                        <div className="h6  fw-normal "> {program?.discountedValue}</div>
                                                     </div>
                                                 </div>
-                                                <div className="row gy-3 py-2">
-                                                    <div className="col-sm-6">
-                                                        <div className="fs-6 fw-light text-lead text-capitalize"> Commission</div>
-                                                        <div className="h6  fw-normal ">{program?.commission}</div>
-                                                    </div>
-                                                </div>
+                                               
                                             </div>
                                         </div>
                                     </div>

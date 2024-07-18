@@ -75,17 +75,17 @@ function Profile() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
-  const [country, setCountry] = useState([]);
+
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
-
   const [states, setStates] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedStates, setSelectedStates] = useState([]);
+  const [country, setCountry] = useState("");
+  const [countries, setCountries] = useState([]);
   const [lgas, setLGAs] = useState([]);
   const [selectedLGAs, setSelectedLGAs] = useState([]);
+
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
   const ZERO = 0;
@@ -107,7 +107,8 @@ function Profile() {
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-    // if (data.costOfLiving === "") error.costOfLiving.required = true;
+     if (data.country === "") error.country.required = true;
+     if (data.state === "") error.state.required = true;
     if (!isValidName(data.universityName)) {
       error.universityName.valid = true;
     }
@@ -126,7 +127,7 @@ function Profile() {
 
   useEffect(() => {
     getClientList();
-    getCountryList();
+ 
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
@@ -165,16 +166,7 @@ function Profile() {
         console.log(err);
       });
   };
-  const getCountryList = () => {
-    getallCountry()
-      .then((res) => {
-        const value = res?.data?.result;
-        setCountry(value);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+ 
 
   const getAllCatgoeryDetails = () => {
     getallCategories()
@@ -243,12 +235,11 @@ function Profile() {
       : [];
     setUniversity({ ...university, [name]: values });
   };
+
   const getCountryRegionInstance = () => {
-    if (!countryRegion) {
-      countryRegion = new CountryRegion();
-    }
-    return countryRegion;
+    return new CountryRegion();
   };
+
   useEffect(() => {
     const getCountries = async () => {
       try {
@@ -265,12 +256,11 @@ function Profile() {
     };
     getCountries();
   }, []);
+
   useEffect(() => {
     const getStates = async () => {
       try {
-        const states = await getCountryRegionInstance().getStates(
-          selectedCountry
-        );
+        const states = await getCountryRegionInstance().getStates(country);
         setStates(
           states.map((userState) => ({
             value: userState?.id,
@@ -281,17 +271,18 @@ function Profile() {
         console.error(error);
       }
     };
-    if (selectedCountry) {
+    if (country) {
       getStates();
     }
-  }, [selectedCountry]);
+  }, [country]);
+
   useEffect(() => {
     const getLGAs = async () => {
       try {
         const allLGAs = await Promise.all(
           selectedStates.map(async (state) => {
             const lgas = await getCountryRegionInstance().getLGAs(
-              selectedCountry,
+              country,
               state.value
             );
             return lgas.map((lga) => ({
@@ -308,16 +299,22 @@ function Profile() {
     if (selectedStates.length > 0) {
       getLGAs();
     }
-  }, [selectedStates, selectedCountry]);
+  }, [selectedStates, country]);
+
   const handleCountryChange = (selectedOption) => {
-    setSelectedCountry(selectedOption.value);
+    setCountry(selectedOption.value);
     setSelectedStates([]);
-    setSelectedLGAs([]); // Reset selected LGAs when country changes
+    setStates([]);
+    setSelectedLGAs([]);
+    setLGAs([]);
   };
+
   const handleStateChange = (selectedOptions) => {
     setSelectedStates(selectedOptions || []);
-    setSelectedLGAs([]); // Reset selected LGAs when states change
+    setSelectedLGAs([]);
+    setLGAs([]);
   };
+
   const handleLGAChange = (selectedOptions) => {
     setSelectedLGAs(selectedOptions || []);
   };
@@ -338,18 +335,18 @@ function Profile() {
     const newError = handleValidation(university);
     setErrors(newError);
     setSubmitted(true);
-    const selectedCountryLabel =
-      countries.find((country) => country.value === selectedCountry)?.label ||
-      "";
-    const selectedStatesLabels = selectedStates.map((state) => state.label);
-    const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
+  
+   
+    // const selectedStatesLabels = selectedStates.map((state) => state.label);
+    // const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
+  
     const updatedUniversity = {
       ...university,
-      country: selectedCountryLabel,
-      state: selectedStatesLabels,
-      lga: selectedLGAsLabels,
+      country: countries.find(option => option.value === country)?.label,
+      state: selectedStates.map((state) => state.label),
+      lga:selectedLGAs.map((lga) => lga.label)
     };
-
+  
     if (handleErrors(newError)) {
       saveUniversity(updatedUniversity)
         .then((res) => {
@@ -361,7 +358,7 @@ function Profile() {
         });
     }
   };
-
+  
   const popularCategoriesOptions = categorie.map((data) => ({
     value: data.popularCategories,
     label: data.popularCategories,
@@ -584,16 +581,18 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              {" "}
                               Country<span className="text-danger">*</span>
                             </label>
-
                             <Select
-                              placeholder="Select  Country"
+                              placeholder="Select Country"
                               onChange={handleCountryChange}
                               options={countries}
+                              name="country"
                               styles={customStyles}
-                              className="submain-one-form-body-subsection-select "
+                              value={countries.find(
+                                (option) => option.value === country
+                              )}
+                              className="submain-one-form-body-subsection-select"
                             />
                             {errors.country.required ? (
                               <div className="text-danger form-text">
@@ -605,16 +604,16 @@ function Profile() {
                             <label style={{ color: "#231F20" }}>
                               State<span className="text-danger">*</span>
                             </label>
-                            {states.length !== ZERO && (
-                              <Select
-                                placeholder="Select  State"
-                                isMulti
-                                onChange={handleStateChange}
-                                options={states}
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                            )}
+                            <Select
+                              placeholder="Select State"
+                              isMulti
+                              onChange={handleStateChange}
+                              options={states}
+                              name="state"
+                              styles={customStyles}
+                              value={selectedStates}
+                              className="submain-one-form-body-subsection-select"
+                            />
                             {errors.state.required && (
                               <div className="text-danger form-text">
                                 This field is required.
@@ -625,16 +624,16 @@ function Profile() {
                             <label style={{ color: "#231F20" }}>
                               City<span className="text-danger">*</span>
                             </label>
-                            {lgas.length !== ZERO && (
-                              <Select
-                                placeholder="Select  City"
-                                isMulti
-                                onChange={handleLGAChange}
-                                options={lgas}
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                            )}
+                            <Select
+                              placeholder="Select City"
+                              value={selectedLGAs}
+                              isMulti
+                              onChange={handleLGAChange}
+                              options={lgas}
+                              name="lga"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
