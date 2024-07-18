@@ -1,623 +1,1000 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-} from "@mui/material";
-import { updatedCommission,getSingleCommission } from "../../api/commission";
-import { getallCurrency } from "../../api/currency";
-import { getFilterYear } from "../../api/year";
-import { getallTaxModule } from "../../api/universityModule/tax";
-import { FaTrash } from "react-icons/fa";
-import { getUniversitiesByCountry } from "../../api/university";
-import Flags from "react-world-flags";
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+  isValidWebsite,
+  isValidYear,
+  isValidPinCode,
+} from "../../Utils/Validation";
+import { getallCountry } from "../../api/globalsettings";
+import { getallClient } from "../../api/client";
 
+import { toast } from "react-toastify";
+import { useNavigate, Link } from "react-router-dom";
+import { saveUniversity } from "../../api/university";
+import { getallCategories } from "../../api/universityModule/categories";
+import { getallOfferTatModule } from "../../api/universityModule/offerTat";
+import { getallInstitutionModule } from "../../api/universityModule/institutation";
+import { getallModule } from "../../api/allmodule";
+import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
+import Select from "react-select";
+import CountryRegion from "countryregionjs";
 
-function AddCommission() {
-
-  const location = useLocation();
-  const id = new URLSearchParams(location.search).get("id");
-
+function Profile() {
   const initialState = {
-    country: "",
+    banner: "",
+    businessName: "",
+    universityLogo: "",
     universityName: "",
-
-    paymentMethod: "",
-    amount: null,
-    percentage: null,
-    commissionPaidOn: "",
-    eligibility: "",
-    tax: "",
-    paymentType: "",
-    currency: "",
-    flag: "",
-    clientName: "",
-    years: [
-      {
-        id: 1,
-        year: "",
-        courseTypes: [{ courseType: "", inTake: "", value: null }],
-      },
-    ],
+    about: "",
+    founded: "",
+    courseType: "",
+    country: "",
+    website: "",
+    inTake: "",
+    state: "",
+    lga: "",
+    ranking: "",
+    averageFees: "",
+    popularCategories: [],
+    admissionRequirement: "",
+    offerTAT: "",
+    email: "",
+    institutionType: "",
+    // costOfLiving: "",
   };
 
   const initialStateErrors = {
-    country: { required: false },
+    businessName: { required: false },
+    universityLogo: { required: false },
+    banner: { required: false },
+    inTake: { required: false },
     universityName: { required: false },
-    paymentMethod: { required: false },
-    amount: { required: false },
-    percentage: { required: false },
-    commissionPaidOn: { required: false },
-    eligibility: { required: false },
-    tax: { required: false },
-    paymentType: { required: false },
-    years: { required: false },
-    flag: { required: false },
-    clientName: { required: false },
-    currency: { required: false },
+    email: { required: false, valid: false },
+    country: { required: false },
+    website: { required: false },
+    courseType: { required: false },
+    state: { required: false },
+    lga: { required: false },
+    ranking: { required: false },
+    averageFees: { required: false },
+    popularCategories: { required: false },
+    admissionRequirement: { required: false },
+    offerTAT: { required: false },
+    founded: { required: false },
+    institutionType: { required: false },
+    //  costOfLiving: { required: false },
+    // grossTuition: { required: false },
+    // applicationFees: { required: false },
   };
 
-  const [commission, setCommission] = useState(initialState);
+  const [university, setUniversity] = useState(initialState);
+
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+  const [client, setClient] = useState([]);
+  // const [country, setCountry] = useState([]);
+  const [categorie, setCategories] = useState([]);
+  const [offerTAT, setOfferTat] = useState([]);
+  const [institutation, setInstitution] = useState([]);
+  const [country, setCountry] = useState("");
+  const [states, setStates] = useState([]);
+  const [selectedStates, setSelectedStates] = useState([]);
   const [countries, setCountries] = useState([]);
-  const [tax, setTax] = useState([]);
-  const [universities, setUniversities] = useState([]);
-  const [years, setYears] = useState([]);
-  const [year, setYear] = useState([]);
-  const [currency, setCurrency] = useState([]);
-  const [filteredUniversities, setFilteredUniversities] = useState([]);
+  const [lgas, setLGAs] = useState([]);
+  const [selectedLGAs, setSelectedLGAs] = useState([]);
+  const [type, setType] = useState([]);
+  const [inTake, setInTake] = useState([]);
   const ZERO = 0;
-  const pageSize = 5;
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
+  const [selectedCourseType, setSelectedCourseType] = useState([]);
+  let countryRegion = null;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getAllCurrencyDetails();
-    getAllTaxDetails();
-    getAllYearDetails();
-    getEditCommissionDetails();
-  }, [pagination.from, pagination.to]);
-
-  const getAllCurrencyDetails = () => {
-    getallCurrency()
-      .then((res) => {
-        setCountries(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllYearDetails = () => {
-    const data = {
-      limit: 10,
-      page: pagination.from,
-    };
-    getFilterYear(data)
-      .then((res) => {
-        setYear(res?.data?.result?.yearList || []);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.yearCount || 0,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllTaxDetails = () => {
-    getallTaxModule()
-      .then((res) => {
-        console.log(res);
-        setTax(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getEditCommissionDetails = () => {
-    getSingleCommission (id)
-        .then((res) => {
-            setCommission(res?.data?.result);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
   const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (!data.country) {
-      error.country.required = true;
+    let error = { ...initialStateErrors };
+    if (data.universityName === "") error.universityName.required = true;
+    if (data.businessName === "") error.businessName.required = true;
+    if (data.inTake === "") error.inTake.required = true;
+    if (data.website === "") error.website.required = true;
+    if (data.averageFees === "") error.averageFees.required = true;
+    if (data.courseType.length === 0) error.courseType.required = true;
+    if (data.popularCategories.length === 0)
+      error.popularCategories.required = true;
+    if (data.offerTAT === "") error.offerTAT.required = true;
+    if (data.email === "") error.email.required = true;
+    if (data.founded === "") error.founded.required = true;
+    if (data.institutionType === "") error.institutionType.required = true;
+    // if (data.costOfLiving === "") error.costOfLiving.required = true;
+    if (!isValidName(data.universityName)) {
+      error.universityName.valid = true;
     }
-    if (!data.universityName) {
-      error.universityName.required = true;
+    if (!isValidYear(data.founded)) {
+      error.founded.valid = true;
     }
-    if (!data.paymentMethod) {
-      error.paymentMethod.required = true;
+    if (!isValidPinCode(data.averageFees)) {
+      error.averageFees.valid = true;
     }
-    if (!data.eligibility) {
-      error.eligibility.required = true;
+    if (!isValidWebsite(data.website)) {
+      error.website.valid = true;
     }
-    if (!data.tax) {
-      error.tax.required = true;
-    }
-    if (!data.paymentType) {
-      error.paymentType.required = true;
-    }
-
+    if (!isValidEmail(data.email)) error.email.valid = true;
     return error;
   };
-  const addYear = () => {
-    const newYear = {
-      year: "",
-      courseTypes: [{ courseType: "", intake: "", value: null }],
-    };
-    setYears([...years, newYear]);
-  };
 
-  const addCourseType = (yearIndex) => {
-    const updatedYears = [...years];
-    updatedYears[yearIndex].courseTypes.push({
-      courseType: "",
-      intake: "",
-      value: null,
-    });
-    setYears(updatedYears);
-  };
+  useEffect(() => {
+    getClientList();
+    // getCountryList();
+    getAllCatgoeryDetails();
+    getAllCourseDetails();
+    getOfferTatList();
+    getAllInstitutionDetails();
 
-  const removeCourseType = (yearIndex, courseTypeIndex) => {
-    // Create a copy of the year object from state
-    const updatedYear = { ...year };
+    getAllIntakeDetails();
+  }, []);
 
-    // Remove the courseType at the specified index
-    updatedYear.courseTypes.splice(courseTypeIndex, 1);
-
-    // Update the state with the modified year object
-    // Assuming you have a setState function to update the state
-    setYear(updatedYear); // Replace setYear with your state setter function
-  };
-  const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
-    const updatedYears = [...years];
-    if (courseTypeIndex !== null) {
-      updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
-    } else {
-      updatedYears[yearIndex][fieldName] = value;
-    }
-    setYears(updatedYears);
-  };
-  const yearOptions = year.map((data) => ({
-    value: data.year,
-    label: data.year,
-  }));
-
-  const fetchCountryDetails = (selectedCountry) => {
-    const selectedCountryData = countries.find(
-      (c) => c.country === selectedCountry
-    );
-    if (selectedCountryData) {
-      setCommission((prevState) => ({
-        ...prevState,
-        currency: selectedCountryData.currency,
-        flag: selectedCountryData.flag,
-      }));
-    }
-  };
-
-  const handleCountryChange = (event) => {
-    const selectedCountry = event.target.value;
-    setCommission({ ...commission, country: selectedCountry });
-
-    getUniversitiesByCountry(selectedCountry)
+  const getAllCourseDetails = () => {
+    getallModule()
       .then((res) => {
-        setUniversities(res?.data?.result || []);
+        console.log(res);
+        setType(res?.data?.result);
       })
       .catch((err) => {
-        console.error(
-          `Error fetching universities for ${selectedCountry}:`,
-          err
-        );
-        setUniversities([]);
+        console.log(err);
       });
+  };
+  const getAllIntakeDetails = () => {
+    getallIntake()
+      .then((res) => {
+        console.log(res);
+        setInTake(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getClientList = () => {
+    getallClient()
+      .then((res) => {
+        const value = res?.data?.result;
+        setClient(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  // const getCountryList = () => {
+  //   getallCountry()
+  //     .then((res) => {
+  //       const value = res?.data?.result;
+  //       setCountry(value);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
-    fetchCountryDetails(selectedCountry);
+  const getAllCatgoeryDetails = () => {
+    getallCategories()
+      .then((res) => {
+        console.log(res);
+        setCategories(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getOfferTatList = () => {
+    getallOfferTatModule()
+      .then((res) => {
+        const value = res?.data?.result;
+        setOfferTat(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllInstitutionDetails = () => {
+    getallInstitutionModule()
+      .then((res) => {
+        console.log(res);
+        setInstitution(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        [name]: reader.result,
+      }));
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
   const handleInputs = (event) => {
-    const { name, value } = event.target;
-    setCommission({ ...commission, [name]: value });
-
-    if (name === "universityName") {
-      const selectedUniversity = universities.find(
-        (u) => u.universityName === value
-      );
-      if (selectedUniversity) {
-        setCommission((prevState) => ({
-          ...prevState,
-          universityId: selectedUniversity._id,
-          clientName: selectedUniversity.businessName,
-          courseType: selectedUniversity.courseType,
-        }));
-        setYears((prevYears) =>
-          prevYears.map((year) => ({
-            ...year,
-            courseTypes: [
-              {
-                courseType: selectedUniversity.courseType,
-                intake: "",
-                value: null,
-              },
-            ],
-          }))
-        );
-      }
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else {
+      setUniversity((prevUniversity) => {
+        const updatedUniversity = { ...prevUniversity, [name]: value };
+        return updatedUniversity;
+      });
     }
-
     if (submitted) {
-      const newError = handleValidation({ ...commission, [name]: value });
+      const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);
     }
   };
-
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
+  const handleSelectChange = (selectedOptions, action) => {
+    const { name } = action;
+    const values = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    setUniversity({ ...university, [name]: values });
   };
+  // const getCountryRegionInstance = () => {
+  //   if (!countryRegion) {
+  //     countryRegion = new CountryRegion();
+  //   }
+  //   return countryRegion;
+  // };
+  const getCountryRegionInstance = () => {
+    return new CountryRegion();
+  };
+
+  useEffect(() => {
+    const getCountries = async () => {
+      try {
+        const countries = await getCountryRegionInstance().getCountries();
+        setCountries(
+          countries.map((country) => ({
+            value: country.id,
+            label: country.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getCountries();
+  }, []);
+
+  useEffect(() => {
+    const getStates = async () => {
+      try {
+        const states = await getCountryRegionInstance().getStates(country);
+        setStates(
+          states.map((userState) => ({
+            value: userState?.id,
+            label: userState?.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (country) {
+      getStates();
+    }
+  }, [country]);
+
+  useEffect(() => {
+    const getLGAs = async () => {
+      try {
+        const allLGAs = await Promise.all(
+          selectedStates.map(async (state) => {
+            const lgas = await getCountryRegionInstance().getLGAs(country, state.value);
+            return lgas.map((lga) => ({
+              value: lga?.id,
+              label: lga?.name,
+            }));
+          })
+        );
+        setLGAs(allLGAs.flat());
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (selectedStates.length > 0) {
+      getLGAs();
+    }
+  }, [selectedStates, country]);
+
+  const handleCountryChange = (selectedOption) => {
+    setCountry(selectedOption.value);
+    setSelectedStates([]);
+    setStates([]);
+    setSelectedLGAs([]);
+    setLGAs([]);
+  };
+
+  const handleStateChange = (selectedOptions) => {
+    setSelectedStates(selectedOptions || []);
+    setSelectedLGAs([]);
+    setLGAs([]);
+  };
+
+  const handleLGAChange = (selectedOptions) => {
+    setSelectedLGAs(selectedOptions || []);
+  };
+
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const newError = handleValidation(university);
+  //   setErrors(newError);
+  //   setSubmitted(true);
+  //   // const selectedCountryLabel =
+  //   //   countries.find((country) => country.value === selectedCountry)?.label ||
+  //   //   "";
+  //   // const selectedStatesLabels = selectedStates.map((state) => state.label);
+  //   // const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
+  //    const updatedUniversity = {
+  //     ...university,
+  //     country: countries.find(option => option.value === country)?.label,
+  //     state: states.find(option => option.value === state)?.label,
+  //     lga: lgas.find(option => option.value === lga)?.label
+  
+  //   };
+
+  //   if (handleErrors(newError)) {
+  //     saveUniversity(updatedUniversity)
+  //       .then((res) => {
+  //         toast.success(res?.data?.message);
+  //         navigate("/ListUniversity");
+  //       })
+  //       .catch((err) => {
+  //         toast.error(err?.response?.data?.message);
+  //       });
+  //   }
+  // };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Validate the commission data
-    const newError = handleValidation(commission);
+    const newError = handleValidation(university);
     setErrors(newError);
     setSubmitted(true);
+    const selectedCountryLabel =
+      countries.find((country) => country.value ===countries)?.label ||
+      "";
+    const selectedStatesLabels = selectedStates.map((state) => state.label);
+    const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
+    const updatedUniversity = {
+      ...university,
+      country: selectedCountryLabel,
+      state: selectedStatesLabels,
+      lga: selectedLGAsLabels,
+    };
 
-    // Check if all inputs are valid
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-
-    if (valid) {
-      // Prepare years data for submission
-      const yearsData = years.map((year) => ({
-        year: year.year,
-        courseTypes: year.courseTypes.map((courseType) => ({
-          courseType: courseType.courseType,
-          inTake: courseType.inTake,
-          value: courseType.value,
-        })),
-      }));
-
-      // Prepare commission data including years
-      const dataToSave = {
-        ...commission,
-        years: yearsData,
-      };
-
-      // Call API to save commission
-      updatedCommission(dataToSave)
+    if (handleErrors(newError)) {
+      saveUniversity(updatedUniversity)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListCommission");
+          navigate("/ListUniversity");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
     }
   };
+  
+  const popularCategoriesOptions = categorie.map((data) => ({
+    value: data.popularCategories,
+    label: data.popularCategories,
+  }));
+  const courseTypeOptions = type.map((data) => ({
+    value: data.courseType,
+    label: data.courseType,
+  }));
+  const intakeOptions = inTake.map((data) => ({
+    value: data.intakeName,
+    label: data.intakeName,
+  }));
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4.91319px",
+      fontSize: "11px",
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#3B0051" : "#F2CCFF",
+      ":hover": {
+        color: "black",
+      },
+    }),
+  };
 
   return (
-    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-      <div className="container-fluid">
-        <nav className="navbar navbar-vertical navbar-expand-lg">
-          <Sidebar />
-        </nav>
-
+    <>
+      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+        <div class="container-fluid">
+          <nav class="navbar navbar-vertical navbar-expand-lg">
+            <Sidebar />
+          </nav>
+        </div>
         <div
-          className="content-wrapper"
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+          className="content-wrapper "
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
-          <div className="content-header">
-            <div className="content container-fluid">
+          <div className="content-header ">
+            <div className=" container-fluid ">
               <form onSubmit={handleSubmit}>
                 <div className="row">
-                  <div className="col-xl-12">
-                    <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
-                      <div
-                        className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                        style={{ background: "#fe5722", color: "#fff" }}
-                      >
-                        <h5 className="text-center text-capitalize p-1">
-                          Add Commission Details
+                  <div className="col-xl-12 ">
+                    <div className="card rounded-0 shadow-sm border-0 ">
+                      <div className=" position-relative">
+                        <label
+                          htmlFor="banner"
+                          className="file-upload"
+                          style={{ color: "#231F20" }}
+                        >
+                          <img
+                            class="card-img-top rounded-0 "
+                            src={
+                              university?.banner
+                                ? university?.banner
+                                : "https://wallpapercave.com/wp/wp6837474.jpg"
+                            }
+                            alt="image"
+                            style={{
+                              width: "60.9rem",
+                              height: "12rem",
+                              objectFit: "fill",
+                            }}
+                          />
+                        </label>
+                        <input
+                          name="banner"
+                          id="banner"
+                          type="file"
+                          accept="image/*"
+                          className="form-control border-0 text-dark bg-transparent"
+                          style={{
+                            display: "none",
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          onChange={handleInputs}
+                        />
+                        <label
+                          htmlFor="fileInputImage"
+                          className="file-upload"
+                          style={{ color: "#231F20" }}
+                        >
+                          <img
+                            class="img-fluid rounded-pill img-thumbnail position-absolute profile-logo  "
+                            src={
+                              university?.universityLogo
+                                ? university?.universityLogo
+                                : "https://placehold.co/128x128"
+                            }
+                            alt="image"
+                            style={{
+                              width: "8rem",
+                              height: "8rem",
+                              left: "50%",
+                              top: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          />
+                        </label>
+                        <input
+                          name="universityLogo"
+                          id="fileInputImage"
+                          type="file"
+                          accept="image/*"
+                          className="form-control border-0 text-dark bg-transparent"
+                          style={{
+                            display: "none",
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          onChange={handleInputs}
+                        />
+                      </div>
+                      <div className="card-header rounded-0 bg-white ">
+                        <h5
+                          style={{
+                            fontVariant: "all-small-caps",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Add University Details{" "}
                         </h5>
                       </div>
-                      <div className="card-body mt-5">
+                      <div className="card-body p-4">
                         <div className="row g-3">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Country<span className="text-danger">*</span>
+                              {" "}
+                              Client Name<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select"
-                              name="country"
-                              
-                              value={commission.country}
-                              onChange={handleCountryChange}
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              className="form-select rounded-1 form-select-lg  "
+                              name="businessName"
                             >
-                              <option value="">Select Country</option>
-                              {countries.map((country) => (
-                                <option
-                                  key={country._id}
-                                  value={country.country}
-                                >
-                                  {country.country}
+                              <option value={""} disabled hidden>
+                                Select Client
+                              </option>
+                              {client.map((data, index) => (
+                                <option key={index} value={data?.businessName}>
+                                  {" "}
+                                  {data?.businessName}
                                 </option>
                               ))}
                             </select>
-                            {errors.country.required ? (
-                              <span className="text-danger form-text profile_error">
+                            {errors.businessName.required ? (
+                              <div className="text-danger form-text">
                                 This field is required.
-                              </span>
+                              </div>
                             ) : null}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              University<span className="text-danger">*</span>
+                              Institution Type{" "}
+                              <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select"
-                              name="universityName"
-                              value={commission.universityName}
+                              className="form-select form-select-lg rounded-1"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="institutionType"
                               onChange={handleInputs}
                             >
-                              <option value="">Select University</option>
-                              {universities.map((uni) => (
+                              <option value={" "}>
+                                Select Institution Type
+                              </option>
+                              {institutation.map((data, index) => (
                                 <option
-                                  key={uni._id}
-                                  value={uni.universityName}
+                                  key={index}
+                                  value={data?.institutionType}
                                 >
-                                  {uni.universityName}
+                                  {" "}
+                                  {data?.institutionType}
                                 </option>
                               ))}
                             </select>
-                            {errors.universityName.required ? (
+                            {errors.institutionType.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              University Name
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control "
+                              placeholder="Enter University Name"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="universityName"
+                              onChange={handleInputs}
+                            />
+                            {errors.universityName.required && (
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
+                            )}
+                            {errors.universityName.valid && (
+                              <div className="text-danger form-text">
+                                Name should contain only letters.
+                              </div>
+                            )}
+                          </div>
+                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Country<span className="text-danger">*</span>
+                            </label>
+
+                            <Select
+                              placeholder="Select  Country"
+                              onChange={handleCountryChange}
+                              options={countries}
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select "
+                            />
+                            {errors.country.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
                             ) : null}
                           </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              State<span className="text-danger">*</span>
+                            </label>
+                            {states.length !== ZERO && (
+                              <Select
+                                placeholder="Select  State"
+                                isMulti
+                                onChange={handleStateChange}
+                                options={states}
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                            )}
+                            {errors.state.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              City<span className="text-danger">*</span>
+                            </label>
+                            {lgas.length !== ZERO && (
+                              <Select
+                                placeholder="Select  City"
+                                isMulti
+                                onChange={handleLGAChange}
+                                options={lgas}
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                            )}
+                          </div> */}
 
-                      
-                          <div className="row g-2">
-                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                              <button
-                                type="button"
-                                className="btn text-white ml-2"
-                                style={{
-                                  backgroundColor: "#FE5722",
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+          Country<span className="text-danger">*</span>
+        </label>
+        <Select
+          placeholder="Select Country"
+          onChange={handleCountryChange}
+          options={countries}
+          name="country"
+          styles={customStyles}
+          value={countries.find((option) => option.value === country)}
+          className="submain-one-form-body-subsection-select"
+        />
+        {errors.country.required ? (
+          <div className="text-danger form-text">
+            This field is required.
+          </div>
+        ) : null}
+      </div>
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+          State<span className="text-danger">*</span>
+        </label>
+        <Select
+          placeholder="Select State"
+          isMulti
+          onChange={handleStateChange}
+          options={states}
+          name="state"
+          styles={customStyles}
+          value={selectedStates}
+          className="submain-one-form-body-subsection-select"
+        />
+        {errors.state.required && (
+          <div className="text-danger form-text">
+            This field is required.
+          </div>
+        )}
+      </div>
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+          City<span className="text-danger">*</span>
+        </label>
+        <Select
+          placeholder="Select City"
+          value={selectedLGAs}
+          isMulti
+          onChange={handleLGAChange}
+          options={lgas}
+          name="lga"
+          styles={customStyles}
+          className="submain-one-form-body-subsection-select"
+        />
+      </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              E-Mail<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control "
+                              placeholder="Enter E-Mail"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="email"
+                              onChange={handleInputs}
+                            />
+                            {errors.email.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : errors.email.valid ? (
+                              <div className="text-danger form-text">
+                                Enter valid Email Id.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Website<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control "
+                              placeholder="Enter Website"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="website"
+                              onChange={handleInputs}
+                            />
+                            {errors.website.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                            {errors.website.valid && (
+                              <div className="text-danger form-text">
+                                Enter a valid Website URL.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Course Type<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              options={courseTypeOptions}
+                              name="courseType"
+                              onChange={handleSelectChange}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                                onClick={addYear}
-                              >
-                                Add Year
-                              </button>
-                            </div>
+                                  fontSize: "12px",
+                                }),
+                              }}
+                              placeholder="Select Course Type"
+                            ></Select>
+                            {errors.courseType.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                           </div>
-                          <div className="row g-3 mt-3">
-                            <div className="col-12">
-                              {years.map((year, yearIndex) => (
-                                <div
-                                  key={yearIndex}
-                                  className="year-section mb-3"
-                                >
-                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>
-                                      Year
-                                    </label>
-                                    <select
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "14px",
-                                      }}
-                                      value={commission?.years?.year }
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          yearIndex,
-                                          null,
-                                          "year",
-                                          e.target.value
-                                        )
-                                      }
-                                      name="year"
-                                      className="form-select mb-3 "
-                                      placeholder="Enter Year"
-                                    >
-                                      <option value="">Select Year</option>
-                                      {yearOptions.map((option) => (
-                                        <option
-                                          key={option.value}
-                                          value={option.value}
-                                        >
-                                          {option.label}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
-                                  <div>
-                                    <div>
-                                      {year?.courseTypes &&
-                                        year?.courseTypes.map(
-                                          (courseType, courseTypeIndex) => (
-                                            <div
-                                              className="row g-3"
-                                              key={courseTypeIndex}
-                                            >
-                                              <div className=" col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  Course Type
-                                                </label>
-                                                <select
-                                                  className="form-select"
-                                                  value={courseType.courseType}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "courseType",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select Course Type
-                                                  </option>
-
-                                                  {(
-                                                    universities.find(
-                                                      (uni) =>
-                                                        uni.universityName ===
-                                                        commission.universityName
-                                                    )?.courseType || []
-                                                  ).map((type, idx) => (
-                                                    <option
-                                                      key={idx}
-                                                      value={type}
-                                                    >
-                                                      {type}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  inTake
-                                                </label>
-                                                <select
-                                                  className="form-select"
-                                                  value={courseType.inTake}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "inTake",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select inTake
-                                                  </option>
-
-                                                  {(
-                                                    universities.find(
-                                                      (uni) =>
-                                                        uni.universityName ===
-                                                        commission.universityName
-                                                    )?.inTake || []
-                                                  ).map((type, idx) => (
-                                                    <option
-                                                      key={idx}
-                                                      value={type}
-                                                    >
-                                                      {type}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  value
-                                                </label>
-                                                <input
-                                                  className="form-control"
-                                                  type="text"
-                                                  name="value"
-                                                  placeholder="Value"
-                                                  value={courseType.value}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "value",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                />
-                                              </div>
-
-                                              <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                                <button
-                                                  type="button"
-                                                  className="btn text-white ml-2 mb-3"
-                                                  onClick={() =>
-                                                    removeCourseType(
-                                                      yearIndex,
-                                                      courseTypeIndex
-                                                    )
-                                                  }
-                                                  style={{
-                                                    backgroundColor: "#FE5722",
-                                                    fontFamily:
-                                                      "Plus Jakarta Sans",
-                                                    fontSize: "14px",
-                                                  }}
-                                                >
-                                                  <FaTrash />
-                                                </button>
-                                              </div>
-                                            </div>
-                                          )
-                                        )}
-                                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                        <button
-                                          type="button"
-                                          className="btn text-white ml-2"
-                                          onClick={() =>
-                                            addCourseType(yearIndex)
-                                          }
-                                          style={{
-                                            backgroundColor: "#FE5722",
-                                            fontFamily: "Plus Jakarta Sans",
-                                            fontSize: "14px",
-                                          }}
-                                        >
-                                          Add Course
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Found Year <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Founded Year"
+                              name="founded"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                            />
+                            {errors.founded.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                            {errors.founded.valid && (
+                              <div className="text-danger form-text">
+                                Enter a valid Number Only.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>Ranking</label>
+                            <input
+                              type="text"
+                              className="form-control "
+                              placeholder="Enter Ranking "
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="ranking"
+                              onChange={handleInputs}
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Popular Categories{" "}
+                              <span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              options={popularCategoriesOptions}
+                              name="popularCategories"
+                              onChange={handleSelectChange}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }),
+                              }}
+                              placeholder="Select Popular Categories"
+                            ></Select>
+                            {errors.popularCategories.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Average Fees<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Average Fees"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="averageFees"
+                              onChange={handleInputs}
+                            />
+                            {errors.averageFees.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                            {errors.averageFees.valid && (
+                              <div className="text-danger form-text">
+                                Enter a valid Number Only.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              InTake<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              options={intakeOptions}
+                              name="inTake"
+                              onChange={handleSelectChange}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }),
+                              }}
+                              placeholder="Select InTake"
+                            ></Select>
+                            {errors.inTake.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Offer TAT<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-select form-select-lg rounded-1"
+                              name="offerTAT"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                            >
+                              {" "}
+                              <option value={" "}>Select OfferTAT</option>
+                              {offerTAT.map((data, index) => (
+                                <option key={index} value={data?.offerTAT}>
+                                  {" "}
+                                  {data?.offerTAT}
+                                </option>
                               ))}
+                            </select>
+                            {errors.offerTAT.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                                About <span className="text-danger">*</span>
+                              </label>
+                              <textarea
+                                className="form-control"
+                                placeholder="Enter About"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                rows="5" // You can adjust the number of rows as needed
+                                onChange={handleInputs}
+                                name="about"
+                              ></textarea>
                             </div>
                           </div>
-                        </div>
+                          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                                Admission Requirement{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <textarea
+                                className="form-control"
+                                placeholder="Enter Admission Requirements"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                rows="5" // You can adjust the number of rows as needed
+                                onChange={handleInputs}
+                                name="admissionRequirement"
+                              ></textarea>
+                            </div>
+                          </div>
 
-                        <div className="row g-2">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                              to="/ListCommission"
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
+                                fontSize: "12px",
                               }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                              to="/ListUniversity"
+                              className="btn btn-cancel border-0 px-4 py-2 fw-semibold text-uppercase text-white  m-1"
                             >
                               Cancel
                             </Link>
@@ -625,10 +1002,10 @@ function AddCommission() {
                               style={{
                                 backgroundColor: "#FE5722",
                                 fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
+                                fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                              className="btn btn-save border-0 px-4 py-2 fw-semibold text-uppercase text-white m-1"
                             >
                               Submit
                             </button>
@@ -643,8 +1020,7 @@ function AddCommission() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
-
-export default AddCommission;
+export default Profile;

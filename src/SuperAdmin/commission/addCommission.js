@@ -192,16 +192,13 @@ function AddCommission() {
     };
 
     const removeCourseType = (yearIndex, courseTypeIndex) => {
-        // Create a copy of the year object from state
-        const updatedYear = { ...year };
-
-        // Remove the courseType at the specified index
-        updatedYear.courseTypes.splice(courseTypeIndex, 1);
-
-        // Update the state with the modified year object
-        // Assuming you have a setState function to update the state
-        setYear(updatedYear); // Replace setYear with your state setter function
-    };
+        const updatedYears = [...commission.years];
+        updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+        setCommission({
+          ...commission,
+          years: updatedYears,
+        });
+      };
     const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
         const updatedYears = [...years];
         if (courseTypeIndex !== null) {
@@ -476,20 +473,7 @@ function AddCommission() {
                                                         </select>
                                                         {errors.paymentType.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
-                                                    <div className='row g-3'>
-                                                        <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-
-                                                            <button
-                                                                type="button"
-                                                                className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
-                                                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                                onClick={addYear}
-                                                            >
-                                                                <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>    Add Year
-                                                            </button>
-
-                                                        </div>
-                                                    </div>
+                                                   
                                                     <div className="row g-3 mt-3">
                                                         <div className="col-12">
 
@@ -568,30 +552,34 @@ function AddCommission() {
                                                                                         />
                                                                                     </div>
 
-                                                                                    <div className='add-customer-btns mb-40 d-flex justify-content-end ml-auto'>
-                                                                                        <button
-                                                                                            type="button"
-                                                                                            className="btn btn-sm text-bg-danger text-white ml-2 mb-3"
-                                                                                            onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
-                                                                                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                                                                        >
-                                                                                            <FaTrash />
-                                                                                        </button>
-                                                                                    </div>
+                                                                                    <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+              <button
+                type="button"
+                className="btn text-white ml-2 mb-3"
+                onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
+                style={{
+                  backgroundColor: "#FE5722",
+                  fontFamily: "Plus Jakarta Sans",
+                  fontSize: "14px",
+                }}
+              >
+                <FaTrash />
+              </button>
+            </div>
 
 
 
 
                                                                                 </div>
                                                                             ))}
-                                                                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                                                                            <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto">
                                                                                 <button
                                                                                     type="button"
-                                                                                    className="btn text-uppercase px-4 py-2 fw-semibold  text-white ml-2"
+                                                                                    className="btn text-uppercase px-4 py-2 fw-semibold  text-white "
                                                                                     onClick={() => addCourseType(yearIndex)}
                                                                                     style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                                                 >
-                                                                                    <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>   Add Course
+                                                                                    <i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Course
                                                                                 </button>
                                                                             </div>
 
@@ -606,7 +594,20 @@ function AddCommission() {
 
                                                         </div>
                                                     </div>
+                                                    <div className='row g-3'>
+                                                        <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto">
 
+                                                            <button
+                                                                type="button"
+                                                                className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
+                                                                style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                                onClick={addYear}
+                                                            >
+                                                                <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>    Add Year
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
 
                                                 </div>
 
