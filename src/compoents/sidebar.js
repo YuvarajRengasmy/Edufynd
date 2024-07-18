@@ -4,6 +4,7 @@ import { clearStorage } from "../Utils/storage";
 import { Link } from "react-router-dom";
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
 import "./Sidebar.css";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState({
@@ -38,7 +39,7 @@ const Sidebar = () => {
           fontFamily: "helvetica",
           fontSize: "12px",
           position: "fixed",
-          width: "200px",
+          width: "250px",
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
@@ -48,7 +49,7 @@ const Sidebar = () => {
           <div className="sidebar">
             <div className="user-panel mt-2  d-flex">
               <div className="info  mt-1">
-                <Link
+                <NavLink activeClassName="active"
                   to="/DashBoard"
 
                   className="brand-text font-weight-light text-decoration-none"
@@ -59,7 +60,7 @@ const Sidebar = () => {
                     className="img-fluid "
                     style={{ width: "100%" }}
                   />
-                </Link>
+                </NavLink>
               </div>
             </div>
             <nav>
@@ -69,130 +70,65 @@ const Sidebar = () => {
                 role="menu"
                 data-accordion="false"
               >
-                <li className="nav-item mt-1 ">
-                  <Link
+                <li className="nav-item">
+                  <NavLink
                     to="/DashBoard"
-
+                    exact
+                    activeClassName="active"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fas fa-tachometer-alt "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Dashboard
-                    </p>
-                  </Link>
+                    <i className="nav-icon fas fa-tachometer-alt" style={{fontSize:'13px'}} />
+                    <p className="nav-text">Dashboard</p>
+                  </NavLink>
                 </li>
-                <li className="nav-item  ">
-                  <Link
+                <li className="nav-item">
+                  <NavLink
                     to="/client"
-
-                    className="nav-link "
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <i
-                      className="nav-icon fas fa-user "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* University Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Client
-                    </p>
-                  </Link>
-                </li>
-                <li className="nav-item  ">
-                  <Link
-                    to="/ListUniversity"
-
-                    className="nav-link "
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <i
-                      className="nav-icon fas fa-university "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* University Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      University
-                    </p>
-                  </Link>
-                </li>
-                <li className="nav-item  ">
-                  <Link
-                    to="/ListCommission"
-
-                    className="nav-link "
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <i
-                      className="nav-icon fas fa-credit-card "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* University Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Commission
-                    </p>
-                  </Link>
-                </li>
-                <li className="nav-item ">
-                  <Link
-                    to="/Programs"
-                    href=""
+                    exact
+                    activeClassName="active"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fa  fa-graduation-cap "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Program Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Program
-                    </p>
-                  </Link>
+                    <i className="nav-icon fas fa-user" style={{fontSize:'13px'}} />
+                    <p className="nav-text">Client</p>
+                  </NavLink>
                 </li>
+
+                <li className="nav-item">
+                  <NavLink
+                    to="/ListUniversity"
+                    exact
+                    activeClassName="active"
+                    className="nav-link"
+                  >
+                    <i className="nav-icon fas fa-university" style={{fontSize:'13px'}} />
+                    <p className="nav-text">University</p>
+                  </NavLink>
+                </li>
+
+                <li className="nav-item">
+                  <NavLink
+                    to="/ListCommission"
+                    exact
+                    activeClassName="active"
+                    className="nav-link"
+                  >
+                    <i className="nav-icon fas fa-credit-card" style={{fontSize:'13px'}} />
+                    <p className="nav-text">Commission</p>
+                  </NavLink>
+                </li>
+
+                <li className="nav-item">
+                  <NavLink
+                    to="/Programs"
+                    exact
+                    activeClassName="active"
+                    className="nav-link"
+                  >
+                    <i className="nav-icon fa fa-graduation-cap" style={{fontSize:'13px'}} />
+                    <p className="nav-text">Program</p>
+                  </NavLink>
+                </li>
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
@@ -201,9 +137,6 @@ const Sidebar = () => {
                     aria-expanded={isOpen.users}
                     aria-controls="collapse3"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -211,14 +144,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("users")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-users"
-                        style={{
-                          color: "#fe5722",
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                        }}
-                      />
+                      <i className="nav-icon fas fa-users" style={{fontSize:'13px'}}/>
                       <span
                         style={{
                           fontSize: "12px",
@@ -226,95 +152,67 @@ const Sidebar = () => {
                           marginLeft: "5px",
                         }}
                       >
-                        {" "}
                         Users
                       </span>
                     </div>
                     <i
-                      className={`fa fa-angle-right ${isOpen.users ? "rotate-icon" : ""
-                        }`}
+                      className={`fa fa-angle-right ${isOpen.users ? "rotate-icon" : ""}`}
                       aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
                     />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.users ? "show" : ""}`}
-                    id="collapse3"
-                  >
+                  <div className={`collapse ${isOpen.users ? "show" : ""}`} id="collapse3">
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListStudent"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Students
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListStaff"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
-                          {" "}
                           Staffs
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListAgent"
-                          href=""
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Agents
-                        </Link>
+                        </NavLink>
                       </li>
-
                     </ul>
                   </div>
                 </li>
-                <li className="nav-item ">
-                  <Link
-                    to="/ListApplication"
 
+                <li className="nav-item">
+                  <NavLink
+                    to="/ListApplication"
+                    exact
+                    activeClassName="active"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fas fa-book "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Program Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Application
-                    </p>
-                  </Link>
+                    <i className="nav-icon fas fa-book" style={{fontSize:'13px'}} />
+                    <p className="nav-text">Application</p>
+                  </NavLink>
                 </li>
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
-
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.enquiry}
                     aria-controls="collapse1"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -322,116 +220,92 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("enquiry")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{
-                          color: "#fe5722",
+                      <i className="nav-icon fas fa-envelope" style={{fontSize:'13px'}} />
+                      <span    style={{
                           fontSize: "12px",
                           fontWeight: "bold",
-                        }}
-                      />
-                      <span
-                        style={{ fontSize: "12px", fontWeight: "bold" }}
-                        className="pe-2"
-                      >
-                        {" "}
-                        Enquiry
-                      </span>
+                          marginLeft: "5px",
+                        }}>Enquiry</span>
                     </div>
-                    <i
-                      className={`fa fa-angle-right ${isOpen.enquiry ? "rotate-icon" : ""
-                        }`}
-                      aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />
+                    <i className={`fa fa-angle-right ${isOpen.enquiry ? "rotate-icon" : ""}`} aria-hidden="true" />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.enquiry ? "show" : ""}`}
-                    id="collapse1"
-                  >
+                  <div className={`collapse ${isOpen.enquiry ? "show" : ""}`} id="collapse1">
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListStudentForm"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
-                          Student{" "}
-                        </Link>
+                          Student
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListForexForm"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
-                          FOREX{" "}
-                        </Link>
+                          FOREX
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListAccommodation"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Accommodation
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListFlightTicket"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Flight
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListLoanEnquiry"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Loan
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListBusinessEnquiry"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Business Enquiry
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListGeneralEnquiry"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           General Enquiry
-                        </Link>
+                        </NavLink>
                       </li>
                     </ul>
                   </div>
                 </li>
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
-
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.finance}
                     aria-controls="collapse2"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -439,97 +313,74 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("finance")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fa fa-flag"
-                        style={{
-                          color: "#fe5722",
+                      <i className="nav-icon fa fa-flag"  style={{fontSize:'13px'}}/>
+                      <span style={{
                           fontSize: "12px",
                           fontWeight: "bold",
-                        }}
-                      />
-                      <span
-                        style={{ fontSize: "12px", fontWeight: "bold" }}
-                        className="pe-2"
-                      >
-                        Finance
-                      </span>
+                          marginLeft: "5px",
+                        }}>Finance</span>
                     </div>
-                    <i
-                      className={`fa fa-angle-right ${isOpen.finance ? "rotate-icon" : ""
-                        }`}
-                      aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />
+                    <i className={`fa fa-angle-right ${isOpen.finance ? "rotate-icon" : ""}`} aria-hidden="true" />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.finance ? "show" : ""}`}
-                    id="collapse2"
-                  >
+                  <div className={`collapse ${isOpen.finance ? "show" : ""}`} id="collapse2">
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
-                          Income{" "}
-                        </Link>
+                          Income
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Expense
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Raise Quotations
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListInvoice"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Raise Invoice
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Income Report
-                        </Link>
+                        </NavLink>
                       </li>
                     </ul>
                   </div>
                 </li>
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
-
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.hrms}
                     aria-controls="collapse5"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -537,115 +388,92 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("hrms")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{
-                          color: "#fe5722",
+                      <i className="nav-icon fas fa-envelope" style={{fontSize:'13px'}} />
+                      <span style={{
                           fontSize: "12px",
                           fontWeight: "bold",
-                        }}
-                      />
-                      <span
-                        style={{ fontSize: "12px", fontWeight: "bold" }}
-                        className="pe-2 text-uppercase"
-                      >
-                        HRMS
-                      </span>
+                          marginLeft: "5px",
+                        }}>HRMS</span>
                     </div>
-                    <i
-                      className={`fa fa-angle-right ${isOpen.hrms ? "rotate-icon" : ""
-                        }`}
-                      aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />
+                    <i className={`fa fa-angle-right ${isOpen.hrms ? "rotate-icon" : ""}`} aria-hidden="true" />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.hrms ? "show" : ""}`}
-                    id="collapse5"
-                  >
+                  <div className={`collapse ${isOpen.hrms ? "show" : ""}`} id="collapse5">
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Staffs
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Attendance
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Payroll
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Leave
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
-                          className="nav-link  text-uppercase fw-semibold"
+                          className="nav-link text-uppercase fw-semibold"
                         >
-                          KPI{" "}
-                        </Link>
+                          KPI
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Policies
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Performance Report
-                        </Link>
+                        </NavLink>
                       </li>
                     </ul>
                   </div>
                 </li>
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
-
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
                     aria-controls="collapse12"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -653,70 +481,47 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Projects")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-id-card"
-                        style={{
-                          color: "#fe5722",
+                      <i className="nav-icon fas fa-id-card" style={{fontSize:'13px'}} />
+                      <span style={{
                           fontSize: "12px",
                           fontWeight: "bold",
-                        }}
-                      />
-                      <span
-                        style={{ fontSize: "12px", fontWeight: "bold" }}
-                        className="pe-2 "
-                      >
-                        Project & Task
-                      </span>
+                          marginLeft: "5px",
+                        }}>Project & Task</span>
                     </div>
-                    <i
-                      className={`fa fa-angle-right ${isOpen.Projects ? "rotate-icon" : ""
-                        }`}
-                      aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />
+                    <i className={`fa fa-angle-right ${isOpen.Projects ? "rotate-icon" : ""}`} aria-hidden="true" />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.Projects ? "show" : ""}`}
-                    id="collapse12"
-                  >
+                  <div className={`collapse ${isOpen.Projects ? "show" : ""}`} id="collapse12">
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Project
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="#"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Task
-                        </Link>
+                        </NavLink>
                       </li>
                     </ul>
                   </div>
                 </li>
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
-
                     className="nav-link"
                     data-bs-toggle="collapse"
-                    aria-expanded={isOpen.Projects}
+                    aria-expanded={isOpen.Marketing}
                     aria-controls="collapse17"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -724,355 +529,215 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Marketing")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-id-card"
-                        style={{
-                          color: "#fe5722",
+                      <i className="nav-icon fas fa-id-card" style={{fontSize:'13px'}}/>
+                      <span style={{
                           fontSize: "12px",
                           fontWeight: "bold",
-                        }}
-                      />
-                      <span
-                        style={{ fontSize: "12px", fontWeight: "bold" }}
-                        className="pe-2 "
-                      >
-                        Marketing
-                      </span>
+                          marginLeft: "5px",
+                        }}>Marketing</span>
                     </div>
-                    <i
-                      className={`fa fa-angle-right ${isOpen.Marketing ? "rotate-icon" : ""
-                        }`}
-                      aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />
+                    <i className={`fa fa-angle-right ${isOpen.Marketing ? "rotate-icon" : ""}`} aria-hidden="true" />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.Marketing ? "show" : ""}`}
-                    id="collapse17"
-                  >
+                  <div className={`collapse ${isOpen.Marketing ? "show" : ""}`} id="collapse17">
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListSocialMedia"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Social Media
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListCampaign"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Campaigns
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
+                        <NavLink
+                          activeClassName="active"
                           to="/ListDailyTask"
-
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Daily Task
-                        </Link>
+                        </NavLink>
                       </li>
                     </ul>
                   </div>
                 </li>
 
-                <li className="nav-item ">
-                  <Link
+
+                <li className="nav-item">
+                  <NavLink
                     to="/ListNotifications"
-
+                    activeClassName="active"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fas fa-bell "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Notifications
-                    </p>
-                  </Link>
-                </li>{" "}
-                <li className="nav-item ">
-                  <Link
+                    <i className="nav-icon fas fa-bell"  style={{fontSize:'13px'}}/>
+                    <p>Notifications</p>
+                  </NavLink>
+                </li>
+
+                <li className="nav-item">
+                  <NavLink
                     to="/ListMeetings"
-
+                    activeClassName="active"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fa fa-flag "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Meetings
-                    </p>
-                  </Link>
+                    <i className="nav-icon fa fa-flag" style={{fontSize:'13px'}} />
+                    <p>Meetings</p>
+                  </NavLink>
                 </li>
-                <li className="nav-item ">
-                  <Link
+
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
                     to="/ListTraining"
+                    className="nav-link"
+                  >
+                    <i className="nav-icon fas fa-flag"  style={{fontSize:'13px'}}/>
+                    <p>Training Material</p>
+                  </NavLink>
+                </li>
 
-                    className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <i
-                      className="nav-icon fas fa-flag "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Training Material{" "}
-                    </p>
-                  </Link>
-                </li>
-                <li className="nav-item ">
-                  <Link
-                    to="#"
 
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
+                    to="/ListChat"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fas fa-comment "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>Chat</p>
-                  </Link>
+                    <i className="nav-icon fas fa-comment" style={{fontSize:'13px'}} />
+                    <p>Chat</p>
+                  </NavLink>
                 </li>
-                <li className="nav-item ">
-                  <Link
-                    to="#"
 
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
+                    to="/ListEmail"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fa fa-envelope "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Email
-                    </p>
-                  </Link>
+                    <i className="nav-icon fa fa-envelope" style={{fontSize:'13px'}} />
+                    <p>Email</p>
+                  </NavLink>
                 </li>
-                <li className="nav-item ">
-                  <Link
-                    to=""
-                    href="ListPromotions"
+
+
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
+                    to="/ListPromotions"
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fas fa-certificate "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Promotions
-                    </p>
-                  </Link>
+                    <i className="nav-icon fas fa-certificate" style={{fontSize:'13px'}} />
+                    <p>Promotions</p>
+                  </NavLink>
                 </li>
-                <li className="nav-item ">
-                  <Link
+
+
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
                     to="/ListEvents"
-
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fas fa-calendar"
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Events
-                    </p>
-                  </Link>
+                    <i className="nav-icon fas fa-calendar" style={{fontSize:'13px'}} />
+                    <p>Events</p>
+                  </NavLink>
                 </li>
-                <li className="nav-item ">
-                  <Link
+
+
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
                     to="/ListBlog"
-
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fa fa-rss "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "11px", fontWeight: "bold" }}>
-                      Blogs
-                    </p>
-                  </Link>
+                    <i className="nav-icon fa fa-rss"  style={{fontSize:'13px'}}/>
+                    <p style={{ fontSize: "11px", fontWeight: "bold" }}>Blogs</p>
+                  </NavLink>
                 </li>
-                <li className="nav-item ">
-                  <Link
+
+
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
                     to="/ListTestimonials"
-
                     className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
                   >
-                    <i
-                      className="nav-icon fas fa-cogs "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
-                    {/* Admin Icon */}
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Testimonials
-                    </p>
-                  </Link>
+                    <i className="nav-icon fas fa-cogs" style={{fontSize:'13px'}} />
+                    <p>Testimonials</p>
+                  </NavLink>
                 </li>
 
-                <li className="nav-item  ">
-                  <Link
-                    to=""
-                    href="/AdminList"
-                    className="nav-link"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <i
-                      className="nav-icon fas fa-user "
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    />{" "}
 
-                    <p style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Admin
-                    </p>
-                  </Link>
+                <li className="nav-item">
+                  <NavLink
+                    activeClassName="active"
+                    to="/AdminList"
+                    className="nav-link"
+                  >
+                    <i className="nav-icon fas fa-user" style={{fontSize:'13px'}} />
+                    <p>Admin</p>
+                  </NavLink>
                 </li>
+
+
                 <li className="nav-item" style={{ position: 'relative' }}>
                   <Link
-                    to=""
-
+                    activeClassName="active"
+                    to="#"
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.elt}
                     aria-controls="collapse4"
-                    style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+                    style={{ color: "#231f20", fontSize: "12px",  display: "flex", alignItems: "center", justifyContent: "space-between" }}
                     onClick={() => toggleDropdown('elt')}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-                      <p style={{ fontSize: "12px", fontWeight: "bold", }} className='pe-2 text-uppercase'> ELT</p>
+                      <i className="nav-icon fas fa-envelope" style={{fontSize:'13px'}} />
+                      <p className='pe-2 text-uppercase'>ELT</p>
                     </div>
                     <i className={`fa fa-angle-right ${isOpen.elt ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
                   </Link>
                   <div className={`collapse ${isOpen.elt ? 'show' : ''}`} id="collapse4">
                     <ul className='nav d-flex flex-column border-0 ps-4'>
-                      <li className='nav-item'><Link
-                        to="" className="nav-link text-capitalize fw-semibold">Booking</Link></li>
-                      <li className='nav-item'><Link
-                        to="" className="nav-link  text-capitalize fw-semibold">Class Schedule</Link></li>
+                      <li className='nav-item'>
+                        <NavLink
+                          to="ListBookings"
+                          className="nav-link text-capitalize fw-semibold"
+                        >
+                          Booking
+                        </NavLink>
+                      </li>
+                      <li className='nav-item'>
+                        <NavLink
+                          to="/ListClassSchedule"
+                          className="nav-link text-capitalize fw-semibold"
+                        >
+                          Class Schedule
+                        </NavLink>
+                      </li>
                     </ul>
                   </div>
                 </li>
+
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
-
+                    activeClassName="active"
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.settings}
                     aria-controls="collapse6"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -1080,41 +745,21 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("settings")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fa fa-cog fa-spin"
-                        style={{
-                          color: "#fe5722",
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                        }}
-                      />
-                      <p
-                        style={{ fontSize: "12px", fontWeight: "bold" }}
-                        className="pe-2"
-                      >
-                        Settings
-                      </p>
+                      <i className="nav-icon fa fa-cog fa-spin" style={{fontSize:'13px'}} />
+                      <p className="pe-2">Settings</p>
                     </div>
                     <i
-                      className={`fa fa-angle-right ${isOpen.settings ? "rotate-icon" : ""
-                        }`}
+                      className={`fa fa-angle-right ${isOpen.settings ? "rotate-icon" : ""}`}
                       aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
                     />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.settings ? "show" : ""}`}
-                    id="collapse6"
-                  >
+                  <div className={`collapse ${isOpen.settings ? "show" : ""}`} id="collapse6">
                     <ul className="nav d-flex flex-column border-0 ps-4">
+                      {/* Global Settings */}
                       <li className="nav-item">
                         <Link
                           to="#"
-
+                          activeClassName="active"
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.globalSettings}
@@ -1130,12 +775,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("globalSettings")}
                         >
                           <div>
-                            <span
-                              style={{ fontSize: "12px", fontWeight: "bold" }}
-                              className="pe-2"
-                            >
-                              Global Settings
-                            </span>
+                            <span className="pe-2">Global Settings</span>
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.globalSettings ? "rotate-icon" : ""
@@ -1149,90 +789,91 @@ const Sidebar = () => {
                           />
                         </Link>
                         <div
-                          className={`collapse ${isOpen.globalSettings ? "show" : ""
-                            }`}
+                          className={`collapse ${isOpen.globalSettings ? "show" : ""}`}
                           id="collapse7"
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
+                              <NavLink
+                                activeClassName="active"
+                                to="/listemail"
                                 className="nav-link text-capitalize fw-semibold"
                               >
-                                Email{" "}
-                              </Link>
+                                Email
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
+                              <NavLink
+                                activeClassName="active"
                                 to="/GlobalSettings"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Country
-                              </Link>
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
+                              <NavLink
+                                activeClassName="active"
                                 to="/CurrencySettings"
-
-                                className="nav-link  text-capitalize fw-semibold"
-                              >
-                                Currency
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                to="/Status"
-
                                 className="nav-link text-capitalize fw-semibold"
                               >
-                                Status{" "}
-                              </Link>
+                                Currency
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
+                              <NavLink
+                                activeClassName="active"
+                                to="/Status"
+                                className="nav-link text-capitalize fw-semibold"
+                              >
+                                Status
+                              </NavLink>
+                            </li>
+                            <li className="nav-item">
+                              <NavLink
+                                activeClassName="active"
                                 to="/Intake"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Intake
-                              </Link>
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
+                              <NavLink
+                                activeClassName="active"
                                 to="/YearSetting"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Year
-                              </Link>
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="ListPrivilages"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Privileges
-                              </Link>
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="/listDashboard"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Dashboard
-                              </Link>
+                              </NavLink>
                             </li>
                           </ul>
                         </div>
                       </li>
+
+                      {/* Module */}
                       <li className="nav-item">
                         <Link
                           to="#"
-
+                          activeClassName="active"
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.modules}
@@ -1248,16 +889,10 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("modules")}
                         >
                           <div>
-                            <span
-                              style={{ fontSize: "12px", fontWeight: "bold" }}
-                              className="pe-2"
-                            >
-                              Module
-                            </span>
+                            <span className="pe-2">Module</span>
                           </div>
                           <i
-                            className={`fa fa-angle-right ${isOpen.modules ? "rotate-icon" : ""
-                              }`}
+                            className={`fa fa-angle-right ${isOpen.modules ? "rotate-icon" : ""}`}
                             aria-hidden="true"
                             style={{
                               color: "#231f20",
@@ -1266,75 +901,71 @@ const Sidebar = () => {
                             }}
                           />
                         </Link>
-                        <div
-                          className={`collapse ${isOpen.modules ? "show" : ""}`}
-                          id="collapse8"
-                        >
+                        <div className={`collapse ${isOpen.modules ? "show" : ""}`} id="collapse8">
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <Link
+                              <NavLink
+                                activeClassName="active"
                                 to="/UniversitySettings"
-
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 University
-                              </Link>
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
+                              <NavLink
+                                activeClassName="active"
                                 to="/CourseType"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Course Type
-                              </Link>
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="emailmodule"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Email
-                              </Link>
+                              </NavLink>
                             </li>
-
-
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="intakemodule"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Intake
-                              </Link>
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
+                              <NavLink
+                                activeClassName="active"
                                 to="/ClientModule"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Client
-                              </Link>
+                              </NavLink>
                             </li>
-
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="/custommodule"
+                                className="nav-link text-capitalize fw-semibold"
                               >
                                 Custom Module
-                              </Link>
+                              </NavLink>
                             </li>
                           </ul>
                         </div>
                       </li>
+
+                      {/* Privileges */}
                       <li className="nav-item">
                         <Link
                           to="#"
-
+                          activeClassName="active"
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.privileges}
@@ -1350,12 +981,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("privileges")}
                         >
                           <div>
-                            <span
-                              style={{ fontSize: "12px", fontWeight: "bold" }}
-                              className="pe-2"
-                            >
-                              Privileges
-                            </span>
+                            <span className="pe-2">Privileges</span>
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.privileges ? "rotate-icon" : ""
@@ -1369,46 +995,45 @@ const Sidebar = () => {
                           />
                         </Link>
                         <div
-                          className={`collapse ${isOpen.privileges ? "show" : ""
-                            }`}
+                          className={`collapse ${isOpen.privileges ? "show" : ""}`}
                           id="collapse9"
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
+                              <NavLink
+                                activeClassName="active"
+                                to="privilegesprogram"
                                 className="nav-link text-capitalize fw-semibold"
                               >
-                                program
-                              </Link>
+                                Program
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-uppercase fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="privilegeshrm"
+                                className="nav-link text-uppercase fw-semibold"
                               >
-                                hrm
-                              </Link>
+                                HRM
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="privilegesattendance"
+                                className="nav-link text-capitalize fw-semibold"
                               >
-                                attendance
-                              </Link>
+                                Attendance
+                              </NavLink>
                             </li>
                             <li className="nav-item">
-                              <Link
-                                to="#"
-
-                                className="nav-link  text-capitalize fw-semibold"
+                              <NavLink
+                                activeClassName="active"
+                                to="privilegespayroll"
+                                className="nav-link text-capitalize fw-semibold"
                               >
-                                payroll
-                              </Link>
+                                Payroll
+                              </NavLink>
                             </li>
                           </ul>
                         </div>
@@ -1416,18 +1041,16 @@ const Sidebar = () => {
                     </ul>
                   </div>
                 </li>
+
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
                     to="#"
-
+                    activeClassName="active"
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Reports}
                     aria-controls="collapse4"
                     style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -1435,112 +1058,86 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Reports")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{
-                          color: "#fe5722",
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                        }}
-                      />
-                      <p
-                        style={{ fontSize: "12px", fontWeight: "bold" }}
-                        className="pe-2 "
-                      >
-                        Reports
-                      </p>
+                      <i className="nav-icon fas fa-envelope" style={{fontSize:'13px'}} />
+                      <p className="pe-2">Reports</p>
                     </div>
                     <i
-                      className={`fa fa-angle-right ${isOpen.Reports ? "rotate-icon" : ""
-                        }`}
+                      className={`fa fa-angle-right ${isOpen.Reports ? "rotate-icon" : ""}`}
                       aria-hidden="true"
-                      style={{
-                        color: "#231f20",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
                     />
                   </Link>
-                  <div
-                    className={`collapse ${isOpen.Reports ? "show" : ""}`}
-                    id="collapse4"
-                  >
+                  <div className={`collapse ${isOpen.Reports ? "show" : ""}`} id="collapse4">
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <Link
-                          to="#"
-
+                        <NavLink
+                          activeClassName="active"
+                          to="/ListEmployees"
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Employee
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
-                          to="#"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                        <NavLink
+                          activeClassName="active"
+                          to="/ListAgent"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Agent
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
-                          to="#"
-
+                        <NavLink
+                          activeClassName="active"
+                          to="/ListStudents"
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Students
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
-                          to="#"
-
-                          className="nav-link  text-capitalize fw-semibold"
+                        <NavLink
+                          activeClassName="active"
+                          to="/ListBranch"
+                          className="nav-link text-capitalize fw-semibold"
                         >
                           Branch
-                        </Link>
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <Link
-                          to="/AdminList"
-
+                        <NavLink
+                          activeClassName="active"
+                          to="//Listadmin"
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Admin
-                        </Link>
+                        </NavLink>
                       </li>
                     </ul>
                   </div>
                 </li>
+
                 <li className="nav-item ">
-                  <Link
+                  <NavLink
+                    activeClassName="active"
+
                     className="nav-link"
                     to="/"
-                    style={{
-                      color: "#231f20",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
+
                   >
                     <i
                       className="nav-icon fa fa-flag "
                       aria-hidden="true"
-                      style={{
-                        color: "#fe5722",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
+                      style={{fontSize:'13px'}}
                     />
                     <p
-                      style={{ fontSize: "12px", fontWeight: "bold" }}
+
                       onClick={logout}
                     >
                       {" "}
                       Log Out{" "}
                     </p>
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
               <br />

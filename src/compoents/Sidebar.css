@@ -17,7 +17,49 @@
     
   }
 
-  .active-link {
-    color: #fe5722 !important; /* Apply your active color */
-  }
+ /* In your CSS file */
+.active {
+  color: #fe5722;
+  background-color: transparent;
+}
+
+  /* General styles for nav-link */
+.nav-link {
+  color: #231f20; /* Normal color */
+  text-decoration: none; /* Remove underline */
+  display: flex; /* Align icon and text */
+  align-items: center; /* Center items vertically */
+  padding: 8px 16px; /* Adjust padding as needed */
+  font-weight: bolder;
+}
+
+.nav-link p{
+  font-weight: bolder;
   
+}
+
+/* Icon styles */
+.nav-icon  {
+  margin-right: 8px; /* Space between icon and text */
+  
+  
+}
+.nav-link i{
+  font-size: 12px;
+}
+/* Text styles */
+.nav-text {
+  margin: 0; /* Remove default margin */
+}
+
+/* Hover styles */
+.nav-link:hover {
+  color: #fe5722; /* Hover color */
+}
+
+
+
+.nav-link:active{
+  background-color: #fff;
+  color: #fe5722;
+}
