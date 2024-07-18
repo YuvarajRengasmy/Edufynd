@@ -8,19 +8,15 @@ import React, { useEffect, useState, useRef } from "react";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 
-
-
 export default function GlobalSettings() {
   const initialStateInputs = {
     statusName: "",
     duration: "",
   };
-
   const initialStateErrors = {
     statusName: { required: false },
     duration: { required: false },
   };
-
   const [open, setOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -31,7 +27,6 @@ export default function GlobalSettings() {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
-  const ZERO = 0;
   const pageSize = 5;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -163,6 +158,7 @@ export default function GlobalSettings() {
   };
   const handleAddModule = () => {
     setInputs( initialStateInputs)
+    setIsEditing(false);
     setSubmitted(false)
     setErrors(initialStateErrors)
 
@@ -520,7 +516,7 @@ export default function GlobalSettings() {
                         )}
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="duration" className="form-label">Status Name</label>
+                        <label htmlFor="duration" className="form-label">Duration</label>
                         <input
                           type="text"
                           className="form-control"

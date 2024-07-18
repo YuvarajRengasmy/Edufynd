@@ -58,16 +58,14 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState([]);
-  let countryRegion = null;
-  const ZERO = 0;
+    const [state, setState] = useState("");
+    const [states, setStates] = useState([]);
+    const [country, setCountry] = useState("");
+    const [countries, setCountries] = useState([]);
+    const [lga, setLGA] = useState("");
+    const [lgas, setLGAs] = useState([]);
 
-  const [states, setStates] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedStates, setSelectedStates] = useState([]);
-  const [lgas, setLGAs] = useState([]);
-  const [selectedLGAs, setSelectedLGAs] = useState([]);
-
+ 
   useEffect(() => {
     getAllClientDetails();
   }, []);
@@ -168,82 +166,75 @@ function AddAgent() {
   };
   
   const getCountryRegionInstance = () => {
-    if (!countryRegion) {
-      countryRegion = new CountryRegion();
-    }
-    return countryRegion;
-  };
+    return new CountryRegion();
+};
+
   useEffect(() => {
     const getCountries = async () => {
-      try {
-        const countries = await getCountryRegionInstance().getCountries();
-        setCountries(
-          countries.map((country) => ({
-            value: country.id,
-            label: country.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
+        try {
+            const countries = await getCountryRegionInstance().getCountries();
+            setCountries(countries.map(country => ({
+                value: country.id,
+                label: country.name
+            })));
+        } catch (error) {
+            console.error(error);
+        }
+    }
     getCountries();
-  }, []);
+}, []);
+
   useEffect(() => {
     const getStates = async () => {
-      try {
-        const states = await getCountryRegionInstance().getStates(
-          selectedCountry
-        );
-        setStates(
-          states.map((userState) => ({
-            value: userState?.id,
-            label: userState?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (selectedCountry) {
-      getStates();
+        try {
+            const states = await getCountryRegionInstance().getStates(country);
+            setStates(states.map(userState => ({
+                value: userState?.id,
+                label: userState?.name
+            })));
+        } catch (error) {
+            console.error(error);
+        }
     }
-  }, [selectedCountry]);
+    if (country) {
+        getStates();
+    }
+}, [country]);
+
+ 
   useEffect(() => {
     const getLGAs = async () => {
-      try {
-        const allLGAs = await Promise.all(
-          selectedStates.map(async (state) => {
-            const lgas = await getCountryRegionInstance().getLGAs(
-              selectedCountry,
-              state.value
-            );
-            return lgas.map((lga) => ({
-              value: lga?.id,
-              label: lga?.name,
-            }));
-          })
-        );
-        setLGAs(allLGAs.flat());
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (selectedStates.length > 0) {
-      getLGAs();
+        try {
+            const lgas = await getCountryRegionInstance().getLGAs(country, state);
+            setLGAs(lgas?.map(lga => ({
+                value: lga?.id,
+                label: lga?.name
+            })));
+        } catch (error) {
+            console.error(error);
+        }
     }
-  }, [selectedStates, selectedCountry]);
+    if (state) {
+        getLGAs();
+    }
+}, [country, state]);
+
   const handleCountryChange = (selectedOption) => {
-    setSelectedCountry(selectedOption.value);
-    setSelectedStates([]);
-    setSelectedLGAs([]); // Reset selected LGAs when country changes
+    setCountry(selectedOption.value);
+   
+    setState("");
+    setStates([]);
+    setLGA("");
+    setLGAs([]);
   };
   const handleStateChange = (selectedOptions) => {
-    setSelectedStates(selectedOptions || []);
-    setSelectedLGAs([]); // Reset selected LGAs when states change
+    setState(selectedOptions.value);
+    // setSelectedLGAs([]);
+    setLGA("");
+    setLGAs([]);
   };
   const handleLGAChange = (selectedOptions) => {
-    setSelectedLGAs(selectedOptions || []);
+    setLGA(selectedOptions.value);
   };
 
   const handleErrors = (obj) => {
@@ -263,18 +254,12 @@ function AddAgent() {
     const newError = handleValidation(client);
     setErrors(newError);
     setSubmitted(true);
-  
-    const selectedCountryLabel = countries.find((country) => country.value === selectedCountry)?.label || "";
-    const selectedStatesLabels = selectedStates.map((state) => state.label).join(", ");
-    const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label).join(", ");
-  
-    const updatedClient = {
+   const updatedClient = {
       ...client,
-      country: selectedCountryLabel,
-      state: selectedStatesLabels,
-      lga: selectedLGAsLabels,
-    };
-  
+      country: countries.find(option => option.value === country)?.label,
+      state: states.find(option => option.value === state)?.label,
+      lga: lgas.find(option => option.value === lga)?.label
+  };
     if (handleErrors(newError)) {
       saveClient(updatedClient)
         .then((res) => {
@@ -666,6 +651,7 @@ function AddAgent() {
                               options={countries}
                               name="country"
                               styles={customStyles}
+                              value={countries.find(option => option.value === country)}
                               className="submain-one-form-body-subsection-select "
                             />
                             {errors.country.required ? (
@@ -678,17 +664,17 @@ function AddAgent() {
                             <label style={{ color: "#231F20" }}>
                               State<span className="text-danger">*</span>
                             </label>
-                            {states.length !== ZERO && (
+                         
                               <Select
                                 placeholder="Select  State"
-                            isMulti
                                 onChange={handleStateChange}
                                 options={states}
                                 name="state"
                                 styles={customStyles}
+                                value={states.find(option => option.value === state)}
                                 className="submain-one-form-body-subsection-select"
                               />
-                            )}
+                         
                             {errors.state.required && (
                               <div className="text-danger form-text">
                                 This field is required.
@@ -699,17 +685,17 @@ function AddAgent() {
                             <label style={{ color: "#231F20" }}>
                               City<span className="text-danger">*</span>
                             </label>
-                            {lgas.length !== ZERO && (
+                         
                               <Select
                                 placeholder="Select  City"
-                              isMulti
+                                value={lgas.find(option => option.value === lga)}
                                 onChange={handleLGAChange}
                                 options={lgas}
                                 name="lga"
                                 styles={customStyles}
                                 className="submain-one-form-body-subsection-select"
                               />
-                            )}
+                           
                           </div>
 
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

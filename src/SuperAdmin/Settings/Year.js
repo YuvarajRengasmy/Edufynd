@@ -44,6 +44,7 @@ export default function GlobalSettings() {
       error.year.required = true;
     }
     
+    
     return error;
   };
 

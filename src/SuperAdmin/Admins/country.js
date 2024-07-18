@@ -84,6 +84,7 @@
 //         control: (provided) => ({
 //             ...provided,
 //             border: '1px solid rgba(11, 70, 84, 0.25)',
+
 //             borderRadius: '5px',
 //             fontSize: "1.5rem",
 //             backgroundColor: '#EBF0F3',
