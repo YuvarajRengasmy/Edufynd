@@ -17,3 +17,7 @@
     
   }
 
+  .active-link {
+    color: #fe5722 !important; /* Apply your active color */
+  }
+  
