@@ -321,18 +321,19 @@ export default function GlobalSettings() {
 
   return (
     <div>
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div className=" container-fluid">
         <nav className='navbar navbar-vertical navbar-expand-lg'> 
            <Mastersidebar />
            </nav>
       
      
-      <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
-        <div className="content-header">
-          <div className="container-fluid">
+      <div className="content-wrapper " style={{ fontSize: '14px' }}>
+       
+          <div className="container">
             <div className="row ">
-              <div >
+              <div className='col-xl-12' >
+              <div className="content-header">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -367,11 +368,11 @@ export default function GlobalSettings() {
                     </div>
                   </li>
                   <li className="m-2">
-                    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                       <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Country</h5>
+                          <h5 id="offcanvasRightLabel">Filter Country</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                         </div>
                         <div className="offcanvas-body ">
@@ -392,8 +393,8 @@ export default function GlobalSettings() {
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border text-white float-right bg"
-                                style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2 text-white float-right bg"
+                                style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 onClick={resetFilter}
                               >
                                 Reset
@@ -401,9 +402,9 @@ export default function GlobalSettings() {
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
-                                className="btn btn-save border text-white float-right mx-2"
+                                className="btn btn-save  border-0 text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
                                 onClick={filterCountryList}
-                                style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               >
                                 Apply
                               </button>
@@ -435,8 +436,8 @@ export default function GlobalSettings() {
                   <li className="m-2">
                     <Link onClick={openFilterPopup} className="btn-filters">
                       <span>
-                        <button style={{ backgroundColor: "#9265cc", fontSize: '11px' }} className="btn text-white ">
-                          <i className="fa " aria-hidden="true">AddCountry </i>
+                        <button style={{ backgroundColor: "#fe5722", fontSize: '12px' }} className="btn btn-sm text-uppercase fw-semibold px-4 py-2 text-white ">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp; Add Country 
                         </button>
                       </span>
                     </Link>
@@ -445,25 +446,24 @@ export default function GlobalSettings() {
               </div>
             </div>
           </div>
-        </div>
-        <div >
-          <div className="container   mt-3">
-            <div className="row">
+          <div className="row">
               <div className="col-md-12">
-                <div className="">
-                  <div className="card">
-                    <div className="card-body">
+                
+              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+            <h6 className='text-center text-capitalize p-1'> List Country</h6>
+            </div>
+            <div className="card-body mt-5">
 
-                      <ol className="breadcrumb d-flex justify-content-start align-items-center w-100">
-                        <h4 style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '16px', marginRight: '100px' }}>Country List</h4>
+                      
+                       
 
 
-                      </ol>
-                      <ul className="list-group list-group-flush">
+<ul className="list-group list-group-flush  ">
                       {countries.map((country, index) =>
           Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
   
-      <li className="list-group-item d-flex justify-content-between align-items-start" key={`${index}-${countryIndex}`}>
+      <li className="list-group-item list-group-item-action d-flex justify-content-between align-items-start" key={`${index}-${countryIndex}`}>
         <div className="ms-2 me-auto">
           <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{countryName}</div>
         </div>
@@ -481,6 +481,9 @@ export default function GlobalSettings() {
   )}
 </ul>
 
+                     
+                    
+
 
 
                     </div>
@@ -494,10 +497,14 @@ export default function GlobalSettings() {
                       color="primary"
                     />
                   </div>
-                </div>
+               
               </div>
             </div>
-          </div>
+        </div>
+        <div >
+          
+           
+        
         </div>
 
       </div>
@@ -510,7 +517,7 @@ export default function GlobalSettings() {
             </h5>
             <button
               type="button"
-              className="btn btn-primary mx-3"
+              className="btn btn-success btn-sm text-uppercase fw-semibold px-4 py-2 rounded-pill mx-3"
               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
               onClick={deleteCountryData}
             >
@@ -518,7 +525,7 @@ export default function GlobalSettings() {
             </button>
             <button
               type="button"
-              className="btn btn-info"
+              className="btn btn-danger btn-sm text-uppercase fw-semibold px-4 py-2 rounded-pill"
               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
               onClick={closePopup}
             >
