@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
 import { Link } from "react-router-dom";
@@ -49,8 +49,8 @@ const Sidebar = () => {
             <div className="user-panel mt-2  d-flex">
               <div className="info  mt-1">
                 <Link
-                to="/DashBoard"
-                
+                  to="/DashBoard"
+
                   className="brand-text font-weight-light text-decoration-none"
                 >
                   <img
@@ -71,8 +71,8 @@ const Sidebar = () => {
               >
                 <li className="nav-item mt-1 ">
                   <Link
-                  to="/DashBoard"
-                   
+                    to="/DashBoard"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -95,8 +95,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item  ">
                   <Link
-                  to="/client"
-                  
+                    to="/client"
+
                     className="nav-link "
                     style={{
                       color: "#231f20",
@@ -120,8 +120,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item  ">
                   <Link
-                  to="/ListUniversity"
-                   
+                    to="/ListUniversity"
+
                     className="nav-link "
                     style={{
                       color: "#231f20",
@@ -145,8 +145,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item  ">
                   <Link
-                  to="/ListCommission"
-                  
+                    to="/ListCommission"
+
                     className="nav-link "
                     style={{
                       color: "#231f20",
@@ -170,7 +170,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="/Programs"
+                    to="/Programs"
                     href=""
                     className="nav-link"
                     style={{
@@ -195,7 +195,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                   to="#"
+                    to="#"
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.users}
@@ -248,8 +248,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="/ListStudent"
-                          
+                          to="/ListStudent"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Students
@@ -257,8 +257,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListStaff"
-                          
+                          to="/ListStaff"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           {" "}
@@ -267,21 +267,21 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListAgent"
+                          to="/ListAgent"
                           href=""
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Agents
                         </Link>
                       </li>
-                     
+
                     </ul>
                   </div>
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="/ListApplication"
-                   
+                    to="/ListApplication"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -305,8 +305,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                  to="#"
-                   
+                    to="#"
+
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.enquiry}
@@ -356,8 +356,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="/ListStudentForm"
-                         
+                          to="/ListStudentForm"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Student{" "}
@@ -365,8 +365,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListForexForm"
-                         
+                          to="/ListForexForm"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           FOREX{" "}
@@ -374,8 +374,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListAccommodation"
-                          
+                          to="/ListAccommodation"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Accommodation
@@ -383,8 +383,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListFlightTicket"
-                         
+                          to="/ListFlightTicket"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Flight
@@ -392,8 +392,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListLoanEnquiry"
-                         
+                          to="/ListLoanEnquiry"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Loan
@@ -401,8 +401,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListBusinessEnquiry"
-                         
+                          to="/ListBusinessEnquiry"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Business Enquiry
@@ -410,8 +410,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListGeneralEnquiry"
-                         
+                          to="/ListGeneralEnquiry"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           General Enquiry
@@ -422,8 +422,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                  to="#"
-                  
+                    to="#"
+
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.finance}
@@ -472,8 +472,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Income{" "}
@@ -481,8 +481,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Expense
@@ -490,8 +490,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Raise Quotations
@@ -499,8 +499,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListInvoice"
-                          
+                          to="/ListInvoice"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Raise Invoice
@@ -508,8 +508,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Income Report
@@ -520,8 +520,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                  to="#"
-                    
+                    to="#"
+
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.hrms}
@@ -570,8 +570,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Staffs
@@ -579,8 +579,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Attendance
@@ -588,8 +588,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Payroll
@@ -597,8 +597,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Leave
@@ -606,8 +606,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-uppercase fw-semibold"
                         >
                           KPI{" "}
@@ -615,8 +615,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Policies
@@ -624,8 +624,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Performance Report
@@ -636,8 +636,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                  to="#"
-                    
+                    to="#"
+
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
@@ -686,8 +686,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Project
@@ -695,8 +695,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Task
@@ -707,8 +707,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                  to="#"
-                    
+                    to="#"
+
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
@@ -740,7 +740,7 @@ const Sidebar = () => {
                       </span>
                     </div>
                     <i
-                      className={`fa fa-angle-right ${isOpen.Marketing? "rotate-icon" : ""
+                      className={`fa fa-angle-right ${isOpen.Marketing ? "rotate-icon" : ""
                         }`}
                       aria-hidden="true"
                       style={{
@@ -757,39 +757,39 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="/ListSocialMedia"
-                          
+                          to="/ListSocialMedia"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
-                         Social Media
+                          Social Media
                         </Link>
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListCampaign"
-                          
+                          to="/ListCampaign"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
-                         Campaigns
+                          Campaigns
                         </Link>
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/ListDailyTask"
-                         
+                          to="/ListDailyTask"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
-                         Daily Task
+                          Daily Task
                         </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
-              
+
                 <li className="nav-item ">
                   <Link
-                  to="/ListNotifications"
-                   
+                    to="/ListNotifications"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -813,8 +813,8 @@ const Sidebar = () => {
                 </li>{" "}
                 <li className="nav-item ">
                   <Link
-                  to="/ListMeetings"
-                    
+                    to="/ListMeetings"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -838,8 +838,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="/ListTraining"
-                    
+                    to="/ListTraining"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -863,8 +863,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="#"
-                    
+                    to="#"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -886,8 +886,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="#"
-                    
+                    to="#"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -911,7 +911,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to=""
+                    to=""
                     href="ListPromotions"
                     className="nav-link"
                     style={{
@@ -936,8 +936,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="/ListEvents"
-                   
+                    to="/ListEvents"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -961,8 +961,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="/ListBlog"
-                    
+                    to="/ListBlog"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -986,8 +986,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item ">
                   <Link
-                  to="/ListTestimonials"
-                   
+                    to="/ListTestimonials"
+
                     className="nav-link"
                     style={{
                       color: "#231f20",
@@ -1009,10 +1009,10 @@ const Sidebar = () => {
                     </p>
                   </Link>
                 </li>
-            
+
                 <li className="nav-item  ">
                   <Link
-                  to=""
+                    to=""
                     href="/AdminList"
                     className="nav-link"
                     style={{
@@ -1029,42 +1029,42 @@ const Sidebar = () => {
                         fontWeight: "bold",
                       }}
                     />{" "}
-                    
+
                     <p style={{ fontSize: "12px", fontWeight: "bold" }}>
                       Admin
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item" style={{ position: 'relative' }}>
-        <Link
-        to=""
-          
-          className="nav-link"
-          data-bs-toggle="collapse"
-          aria-expanded={isOpen.elt}
-          aria-controls="collapse4"
-          style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "space-between" }}
-          onClick={() => toggleDropdown('elt')}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
-            <p style={{ fontSize: "12px", fontWeight: "bold",  }} className='pe-2 text-uppercase'> ELT</p>
-          </div>
-          <i className={`fa fa-angle-right ${isOpen.elt ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
-        </Link>
-        <div className={`collapse ${isOpen.elt ? 'show' : ''}`} id="collapse4">
-          <ul className='nav d-flex flex-column border-0 ps-4'>
-            <li className='nav-item'><Link
-            to=""  className="nav-link text-capitalize fw-semibold">Booking</Link></li>
-            <li className='nav-item'><Link
-            to=""  className="nav-link  text-capitalize fw-semibold">Class Schedule</Link></li>
-          </ul>
-        </div>
-      </li>
+                  <Link
+                    to=""
+
+                    className="nav-link"
+                    data-bs-toggle="collapse"
+                    aria-expanded={isOpen.elt}
+                    aria-controls="collapse4"
+                    style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+                    onClick={() => toggleDropdown('elt')}
+                  >
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <i className="nav-icon fas fa-envelope" style={{ color: "#fe5722", fontSize: "12px", fontWeight: "bold" }} />
+                      <p style={{ fontSize: "12px", fontWeight: "bold", }} className='pe-2 text-uppercase'> ELT</p>
+                    </div>
+                    <i className={`fa fa-angle-right ${isOpen.elt ? 'rotate-icon' : ''}`} aria-hidden="true" style={{ color: "#231f20", fontSize: "12px", fontWeight: "bold" }} />
+                  </Link>
+                  <div className={`collapse ${isOpen.elt ? 'show' : ''}`} id="collapse4">
+                    <ul className='nav d-flex flex-column border-0 ps-4'>
+                      <li className='nav-item'><Link
+                        to="" className="nav-link text-capitalize fw-semibold">Booking</Link></li>
+                      <li className='nav-item'><Link
+                        to="" className="nav-link  text-capitalize fw-semibold">Class Schedule</Link></li>
+                    </ul>
+                  </div>
+                </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                  to="#"
-                    
+                    to="#"
+
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.settings}
@@ -1113,8 +1113,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.globalSettings}
@@ -1156,8 +1156,8 @@ const Sidebar = () => {
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
                               <Link
-                              to="#"
-                              
+                                to="#"
+
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 Email{" "}
@@ -1165,17 +1165,17 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/GlobalSettings"
-                                
+                                to="/GlobalSettings"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
-                                Country 
+                                Country
                               </Link>
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/CurrencySettings"
-                               
+                                to="/CurrencySettings"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Currency
@@ -1183,8 +1183,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/Status"
-                                
+                                to="/Status"
+
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 Status{" "}
@@ -1192,8 +1192,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/Intake"
-                               
+                                to="/Intake"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Intake
@@ -1201,8 +1201,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/YearSetting"
-                              
+                                to="/YearSetting"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Year
@@ -1210,8 +1210,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="#"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Privileges
@@ -1219,8 +1219,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="#"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Dashboard
@@ -1231,8 +1231,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.modules}
@@ -1273,8 +1273,8 @@ const Sidebar = () => {
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
                               <Link
-                              to="/UniversitySettings"
-                                
+                                to="/UniversitySettings"
+
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 University
@@ -1282,46 +1282,47 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="/CourseType"
-                               
+                                to="/CourseType"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
-                               Course Type
+                                Course Type
                               </Link>
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="#"
-                               
+                                to="#"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Email
                               </Link>
                             </li>
-                          
+
+
                             <li className="nav-item">
                               <Link
-                              to="/ClientModule"
-                                
+                                to="#"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
-                                Status
+                                Intake
                               </Link>
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="/ClientModule"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
-                               Intake
+                                Client
                               </Link>
                             </li>
-                          
+
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="#"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 Custom Module
@@ -1332,8 +1333,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link"
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.privileges}
@@ -1375,8 +1376,8 @@ const Sidebar = () => {
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="#"
+
                                 className="nav-link text-capitalize fw-semibold"
                               >
                                 program
@@ -1384,8 +1385,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="#"
+
                                 className="nav-link  text-uppercase fw-semibold"
                               >
                                 hrm
@@ -1393,8 +1394,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="#"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 attendance
@@ -1402,8 +1403,8 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <Link
-                              to="#"
-                                
+                                to="#"
+
                                 className="nav-link  text-capitalize fw-semibold"
                               >
                                 payroll
@@ -1417,8 +1418,8 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item" style={{ position: "relative" }}>
                   <Link
-                  to="#"
-                    
+                    to="#"
+
                     className="nav-link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Reports}
@@ -1467,8 +1468,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Employee
@@ -1476,8 +1477,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Agent
@@ -1485,8 +1486,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Students
@@ -1494,8 +1495,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="#"
-                          
+                          to="#"
+
                           className="nav-link  text-capitalize fw-semibold"
                         >
                           Branch
@@ -1503,8 +1504,8 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                        to="/AdminList"
-                        
+                          to="/AdminList"
+
                           className="nav-link text-capitalize fw-semibold"
                         >
                           Admin
