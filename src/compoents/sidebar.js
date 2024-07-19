@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { clearStorage } from "../Utils/storage";
+ import { clearStorage } from "../Utils/storage";
+import { useNavigate } from 'react-router-dom';
+// import { clearToken } from '../../Utils/storage';
 import { Link } from "react-router-dom";
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
 import "./Sidebar.css";
@@ -21,13 +23,19 @@ const Sidebar = () => {
     Reports: false,
     Marketing: false,
   });
-
+  const navigate = useNavigate();
   const toggleDropdown = (key) => {
     setIsOpen({ ...isOpen, [key]: !isOpen[key] });
   };
-  const logout = () => {
+  // const logout = () => {
+  //   clearStorage();
+  //   toast.success("You have Student logged out successfully.");
+  // };
+
+  const handleLogout = () => {
     clearStorage();
     toast.success("You have Student logged out successfully.");
+    navigate('/');
   };
   return (
     <div>
@@ -1117,7 +1125,7 @@ const Sidebar = () => {
                   </div>
                 </li>
 
-                <li className="nav-item ">
+                {/* <li className="nav-item ">
                   <NavLink
                     activeClassName="active"
 
@@ -1132,13 +1140,14 @@ const Sidebar = () => {
                     />
                     <p
 
-                      onClick={logout}
+onClick={handleLogout}
                     >
                       {" "}
                       Log Out{" "}
                     </p>
                   </NavLink>
-                </li>
+                </li> */}
+                 <button onClick={handleLogout}>Logout</button>
               </ul>
               <br />
             </nav>
