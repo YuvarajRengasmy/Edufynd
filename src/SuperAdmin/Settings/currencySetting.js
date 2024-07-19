@@ -187,6 +187,17 @@ export default function GlobalSettings() {
     setSubmitted(false); // Reset submitted state
     setErrors(initialStateErrors); // Reset errors
   };
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -194,8 +205,7 @@ export default function GlobalSettings() {
     setErrors(newError);
     setSubmitted(true);
 
-    const allInputsValid = Object.values(newError).every((x) => !x.required);
-    if (allInputsValid) {
+    if (handleErrors(newError)) {
       const data = {
         ...inputs,
         _id: editId, // If editing, include the ID in the data
@@ -283,18 +293,19 @@ export default function GlobalSettings() {
 
   return (
     <div>
-    <div style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+    <div style={{fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
       <div className='container-fluid'>
         <nav className='navbar navbar-vertical navbar-expang-lg'>
         <Mastersidebar />
         </nav>
        
       
-      <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
-        <div className="content-header">
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"  }}>
+        
           <div className="container-fluid">
             <div className="row ">
-              <div>
+              <div className='col-xl-12'>
+              <div className="content-header">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -328,11 +339,11 @@ export default function GlobalSettings() {
                     </div>
                   </li>
                   <li className="m-2">
-                    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
+                    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+                      <button className="btn btn-primary" style={{ fontSize: '12px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Currency</h5>
+                          <h5 id="offcanvasRightLabel">Filter  Currency</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">
@@ -345,8 +356,10 @@ export default function GlobalSettings() {
                                   className="form-control"
                                   id="startDate"
                                   name="country"
+                                  placeholder='Search....Intake Name'
                                   value={inputs.country}
                                   onChange={handleInputs}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
                               </div>
                               <div className="mb-3">
@@ -357,8 +370,10 @@ export default function GlobalSettings() {
                                   id="startDate1"
                                   name="flag"
                                   value={inputs.flag}
+                                  placeholder='Search....Start Date'
                            
                                   onChange={handleInputs}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
                               </div>
                               <div className="mb-3">
@@ -369,28 +384,64 @@ export default function GlobalSettings() {
                                   id="endDate"
                                   name="currency"
                                   value={inputs.currency}
+                                  placeholder='Search....End Date'
                            
                                   onChange={handleInputs}
+                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
                               </div>
                             </div>
                             <div className="text-end">
-                              <button type="submit" className="btn btn-primary me-2">Apply</button>
-                              <button type="button" className="btn btn-secondary" onClick={resetFilter}>Reset</button>
+                              <button type="submit" className="btn btn-sm text-uppercase fw-semibold text-white px-4 py-2  rounded-pill me-2" style={{fontSize:'12px',backgroundColor:'#fe5722'}}>Apply</button>
+                              <button type="button" className="btn btn-sm text-uppercase fw-semibold text-white px-4 py-2  rounded-pill" style={{fontSize:'12px',backgroundColor:'#231f20'}} onClick={resetFilter}>Reset</button>
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
                   </li>
-                  <li className="breadcrumb-item">
+                 
+                  <li className="me-2">
                     <button
-                      className="btn btn-primary text-white text-center rounded-pill"
+                      className="btn btn-success text-white"
                       style={{
-                        backgroundColor: "#3498DB",
+                        
                         border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
+                       
+                        fontSize: "12px",
+                        margin: "1px"
+                      }}
+                      type="button"
+                      onClick={exportCsv}
+                    >
+                      <i className="fa fa-file-excel" aria-hidden="true"></i>
+                    </button>
+                  </li>
+                  <li className="me-2">
+                    <button
+                      className="btn btn-danger text-white "
+                      style={{
+                    
+                        border: "none",
+                       
+                        fontSize: "12px",
+                        margin: "1px"
+                      }}
+                      type="button"
+                      onClick={pdfDownload}
+                    >
+                       
+                       <i className="fa fa-file-pdf" aria-hidden="true"></i>
+                    </button>
+                  </li>
+                  <li className="me-2">
+                    <button
+                      className="btn btn-sm text-uppercase fw-semibold text-white px-4 py-2 "
+                      style={{
+                        backgroundColor: "#fe5722",
+                        border: "none",
+                       
+                        fontSize: "12px",
                         margin: "1px"
                       }}
                       type="button"
@@ -398,80 +449,48 @@ export default function GlobalSettings() {
                       data-bs-target="#addPopularModal5"
                       onClick={() => { handleAddModule() }}
                     >
-                      Add Currency
-                    </button>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <button
-                      className="btn btn-success text-white text-center rounded-pill"
-                      style={{
-                        backgroundColor: "#45AA62",
-                        border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
-                        margin: "1px"
-                      }}
-                      type="button"
-                      onClick={exportCsv}
-                    >
-                      Export to CSV
-                    </button>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <button
-                      className="btn btn-danger text-white text-center rounded-pill"
-                      style={{
-                        backgroundColor: "#E74C3C",
-                        border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
-                        margin: "1px"
-                      }}
-                      type="button"
-                      onClick={pdfDownload}
-                    >
-                      Export to PDF
+                     <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;  Add Currency
                     </button>
                   </li>
                 </ol>
               </div>
             </div>
           </div>
-        </div>
-        <div className="container-fluid mt-3">
-          <div className="card">
-            <div className="card-header d-flex align-items-center" style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-              <h3 className="card-title flex-grow-1">Intake List</h3>
+          <div className="row">
+        <div className="col-xl-12">
+        <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+            <h6 className='text-center text-capitalize p-1'> Currency Details</h6>
             </div>
-            <div className="card-body">
+            <div className="card-body mt-5">
               <table className="table table-hover text-nowrap">
                 <thead>
                   <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                    <th style={{ width: "10px" }}>S.No</th>
-                    <th>Country</th>
-                    <th>Flag</th>
-                    <th>Currency</th>
-                    <th style={{ width: "40px" }}>Actions</th>
+                    <th  className="text-capitalize text-start" style={{ width: "10px" }}>S.No</th>
+                    <th className="text-capitalize text-start">Country</th>
+                    <th className="text-capitalize text-start">Flag</th>
+                    <th className="text-capitalize text-start">Currency</th>
+                    <th className="text-capitalize text-start" style={{ width: "40px" }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {currency.length > 0 ? (
                    currency.map((data, index) => (
-                      <tr key={index}  style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
-                        <td>{pagination.from + index + 1}</td>
-                        <td>{data.country}</td>
-                        <td><Flags code={data.flag} className="me-2" name="flag" style={{ width: '40px', height: '30px' }} /></td>
+                      <tr  key={index}  style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
+                        <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                        <td className="text-capitalize text-start">{data.country}</td>
+                        <td className="text-capitalize text-start"><Flags code={data.flag} className="me-2" name="flag" style={{ width: '40px', height: '30px' }} /></td>
 
-                        <td>{data.currency}</td>
-                        <td>
+                        <td className="text-capitalize text-start">{data.currency}</td>
+                        <td className="text-capitalize text-start">
                        
                           <button
-                            className="btn btn-danger btn-sm m-2"
+                            className="btn btn-danger text-uppercase fw-semibold px-3 py-1 btn-sm m-2"
                             type="button"
                             onClick={() => openPopup(data._id)}
-                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px" }}
                           >
-                           <i className="icon-trash"></i> 
+                       <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete
                           </button>
                         </td>
                       </tr>
@@ -485,7 +504,9 @@ export default function GlobalSettings() {
                   )}
                 </tbody>
               </table>
-              <div className="d-flex justify-content-end">
+            
+            </div>
+            <div className="d-flex justify-content-end">
                 <Pagination
                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   count={Math.ceil(pagination.count / pageSize)}
@@ -494,23 +515,28 @@ export default function GlobalSettings() {
                   color="primary"
                 />
               </div>
-            </div>
           </div>
         </div>
+         
+        </div>
+        </div>
+        
         <Dialog open={open} onClose={closePopup}>
           <DialogTitle>Confirm Delete</DialogTitle>
           <DialogContent>
-            <div>Are you sure you want to delete this currency?</div>
+            <div className='text-capitalize'>Are you sure you want to delete this Currency?</div>
             <div className="text-end mt-3">
               <button
-                className="btn btn-secondary me-2"
+                className="btn btn-danger btn-sm text-uppercase fw-semibold text-white border-0 rounded-pill px-4 py-2 me-2"
                 onClick={closePopup}
+                style={{fontSize:'12px'}}
               >
                 Cancel
               </button>
               <button
-                className="btn btn-danger"
+                className="btn btn-success btn-sm text-uppercase fw-semibold text-white border-0 rounded-pill px-4 py-2 "
                 onClick={deleteCurrencyData}
+                style={{fontSize:'12px'}}
               >
                 Delete
               </button>

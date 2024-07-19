@@ -8,19 +8,15 @@ import React, { useEffect, useState, useRef } from "react";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 
-
-
 export default function GlobalSettings() {
   const initialStateInputs = {
     statusName: "",
     duration: "",
   };
-
   const initialStateErrors = {
     statusName: { required: false },
     duration: { required: false },
   };
-
   const [open, setOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -31,7 +27,6 @@ export default function GlobalSettings() {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
-  const ZERO = 0;
   const pageSize = 5;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -163,6 +158,7 @@ export default function GlobalSettings() {
   };
   const handleAddModule = () => {
     setInputs( initialStateInputs)
+    setIsEditing(false);
     setSubmitted(false)
     setErrors(initialStateErrors)
 
@@ -271,16 +267,17 @@ export default function GlobalSettings() {
 
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+      <div style={{  fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <div className='container-fluid'>
           <nav className='navbar navbar-vertical navbar-expand-lg'>
             <Mastersidebar />
           </nav>
-          <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
-            <div className="content-header">
+          <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"  }}>
+           
               <div className="container-fluid">
                 <div className="row ">
-                  <div>
+                  <div className='col-xl-12'>
+                  <div className="content-header">
                     <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                       <li className="flex-grow-1">
                         <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -314,11 +311,11 @@ export default function GlobalSettings() {
                         </div>
                       </li>
                       <li className="m-2">
-                        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                          <button className="btn btn-primary" style={{ fontSize: '14px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight11" aria-controls="offcanvasRight11"> <FaFilter /></button>
+                        <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+                          <button className="btn btn-primary" style={{ fontSize: '12px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight11" aria-controls="offcanvasRight11"> <FaFilter /></button>
                           <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight11" aria-labelledby="offcanvasRightLabel">
                             <div className="offcanvas-header">
-                              <h5 id="offcanvasRightLabel">Filter BY Status</h5>
+                              <h5 id="offcanvasRightLabel">Filter  Status</h5>
                               <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div className="offcanvas-body">
@@ -327,29 +324,33 @@ export default function GlobalSettings() {
                                   <div className="mb-3">
                                     <label htmlFor="statusName" className="form-label">Status Type</label>
                                     <input
+                                     placeholder='Search...Status Type'
                                       type="text"
                                       className="form-control"
                                       id="statusName"
                                       name="statusName"
                                       value={inputs.statusName}
                                       onChange={handleInputs}
+                                      style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                     />
                                   </div>
                                   <div className="mb-3">
                                     <label htmlFor="duration" className="form-label">Status Type</label>
                                     <input
+                                    placeholder='Search...Status Type'
                                       type="text"
                                       className="form-control"
                                       id="duration"
                                       name="duration"
                                       value={inputs.duration}
                                       onChange={handleInputs}
+                                      style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                     />
                                   </div>
                                 </div>
                                 <div className="text-end">
-                                  <button type="submit" className="btn btn-primary me-2 "data-bs-dismiss="offcanvas">Apply</button>
-                                  <button type="button" className="btn btn-secondary" onClick={resetFilter}>Reset</button>
+                                  <button type="submit" className="btn btn-save  border-0 text-uppercase fw-semibold px-4 rounded-pill py-2 text-white float-right mx-2" data-bs-dismiss="offcanvas" onClick={resetFilter}  style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Reset </button>
+                                  <button type="button"   className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 rounded-pill py-2 text-white float-right bg"  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >Apply</button>
                                 </div>
                               </form>
                             </div>
@@ -363,8 +364,8 @@ export default function GlobalSettings() {
                           style={{
                             backgroundColor: "#45AA62",
                             border: "none",
-                            fontFamily: "Poppins",
-                            fontSize: "14px",
+                         
+                            fontSize: "12px",
                             margin: "1px"
                           }}
                           type="button"
@@ -379,8 +380,8 @@ export default function GlobalSettings() {
                           style={{
                             backgroundColor: "#E74C3C",
                             border: "none",
-                            fontFamily: "Poppins",
-                            fontSize: "14px",
+                         
+                            fontSize: "12px",
                             margin: "1px"
                           }}
                           type="button"
@@ -391,12 +392,12 @@ export default function GlobalSettings() {
                       </li>
                       <li className="breadcrumb-item">
                         <button
-                          className="btn btn-primary text-white text-center"
+                          className="btn  text-white px-4 py-2 text-uppercase fw-semibold  text-center"
                           style={{
-                            backgroundColor: "#3498DB",
+                            backgroundColor: "#fe5722",
                             border: "none",
-                            fontFamily: "Poppins",
-                            fontSize: "14px",
+                         
+                            fontSize: "12px",
                             margin: "1px"
                           }}
                           type="button"
@@ -404,43 +405,43 @@ export default function GlobalSettings() {
                           data-bs-target="#addCountryModal11"
                           onClick={() => { handleAddModule () }}
                         >
-                       Add Status
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;   Add Status
                         </button>
                       </li>
                     </ol>
                   </div>
                 </div>
               </div>
+              <div className="row ">
+            <div className="col-xl-12">
+            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+            <h6 className='text-center text-capitalize p-1'> List Status</h6>
             </div>
-            <div className="container-fluid mt-3">
-              <div className="card">
-                <div className="card-header d-flex align-items-center" style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                  <h3 className="card-title flex-grow-1">Status List</h3>
-                </div>
-                <div className="card-body">
+            <div className="card-body mt-5">
                   <table className="table table-hover text-nowrap">
                     <thead>
                       <tr style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                        <th style={{ width: "10px" }}>S.No</th>
-                        <th className='text-center'>Status Name</th>
-                        <th className='text-center'>Status Duration</th>
-                        <th style={{ width: "40px" }}>Actions</th>
+                        <th className="text-capitalize text-start" >S.No</th>
+                        <th className="text-capitalize text-start" >Status Name</th>
+                        <th className="text-capitalize text-start" >Status Duration</th>
+                        <th className="text-capitalize text-start" style={{ width: "40px" }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {moduleList.length > 0 ? (
                         moduleList.map((data, index) => (
                           <tr key={index} style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
-                            <td>{pagination.from + index + 1}</td>
-                            <td className='text-center'>{data.statusName}</td>
-                            <td className='text-center'>{data.duration}</td>
-                            <td>
+                            <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                            <td className="text-capitalize text-start">{data.statusName}</td>
+                            <td className="text-capitalize text-start">{data.duration}</td>
+                            <td className="text-capitalize text-start">
                             <button
                                 className="btn btn-primary btn-sm "
                                 data-bs-toggle="modal"
                                 data-bs-target="#addCountryModal11"
                                 onClick={() => handleEditModule(data)}
-                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px" }}
                               >
                                 <i class="fa fa-edit" aria-hidden="true"></i>
                               </button>
@@ -448,7 +449,7 @@ export default function GlobalSettings() {
                               <button
                                 className="btn btn-danger ml-3 btn-sm"
                                 onClick={() => openPopup(data._id)}
-                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px" }}
                               >
                                  <i class="fa fa-trash" aria-hidden="true"></i>
                               </button>
@@ -458,7 +459,7 @@ export default function GlobalSettings() {
                       ) : (
                         <tr>
                           <td colSpan="4" className="text-center">
-                            No Data To Ststus Found
+                            No Data To Status Found
                           </td>
                         </tr>
                       )}
@@ -476,6 +477,9 @@ export default function GlobalSettings() {
                 </div>
               </div>
             </div>
+            </div>
+            </div>
+            
             <Dialog open={open} onClose={closePopup}>
               <DialogTitle>Confirm Delete</DialogTitle>
               <DialogContent>
@@ -520,7 +524,7 @@ export default function GlobalSettings() {
                         )}
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="duration" className="form-label">Status Name</label>
+                        <label htmlFor="duration" className="form-label">Duration</label>
                         <input
                           type="text"
                           className="form-control"

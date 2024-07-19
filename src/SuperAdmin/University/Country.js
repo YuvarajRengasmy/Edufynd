@@ -1,92 +1,84 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-} from "@mui/material";
-import { updatedCommission,getSingleCommission } from "../../api/commission";
+import { useNavigate, useLocation } from "react-router-dom";
+import { updatedProgram, getSingleProgram } from "../../api/Program";
+import { getallUniversity } from "../../api/university";
 import { getallCurrency } from "../../api/currency";
-import { getFilterYear } from "../../api/year";
-import { getallTaxModule } from "../../api/universityModule/tax";
-import { FaTrash } from "react-icons/fa";
 import { getUniversitiesByCountry } from "../../api/university";
-import Flags from "react-world-flags";
-
+import { Link } from "react-router-dom";
+import Select from "react-select";
 import Sidebar from "../../compoents/sidebar";
 
-function AddCommission() {
-
+function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    country: "",
     universityName: "",
-
-    paymentMethod: "",
-    amount: null,
-    percentage: null,
-    commissionPaidOn: "",
-    eligibility: "",
-    tax: "",
-    paymentType: "",
+    universityId: "",
+    programTitle: "",
+    country: "",
+    courseType: "",
+    applicationFee: "",
     currency: "",
-    flag: "",
-    clientName: "",
-    years: [
-      {
-        id: 1,
-        year: "",
-        courseTypes: [{ courseType: "", inTake: "", value: null }],
-      },
-    ],
+    discountedValue: "",
+    englishlanguageTest: "",
+    textBox: "",
+    universityInterview: "",
+    greGmatRequirement: "",
+    score: "",
+    academicRequirement: "",
+    universityLogo: "",
+    campuses: [{ id: 1, campus: "", inTake: "", duration: "", courseFees: "" }],
   };
 
   const initialStateErrors = {
-    country: { required: false },
     universityName: { required: false },
-    paymentMethod: { required: false },
-    amount: { required: false },
-    percentage: { required: false },
-    commissionPaidOn: { required: false },
-    eligibility: { required: false },
-    tax: { required: false },
-    paymentType: { required: false },
-    years: { required: false },
-    flag: { required: false },
-    clientName: { required: false },
+    universityId: { required: false },
+    country: { required: false },
+    programTitle: { required: false },
+    courseType: { required: false },
+    applicationFee: { required: false },
     currency: { required: false },
+    discountedValue: { required: false },
+    englishlanguageTest: { required: false },
+    textBox: { required: false },
+    universityInterview: { required: false },
+    greGmatRequirement: { required: false },
+    score: { required: false },
+    academicRequirement: { required: false },
+    universityLogo: { required: false },
   };
-
-  const [commission, setCommission] = useState(initialState);
+  const [program, setProgram] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
-  const [submitted, setSubmitted] = useState(false);
   const [countries, setCountries] = useState([]);
-  const [tax, setTax] = useState([]);
   const [universities, setUniversities] = useState([]);
-  const [years, setYears] = useState([]);
-  const [year, setYear] = useState([]);
-  const [currency, setCurrency] = useState([]);
-  const [filteredUniversities, setFilteredUniversities] = useState([]);
-  const ZERO = 0;
-  const pageSize = 5;
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
+  const [selectedCourseType, setSelectedCourseType] = useState([]);
+  const [campuses, setCampuses] = useState([]);
+
+  const [submitted, setSubmitted] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllCurrencyDetails();
-    getAllTaxDetails();
-    getAllYearDetails();
-    getEditCommissionDetails();
-  }, [pagination.from, pagination.to]);
+    getProgramDetails();
+  }, []);
+
+  const getProgramDetails = () => {
+    getSingleProgram(id)
+      .then((res) => {
+        const fetchedProgram = res?.data?.result;
+        setProgram(fetchedProgram);
+        fetchCountryDetails(fetchedProgram.country);
+        getUniversitiesByCountry(fetchedProgram.country).then((res) => {
+          setUniversities(res?.data?.result || []);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getAllCurrencyDetails = () => {
     getallCurrency()
@@ -97,114 +89,73 @@ function AddCommission() {
         console.log(err);
       });
   };
-  const getAllYearDetails = () => {
-    const data = {
-      limit: 10,
-      page: pagination.from,
-    };
-    getFilterYear(data)
-      .then((res) => {
-        setYear(res?.data?.result?.yearList || []);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.yearCount || 0,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllTaxDetails = () => {
-    getallTaxModule()
-      .then((res) => {
-        console.log(res);
-        setTax(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getEditCommissionDetails = () => {
-    getSingleCommission (id)
-        .then((res) => {
-            setCommission(res?.data?.result);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
+
   const handleValidation = (data) => {
     let error = initialStateErrors;
-    if (!data.country) {
-      error.country.required = true;
-    }
-    if (!data.universityName) {
+    if (data.universityName === "") {
       error.universityName.required = true;
     }
-    if (!data.paymentMethod) {
-      error.paymentMethod.required = true;
+    if (data.universityId === "") {
+      error.universityId.required = true;
     }
-    if (!data.eligibility) {
-      error.eligibility.required = true;
+    if (data.country === "") {
+      error.country.required = true;
     }
-    if (!data.tax) {
-      error.tax.required = true;
+    if (data.programTitle === "") {
+      error.programTitle.required = true;
     }
-    if (!data.paymentType) {
-      error.paymentType.required = true;
+    if (data.applicationFee === "") {
+      error.applicationFee.required = true;
     }
-
+    if (data.currency === "") {
+      error.currency.required = true;
+    }
+    if (data.universityInterview === "") {
+      error.universityInterview.required = true;
+    }
+    if (data.universityLogo === "") {
+      error.universityLogo.required = true;
+    }
     return error;
   };
-  const addYear = () => {
-    const newYear = {
-      year: "",
-      courseTypes: [{ courseType: "", intake: "", value: null }],
-    };
-    setYears([...years, newYear]);
-  };
 
-  const addCourseType = (yearIndex) => {
-    const updatedYears = [...years];
-    updatedYears[yearIndex].courseTypes.push({
-      courseType: "",
-      intake: "",
-      value: null,
+  const addCampus = () => {
+    setProgram({
+      ...program,
+      campuses: [
+        ...program.campuses,
+        {
+          campus: "",
+          inTake: "",
+          courseFees: "",
+          duration: "",
+          englishlanguageTest: "",
+          textBox: "",
+        },
+      ],
     });
-    setYears(updatedYears);
   };
 
-  const removeCourseType = (yearIndex, courseTypeIndex) => {
-    // Create a copy of the year object from state
-    const updatedYear = { ...year };
+  const handleCountryChange = (event) => {
+    const selectedCountry = event.target.value;
+    setProgram({ ...program, country: selectedCountry });
 
-    // Remove the courseType at the specified index
-    updatedYear.courseTypes.splice(courseTypeIndex, 1);
+    getUniversitiesByCountry(selectedCountry)
+      .then((res) => {
+        setUniversities(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(`Error fetching universities for ${selectedCountry}:`, err);
+        setUniversities([]);
+      });
 
-    // Update the state with the modified year object
-    // Assuming you have a setState function to update the state
-    setYear(updatedYear); // Replace setYear with your state setter function
+    fetchCountryDetails(selectedCountry);
   };
-  const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
-    const updatedYears = [...years];
-    if (courseTypeIndex !== null) {
-      updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
-    } else {
-      updatedYears[yearIndex][fieldName] = value;
-    }
-    setYears(updatedYears);
-  };
-  const yearOptions = year.map((data) => ({
-    value: data.year,
-    label: data.year,
-  }));
 
   const fetchCountryDetails = (selectedCountry) => {
-    const selectedCountryData = countries.find(
-      (c) => c.country === selectedCountry
-    );
+    const selectedCountryData = countries.find((c) => c.country === selectedCountry);
     if (selectedCountryData) {
-      setCommission((prevState) => ({
+      setProgram((prevState) => ({
         ...prevState,
         currency: selectedCountryData.currency,
         flag: selectedCountryData.flag,
@@ -212,100 +163,87 @@ function AddCommission() {
     }
   };
 
-  const handleCountryChange = (event) => {
-    const selectedCountry = event.target.value;
-    setCommission({ ...commission, country: selectedCountry });
-
-    getUniversitiesByCountry(selectedCountry)
-      .then((res) => {
-        setUniversities(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.error(
-          `Error fetching universities for ${selectedCountry}:`,
-          err
-        );
-        setUniversities([]);
-      });
-
-    fetchCountryDetails(selectedCountry);
+  const handleInputChange = (index, field, value) => {
+    const updatedCampuses = [...program.campuses];
+    updatedCampuses[index][field] = value;
+    setProgram({ ...program, campuses: updatedCampuses });
   };
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
-    setCommission({ ...commission, [name]: value });
 
-    if (name === "universityName") {
-      const selectedUniversity = universities.find(
-        (u) => u.universityName === value
-      );
-      if (selectedUniversity) {
-        setCommission((prevState) => ({
-          ...prevState,
-          universityId: selectedUniversity._id,
-          clientName: selectedUniversity.businessName,
-          courseType: selectedUniversity.courseType,
-        }));
-        setYears((prevYears) =>
-          prevYears.map((year) => ({
-            ...year,
-            courseTypes: [
-              {
-                courseType: selectedUniversity.courseType,
-                intake: "",
-                value: null,
-              },
-            ],
-          }))
-        );
+    setProgram((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+
+      if (name === "universityName") {
+        const selectedUniversity = universities.find((u) => u.universityName === value);
+        if (selectedUniversity) {
+          return {
+            ...updatedProgram,
+            universityId: selectedUniversity._id,
+            universityName: selectedUniversity.universityName,
+            universityLogo: selectedUniversity.universityLogo,
+            state: selectedUniversity.state,
+            lga: selectedUniversity.lga,
+            courseType: selectedUniversity.courseType,
+            country: selectedUniversity.country,
+            inTake: selectedUniversity.inTake,
+          };
+        }
       }
-    }
+
+      return updatedProgram;
+    });
 
     if (submitted) {
-      const newError = handleValidation({ ...commission, [name]: value });
+      const newError = handleValidation({ ...program, [name]: value });
       setErrors(newError);
     }
   };
 
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
+  const handleSelectCourseChange = (selectedOptions) => {
+    setSelectedCourseType(selectedOptions);
   };
+
+  const campusOptions = program?.state
+    ? program.state.map((state) => ({ value: state, label: state }))
+    : [];
+  const lgaOptions = program?.lga && program.lga.length > 0
+    ? program.lga.map((lga) => ({ value: lga, label: lga }))
+    : [];
+  const optionsToRender = lgaOptions.length > 0 ? lgaOptions : campusOptions;
+  const inTakeOptions = program?.inTake
+    ? program.inTake.map((inTake) => ({ value: inTake, label: inTake }))
+    : [];
+        const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
+
+
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Validate the commission data
-    const newError = handleValidation(commission);
+    const newError = handleValidation(program);
     setErrors(newError);
     setSubmitted(true);
-
-    // Check if all inputs are valid
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-
-    if (valid) {
-      // Prepare years data for submission
-      const yearsData = years.map((year) => ({
-        year: year.year,
-        courseTypes: year.courseTypes.map((courseType) => ({
-          courseType: courseType.courseType,
-          inTake: courseType.inTake,
-          value: courseType.value,
-        })),
-      }));
-
-      // Prepare commission data including years
-      const dataToSave = {
-        ...commission,
-        years: yearsData,
-      };
-
-      // Call API to save commission
-      updatedCommission(dataToSave)
+    if (handleErrors(newError)) {
+      updatedProgram({
+        ...program,
+        campuses: campuses,
+        courseType: selectedCourseType?.label,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListCommission");
+          navigate("/Programs");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -313,17 +251,15 @@ function AddCommission() {
     }
   };
 
-  return (
+return (
+    <>
     <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
       <div className="container-fluid">
         <nav className="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
         </nav>
 
-        <div
-          className="content-wrapper"
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-        >
+        <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
           <div className="content-header">
             <div className="content container-fluid">
               <form onSubmit={handleSubmit}>
@@ -335,316 +271,335 @@ function AddCommission() {
                         style={{ background: "#fe5722", color: "#fff" }}
                       >
                         <h5 className="text-center text-capitalize p-1">
-                          Add Commission Details
+                          Add Program Details
                         </h5>
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Country<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select"
-                              name="country"
-                              
-                              value={commission.country}
-                              onChange={handleCountryChange}
-                            >
-                              <option value="">Select Country</option>
-                              {countries.map((country) => (
-                                <option
-                                  key={country._id}
-                                  value={country.country}
-                                >
-                                  {country.country}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.country.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              University<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select"
-                              name="universityName"
-                              value={commission.universityName}
-                              onChange={handleInputs}
-                            >
-                              <option value="">Select University</option>
-                              {universities.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.universityName}
-                                >
-                                  {uni.universityName}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.universityName.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                      
-                          <div className="row g-2">
-                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                              <button
-                                type="button"
-                                className="btn text-white ml-2"
-                                style={{
-                                  backgroundColor: "#FE5722",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                                onClick={addYear}
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="universityName">University Name <span className="text-danger">*</span></label>
+                              <select
+                                name="universityName"
+                                id="universityName"
+                                className="form-select form-select-sm"
+                                value={program.universityName}
+                                onChange={handleInputs}
                               >
-                                Add Year
-                              </button>
+                                <option value="" disabled>
+                                  Select University
+                                </option>
+                                {universities?.map((uni) => (
+                                  <option key={uni._id} value={uni.universityName}>
+                                    {uni.universityName}
+                                  </option>
+                                ))}
+                              </select>
+                              {errors.universityName.required && (
+                                <span className="text-danger">University Name is required</span>
+                              )}
                             </div>
                           </div>
-                          <div className="row g-3 mt-3">
-                            <div className="col-12">
-                              {years.map((year, yearIndex) => (
-                                <div
-                                  key={yearIndex}
-                                  className="year-section mb-3"
-                                >
-                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>
-                                      Year
-                                    </label>
-                                    <select
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "14px",
-                                      }}
-                                      value={commission?.years?.year }
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          yearIndex,
-                                          null,
-                                          "year",
-                                          e.target.value
-                                        )
-                                      }
-                                      name="year"
-                                      className="form-select mb-3 "
-                                      placeholder="Enter Year"
-                                    >
-                                      <option value="">Select Year</option>
-                                      {yearOptions.map((option) => (
-                                        <option
-                                          key={option.value}
-                                          value={option.value}
-                                        >
-                                          {option.label}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
-                                  <div>
-                                    <div>
-                                      {year?.courseTypes &&
-                                        year?.courseTypes.map(
-                                          (courseType, courseTypeIndex) => (
-                                            <div
-                                              className="row g-3"
-                                              key={courseTypeIndex}
-                                            >
-                                              <div className=" col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  Course Type
-                                                </label>
-                                                <select
-                                                  className="form-select"
-                                                  value={courseType.courseType}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "courseType",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select Course Type
-                                                  </option>
-
-                                                  {(
-                                                    universities.find(
-                                                      (uni) =>
-                                                        uni.universityName ===
-                                                        commission.universityName
-                                                    )?.courseType || []
-                                                  ).map((type, idx) => (
-                                                    <option
-                                                      key={idx}
-                                                      value={type}
-                                                    >
-                                                      {type}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  inTake
-                                                </label>
-                                                <select
-                                                  className="form-select"
-                                                  value={courseType.inTake}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "inTake",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select inTake
-                                                  </option>
-
-                                                  {(
-                                                    universities.find(
-                                                      (uni) =>
-                                                        uni.universityName ===
-                                                        commission.universityName
-                                                    )?.inTake || []
-                                                  ).map((type, idx) => (
-                                                    <option
-                                                      key={idx}
-                                                      value={type}
-                                                    >
-                                                      {type}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-                                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  value
-                                                </label>
-                                                <input
-                                                  className="form-control"
-                                                  type="text"
-                                                  name="value"
-                                                  placeholder="Value"
-                                                  value={courseType.value}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "value",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                />
-                                              </div>
-
-                                              <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                                <button
-                                                  type="button"
-                                                  className="btn text-white ml-2 mb-3"
-                                                  onClick={() =>
-                                                    removeCourseType(
-                                                      yearIndex,
-                                                      courseTypeIndex
-                                                    )
-                                                  }
-                                                  style={{
-                                                    backgroundColor: "#FE5722",
-                                                    fontFamily:
-                                                      "Plus Jakarta Sans",
-                                                    fontSize: "14px",
-                                                  }}
-                                                >
-                                                  <FaTrash />
-                                                </button>
-                                              </div>
-                                            </div>
-                                          )
-                                        )}
-                                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                        <button
-                                          type="button"
-                                          className="btn text-white ml-2"
-                                          onClick={() =>
-                                            addCourseType(yearIndex)
-                                          }
-                                          style={{
-                                            backgroundColor: "#FE5722",
-                                            fontFamily: "Plus Jakarta Sans",
-                                            fontSize: "14px",
-                                          }}
-                                        >
-                                          Add Course
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="country">Country <span className="text-danger">*</span></label>
+                              <select
+                                name="country"
+                                id="country"
+                                className="form-select form-select-sm"
+                                value={program.country}
+                                onChange={handleCountryChange}
+                              >
+                                <option value="" disabled>
+                                  Select Country
+                                </option>
+                                {countries?.map((country) => (
+                                  <option key={country._id} value={country.country}>
+                                    {country.country}
+                                  </option>
+                                ))}
+                              </select>
+                              {errors.country.required && (
+                                <span className="text-danger">Country is required</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="currency">Currency</label>
+                              <input
+                                type="text"
+                                name="currency"
+                                id="currency"
+                                className="form-control form-control-sm"
+                                value={program.currency}
+                                onChange={handleInputs}
+                                readOnly
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="flag">Flag</label>
+                              <input
+                                type="text"
+                                name="flag"
+                                id="flag"
+                                className="form-control form-control-sm"
+                                value={program.flag}
+                                onChange={handleInputs}
+                                readOnly
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="programTitle">Program Title <span className="text-danger">*</span></label>
+                              <input
+                                type="text"
+                                name="programTitle"
+                                id="programTitle"
+                                className="form-control form-control-sm"
+                                value={program.programTitle}
+                                onChange={handleInputs}
+                              />
+                              {errors.programTitle.required && (
+                                <span className="text-danger">Program Title is required</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="applicationFee">Application Fee <span className="text-danger">*</span></label>
+                              <input
+                                type="number"
+                                name="applicationFee"
+                                id="applicationFee"
+                                className="form-control form-control-sm"
+                                value={program.applicationFee}
+                                onChange={handleInputs}
+                              />
+                              {errors.applicationFee.required && (
+                                <span className="text-danger">Application Fee is required</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="discountedValue">Discounted Value</label>
+                              <input
+                                type="number"
+                                name="discountedValue"
+                                id="discountedValue"
+                                className="form-control form-control-sm"
+                                value={program.discountedValue}
+                                onChange={handleInputs}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="courseType">Course Type</label>
+                              <Select
+                                name="courseType"
+                                id="courseType"
+                                options={selectedCourseType}
+                                isMulti
+                                onChange={handleSelectCourseChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="englishlanguageTest">English Language Test</label>
+                              <input
+                                type="text"
+                                name="englishlanguageTest"
+                                id="englishlanguageTest"
+                                className="form-control form-control-sm"
+                                value={program.englishlanguageTest}
+                                onChange={handleInputs}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="textBox">Text Box</label>
+                              <input
+                                type="text"
+                                name="textBox"
+                                id="textBox"
+                                className="form-control form-control-sm"
+                                value={program.textBox}
+                                onChange={handleInputs}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="universityInterview">University Interview <span className="text-danger">*</span></label>
+                              <input
+                                type="text"
+                                name="universityInterview"
+                                id="universityInterview"
+                                className="form-control form-control-sm"
+                                value={program.universityInterview}
+                                onChange={handleInputs}
+                              />
+                              {errors.universityInterview.required && (
+                                <span className="text-danger">University Interview is required</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="greGmatRequirement">GRE/GMAT Requirement</label>
+                              <input
+                                type="text"
+                                name="greGmatRequirement"
+                                id="greGmatRequirement"
+                                className="form-control form-control-sm"
+                                value={program.greGmatRequirement}
+                                onChange={handleInputs}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="score">Score</label>
+                              <input
+                                type="number"
+                                name="score"
+                                id="score"
+                                className="form-control form-control-sm"
+                                value={program.score}
+                                onChange={handleInputs}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="academicRequirement">Academic Requirement</label>
+                              <input
+                                type="text"
+                                name="academicRequirement"
+                                id="academicRequirement"
+                                className="form-control form-control-sm"
+                                value={program.academicRequirement}
+                                onChange={handleInputs}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="form-group">
+                              <label htmlFor="universityLogo">University Logo <span className="text-danger">*</span></label>
+                              <input
+                                type="text"
+                                name="universityLogo"
+                                id="universityLogo"
+                                className="form-control form-control-sm"
+                                value={program.universityLogo}
+                                onChange={handleInputs}
+                              />
+                              {errors.universityLogo.required && (
+                                <span className="text-danger">University Logo is required</span>
+                              )}
                             </div>
                           </div>
                         </div>
-
-                        <div className="row g-2">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                            <Link
-                              to="/ListCommission"
-                              style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                            >
-                              Cancel
-                            </Link>
+                        <div className="row">
+                          <div className="col-xl-12">
                             <button
-                              style={{
-                                backgroundColor: "#FE5722",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                              type="button"
+                              className="btn btn-sm btn-success mt-2"
+                              onClick={addCampus}
                             >
-                              Submit
+                              Add Campus
                             </button>
                           </div>
                         </div>
+                        {program.campuses.map((campus, index) => (
+                          <div className="row mt-3" key={index}>
+                            <div className="col-xl-3">
+                              <div className="form-group">
+                                <label htmlFor={`campus${index}`}>Campus</label>
+                                <input
+                                  type="text"
+                                  name="campus"
+                                  id={`campus${index}`}
+                                  className="form-control form-control-sm"
+                                  value={campus.campus}
+                                  onChange={(e) => handleInputChange(index, "campus", e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-xl-3">
+                              <div className="form-group">
+                                <label htmlFor={`inTake${index}`}>Intake</label>
+                                <input
+                                  type="text"
+                                  name="inTake"
+                                  id={`inTake${index}`}
+                                  className="form-control form-control-sm"
+                                  value={campus.inTake}
+                                  onChange={(e) => handleInputChange(index, "inTake", e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-xl-3">
+                              <div className="form-group">
+                                <label htmlFor={`courseFees${index}`}>Course Fees</label>
+                                <input
+                                  type="text"
+                                  name="courseFees"
+                                  id={`courseFees${index}`}
+                                  className="form-control form-control-sm"
+                                  value={campus.courseFees}
+                                  onChange={(e) => handleInputChange(index, "courseFees", e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-xl-3">
+                              <div className="form-group">
+                                <label htmlFor={`duration${index}`}>Duration</label>
+                                <input
+                                  type="text"
+                                  name="duration"
+                                  id={`duration${index}`}
+                                  className="form-control form-control-sm"
+                                  value={campus.duration}
+                                  onChange={(e) => handleInputChange(index, "duration", e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            {/* <div className="col-xl-12">
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-danger mt-2"
+                                onClick={() => removeCampus(index)}
+                              >
+                                Remove Campus
+                              </button>
+                            </div> */}
+                          </div>
+                        ))}
                       </div>
+                      <button type="submit" className="btn btn-sm btn-primary mt-3">
+                        Save
+                      </button>
                     </div>
                   </div>
                 </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+          </div>
+          </div>
+          </>
   );
 }
+export default Profile;
 
-export default AddCommission;
+
+    

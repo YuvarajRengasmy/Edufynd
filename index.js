@@ -1,7 +1,6 @@
 <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
 <div className='scroll-bar' style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans'}}>
   <div className='container' >
-
     <div className='container d-flex flex-column border-start border-end gap-2  bg-white'>
       <div className='row gap-lg-2 gap-md-2 gap-2 p-0 mt-1 d-flex justify-content-center'>
         <div className='container '>

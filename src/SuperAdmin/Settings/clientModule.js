@@ -167,15 +167,24 @@ export default function GlobalSettings() {
     setSubmitted(false); // Reset submitted state
     setErrors(initialStateErrors); // Reset errors
   };
-
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
 
-    const allInputsValid = Object.values(newError).every((x) => !x.required);
-    if (allInputsValid) {
+    if (handleErrors(newError)) {
       const data = {
         ...inputs,
         _id: editId, // If editing, include the ID in the data

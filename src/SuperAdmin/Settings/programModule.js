@@ -156,6 +156,7 @@ export default function GlobalSettings() {
   };
   const handleAddModule = () => {
     setInputs( initialStateInputs)
+    setIsEditing(false);
     setSubmitted(false)
     setErrors(initialStateErrors)
 

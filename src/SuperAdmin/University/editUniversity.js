@@ -74,14 +74,13 @@ function Profile() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
-  const [country, setCountry] = useState([]);
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
   const [states, setStates] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedStates, setSelectedStates] = useState([]);
+  const [country, setCountry] = useState("");
+  const [countries, setCountries] = useState([]);
   const [lgas, setLGAs] = useState([]);
   const [selectedLGAs, setSelectedLGAs] = useState([]);
   const [type, setType] = useState([]);
@@ -89,7 +88,7 @@ function Profile() {
 
   const ZERO = 0;
   const [selectedCourseType, setSelectedCourseType] = useState([]);
-  let countryRegion = null;
+ 
   const navigate = useNavigate();
 
   const handleValidation = (data) => {
@@ -126,7 +125,7 @@ function Profile() {
   useEffect(() => {
     getUniversityDetails();
     getClientList();
-    getCountryList();
+   
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
@@ -163,16 +162,7 @@ function Profile() {
         console.log(err);
       });
   };
-  const getCountryList = () => {
-    getallCountry()
-      .then((res) => {
-        const value = res?.data?.result;
-        setCountry(value);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+ 
 
   const getAllCatgoeryDetails = () => {
     getallCategories()
@@ -256,10 +246,7 @@ function Profile() {
   };
 
   const getCountryRegionInstance = () => {
-    if (!countryRegion) {
-      countryRegion = new CountryRegion();
-    }
-    return countryRegion;
+    return new CountryRegion();
   };
 
   useEffect(() => {
@@ -282,9 +269,7 @@ function Profile() {
   useEffect(() => {
     const getStates = async () => {
       try {
-        const states = await getCountryRegionInstance().getStates(
-          selectedCountry
-        );
+        const states = await getCountryRegionInstance().getStates(country);
         setStates(
           states.map((userState) => ({
             value: userState?.id,
@@ -295,10 +280,10 @@ function Profile() {
         console.error(error);
       }
     };
-    if (selectedCountry) {
+    if (country) {
       getStates();
     }
-  }, [selectedCountry]);
+  }, [country]);
 
   useEffect(() => {
     const getLGAs = async () => {
@@ -306,7 +291,7 @@ function Profile() {
         const allLGAs = await Promise.all(
           selectedStates.map(async (state) => {
             const lgas = await getCountryRegionInstance().getLGAs(
-              selectedCountry,
+              country,
               state.value
             );
             return lgas.map((lga) => ({
@@ -323,22 +308,28 @@ function Profile() {
     if (selectedStates.length > 0) {
       getLGAs();
     }
-  }, [selectedStates, selectedCountry]);
+  }, [selectedStates, country]);
 
   const handleCountryChange = (selectedOption) => {
-    setSelectedCountry(selectedOption.value);
+    setCountry(selectedOption.value);
     setSelectedStates([]);
-    setSelectedLGAs([]); // Reset selected LGAs when country changes
+    setStates([]);
+    setSelectedLGAs([]);
+    setLGAs([]);
   };
 
   const handleStateChange = (selectedOptions) => {
     setSelectedStates(selectedOptions || []);
-    setSelectedLGAs([]); // Reset selected LGAs when states change
+    setSelectedLGAs([]);
+    setLGAs([]);
   };
 
   const handleLGAChange = (selectedOptions) => {
     setSelectedLGAs(selectedOptions || []);
   };
+
+ 
+
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -357,7 +348,7 @@ function Profile() {
     setSubmitted(true);
 
     const selectedCountryLabel =
-      countries.find((country) => country.value === selectedCountry)?.label ||
+      countries.find((country) => country.value === countries)?.label ||
       "";
     const selectedStatesLabels = selectedStates.map((state) => state.label);
     const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
@@ -609,21 +600,17 @@ function Profile() {
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Country Name<span className="text-danger">*</span>
+                              Country<span className="text-danger">*</span>
                             </label>
                             <Select
-                              placeholder="Select a Country"
+                              placeholder={university?.country}
                               onChange={handleCountryChange}
                               options={countries}
-                              value={
-                                university?.country
-                                  ? {
-                                      value: university.country,
-                                      label: university.country,
-                                    }
-                                  : null
-                              }
+                              name="country"
                               styles={customStyles}
+                              value={countries.find(
+                                (option) => option.value === country
+                              )}
                               className="submain-one-form-body-subsection-select"
                             />
                             {errors.country.required ? (
@@ -632,58 +619,40 @@ function Profile() {
                               </div>
                             ) : null}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               State<span className="text-danger">*</span>
                             </label>
-                            {states.length !== ZERO && (
-                              <Select
-                                placeholder="Select a State"
-                                isMulti
-                                onChange={handleStateChange}
-                                value={
-                                  university?.state
-                                    ? university.state.map((state) => ({
-                                        value: state,
-                                        label: state,
-                                      }))
-                                    : null
-                                }
-                                options={states}
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                            )}
+                            <Select
+                              placeholder={university?.state}
+                              isMulti
+                              onChange={handleStateChange}
+                              options={states}
+                              name="state"
+                              styles={customStyles}
+                              value={selectedStates}
+                              className="submain-one-form-body-subsection-select"
+                            />
                             {errors.state.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
                             )}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               City<span className="text-danger">*</span>
                             </label>
-                            {lgas.length !== ZERO && (
-                              <Select
-                                placeholder="Select a City"
-                                isMulti
-                                onChange={handleLGAChange}
-                                value={
-                                  university?.lga
-                                    ? university.lga.map((lga) => ({
-                                        value: lga,
-                                        label: lga,
-                                      }))
-                                    : selectedLGAs
-                                }
-                                options={lgas}
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                            )}
+                            <Select
+                              placeholder={university?.lga}
+                              value={selectedLGAs}
+                              isMulti
+                              onChange={handleLGAChange}
+                              options={lgas}
+                              name="lga"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>

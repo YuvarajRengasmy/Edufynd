@@ -63,32 +63,89 @@ function Profile() {
   const [submitted, setSubmitted] = useState(false);
   const [university, setUniversity] = useState([]);
   const [universities, setUniversities] = useState([]);
-  const [selectedIntake, setSelectedIntake] = useState([]);
-  const [selectedCourseType, setSelectedCourseType] = useState([]);
-  const [selectedCampuses, setSelectedCampuses] = useState([]);
-  const [campusInputs, setCampusInputs] = useState([]);
 
-  const [type, setType] = useState([]);
-  const [intake, setIntake] = useState([]);
+  const [selectedCourseType, setSelectedCourseType] = useState([]);
+ 
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllUniversityList();
     getAllCurrencyDetails();
-    getAllCourseDetails();
-    getAllIntakeDetails();
     getProgramDetails();
+  
+  
   }, []);
 
+
+
+  // const getProgramDetails = () => {
+  //   getSingleProgram(id)
+  //     .then((res) => {
+  //       console.log(res?.data?.result);
+  //       const programDetails = res?.data?.result;
+  //       setProgram(programDetails);
+
+  //       if (programDetails?.country) {
+  //         getUniversitiesByCountry(programDetails.country).then((response) => {
+  //           setUniversities(response.data.result || []);
+           
+  //         });
+  //       }else if(programDetails?.universities){
+  //         getallUniversity().then((response) => {
+  //           setUniversities(response.data.result || []);
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //     // getAllCourseTypes()
+  //     // .then((response) => {
+  //     //   setProgram(response.data.result || []); // Update course types state with fetched data
+  //     // })
+  //     // .catch((error) => {
+  //     //   console.error('Error fetching course types:', error);
+  //     //   setProgram([]);
+  //     // });
+  // };
   const getProgramDetails = () => {
     getSingleProgram(id)
       .then((res) => {
-        setProgram(res?.data?.result);
+        console.log(res?.data?.result);
+        const programDetails = res?.data?.result;
+        setProgram(programDetails);
+  
+        if (programDetails?.country) {
+          // Fetch universities by country
+          getUniversitiesByCountry(programDetails.country)
+            .then((response) => {
+              setUniversities(response.data.result || []);
+              // You can further process or display university details here
+            })
+            .catch((error) => {
+              console.error('Error fetching universities by country:', error);
+            });
+        } else if (programDetails?.universityName) {
+          // Fetch all universities
+          getallUniversity(programDetails?.universityName)
+            .then((response) => {
+              setUniversities(response.data.result || []);
+              // You can further process or display university details here
+            })
+            .catch((error) => {
+              console.error('Error fetching all universities:', error);
+            });
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  
+
+  
   const getAllUniversityList = () => {
     getallUniversity()
       .then((res) => {
@@ -109,25 +166,7 @@ function Profile() {
       });
   };
 
-  const getAllCourseDetails = () => {
-    getallModule()
-      .then((res) => {
-        console.log(res);
-        setType(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllIntakeDetails = () => {
-    getallIntake()
-      .then((res) => {
-        setIntake(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (data.universityName === "") {
@@ -171,6 +210,7 @@ function Profile() {
     });
 };
 
+
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setProgram({ ...program, country: selectedCountry });
@@ -194,8 +234,7 @@ function Profile() {
       (c) => c.country === selectedCountry
     );
     if (selectedCountryData) {
-      setProgram((prevState) => ({
-        ...prevState,
+      setProgram((prevState) => ({...prevState,
         currency: selectedCountryData.currency,
         flag: selectedCountryData.flag,
       }));
@@ -206,43 +245,42 @@ function Profile() {
     updatedCampuses[index][field] = value;
     setProgram({ ...program, campuses: updatedCampuses });
 };
-  const handleInputs = (event) => {
-    const { name, value } = event.target;
 
-    setProgram((prevProgram) => {
-      const updatedProgram = { ...prevProgram, [name]: value };
 
-    
+const handleInputs = (event, ) => {
+  const { name, value } = event.target;
 
-      if (name === "universityName") {
-        const selectedUniversity = university.find(
-          (u) => u.universityName === value
-        );
-        if (selectedUniversity) {
-          return {
-            ...updatedProgram,
-            universityId: selectedUniversity._id,
-            universityName:selectedUniversity.universityName,
-            universityLogo: selectedUniversity.universityLogo,
-            state: selectedUniversity.state,
-            lga: selectedUniversity.lga,
-            courseType: selectedUniversity.courseType,
-            country: selectedUniversity.country,
-          };
-        }
+  setProgram((prevProgram) => {
+    const updatedProgram = { ...prevProgram, [name]: value };
+    if (name === "universityName") {
+      const selectedUniversity = university.find(u => u.universityName === value);
+      if (selectedUniversity) {
+        return {
+          ...updatedProgram,
+          universityId: selectedUniversity._id,
+          universityLogo: selectedUniversity.universityLogo,
+          state: selectedUniversity.state,
+          lga: selectedUniversity.lga,
+          courseType: selectedUniversity.courseType,
+          country: selectedUniversity.country,
+          inTake: selectedUniversity.inTake,
+        };
       }
-
-      return updatedProgram;
-    });
-
-    if (submitted) {
-      const newError = handleValidation({ ...program, [name]: value });
-      setErrors(newError);
     }
-  };
 
-  const handleSelectCourseChange = (selectedOptions) => {
-    setSelectedCourseType(selectedOptions);
+    return updatedProgram;
+  });
+
+
+
+  if (submitted) {
+    const newError = handleValidation({ ...program, [name]: value });
+    setErrors(newError);
+  }
+};
+
+  const handleSelectCourseChange = (selectedOption) => {
+    setProgram({ ...program, courseType: selectedOption });
   };
 
 
@@ -254,31 +292,30 @@ function Profile() {
       ? program.lga.map((lga) => ({ value: lga, label: lga }))
       : [];
   const optionsToRender = lgaOptions.length > 0 ? lgaOptions : campusOptions;
-  const courseTypeOptions = program?.courseType
-    ? program.courseType.map((courseType) => ({
-        value: courseType,
-        label: courseType,
-      }))
-    : [];
-  const inTakeOptions = intake.map((data) => ({
-    value: data.intakeName,
-    label: data.intakeName,
-  }));
+  // const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
+  const inTakeOptions = program?.inTake?program.inTake.map(inTake => ({ value: inTake, label: inTake })) : [];
 
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(program);
     setErrors(newError);
     setSubmitted(true);
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-    if (valid) {
+    if (handleErrors(newError)) {
       updatedProgram({
         ...program,
         campuses: campuses,
-        courseType: selectedCourseType
-          ? selectedCourseType.map((option) => option.value)
-          : [],
+        courseType: selectedCourseType?.label 
       })
         .then((res) => {
           toast.success(res?.data?.message);
@@ -369,11 +406,7 @@ function Profile() {
                                 fontSize: "14px",
                               }}
                               name="universityName"
-                              value={
-                                program?.universityName
-                                  ? program?.universityName
-                                  : ""
-                              }
+                              value={program.universityName}
                               onChange={handleInputs}
                             >
                               <option
@@ -498,40 +531,27 @@ function Profile() {
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Course Type
-                            </label>
 
-                            <Select
-                              isMulti
-                              // value={selectedCourseType}
-                              value={
-                                program?.courseType
-                                  ? program?.courseType.map((courseType) => ({
-                                      value: courseType,
-                                      label: courseType,
-                                    }))
-                                  : null
-                              }
-                              options={courseTypeOptions}
-                              placeholder="Select Course Type"
-                              name="courseType"
-                              onChange={handleSelectCourseChange}
-                              styles={{
-                                container: (base) => ({
-                                  ...base,
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }),
-                              }}
-                            />
+<label style={{ color: "#231F20" }}>
+  Course Type 
+</label>
 
-                            {errors.courseType.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
+<Select
+                                name="courseType"
+                                value={program.courseType}
+                                
+                               placeholder={program.courseType}
+                                onChange={handleSelectCourseChange}
+                              />
+
+{errors.courseType.required ? (
+  <div className="text-danger form-text">
+    This field is required.
+  </div>
+) : null}
+
+</div>
+
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -584,7 +604,7 @@ function Profile() {
                             ) : null}
                           </div>
 
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                             <label style={{ color: "#231F20" }}>
                               Currency<span className="text-danger">*</span>
                             </label>
@@ -668,7 +688,7 @@ function Profile() {
                           {program?.campuses && program?.campuses?.map((campus, index) => (
                             <div key={index}>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label>{campus?.campus}</label>
+                                <label>Campus</label>
 
                                 <select
                                   style={{
@@ -687,9 +707,9 @@ function Profile() {
                                   }
                                   name="campus"
                                   className="form-select"
-                                  placeholder="Enter Campus"
+                                  placeholder={campus?.campus}
                                 >
-                                  <option value="">Select Campus</option>
+                                  <option value="">{campus?.campus}</option>
                                   {optionsToRender.map((option) => (
                                     <option
                                       key={option.value}
@@ -720,9 +740,9 @@ function Profile() {
                                       }
                                       name="inTake"
                                       className="form-select"
-                                      placeholder="Enter Intake"
+                                      placeholder={campus.inTake}
                                     >
-                                      <option value="">Select Intake</option>
+                                      <option value="">{campus.inTake}</option>
                                       {inTakeOptions.map((option) => (
                                         <option
                                           key={option.value}
