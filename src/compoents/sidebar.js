@@ -4,7 +4,7 @@ import { clearStorage } from "../Utils/storage";
 import { Link } from "react-router-dom";
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
 import "./Sidebar.css";
-import { NavLink } from "react-router-dom";
+
 
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState(window.location.pathname);
@@ -1174,11 +1174,11 @@ const Sidebar = () => {
                 </li>
 
                 <li className="nav-item ">
-                  <a href="/"
+                  <Link to='/' 
                    
 
-                     className={`nav-link ${activeLink === '/' ? 'active' : ''}`}
-                   onClick={() => handleSetActiveLink('/')}
+                     className='nav-link '
+                 
                   
 
                   >
@@ -1194,7 +1194,7 @@ const Sidebar = () => {
                       {" "}
                       Log Out{" "}
                     </p>
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <br />
