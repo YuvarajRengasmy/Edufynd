@@ -1,29 +1,4 @@
-
-.rotate-icon {
-    transform: rotate(90deg);
-    transition: transform 0.1s ease;
-}
-/* Add this CSS to your stylesheet */
-
-
-
-.nav-link {
-    color: #231f20 !important;
-  }
-
-.nav-link:hover {
-    color: #fe5722 !important;
-  
-    
-  }
-
- /* In your CSS file */
-.active {
-  color: #fe5722;
-  background-color: transparent;
-}
-
-  /* General styles for nav-link */
+/* General Styles */
 .nav-link {
   color: #231f20; /* Normal color */
   text-decoration: none; /* Remove underline */
@@ -31,35 +6,53 @@
   align-items: center; /* Center items vertically */
   padding: 8px 16px; /* Adjust padding as needed */
   font-weight: bolder;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 }
 
-.nav-link p{
+.nav-link p {
   font-weight: bolder;
-  
+  margin: 0; /* Remove default margin */
+  color: #231f20;
 }
 
 /* Icon styles */
-.nav-icon  {
+.nav-icon {
   margin-right: 5px; /* Space between icon and text */
-  
-  
-}
-.nav-link i{
-  font-size: 12px;
-}
-/* Text styles */
-.nav-text {
-  margin: 0; /* Remove default margin */
+  color: #231f20; /* Default icon color */
 }
 
 /* Hover styles */
-.nav-link:hover {
-  color: #fe5722; /* Hover color */
+.nav-link:hover  {
+  color: #fe5722; /* Hover text color */
+  background-color: rgba(255, 87, 34, 0.1); /* Light orange background on hover */
 }
 
+.nav-link:hover .nav-icon {
+  color: #fe5722; /* Hover icon color */
+}
 
+/* Active styles */
+.nav-link.active {
+  color: #fe5722; /* Active text color */
+  background-color: rgba(255, 87, 34, 0.1); /* Light orange background for active link */
+}
 
-.nav-link:active{
-  background-color: #fff;
-  color: #fe5722;
+.nav-link.active .nav-icon {
+  color: #fe5722; /* Active icon color */
+}
+
+/* Rotate icon for dropdown */
+.rotate-icon {
+  transform: rotate(90deg);
+  transition: transform 0.1s ease;
+}
+
+/* Submenu styles */
+.collapse .nav-item .nav-link {
+  padding-left: 32px; /* Indent submenu items */
+}
+
+/* Transition for submenu */
+.collapse.show {
+  transition: height 0.3s ease;
 }
