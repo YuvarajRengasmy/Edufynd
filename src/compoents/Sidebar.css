@@ -9,7 +9,7 @@
   transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 }
 
-.nav-link p {
+.nav-item .nav-link  {
   font-weight: bolder;
   margin: 0; /* Remove default margin */
   color: #231f20;
@@ -22,29 +22,30 @@
 }
 
 /* Hover styles */
-.nav-link:hover  {
+.nav-item .nav-link:hover {
   color: #fe5722; /* Hover text color */
   background-color: rgba(255, 87, 34, 0.1); /* Light orange background on hover */
 }
-
 .nav-link:hover .nav-icon {
-  color: #fe5722; /* Hover icon color */
+  color:rgb(13, 110, 253); /* Hover icon color */
 }
 
+
 /* Active styles */
-.nav-link.active {
-  color: #fe5722; /* Active text color */
+.nav-link.active .nav-item {
+  color: #ffffff; /* Active text color */
   background-color: rgba(255, 87, 34, 0.1); /* Light orange background for active link */
 }
 
 .nav-link.active .nav-icon {
-  color: #fe5722; /* Active icon color */
+  color: #ffffff; /* Active icon color */
 }
 
 /* Rotate icon for dropdown */
 .rotate-icon {
   transform: rotate(90deg);
   transition: transform 0.1s ease;
+  color: #231f20;
 }
 
 /* Submenu styles */
