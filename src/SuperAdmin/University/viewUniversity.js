@@ -107,8 +107,8 @@ const UserProfile = () => {
                 <div className="col-xl-12">
                   <div className="border-0 rounded-0 bg-transparent p-3 ">
                     <div className="card border-0 rounded-0 ">
-                    <div class="card rounded-0 border-0 text-bg-dark" style={{maxHeight:'12rem'}}>
-  <img src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg" class="card-img img-fluid" alt="university_bg_image" style={{mixBlendMode:'multiply',maxHeight:'12rem'}}/>
+                    <div class="card rounded-0 border-0 text-bg-dark" >
+  <img src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg" class="card-img img-fluid" alt="university_bg_image" style={{mixBlendMode:'multiply',maxHeight:'15rem'}}/>
   <div class="card-img-overlay">
   <div className=" rounded-0 border-0  bg-transparent ">
                         <div className="row g-0 ">
@@ -485,7 +485,7 @@ const UserProfile = () => {
                               University Details.
                             </div>
 
-                            <div className="card  border-0  shadow mt-3">
+                            <div className="card     mt-3">
                               <div className="card-body">
                                 <div className="row gy-3 py-2">
                                   <div className="col-sm-6">
@@ -519,16 +519,6 @@ const UserProfile = () => {
                                       {university?.averageFees}
                                     </div>
                                   </div>
-                                  <div className="col-sm-6">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      Application Fees
-                                    </div>
-                                    <div className=" fw-semibold text-capitalize">
-                                      {university?.applicationFees}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="row gy-3 py-2">
                                   <div className="col-sm-6  ">
                                     <div className=" fw-light text-lead text-capitalize">
                                       Founded
@@ -537,6 +527,10 @@ const UserProfile = () => {
                                       {university?.founded}
                                     </div>
                                   </div>
+                                 
+                                </div>
+                                <div className="row gy-3 py-2">
+                                 
                                   <div className="col-sm-6">
                                     <div className=" fw-light text-lead text-capitalize">
                                       Institution Type
@@ -546,24 +540,7 @@ const UserProfile = () => {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="row gy-3 py-2">
-                                  <div className="col-sm-6">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      Cost Of Living
-                                    </div>
-                                    <div className=" fw-semibold text-capitalize">
-                                      {university?.costOfLiving}
-                                    </div>
-                                  </div>
-                                  <div className="col-sm-6">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      Gross Tuition
-                                    </div>
-                                    <div className=" fw-semibold text-capitalize">
-                                      {university?.grossTuition}
-                                    </div>
-                                  </div>
-                                </div>
+                               
                               </div>
                             </div>
                           </div>
