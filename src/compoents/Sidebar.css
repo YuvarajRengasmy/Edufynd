@@ -12,7 +12,7 @@
 .nav-link p {
   font-weight: bolder;
   margin: 0; /* Remove default margin */
-  color: #231f20;
+  
 }
 
 /* Icon styles */
@@ -22,7 +22,7 @@
 }
 
 /* Hover styles */
-.nav-link:hover  {
+.nav-link:hover {
   color: #fe5722; /* Hover text color */
   background-color: rgba(255, 87, 34, 0.1); /* Light orange background on hover */
 }
@@ -32,13 +32,13 @@
 }
 
 /* Active styles */
-.nav-link.active {
-  color: #fe5722; /* Active text color */
+.nav-link p.active {
+  color: #ffffff; /* Active text color */
   background-color: rgba(255, 87, 34, 0.1); /* Light orange background for active link */
 }
 
 .nav-link.active .nav-icon {
-  color: #fe5722; /* Active icon color */
+  color: #ffffff; /* Active icon color */
 }
 
 /* Rotate icon for dropdown */
