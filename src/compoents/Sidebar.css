@@ -26,7 +26,9 @@
   color: #fe5722; /* Hover text color */
   background-color: rgba(255, 87, 34, 0.1); /* Light orange background on hover */
 }
-
+.nav-link:hover .nav-icon {
+  color:rgb(13, 110, 253); /* Hover icon color */
+}
 
 
 /* Active styles */
