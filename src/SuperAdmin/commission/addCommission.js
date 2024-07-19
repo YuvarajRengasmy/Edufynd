@@ -400,8 +400,9 @@ function AddCommission() {
                                                                         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                                     >
                                                                         <option value="">Select Commission Paid On</option>
-                                                                        <option value="CourseFees">Course Fees</option>
+                                                                        <option value="CourseFees">Net Fees</option>
                                                                         <option value="PaidFees">Paid Fees</option>
+                                                                        <option value="PaidFees">Gross Fees</option>
                                                                     </select>
                                                                 </div>
 

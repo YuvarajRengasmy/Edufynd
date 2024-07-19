@@ -624,7 +624,7 @@ function Profile() {
                               State<span className="text-danger">*</span>
                             </label>
                             <Select
-                              placeholder={university?.state.join(", ")}
+                              placeholder={university?.state}
                               isMulti
                               onChange={handleStateChange}
                               options={states}
@@ -644,7 +644,7 @@ function Profile() {
                               City<span className="text-danger">*</span>
                             </label>
                             <Select
-                              placeholder={university?.lga.join(", ")}
+                              placeholder={university?.lga}
                               value={selectedLGAs}
                               isMulti
                               onChange={handleLGAChange}

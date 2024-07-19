@@ -107,8 +107,8 @@ function Profile() {
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-     if (data.country === "") error.country.required = true;
-     if (data.state === "") error.state.required = true;
+    //  if (data.country === "") error.country.required = true;
+    //  if (data.state === "") error.state.required = true;
     if (!isValidName(data.universityName)) {
       error.universityName.valid = true;
     }
@@ -594,11 +594,11 @@ function Profile() {
                               )}
                               className="submain-one-form-body-subsection-select"
                             />
-                            {errors.country.required ? (
+                            {/* {errors.country.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) : null}
+                            ) : null} */}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -614,11 +614,11 @@ function Profile() {
                               value={selectedStates}
                               className="submain-one-form-body-subsection-select"
                             />
-                            {errors.state.required && (
+                            {/* {errors.state.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            )}
+                            )} */}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
