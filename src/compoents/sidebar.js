@@ -54,6 +54,8 @@ const Sidebar = () => {
             <div className="user-panel mt-2  d-flex">
               <div className="info  mt-1">
                 <a href="/DashBoard"
+
+                target="_self"
                   
 
                   className="brand-text font-weight-light text-decoration-none"
@@ -76,6 +78,7 @@ const Sidebar = () => {
               >
                 <li className="nav-item">
                   <a href="/DashBoard"
+                    target="_self"
                    
                     
                    
@@ -88,7 +91,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <a href="/client"
-                   
+                     target="_self"
                     
                    
                      className={`nav-link ${activeLink === '/client' ? 'active' : ''}`}
@@ -101,7 +104,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListUniversity"
-                   
+                     target="_self"
                     
                    
                      className={`nav-link ${activeLink === '/ListUniversity' ? 'active' : ''}`}
@@ -114,6 +117,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListCommission"
+                    target="_self"
                    
                     
                    
@@ -127,7 +131,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/Programs"
-                   
+                     target="_self"
                     
                    
                    className={`nav-link ${activeLink === '/Programs' ? 'active' : ''}`}
@@ -170,6 +174,7 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a href="/ListStudent"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListStudent' ? 'active' : ''}`}
@@ -180,6 +185,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListStaff"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListStaff' ? 'active' : ''}`}
@@ -190,6 +196,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListAgent"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListAgent' ? 'active' : ''}`}
@@ -204,6 +211,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListApplication"
+                    target="_self"
                    
                     
                    
@@ -240,6 +248,7 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a href="/ListStudentForm"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '/ListStudentForm' ? 'active' : ''}`}
@@ -250,6 +259,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListForexForm"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListForexForm' ? 'active' : ''}`}
@@ -260,6 +270,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListAccommodation"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListAccommodation' ? 'active' : ''}`}
@@ -270,6 +281,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListFlightTicket"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListFlightTicket' ? 'active' : ''}`}
@@ -280,6 +292,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListLoanEnquiry"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListLoanEnquiry' ? 'active' : ''}`}
@@ -290,6 +303,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListBusinessEnquiry"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListBusinessEnquiry' ? 'active' : ''}`}
@@ -300,6 +314,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListGeneralEnquiry"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListGeneralEnquiry' ? 'active' : ''}`}
@@ -337,6 +352,7 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -347,7 +363,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
-                         
+                           target="_self"
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -357,6 +373,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -367,6 +384,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListInvoice"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListInvoice' ? 'active' : ''}`}
@@ -377,7 +395,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
-                         
+                           target="_self"
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -414,6 +432,7 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -424,6 +443,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -434,6 +454,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -444,6 +465,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -454,6 +476,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                           className="nav-link text-uppercase fw-semibold"
@@ -463,6 +486,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '' ? 'active' : ''}`}
@@ -473,7 +497,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
-                         
+                           target="_self"
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -510,7 +534,7 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a href="#"
-                         
+                           target="_self"
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -520,6 +544,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -557,6 +582,7 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a href="/ListSocialMedia"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/' ? 'active' : ''}`}
@@ -567,6 +593,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListCampaign"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListCampaign' ? 'active' : ''}`}
@@ -577,6 +604,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="/ListDailyTask"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '/ListDailyTask' ? 'active' : ''}`}
@@ -592,6 +620,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListNotifications"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/ListNotifications' ? 'active' : ''}`}
@@ -604,6 +633,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListMeetings"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/ListMeetings' ? 'active' : ''}`}
@@ -616,6 +646,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListTraining"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/ListTraining' ? 'active' : ''}`}
@@ -629,6 +660,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="#"
+                    target="_self"
                    
                     
                      className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -641,6 +673,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="#"
+                    target="_self"
                    
                     
                      className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -654,6 +687,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListPromotions"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/ListPromotions' ? 'active' : ''}`}
@@ -667,6 +701,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListEvents"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/ListEvents' ? 'active' : ''}`}
@@ -680,6 +715,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListBlog"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/ListBlog' ? 'active' : ''}`}
@@ -693,6 +729,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/ListTestimonials"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/ListTestimonials' ? 'active' : ''}`}
@@ -706,6 +743,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/AdminList"
+                    target="_self"
                    
                    
                      className={`nav-link ${activeLink === '/AdminList' ? 'active' : ''}`}
@@ -739,6 +777,7 @@ const Sidebar = () => {
                     <ul className='nav d-flex flex-column border-0 ps-4'>
                       <li className='nav-item'>
                         <a href="#"
+                          target="_self"
                          
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -748,6 +787,7 @@ const Sidebar = () => {
                       </li>
                       <li className='nav-item'>
                         <a href="#"
+                          target="_self"
                       
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -827,6 +867,7 @@ const Sidebar = () => {
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -837,6 +878,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="/GlobalSettings"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/GlobalSettings' ? 'active' : ''}`}
@@ -847,6 +889,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="/CurrencySettings"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/CurrencySettings' ? 'active' : ''}`}
@@ -857,6 +900,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="/Status"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/Status' ? 'active' : ''}`}
@@ -867,6 +911,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="/Intake"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/Intake' ? 'active' : ''}`}
@@ -877,6 +922,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="/YearSetting"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/YearSetting' ? 'active' : ''}`}
@@ -887,6 +933,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -897,6 +944,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -945,6 +993,7 @@ const Sidebar = () => {
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
                               <a href="/UniversitySettings"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/UniversitySettings' ? 'active' : ''}`}
@@ -955,6 +1004,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="/CourseType"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/CourseType' ? 'active' : ''}`}
@@ -965,6 +1015,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -975,6 +1026,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                               
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -985,6 +1037,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="/ClientModule"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '/ClientModule' ? 'active' : ''}`}
@@ -995,6 +1048,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -1047,6 +1101,7 @@ const Sidebar = () => {
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                                
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -1057,7 +1112,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
-                               
+                                 target="_self"
                                
                                className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                                onClick={() => handleSetActiveLink('#')}
@@ -1067,6 +1122,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
+                                target="_self"
                                
                                 
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -1077,7 +1133,7 @@ const Sidebar = () => {
                             </li>
                             <li className="nav-item">
                               <a href="#"
-                               
+                                 target="_self"
                                 
                                  className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -1121,6 +1177,7 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -1131,6 +1188,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -1141,7 +1199,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
-                         
+                           target="_self"
                           
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
                    onClick={() => handleSetActiveLink('#')}
@@ -1151,6 +1209,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                         
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -1161,6 +1220,7 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a href="#"
+                          target="_self"
                          
                          
                            className={`nav-link ${activeLink === '#' ? 'active' : ''}`}
@@ -1175,7 +1235,7 @@ const Sidebar = () => {
 
                 <li className="nav-item ">
                   <Link to='/' 
-                   
+                     target="_self"
 
                      className='nav-link '
                  
