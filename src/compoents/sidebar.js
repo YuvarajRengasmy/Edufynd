@@ -1245,7 +1245,7 @@ const Sidebar = () => {
           style={{ cursor: 'pointer' }}
         >
           <i
-            className="nav-icon fa fa-flag"
+            className="nav-icon fa fa-flag "
             aria-hidden="true"
             style={{ fontSize: '12px' }}
           />
