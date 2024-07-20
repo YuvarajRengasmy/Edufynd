@@ -244,14 +244,14 @@ const handleSubmit = (event) => {
 
   return (
     <div>
-    <div style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+    <div style={{fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
       <div className='container-fluid'>
         <nav className='navbar navbar-vertical navbar-expang-lg'>
         <Mastersidebar />
         </nav>
        
       
-      <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"}}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="row ">
@@ -289,11 +289,11 @@ const handleSubmit = (event) => {
                     </div>
                   </li>
                   <li className="m-2">
-                    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
+                    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                      <button className="btn btn-primary" style={{ fontSize: '13px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Year</h5>
+                          <h5 id="offcanvasRightLabel">Filter  Year</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">
@@ -321,14 +321,47 @@ const handleSubmit = (event) => {
                       </div>
                     </div>
                   </li>
-                  <li className="breadcrumb-item">
+                 
+                  <li className="m-2">
                     <button
-                      className="btn btn-primary text-white text-center rounded-pill"
+                      className="btn btn-success text-white text-center fw-semibold "
                       style={{
-                        backgroundColor: "#3498DB",
+                        
                         border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
+                       
+                        fontSize: "12px",
+                        margin: "1px"
+                      }}
+                      type="button"
+                      onClick={exportCsv}
+                    >
+                        <i className="fa fa-file-excel" aria-hidden="true"></i>
+                    </button>
+                  </li>
+                  <li className="m-2">
+                    <button
+                      className="btn btn-danger text-white text-center  fw-semibold"
+                      style={{
+                       
+                        border: "none",
+                     
+                        fontSize: "12px",
+                        margin: "1px"
+                      }}
+                      type="button"
+                      onClick={pdfDownload}
+                    >
+                       <i className="fa fa-file-pdf" aria-hidden="true"></i>
+                    </button>
+                  </li>
+                  <li className="m-2">
+                    <button
+                      className="btn  text-white text-center px-4 py-2 text-uppercase fw-semibold text-white text-center "
+                      style={{
+                        backgroundColor: "#fe5722",
+                        border: "none",
+                        
+                        fontSize: "12px",
                         margin: "1px"
                       }}
                       type="button"
@@ -336,39 +369,7 @@ const handleSubmit = (event) => {
                       data-bs-target="#addYearModal"
                       onClick={() => { handleAddModule() }}
                     >
-                      Add Year
-                    </button>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <button
-                      className="btn btn-success text-white text-center rounded-pill"
-                      style={{
-                        backgroundColor: "#45AA62",
-                        border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
-                        margin: "1px"
-                      }}
-                      type="button"
-                      onClick={exportCsv}
-                    >
-                      Export to CSV
-                    </button>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <button
-                      className="btn btn-danger text-white text-center rounded-pill"
-                      style={{
-                        backgroundColor: "#E74C3C",
-                        border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
-                        margin: "1px"
-                      }}
-                      type="button"
-                      onClick={pdfDownload}
-                    >
-                      Export to PDF
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Add Year
                     </button>
                   </li>
                 </ol>
@@ -377,11 +378,11 @@ const handleSubmit = (event) => {
           </div>
         </div>
         <div className="container-fluid mt-3">
-          <div className="card">
-            <div className="card-header d-flex align-items-center" style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-              <h3 className="card-title flex-grow-1">YearList</h3>
+        <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+            <h6 className='text-center text-capitalize p-1'> List Year</h6>
             </div>
-            <div className="card-body">
+            <div className="card-body mt-5">
               <table className="table table-hover text-nowrap">
                 <thead>
                   <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
@@ -399,17 +400,17 @@ const handleSubmit = (event) => {
                         <td className='text-center text-capitalize'>{data?.year}</td>
                        
                         <td  className='text-end text-capitalize'>
-                        <button type="button" className="btn btn-info btn-sm m-1"
+                        <button type="button" className="btn btn-primary btn-sm text-white btn-sm m-1 fw-semibold text-uppercase px-2 py-2"
                             data-bs-toggle="modal"
                            data-bs-target="#addYearModal"
                        onClick={() => { handleEditModule(data) }}
-                         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
+                         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}> <i className="far fa-edit text-white me-1"></i></button>
                           <button
-                            className="btn btn-danger btn-sm m-2"
+                            className="btn btn-danger btn-sm m-2 fw-semibold text-uppercase p-2"
                             onClick={() => openPopup(data._id)}
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                           >
-                            Delete
+                           <i className="far fa-trash-alt text-white me-1"></i>
                           </button>
                         </td>
                       </tr>
@@ -423,7 +424,9 @@ const handleSubmit = (event) => {
                   )}
                 </tbody>
               </table>
-              <div className="d-flex justify-content-end">
+             
+            </div>
+            <div className="d-flex justify-content-end">
                 <Pagination
                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   count={Math.ceil(pagination.count / pageSize)}
@@ -432,7 +435,6 @@ const handleSubmit = (event) => {
                   color="primary"
                 />
               </div>
-            </div>
           </div>
         </div>
         <Dialog open={open} onClose={closePopup}>
