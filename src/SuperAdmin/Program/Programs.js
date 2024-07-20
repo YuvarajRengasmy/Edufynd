@@ -141,6 +141,20 @@ export default function Masterproductlist() {
     setFile(event.target.files[0]);
   };
 
+  const [expandedRows, setExpandedRows] = useState([]);
+
+  const toggleRow = (index) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
+  const getDisplayText = (text, expanded) => {
+    const words = text.split(' ');
+    return expanded ? text : words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
+  };
+
   const handleFileUpload = async () => {
     if (!file) return;
 
@@ -530,6 +544,7 @@ export default function Masterproductlist() {
                       <thead className="table-light">
                         <tr  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                           <th className="text-capitalize text-start sortable-handle">S No</th>
+                          <th className="text-capitalize text-start sortable-handle">Program Code</th>
                           <th className="text-capitalize text-start sortable-handle">University Name</th>
                           <th className="text-capitalize text-start sortable-handle">programTitle</th>
                           <th className="text-capitalize text-start sortable-handle">Application Fees</th>
@@ -539,11 +554,15 @@ export default function Masterproductlist() {
                         </tr>
                       </thead>
                       <tbody>
-                        {program?.map((data, index) => (
+                      {program?.map((data, index) => {
+                         
+                             const isExpanded = !!expandedRows[index];
+                             return (
                           <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                             <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                            <td className="text-capitalize text-start">{data?.programCode}</td>
                             <td className="text-capitalize text-start">{data?.universityName}</td>
-                            <td className="text-capitalize text-start">{data?.programTitle}</td>
+                            <td className="text-capitalize text-start">{getDisplayText(data?.programTitle, isExpanded)}</td>
                             <td className="text-capitalize text-start">{data?.applicationFee}</td>
                             <td className="text-capitalize text-start">{data?.campuses?.length > 0 ? data?.campuses[1]?.courseFees : "Not Available"}</td>
                              <td>
@@ -581,7 +600,8 @@ export default function Masterproductlist() {
                              
                             </td>
                           </tr>
-                        ))}
+                          );
+                        })}
 
                       </tbody>
                     </table>
