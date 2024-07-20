@@ -12,19 +12,21 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import Select from 'react-select';
 
-export default function GlobalSettings() {
+ function GlobalSettings() {
+
   const initialStateInputs = {
     country: "",
-    code:"",
   };
   const initialStateErrors = {
-    country: "",
-    code:"",
+    country: {
+      required: false}
+  
   };
 
  
   const [open, setOpen] = useState(false);
   const [countryList, setCountryList] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [inputs, setInputs] = useState(initialStateInputs);
@@ -39,9 +41,7 @@ export default function GlobalSettings() {
     from: 0,
     to: pageSize,
   });
-  const [country, setCountry] = useState();
-
-
+  
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
 
@@ -52,10 +52,11 @@ export default function GlobalSettings() {
   };
 
   useEffect(() => {
+    getAllCountryListDetails();
     getAllCountryDetails();
   }, [pagination.from, pagination.to]);
 
-  const getAllCountryDetails = () => {
+  const getAllCountryListDetails = () => {
     const data = {
       limit: 10,
       page: pagination.from,
@@ -67,6 +68,25 @@ export default function GlobalSettings() {
         setPagination({
           ...pagination,
           count: res?.data?.result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAllCountryDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterCountryModule(data)
+      .then((res) => {
+        console.log(res);
+        setCountries(res?.data?.result?.countryList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.countryCount,
         });
       })
       .catch((err) => {
@@ -123,7 +143,13 @@ export default function GlobalSettings() {
   const handleInputs = (event) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
-
+  const handleSelectChange = (selectedOptions, action) => {
+    const { name } = action;
+    const values = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    setInputs({ ...inputs, [name]: values });
+  };
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
@@ -414,7 +440,7 @@ export default function GlobalSettings() {
             id="name"
             isMulti
             name='country'
-            onChange={handleInputs}
+            onChange={handleSelectChange}
             style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
              options={countryOptions}
             
@@ -463,7 +489,7 @@ export default function GlobalSettings() {
                        
 
 
-         {/* <ul className="list-group list-group-flush  ">
+      <ul className="list-group list-group-flush  ">
                       {countries.map((country, index) =>
           Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
   
@@ -483,7 +509,7 @@ export default function GlobalSettings() {
       </li>
      ))
   )}
-         </ul> */}
+         </ul> 
 
                      
                     
@@ -575,3 +601,4 @@ export default function GlobalSettings() {
     </div>
   );
 }
+export default GlobalSettings;

@@ -7,7 +7,9 @@ import {
   isValidYear,
   isValidPinCode,
 } from "../../Utils/Validation";
-import { getallCountry } from "../../api/globalsettings";
+import { getallCountryModule } from "../../api/universityModule/country";
+import { getallCountryList, getFilterCountryList } from "../../api/country";
+
 import { getallClient } from "../../api/client";
 
 import { toast } from "react-toastify";
@@ -21,6 +23,7 @@ import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
+import { Currency } from "../../api/endpoints";
 
 function Profile() {
   const initialState = {
@@ -35,7 +38,8 @@ function Profile() {
     website: "",
     inTake: "",
     state: "",
-    lga: "",
+    city: "",
+    currency: "",
     ranking: "",
     averageFees: "",
     popularCategories: [],
@@ -44,7 +48,7 @@ function Profile() {
     email: "",
     institutionType: "",
     // costOfLiving: "",
-    campus: [{ state: "", lga: "" }],
+
   };
 
   const initialStateErrors = {
@@ -57,8 +61,7 @@ function Profile() {
     country: { required: false },
     website: { required: false },
     courseType: { required: false },
-    state: { required: false },
-    lga: { required: false },
+
     ranking: { required: false },
     averageFees: { required: false },
     popularCategories: { required: false },
@@ -80,13 +83,8 @@ function Profile() {
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
-  const [state, setState] = useState("");
-  const [states, setStates] = useState([]);
-  const [country, setCountry] = useState("");
   const [countries, setCountries] = useState([]);
-  const [lga, setLGA] = useState("");
-  const [lgas, setLGAs] = useState([]);
-
+  const [state, setState] = useState([]);
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
   const ZERO = 0;
@@ -128,7 +126,8 @@ function Profile() {
 
   useEffect(() => {
     getClientList();
-
+    getAllCountryDetails();
+    getAllCountryListDetails();
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
@@ -136,6 +135,27 @@ function Profile() {
 
     getAllIntakeDetails();
   }, []);
+
+  const getAllCountryDetails = () => {
+    getallCountryModule()
+      .then((res) => {
+        console.log(res);
+        setCountries(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllCountryListDetails = () => {
+    getallCountryList()
+      .then((res) => {
+        console.log(res);
+        setState(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getAllCourseDetails = () => {
     getallModule()
@@ -220,6 +240,23 @@ function Profile() {
       console.log("Error: ", error);
     };
   };
+
+
+//   const handleCountryChange = (event) => {
+//     const selectedCountry = event.target.value;
+//     setUniversity({ ...university, country: selectedCountry });
+
+//     getUniversitiesByCountry(selectedCountry)
+//         .then((res) => {
+//             setState(res?.data?.result || []);
+//         })
+//         .catch((err) => {
+//             console.error(`Error fetching universities for ${selectedstate}:`, err);
+//             setState([]);
+//         });
+
+//     fetchCountryDetails(selectedCountry);
+// };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -227,9 +264,21 @@ function Profile() {
     } else {
       setUniversity((prevUniversity) => {
         const updatedUniversity = { ...prevUniversity, [name]: value };
+        if (name === "state") {
+          const selectedState = state.find(u => u.state === value);
+          if (selectedState) {
+            return {
+              ...updatedUniversity,
+              state: selectedState._id,
+              city: selectedState.cities,
+              currency: selectedState.code
+            };
+          }
+        }
         return updatedUniversity;
       });
     }
+   
     if (submitted) {
       const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);
@@ -241,83 +290,6 @@ function Profile() {
       ? selectedOptions.map((option) => option.value)
       : [];
     setUniversity({ ...university, [name]: values });
-  };
-
-  const getCountryRegionInstance = () => {
-    return new CountryRegion();
-  };
-
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const countries = await getCountryRegionInstance().getCountries();
-        setCountries(
-          countries.map((country) => ({
-            value: country.id,
-            label: country.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCountries();
-  }, []);
-
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const states = await getCountryRegionInstance().getStates(country);
-        setStates(
-          states.map((userState) => ({
-            value: userState?.id,
-            label: userState?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (country) {
-      getStates();
-    }
-  }, [country]);
-
-  useEffect(() => {
-    const getLGAs = async () => {
-      try {
-        const lgas = await getCountryRegionInstance().getLGAs(country, state);
-        setLGAs(
-          lgas?.map((lga) => ({
-            value: lga?.id,
-            label: lga?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (state) {
-      getLGAs();
-    }
-  }, [country, state]);
-
-  const handleCountryChange = (selectedOption) => {
-    setCountry(selectedOption.value);
-
-    setState("");
-    setStates([]);
-    setLGA("");
-    setLGAs([]);
-  };
-  const handleStateChange = (selectedOptions) => {
-    setState(selectedOptions.value);
-    // setSelectedLGAs([]);
-    setLGA("");
-    setLGAs([]);
-  };
-  const handleLGAChange = (selectedOptions) => {
-    setLGA(selectedOptions.value);
   };
 
   const handleErrors = (obj) => {
@@ -336,19 +308,8 @@ function Profile() {
     const newError = handleValidation(university);
     setErrors(newError);
     setSubmitted(true);
-
-    // const selectedStatesLabels = selectedStates.map((state) => state.label);
-    // const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
-
-    const updatedUniversity = {
-      ...university,
-      country: countries.find((option) => option.value === country)?.label,
-      state: states.find((option) => option.value === state)?.label,
-      lga: lgas.find((option) => option.value === lga)?.label,
-    };
-
     if (handleErrors(newError)) {
-      saveUniversity(updatedUniversity)
+      saveUniversity(university)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListUniversity");
@@ -362,6 +323,10 @@ function Profile() {
   const popularCategoriesOptions = categorie.map((data) => ({
     value: data.popularCategories,
     label: data.popularCategories,
+  }));
+  const stateOptions = state && state.length > 0 && state.map((data) => ({
+    value: data?.state?.name,
+    label: data?.state?.name,
   }));
   const courseTypeOptions = type.map((data) => ({
     value: data.courseType,
@@ -584,18 +549,37 @@ function Profile() {
                               {" "}
                               Country<span className="text-danger">*</span>
                             </label>
-
-                            <Select
-                              placeholder="Select  Country"
-                              onChange={handleCountryChange}
-                              options={countries}
+                            <select
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              className="form-select rounded-1 form-select-lg  "
                               name="country"
-                              styles={customStyles}
-                              value={countries.find(
-                                (option) => option.value === country
+                            >
+                              <option value={""} disabled hidden>
+                                Select Country
+                              </option>
+                              <option value={""}>Select Country</option>
+                              {countries.map(
+                                (country, index) =>
+                                  Array.isArray(country.country) &&
+                                  country.country.map(
+                                    (countryName, countryIndex) => (
+                                      <option
+                                        key={`${index}-${countryIndex}`}
+                                        value={countryName}
+                                      >
+                                        {" "}
+                                        {countryName}
+                                      </option>
+                                    )
+                                  )
                               )}
-                              className="submain-one-form-body-subsection-select "
-                            />
+                            </select>
+
                             {errors.country.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
@@ -609,21 +593,11 @@ function Profile() {
 
                             <Select
                               placeholder="Select  State"
-                              onChange={handleStateChange}
-                              options={states}
                               name="state"
                               styles={customStyles}
-                              value={states.find(
-                                (option) => option.value === state
-                              )}
+                              options={stateOptions}
                               className="submain-one-form-body-subsection-select"
                             />
-
-                            {errors.state.required && (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -632,104 +606,10 @@ function Profile() {
 
                             <Select
                               placeholder="Select  City"
-                              value={lgas.find(
-                                (option) => option.value === lga
-                              )}
-                              onChange={handleLGAChange}
-                              options={lgas}
                               name="lga"
                               styles={customStyles}
                               className="submain-one-form-body-subsection-select"
                             />
-                          </div>
-
-                          <div className="row g-3">
-                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <button
-                                type="button"
-                                className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
-                                style={{
-                                  backgroundColor: "#FE5722",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                onClick={addCampus}
-                              >
-                                <i
-                                  class="fa fa-plus-circle me-2"
-                                  aria-hidden="true"
-                                ></i>{" "}
-                                Add Campus
-                              </button>
-                            </div>
-
-                            {campus.map((campus, index) => (
-                              <div className="row g-3" key={index}>
-                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Country<span className="text-danger">*</span>
-                            </label>
-
-                            <Select
-                              placeholder="Select  Country"
-                              onChange={handleCountryChange}
-                              options={countries}
-                              name="country"
-                              styles={customStyles}
-                              value={countries.find(
-                                (option) => option.value === country
-                              )}
-                              className="submain-one-form-body-subsection-select "
-                            />
-                            {errors.country.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    State<span className="text-danger">*</span>
-                                  </label>
-
-                                  <Select
-                                    placeholder="Select  State"
-                                    onChange={handleStateChange}
-                                    options={states}
-                                    name="state"
-                                    styles={customStyles}
-                                    value={states.find(
-                                      (option) => option.value === state
-                                    )}
-                                    className="submain-one-form-body-subsection-select"
-                                  />
-
-                                  {errors.state.required && (
-                                    <div className="text-danger form-text">
-                                      This field is required.
-                                    </div>
-                                  )}
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    City<span className="text-danger">*</span>
-                                  </label>
-
-                                  <Select
-                                    placeholder="Select  City"
-                                    value={lgas.find(
-                                      (option) => option.value === lga
-                                    )}
-                                    onChange={handleLGAChange}
-                                    options={lgas}
-                                    name="lga"
-                                    styles={customStyles}
-                                    className="submain-one-form-body-subsection-select"
-                                  />
-                                </div>
-                              </div>
-                            ))}
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
