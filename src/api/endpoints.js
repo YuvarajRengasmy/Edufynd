@@ -24,6 +24,8 @@ export const TypeOfClient ="typeOfClient";
 export const Staff ="staff";
 export const Year ="year";
 
+export const CountryList = "countryList";
+
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";
 export const Loan ="loan";

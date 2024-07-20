@@ -165,7 +165,7 @@ export default function Masterproductlist() {
     }
   };
 
-  const [expandedRows, setExpandedRows] = useState([]);
+  const [expandedRows, setExpandedRows] = useState({});
 
   const toggleRow = (index) => {
     setExpandedRows((prev) => ({
@@ -175,6 +175,7 @@ export default function Masterproductlist() {
   };
 
   const getDisplayText = (text, expanded) => {
+    if (!text) return ''; // Ensure text is defined
     const words = text.split(' ');
     return expanded ? text : words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
   };
@@ -312,7 +313,7 @@ export default function Masterproductlist() {
       });
   };
 
-  const tableRef = useRef(null);
+   const tableRef = useRef(null);
 
   useEffect(() => {
     const table = tableRef.current;
@@ -565,9 +566,15 @@ export default function Masterproductlist() {
                                 <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
                                   <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                                   <td className="text-capitalize text-start">{data?.universityCode}</td>
-                                  <td className="text-capitalize text-start">{getDisplayText(data?.universityName, isExpanded)}</td>
+                                  <td className="text-capitalize text-start"
+                                   onMouseEnter={() => toggleRow(index)}
+                                   onMouseLeave={() => toggleRow(index)}
+                                   title={data?.universityName}>{getDisplayText(data?.universityName, isExpanded)}</td>
                                   <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "), isExpanded)} </td>
-                                  <td className="text-capitalize text-start">  {getDisplayText(data?.popularCategories.join(", "), isExpanded)}  </td>
+                                  <td className="text-capitalize text-start"
+                                  onMouseEnter={() => toggleRow(index)}
+                                  onMouseLeave={() => toggleRow(index)}
+                                  title={data?.popularCategories} >  {getDisplayText(data?.popularCategories.join(", "), isExpanded)}  </td>
                                    
                                
                                   <td className="text-capitalize text-start">{data?.noofApplications}</td>

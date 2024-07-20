@@ -272,6 +272,19 @@ const UserProfile = () => {
                                  Payment Method
                                 </a>
                               </li>
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link text-uppercase "
+                                  id="home-review-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-Review"
+                                  role="tab"
+                                  aria-controls="tab-home"
+                                  aria-selected="true"
+                                >
+                                 Requirement
+                                </a>
+                              </li>
                             </ul>
                             <div
                               class="tab-content mt-3"
@@ -292,7 +305,7 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                  {university?.admissionRequirement}{" "}
+                                  {university?.about}{" "}
                                 </p>
                               </div>
                               <div
@@ -473,6 +486,19 @@ const UserProfile = () => {
                                     </div>
                                   </div>
                                 </div>
+                              </div>
+                              <div
+                                class="tab-pane fade "
+                                id="tab-Review"
+                                role="tabpanel"
+                                aria-labelledby="home-tab"
+                              >
+                                <p
+                                  className="clearfix"
+                                  style={{ textAlign: "justify" }}
+                                >
+                                  {university?.admissionRequirement}{" "}
+                                </p>
                               </div>
                             </div>
                           </div>

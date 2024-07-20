@@ -141,7 +141,7 @@ export default function Masterproductlist() {
     setFile(event.target.files[0]);
   };
 
-  const [expandedRows, setExpandedRows] = useState([]);
+  const [expandedRows, setExpandedRows] = useState({});
 
   const toggleRow = (index) => {
     setExpandedRows((prev) => ({
@@ -151,9 +151,11 @@ export default function Masterproductlist() {
   };
 
   const getDisplayText = (text, expanded) => {
+    if (!text) return ''; // Ensure text is defined
     const words = text.split(' ');
     return expanded ? text : words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
   };
+
 
   const handleFileUpload = async () => {
     if (!file) return;
@@ -326,30 +328,30 @@ export default function Masterproductlist() {
 
   const tableRef = useRef(null);
 
-  useEffect(() => {
-    const table = tableRef.current;
+  // useEffect(() => {
+  //   const table = tableRef.current;
 
-    // Apply SortableJS to the table headers
-    const sortable = new Sortable(table.querySelector('thead tr'), {
-      animation: 150,
-      swapThreshold: 0.5,
-      handle: '.sortable-handle',
-      onEnd: (evt) => {
-        const oldIndex = evt.oldIndex;
-        const newIndex = evt.newIndex;
+  //   // Apply SortableJS to the table headers
+  //   const sortable = new Sortable(table.querySelector('thead tr'), {
+  //     animation: 150,
+  //     swapThreshold: 0.5,
+  //     handle: '.sortable-handle',
+  //     onEnd: (evt) => {
+  //       const oldIndex = evt.oldIndex;
+  //       const newIndex = evt.newIndex;
 
-        // Move the columns in the tbody
-        table.querySelectorAll('tbody tr').forEach((row) => {
-          const cells = Array.from(row.children);
-          row.insertBefore(cells[oldIndex], cells[newIndex]);
-        });
-      }
-    });
+  //       // Move the columns in the tbody
+  //       table.querySelectorAll('tbody tr').forEach((row) => {
+  //         const cells = Array.from(row.children);
+  //         row.insertBefore(cells[oldIndex], cells[newIndex]);
+  //       });
+  //     }
+  //   });
 
-    return () => {
-      sortable.destroy();
-    };
-  }, []);
+  //   return () => {
+  //     sortable.destroy();
+  //   };
+  // }, []);
 
 
 
@@ -539,7 +541,7 @@ export default function Masterproductlist() {
                 <div className="card-table">
                   <div className="table-responsive">
 
-                    <table className=" table table-hover card-table dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}
+                    {/* <table className=" table table-hover card-table dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}
               ref={tableRef}>
                       <thead className="table-light">
                         <tr  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
@@ -604,7 +606,81 @@ export default function Masterproductlist() {
                         })}
 
                       </tbody>
-                    </table>
+                    </table> */}
+
+<table
+                className="table table-hover card-table dataTable text-center"
+                style={{ color: '#9265cc', fontSize: '13px' }}
+              >
+                <thead className="table-light">
+                  <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                    <th className="text-capitalize text-start sortable-handle">S No</th>
+                    <th className="text-capitalize text-start sortable-handle">Program Code</th>
+                    <th className="text-capitalize text-start sortable-handle">University Name</th>
+                    <th className="text-capitalize text-start sortable-handle">Program Title</th>
+                    <th className="text-capitalize text-start sortable-handle">Application Fees</th>
+                    <th className="text-capitalize text-start sortable-handle">Course Fees</th>
+                    <th className="text-capitalize text-start sortable-handle">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {program?.map((data, index) => {
+                    const isExpanded = !!expandedRows[index];
+                    return (
+                      <tr
+                        key={index}
+                        style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                      >
+                        <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                        <td className="text-capitalize text-start">{data?.programCode}</td>
+                        <td
+                          className="text-capitalize text-start"
+                          onMouseEnter={() => toggleRow(index)}
+                          onMouseLeave={() => toggleRow(index)}
+                          title={data?.universityName}
+                        >
+                          {getDisplayText(data?.universityName, isExpanded)}
+                        </td>
+                        <td className="text-capitalize text-start">{getDisplayText(data?.programTitle, isExpanded)}</td>
+                        <td className="text-capitalize text-start">{data?.applicationFee}</td>
+                        <td className="text-capitalize text-start">
+                          {data?.campuses?.length > 0 ? data?.campuses[1]?.courseFees : 'Not Available'}
+                        </td>
+                        <td>
+                          <div className="d-flex">
+                            <Link
+                              className="dropdown-item"
+                              to={{
+                                pathname: '/ViewProgram',
+                                search: `?id=${data?._id}`,
+                              }}
+                            >
+                              <i className="far fa-eye text-primary me-1"></i>
+                            </Link>
+                            <Link
+                              className="dropdown-item"
+                              to={{
+                                pathname: '/EditProgram',
+                                search: `?id=${data?._id}`,
+                              }}
+                            >
+                              <i className="far fa-edit text-warning me-1"></i>
+                            </Link>
+                            <Link
+                              className="dropdown-item"
+                              onClick={() => {
+                                openPopup(data?._id);
+                              }}
+                            >
+                              <i className="far fa-trash-alt text-danger me-1"></i>
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
                   </div>
                 </div>
                 <div className="float-right my-2">

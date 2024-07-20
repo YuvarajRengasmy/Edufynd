@@ -1,35 +1,30 @@
 import Mastersidebar from '../../compoents/sidebar';
 import { FaFilter } from "react-icons/fa";
+import { MdOutlineAdd } from "react-icons/md";
 import { Button } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
-import { saveCountry, getFilterCountry,getallCountry,  deleteCountry } from '../../api/globalsettings';
+import { saveCountryModule, getFilterCountryModule,getallCountryModule,  deleteCountryModule } from '../../api/universityModule/country';
+import { getallCountryList,getFilterCountryList } from "../../api/country";
 import { toast } from 'react-toastify';
 import React, { useEffect, useState } from "react";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import Select from 'react-select';
-import CountryRegion from "countryregionjs";
 
 export default function GlobalSettings() {
   const initialStateInputs = {
     country: "",
-    state: "",
-    lga: "",
+    code:"",
   };
   const initialStateErrors = {
     country: "",
-    state: "",
-    lga: "",
+    code:"",
   };
 
-  const [selectedState, setSelectedState] = useState("");
-  const [states, setStates] = useState([]);
+ 
   const [open, setOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [selectedLGA, setSelectedLGA] = useState("");
-  const [lgas, setLGAs] = useState([]);
+  const [countryList, setCountryList] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [inputs, setInputs] = useState(initialStateInputs);
@@ -45,7 +40,7 @@ export default function GlobalSettings() {
     to: pageSize,
   });
   const [country, setCountry] = useState();
-  let countryRegion = null;
+
 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
@@ -65,13 +60,13 @@ export default function GlobalSettings() {
       limit: 10,
       page: pagination.from,
     };
-    getFilterCountry(data)
+    getallCountryList(data)
       .then((res) => {
         console.log(res);
-        setCountries(res?.data?.result?.countryList);
+        setCountryList(res?.data?.result);
         setPagination({
           ...pagination,
-          count: res?.data?.result?.countryCount,
+          count: res?.data?.result,
         });
       })
       .catch((err) => {
@@ -86,7 +81,7 @@ export default function GlobalSettings() {
   };
 
   const deleteCountryData = () => {
-    deleteCountry(deleteId)
+    deleteCountryModule(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();
@@ -101,12 +96,7 @@ export default function GlobalSettings() {
     setOpen(false);
   };
 
-  const getCountryRegionInstance = () => {
-    if (!countryRegion) {
-      countryRegion = new CountryRegion();
-    }
-    return countryRegion;
-  };
+ 
 
   const filterCountryList = (event) => {
     event?.preventDefault();
@@ -116,9 +106,9 @@ export default function GlobalSettings() {
       limit: 10,
       page: pagination.from,
     };
-    getFilterCountry(data)
+    getFilterCountryModule(data)
       .then((res) => {
-        setCountry(res?.data?.result?.countryList);
+        setCountryList(res?.data?.result?.countryList);
         setPagination({
           ...pagination,
           count: res?.data?.result?.countryCount,
@@ -153,42 +143,28 @@ export default function GlobalSettings() {
     setDeleteId(data);
   };
 
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const countries = await getCountryRegionInstance().getCountries();
-        setCountries(countries.map(country => ({
-          value: country.id,
-          label: country.name
-        })));
-      } catch (error) {
-        console.error(error);
+ 
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
       }
     }
-    getCountries();
-  }, []);
-
-  const handleCountryChange = (selectedOptions) => {
-    const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
-    setSelectedCountry(values);
+    return true;
   };
+ 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newError = handleValidation({ country: selectedCountry });
+    const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
 
-    const allInputsValid = Object.values(newError).every(x => x === "");
-    if (allInputsValid) {
-      const selectedCountryNames = selectedCountry.map(countryId => {
-        const country = countries.find(country => country.value === countryId);
-        return country ? country.label : "";
-      });
-
-      saveCountry({
-        country: selectedCountryNames,
-      })
+    if (handleErrors(newError)) {
+      saveCountryModule(inputs)
         .then((res) => {
           if (res && res.data && res.data.success) {
             toast.success(res.data.message);
@@ -205,29 +181,15 @@ export default function GlobalSettings() {
     }
   };
 
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      border: '1.4783px solid rgba(11, 70, 84, 0.25)',
-      borderRadius: '5.91319px',
-      fontSize: "14px",
-      fontFamily: "Plus Jakarta Sans",
-      
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? '#3B0051' : '#F2CCFF',
-      ':hover': {
-        color: 'black',
-        fontSize: "11px",
-        fontFamily: "Plus Jakarta Sans",
-      }
-    })
-  };
+  const countryOptions = countryList.map((data) => ({
+    value: data.name,
+    label: data.name,
+  }));
+
   const pdfDownload = (event) => {
     event?.preventDefault();
 
-    getallCountry(country)
+    getallCountryModule(countryList)
       .then((res) => {
         var result = res?.data?.result;
         var tablebody = [];
@@ -278,7 +240,7 @@ export default function GlobalSettings() {
   const exportCsv = (event) => {
     event?.preventDefault();
 
-    getallCountry(country)
+    getallCountryModule(countryList)
       .then((res) => {
         var result = res?.data?.result;
         let list = [];
@@ -432,15 +394,57 @@ export default function GlobalSettings() {
                     </span>
                     </Link>
                   </li>
-
+                  
                   <li className="m-2">
-                    <Link onClick={openFilterPopup} className="btn-filters">
-                      <span>
-                        <button style={{ backgroundColor: "#fe5722", fontSize: '12px' }} className="btn btn-sm text-uppercase fw-semibold px-4 py-2 text-white ">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp; Add Country 
-                        </button>
-                      </span>
-                    </Link>
+                  <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight2" aria-controls="offcanvasRight"><MdOutlineAdd /></button>
+                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight2" aria-labelledby="offcanvasRightLabel">
+                        <div className="offcanvas-header">
+                          <h5 id="offcanvasRightLabel1">Add Country</h5>
+                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                        </div>
+                        <div className="offcanvas-body ">
+                          <form onSubmit={handleSubmit}>
+                            <div className="from-group mb-3">
+                              <label className="form-label">Country</label>
+                              <br />
+                              <Select
+            type="text"
+            placeholder="Select a country"
+            id="name"
+            isMulti
+            name='country'
+            onChange={handleInputs}
+            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+             options={countryOptions}
+            
+          />
+                             
+                            </div>
+                            <div>
+                              <button
+                              
+                                data-bs-dismiss="offcanvas"
+                                className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2 text-white float-right bg"
+                                style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               
+                              >
+                               cancel
+                              </button>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                type="submit"
+                                className="btn btn-save  border-0 text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
+                              
+                                style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                   </li>
                 </ol>
               </div>
@@ -459,7 +463,7 @@ export default function GlobalSettings() {
                        
 
 
-<ul className="list-group list-group-flush  ">
+         {/* <ul className="list-group list-group-flush  ">
                       {countries.map((country, index) =>
           Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
   
@@ -479,7 +483,7 @@ export default function GlobalSettings() {
       </li>
      ))
   )}
-</ul>
+         </ul> */}
 
                      
                     
@@ -551,17 +555,7 @@ export default function GlobalSettings() {
     <form  onSubmit={handleSubmit}>
       <section className="  justify-content-center">
         <section className=" col-md-6 form-group">
-          <Select
-            type="text"
-            placeholder="Select a country"
-            id="name"
-            isMulti
-            name='country'
-            onChange={handleCountryChange}
-            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-            options={countries}
-             styles={customStyles}
-          />
+         
          
         </section>
         
