@@ -9,6 +9,8 @@ import { isValidPhone } from "../../Utils/Validation";
 import Header from "../Agents/AgentHeader";
 import Footer from "../Agents/AgentFooter";
 import { getSingleAgent, updateAgent } from "../../api/agent";
+
+import Sidebar from "../../compoents/HoverBar";
 const AgentProfile = () => {
 
 

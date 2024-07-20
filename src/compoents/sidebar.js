@@ -42,7 +42,7 @@ const Sidebar = () => {
   return (
     <div style={{fontSize:'12px',fontWeight:'bold',fontFamily: 'Plus Jakarta Sans', }}>
       <aside
-        className="main-sidebar elevation-10 d-none   d-lg-block"
+        className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
         style={{
          
          
