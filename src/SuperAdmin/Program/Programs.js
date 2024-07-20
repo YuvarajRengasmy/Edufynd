@@ -148,7 +148,7 @@ export default function Masterproductlist() {
     formData.append('program', file);
 
     try {
-      const response = await axios.post('http://localhost:4409/api/program/import', formData, {
+      const response = await axios.post('https://api.edufynd.in/api/program/import', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

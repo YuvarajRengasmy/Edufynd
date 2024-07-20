@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
 import "./Sidebar.css";
@@ -28,7 +29,11 @@ const Sidebar = () => {
   const logout = () => {
     clearStorage();
     toast.success("You have Student logged out successfully.");
+    navigate('/');
   };
+
+  const navigate = useNavigate();
+
   return (
     <div style={{fontSize:'12px'}}>
       <aside
@@ -1092,28 +1097,20 @@ const Sidebar = () => {
                   </div>
                 </li>
 
-                <li className="nav-item ">
-                  <a href="/"
-                   
-
-                    className="nav-link"
-                  
-
-                  >
-                    <i
-                      className="nav-icon fa fa-flag "
-                      aria-hidden="true"
-                      style={{fontSize:'12px'}}
-                    />
-                    <p
-
-                      onClick={logout}
-                    >
-                      {" "}
-                      Log Out{" "}
-                    </p>
-                  </a>
-                </li>
+                <li className="nav-item">
+        <div 
+          className="nav-link"
+          onClick={logout}
+          style={{ cursor: 'pointer' }}
+        >
+          <i
+            className="nav-icon fa fa-flag"
+            aria-hidden="true"
+            style={{ fontSize: '12px' }}
+          />
+          <p>Log Out</p>
+        </div>
+      </li>
               </ul>
               <br />
             </nav>

@@ -15,8 +15,6 @@ import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
-
-
 function AddAgent() {
   const initialState = {
     typeOfClient: "",

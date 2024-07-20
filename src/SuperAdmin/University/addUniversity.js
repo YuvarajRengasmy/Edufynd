@@ -44,6 +44,7 @@ function Profile() {
     email: "",
     institutionType: "",
     // costOfLiving: "",
+    campus: [{ state: "", lga: "" }],
   };
 
   const initialStateErrors = {
@@ -75,16 +76,16 @@ function Profile() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
-
+  const [campus, setCampus] = useState([]);
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
+  const [state, setState] = useState("");
   const [states, setStates] = useState([]);
-  const [selectedStates, setSelectedStates] = useState([]);
   const [country, setCountry] = useState("");
   const [countries, setCountries] = useState([]);
+  const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
-  const [selectedLGAs, setSelectedLGAs] = useState([]);
 
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
@@ -127,7 +128,7 @@ function Profile() {
 
   useEffect(() => {
     getClientList();
- 
+
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
@@ -166,7 +167,6 @@ function Profile() {
         console.log(err);
       });
   };
- 
 
   const getAllCatgoeryDetails = () => {
     getallCategories()
@@ -197,6 +197,13 @@ function Profile() {
       .catch((err) => {
         console.log(err);
       });
+  };
+  const addCampus = () => {
+    const newCampus = {
+      state: "",
+      lga: "",
+    };
+    setCampus([...campus, newCampus]);
   };
 
   const convertToBase64 = (e, name) => {
@@ -279,44 +286,38 @@ function Profile() {
   useEffect(() => {
     const getLGAs = async () => {
       try {
-        const allLGAs = await Promise.all(
-          selectedStates.map(async (state) => {
-            const lgas = await getCountryRegionInstance().getLGAs(
-              country,
-              state.value
-            );
-            return lgas.map((lga) => ({
-              value: lga?.id,
-              label: lga?.name,
-            }));
-          })
+        const lgas = await getCountryRegionInstance().getLGAs(country, state);
+        setLGAs(
+          lgas?.map((lga) => ({
+            value: lga?.id,
+            label: lga?.name,
+          }))
         );
-        setLGAs(allLGAs.flat());
       } catch (error) {
         console.error(error);
       }
     };
-    if (selectedStates.length > 0) {
+    if (state) {
       getLGAs();
     }
-  }, [selectedStates, country]);
+  }, [country, state]);
 
   const handleCountryChange = (selectedOption) => {
     setCountry(selectedOption.value);
-    setSelectedStates([]);
+
+    setState("");
     setStates([]);
-    setSelectedLGAs([]);
+    setLGA("");
     setLGAs([]);
   };
-
   const handleStateChange = (selectedOptions) => {
-    setSelectedStates(selectedOptions || []);
-    setSelectedLGAs([]);
+    setState(selectedOptions.value);
+    // setSelectedLGAs([]);
+    setLGA("");
     setLGAs([]);
   };
-
   const handleLGAChange = (selectedOptions) => {
-    setSelectedLGAs(selectedOptions || []);
+    setLGA(selectedOptions.value);
   };
 
   const handleErrors = (obj) => {
@@ -335,18 +336,17 @@ function Profile() {
     const newError = handleValidation(university);
     setErrors(newError);
     setSubmitted(true);
-  
-   
+
     // const selectedStatesLabels = selectedStates.map((state) => state.label);
     // const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
-  
+
     const updatedUniversity = {
       ...university,
-      country: countries.find(option => option.value === country)?.label,
-      state: selectedStates.map((state) => state.label),
-      lga:selectedLGAs.map((lga) => lga.label)
+      country: countries.find((option) => option.value === country)?.label,
+      state: states.find((option) => option.value === state)?.label,
+      lga: lgas.find((option) => option.value === lga)?.label,
     };
-  
+
     if (handleErrors(newError)) {
       saveUniversity(updatedUniversity)
         .then((res) => {
@@ -358,7 +358,7 @@ function Profile() {
         });
     }
   };
-  
+
   const popularCategoriesOptions = categorie.map((data) => ({
     value: data.popularCategories,
     label: data.popularCategories,
@@ -581,10 +581,12 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
+                              {" "}
                               Country<span className="text-danger">*</span>
                             </label>
+
                             <Select
-                              placeholder="Select Country"
+                              placeholder="Select  Country"
                               onChange={handleCountryChange}
                               options={countries}
                               name="country"
@@ -592,42 +594,47 @@ function Profile() {
                               value={countries.find(
                                 (option) => option.value === country
                               )}
-                              className="submain-one-form-body-subsection-select"
+                              className="submain-one-form-body-subsection-select "
                             />
-                            {/* {errors.country.required ? (
+                            {errors.country.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) : null} */}
+                            ) : null}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               State<span className="text-danger">*</span>
                             </label>
+
                             <Select
-                              placeholder="Select State"
-                              isMulti
+                              placeholder="Select  State"
                               onChange={handleStateChange}
                               options={states}
                               name="state"
                               styles={customStyles}
-                              value={selectedStates}
+                              value={states.find(
+                                (option) => option.value === state
+                              )}
                               className="submain-one-form-body-subsection-select"
                             />
-                            {/* {errors.state.required && (
+
+                            {errors.state.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            )} */}
+                            )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               City<span className="text-danger">*</span>
                             </label>
+
                             <Select
-                              placeholder="Select City"
-                              value={selectedLGAs}
-                              isMulti
+                              placeholder="Select  City"
+                              value={lgas.find(
+                                (option) => option.value === lga
+                              )}
                               onChange={handleLGAChange}
                               options={lgas}
                               name="lga"
@@ -635,6 +642,96 @@ function Profile() {
                               className="submain-one-form-body-subsection-select"
                             />
                           </div>
+
+                          <div className="row g-3">
+                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <button
+                                type="button"
+                                className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
+                                style={{
+                                  backgroundColor: "#FE5722",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                onClick={addCampus}
+                              >
+                                <i
+                                  class="fa fa-plus-circle me-2"
+                                  aria-hidden="true"
+                                ></i>{" "}
+                                Add Campus
+                              </button>
+                            </div>
+
+                            {campus.map((campus, index) => (
+                              <div className="row g-3" key={index}>
+                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Country<span className="text-danger">*</span>
+                            </label>
+
+                            <Select
+                              placeholder="Select  Country"
+                              onChange={handleCountryChange}
+                              options={countries}
+                              name="country"
+                              styles={customStyles}
+                              value={countries.find(
+                                (option) => option.value === country
+                              )}
+                              className="submain-one-form-body-subsection-select "
+                            />
+                            {errors.country.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    State<span className="text-danger">*</span>
+                                  </label>
+
+                                  <Select
+                                    placeholder="Select  State"
+                                    onChange={handleStateChange}
+                                    options={states}
+                                    name="state"
+                                    styles={customStyles}
+                                    value={states.find(
+                                      (option) => option.value === state
+                                    )}
+                                    className="submain-one-form-body-subsection-select"
+                                  />
+
+                                  {errors.state.required && (
+                                    <div className="text-danger form-text">
+                                      This field is required.
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    City<span className="text-danger">*</span>
+                                  </label>
+
+                                  <Select
+                                    placeholder="Select  City"
+                                    value={lgas.find(
+                                      (option) => option.value === lga
+                                    )}
+                                    onChange={handleLGAChange}
+                                    options={lgas}
+                                    name="lga"
+                                    styles={customStyles}
+                                    className="submain-one-form-body-subsection-select"
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
