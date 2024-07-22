@@ -6,3 +6,14 @@ body {
 }
 
 
+/* Hide the spin buttons in Chrome, Safari, Edge, and Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide the spin buttons in Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

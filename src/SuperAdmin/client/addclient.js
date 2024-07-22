@@ -366,7 +366,7 @@ function AddAgent() {
                                 name="businessName"
                                 onChange={handleInputs}
                                 className="form-control  "
-                                placeholder="Enter Business Name"
+                                placeholder="Example John Doe"
                               />
                               {errors.businessName.required && (
                                 <span className="text-danger form-text profile_error">
@@ -390,7 +390,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Business Website"
+                                placeholder="Example www.edufynd.com"
                                 name="website"
                                 onChange={handleInputs}
                               />
@@ -414,7 +414,7 @@ function AddAgent() {
                               <input
                                 type="text"
                                 className="form-control "
-                                placeholder="Enter Business Mail ID"
+                                placeholder="Example john123@gmail.com"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -438,9 +438,9 @@ function AddAgent() {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 className="form-control"
-                                placeholder="Enter Primary Number "
+                                placeholder="Example 123-456-7890 "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -464,13 +464,13 @@ function AddAgent() {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 className="form-control"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Business WhatsApp Number"
+                                placeholder="Example 123-456-7890"
                                 name="whatsAppNumber"
                                 onChange={handleInputs}
                               />
@@ -493,7 +493,7 @@ function AddAgent() {
                               <input
                                 type="text"
                                 className="form-control "
-                                placeholder="Enter Staff Name"
+                                placeholder="Example Jane Doe"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -524,7 +524,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Staff Email ID"
+                                placeholder="Example janedoe123@gmail.com"
                                 name="emailID"
                                 onChange={handleInputs}
                               />
@@ -544,9 +544,9 @@ function AddAgent() {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                              type="number"
                                 className="form-control "
-                                placeholder="Enter Staff Contact Number"
+                                placeholder="Example 123-456-7890"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -580,7 +580,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter No Area Street Name"
+                                placeholder="Example 17/3A2, Gandhi St,"
                                 name="addressLine1"
                                 onChange={handleInputs}
                               />
@@ -602,7 +602,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter City State"
+                                placeholder="Example Alwartirunagar, Chennai "
                                 name="addressLine2"
                                 onChange={handleInputs}
                               />
@@ -614,7 +614,7 @@ function AddAgent() {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Pin<span className="text-danger">*</span>
+                                Pincode<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
@@ -623,7 +623,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Country Pincode"
+                                placeholder="Example 600087"
                                 name="addressLine3"
                                 onChange={handleInputs}
                               />

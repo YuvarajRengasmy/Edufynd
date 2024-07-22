@@ -107,7 +107,7 @@ const Sidebar = () => {
                     className={`nav-link ${[
                         "/client",
                         "/AddClient",
-                        "/viewClient",
+                        "/ViewClient",
                         "/EditClient",
                       ].includes(currentPath)
                         ? "active"

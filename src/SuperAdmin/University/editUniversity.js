@@ -88,7 +88,7 @@ function Profile() {
 
   const ZERO = 0;
   const [selectedCourseType, setSelectedCourseType] = useState([]);
- 
+
   const navigate = useNavigate();
 
   const handleValidation = (data) => {
@@ -125,7 +125,7 @@ function Profile() {
   useEffect(() => {
     getUniversityDetails();
     getClientList();
-   
+
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
@@ -162,7 +162,6 @@ function Profile() {
         console.log(err);
       });
   };
- 
 
   const getAllCatgoeryDetails = () => {
     getallCategories()
@@ -328,8 +327,6 @@ function Profile() {
     setSelectedLGAs(selectedOptions || []);
   };
 
- 
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -348,8 +345,7 @@ function Profile() {
     setSubmitted(true);
 
     const selectedCountryLabel =
-      countries.find((country) => country.value === countries)?.label ||
-      "";
+      countries.find((country) => country.value === countries)?.label || "";
     const selectedStatesLabels = selectedStates.map((state) => state.label);
     const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
 
@@ -413,7 +409,7 @@ function Profile() {
         </div>
         <div
           className="content-wrapper "
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header ">
             <div className=" container-fluid ">
@@ -515,8 +511,9 @@ function Profile() {
                                 fontSize: "12px",
                               }}
                               value={university?.businessName}
-                              className="form-select rounded-1 form-select-lg "
+                              className="form-select form-select-lg rounded-2 "
                               name="businessName"
+                              placeholder="Select Client Type"
                             >
                               <option value={""} disabled hidden>
                                 {university?.businessName}
@@ -663,7 +660,7 @@ function Profile() {
                               type="text"
                               value={university?.email}
                               className="form-control "
-                              placeholder="Enter Email"
+                              placeholder="Example johndoe123@gmail.com"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -680,6 +677,34 @@ function Profile() {
                                 Enter valid Email Id.
                               </div>
                             ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Website<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={university?.website}
+                              className="form-control "
+                              placeholder="Example www.edufynd.com"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="website"
+                              onChange={handleInputs}
+                            />
+                            {errors.website.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                            {errors.website.valid && (
+                              <div className="text-danger form-text">
+                                Enter a valid Website URL.
+                              </div>
+                            )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -700,6 +725,7 @@ function Profile() {
                                   : null
                               }
                               name="courseType"
+                              placeholder="Select Course Type"
                               onChange={handleSelectChange}
                               styles={{
                                 container: (base) => ({
@@ -724,7 +750,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Founded Year"
+                              placeholder="Example 1947"
                               value={university?.founded}
                               name="founded"
                               style={{
@@ -750,7 +776,7 @@ function Profile() {
                               type="text"
                               value={university?.ranking}
                               className="form-control "
-                              placeholder="Enter Ranking "
+                              placeholder="Example 7th Ranking "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -785,6 +811,7 @@ function Profile() {
                               }
                               name="popularCategories"
                               onChange={handleSelectChange}
+                              placeholder="Select Popular Categories"
                               styles={{
                                 container: (base) => ({
                                   ...base,
@@ -809,7 +836,7 @@ function Profile() {
                               type="text"
                               className="form-control"
                               value={university?.averageFees}
-                              placeholder="Enter Average Fees"
+                              placeholder="Example 2500"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -831,65 +858,7 @@ function Profile() {
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Offer TAT<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-control"
-                              name="offerTAT"
-                              value={university?.offerTAT}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleInputs}
-                            >
-                              {" "}
-                              <option value={" "}>select OfferTAT</option>
-                              {offerTAT.map((data, index) => (
-                                <option key={index} value={data?.offerTAT}>
-                                  {" "}
-                                  {data?.offerTAT}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.offerTAT.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Website<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={university?.website}
-                              className="form-control "
-                              placeholder="Enter Website"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              name="website"
-                              onChange={handleInputs}
-                            />
-                            {errors.website.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            )}
-                            {errors.website.valid && (
-                              <div className="text-danger form-text">
-                                Enter a valid Website URL.
-                              </div>
-                            )}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              InTake<span className="text-danger">*</span>
+                              Intake<span className="text-danger">*</span>
                             </label>
                             <Select
                               isMulti
@@ -911,9 +880,39 @@ function Profile() {
                                   fontSize: "12px",
                                 }),
                               }}
-                              placeholder="Select InTake"
+                              placeholder="Select Intake"
                             ></Select>
                             {errors.inTake.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Offer TAT<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-control"
+                              name="offerTAT"
+                              value={university?.offerTAT}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                            >
+                              {" "}
+                              <option value={" "}>Select Offer TAT</option>
+                              {offerTAT.map((data, index) => (
+                                <option key={index} value={data?.offerTAT}>
+                                  {" "}
+                                  {data?.offerTAT}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.offerTAT.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
@@ -927,7 +926,7 @@ function Profile() {
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="Enter About"
+                                placeholder="University Details..."
                                 value={university?.about}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -948,7 +947,7 @@ function Profile() {
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="Enter Admission Requirements"
+                                placeholder="Requirements Details..."
                                 value={university?.admissionRequirement}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -983,7 +982,7 @@ function Profile() {
                                 type="submit"
                                 className="btn btn-save border-0 px-4 py-2 text-uppercase fw-semibold text-white  m-1"
                               >
-                                Submit
+                               Update
                               </button>
                             </div>{" "}
                           </div>
