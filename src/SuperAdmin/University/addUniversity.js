@@ -242,21 +242,21 @@ function Profile() {
   };
 
 
-//   const handleCountryChange = (event) => {
-//     const selectedCountry = event.target.value;
-//     setUniversity({ ...university, country: selectedCountry });
+  //   const handleCountryChange = (event) => {
+  //     const selectedCountry = event.target.value;
+  //     setUniversity({ ...university, country: selectedCountry });
 
-//     getUniversitiesByCountry(selectedCountry)
-//         .then((res) => {
-//             setState(res?.data?.result || []);
-//         })
-//         .catch((err) => {
-//             console.error(`Error fetching universities for ${selectedstate}:`, err);
-//             setState([]);
-//         });
+  //     getUniversitiesByCountry(selectedCountry)
+  //         .then((res) => {
+  //             setState(res?.data?.result || []);
+  //         })
+  //         .catch((err) => {
+  //             console.error(`Error fetching universities for ${selectedstate}:`, err);
+  //             setState([]);
+  //         });
 
-//     fetchCountryDetails(selectedCountry);
-// };
+  //     fetchCountryDetails(selectedCountry);
+  // };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -278,7 +278,7 @@ function Profile() {
         return updatedUniversity;
       });
     }
-   
+
     if (submitted) {
       const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);
@@ -466,7 +466,7 @@ function Profile() {
                               }}
                               className="form-select rounded-1 form-select-lg  "
                               name="businessName"
-                              placeholder="Select Cilent"
+                              placeholder="Select Client"
                             >
                               <option value={""} disabled hidden>
                                 Select Client
@@ -557,7 +557,7 @@ function Profile() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className="form-select rounded-1 form-select-lg  "
+                              className="form-select rounded-2 form-select-lg  "
                               name="country"
                             >
                               <option value={""} disabled hidden>
@@ -621,7 +621,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control "
-                              placeholder="Enter E-Mail"
+                              placeholder="Example johndoe123@gmail.com"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -647,7 +647,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control "
-                              placeholder="Enter Website"
+                              placeholder="Example www.edufynd.com"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -695,10 +695,12 @@ function Profile() {
                               Found Year <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
-                              placeholder="Enter Founded Year"
+                              placeholder="Example 1947"
                               name="founded"
+                              
+                               
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -721,7 +723,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control "
-                              placeholder="Enter Ranking "
+                              placeholder="Example 7th Ranking "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -762,7 +764,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Average Fees"
+                              placeholder="Example 2500 "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -783,7 +785,7 @@ function Profile() {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              InTake<span className="text-danger">*</span>
+                              Intake<span className="text-danger">*</span>
                             </label>
                             <Select
                               isMulti
@@ -797,7 +799,7 @@ function Profile() {
                                   fontSize: "12px",
                                 }),
                               }}
-                              placeholder="Select InTake"
+                              placeholder="Select Intake"
                             ></Select>
                             {errors.inTake.required ? (
                               <div className="text-danger form-text">
@@ -811,7 +813,7 @@ function Profile() {
                               Offer TAT<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-1"
+                              className="form-select form-select-lg rounded-2"
                               name="offerTAT"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -820,7 +822,7 @@ function Profile() {
                               onChange={handleInputs}
                             >
                               {" "}
-                              <option value={" "}>Select OfferTAT</option>
+                              <option value={" "}>Select Offer TAT</option>
                               {offerTAT.map((data, index) => (
                                 <option key={index} value={data?.offerTAT}>
                                   {" "}
@@ -841,7 +843,7 @@ function Profile() {
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="Enter About"
+                                placeholder="University Details..."
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -855,12 +857,12 @@ function Profile() {
                           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
-                                Admission Requirement{" "}
+                                Admission Requirements{" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="Enter Admission Requirements"
+                                placeholder=" Requirements Details..."
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",

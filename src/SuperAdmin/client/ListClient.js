@@ -510,7 +510,7 @@ export default function Masterproductlist() {
                                 <td className="text-capitalize text-start">{data?.typeOfClient}</td>
                                 <td className="text-capitalize text-start">{data?.businessName}</td>
                                 <td className="text-capitalize text-start">{data?.businessContactNo}</td>
-                                <td className="text-capitalize text-start">{data?.businessMailID}</td>
+                                <td className=" text-start">{data?.businessMailID}</td>
                                 <td className="text-capitalize text-start">{data?.status}</td>
                                 <td>
                                   <div className="d-flex">

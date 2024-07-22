@@ -336,7 +336,7 @@ const handleInputs = (event, ) => {
 
         <div
           className="content-wrapper"
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header ">
             <div className="content container-fluid">
@@ -350,7 +350,7 @@ const handleInputs = (event, ) => {
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                          Add Program Details
+                         Edit Program Details
                         </h5>
                       </div>
                       <div className="card-body mt-5">
@@ -360,11 +360,11 @@ const handleInputs = (event, ) => {
                               Country<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select font-weight-light"
+                              className="form-select form-select-lg rounded-2"
                               name="country"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
+                                fontSize: "12px",
                               }}
                               value={program.country}
                               onChange={handleCountryChange}
@@ -374,7 +374,7 @@ const handleInputs = (event, ) => {
                                 value=""
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
                               >
                                 Select Country
@@ -400,10 +400,10 @@ const handleInputs = (event, ) => {
                               University<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select font-weight-light"
+                              className="form-select form-select-lg rounded-2"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
+                                fontSize: "12px",
                               }}
                               name="universityName"
                               value={program.universityName}
@@ -414,7 +414,7 @@ const handleInputs = (event, ) => {
                                 value=""
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
                               >
                                 Select University
@@ -562,7 +562,7 @@ const handleInputs = (event, ) => {
                             <input
                               type="text"
                               className="form-control "
-                              placeholder="Enter Program Title "
+                              placeholder="Example M.Sc "
                               value={program.programTitle}
                               style={{
                                 backgroundColor: "#fff",
@@ -585,7 +585,7 @@ const handleInputs = (event, ) => {
                               <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"
+                              type="number"
                               className="form-control "
                               value={program.applicationFee}
                               style={{
@@ -593,7 +593,7 @@ const handleInputs = (event, ) => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter Application Fee"
+                              placeholder="Example 2500"
                               name="applicationFee"
                               onChange={handleInputs}
                             />
@@ -645,7 +645,7 @@ const handleInputs = (event, ) => {
                               Discounted Value
                             </label>
                             <input
-                              type="text"
+                              type="number"
                               value={program.discountedValue}
                               style={{
                                 backgroundColor: "#fff",
@@ -653,7 +653,7 @@ const handleInputs = (event, ) => {
                                 fontSize: "12px",
                               }}
                               className="form-control"
-                              placeholder="Enter DiscountedValue"
+                              placeholder="Example 25"
                               name="discountedValue"
                               onChange={handleInputs}
                             />
@@ -664,7 +664,7 @@ const handleInputs = (event, ) => {
                             ) : null}
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12">
+                          <div className="col-lg-12 col-md-12 col-sm-12 text-end">
                             <div>
                               <button
                                 type="button"
@@ -672,21 +672,21 @@ const handleInputs = (event, ) => {
                              
                                 style={{
                                   backgroundColor: "#fe5722",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
-                                className="btn text-white"
+                                className="btn text-white text-uppercase fw-semibold px-4 py-2"
                               >
-                                Add Campus{" "}
+                                
                                 <i
                                   class="fa fa-plus-circle"
                                   aria-hidden="true"
-                                ></i>
+                                ></i>&nbsp;&nbsp;Add Campus{" "}
                               </button>
                             </div>
                           </div>
 
                           {program?.campuses && program?.campuses?.map((campus, index) => (
-                            <div key={index}>
+                            <div className="g-3" key={index}>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label>Campus</label>
 
@@ -706,7 +706,7 @@ const handleInputs = (event, ) => {
                                     )
                                   }
                                   name="campus"
-                                  className="form-select"
+                                  className=" form-select form-select-lg rounded-2"
                                   placeholder={campus?.campus}
                                 >
                                   <option value="">{campus?.campus}</option>
@@ -739,7 +739,7 @@ const handleInputs = (event, ) => {
                                         )
                                       }
                                       name="inTake"
-                                      className="form-select"
+                                      className="form-select form-select-lg rounded-2"
                                       placeholder={campus.inTake}
                                     >
                                       <option value="">{campus.inTake}</option>
@@ -763,7 +763,7 @@ const handleInputs = (event, ) => {
                                         fontFamily: "Plus Jakarta Sans",
                                         fontSize: "12px",
                                       }}
-                                      type="text"
+                                      type="number"
                                       value={campus.courseFees}
                                       name="courseFees"
                                       onChange={(e) =>
@@ -774,7 +774,7 @@ const handleInputs = (event, ) => {
                                         )
                                       }
                                       className="form-control"
-                                      placeholder="Enter Course Fees"
+                                      placeholder="Example 2500"
                                     />
                                   </div>
                                 </div>
@@ -787,7 +787,7 @@ const handleInputs = (event, ) => {
                                         fontFamily: "Plus Jakarta Sans",
                                         fontSize: "12px",
                                       }}
-                                      type="text"
+                                      type="number"
                                       value={campus.duration}
                                       name="duration"
                                       onChange={(e) =>
@@ -798,7 +798,7 @@ const handleInputs = (event, ) => {
                                         )
                                       }
                                       className="form-control"
-                                      placeholder="Enter Duration"
+                                      placeholder="Example 16"
                                     />
                                   </div>
                                 </div>
@@ -814,7 +814,7 @@ const handleInputs = (event, ) => {
                               English language Test (ELT) Requirement
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-2"
                               value={program?.englishlanguageTest}
                               name="englishlanguageTest"
                               onChange={handleInputs}
@@ -824,7 +824,7 @@ const handleInputs = (event, ) => {
                                 fontSize: "12px",
                               }}
                             >
-                              <option value="">Select Type</option>
+                              <option value="">Select  Type</option>
                               <option value="categorie">Yes</option>
                               <option value="no">No</option>
                             </select>
@@ -863,7 +863,7 @@ const handleInputs = (event, ) => {
                               GRE/GMAT Requirement
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-2"
                               name="greGmatRequirement"
                               value={program?.greGmatRequirement}
                               style={{
@@ -914,7 +914,7 @@ const handleInputs = (event, ) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-2"
                               value={program?.universityInterview}
                               name="universityInterview"
                               style={{
@@ -958,11 +958,11 @@ const handleInputs = (event, ) => {
                           <div className="row g-2">
                             <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                               <Link
-                                to="/ListUniversity"
+                                to="/Programs"
                                 style={{
                                   backgroundColor: "#231F20",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
                                 className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                               >
@@ -972,12 +972,12 @@ const handleInputs = (event, ) => {
                                 style={{
                                   backgroundColor: "#FE5722",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
                                 type="submit"
                                 className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
                               >
-                                Submit
+                                Update
                               </button>
                             </div>
                           </div>
