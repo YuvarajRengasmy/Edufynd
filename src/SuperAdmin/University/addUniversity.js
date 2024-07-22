@@ -370,6 +370,7 @@ function Profile() {
                 <div className="row">
                   <div className="col-xl-12 ">
                     <div className="card rounded-0 shadow-sm border-0 ">
+                      
                       <div className=" position-relative">
                         <label
                           htmlFor="banner"

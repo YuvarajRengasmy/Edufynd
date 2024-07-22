@@ -518,7 +518,7 @@ export default function Masterproductlist() {
                   <li class="m-0">
                     <Link class="btn btn-pix-primary border-0" to="/AddProgram">
                       <button
-                        className="btn btn-outline border-0  text-white  "
+                        className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
                         style={{ backgroundColor: "#fe5722",fontSize: '12px'  }}
                       >
                         <i

@@ -517,9 +517,9 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn  border-0" to="/AddUniversity">
+                      <Link class="btn  border-0 " to="/AddUniversity">
                         <button
-                          className="btn border-0 text-white  "
+                          className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
 
                           style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         >
