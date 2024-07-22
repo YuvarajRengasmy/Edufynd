@@ -275,9 +275,9 @@ export const Listinvoice = () => {
                     <li class="m-1">
                       <Link class="btn btn-pix-primary" to="/AddSenderInvoice">
                         <button
-                          className="btn btn-outline border-0 text-white  "
+                          className="btn text-uppercase px-4 py-2 fw-semibold border-0 text-white  "
 
-                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -290,9 +290,9 @@ export const Listinvoice = () => {
                     <li class="">
                       <Link class="btn btn-pix-primary" to="/AddRecieverInvoice">
                         <button
-                          className="btn btn-outline border-0 text-white  "
+                          className="btn text-uppercase px-4 py-2 fw-semibold border-0 text-white  "
 
-                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
