@@ -107,94 +107,101 @@ const UserProfile = () => {
                 <div className="col-xl-12">
                   <div className="border-0 rounded-0 bg-transparent p-3 ">
                     <div className="card border-0 rounded-0 ">
-                    <div class="card rounded-0 border-0 text-bg-dark" >
-  <img src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg" class="card-img img-fluid" alt="university_bg_image" style={{mixBlendMode:'multiply',maxHeight:'15rem'}}/>
-  <div class="card-img-overlay">
-  <div className=" rounded-0 border-0  bg-transparent ">
-                        <div className="row g-0 ">
-                          <div className="col-md-3 align-self-center ">
-                            <img
-                              src={
-                                university?.universityLogo
-                                  ? university?.universityLogo
-                                  : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
-                              }
-                              className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
-                              style={{ width: "7rem", height: "7rem" }}
-                              alt="Berry College Campus"
-                            />
-                          </div>
-                          <div className="col-md-9">
-                            <div className="card-body">
-                            <div className="d-flex flex-row justify-content-between align-items-start">
-                              <div className="d-flex flex-column">
-                                <p className="text-white mb-1 fw-bold">
-                                  <span
-                                    className="me-2"
-                                    style={{ color: "#fe5722" }}
-                                  >
-                                    <FaUniversity />
-                                  </span>{" "}
-                                  {university?.universityName}
-                                </p>
-                                <p className="text-white mb-1">
-                                  <span
-                                    className="me-2"
-                                    style={{ color: "#fe5722" }}
-                                  >
-                                    <FaGlobeAmericas />
-                                  </span>{" "}
-                                  {university?.country}
-                                </p>
+                      <div class="card rounded-0 border-0 text-bg-dark">
+                        <img
+                          src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg"
+                          class="card-img img-fluid"
+                          alt="university_bg_image"
+                          style={{
+                            mixBlendMode: "multiply",
+                            maxHeight: "15rem",
+                          }}
+                        />
+                        <div class="card-img-overlay">
+                          <div className=" rounded-0 border-0  bg-transparent ">
+                            <div className="row g-0 ">
+                              <div className="col-md-3 align-self-center ">
+                                <img
+                                  src={
+                                    university?.universityLogo
+                                      ? university?.universityLogo
+                                      : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
+                                  }
+                                  className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
+                                  style={{ width: "7rem", height: "7rem" }}
+                                  alt="Berry College Campus"
+                                />
                               </div>
-                              <div className="d-flex flex-column align-items-end">
-                                <Link
-                                  to={university?.website}
-                                  className="text-decoration-none text-white mb-1"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <span
-                                    className="me-2"
-                                    style={{ color: "#fe5722" }}
-                                  >
-                                    <IoMdRocket />
-                                  </span>{" "}
-                                  {university?.website}
-                                </Link>
-                                <div className="text-white mb-1">
-                                  {" "}
-                                  <span
-                                    className="me-2"
-                                    style={{ color: "#fe5722" }}
-                                  >
-                                    {" "}
-                                    <IoMailUnread />
-                                  </span>{" "}
-                                  {university?.email}
+                              <div className="col-md-9">
+                                <div className="card-body">
+                                  <div className="d-flex flex-row justify-content-between align-items-start">
+                                    <div className="d-flex flex-column">
+                                      <p className="text-white mb-1 fw-bold">
+                                        <span
+                                          className="me-2"
+                                          style={{ color: "#fe5722" }}
+                                        >
+                                          <FaUniversity />
+                                        </span>{" "}
+                                        {university?.universityName}
+                                      </p>
+                                      <p className="text-white mb-1">
+                                        <span
+                                          className="me-2"
+                                          style={{ color: "#fe5722" }}
+                                        >
+                                          <FaGlobeAmericas />
+                                        </span>{" "}
+                                        {university?.country}
+                                      </p>
+                                    </div>
+                                    <div className="d-flex flex-column align-items-end">
+                                      <Link
+                                        to={university?.website}
+                                        className="text-decoration-none text-white mb-1"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <span
+                                          className="me-2"
+                                          style={{ color: "#fe5722" }}
+                                        >
+                                          <IoMdRocket />
+                                        </span>{" "}
+                                        {university?.website}
+                                      </Link>
+                                      <div className="text-white mb-1">
+                                        {" "}
+                                        <span
+                                          className="me-2"
+                                          style={{ color: "#fe5722" }}
+                                        >
+                                          {" "}
+                                          <IoMailUnread />
+                                        </span>{" "}
+                                        {university?.email}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="bg-white text-dark shadow border-0  align-self-end rounded-1 mt-4 p-3">
+                                    <span
+                                      className="text-secondary fw-bolder d-flex align-items-center gap-2 text-capitalize "
+                                      style={{ fontSize: "13px" }}
+                                    >
+                                      University Rank:
+                                      <span>
+                                        <RiCoinsFill className="text-warning " />
+                                        {university?.ranking}
+                                      </span>
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="bg-white text-dark shadow border-0  align-self-end rounded-1 mt-4 p-3">
-                              <span
-                                className="text-secondary fw-bolder d-flex align-items-center gap-2 text-capitalize "
-                                style={{ fontSize: "13px" }}
-                              >
-                                University Rank:
-                                <span>
-                                  <RiCoinsFill className="text-warning " />
-                                  {university?.ranking}
-                                </span>
-                              </span>
-                            </div>
-                            </div>
-                            
                           </div>
                         </div>
                       </div>
-  </div>
-</div>
-                     
+
                       <div className="card-body  ">
                         <div className="row ">
                           <div className="col-md-8">
@@ -269,7 +276,20 @@ const UserProfile = () => {
                                   aria-selected="false"
                                   tabindex="-1"
                                 >
-                                 Payment Method
+                                  Payment Method
+                                </a>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link text-uppercase "
+                                  id="home-review-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-Review"
+                                  role="tab"
+                                  aria-controls="tab-home"
+                                  aria-selected="true"
+                                >
+                                 Requirement
                                 </a>
                               </li>
                             </ul>
@@ -292,7 +312,7 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                  {university?.admissionRequirement}{" "}
+                                  {university?.about}{" "}
                                 </p>
                               </div>
                               <div
@@ -311,7 +331,6 @@ const UserProfile = () => {
                                               className="card border-1 rounded-3 shadow-sm align-items-center"
                                               style={{
                                                 width: "8rem",
-                                               
                                               }}
                                             >
                                               <img
@@ -343,34 +362,38 @@ const UserProfile = () => {
                                 </div>
                               </div>
                               <div
-                                class="tab-pane fade"
-                                id="tab-populatCourse"
-                                role="tabpanel"
-                                aria-labelledby="profile-tab"
-                              >
-                                <div className="row">
-                                  <div className="col-md-12 pt-3 px-5">
-                                    <div className="row">
-                                      {Array.isArray(
-                                        university?.popularCategories
-                                      ) &&
-                                        university.popularCategories.map(
-                                          (popularCategories, index) => (
-                                            <div
-                                              key={index}
-                                              className="card card-body shadow-sm border-1 rounded  mb-2 "
-                                            >
-                                              <span className="text-dark fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase">
-                                                {" "}
-                                                {popularCategories}
-                                              </span>
-                                            </div>
-                                          )
-                                        )}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+  className="tab-pane fade"
+  id="tab-populatCourse"
+  role="tabpanel"
+  aria-labelledby="profile-tab"
+>
+  <div className="container">
+  <div className="row">
+    <div className="col-lg-4 ">
+      {Array.isArray(university?.popularCategories) &&
+        university.popularCategories.map((category, index) => (
+          <div
+            key={index}
+            className="card border-0 text-white mb-3"
+            style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
+          >
+            <img
+              src="https://imageio.forbes.com/specials-images/imageserve/61d52d4e3a76ed81ac034ea8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
+              className="card-img img-fluid object-fit-cover"
+              alt="Popular category"
+              style={{ mixBlendMode: 'multiply' }}
+            />
+            <div className="card-img-overlay d-flex align-items-center justify-content-center">
+              <p className="text-center">{category}</p>
+            </div>
+          </div>
+        ))}
+    </div>
+  </div>
+  </div>
+ 
+</div>
+
                               <div
                                 class="tab-pane fade"
                                 id="tab-Course"
@@ -474,6 +497,19 @@ const UserProfile = () => {
                                   </div>
                                 </div>
                               </div>
+                              <div
+                                class="tab-pane fade "
+                                id="tab-Review"
+                                role="tabpanel"
+                                aria-labelledby="home-tab"
+                              >
+                                <p
+                                  className="clearfix"
+                                  style={{ textAlign: "justify" }}
+                                >
+                                  {university?.admissionRequirement}{" "}
+                                </p>
+                              </div>
                             </div>
                           </div>
 
@@ -527,10 +563,8 @@ const UserProfile = () => {
                                       {university?.founded}
                                     </div>
                                   </div>
-                                 
                                 </div>
                                 <div className="row gy-3 py-2">
-                                 
                                   <div className="col-sm-6">
                                     <div className=" fw-light text-lead text-capitalize">
                                       Institution Type
@@ -540,7 +574,6 @@ const UserProfile = () => {
                                     </div>
                                   </div>
                                 </div>
-                               
                               </div>
                             </div>
                           </div>

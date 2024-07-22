@@ -5,10 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
 import "./Sidebar.css";
+import { useLocation } from "react-router-dom";
 
 
 const Sidebar = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   const [activeLink, setActiveLink] = useState(window.location.pathname);
+
+
 
   const handleSetActiveLink = (path) => {
     setActiveLink(path);
@@ -42,13 +48,13 @@ const Sidebar = () => {
   return (
     <div style={{fontSize:'12px',fontWeight:'bold',fontFamily: 'Plus Jakarta Sans', }}>
       <aside
-        className="main-sidebar elevation-10 d-none   d-lg-block"
+        className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
         style={{
          
          
          
           position: "fixed",
-          width: "250px",
+          width: "230px",
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
@@ -112,8 +118,9 @@ const Sidebar = () => {
                      target="_self"
                     
                    
-                     className={`nav-link ${activeLink === '/ListUniversity' ? 'active' : ''}`}
-                   onClick={() => handleSetActiveLink('/ListUniversity')}
+                    className={`nav-link ${
+            ['/ListUniversity', '/AddUniversity', '/ViewUniversity', '/EditUniversity'].includes(currentPath) ? 'active' : ''
+          }`}
                   >
                     <i className="nav-icon fas fa-university" style={{fontSize:'12px'}} />
                     <p className="nav-text">University</p>
@@ -1245,7 +1252,7 @@ const Sidebar = () => {
           style={{ cursor: 'pointer' }}
         >
           <i
-            className="nav-icon fa fa-flag"
+            className="nav-icon fa fa-flag "
             aria-hidden="true"
             style={{ fontSize: '12px' }}
           />

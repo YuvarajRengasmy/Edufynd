@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getallStudent, deleteStudent , getFilterStudent } from "../../api/student";
+import { getallStudent, deleteStudent, getFilterStudent } from "../../api/student";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import Masterheader from "../../compoents/header";
@@ -7,7 +7,7 @@ import Mastersidebar from "../../compoents/HoverBar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import { getStudentId,getSuperAdminId } from "../../Utils/storage";
+import { getStudentId, getSuperAdminId } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
 
@@ -22,7 +22,7 @@ export default function Masterproductlist() {
     programTitle: "",
     applicationFee: "",
     courseFee: "",
-  
+
   };
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
@@ -48,25 +48,25 @@ export default function Masterproductlist() {
     const data = {
       limit: 10,
       page: pagination.from,
-      studentId:getStudentId,
-      superAdminId:getStudentId,
-    
+      studentId: getStudentId,
+      superAdminId: getStudentId,
+
 
     };
     getallStudent(data)
-    
-    .then((res) => {
-    
-    
-      setStudent(res?.data?.result);
-      setPagination({
-        ...pagination,
-        count: res?.data?.result,
+
+      .then((res) => {
+
+
+        setStudent(res?.data?.result);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
@@ -82,7 +82,7 @@ export default function Masterproductlist() {
     setOpen(false);
   };
   const deleteStudentData = () => {
-    deleteStudent (deleteId)
+    deleteStudent(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();
@@ -275,12 +275,12 @@ export default function Masterproductlist() {
         let list = [];
         result?.forEach((res) => {
           list.push({
-          universityName: res?.universityName ?? "-",
-          programTitle: res?.programTitle ?? "-",
-          applicationFee: res?.applicationFee ?? "-",
-          courseFee: res?.courseFee ?? "-",
-          campus: res?.campus ?? "-",
-           
+            universityName: res?.universityName ?? "-",
+            programTitle: res?.programTitle ?? "-",
+            applicationFee: res?.applicationFee ?? "-",
+            courseFee: res?.courseFee ?? "-",
+            campus: res?.campus ?? "-",
+
 
           });
         });
@@ -290,7 +290,7 @@ export default function Masterproductlist() {
           "applicationFee",
           "courseFee",
           "campus",
-   
+
 
         ];
         let header2 = [
@@ -299,7 +299,7 @@ export default function Masterproductlist() {
           "Application Fees",
           "Course Fees",
           "Campus",
-       
+
         ];
         ExportCsvService.downloadCsv(
           list,
@@ -321,23 +321,23 @@ export default function Masterproductlist() {
 
 
   return (
-    <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div class="container-fluid">
-    
-          <nav class="navbar navbar-vertical navbar-expand-lg">
-            <Mastersidebar />
-          </nav>
-        
-      
 
-      <div className="content-wrapper" style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className="content-header">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
+          <Mastersidebar />
+        </nav>
+
+
+
+        <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+
           <div className="container-fluid">
             <div className="row ">
-
-              <div >
-                <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                <li className="flex-grow-1">
+              <div className="col-xl-12">
+                <div className="content-header">
+                  <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+                    <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
                           type="search"
@@ -368,305 +368,309 @@ export default function Masterproductlist() {
                         </span>
                       </div>
                     </li>
-                  <li class="m-1">
+                    <li class="m-1">
 
 
-                    <div>
-                      <button className="btn btn-primary"  style={{ fontSize: '11px' }}  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Program</h5>
-                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                      <div>
+                        <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
+                        <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                          <div className="offcanvas-header">
+                            <h5 id="offcanvasRightLabel">Filter Program</h5>
+                            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                          </div>
+                          <div className="offcanvas-body ">
+                            <form>
+                              <div className="from-group mb-3">
+                                <label className="form-label">University Name</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="universityName"
+                                  onChange={handleInputs}
+                                  placeholder="Search...University Name"
+                                />
+                                <label className="form-label">Program Name</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="programTitle"
+                                  onChange={handleInputs}
+                                  placeholder="Search...program Title"
+                                />
+                                <label className="form-label">ApplicationFee</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="applicationFee"
+                                  onChange={handleInputs}
+                                  placeholder="Search...Application Fee"
+                                />
+                                <label className="form-label">CourseFee</label>
+                                <br />
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="courseFee"
+                                  onChange={handleInputs}
+                                  placeholder="Search...Course Fee"
+                                />
+
+
+                              </div>
+                              <div>
+                                <button
+
+                                  data-bs-dismiss="offcanvas"
+                                  className="btn btn-cancel border text-white float-right bg"
+                                  style={{ backgroundColor: "#9265cc" }}
+                                  onClick={resetFilter}
+                                >
+                                  Reset
+                                </button>
+                                <button
+                                  data-bs-dismiss="offcanvas"
+                                  type="submit"
+                                  onClick={filterStudentList}
+                                  className="btn btn-save border text-white float-right mx-2"
+                                  style={{ backgroundColor: "#9265cc" }}
+                                >
+                                  Apply
+                                </button>
+                              </div>
+                            </form>
+                          </div>
                         </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">University Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="universityName"
-                                onChange={handleInputs}
-                                placeholder="Search...University Name"
-                              />
-                              <label className="form-label">Program Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="programTitle"
-                                onChange={handleInputs}
-                                placeholder="Search...program Title"
-                              />
-                              <label className="form-label">ApplicationFee</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="applicationFee"
-                                onChange={handleInputs}
-                                placeholder="Search...Application Fee"
-                              />
-                              <label className="form-label">CourseFee</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="courseFee"
-                                onChange={handleInputs}
-                                placeholder="Search...Course Fee"
-                              />
+                      </div>
 
-                             
-                            </div>
-                            <div>
-                              <button
 
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border text-white float-right bg"
-                                style={{ backgroundColor: "#9265cc" }}
-                                onClick={resetFilter}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                onClick={filterStudentList}
-                                className="btn btn-save border text-white float-right mx-2"
-                                style={{ backgroundColor: "#9265cc" }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
+                    </li>
+                    <li class="m-1">
+                      <Link onClick={pdfDownload}>
+                        <button style={{ backgroundColor: "#E12929", fontSize: '11px' }} className="btn text-white ">
+                          <span>
+                            <i class="fa fa-file-pdf" aria-hidden="true"></i>
+                          </span>
+                        </button>
+                      </Link>
+                    </li>
+                    <li class="m-1">
+                      <Link onClick={exportCsv} class="btn-filters">
+                        <span>
+                          <button style={{ backgroundColor: "#22A033", fontSize: '11px' }} className="btn text-white ">
+                            <i class="fa fa-file-excel" aria-hidden="true"></i>
+                          </button>
+                        </span>
+                      </Link>
+                    </li>
+
+                    <li class="m-1">
+                      <Link onClick={openImportPopup} class="btn-filters">
+                        <span>
+                          <button
+                            style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                            className="btn text-white "
+                          >
+                            <i class="fa fa fa-upload" aria-hidden="true"></i>
+                          </button>
+                        </span>
+                      </Link>
+                    </li>
+                    <li class="m-0">
+                      <Link class="btn btn-pix-primary" to="/AddProgram">
+                        <button
+                          className="btn btn-outline border text-white  "
+                          style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                        >
+                          <i
+                            class="fa fa-plus-circle me-2"
+                            aria-hidden="true"
+                          ></i>{" "}
+                          Add Program
+                        </button>
+                      </Link>
+                    </li>
+
+                  </ol>
+                </div>
+                <div className="row">
+                  <div className="col-xl-12">
+                    <div className="card border-0 shadow-sm mt-2">
+                      <div className="card-body">
+                        <div className="card-table">
+                          <div className="table-responsive">
+
+                            <table className=" table card-table dataTable text-center">
+                              <thead>
+                                <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+                                  <th className="text-capitalize text-start">S No</th>
+                                  <th className="text-capitalize text-start">Student Name</th>
+                                  <th className="text-capitalize text-start">Student Code</th>
+
+                                  <th className="text-capitalize text-start">Email</th>
+                                  <th className="text-capitalize text-start">Mobile Number</th>
+                                  <th className="text-capitalize text-start">Status</th>
+                                  <th className="text-capitalize text-start">Created by</th>
+                                  <th className="text-capitalize text-start">Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {student?.map((data, index) => (
+                                  <tr key={index} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                                    <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                                    <td className="text-capitalize text-start">{data?.name ? data?.name : data?.superAdminId?.studentName}</td>
+                                    <td className="text-capitalize text-start">{data?.studentCode}</td>
+
+                                    <td className="text-capitalize text-start">{data?.email}</td>
+                                    <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                                    <td className="text-capitalize text-start">{data?.status}</td>
+                                    <td className="text-capitalize text-start">{data?.modifiedOn}</td>
+                                    <td>
+                                      <div className="d-flex">
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/ViewStudent",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/EditStudent",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                        </Link>
+                                      </div>
+
+                                    </td>
+                                  </tr>
+                                ))}
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div className="float-right my-2">
+                          <Pagination
+                            count={Math.ceil(pagination.count / pageSize)}
+                            onChange={handlePageChange}
+                            variant="outlined"
+                            shape="rounded"
+                            color="primary"
+                          />
                         </div>
                       </div>
                     </div>
-
-
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={pdfDownload}>
-                      <button   style={{ backgroundColor: "#E12929",fontSize: '11px'  }} className="btn text-white ">
-                        <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={exportCsv} class="btn-filters">
-                      <span>
-                        <button   style={{ backgroundColor: "#22A033",fontSize: '11px'}} className="btn text-white ">
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li class="m-1">
-                    <Link onClick={openImportPopup} class="btn-filters">
-                      <span>
-                        <button
-                          style={{ backgroundColor: "#9265cc",fontSize: '11px'  }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddProgram">
-                      <button
-                        className="btn btn-outline border text-white  "
-                        style={{ backgroundColor: "#9265cc",fontSize: '11px'  }}
-                      >
-                        <i
-                          class="fa fa-plus-circle me-2"
-                          aria-hidden="true"
-                        ></i>{" "}
-                        Add Program
-                      </button>
-                    </Link>
-                  </li>
-
-                </ol>
-
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-xl-12">
-            <div className="card mt-2">
-              <div className="card-body">
-                <div className="card-table">
-                  <div className="table-responsive">
-
-                    <table className=" table card-table dataTable text-center">
-                      <thead>
-                        <tr  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Student Name</th>
-                          <th className="text-capitalize text-start">Student Code</th>
-                       
-                          <th className="text-capitalize text-start">Email</th>
-                          <th className="text-capitalize text-start">Mobile Number</th>
-                          <th className="text-capitalize text-start">Status</th>
-                          <th className="text-capitalize text-start">Created by</th>
-                          <th className="text-capitalize text-start">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {student?.map((data, index) => (
-                          <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.name?data?.name: data?.superAdminId?.studentName}</td>
-                            <td className="text-capitalize text-start">{data?.studentCode}</td>
-                           
-                            <td className="text-capitalize text-start">{data?.email}</td>
-                            <td className="text-capitalize text-start">{data?.mobileNumber}</td>
-                            <td className="text-capitalize text-start">{data?.status}</td>
-                            <td className="text-capitalize text-start">{data?.modifiedOn}</td>
-                            <td>
-                              <div className="d-flex">
-                                <Link
-                                  className="dropdown-item"
-                                  to={{
-                                    pathname: "/ViewStudent",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                >
-                                  <i className="far fa-eye text-primary me-1"></i>
-
-                                </Link>
-                                <Link
-                                  className="dropdown-item"
-                                  to={{
-                                    pathname: "/EditStudent",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                >
-                                  <i className="far fa-edit text-warning me-1"></i>
-
-                                </Link>
-                                <Link
-                                  className="dropdown-item"
-                                  onClick={() => {
-                                    openPopup(data?._id);
-                                  }}
-                                >
-                                  <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                </Link>
-                              </div>
-                             
-                            </td>
-                          </tr>
-                        ))}
-
-                      </tbody>
-                    </table>
                   </div>
                 </div>
-                <div className="float-right my-2">
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
+                <div >
+
+
+
                 </div>
               </div>
             </div>
           </div>
+
         </div>
-      </div>
-      <Dialog open={open}>
-        <DialogContent>
-          <div className="text-center m-4">
-            <h5 className="mb-4"   style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
-              Are you sure you want to Delete <br /> the selected Product ?
-            </h5>
-            <button
-              type="button"
-              className="btn btn-danger mx-3"
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              onClick={deleteStudentData}
-            >
-              Yes
-            </button>
-            <button
-              type="button"
-              className="btn btn-info "
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              onClick={closePopup}
-            >
-              No
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
-      <Dialog open={openFilter} fullWidth maxWidth="sm">
-        <DialogTitle>
-          Filter University
-          <IconButton className="float-right" onClick={closeFilterPopup}>
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-
-        </DialogContent>
-      </Dialog>
-      <Dialog open={openImport} fullWidth maxWidth="sm">
-        <DialogTitle>
-         Upload Program List
-          <IconButton className="float-right" onClick={closeImportPopup}>
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <form>
-            <div className="from-group mb-3">
-
-            <div className="mb-3">
-            <input
-              type="file"
-              name="file"
-              className="form-control border-0 text-dark bg-transparent"
-              onChange={handleFileChange}
-            />
-          </div>
-
-            </div>
-            <div>
-              <Link
-                to="/ListUniversity"
-                className="btn btn-cancel border text-white float-right bg"
-                style={{ backgroundColor: "#9265cc" }}
-
-              >
-                Cencel
-              </Link>
+        <Dialog open={open}>
+          <DialogContent>
+            <div className="text-center m-4">
+              <h5 className="mb-4" style={{ fontSize: "14px", fontFamily: 'Plus Jakarta Sans' }}>
+                Are you sure you want to Delete <br /> the selected Product ?
+              </h5>
               <button
-                type="submit"
-                onClick={handleFileUpload}
-                className="btn btn-save border text-white float-right mx-2"
-                style={{ backgroundColor: "#9265cc" }}
+                type="button"
+                className="btn btn-danger mx-3"
+                style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
+                onClick={deleteStudentData}
               >
-                Apply
+                Yes
               </button>
-              
+              <button
+                type="button"
+                className="btn btn-info "
+                style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
+                onClick={closePopup}
+              >
+                No
+              </button>
             </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+          </DialogContent>
+        </Dialog>
+        <Dialog open={openFilter} fullWidth maxWidth="sm">
+          <DialogTitle>
+            Filter University
+            <IconButton className="float-right" onClick={closeFilterPopup}>
+              <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+
+          </DialogContent>
+        </Dialog>
+        <Dialog open={openImport} fullWidth maxWidth="sm">
+          <DialogTitle>
+            Upload Program List
+            <IconButton className="float-right" onClick={closeImportPopup}>
+              <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            <form>
+              <div className="from-group mb-3">
+
+                <div className="mb-3">
+                  <input
+                    type="file"
+                    name="file"
+                    className="form-control border-0 text-dark bg-transparent"
+                    onChange={handleFileChange}
+                  />
+                </div>
+
+              </div>
+              <div>
+                <Link
+                  to="/ListUniversity"
+                  className="btn btn-cancel border text-white float-right bg"
+                  style={{ backgroundColor: "#9265cc" }}
+
+                >
+                  Cencel
+                </Link>
+                <button
+                  type="submit"
+                  onClick={handleFileUpload}
+                  className="btn btn-save border text-white float-right mx-2"
+                  style={{ backgroundColor: "#9265cc" }}
+                >
+                  Apply
+                </button>
+
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }

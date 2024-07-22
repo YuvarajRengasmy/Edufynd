@@ -179,6 +179,8 @@ const fetchCountryDetails = (selectedCountry) => {
       }));
   }
 };
+
+
   const handleInputChange = (index, fieldName, value) => {
     const updatedCampuses = [...campuses];
     updatedCampuses[index][fieldName] = value;

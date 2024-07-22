@@ -13,7 +13,7 @@ export const Application ="applicant";
 export const AllModule ="course";
 export const Commission ="commissionPaid";
 export const Categories ="popularCourse";
-export const CountryModule ="countryName";
+export const CountryModule ="country";
 export const CommissionPage ="commission";
 export const Institution ="institutionType";
 export const OfferTAT ="offerTat";
@@ -23,6 +23,8 @@ export const Currency ="currency";
 export const TypeOfClient ="typeOfClient";
 export const Staff ="staff";
 export const Year ="year";
+
+export const CountryList = "countryList";
 
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";

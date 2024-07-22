@@ -5,7 +5,7 @@ import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg"
 export const HoverBar = () => {
   return (
     <div>
-        <div class="sBar">
+        <div class="sBar text-bg-white">
         <ul class="nav flex-column">
         <div className="user-panel mt-2  d-flex">
 
