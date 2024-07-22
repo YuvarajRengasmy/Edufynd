@@ -297,7 +297,7 @@ export const AddStaff = () => {
                                 src={
                                   staff?.photo
                                     ? staff?.photo
-                                    : "https://placehold.co/128x128"
+                                    : "https://via.placeholder.com/128"
                                 }
                                 alt="student-image"
                                 style={{ width: "8rem", height: "8rem" }}
@@ -333,12 +333,12 @@ export const AddStaff = () => {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 {" "}
-                                Name<span className="text-danger">*</span>
+                               Full Name<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 className="form-control rounded-2  "
-                                placeholder="Enter Name "
+                                placeholder="Example John Doe "
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -364,12 +364,12 @@ export const AddStaff = () => {
 
                               <input
                                 type="date"
-                                className="form-control rounded-2  text "
+                                className="form-control text-uppercase "
                                 placeholder="Enter  DOB "
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
                                 name="dob"
                                 onChange={handleInputs}
@@ -394,7 +394,7 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 className="form-control rounded-2  "
-                                placeholder="Enter  Role/Designation "
+                                placeholder="Example Student Counsellor "
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -418,9 +418,9 @@ export const AddStaff = () => {
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control text-uppercase rounded-2"
                                 placeholder="Enter  DOJ "
                                 name="doj"
                                 onChange={handleInputs}
@@ -445,7 +445,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter  Reporting Manager"
+                                placeholder="Example Jane Doe"
                                 name="reportingManager"
                                 onChange={handleInputs}
                               />
@@ -469,7 +469,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter  Shift Timing"
+                                placeholder="Example 10.00 AM - 07.00 PM"
                                 name="shiftTiming"
                                 onChange={handleInputs}
                               />
@@ -492,7 +492,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter Probation Duration"
+                                placeholder="Example 6 Months"
                                 name="probationDuration"
                                 onChange={handleInputs}
                               />
@@ -511,7 +511,7 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 className="form-control rounded-2 "
-                                placeholder="Enter Official Mail "
+                                placeholder="Example jay.j@afynd.com "
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -538,7 +538,7 @@ export const AddStaff = () => {
                               <select
                                 name="team"
                                 onChange={handleInputs}
-                                className="form-select form-select-lg"
+                                className="form-select form-select-lg rounded-2"
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -592,7 +592,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter Personal Mail ID"
+                                placeholder="Example johndoe123@gmail.com"
                                 onChange={handleInputs}
                               />
                               {errors.personalMail.required ? (
@@ -612,14 +612,14 @@ export const AddStaff = () => {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="tel"
+                                type="number"
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter Personal Contact No"
+                                placeholder="Example 123-456-789"
                                 name="mobileNumber"
                                 onChange={handleInputs}
                               />
@@ -638,14 +638,14 @@ export const AddStaff = () => {
                                 Emergency Contact
                               </label>
                               <input
-                                type="tel"
+                                type="number"
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter  Emergency Contact"
+                                placeholder="Example 123-456-789"
                                 name="emergencyContactNo"
                                 onChange={handleInputs}
                               />
@@ -672,7 +672,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter Street/Door No"
+                                placeholder="Example 17/3A2, Gandhi St,"
                                 name="address"
                                 onChange={handleInputs}
                               />
@@ -694,14 +694,14 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter City Name"
+                                placeholder="Example Alwartirunagar, Chennai"
                                 name="address2"
                                 onChange={handleInputs}
                               />
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Pin <span className="text-danger">*</span>
+                                Pincode <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
@@ -711,7 +711,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter State"
+                                placeholder="Example 632001"
                                 name="pin"
                                 onChange={handleInputs}
                               />
@@ -728,7 +728,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter State"
+                                placeholder="Example India"
                                 name="country"
                                 onChange={handleInputs}
                               />
@@ -745,7 +745,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter State"
+                                placeholder="Example Tamil Nadu"
                                 name="state"
                                 onChange={handleInputs}
                               />
@@ -762,7 +762,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className="form-control rounded-2"
-                                placeholder="Enter State"
+                                placeholder="Example Chennai"
                                 name="city"
                                 onChange={handleInputs}
                               />
@@ -806,7 +806,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                               >
-                                <option value="">Select Type</option>
+                                <option value="">Select Status Type</option>
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
                               </select>
@@ -824,7 +824,7 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 className="form-control rounded-2"
-                                placeholder="Enter Privileges/Rights "
+                                placeholder="Example Employment..."
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -842,7 +842,7 @@ export const AddStaff = () => {
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Company Assessts{" "}
+                                Company Assets{" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <select
@@ -857,7 +857,7 @@ export const AddStaff = () => {
                               >
                                 <option value={""}>
                                   {" "}
-                                  Select Company Assessts
+                                  Select Company Assets
                                 </option>
                                 <option value="companyAssests">Yes</option>
                                 <option value="no">No</option>
@@ -872,7 +872,7 @@ export const AddStaff = () => {
                               <>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
-                                    Labtop Assessts{" "}
+                                    Laptop Assets{" "}
                                     <span className="text-danger">*</span>
                                   </label>
                                   <select
@@ -887,13 +887,13 @@ export const AddStaff = () => {
                                   >
                                     <option value={""}>
                                       {" "}
-                                      Select LabTop Assessts
+                                      Select Laptop Assets
                                     </option>
-                                    <option value="labtopAssessts">Yes</option>
+                                    <option value="labtopAssets">Yes</option>
                                     <option value="no">No</option>
                                   </select>
                                 </div>
-                                {staff.laptopName === "labtopAssessts" && (
+                                {staff.laptopName === "labtopAssets" && (
                                   <div className="row g-3">
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
@@ -903,7 +903,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  Brand Name"
+                                        placeholder="Example Apple"
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",
@@ -921,7 +921,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  Model"
+                                        placeholder="Example MacBook Air"
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",
@@ -940,7 +940,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  IP Address"
+                                        placeholder="Example IPv4 192.168.1.1 "
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",
@@ -958,7 +958,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  UserName"
+                                        placeholder="Example Afynd01"
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",
@@ -976,7 +976,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  Password"
+                                        placeholder="Example G7$kL!8mQz@1wXp^"
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",
@@ -991,7 +991,7 @@ export const AddStaff = () => {
 
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
-                                    Mobile Assessts
+                                    Mobile Assets
                                     <span className="text-danger">*</span>
                                   </label>
                                   <select
@@ -1006,7 +1006,7 @@ export const AddStaff = () => {
                                   >
                                     <option value={""}>
                                       {" "}
-                                      Select Mobile Assessts
+                                      Select Mobile Assets
                                     </option>
                                     <option value="mobileName">Yes</option>
                                     <option value="no">No</option>
@@ -1022,7 +1022,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  Brand Name"
+                                        placeholder="Example  Samsung"
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",
@@ -1040,7 +1040,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  IMEI"
+                                        placeholder="Example 356938035643209"
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",
@@ -1056,9 +1056,9 @@ export const AddStaff = () => {
                                         <span className="text-danger">*</span>
                                       </label>
                                       <input
-                                        type="text"
+                                        type="number"
                                         className="form-control rounded-2"
-                                        placeholder="Enter  Phone Number"
+                                        placeholder="Example 123-456-789"
                                         style={{
                                           backgroundColor: "#fff",
                                           fontFamily: "Plus Jakarta Sans",

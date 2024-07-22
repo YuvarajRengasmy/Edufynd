@@ -277,7 +277,7 @@ function AddAgent() {
           </nav>
           <div
             className="content-wrapper "
-            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
               <div className="content container-fluid ">
@@ -302,7 +302,7 @@ function AddAgent() {
                                 src={
                                   student?.photo
                                     ? student?.photo
-                                    : "https://placehold.co/128x128"
+                                    : "https://via.placeholder.com/128"
                                 }
                                 alt="student-image"
                                 style={{ width: "8rem", height: "8rem" }}
@@ -334,7 +334,7 @@ function AddAgent() {
                                 onChange={handleInputs}
                               />
                             </div>
-                            <div className="row">
+                            <div className="row g-3">
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   {" "}
@@ -380,7 +380,7 @@ function AddAgent() {
                                   name="name"
                                   onChange={handleInputs}
                                   className="form-control "
-                                  placeholder="Enter Student Name"
+                                  placeholder="Example John Doe"
                                 />
                                 {errors.name.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -405,7 +405,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Citizenship"
+                                placeholder="Example Indian"
                                 name="citizenship"
                                 onChange={handleInputs}
                               />
@@ -425,7 +425,7 @@ function AddAgent() {
                                 placeholder="Enter Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
                                 name="dob"
                                 onChange={handleInputs}
@@ -443,12 +443,12 @@ function AddAgent() {
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 {" "}
-                                PassportNo<span className="text-danger">*</span>
+                                Passport No<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
                                 className="form-control "
-                                placeholder="Enter Passport No"
+                                placeholder="Example M12345678"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -477,7 +477,7 @@ function AddAgent() {
                                 placeholder="Enter Contact Number "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
                                 name="expiryDate"
                                 onChange={handleInputs}
@@ -526,7 +526,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter  Email  ID"
+                                placeholder="Example johndoe123@gmail.com"
                                 name="email"
                                 onChange={handleInputs}
                               />
@@ -552,7 +552,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Primary Number"
+                                placeholder="Example 123-456-789"
                                 name="primaryNumber"
                                 onChange={handleInputs}
                               />
@@ -578,7 +578,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter The WhatsApp Number "
+                                placeholder="Example 123-456-789 "
                                 name="whatsAppNumber"
                                 onChange={handleInputs}
                               />
@@ -604,7 +604,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter HighestQualification"
+                                placeholder="Example B.A. in English"
                                 name="highestQualification"
                                 onChange={handleInputs}
                               />
@@ -630,7 +630,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Degree Name"
+                                placeholder="Example  B.Sc. IT"
                                 name="degreeName"
                                 onChange={handleInputs}
                               />
@@ -655,7 +655,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter percentage"
+                                placeholder="Example 85"
                                 name="percentage"
                                 onChange={handleInputs}
                               />
@@ -681,7 +681,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Institution Name"
+                                placeholder="Example Harvard University"
                                 name="institution"
                                 onChange={handleInputs}
                               />
@@ -702,12 +702,12 @@ function AddAgent() {
                               </label>
                               <input
                                 type="date"
-                                className="form-control "
+                                className="form-control text-uppercase"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Enter AcademicYear"
+                                placeholder="Enter Start date"
                                 name="academicYear"
                                 onChange={handleInputs}
                               />
@@ -723,12 +723,12 @@ function AddAgent() {
                               </label>
                               <input
                                 type="date"
-                                className="form-control "
+                                className="form-control text-uppercase"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Enter AcademicYear"
+                                placeholder="Enter End Date"
                                 name="yearPassed"
                                 onChange={handleInputs}
                               />
@@ -755,12 +755,12 @@ function AddAgent() {
                                 </label>
                                 <input
                                   type="text"
-                                  className="form-control  text-uppercase"
+                                  className="form-control  "
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Enter Duration"
+                                  placeholder="Example 2 Years"
                                   name="duration"
                                   onChange={handleInputs}
                                 />
@@ -776,7 +776,7 @@ function AddAgent() {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Enter Last Employeer"
+                                  placeholder="Example Microsoft Corporation"
                                   name="lastEmployeer"
                                   onChange={handleInputs}
                                 />
@@ -792,7 +792,7 @@ function AddAgent() {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Enter Last Designation"
+                                  placeholder="Example Senior Software Engineer"
                                   name="lastDesignation"
                                   onChange={handleInputs}
                                 />
@@ -800,7 +800,7 @@ function AddAgent() {
 
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
-                                  Do have any English Language Test{" "}
+                                  Do You Have Any ELT{" "}
                                   <span className="text-danger">*</span>
                                 </label>
                                 <select
@@ -829,131 +829,9 @@ function AddAgent() {
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Do Tou Have Travel History
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  type="text"
-                                  className="form-select form-select-lg rounded-2"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Enter Do You Have  Travel History"
-                                  name="doYouHaveTravelHistory"
-                                  onChange={handleInputs}
-                                >
-                                  <option value="">
-                                    Do You Have Trave lHistory
-                                  </option>
-                                  <option value="doYouHaveTravelHistory">
-                                    Yes
-                                  </option>
-                                  <option value="No">No</option>
-                                </select>
-                                {errors.doYouHaveTravelHistory.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Any Visa Rejections
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  type="text"
-                                  className="form-select form-select-lg rounded-2"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Enter Any Visa Rejections"
-                                  name="anyVisaRejections"
-                                  onChange={handleInputs}
-                                >
-                                  <option value="">AnyVisaRejections</option>
-                                  <option value="anyVisaRejections">Yes</option>
-                                  <option value="No">No</option>
-                                </select>
 
-                             
-                              </div>
-                              {student.anyVisaRejections ===
-                                "anyVisaRejections" && (
-                                    <div className="row g-3">
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Visa Reason
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Enter Visa Reason"
-                                    name="visaReason"
-                                    onChange={handleInputs}
-                                  />
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    TravelDate
-                                  </label>
-                                  <input
-                                    type="date"
-                                    className="form-control "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Enter Date"
-                                    name="dateVisa"
-                                    onChange={handleInputs}
-                                  />
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Purpose
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Enter Purpose"
-                                    name="purposeVisa"
-                                    onChange={handleInputs}
-                                  />
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Country
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control  "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Enter Date Of Test"
-                                    name="countryNameVisa"
-                                    onChange={handleInputs}
-                                  />
-                                </div>
-                               
-
-                                </div>
-                                
-                              )}
+                            
+                            
                              
                              
                             </div>
@@ -996,7 +874,7 @@ function AddAgent() {
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
                                     }}
-                                    placeholder="Enter TestScore"
+                                    placeholder="Example 75"
                                     name="testScore"
                                     onChange={handleInputs}
                                   />
@@ -1007,10 +885,10 @@ function AddAgent() {
                                   </label>
                                   <input
                                     type="date"
-                                    className="form-control  "
+                                    className="form-control text-uppercase "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
+                                      fontSize: "11px",
                                     }}
                                     placeholder="Enter Date Of Test"
                                     name="dateOfTest"
@@ -1019,6 +897,41 @@ function AddAgent() {
                                 </div>
                               </div>
                             )}
+
+<div className="row g-3">
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Do You Have Travel History
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  type="text"
+                                  className="form-select form-select-lg rounded-2"
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  placeholder="Enter Do You Have  Travel History"
+                                  name="doYouHaveTravelHistory"
+                                  onChange={handleInputs}
+                                >
+                                  <option value="">
+                                  Select Travel History
+                                  </option>
+                                  <option value="doYouHaveTravelHistory">
+                                    Yes
+                                  </option>
+                                  <option value="No">No</option>
+                                </select>
+                                {errors.doYouHaveTravelHistory.required ? (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+                              </div>
+</div>
+                           
+                            
 
                             {student.doYouHaveTravelHistory ===
                               "doYouHaveTravelHistory" && (
@@ -1029,10 +942,10 @@ function AddAgent() {
                                   </label>
                                   <input
                                     type="date"
-                                    className="form-control "
+                                    className="form-control text-uppercase"
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
+                                      fontSize: "11px",
                                     }}
                                     placeholder="Enter Date"
                                     name="date"
@@ -1050,7 +963,7 @@ function AddAgent() {
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
                                     }}
-                                    placeholder="Enter Purpose"
+                                    placeholder="Example Work"
                                     name="purpose"
                                     onChange={handleInputs}
                                   />
@@ -1066,7 +979,7 @@ function AddAgent() {
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
                                     }}
-                                    placeholder="Enter Date Of Test"
+                                    placeholder="Example Europe"
                                     name="countryName"
                                     onChange={handleInputs}
                                   />
@@ -1076,6 +989,104 @@ function AddAgent() {
 
                               </div>
                             )}
+                            <div className="row g-3">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Any Visa Rejections
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  type="text"
+                                  className="form-select form-select-lg rounded-2"
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  placeholder="Enter Any Visa Rejections"
+                                  name="anyVisaRejections"
+                                  onChange={handleInputs}
+                                >
+                                  <option value="">Select Any Visa Rejections</option>
+                                  <option value="anyVisaRejections">Yes</option>
+                                  <option value="No">No</option>
+                                </select>
+
+                             
+                              </div>
+                            </div>
+                           
+                              {student.anyVisaRejections ===
+                                "anyVisaRejections" && (
+                                    <div className="row g-3">
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    Visa Reason
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control "
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    placeholder="Example Study"
+                                    name="visaReason"
+                                    onChange={handleInputs}
+                                  />
+                                </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    Travel Date
+                                  </label>
+                                  <input
+                                    type="date"
+                                    className="form-control text-uppercase"
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "11px",
+                                    }}
+                                    placeholder="Enter Date"
+                                    name="dateVisa"
+                                    onChange={handleInputs}
+                                  />
+                                </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    Purpose
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control "
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    placeholder="Example Businesss"
+                                    name="purposeVisa"
+                                    onChange={handleInputs}
+                                  />
+                                </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>
+                                    Country
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control  "
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    placeholder="Example United Kingdom"
+                                    name="countryNameVisa"
+                                    onChange={handleInputs}
+                                  />
+                                </div>
+                               
+
+                                </div>
+                                
+                              )}
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -1089,7 +1100,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Desired University "
+                                placeholder="Example Stanford University "
                                 name="desiredUniversity"
                                 onChange={handleInputs}
                               />
@@ -1111,7 +1122,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Desired Country "
+                                placeholder="Example New York "
                                 name="country"
                                 onChange={handleInputs}
                               />
@@ -1133,7 +1144,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Desired Course "
+                                placeholder="Example Game Devlopment "
                                 name="desiredCourse"
                                 onChange={handleInputs}
                               />
@@ -1158,7 +1169,7 @@ function AddAgent() {
                                 name="finance"
                                 onChange={handleInputs}
                               >
-                                <option value="">Select Finance</option>
+                                <option value="">Select Finance Type</option>
                                 <option value="loan">Loan</option>
                                 <option value="self">Self </option>
                               </select>
@@ -1169,7 +1180,7 @@ function AddAgent() {
                                 </span>
                               ) : null}
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                               <label style={{ color: "#231F20" }}>
                                 Work Experience
                                 <span className="text-danger">*</span>
@@ -1181,7 +1192,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter Work Experience"
+                                placeholder="Example 3 Years"
                                 name="workExperience"
                                 onChange={handleInputs}
                               />
