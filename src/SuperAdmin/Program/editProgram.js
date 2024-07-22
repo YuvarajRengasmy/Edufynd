@@ -350,7 +350,7 @@ const handleInputs = (event, ) => {
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                          Add Program Details
+                         Edit Program Details
                         </h5>
                       </div>
                       <div className="card-body mt-5">

@@ -242,21 +242,21 @@ function Profile() {
   };
 
 
-//   const handleCountryChange = (event) => {
-//     const selectedCountry = event.target.value;
-//     setUniversity({ ...university, country: selectedCountry });
+  //   const handleCountryChange = (event) => {
+  //     const selectedCountry = event.target.value;
+  //     setUniversity({ ...university, country: selectedCountry });
 
-//     getUniversitiesByCountry(selectedCountry)
-//         .then((res) => {
-//             setState(res?.data?.result || []);
-//         })
-//         .catch((err) => {
-//             console.error(`Error fetching universities for ${selectedstate}:`, err);
-//             setState([]);
-//         });
+  //     getUniversitiesByCountry(selectedCountry)
+  //         .then((res) => {
+  //             setState(res?.data?.result || []);
+  //         })
+  //         .catch((err) => {
+  //             console.error(`Error fetching universities for ${selectedstate}:`, err);
+  //             setState([]);
+  //         });
 
-//     fetchCountryDetails(selectedCountry);
-// };
+  //     fetchCountryDetails(selectedCountry);
+  // };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -278,7 +278,7 @@ function Profile() {
         return updatedUniversity;
       });
     }
-   
+
     if (submitted) {
       const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);

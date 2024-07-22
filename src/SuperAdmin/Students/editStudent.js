@@ -307,7 +307,7 @@ const getStudentDetails = () => {
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                          Add Student Details
+                          Edit Student Details
                         </h5>
                       </div>
                       <form onSubmit={handleSubmit}>
