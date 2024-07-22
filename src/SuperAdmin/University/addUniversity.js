@@ -466,6 +466,7 @@ function Profile() {
                               }}
                               className="form-select rounded-1 form-select-lg  "
                               name="businessName"
+                              placeholder="Select Cilent"
                             >
                               <option value={""} disabled hidden>
                                 Select Client
