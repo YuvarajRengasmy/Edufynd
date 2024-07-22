@@ -1,194 +1,124 @@
 import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidName,
-  isValidPhone,
-  isValidWebsite,
-  isValidYear,
-  isValidPinCode,
-} from "../../Utils/Validation";
-import { getallCountry } from "../../api/globalsettings";
-import { getallClient } from "../../api/client";
+import { getallCountryList, getStatesByCountry, getCitiesByState } from "../../api/country"; // Adjust the imports as necessary
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
 import { saveUniversity } from "../../api/university";
-import { getallCategories } from "../../api/universityModule/categories";
-import { getallOfferTatModule } from "../../api/universityModule/offerTat";
-import { getallInstitutionModule } from "../../api/universityModule/institutation";
-import { getallModule } from "../../api/allmodule";
-import { getallIntake } from "../../api/intake";
-import Sidebar from "../../compoents/sidebar";
+import { useNavigate, Link } from "react-router-dom";
 import Select from "react-select";
-import CountryRegion from "countryregionjs";
+import Sidebar from "../../compoents/sidebar";
 
 function Profile() {
   const initialState = {
-    banner: "",
-    businessName: "",
-    universityLogo: "",
-    universityName: "",
-    about: "",
-    founded: "",
-    courseType: "",
     country: "",
-    campus: [{ country: "", state: "", lga: "" }],
+    state: "",
+   
   };
 
   const initialStateErrors = {
-    businessName: { required: false },
-    universityLogo: { required: false },
-    banner: { required: false },
-    inTake: { required: false },
-    universityName: { required: false },
-    email: { required: false, valid: false },
     country: { required: false },
-    website: { required: false },
-    courseType: { required: false },
     state: { required: false },
-    lga: { required: false },
+   
   };
 
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const [client, setClient] = useState([]);
-  const [categorie, setCategories] = useState([]);
-  const [offerTAT, setOfferTat] = useState([]);
-  const [institutation, setInstitution] = useState([]);
-  const [type, setType] = useState([]);
-  const [inTake, setInTake] = useState([]);
   const [countries, setCountries] = useState([]);
+  const [countryStateCity, setCountryStateCity] = useState([{ country: "", state: "" }]);
   const [states, setStates] = useState([]);
-  const [lgas, setLGAs] = useState([]);
-  const navigate = useNavigate();
-  const countryRegion = new CountryRegion();
+  const [cities, setCities] = useState([]); // To store cities per state
 
-  const handleValidation = (data) => {
-    let error = { ...initialStateErrors };
-    // Validation logic here...
-    return error;
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
-    
-    fetchCountries();
+    getAllCountryDetails();
   }, []);
 
-  useEffect(() => {
-    if (university.campus.length > 0) {
-      updateStatesAndLgasForCampuses();
-    }
-  }, [university.campus]);
-
-  const fetchCountries = async () => {
-    try {
-      const countries = await countryRegion.getCountries();
-      setCountries(
-        countries.map((country) => ({
-          value: country.id,
-          label: country.name,
-        }))
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updateStatesAndLgasForCampuses = async () => {
-    const updatedCampuses = await Promise.all(
-      university.campus.map(async (campus) => {
-        let statesList = [];
-        let lgasList = [];
-        if (campus.country) {
-          statesList = await countryRegion.getStates(campus.country);
-          statesList = statesList.map((state) => ({
-            value: state.id,
-            label: state.name,
-          }));
-
-          if (campus.state) {
-            lgasList = await countryRegion.getLGAs(campus.country, campus.state);
-            lgasList = lgasList.map((lga) => ({
-              value: lga.id,
-              label: lga.name,
-            }));
-          }
-        }
-        return { ...campus, states: statesList, lgas: lgasList };
+  const getAllCountryDetails = () => {
+    getallCountryList()
+      .then((res) => {
+        setCountries(res?.data?.result || []);
       })
-    );
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campus: updatedCampuses,
-    }));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const handleCountryChange = (index, selectedOption) => {
-    const newCampuses = [...university.campus];
-    newCampuses[index].country = selectedOption.value;
-    newCampuses[index].state = "";
-    newCampuses[index].lga = "";
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campus: newCampuses,
-    }));
+  const handleCountryChange = (selectedOption, index) => {
+    const updatedCountryStateCity = [...countryStateCity];
+    updatedCountryStateCity[index].country = selectedOption.value;
+    updatedCountryStateCity[index].state = ""; // Reset state
+    updatedCountryStateCity[index].city = ""; // Reset city
+    setCountryStateCity(updatedCountryStateCity);
+
+    // Fetch states for the selected country
+    getStatesByCountry(selectedOption.value)
+      .then((res) => {
+        setStates(res?.data?.result || []); // Ensure states is set to an array
+      })
+      .catch((err) => {
+        console.log(err);
+        setStates([]); // Clear states if there's an error
+      });
   };
 
-  const handleStateChange = (index, selectedOption) => {
-    const newCampuses = [...university.campus];
-    newCampuses[index].state = selectedOption.value;
-    newCampuses[index].lga = "";
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campus: newCampuses,
-    }));
+  const handleStateChange = (selectedOption, index) => {
+    const updatedCountryStateCity = [...countryStateCity];
+    updatedCountryStateCity[index].state = selectedOption.value;
+    updatedCountryStateCity[index].city = ""; // Reset city
+    setCountryStateCity(updatedCountryStateCity);
+
+    // Fetch cities for the selected state
+    getCitiesByState(selectedOption.value)
+      .then((res) => {
+        setCities(res?.data?.result || []); // Ensure states is set to an array
+      })
+      .catch((err) => {
+        console.log(err);
+        setCities([]); // Clear states if there's an error
+      });
   };
 
-  const handleLGAChange = (index, selectedOption) => {
-    const newCampuses = [...university.campus];
-    newCampuses[index].lga = selectedOption.value;
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campus: newCampuses,
-    }));
+  const handleCityChange = (selectedOption, index) => {
+    const updatedCountryStateCity = [...countryStateCity];
+    updatedCountryStateCity[index].city = selectedOption.value;
+    setCountryStateCity(updatedCountryStateCity);
   };
 
-  const addCampus = () => {
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campus: [
-        ...prevUniversity.campus,
-        { country: "", state: "", lga: "" },
-      ],
-    }));
+  const addCountryStateCityFields = () => {
+    setCountryStateCity([...countryStateCity, { country: "", state: "", city: "" }]);
   };
 
-  const handleErrors = (obj) => {
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        const prop = obj[key];
-        if (prop.required === true || prop.valid === true) {
-          return false;
-        }
-      }
+  const handleValidation = (values) => {
+    const errors = {
+      country: { required: false },
+      state: { required: false }
+      
     }
-    return true;
+
+    values.forEach((value, index) => {
+      if (!value.country) {
+        errors.country.required = true;
+      }
+      if (!value.state) {
+        errors.state.required = true;
+      }
+     
+    });
+
+    return errors;
   };
+
+  const handleErrors = (errors) => {
+    return !Object.values(errors).some((field) => field.required);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newError = handleValidation(university);
+    const newError = handleValidation(countryStateCity);
     setErrors(newError);
     setSubmitted(true);
-
-    const updatedUniversity = {
-      ...university,
-      country: countries.find((option) => option.value === university.country)?.label,
-      state: states.find((option) => option.value === university.state)?.label,
-      lga: lgas.find((option) => option.value === university.lga)?.label,
-    };
-
     if (handleErrors(newError)) {
-      saveUniversity(updatedUniversity)
+      saveUniversity(countryStateCity)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListUniversity");
@@ -198,19 +128,6 @@ function Profile() {
         });
     }
   };
-
-  const popularCategoriesOptions = categorie.map((data) => ({
-    value: data.popularCategories,
-    label: data.popularCategories,
-  }));
-  const courseTypeOptions = type.map((data) => ({
-    value: data.courseType,
-    label: data.courseType,
-  }));
-  const intakeOptions = inTake.map((data) => ({
-    value: data.intakeName,
-    label: data.intakeName,
-  }));
 
   const customStyles = {
     control: (provided) => ({
@@ -228,146 +145,143 @@ function Profile() {
     }),
   };
 
+  const countryOptions = countries.map((country) => ({
+    value: country.name,
+    label: country.name,
+  }));
+
+  const stateOptions = (index) => {
+    return states.state && states.state.map((state) => ({
+      value: state.name,
+      label: state.name,
+    }));
+  };
+
+//   const cityOptions = (index) => {
+//     return cities.state && cities.state.map((city) => ({
+//       value: city.cities,
+//       label: city.cities,
+//     }));
+//   };
+
   return (
-    <>
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
-            <Sidebar />
-          </nav>
-        </div>
-        <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}>
-          <div className="content-header">
-            <div className="container-fluid">
-              <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-xl-12">
-                    <div className="card rounded-0 shadow-sm border-0">
-                      <div className="position-relative">
-                        <label
-                          htmlFor="banner"
-                          className="file-upload"
-                          style={{ color: "#231F20" }}
-                        >
-                          <img
-                            className="card-img-top rounded-0"
-                            src={
-                              university?.banner
-                                ? university?.banner
-                                : "https://wallpapercave.com/wp/wp6837474.jpg"
-                            }
-                            alt="image"
-                            style={{
-                              width: "60.9rem",
-                              height: "12rem",
-                              objectFit: "fill",
-                            }}
-                          />
-                        </label>
-                        <input
-                          name="banner"
-                          id="banner"
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) =>
-                            setUniversity({ ...university, banner: URL.createObjectURL(e.target.files[0]) })
-                          }
-                          style={{ display: "none" }}
-                        />
-                      </div>
-                      <div className="card-body py-5">
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="mb-3">
-                              <label
-                                htmlFor="universityLogo"
-                                className="form-label"
-                              >
-                                University Logo
+    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+      <div className="container-fluid">
+        <nav className="navbar navbar-vertical navbar-expand-lg">
+          <Sidebar />
+        </nav>
+      </div>
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}>
+        <div className="content-header">
+          <div className="container-fluid">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card rounded-0 shadow-sm border-0">
+                    <div className="card-header rounded-0 bg-white">
+                      <h5 style={{ fontVariant: "all-small-caps", fontWeight: "bold" }}>
+                        Add University Details
+                      </h5>
+                    </div>
+                    <div className="card-body p-4">
+                      <div className="row g-3">
+                        {countryStateCity.map((item, index) => (
+                          <React.Fragment key={index}>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Country<span className="text-danger">*</span>
                               </label>
-                              <input
-                                name="universityLogo"
-                                id="universityLogo"
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) =>
-                                  setUniversity({
-                                    ...university,
-                                    universityLogo: URL.createObjectURL(e.target.files[0]),
-                                  })
+                              <Select
+                                placeholder="Select Country"
+                                name="country"
+                                styles={customStyles}
+                                options={countryOptions}
+                                onChange={(selectedOption) =>
+                                  handleCountryChange(selectedOption, index)
                                 }
-                                className="form-control"
+                                className="submain-one-form-body-subsection-select"
                               />
+                              {errors.country.required && submitted && <span className="text-danger">Country is required</span>}
                             </div>
-                          </div>
-                        </div>
-                        {/* Render input fields here */}
-                        <div className="mb-3">
-                          <label className="form-label">Country</label>
-                          {university.campus.map((campus, index) => (
-                            <Select
-                              key={index}
-                              value={countries.find((c) => c.value === campus.country)}
-                              onChange={(selectedOption) => handleCountryChange(index, selectedOption)}
-                              options={countries}
-                              placeholder="Select Country"
-                              styles={customStyles}
-                            />
-                          ))}
-                        </div>
-                        <div className="mb-3">
-                          <label className="form-label">State</label>
-                          {university.campus.map((campus, index) => (
-                            <Select
-                              key={index}
-                              value={campus.state ? states.find((s) => s.value === campus.state) : null}
-                              onChange={(selectedOption) => handleStateChange(index, selectedOption)}
-                              options={campus.states}
-                              placeholder="Select State"
-                              styles={customStyles}
-                            />
-                          ))}
-                        </div>
-                        <div className="mb-3">
-                          <label className="form-label">LGA</label>
-                          {university.campus.map((campus, index) => (
-                            <Select
-                              key={index}
-                              value={campus.lga ? lgas.find((l) => l.value === campus.lga) : null}
-                              onChange={(selectedOption) => handleLGAChange(index, selectedOption)}
-                              options={campus.lgas}
-                              placeholder="Select LGA"
-                              styles={customStyles}
-                            />
-                          ))}
-                        </div>
-                        <div className="mb-3">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                State<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                placeholder="Select State"
+                                name="state"
+                                styles={customStyles}
+                                options={stateOptions(index)}
+                                onChange={(selectedOption) =>
+                                  handleStateChange(selectedOption, index)
+                                }
+                                className="submain-one-form-body-subsection-select"
+                                isDisabled={!item.country}
+                              />
+                              {errors.state.required && submitted && <span className="text-danger">State is required</span>}
+                            </div>
+                            {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                City<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                placeholder="Select City"
+                                name="city"
+                                styles={customStyles}
+                                options={cityOptions(index)}
+                                onChange={(selectedOption) =>
+                                  handleCityChange(selectedOption, index)
+                                }
+                                className="submain-one-form-body-subsection-select"
+                                isDisabled={!item.state}
+                              />
+                              {errors.city.required && submitted && <span className="text-danger">City is required</span>}
+                            </div> */}
+                          </React.Fragment>
+                        ))}
+                        <div className="col-xl-12">
                           <button
                             type="button"
-                            onClick={addCampus}
                             className="btn btn-primary"
+                            onClick={addCountryStateCityFields}
                           >
-                            Add Campus
+                            Add Country
                           </button>
                         </div>
-                        <div className="text-end">
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
+                        <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                          <Link
+                            style={{
+                              backgroundColor: "#231F20",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            to="/ListUniversity"
+                            className="btn btn-cancel border-0 px-4 py-2 fw-semibold text-uppercase text-white m-1"
                           >
-                            Save
+                            Cancel
+                          </Link>
+                          <button
+                            style={{
+                              backgroundColor: "#FE5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            type="submit"
+                            className="btn btn-save border-0 px-4 py-2 fw-semibold text-uppercase text-white m-1"
+                          >
+                            Submit
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
