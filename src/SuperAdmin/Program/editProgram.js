@@ -294,7 +294,12 @@ const handleInputs = (event, ) => {
   const optionsToRender = lgaOptions.length > 0 ? lgaOptions : campusOptions;
   // const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
   const inTakeOptions = program?.inTake?program.inTake.map(inTake => ({ value: inTake, label: inTake })) : [];
-
+  const CategoriesOptions = program?.popularCategories
+  ? program.popularCategories.map((popularCategories) => ({
+      value: popularCategories,
+      label: popularCategories,
+    }))
+  : [];
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -528,6 +533,25 @@ const handleInputs = (event, ) => {
                                 This field is required.
                               </div>
                             ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Popular Categories
+                            </label>
+                            <Select
+                              isMulti
+                              options={CategoriesOptions}
+                              placeholder="Select courseType"
+                              name="courseType"
+                             
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }),
+                              }}
+                            />
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
