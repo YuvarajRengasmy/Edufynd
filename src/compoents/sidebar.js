@@ -217,10 +217,7 @@ const Sidebar = () => {
                         : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-user"
-                      style={{ fontSize: "12px" }}
-                    />
+                   <i class="fa fa-user nav-icon"></i>
                     Client
                   </a>
                 </li>
@@ -239,10 +236,7 @@ const Sidebar = () => {
                         : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-university"
-                      style={{ fontSize: "12px" }}
-                    />
+                   <i class="fa fa-graduation-cap nav-icon"></i>
                     University
                   </a>
                 </li>
@@ -261,10 +255,7 @@ const Sidebar = () => {
                         : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-credit-card"
-                      style={{ fontSize: "12px" }}
-                    />
+                   <i class="fa fa-dollar-sign nav-icon"></i>
                     Commission
                   </a>
                 </li>
@@ -283,10 +274,7 @@ const Sidebar = () => {
                         : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fa fa-graduation-cap"
-                      style={{ fontSize: "12px" }}
-                    />
+                  <i class="fa fa-cogs nav-icon"></i>
                     Program
                   </a>
                 </li>
@@ -307,10 +295,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("users")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-users"
-                        style={{ fontSize: "12px" }}
-                      />
+                    <i class="fa fa-users nav-icon"></i>
                       Users
                     </div>
                     <i
@@ -338,7 +323,7 @@ const Sidebar = () => {
                               : ""
                             }`}
                         >
-                          Students
+                         <i class="fa fa-user-graduate nav-icon"></i>  Students
                         </a>
                       </li>
                       <li className="nav-item">
@@ -355,7 +340,7 @@ const Sidebar = () => {
                               : ""
                             }`}
                         >
-                          Staffs
+                          <i class="fa fa-user-tie nav-icon"></i>  Staffs
                         </a>
                       </li>
                       <li className="nav-item">
@@ -372,7 +357,7 @@ const Sidebar = () => {
                               : ""
                             }`}
                         >
-                          Agents
+                       <i class="fa fa-user-secret nav-icon"></i>  Agents
                         </a>
                       </li>
                     </ul>
@@ -393,10 +378,7 @@ const Sidebar = () => {
                         : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-book"
-                      style={{ fontSize: "12px" }}
-                    />
+                    <i class="fa fa-archive nav-icon"></i>
                     Application
                   </a>
                 </li>
@@ -416,10 +398,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("enquiry")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
+                    <i class="fa fa-question-circle nav-icon"></i>
                       Enquiry
                     </div>
                     <i
@@ -447,7 +426,7 @@ const Sidebar = () => {
                               : ""
                             }`}
                         >
-                          Student
+                          <i class="fa fa-user-graduate nav-icon"></i>Student
                         </a>
                       </li>
                       <li className="nav-item">
@@ -464,7 +443,7 @@ const Sidebar = () => {
                               : ""
                             }`}
                         >
-                          FOREX
+                        <i class="fa fa-money-bill-wave nav-icon"></i>  FOREX
                         </a>
                       </li>
                       <li className="nav-item">
@@ -481,7 +460,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Accommodation
+                           <i class="fa fa-bed nav-icon"></i> Accommodation
                         </a>
                       </li>
                       <li className="nav-item">
@@ -498,7 +477,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Flight
+                         <i class="fa fa-plane nav-icon"></i>  Flight
                         </a>
                       </li>
                       <li className="nav-item">
@@ -515,7 +494,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Loan
+                         <i class="fa fa-credit-card nav-icon"></i>   Loan
                         </a>
                       </li>
                       <li className="nav-item">
@@ -532,7 +511,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Business Enquiry
+                         <i class="fa fa-briefcase nav-icon"></i>  Business Enquiry
                         </a>
                       </li>
                       <li className="nav-item">
@@ -549,7 +528,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          General Enquiry
+                         <i class="fa fa-info-circle nav-icon"></i>  General Enquiry
                         </a>
                       </li>
                     </ul>
@@ -571,10 +550,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("finance")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fa fa-flag"
-                        style={{ fontSize: "12px" }}
-                      />
+                    <i class="fa fa-wallet nav-icon"></i>
                       Finance
                     </div>
                     <i
@@ -602,7 +578,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Income
+                         <i class="fa fa-arrow-up nav-icon"></i>  Income
                         </a>
                       </li>
                       <li className="nav-item">
@@ -619,7 +595,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Expense
+                          <i class="fa fa-arrow-down nav-icon"></i> Expense
                         </a>
                       </li>
                       <li className="nav-item">
@@ -636,7 +612,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Raise Quotations
+                         <i class="fa fa-file-invoice nav-icon"></i> Raise Quotations
                         </a>
                       </li>
                       <li className="nav-item">
@@ -654,7 +630,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Raise Invoice
+                          <i class="fa fa-file-invoice-dollar nav-icon"></i>  Raise Invoice
                         </a>
                       </li>
                       <li className="nav-item">
@@ -671,7 +647,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Income Report
+                         <i class="fa fa-chart-line nav-icon"></i>  Income Report
                         </a>
                       </li>
                     </ul>
@@ -693,10 +669,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("hrms")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
+                    <i class="fa fa-people-carry nav-icon"></i>
                       HRMS
                     </div>
                     <i
@@ -724,7 +697,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Staffs
+                          <i class="fa fa-user-tie nav-icon"></i> Staffs
                         </a>
                       </li>
                       <li className="nav-item">
@@ -741,7 +714,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Attendance
+                           <i class="fa fa-calendar-check nav-icon"></i> Attendance
                         </a>
                       </li>
                       <li className="nav-item">
@@ -758,7 +731,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Payroll
+                          <i class="fa fa-dollar-sign nav-icon"></i> Payroll
                         </a>
                       </li>
                       <li className="nav-item">
@@ -775,7 +748,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Leave
+                         <i class="fa fa-calendar-times nav-icon"></i> Leave
                         </a>
                       </li>
                       <li className="nav-item">
@@ -792,7 +765,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                           KPI
+                          <i class="fa fa-chart-bar nav-icon"></i>  KPI
                         </a>
                       </li>
                     
@@ -810,7 +783,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Policies
+                         <i class="fa fa-file-alt nav-icon"></i> Policies
                         </a>
                       </li>
                       <li className="nav-item">
@@ -827,7 +800,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Performance Report
+                          <i class="fa fa-chart-line nav-icon"></i> Performance Report
                         </a>
                       </li>
                     </ul>
@@ -849,10 +822,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Projects")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-id-card"
-                        style={{ fontSize: "12px" }}
-                      />
+                    <i class="fa fa-project-diagram nav-icon"></i>
                       Project & Task
                     </div>
                     <i
@@ -880,7 +850,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Project
+                        <i class="fa fa-briefcase nav-icon"></i>  Project
                         </a>
                       </li>
                       <li className="nav-item">
@@ -897,7 +867,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Task
+                         <i class="fa fa-tasks nav-icon"></i>  Task
                         </a>
                       </li>
                     </ul>
@@ -919,11 +889,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Marketing")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-id-card"
-                        style={{ fontSize: "12px" }}
-                      />
-                      Marketing
+                     
+                    <i class="fa fa-bullhorn nav-icon"></i>  Marketing
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.Marketing ? "rotate-icon" : ""
@@ -950,7 +917,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Social Media
+                         <i class="fa fa-share-alt nav-icon"></i> Social Media
                         </a>
                       </li>
                       <li className="nav-item">
@@ -967,7 +934,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Campaigns
+                        <i class="fa fa-bullhorn nav-icon"></i> Campaigns
                         </a>
                       </li>
                       <li className="nav-item">
@@ -984,7 +951,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Daily Task
+                        <i class="fa fa-tasks nav-icon"></i> Daily Task
                         </a>
                       </li>
                     </ul>
@@ -1005,10 +972,7 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fas fa-bell"
-                      style={{ fontSize: "12px" }}
-                    />
+                    <i class="fa fa-bell nav-icon"></i>
                     Notifications
                   </a>
                 </li>
@@ -1027,11 +991,8 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fa fa-flag"
-                      style={{ fontSize: "12px" }}
-                    />
-                    Meetings
+                   
+                  <i class="fa fa-video nav-icon"></i>  Meetings
                   </a>
                 </li>
 
@@ -1049,11 +1010,8 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fas fa-flag"
-                      style={{ fontSize: "12px" }}
-                    />
-                    Training Material
+                    
+                  <i class="fa fa-book nav-icon"></i> Training Material
                   </a>
                 </li>
 
@@ -1071,11 +1029,8 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fas fa-comment"
-                      style={{ fontSize: "12px" }}
-                    />
-                    Chat
+                    
+                    <i class="fa fa-comments nav-icon"></i> Chat
                   </a>
                 </li>
 
@@ -1093,10 +1048,7 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fa fa-envelope"
-                      style={{ fontSize: "12px" }}
-                    />
+                   <i class="fa fa-envelope nav-icon"></i>
                     Email
                   </a>
                 </li>
@@ -1115,10 +1067,7 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fas fa-certificate"
-                      style={{ fontSize: "12px" }}
-                    />
+                    <i class="fa fa-bullhorn nav-icon"></i>
                     Promotions
                   </a>
                 </li>
@@ -1137,10 +1086,7 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fas fa-calendar"
-                      style={{ fontSize: "12px" }}
-                    />
+                    <i class="fa fa-calendar nav-icon"></i>
                     Events
                   </a>
                 </li>
@@ -1159,11 +1105,8 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fa fa-rss"
-                      style={{ fontSize: "12px" }}
-                    />
-                    Blogs
+                   
+                   <i class="fa fa-blog nav-icon"></i> Blogs
                   </a>
                 </li>
 
@@ -1181,11 +1124,8 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fas fa-cogs"
-                      style={{ fontSize: "12px" }}
-                    />
-                    Testimonials
+                  
+                  <i class="fa fa-quote-right nav-icon"></i>  Testimonials
                   </a>
                 </li>
 
@@ -1203,10 +1143,7 @@ const Sidebar = () => {
                       : ""
                     }`}
                   >
-                    <i
-                      className="nav-icon fas fa-user"
-                      style={{ fontSize: "12px" }}
-                    />
+                    <i class="fa fa-user-shield nav-icon"></i>
                     Admin
                   </a>
                 </li>
@@ -1219,18 +1156,15 @@ const Sidebar = () => {
                     aria-expanded={isOpen.elt}
                     aria-controls="collapse4"
                     style={{
-                      fontSize: "12px",
+                      
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
                     }}
                     onClick={() => toggleDropdown("elt")}
                   >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
+                    <div >
+                    <i class="fa fa-book nav-icon"></i>
                       ELT
                     </div>
                     <i
@@ -1259,7 +1193,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Booking
+                        <i class="fa fa-calendar-check nav-icon"></i>  Booking
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1276,7 +1210,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Class Schedule
+                         <i class="fa fa-calendar nav-icon"></i> Class Schedule
                         </a>
                       </li>
                     </ul>
@@ -1298,10 +1232,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("settings")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fa fa-cog fa-spin"
-                        style={{ fontSize: "12px" }}
-                      />
+                     <i class="fa fa-cog fa-spin nav-icon"></i>
                       Settings
                     </div>
                     <i
@@ -1331,7 +1262,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("globalSettings")}
                         >
                           <div>
-                            Global Settings
+                          <i class="fa fa-globe nav-icon"></i>   Global Settings
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.globalSettings ? "rotate-icon" : ""
@@ -1494,7 +1425,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("modules")}
                         >
                           <div>
-                            Module
+                          <i class="fa fa-cogs nav-icon"></i> Module
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.modules ? "rotate-icon" : ""
@@ -1624,7 +1555,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("privileges")}
                         >
                           <div>
-                            Privileges
+                          <i class="fa fa-lock nav-icon"></i> Privileges
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.privileges ? "rotate-icon" : ""
@@ -1656,7 +1587,7 @@ const Sidebar = () => {
                                   : ""
                                 }`}
                               >
-                                Program
+                              <i class="fa fa-cogs nav-icon"></i> Program
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1673,7 +1604,7 @@ const Sidebar = () => {
                                   : ""
                                 }`}
                               >
-                                HRM
+                              <i class="fa fa-people-carry nav-icon"></i>  HRM
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1690,7 +1621,7 @@ const Sidebar = () => {
                                   : ""
                                 }`}
                               >
-                                Attendance
+                               <i class="fa fa-calendar-check nav-icon"></i>  Attendance
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1707,7 +1638,7 @@ const Sidebar = () => {
                                   : ""
                                 }`}
                               >
-                                Payroll
+                                 <i class="fa fa-dollar-sign nav-icon"></i> Payroll
                               </a>
                             </li>
                           </ul>
@@ -1732,10 +1663,7 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Reports")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
+                    <i class="fa fa-file-alt nav-icon"></i>
                       Reports
                     </div>
                     <i
@@ -1763,7 +1691,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Employee
+                         <i class="fa fa-user-tie nav-icon"></i>  Employee
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1780,7 +1708,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Agent
+                           <i class="fa fa-user-secret nav-icon"></i> Agent
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1797,7 +1725,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Students
+                          <i class="fa fa-user-graduate nav-icon"></i> Students
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1814,7 +1742,9 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Branch
+                          
+<i class="fa fa-sitemap nav-icon"></i>
+ Branch
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1831,7 +1761,7 @@ const Sidebar = () => {
                             : ""
                           }`}
                         >
-                          Admin
+                          <i class="fa fa-user-shield nav-icon"></i>  Admin
                         </a>
                       </li>
                     </ul>
