@@ -571,7 +571,7 @@ const getStudentDetails = () => {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 value={student?.primaryNumber}
                                 className="form-control "
                                 style={{
@@ -598,7 +598,7 @@ const getStudentDetails = () => {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 value={student?.whatsAppNumber}
                                 className="form-control "
                                 style={{
@@ -678,7 +678,7 @@ const getStudentDetails = () => {
                                 Percentage<span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 value={student?.percentage}
                                 className="form-control "
                                 style={{
@@ -940,7 +940,7 @@ const getStudentDetails = () => {
                             <div className="row g-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
-                                  Do Tou Have Travel History
+                                  Do You Have Travel History
                                   <span className="text-danger">*</span>
                                 </label>
                                 <select
@@ -956,7 +956,7 @@ const getStudentDetails = () => {
                                   onChange={handleInputs}
                                 >
                                   <option value="">
-                                    Do You Have Trave lHistory
+                                    Do You Have Travel History
                                   </option>
                                   <option value="doYouHaveTravelHistory">
                                     Yes
@@ -979,7 +979,7 @@ const getStudentDetails = () => {
                               <div className="row g-3">
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
-                                    TravelDate
+                                    Travel Date
                                   </label>
                                   <input
                                     type="date"
@@ -1051,7 +1051,7 @@ const getStudentDetails = () => {
                                   name="anyVisaRejections"
                                   onChange={handleInputs}
                                 >
-                                  <option value="">AnyVisaRejections</option>
+                                  <option value="">Any Visa Rejections</option>
                                   <option value="anyVisaRejections">Yes</option>
                                   <option value="No">No</option>
                                 </select>
@@ -1084,7 +1084,7 @@ const getStudentDetails = () => {
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
-                                    TravelDate
+                                    Travel Date
                                   </label>
                                   <input
                                     type="date"
@@ -1198,7 +1198,7 @@ const getStudentDetails = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example Game Devlopment "
+                                placeholder="Example Game Development "
                                 name="desiredCourse"
                                 onChange={handleInputs}
                               />
@@ -1281,7 +1281,7 @@ const getStudentDetails = () => {
                                   type="submit"
                                   className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                                 >
-                                  Submit
+                                 Update
                                 </button>
                               </div>
                             </div>
