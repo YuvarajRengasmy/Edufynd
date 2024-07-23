@@ -147,22 +147,23 @@ const Sidebar = () => {
   return (
     <div
       style={{
-        fontSize: "12px",
+        fontSize: "14px",
         fontWeight: "bold",
         fontFamily: "Plus Jakarta Sans",
+        fontVariant:"all-small-caps"
       }}
     >
       <aside
         className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
         style={{
           position: "fixed",
-          width: "230px",
+          width: "240px",
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
         }}
       >
-        <div className="  shadow-lg   ">
+        <div className="  shadow-none   ">
           <div className="sidebar">
             <div className="user-panel mt-2  d-flex">
               <div className="info  mt-1">
@@ -199,7 +200,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-tachometer-alt"
                       style={{ fontSize: "12px" }}
                     />
-                    <p className="nav-text">Dashboard</p>
+                    Dashboard
                   </a>
                 </li>
                 <li className="nav-item">
@@ -220,7 +221,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-user"
                       style={{ fontSize: "12px" }}
                     />
-                    <p className="nav-text">Client</p>
+                    Client
                   </a>
                 </li>
 
@@ -242,7 +243,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-university"
                       style={{ fontSize: "12px" }}
                     />
-                    <p className="nav-text">University</p>
+                    University
                   </a>
                 </li>
 
@@ -264,7 +265,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-credit-card"
                       style={{ fontSize: "12px" }}
                     />
-                    <p className="nav-text">Commission</p>
+                    Commission
                   </a>
                 </li>
 
@@ -286,7 +287,7 @@ const Sidebar = () => {
                       className="nav-icon fa fa-graduation-cap"
                       style={{ fontSize: "12px" }}
                     />
-                    <p className="nav-text">Program</p>
+                    Program
                   </a>
                 </li>
 
@@ -310,7 +311,7 @@ const Sidebar = () => {
                         className="nav-icon fas fa-users"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>Users</p>
+                      Users
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.users ? "rotate-icon" : ""
@@ -396,7 +397,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-book"
                       style={{ fontSize: "12px" }}
                     />
-                    <p className="nav-text">Application</p>
+                    Application
                   </a>
                 </li>
 
@@ -419,7 +420,7 @@ const Sidebar = () => {
                         className="nav-icon fas fa-envelope"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>Enquiry</p>
+                      Enquiry
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.enquiry ? "rotate-icon" : ""
@@ -574,7 +575,7 @@ const Sidebar = () => {
                         className="nav-icon fa fa-flag"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>Finance</p>
+                      Finance
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.finance ? "rotate-icon" : ""
@@ -696,7 +697,7 @@ const Sidebar = () => {
                         className="nav-icon fas fa-envelope"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>HRMS</p>
+                      HRMS
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.hrms ? "rotate-icon" : ""
@@ -852,7 +853,7 @@ const Sidebar = () => {
                         className="nav-icon fas fa-id-card"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>Project & Task</p>
+                      Project & Task
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.Projects ? "rotate-icon" : ""
@@ -922,7 +923,7 @@ const Sidebar = () => {
                         className="nav-icon fas fa-id-card"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>Marketing</p>
+                      Marketing
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.Marketing ? "rotate-icon" : ""
@@ -1008,7 +1009,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-bell"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Notifications</p>
+                    Notifications
                   </a>
                 </li>
 
@@ -1030,7 +1031,7 @@ const Sidebar = () => {
                       className="nav-icon fa fa-flag"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Meetings</p>
+                    Meetings
                   </a>
                 </li>
 
@@ -1052,7 +1053,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-flag"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Training Material</p>
+                    Training Material
                   </a>
                 </li>
 
@@ -1074,7 +1075,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-comment"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Chat</p>
+                    Chat
                   </a>
                 </li>
 
@@ -1096,7 +1097,7 @@ const Sidebar = () => {
                       className="nav-icon fa fa-envelope"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Email</p>
+                    Email
                   </a>
                 </li>
 
@@ -1118,7 +1119,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-certificate"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Promotions</p>
+                    Promotions
                   </a>
                 </li>
 
@@ -1140,7 +1141,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-calendar"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Events</p>
+                    Events
                   </a>
                 </li>
 
@@ -1162,7 +1163,7 @@ const Sidebar = () => {
                       className="nav-icon fa fa-rss"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Blogs</p>
+                    Blogs
                   </a>
                 </li>
 
@@ -1184,7 +1185,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-cogs"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Testimonials</p>
+                    Testimonials
                   </a>
                 </li>
 
@@ -1206,7 +1207,7 @@ const Sidebar = () => {
                       className="nav-icon fas fa-user"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Admin</p>
+                    Admin
                   </a>
                 </li>
 
@@ -1230,7 +1231,7 @@ const Sidebar = () => {
                         className="nav-icon fas fa-envelope"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>ELT</p>
+                      ELT
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.elt ? "rotate-icon" : ""
@@ -1301,7 +1302,7 @@ const Sidebar = () => {
                         className="nav-icon fa fa-cog fa-spin"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>Settings</p>
+                      Settings
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.settings ? "rotate-icon" : ""
@@ -1330,7 +1331,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("globalSettings")}
                         >
                           <div>
-                            <p>Global Settings</p>
+                            Global Settings
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.globalSettings ? "rotate-icon" : ""
@@ -1493,7 +1494,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("modules")}
                         >
                           <div>
-                            <p>Module</p>
+                            Module
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.modules ? "rotate-icon" : ""
@@ -1623,7 +1624,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("privileges")}
                         >
                           <div>
-                            <p>Privileges</p>
+                            Privileges
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.privileges ? "rotate-icon" : ""
@@ -1735,7 +1736,7 @@ const Sidebar = () => {
                         className="nav-icon fas fa-envelope"
                         style={{ fontSize: "12px" }}
                       />
-                      <p>Reports</p>
+                      Reports
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.Reports ? "rotate-icon" : ""
@@ -1848,7 +1849,7 @@ const Sidebar = () => {
                       aria-hidden="true"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Log Out</p>
+                    Log Out
                   </div>
                 </li>
               </ul>

@@ -1,51 +1,56 @@
-/* General Styles */
+/* Sidebar Background */
+.sidebar {
+  background: linear-gradient(135deg, #F4F4F4, #EAEAEA); /* Soft gradient background */
+  padding: 10px; /* Padding for a more spacious layout */
+}
+
+/* Sidebar Styles */
 .nav-link {
-  color: #231f20; /* Normal color */
+  color: #333333 !important; /* Default text color */
   text-decoration: none; /* Remove underline */
   display: flex; /* Align icon and text */
   align-items: center; /* Center items vertically */
-  padding: 8px 16px; /* Adjust padding as needed */
-  font-weight: bolder;
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+  border-radius: 4px; /* Rounded corners */
 }
 
-.nav-item .nav-link  {
-  font-weight: bolder;
+/* Default and active styles */
+.nav-item .nav-link {
   margin: 0; /* Remove default margin */
-  color: #231f20;
+  color: #333333 !important; /* Default text color */
 }
 
 /* Icon styles */
 .nav-icon {
-  margin-right: 5px; /* Space between icon and text */
-  color: #231f20; /* Default icon color */
+  margin-right: 8px; /* Space between icon and text */
+  color: #333333 !important; /* Default icon color */
 }
 
 /* Hover styles */
-.nav-item .nav-link:hover {
-  color: #fe5722; /* Hover text color */
-  background-color: rgba(255, 87, 34, 0.1); /* Light orange background on hover */
+.nav-link:hover {
+  color: #333333 !important; /* Hover text color */
+  background-color: #FFE5D9 !important; /* Pale peach background on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
 }
-.nav-link:hover .nav-icon {
-  color:rgb(13, 110, 253); /* Hover icon color */
-}
-
 
 /* Active styles */
-.nav-link.active .nav-item {
-  color: #ffffff; /* Active text color */
-  background-color: rgba(255, 87, 34, 0.1); /* Light orange background for active link */
+.nav-link.active {
+  color: #333333 !important; /* Active text color */
+  background-color: #FFDAC1 !important; /* Light coral background for active link */
+ 
 }
 
 .nav-link.active .nav-icon {
-  color: #ffffff; /* Active icon color */
+  color: #333333 !important; /* Active icon color */
 }
 
 /* Rotate icon for dropdown */
 .rotate-icon {
   transform: rotate(90deg);
   transition: transform 0.1s ease;
-  color: #231f20;
+  color: #333333 !important;
 }
 
 /* Submenu styles */
