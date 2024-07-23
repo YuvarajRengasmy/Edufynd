@@ -1,9 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
-import Sortable from 'sortablejs';
+import Sortable from "sortablejs";
 
-import { getallUniversity, deleteUniversity, saveUniversity, getFilterUniversity } from "../../api/university";
+import {
+  getallUniversity,
+  deleteUniversity,
+  saveUniversity,
+  getFilterUniversity,
+} from "../../api/university";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  backdropClasses,
+  radioClasses,
+} from "@mui/material";
 import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
@@ -11,14 +24,11 @@ import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import "./ListTable.css";
 import { FaFilter } from "react-icons/fa";
-import axios from 'axios';
+import axios from "axios";
 
-import * as XLSX from 'xlsx';
-
+import * as XLSX from "xlsx";
 
 export default function Masterproductlist() {
-
-
   const initialStateInputs = {
     universityName: "",
     state: "",
@@ -26,7 +36,6 @@ export default function Masterproductlist() {
     averageFees: "",
     country: "",
     popularCategories: "",
-
   };
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
@@ -41,7 +50,6 @@ export default function Masterproductlist() {
     from: 0,
     to: pageSize,
   });
-
 
   const [university, setUniversity] = useState();
 
@@ -151,17 +159,21 @@ export default function Masterproductlist() {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const response = await axios.post('https://api.edufynd.in/api/university/import', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('File uploaded successfully:', response.data);
+      const response = await axios.post(
+        "https://api.edufynd.in/api/university/import",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("File uploaded successfully:", response.data);
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
     }
   };
 
@@ -175,9 +187,11 @@ export default function Masterproductlist() {
   };
 
   const getDisplayText = (text, expanded) => {
-    if (!text) return ''; // Ensure text is defined
-    const words = text.split(' ');
-    return expanded ? text : words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
+    if (!text) return ""; // Ensure text is defined
+    const words = text.split(" ");
+    return expanded
+      ? text
+      : words.slice(0, 2).join(" ") + (words.length > 2 ? "..." : "");
   };
 
   const pdfDownload = (event) => {
@@ -223,7 +237,6 @@ export default function Masterproductlist() {
             margin: [20, 5],
             bold: true,
           },
-
         ]);
         result.forEach((element, index) => {
           tablebody.push([
@@ -241,7 +254,10 @@ export default function Masterproductlist() {
               margin: [5, 3],
             },
             {
-              text: element?.lga?.length > 0 ? element.lga.join(", ") : element?.state?.join(", ") ?? "-",
+              text:
+                element?.lga?.length > 0
+                  ? element.lga.join(", ")
+                  : element?.state?.join(", ") ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -259,7 +275,6 @@ export default function Masterproductlist() {
               alignment: "left",
               margin: [5, 3],
             },
-
           ]);
         });
         templatePdf("University List", tablebody, "landscape");
@@ -279,25 +294,16 @@ export default function Masterproductlist() {
         result?.forEach((res) => {
           list.push({
             universityName: res?.universityName ?? "-",
-            state: res?.lga?.length > 0 ? res.lga.join(", ") : res?.state?.join(", ") ?? "-",
+            state:
+              res?.lga?.length > 0
+                ? res.lga.join(", ")
+                : res?.state?.join(", ") ?? "-",
             averageFees: res?.averageFees ?? "-",
             country: res?.country ?? "-",
-
           });
         });
-        let header1 = [
-          "universityName",
-          "state",
-          "averageFees",
-          "country",
-
-        ];
-        let header2 = [
-          "University Name",
-          "Campus",
-          "Average Fees",
-          "Country",
-        ];
+        let header1 = ["universityName", "state", "averageFees", "country"];
+        let header2 = ["University Name", "Campus", "Average Fees", "Country"];
         ExportCsvService.downloadCsv(
           list,
           "universityList",
@@ -306,33 +312,32 @@ export default function Masterproductlist() {
           header1,
           header2
         );
-
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-   const tableRef = useRef(null);
+  const tableRef = useRef(null);
 
   useEffect(() => {
     const table = tableRef.current;
 
     // Apply SortableJS to the table headers
-    const sortable = new Sortable(table.querySelector('thead tr'), {
+    const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
       swapThreshold: 0.5,
-      handle: '.sortable-handle',
+      handle: ".sortable-handle",
       onEnd: (evt) => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
 
         // Move the columns in the tbody
-        table.querySelectorAll('tbody tr').forEach((row) => {
+        table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
           row.insertBefore(cells[oldIndex], cells[newIndex]);
         });
-      }
+      },
     });
 
     return () => {
@@ -340,29 +345,29 @@ export default function Masterproductlist() {
     };
   }, []);
 
-
-
+  // Function to handle the display of cities or state
 
   return (
-    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-
+    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
       <div class="container-fluid">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Mastersidebar />
         </nav>
 
-
-        <div className="content-wrapper  " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-
+        <div
+          className="content-wrapper  "
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+        >
           <div className="container">
-
             <div className="row">
-              <div className='col-xl-12'  >
+              <div className="col-xl-12">
                 <div className="content-header ">
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-
                     <li className="flex-grow-1">
-                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <div
+                        className="input-group"
+                        style={{ maxWidth: "600px" }}
+                      >
                         <input
                           type="search"
                           placeholder="Search"
@@ -374,7 +379,7 @@ export default function Masterproductlist() {
                             marginLeft: "0px",
                             fontSize: "12px", // Keep the font size if it's correct
                             height: "11px", // Set the height to 11px
-                            padding: "0px" // Adjust padding to fit the height
+                            padding: "0px", // Adjust padding to fit the height
                           }}
                         />
                         <span
@@ -385,34 +390,66 @@ export default function Masterproductlist() {
                             right: "10px",
                             top: "50%",
                             transform: "translateY(-50%)",
-                            cursor: "pointer"
+                            cursor: "pointer",
                           }}
                         >
-                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                          <i
+                            className="fas fa-search"
+                            style={{ color: "black" }}
+                          ></i>
                         </span>
                       </div>
                     </li>
                     <li class="m-1">
-
-
-                      <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                        <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                      <div
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "14px",
+                        }}
+                      >
+                        <button
+                          className="btn btn-primary"
+                          type="button"
+                          style={{ fontSize: "11px" }}
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="#offcanvasRight"
+                          aria-controls="offcanvasRight"
+                        >
+                          {" "}
+                          <FaFilter />
+                        </button>
+                        <div
+                          className="offcanvas offcanvas-end"
+                          tabIndex={-1}
+                          id="offcanvasRight"
+                          aria-labelledby="offcanvasRightLabel"
+                        >
                           <div className="offcanvas-header">
                             <h5 id="offcanvasRightLabel">Filter University</h5>
-                            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                            <button
+                              type="button"
+                              className="btn-close text-reset"
+                              data-bs-dismiss="offcanvas"
+                              aria-label="Close"
+                            />
                           </div>
                           <div className="offcanvas-body ">
                             <form>
                               <div className="from-group mb-3">
-                                <label className="form-label">University Name</label>
+                                <label className="form-label">
+                                  University Name
+                                </label>
                                 <br />
                                 <input
                                   type="text"
                                   className="form-control"
                                   name="universityName"
                                   onChange={handleInputs}
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   placeholder="Search...University Name"
                                 />
 
@@ -423,17 +460,27 @@ export default function Masterproductlist() {
                                   className="form-control"
                                   name="state"
                                   onChange={handleInputs}
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   placeholder="Search...Campus"
                                 />
-                                <label className="form-label">Average Fees</label>
+                                <label className="form-label">
+                                  Average Fees
+                                </label>
                                 <br />
                                 <input
                                   type="text"
                                   className="form-control"
                                   name="averageFees"
                                   onChange={handleInputs}
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   placeholder="Search...Average Fees"
                                 />
                                 <label className="form-label">Country</label>
@@ -443,27 +490,40 @@ export default function Masterproductlist() {
                                   className="form-control"
                                   name="country"
                                   onChange={handleInputs}
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   placeholder="Search...Country"
                                 />
 
-                                <label className="form-label">Popular Categories</label>
+                                <label className="form-label">
+                                  Popular Categories
+                                </label>
                                 <br />
                                 <input
                                   type="text"
                                   className="form-control"
                                   name="popularCategories"
                                   onChange={handleInputs}
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   placeholder="Search...Popular Categories"
                                 />
                               </div>
                               <div>
                                 <button
-
                                   data-bs-dismiss="offcanvas"
                                   className="btn btn-cancel border-0 text-white rounded-pill px-4 py-2 float-right fw-semibold bg text-uppercase"
-                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#0f2239",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                   onClick={resetFilter}
                                 >
                                   Reset
@@ -473,7 +533,11 @@ export default function Masterproductlist() {
                                   type="submit"
                                   onClick={filterUniversityList}
                                   className="btn btn-save border-0 text-white float-right rounded-pill px-4 py-2 fw-semibold text-uppercase mx-2"
-                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#fe5722",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                 >
                                   Apply
                                 </button>
@@ -482,12 +546,16 @@ export default function Masterproductlist() {
                           </div>
                         </div>
                       </div>
-
-
                     </li>
                     <li class="m-2">
                       <Link onClick={pdfDownload}>
-                        <button style={{ backgroundColor: "#E12929", fontSize: '11px' }} className="btn text-white ">
+                        <button
+                          style={{
+                            backgroundColor: "#E12929",
+                            fontSize: "11px",
+                          }}
+                          className="btn text-white "
+                        >
                           <span>
                             <i class="fa fa-file-pdf" aria-hidden="true"></i>
                           </span>
@@ -497,7 +565,13 @@ export default function Masterproductlist() {
                     <li class="m-1">
                       <Link onClick={exportCsv} class="btn-filters">
                         <span>
-                          <button style={{ backgroundColor: "#22A033", fontSize: '11px' }} className="btn text-white ">
+                          <button
+                            style={{
+                              backgroundColor: "#22A033",
+                              fontSize: "11px",
+                            }}
+                            className="btn text-white "
+                          >
                             <i class="fa fa-file-excel" aria-hidden="true"></i>
                           </button>
                         </span>
@@ -508,7 +582,10 @@ export default function Masterproductlist() {
                       <Link onClick={openImportPopup} class="btn-filters">
                         <span>
                           <button
-                            style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                            style={{
+                              backgroundColor: "#9265cc",
+                              fontSize: "11px",
+                            }}
                             className="btn text-white "
                           >
                             <i class="fa fa fa-upload" aria-hidden="true"></i>
@@ -520,8 +597,11 @@ export default function Masterproductlist() {
                       <Link class="btn  border-0" to="/AddUniversity">
                         <button
                           className="btn border-0 text-white  "
-
-                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                          style={{
+                            backgroundColor: "#fe5722",
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -531,12 +611,8 @@ export default function Masterproductlist() {
                         </button>
                       </Link>
                     </li>
-
                   </ol>
-
-
                 </div>
-
               </div>
             </div>
             <div className="row">
@@ -545,39 +621,115 @@ export default function Masterproductlist() {
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
-                        <table className="table table-hover card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
-                          ref={tableRef}>
+                        <table
+                          className="table table-hover card-table dataTable text-center"
+                          style={{ color: "#9265cc", fontSize: "13px" }}
+                          ref={tableRef}
+                        >
                           <thead className="table-light">
-                            <tr style={{  fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                              <th className="text-capitalize text-start sortable-handle">S No</th>
-                              <th className="text-capitalize text-start sortable-handle">University Code</th>
-                              <th className="text-capitalize text-start sortable-handle">University Name</th>
-                              <th className="text-capitalize text-start sortable-handle">Campus</th>
-                              <th className="text-capitalize text-start sortable-handle">Popular Categories</th>
-                              <th className="text-capitalize text-start sortable-handle">App</th>
+                            <tr
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                              <th className="text-capitalize text-start sortable-handle">
+                                S No
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                 Code
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                University Name
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                 country
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Campus
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Popular Categories
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                App
+                              </th>
 
-                              <th className="text-capitalize text-start sortable-handle">Action</th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Action
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
                             {university?.map((data, index) => {
                               const isExpanded = !!expandedRows[index];
+
                               return (
-                                <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
-                                  <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                  <td className="text-capitalize text-start">{data?.universityCode}</td>
-                                  <td className="text-capitalize text-start"
-                                   onMouseEnter={() => toggleRow(index)}
-                                   onMouseLeave={() => toggleRow(index)}
-                                   title={data?.universityName}>{getDisplayText(data?.universityName, isExpanded)}</td>
-                                  <td className="text-capitalize text-start"> {getDisplayText(data?.lga?.length > 0 ? data?.lga?.join(", ") : data?.state?.join(", "), isExpanded)} </td>
-                                  <td className="text-capitalize text-start"
-                                  onMouseEnter={() => toggleRow(index)}
-                                  onMouseLeave={() => toggleRow(index)}
-                                  title={data?.popularCategories} >  {getDisplayText(data?.popularCategories.join(", "), isExpanded)}  </td>
-                                   
-                               
-                                  <td className="text-capitalize text-start">{data?.noofApplications}</td>
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className="text-capitalize text-start">
+                                    {pagination.from + index + 1}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.universityCode}
+                                  </td>
+                                  <td
+                                    className="text-capitalize text-start"
+                                    onMouseEnter={() => toggleRow(index)}
+                                    onMouseLeave={() => toggleRow(index)}
+                                    title={data?.universityName}
+                                  >
+                                    {getDisplayText(
+                                      data?.universityName,
+                                      isExpanded
+                                    )}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {/* {data.campus?.map((campus, yearIndex) => (
+                                      <div key={yearIndex}>
+                                        {campus?.country?.length > 0
+                                          ? campus[0].country
+                                          : "-"}
+                                      
+                                      </div>
+                                    ))} */}
+                                    {data?.campus[0]?.country}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data.campus?.map((campus, yearIndex) => (
+                                      <div key={yearIndex}>
+                                        {campus?.state?.length > 0
+                                          ? campus.state
+                                          : "Not Available"}
+                                        __
+                                        {campus?.cities?.length > 0
+                                          ? campus.cities // Assuming cities is an array of strings
+                                          : "Not Available"}
+                                        __
+                                      </div>
+                                    ))}
+                                  </td>
+                                  <td
+                                    className="text-capitalize text-start"
+                                    onMouseEnter={() => toggleRow(index)}
+                                    onMouseLeave={() => toggleRow(index)}
+                                    title={data?.popularCategories}
+                                  >
+                                    {" "}
+                                    {getDisplayText(
+                                      data?.popularCategories.join(", "),
+                                      isExpanded
+                                    )}{" "}
+                                  </td>
+
+                                  <td className="text-capitalize text-start">
+                                    {data?.noofApplications}
+                                  </td>
                                   <td>
                                     <div className="d-flex">
                                       <Link
@@ -635,18 +787,20 @@ export default function Masterproductlist() {
               </div>
             </div>
           </div>
-
         </div>
         <Dialog open={open}>
           <DialogContent>
-            <div className="text-center m-4"  >
-              <h5 className="mb-4" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+            <div className="text-center m-4">
+              <h5
+                className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+              >
                 Are you sure you want to Delete <br /> the selected Product ?
               </h5>
               <button
                 type="button"
                 className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
-                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                 onClick={deleteUniversityData}
               >
                 Yes
@@ -654,7 +808,7 @@ export default function Masterproductlist() {
               <button
                 type="button"
                 className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
-                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                 onClick={closePopup}
               >
                 No
@@ -669,9 +823,7 @@ export default function Masterproductlist() {
               <i className="fa fa-times fa-xs" aria-hidden="true"></i>
             </IconButton>
           </DialogTitle>
-          <DialogContent>
-
-          </DialogContent>
+          <DialogContent></DialogContent>
         </Dialog>
         <Dialog open={openImport} fullWidth maxWidth="sm">
           <DialogTitle>
@@ -683,7 +835,6 @@ export default function Masterproductlist() {
           <DialogContent>
             <form>
               <div className="from-group mb-3">
-
                 <div className="mb-3">
                   <input
                     type="file"
@@ -693,14 +844,12 @@ export default function Masterproductlist() {
                     onChange={handleFileChange}
                   />
                 </div>
-
               </div>
               <div>
                 <Link
                   to="/ListUniversity"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-right bg"
-                  style={{ backgroundColor: "#0f2239", fontSize: '12px' }}
-
+                  style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
                 >
                   Cancel
                 </Link>
@@ -708,11 +857,10 @@ export default function Masterproductlist() {
                   type="submit"
                   onClick={handleFileUpload}
                   className="btn btn-save border-0 text-white fw-semibold text-uppercase py-1 px-3 rounded-pill float-right mx-2"
-                  style={{ backgroundColor: "#fe5722", fontSize: '12px' }}
+                  style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
                 >
                   Apply
                 </button>
-
               </div>
             </form>
           </DialogContent>
