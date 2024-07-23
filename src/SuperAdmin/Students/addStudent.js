@@ -649,7 +649,7 @@ function AddAgent() {
                                 Percentage<span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -1144,7 +1144,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example Game Devlopment "
+                                placeholder="Example Game Development "
                                 name="desiredCourse"
                                 onChange={handleInputs}
                               />
