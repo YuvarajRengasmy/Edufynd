@@ -627,13 +627,13 @@ export default function Masterproductlist() {
         <Dialog open={open}>
           <DialogContent>
             <div className="text-center m-4">
-              <h5 className="mb-4" style={{ fontSize: "14px", fontFamily: 'Plus Jakarta Sans' }}>
+              <h5 className="mb-4 text-capitalize" >
 
-                Are you sure you want to Delete <br /> the selected Product ?
+                Are you sure you want to Delete <br /> the selected Agent ?
               </h5>
               <button
                 type="button"
-                style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
+                style={{ fontSize: "12px", fontFamily: 'Plus Jakarta Sans' }}
                 className="btn btn-success rounded-pill border-0 px-4 py-2 text-white fw-semibold text-uppercase mx-3"
                 onClick={deleteAgentData}
               >
@@ -643,7 +643,7 @@ export default function Masterproductlist() {
                 type="button"
                 className="btn btn-danger border-0 rounded-pill text-white fw-semibold text-uppercase px-4 py-2 "
                 onClick={closePopup}
-                style={{ fontSize: "11px", fontFamily: 'Plus Jakarta Sans' }}
+                style={{ fontSize: "12px", fontFamily: 'Plus Jakarta Sans' }}
               >
                 No
               </button>

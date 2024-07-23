@@ -587,12 +587,12 @@ export default function Masterproductlist() {
         <Dialog open={open}>
           <DialogContent>
             <div className="text-center m-4">
-              <h5 className="mb-4">
-                Are you sure you want to Delete <br /> the selected Product ?
+              <h5 className="mb-4 text-capitalize">
+                Are you sure you want to Delete <br /> the selected Application ?
               </h5>
               <button
                 type="button"
-                className="btn btn-save btn-success text-white px-4 py-2 rounded-pill fw-semibold text-uppercase mx-3"
+                className="btn btn-save btn-success border-0 text-white px-4 py-2 rounded-pill fw-semibold text-uppercase mx-3"
                 onClick={deleteApplicationData}
                 style={{ fontSize: '12px' }}
               >
@@ -600,7 +600,7 @@ export default function Masterproductlist() {
               </button>
               <button
                 type="button"
-                className="btn btn-cancel btn-danger text-white px-4 py-2 rounded-pill fw-semibold text-uppercase "
+                className="btn btn-cancel btn-danger border-0 text-white px-4 py-2 rounded-pill fw-semibold text-uppercase "
                 onClick={closePopup}
                 style={{ fontSize: '12px' }}
               >

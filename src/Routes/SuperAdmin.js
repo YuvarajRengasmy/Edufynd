@@ -248,41 +248,37 @@ function SuperAdmin() {
 
           {/* Chat */}
 
+          {/* Bookings */}
 
-        {/* Bookings */}
+          {/* Class Schedule */}
 
-        {/* Class Schedule */}
+          {/* Email */}
 
-        {/* Email */}
+          {/* Expenses */}
 
-        {/* Expenses */}
+          {/* Income */}
 
-        {/* Income */}
+          {/* Income Report */}
 
-        {/* Income Report */}
+          {/* Raise Quotations */}
 
-        {/* Raise Quotations */}
-        
+          {/* Attendance */}
 
-        {/* Attendance */}
+          {/* KPI */}
 
-        {/* KPI */}
+          {/* Leave */}
 
-        {/* Leave */}
+          {/* Payroll */}
 
-        {/* Payroll */}
+          {/* Performance Report */}
 
-        {/* Performance Report */}
+          {/* Policies */}
 
-        {/* Policies */}
+          {/* Staff Hrm */}
 
-        {/* Staff Hrm */}
-  
+          {/* Project */}
 
-  {/* Project */}
-
-  {/* Task */}
-
+          {/* Task */}
         </Routes>
       </BrowserRouter>
     </div>

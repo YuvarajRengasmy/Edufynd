@@ -631,7 +631,7 @@ export default function Masterproductlist() {
          <Dialog open={open}>
    <DialogContent>
      <div className="text-center m-4">
-       <h5 className="mb-4"   style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
+       <h5 className="mb-4 text-capitalize"   >
          Are you sure you want to Delete <br /> the selected Product ?
        </h5>
        <button
