@@ -31,7 +31,7 @@ import ListClient from "../SuperAdmin/client/ListClient";
 import ViewClient from "../SuperAdmin/client/ViewClient";
 import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
-import CurrencySettings  from "../SuperAdmin/Settings/currencySetting";
+import CurrencySettings from "../SuperAdmin/Settings/currencySetting";
 import UniversitySettings from "../SuperAdmin/Settings/universityModule";
 import ProgramModule from "../SuperAdmin/Settings/programModule";
 import ClientModule from "../SuperAdmin/Settings/clientModule";
@@ -110,7 +110,7 @@ function SuperAdmin() {
     <div>
       <BrowserRouter>
         <Routes>
-        <Route path="/Demo" element={<Country />} />
+          <Route path="/Demo" element={<Country />} />
           <Route path="/AddUniversity" element={<AddUniversity />} />
           <Route path="/ListUniversity" element={<ListUniversity />} />
           <Route path="/ViewUniversity" element={<ViewUniversity />} />
@@ -137,96 +137,96 @@ function SuperAdmin() {
           <Route path="/AddClient" element={<AddClient />} />
           <Route path="/client" element={<ListClient />} />
           <Route path="/EditClient" element={<EditClient />} />
-          <Route path="/viewClient" element={<ViewClient/>}/>
-          <Route path="/GlobalSettings" element={<GlobalSettings/>}/>
-          <Route path="/CurrencySettings" element={<CurrencySettings/>}/>
-          <Route path="/UniversitySettings" element={<UniversitySettings/>}/>
-          <Route path="/CourseType" element={<ProgramModule/>}/>
-          <Route path="/ClientModule" element={<ClientModule/>}/>
-          <Route path="/Status" element={<Status/>}/>
-          <Route path="/Intake" element={<Intake/>}/>
-          <Route path="/YearSetting" element={<Year/>}/>
-          <Route path='/ListApplication' element={<ListApplication/>}/>
-          <Route path='/Application' element={<Application/>}/>
-       <Route path="/ViewUniversityPage" element={<ViewUniversity1/>}/>
-       <Route path="/ApplyJob" element={<ApplyJob/>}/>
-       <Route path = "/ListStaff" element={<ListStaff/>}/>
-       <Route path = "/AddStaff" element={<AddStaff/>}/>
-       <Route path = "/EditStaff" element={<EditStaff/>}/>
-       <Route path = "/ViewStaff" element={<ViewStaff/>}/>
-       <Route path="/ListInvoice" element={<Listinvoice/>}/>
-      <Route path="/AddSenderInvoice" element={<AddSenderInvoice/>}/>
-      <Route path="/AddRecieverInvoice" element={<AddRecieverInvoice/>}/>
-       <Route path="/EditInvoice" element={<Editinvoice/>}/>
-       <Route path="/ViewInvoice" element={<Viewinvoice/>}/>
-       <Route path="/SenderViewInvoice" element={<SenderViewinvoice/>}/>
-       <Route path="/AddApplication" element={<AddApplication/>}/>
-       <Route path='/EditApplication' element={<EditApplication/>}/>
-       <Route path="/AddCommission" element={<AddCommission/>}/>
-       <Route path="/EditCommission" element={<EditCommission/>}/>
-       <Route path="/ViewCommission" element={<ViewComission/>}/>
-       <Route path="/ListCommission" element={<ListCommission/>}/>
-       <Route path="/ListNotifications" element={<ListNotifications/>}/>
-       <Route path="/EditNotifications" element={<EditNotifications/>}/>
-       <Route path="/AddNotifications" element={<AddNotifications/>}/>
-       <Route path="/ViewNotifications" element={<ViewNotifications/>}/>
+          <Route path="/viewClient" element={<ViewClient />} />
+          <Route path="/GlobalSettings" element={<GlobalSettings />} />
+          <Route path="/CurrencySettings" element={<CurrencySettings />} />
+          <Route path="/UniversitySettings" element={<UniversitySettings />} />
+          <Route path="/CourseType" element={<ProgramModule />} />
+          <Route path="/ClientModule" element={<ClientModule />} />
+          <Route path="/Status" element={<Status />} />
+          <Route path="/Intake" element={<Intake />} />
+          <Route path="/YearSetting" element={<Year />} />
+          <Route path='/ListApplication' element={<ListApplication />} />
+          <Route path='/Application' element={<Application />} />
+          <Route path="/ViewUniversityPage" element={<ViewUniversity1 />} />
+          <Route path="/ApplyJob" element={<ApplyJob />} />
+          <Route path="/ListStaff" element={<ListStaff />} />
+          <Route path="/AddStaff" element={<AddStaff />} />
+          <Route path="/EditStaff" element={<EditStaff />} />
+          <Route path="/ViewStaff" element={<ViewStaff />} />
+          <Route path="/ListInvoice" element={<Listinvoice />} />
+          <Route path="/AddSenderInvoice" element={<AddSenderInvoice />} />
+          <Route path="/AddRecieverInvoice" element={<AddRecieverInvoice />} />
+          <Route path="/EditInvoice" element={<Editinvoice />} />
+          <Route path="/ViewInvoice" element={<Viewinvoice />} />
+          <Route path="/SenderViewInvoice" element={<SenderViewinvoice />} />
+          <Route path="/AddApplication" element={<AddApplication />} />
+          <Route path='/EditApplication' element={<EditApplication />} />
+          <Route path="/AddCommission" element={<AddCommission />} />
+          <Route path="/EditCommission" element={<EditCommission />} />
+          <Route path="/ViewCommission" element={<ViewComission />} />
+          <Route path="/ListCommission" element={<ListCommission />} />
+          <Route path="/ListNotifications" element={<ListNotifications />} />
+          <Route path="/EditNotifications" element={<EditNotifications />} />
+          <Route path="/AddNotifications" element={<AddNotifications />} />
+          <Route path="/ViewNotifications" element={<ViewNotifications />} />
 
 
-       <Route path="/ListTraining" element={<ListTraining/>}/>
-       <Route path="/AddTraining" element={<AddTraining/>}/>
-       <Route path="/EditTraining" element={<EditTraining/>}/>
-       <Route path="/ViewTraining" element={<ViewTraining/>}/>
-      
-       <Route path="/ListEvents" element={<ListEvents/>}/>
-       <Route path="/AddEvents" element={<AddEvents/>}/>
-       <Route path="/EditEvents" element={<EditEvents/>}/>
-       <Route path="/ViewEvents" element={<ViewEvents/>}/>
+          <Route path="/ListTraining" element={<ListTraining />} />
+          <Route path="/AddTraining" element={<AddTraining />} />
+          <Route path="/EditTraining" element={<EditTraining />} />
+          <Route path="/ViewTraining" element={<ViewTraining />} />
 
-    
-
-       <Route path="/AddSocialMedia" element={<AddSocialMedia/>}/>
-       <Route path="/EditSocialMedia" element={<EditSocialMedia/>}/>
-       <Route path="/ListSocialMedia" element={<ListSocialMedia/>}/>
-       <Route path="/ViewSocialMedia" element={<ViewSocialMedia/>}/>
+          <Route path="/ListEvents" element={<ListEvents />} />
+          <Route path="/AddEvents" element={<AddEvents />} />
+          <Route path="/EditEvents" element={<EditEvents />} />
+          <Route path="/ViewEvents" element={<ViewEvents />} />
 
 
 
-       <Route path="/ListCampaign" element={<ListCampaign/>}/>
-       <Route path="/AddCampaign" element={<AddCampaign/>}/>
-       <Route path="/EditCampaign" element={<EditCampaign/>}/>
-       <Route path="/ViewCampaign" element={<ViewCampaign/>}/>
+          <Route path="/AddSocialMedia" element={<AddSocialMedia />} />
+          <Route path="/EditSocialMedia" element={<EditSocialMedia />} />
+          <Route path="/ListSocialMedia" element={<ListSocialMedia />} />
+          <Route path="/ViewSocialMedia" element={<ViewSocialMedia />} />
 
-    
-   <Route path="/ListDailyTask" element={<ListDailyTask/>}/>
-   <Route path="/EditDailyTask" element={<EditDailyTask/>}/>
-   <Route path="/AddDailyTask" element={<AddDailyTask/>}/>
-   <Route path="/ViewDailyTask" element={<ViewDailyTask/>}/>
-       
 
-      
-       <Route path="/ListMeetings" element={<ListMeetings/>}/>
-       <Route path="/AddMeetings" element={<AddMeetings/>}/>
-       <Route path="/EditMeetings" element={<EditMeetings/>}/>
-       <Route path="/ViewMeetings" element={<ViewMeetings/>}/>
 
-       <Route path="/ListPromotions" element={<ListPromotions/>}/>
-       <Route path="/AddPromotions" element={<AddPromotions/>}/>
-       <Route path="/EditPromotions" element={<EditPromotions/>}/>
-       <Route path="/ViewPromotion" element={<ViewPromotion/>}/>
+          <Route path="/ListCampaign" element={<ListCampaign />} />
+          <Route path="/AddCampaign" element={<AddCampaign />} />
+          <Route path="/EditCampaign" element={<EditCampaign />} />
+          <Route path="/ViewCampaign" element={<ViewCampaign />} />
 
-       <Route path="/ListTestimonials" element={<ListTestimonials/>}/>
-       <Route path="/AddTestimonials" element={<AddTestimonials/>}/>
-       <Route path="/EditTestimonials" element={<EditTestimonials/>}/>
-       <Route path="/ViewTestimonials" element={<ViewTestimonials/>}/>
-      
-      <Route path="/ListBlog" element={<ListBlog/>}/>
-      <Route path="/AddBlog" element={<AddBlog/>}/>
-      <Route path="/EditBlog" element={<EditBlog/>}/>
-      <Route path="/ViewBlog" element={<ViewBlog/>}/>
-      
 
-    
-       
+          <Route path="/ListDailyTask" element={<ListDailyTask />} />
+          <Route path="/EditDailyTask" element={<EditDailyTask />} />
+          <Route path="/AddDailyTask" element={<AddDailyTask />} />
+          <Route path="/ViewDailyTask" element={<ViewDailyTask />} />
+
+
+
+          <Route path="/ListMeetings" element={<ListMeetings />} />
+          <Route path="/AddMeetings" element={<AddMeetings />} />
+          <Route path="/EditMeetings" element={<EditMeetings />} />
+          <Route path="/ViewMeetings" element={<ViewMeetings />} />
+
+          <Route path="/ListPromotions" element={<ListPromotions />} />
+          <Route path="/AddPromotions" element={<AddPromotions />} />
+          <Route path="/EditPromotions" element={<EditPromotions />} />
+          <Route path="/ViewPromotion" element={<ViewPromotion />} />
+
+          <Route path="/ListTestimonials" element={<ListTestimonials />} />
+          <Route path="/AddTestimonials" element={<AddTestimonials />} />
+          <Route path="/EditTestimonials" element={<EditTestimonials />} />
+          <Route path="/ViewTestimonials" element={<ViewTestimonials />} />
+
+          <Route path="/ListBlog" element={<ListBlog />} />
+          <Route path="/AddBlog" element={<AddBlog />} />
+          <Route path="/EditBlog" element={<EditBlog />} />
+          <Route path="/ViewBlog" element={<ViewBlog />} />
+
+
+
+
 
         </Routes>
       </BrowserRouter>
