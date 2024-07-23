@@ -563,7 +563,7 @@ export default function Masterproductlist() {
                        <td className="text-capitalize text-start">{data?.name?data?.name: data?.superAdminId?.studentName}</td>
                        <td className="text-capitalize text-start">{data?.studentCode}</td>
                       
-                       <td className="text-capitalize text-start">{data?.email}</td>
+                       <td className=" text-start">{data?.email}</td>
                        <td className="text-capitalize text-start">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null}</td>
                        <td className="text-capitalize text-start">{data?.status}</td>
                        <td className="text-capitalize text-start">{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)}</td>

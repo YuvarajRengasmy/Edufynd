@@ -194,7 +194,7 @@ export const ListSocialMedia = () => {
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/AddSocialMedia">
                       <button
-                        className="btn btn-outline border-0 text-white  "
+                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
                       >
                         <i

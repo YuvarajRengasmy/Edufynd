@@ -514,7 +514,7 @@ export default function Masterproductlist() {
                     <li class="m-0">
                       <Link class="btn btn-pix-primary" to="/AddAgent">
                         <button
-                          className="btn btn-outline border-0  text-white  "
+                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{ backgroundColor: "#fe5722", fontSize: '12px' }}
                         >
                           <i
@@ -563,7 +563,7 @@ export default function Masterproductlist() {
                               <td className="text-capitalize text-start">{data?.agentName}</td>
                               <td className="text-capitalize text-start">{data?.agentCode}</td>
 
-                              <td className="text-capitalize text-start">{data?.email}</td>
+                              <td className=" text-start">{data?.email}</td>
                               <td className="text-capitalize text-start">{data?.mobileNumber}</td>
                               <td className="text-capitalize text-start">{data?.status}</td>
                               <td className="text-capitalize text-start">{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)}</td>
