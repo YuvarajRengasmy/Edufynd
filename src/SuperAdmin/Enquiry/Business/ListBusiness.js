@@ -289,7 +289,7 @@ export const ListBusiness = () => {
 <li class="m-1">
   <Link class="btn btn-pix-primary" to="/AddBusinessEnquiry">
     <button
-      className="btn btn-outline border-0 text-white  "
+      className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
 
       style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
     >

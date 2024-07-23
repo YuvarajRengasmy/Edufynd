@@ -193,6 +193,7 @@ const Sidebar = () => {
                     href="#"
                     className="nav-link "
                     data-bs-toggle="collapse"
+                    
                     aria-expanded={isOpen.users}
                     aria-controls="collapse3"
                     style={{
@@ -486,33 +487,33 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListIncome"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListIncome" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListIncome")}
                         >
                           Income
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListExpenses"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListExpenses" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListExpenses")}
                         >
                           Expense
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListRaiseQuotations"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListRaiseQuotations" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListRaiseQuotations")}
                         >
                           Raise Quotations
                         </a>
@@ -537,11 +538,11 @@ const Sidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListIncomeReport"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListIncomeReport" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListIncomeReport")}
                         >
                           Income Report
                         </a>
@@ -584,75 +585,78 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListStaffHRM"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListStaffHRM" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListStaffHRM")}
                         >
                           Staffs
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListAttendance"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListAttendance" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListAttendance")}
                         >
                           Attendance
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListPayroll"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListPayroll" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListPayroll")}
                         >
                           Payroll
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListLeave"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListLeave" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListLeave")}
                         >
                           Leave
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListKPI"
                           target="_self"
-                          className="nav-link text-uppercase fw-semibold"
+                          className={`nav-link ${activeLink === "/ListKPI" ? "active" : ""
+                            }`}
+                          onClick={() => handleSetActiveLink("/ListKPI")}
                         >
-                          KPI
+                           KPI
                         </a>
                       </li>
+                    
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListPolicies"
                           target="_self"
-                          className={`nav-link ${activeLink === "" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListPolicies" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListPolicies")}
                         >
                           Policies
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListPerformanceReport"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListPerformanceReport" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListPerformanceReport")}
                         >
                           Performance Report
                         </a>
@@ -695,22 +699,22 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListProject"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListProject" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListProject")}
                         >
                           Project
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListTask"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListTask" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListTask")}
                         >
                           Task
                         </a>
@@ -838,10 +842,10 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="#"
+                    href="/ListChat"
                     target="_self"
-                    className={`nav-link ${activeLink === "#" ? "active" : ""}`}
-                    onClick={() => handleSetActiveLink("#")}
+                    className={`nav-link ${activeLink === "/ListChat" ? "active" : ""}`}
+                    onClick={() => handleSetActiveLink("/ListChat")}
                   >
                     <i
                       className="nav-icon fas fa-comment"
@@ -853,10 +857,10 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="#"
+                    href="/ListEmail"
                     target="_self"
-                    className={`nav-link ${activeLink === "#" ? "active" : ""}`}
-                    onClick={() => handleSetActiveLink("#")}
+                    className={`nav-link ${activeLink === "/ListEmail" ? "active" : ""}`}
+                    onClick={() => handleSetActiveLink("/ListEmail")}
                   >
                     <i
                       className="nav-icon fa fa-envelope"
@@ -982,22 +986,22 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListBookings"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListBookings" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListBookings")}
                         >
                           Booking
                         </a>
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
+                          href="/ListClassSchedule"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
+                          className={`nav-link ${activeLink === "/ListClassSchedule" ? "active" : ""
                             }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          onClick={() => handleSetActiveLink("/ListClassSchedule")}
                         >
                           Class Schedule
                         </a>

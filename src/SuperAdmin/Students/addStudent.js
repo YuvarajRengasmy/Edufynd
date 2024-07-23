@@ -546,7 +546,7 @@ function AddAgent() {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -572,7 +572,7 @@ function AddAgent() {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",

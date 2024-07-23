@@ -99,6 +99,23 @@ import ListBlog from "../SuperAdmin/Blog/ListBlog";
 import AddBlog from "../SuperAdmin/Blog/AddBlog";
 import ViewBlog from "../SuperAdmin/Blog/ViewBlog";
 import EditBlog from "../SuperAdmin/Blog/EditBlog";
+import { ListChat } from "../SuperAdmin/Chat/ListChat";
+import ListBookings from "../SuperAdmin/ELT/Bookings/ListBookings";
+import ListClassSchedule from "../SuperAdmin/ELT/Class Schedule/ListClassSchedule";
+import ListEmail from "../SuperAdmin/Email/ListEmail";
+import ListExpenses from "../SuperAdmin/Finance/Expenses/ListExpenses";
+import ListIncome from "../SuperAdmin/Finance/Income/ListIncome";
+import ListIncomeReport from "../SuperAdmin/Finance/Income Report/ListIncomereport";
+import ListQuotations from "../SuperAdmin/Finance/Raise Quotations/ListQuottions";
+import ListAttendance from "../SuperAdmin/HRMS/Attendance/ListAttendance";
+import ListKPI from "../SuperAdmin/HRMS/KPI/ListKPI";
+import ListLeave from "../SuperAdmin/HRMS/Leave/ListLeave";
+import ListPayroll from "../SuperAdmin/HRMS/Payroll/ListPayroll";
+import ListPeformanceReport from "../SuperAdmin/HRMS/Performance Report/ListPerformanceReport";
+import ListPolicies from "../SuperAdmin/HRMS/Policies/ListPolicies";
+import ListHrmStaff from "../SuperAdmin/HRMS/Staff/ListHrmStaff";
+import ListProject from "../SuperAdmin/Project & Task/Project/ListProject";
+import ListTask from "../SuperAdmin/Project & Task/Task/ListTask";
 
 function SuperAdmin() {
   return (
@@ -247,38 +264,53 @@ function SuperAdmin() {
           <Route path="/ViewBlog" element={<ViewBlog />} />
 
           {/* Chat */}
+          <Route path="/ListChat" element={<ListChat/>}/>
 
           {/* Bookings */}
+          <Route path="/ListBookings" element={<ListBookings/>}/>
 
           {/* Class Schedule */}
+          <Route path="/ListClassSchedule" element={<ListClassSchedule/>}/>
 
           {/* Email */}
+          <Route path="/ListEmail" element={<ListEmail/>}/>
 
           {/* Expenses */}
+          <Route path="/ListExpenses" element={<ListExpenses/>}/>
 
           {/* Income */}
+          <Route path="/ListIncome" element={<ListIncome/>}/>
 
           {/* Income Report */}
+          <Route path="/ListIncomeReport" element={<ListIncomeReport/>}/>
 
           {/* Raise Quotations */}
+          <Route path="/ListRaiseQuotations" element={<ListQuotations/>}/>
 
           {/* Attendance */}
+          <Route path="/ListAttendance" element={<ListAttendance/>}/>
 
           {/* KPI */}
+          <Route path="/ListKPI" element={<ListKPI/>}/>
 
           {/* Leave */}
+          <Route path="/ListLeave" element={<ListLeave/>}/>
 
           {/* Payroll */}
+          <Route path="/ListPayroll" element={<ListPayroll/>}/>
 
           {/* Performance Report */}
-
+          <Route path="/ListPerformanceReport" element={<ListPeformanceReport/>}/>
           {/* Policies */}
+          <Route path="/ListPolicies" element={<ListPolicies/>}/>
 
           {/* Staff Hrm */}
-
+          <Route path="/ListStaffHRM" element={<ListHrmStaff/>}/>
           {/* Project */}
+          <Route path="/ListProject" element={<ListProject/>}/>
 
           {/* Task */}
+          <Route path="/ListTask" element={<ListTask/>}/>
         </Routes>
       </BrowserRouter>
     </div>
