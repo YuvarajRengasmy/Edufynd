@@ -524,14 +524,14 @@ function AddCommission() {
                                                                                         </select>
                                                                                     </div>
                                                                                     <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'  >
-                                                                                        <label style={{ color: "#231F20" }}>InTake</label>
+                                                                                        <label style={{ color: "#231F20" }}>Intake</label>
                                                                                         <select
                                                                                             className="form-select form-select-lg rounded-2"
                                                                                             value={courseType.inTake}
                                                                                             onChange={(e) => handleInputChange(yearIndex, courseTypeIndex, 'inTake', e.target.value)}
                                                                                             style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                                                         >
-                                                                                            <option value="">Select InTake</option>
+                                                                                            <option value="">Select Intake</option>
 
                                                                                             {(universities.find(uni => uni.universityName === commission.universityName)?.inTake || []).map((type, idx) => (
                                                                                                 <option key={idx} value={type}>

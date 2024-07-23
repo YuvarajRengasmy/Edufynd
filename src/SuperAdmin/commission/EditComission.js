@@ -670,7 +670,7 @@ function AddCommission() {
               </select>
             </div>
             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <label style={{ color: "#231F20" }}>inTake</label>
+              <label style={{ color: "#231F20" }}>Intake</label>
               <select
                 className="form-select"
                 value={courseType.inTake}
