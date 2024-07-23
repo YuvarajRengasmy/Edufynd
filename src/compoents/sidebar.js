@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
 import { useNavigate } from "react-router-dom";
@@ -8,39 +8,134 @@ import "./Sidebar.css";
 import { useLocation } from "react-router-dom";
 
 const Sidebar = () => {
+
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
 
-  const [activeLink, setActiveLink] = useState(window.location.pathname);
+  const [activeLink, setActiveLink] = useState(currentPath);
+  const [isOpen, setIsOpen] = useState({
+    enquiry: false,
+    finance: false,
+    hrms: false,
+    Projects: false,
+    Marketing: false,
+  });
 
   const handleSetActiveLink = (path) => {
     setActiveLink(path);
   };
-  const [isOpen, setIsOpen] = useState({
-    enquiry: false,
-    finance: false,
-    users: false,
-    elt: false,
-    hrms: false,
-    settings: false,
-    globalSettings: false,
-    modules: false,
-    privileges: false,
-    Projects: false,
-    Reports: false,
-    Marketing: false,
-  });
 
   const toggleDropdown = (key) => {
-    setIsOpen({ ...isOpen, [key]: !isOpen[key] });
+    setIsOpen(prevState => ({ ...prevState, [key]: !prevState[key] }));
   };
+
   const logout = () => {
-    clearStorage();
-    toast.success("You have Student logged out successfully.");
+    clearStorage(); // Assuming clearStorage is defined elsewhere
+    toast.success("You have been logged out successfully.");
     navigate("/");
   };
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const dropdownPaths = {
+      users: [
+        "/ListStudent",
+        "/AddStudentSA",
+        "/ViewStudent",
+        "/EditStudent",
+        "/ListStaff",
+        "/AddStaff",
+        "/EditStaff",
+        "/ViewStaff",
+        "/ViewAgent",
+        "/EditAgent",
+        "/ListAgent",
+        "/AddAgent",
+      ],
+      enquiry: [
+        "/ListStudentForm",
+        "/AddStudentForm",
+        "/EditStudentForm",
+        "/ViewStudentForm",
+        "/ListForexForm",
+        "/AddForexForm",
+        "/EditForexForm",
+        "/ViewForexForm",
+        "/ListAccommodation",
+        "/AddAccommodation",
+        "/EditAccommodation",
+        "/ViewAccommodation",
+        "/ListFlightTicket",
+        "/AddFlightTicket",
+        "/EditFlightTicket",
+        "/ViewFlightTicket",
+        "/ListLoanEnquiry",
+        "/AddLoanEnquiry",
+        "/EditLoanEnquiry",
+        "/ViewLoanEnquiry",
+        "/ListBusinessEnquiry",
+        "/AddBusinessEnquiry",
+        "/EditBusinessEnquiry",
+        "/ViewBusinessEnquiry",
+        "/ListGeneralEnquiry",
+        "/AddGeneralEnquiry",
+        "/EditGeneralEnquiry",
+        "/ViewGeneralEnquiry",
+      ],
+      finance: [
+        "/ListIncome",
+        "/ListExpenses",
+        "/ListRaiseQuotations",
+        "/ListInvoice",
+        "/ListIncomeReport",
+      ],
+      hrms: [
+        "/ListStaffHRM",
+        "/ListAttendance",
+        "/ListPayroll",
+        "/ListLeave",
+        "/ListKPI",
+        "/ListPolicies",
+        "/ListPerformanceReport",
+      ],
+      Projects: [
+        "/ListProject",
+        "/ListTask",
+      ],
+      Marketing: [
+        "/ListSocialMedia",
+        "/ListCampaign",
+        "/ListDailyTask",
+      ],
+      elt: [
+        "/ListBookings",
+        "/ListClassSchedule",
+      ],
+      settings: [
+        "/GlobalSettings",
+        "/CurrencySettings",
+        "/Status",
+        "/Intake",
+        "/YearSetting",
+        "/ClientModule",
+        // Add more paths as needed
+      ],
+      Reports: [
+        "/EmployeeReports",
+        "/AgentReports",
+        "/StudentReports",
+        "/BranchReports",
+        "/AdminReports",
+      ],
+    };
+
+    const newIsOpen = Object.keys(dropdownPaths).reduce((acc, key) => {
+      acc[key] = dropdownPaths[key].some(path => currentPath.includes(path));
+      return acc;
+    }, {});
+
+    setIsOpen(prevState => ({ ...prevState, ...newIsOpen }));
+  }, [currentPath]);
 
   return (
     <div

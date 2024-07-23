@@ -705,7 +705,7 @@ export default function Masterproductlist() {
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4">
-              Are you sure you want to Delete <br /> the selected Product ?
+              Are you sure you want to Delete <br /> the selected Program ?
             </h5>
             <button
               type="button"
