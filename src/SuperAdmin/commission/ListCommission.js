@@ -676,20 +676,22 @@ export default function Masterproductlist() {
         <Dialog open={open}>
           <DialogContent>
             <div className="text-center m-4">
-              <h5 className="mb-4">
-                Are you sure you want to Delete <br /> the selected Commission ?
+              <h5 className="mb-4 text-capitalize" >
+                Are you sure you want to Delete <br /> the Selected Commission ?
               </h5>
               <button
                 type="button"
-                className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+                className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
                 onClick={deleteCommissionData}
+                style={{fontSize:'12px'}}
               >
                 Yes
               </button>
               <button
                 type="button"
-                className="btn btn-cancel btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+                className="btn btn-cancel btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase "
                 onClick={closePopup}
+                style={{fontSize:'12px'}}
               >
                 No
               </button>

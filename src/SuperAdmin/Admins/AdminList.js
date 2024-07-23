@@ -382,12 +382,12 @@ export default function ListAgent() {
       <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4"  >
-            <h5 className="mb-4" style={{  fontSize: '14px' }} >
+            <h5 className="mb-4 text-capitalize"  >
               Are you sure you want to Delete <br /> the selected Admin?
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-danger  text-white px-3 py-1 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-save btn-danger  text-white px-4 py-2 rounded-pill fw-semibold text-uppercase mx-3"
               onClick={deleteAdminData}
               style={{  fontSize: '12px' }}
             >
@@ -395,7 +395,7 @@ export default function ListAgent() {
             </button>
             <button
               type="button"
-              className="btn btn-cancel btn-success text-white px-3 py-1 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-cancel btn-success text-white px-4 py-2 rounded-pill fw-semibold text-uppercase "
               onClick={closePopup}
               style={{  fontSize: '12px' }}
             >

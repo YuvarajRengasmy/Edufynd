@@ -397,14 +397,14 @@ function ListStaff() {
         <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
-            <h5 className="mb-4">
+            <h5 className="mb-4 text-capitalize">
               Are you sure you want to Delete <br /> the selected Staff?
             </h5>
             <button
               type="button"
               className="btn btn-save btn-danger fw-semibold text-uppercase rounded-pill px-4 py-2 mx-3"
               onClick={deleteStaffData}
-              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
             >
               Yes
             </button>
@@ -412,7 +412,7 @@ function ListStaff() {
               type="button"
               className="btn btn-cancel btn-success fw-semibold text-uppercase rounded-pill px-4 py-2 "
               onClick={closePopup}
-              style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+              style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
             >
               No
             </button>
