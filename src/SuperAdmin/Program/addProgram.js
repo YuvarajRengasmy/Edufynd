@@ -208,12 +208,15 @@ function Profile() {
           (u) => u.universityName === value
         );
         if (selectedUniversity) {
+          const states = selectedUniversity.campus.map((campus) => campus.state);
+          const lgas = selectedUniversity.campus.flatMap((campus) => campus.cities);
+  
           return {
             ...updatedProgram,
             universityId: selectedUniversity._id,
             universityLogo: selectedUniversity.universityLogo,
-            state: selectedUniversity.state,
-            lga: selectedUniversity.lga,
+            state: states,
+            lga: lgas,
             courseType: selectedUniversity.courseType,
             country: selectedUniversity.country,
             inTake: selectedUniversity.inTake,

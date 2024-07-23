@@ -1,162 +1,102 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
 import Select from 'react-select';
-import CountryRegion from "countryregionjs";
 
-function Country() {
-    const [state, setState] = useState("");
-    const [states, setStates] = useState([]);
-    const [country, setCountry] = useState("");
-    const [countries, setCountries] = useState([]);
-    const [lga, setLGA] = useState("");
-    const [lgas, setLGAs] = useState([]);
+const countriesData = [
+  {
+    name: "India",
+    nationality: "India",
+    code: "IN",
+    is_default: false,
+    status: "published",
+    order: 0,
+    state: [
+      {
+        name: "Andaman and Nicobar Islands",
+        cities: ["Bamboo Flat", "Nicobar", "Port Blair", "South Andaman"]
+      },
+      {
+        name: "Andhra Pradesh",
+        cities: ["Amaravati", "Visakhapatnam", "Vijayawada"]
+      }
+      // ... other states
+    ]
+  }
+  // ... other countries
+];
 
-    const getCountryRegionInstance = () => {
-        return new CountryRegion();
-    };
+const App = () => {
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
 
-    useEffect(() => {
-        const getCountries = async () => {
-            try {
-                const countries = await getCountryRegionInstance().getCountries();
-                setCountries(countries.map(country => ({
-                    value: country.id,
-                    label: country.name
-                })));
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        getCountries();
-    }, []);
+  const handleCountryChange = (selectedOption) => {
+    setSelectedCountry(selectedOption);
+    setSelectedState(null);
+    setSelectedCity(null);
+  };
 
-    useEffect(() => {
-        const getStates = async () => {
-            try {
-                const states = await getCountryRegionInstance().getStates(country);
-                setStates(states.map(userState => ({
-                    value: userState?.id,
-                    label: userState?.name
-                })));
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        if (country) {
-            getStates();
-        }
-    }, [country]);
+  const handleStateChange = (selectedOption) => {
+    setSelectedState(selectedOption);
+    setSelectedCity(null);
+  };
 
-    useEffect(() => {
-        const getLGAs = async () => {
-            try {
-                const lgas = await getCountryRegionInstance().getLGAs(country, state);
-                setLGAs(lgas?.map(lga => ({
-                    value: lga?.id,
-                    label: lga?.name
-                })));
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        if (state) {
-            getLGAs();
-        }
-    }, [country, state]);
+  const handleCityChange = (selectedOption) => {
+    setSelectedCity(selectedOption);
+  };
 
-    const handleCountryChange = (selectedOption) => {
-        setCountry(selectedOption.value);
-        setState("");
-        setStates([]);
-        setLGA("");
-        setLGAs([]);
-    };
+  const countryOptions = countriesData.map(country => ({
+    value: country.name,
+    label: country.name,
+    states: country.state
+  }));
 
-    const handleStateChange = (selectedOption) => {
-        setState(selectedOption.value);
-        setLGA("");
-        setLGAs([]);
-    };
+  const stateOptions = selectedCountry
+    ? selectedCountry.states.map(state => ({
+        value: state.name,
+        label: state.name,
+        cities: state.cities
+      }))
+    : [];
 
-    const handleLGAChange = (selectedOption) => {
-        setLGA(selectedOption.value);
-    };
+  const cityOptions = selectedState
+    ? selectedState.cities.map(city => ({
+        value: city,
+        label: city
+      }))
+    : [];
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Handle submit logic here
-    };
+  return (
+    <div>
+      <label>Country:</label>
+      <Select
+        value={selectedCountry}
+        onChange={handleCountryChange}
+        options={countryOptions}
+      />
 
-    const customStyles = {
-        control: (provided) => ({
-            ...provided,
-            border: '1px solid rgba(11, 70, 84, 0.25)',
-            borderRadius: '5px',
-            fontSize: "1.5rem",
-            backgroundColor: '#EBF0F3',
-            minHeight: '45px',
-        }),
-        dropdownIndicator: (provided, state) => ({
-            ...provided,
-            color: state.isFocused ? '#3B0051' : '#F2CCFF',
-            ':hover': {
-                color: 'black'
-            }
-        })
-    };
+      {selectedCountry && (
+        <>
+          <label>State:</label>
+          <Select
+            value={selectedState}
+            onChange={handleStateChange}
+            options={stateOptions}
+          />
+        </>
+      )}
 
-    return (
-        <main className="container">
-            <div className="px-4 mx-3">
-                <div className='mt-3'>
-                    <div className='d-flex gap-3 mt-6 flex-wrap flex-md-nowrap'>
-                        <form className="my-5 d-flex flex-column flex-md-row align-items-start" onSubmit={handleSubmit}>
-                            <div className="mb-3 mx-3" style={{ width: "250px" }}>
-                                <label className="text-white">
-                                    Country<span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                    placeholder="Country"
-                                    onChange={handleCountryChange}
-                                    options={countries}
-                                    styles={customStyles}
-                                    value={countries.find(option => option.value === country)}
-                                />
-                            </div>
-                            <div className="mb-3 mx-3" style={{ width: "250px" }}>
-                                <label className="text-white">
-                                    State<span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                    placeholder="State"
-                                    onChange={handleStateChange}
-                                    options={states}
-                                    styles={customStyles}
-                                    value={states.find(option => option.value === state)}
-                                    isDisabled={!country}
-                                />
-                            </div>
-                            <div className="mb-3 mx-3 align-self-center" style={{ width: "250px" }}>
-                                <label className="text-white">
-                                    City<span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                    placeholder="City"
-                                    onChange={handleLGAChange}
-                                    options={lgas}
-                                    styles={customStyles}
-                                    value={lgas.find(option => option.value === lga)}
-                                    isDisabled={!state}
-                                />
-                            </div>
-                            <div className="mt-3 mx-3 align-self-center">
-                                <button type="submit" className="btn text-white" style={{ width: "150px", height: "50px", backgroundColor: "#fe5722" }}>Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </main>
-    );
-}
+      {selectedState && (
+        <>
+          <label>City:</label>
+          <Select
+            value={selectedCity}
+            onChange={handleCityChange}
+            options={cityOptions}
+          />
+        </>
+      )}
+    </div>
+  );
+};
 
-export default Country;
+export default App;

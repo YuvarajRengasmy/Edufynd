@@ -21,12 +21,17 @@ export const deleteCountryList = (data) => {
     return API.put(`${CountryList}/getFilterCountryList`, data);
   };
 
-  export const getStatesByCountry= (country) => {
+  export const getCountryByCountry= (country) => {
+    return API.get(`${CountryList}/getCountryByState`, {params: { country: country }, 
+    });
+};
+
+export const getStatesByCountry= (country) => {
     return API.get(`${CountryList}/getCountryByStates`, {params: { country: country }, 
     });
 };
 
 export const getCitiesByState= (state) => {
-    return API.get(`${CountryList}/getAllCities`, {params: { state: state }, 
+    return API.get(`${CountryList}/getAllCities`, {params: { state:state }, 
     });
 };

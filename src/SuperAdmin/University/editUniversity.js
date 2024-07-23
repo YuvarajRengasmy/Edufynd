@@ -20,6 +20,8 @@ import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import { getallIntake } from "../../api/intake";
 import CountryRegion from "countryregionjs";
+import { getallCountryList, getStatesByCountry, getCitiesByState } from "../../api/country"; // Adjust the imports as necessary
+
 import { updateUniversity, getSingleUniversity } from "../../api/university";
 
 function Profile() {
@@ -33,8 +35,7 @@ function Profile() {
     about: "",
     courseType: "",
     country: "",
-    state: "",
-    lga: "",
+   
     ranking: "",
     averageFees: "",
     popularCategories: [],
@@ -45,6 +46,8 @@ function Profile() {
     institutionType: "",
     website: "",
     inTake: "",
+    campus: [{ country: "", state: "", cities: "" }],
+
   };
 
   const initialStateErrors = {
@@ -67,9 +70,11 @@ function Profile() {
     institutionType: { required: false },
     website: { required: false },
     inTake: { required: false },
+    campus:{required:false},
   };
 
   const [university, setUniversity] = useState(initialState);
+  const MAX_CAMPUS_FIELDS = 5;
 
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
@@ -77,18 +82,17 @@ function Profile() {
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
+ 
   const [states, setStates] = useState([]);
-  const [selectedStates, setSelectedStates] = useState([]);
-  const [country, setCountry] = useState("");
+  const [cities, setCities] = useState([]);
   const [countries, setCountries] = useState([]);
-  const [lgas, setLGAs] = useState([]);
-  const [selectedLGAs, setSelectedLGAs] = useState([]);
+
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
 
   const ZERO = 0;
   const [selectedCourseType, setSelectedCourseType] = useState([]);
-
+ 
   const navigate = useNavigate();
 
   const handleValidation = (data) => {
@@ -125,7 +129,7 @@ function Profile() {
   useEffect(() => {
     getUniversityDetails();
     getClientList();
-
+    getAllCountryDetails();
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
@@ -133,6 +137,16 @@ function Profile() {
     getAllIntakeDetails();
   }, []);
 
+
+  const getAllCountryDetails = () => {
+    getallCountryList()
+      .then((res) => {
+        setCountries(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getUniversityDetails = () => {
     getSingleUniversity(id)
       .then((res) => {
@@ -162,6 +176,7 @@ function Profile() {
         console.log(err);
       });
   };
+ 
 
   const getAllCatgoeryDetails = () => {
     getallCategories()
@@ -204,6 +219,61 @@ function Profile() {
       });
   };
 
+
+  const handleCountryChange = (selectedOption, index) => {
+    const updatedCampus = [...university.campus];
+    updatedCampus[index].country = selectedOption.value;
+    updatedCampus[index].state = ""; // Reset state
+    updatedCampus[index].cities = ""; // Reset city
+    setUniversity(prevUniversity => ({
+      ...prevUniversity,
+      campus: updatedCampus
+    }));
+
+    // Fetch states for the selected country
+
+    
+    const selectedCountry = countries.find(country => country.name === selectedOption.value);
+    setStates(selectedCountry ? selectedCountry.state : []);
+    setCities([]); // Clear cities since state is reset
+  };
+
+  const handleStateChange = (selectedOption, index) => {
+    const updatedCampus = [...university.campus];
+    updatedCampus[index].state = selectedOption.value;
+    updatedCampus[index].cities = ""; // Reset city
+    setUniversity(prevUniversity => ({
+      ...prevUniversity,
+      campus: updatedCampus
+    }));
+
+    // Fetch cities for the selected state
+    const selectedState = states.find(state => state.name === selectedOption.value);
+    setCities(selectedState ? selectedState.cities : []);
+  };
+
+  const handleCityChange = (selectedOption, index) => {
+    const updatedCampus = [...university.campus];
+    updatedCampus[index].cities = selectedOption.value;
+    setUniversity(prevUniversity => ({
+      ...prevUniversity,
+      campus: updatedCampus
+    }));
+  };
+
+  const addCampusFields = () => {
+    if (university.campus.length < MAX_CAMPUS_FIELDS) {
+      setUniversity(prevUniversity => ({
+        ...prevUniversity,
+        campus: [
+          ...prevUniversity.campus,
+          { country: "", state: "", cities: "" }
+        ]
+      }));
+    } else {
+      alert("Maximum of 3 campus fields can be added.");
+    }
+  };
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -236,95 +306,17 @@ function Profile() {
     }
   };
 
+
+
+
+
+
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions
-      ? selectedOptions.map((option) => option.value)
+      ? selectedOptions.map(option => option.value)
       : [];
-    setUniversity({ ...university, [name]: values });
-  };
-
-  const getCountryRegionInstance = () => {
-    return new CountryRegion();
-  };
-
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const countries = await getCountryRegionInstance().getCountries();
-        setCountries(
-          countries.map((country) => ({
-            value: country.id,
-            label: country.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCountries();
-  }, []);
-
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const states = await getCountryRegionInstance().getStates(country);
-        setStates(
-          states.map((userState) => ({
-            value: userState?.id,
-            label: userState?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (country) {
-      getStates();
-    }
-  }, [country]);
-
-  useEffect(() => {
-    const getLGAs = async () => {
-      try {
-        const allLGAs = await Promise.all(
-          selectedStates.map(async (state) => {
-            const lgas = await getCountryRegionInstance().getLGAs(
-              country,
-              state.value
-            );
-            return lgas.map((lga) => ({
-              value: lga?.id,
-              label: lga?.name,
-            }));
-          })
-        );
-        setLGAs(allLGAs.flat());
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (selectedStates.length > 0) {
-      getLGAs();
-    }
-  }, [selectedStates, country]);
-
-  const handleCountryChange = (selectedOption) => {
-    setCountry(selectedOption.value);
-    setSelectedStates([]);
-    setStates([]);
-    setSelectedLGAs([]);
-    setLGAs([]);
-  };
-
-  const handleStateChange = (selectedOptions) => {
-    setSelectedStates(selectedOptions || []);
-    setSelectedLGAs([]);
-    setLGAs([]);
-  };
-
-  const handleLGAChange = (selectedOptions) => {
-    setSelectedLGAs(selectedOptions || []);
+    setUniversity(prevUniversity => ({ ...prevUniversity, [name]: values }));
   };
 
   const handleErrors = (obj) => {
@@ -342,25 +334,11 @@ function Profile() {
     event.preventDefault();
     const newError = handleValidation(university);
     setErrors(newError);
-    setSubmitted(true);
+    setSubmitted(true);  
 
-    const selectedCountryLabel =
-      countries.find((country) => country.value === countries)?.label || "";
-    const selectedStatesLabels = selectedStates.map((state) => state.label);
-    const selectedLGAsLabels = selectedLGAs.map((lga) => lga.label);
-
-    const updatedUniversity = {
-      ...university,
-      country: selectedCountryLabel,
-      state: selectedStatesLabels,
-      lga: selectedLGAsLabels,
-    };
-
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
 
     if (handleErrors(newError)) {
-      updateUniversity(updatedUniversity)
+      updateUniversity({ ...university })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListUniversity");
@@ -370,6 +348,21 @@ function Profile() {
         });
     }
   };
+
+  const countryOptions = countries.map(country => ({
+    value: country.name,
+    label: country.name
+  }));
+
+  const stateOptions = states.map(state => ({
+    value: state.name,
+    label: state.name
+  }));
+
+  const cityOptions = cities.map(cities => ({
+    value: cities,
+    label: cities
+  }));
   const popularCategoriesOptions = categorie.map((data) => ({
     value: data.popularCategories,
     label: data.popularCategories,
@@ -409,7 +402,7 @@ function Profile() {
         </div>
         <div
           className="content-wrapper "
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
           <div className="content-header ">
             <div className=" container-fluid ">
@@ -511,9 +504,8 @@ function Profile() {
                                 fontSize: "12px",
                               }}
                               value={university?.businessName}
-                              className="form-select form-select-lg rounded-2 "
+                              className="form-select rounded-1 form-select-lg "
                               name="businessName"
-                              placeholder="Select Client Type"
                             >
                               <option value={""} disabled hidden>
                                 {university?.businessName}
@@ -596,61 +588,106 @@ function Profile() {
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>
+      Country<span className="text-danger">*</span>
+    </label>
+    <Select
+      placeholder={university?.campus[0]?.country}
+      name="country"
+      options={countryOptions}
+      styles={customStyles}
+       value={countryOptions.find(option => option.value === university.campus[0]?.country)}
+      onChange={(selectedOption) => handleCountryChange(selectedOption, 0)}
+      className="submain-one-form-body-subsection-select"
+    />
+  </div>
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Country<span className="text-danger">*</span>
+                              {" "}
+                              Primary Country<span className="text-danger">*</span>
                             </label>
-                            <Select
-                              placeholder={university?.country}
-                              onChange={handleCountryChange}
-                              options={countries}
+                            <input
+                              type="text"
+                              value={university?.country}
+                              className="form-control "
+                              placeholder="Enter Email"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
                               name="country"
-                              styles={customStyles}
-                              value={countries.find(
-                                (option) => option.value === country
-                              )}
-                              className="submain-one-form-body-subsection-select"
+                              onChange={handleInputs}
                             />
-                            {errors.country.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
+                           
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              State<span className="text-danger">*</span>
-                            </label>
-                            <Select
-                              placeholder={university?.state}
-                              isMulti
-                              onChange={handleStateChange}
-                              options={states}
-                              name="state"
-                              styles={customStyles}
-                              value={selectedStates}
-                              className="submain-one-form-body-subsection-select"
-                            />
-                            {errors.state.required && (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            )}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              City<span className="text-danger">*</span>
-                            </label>
-                            <Select
-                              placeholder={university?.lga}
-                              value={selectedLGAs}
-                              isMulti
-                              onChange={handleLGAChange}
-                              options={lgas}
-                              name="lga"
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
-                          </div>
+  {Array.isArray(university?.campus) &&
+                                        university.campus.map((data, index) => (
+    <div  className="row g-3" key={index}>
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+          State<span className="text-danger">*</span>
+        </label>
+       
+        <select
+          className="form-select form-select-lg"
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          name="state"
+          onChange={(selectedOption) => handleStateChange(selectedOption, index)}
+          value={data?.state}
+        >
+          <option value={" "}>{data?.state}</option>
+          {stateOptions.map((data, index) => (
+            <option
+              key={index}
+              value={data?.value}
+            >
+              {" "}
+              {data?.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+          City<span className="text-danger">*</span>
+        </label>
+        
+        <select
+          className="form-select form-select-lg"
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px", 
+          }}
+          name="cities"
+          onChange={(selectedOption) => handleCityChange(selectedOption, index)}
+          value={data?.cities}
+        >
+          <option value={" "}>{data?.cities}</option>
+          {cityOptions.map((data, index) => (
+            <option
+              key={index}
+              value={data?.value}
+            >
+              {" "}
+              {data?.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  ))}
+  <div className="col-xl-12">
+    <button
+      type="button"
+      className="btn btn-primary"
+      onClick={addCampusFields}
+    >
+      Add Country
+    </button>
+  </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -660,7 +697,7 @@ function Profile() {
                               type="text"
                               value={university?.email}
                               className="form-control "
-                              placeholder="Example johndoe123@gmail.com"
+                              placeholder="Enter Email"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -677,34 +714,6 @@ function Profile() {
                                 Enter valid Email Id.
                               </div>
                             ) : null}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Website<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={university?.website}
-                              className="form-control "
-                              placeholder="Example www.edufynd.com"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              name="website"
-                              onChange={handleInputs}
-                            />
-                            {errors.website.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            )}
-                            {errors.website.valid && (
-                              <div className="text-danger form-text">
-                                Enter a valid Website URL.
-                              </div>
-                            )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -725,7 +734,6 @@ function Profile() {
                                   : null
                               }
                               name="courseType"
-                              placeholder="Select Course Type"
                               onChange={handleSelectChange}
                               styles={{
                                 container: (base) => ({
@@ -750,7 +758,7 @@ function Profile() {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Example 1947"
+                              placeholder="Enter Founded Year"
                               value={university?.founded}
                               name="founded"
                               style={{
@@ -776,7 +784,7 @@ function Profile() {
                               type="text"
                               value={university?.ranking}
                               className="form-control "
-                              placeholder="Example 7th Ranking "
+                              placeholder="Enter Ranking "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -811,7 +819,6 @@ function Profile() {
                               }
                               name="popularCategories"
                               onChange={handleSelectChange}
-                              placeholder="Select Popular Categories"
                               styles={{
                                 container: (base) => ({
                                   ...base,
@@ -836,7 +843,7 @@ function Profile() {
                               type="text"
                               className="form-control"
                               value={university?.averageFees}
-                              placeholder="Example 2500"
+                              placeholder="Enter Average Fees"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -858,7 +865,65 @@ function Profile() {
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Intake<span className="text-danger">*</span>
+                              {" "}
+                              Offer TAT<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-control"
+                              name="offerTAT"
+                              value={university?.offerTAT}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                            >
+                              {" "}
+                              <option value={" "}>select OfferTAT</option>
+                              {offerTAT.map((data, index) => (
+                                <option key={index} value={data?.offerTAT}>
+                                  {" "}
+                                  {data?.offerTAT}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.offerTAT.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              Website<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={university?.website}
+                              className="form-control "
+                              placeholder="Enter Website"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="website"
+                              onChange={handleInputs}
+                            />
+                            {errors.website.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                            {errors.website.valid && (
+                              <div className="text-danger form-text">
+                                Enter a valid Website URL.
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              InTake<span className="text-danger">*</span>
                             </label>
                             <Select
                               isMulti
@@ -880,39 +945,9 @@ function Profile() {
                                   fontSize: "12px",
                                 }),
                               }}
-                              placeholder="Select Intake"
+                              placeholder="Select InTake"
                             ></Select>
                             {errors.inTake.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Offer TAT<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-control"
-                              name="offerTAT"
-                              value={university?.offerTAT}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleInputs}
-                            >
-                              {" "}
-                              <option value={" "}>Select Offer TAT</option>
-                              {offerTAT.map((data, index) => (
-                                <option key={index} value={data?.offerTAT}>
-                                  {" "}
-                                  {data?.offerTAT}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.offerTAT.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
@@ -926,7 +961,7 @@ function Profile() {
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="University Details..."
+                                placeholder="Enter About"
                                 value={university?.about}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -947,7 +982,7 @@ function Profile() {
                               </label>
                               <textarea
                                 className="form-control"
-                                placeholder="Requirements Details..."
+                                placeholder="Enter Admission Requirements"
                                 value={university?.admissionRequirement}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -982,7 +1017,7 @@ function Profile() {
                                 type="submit"
                                 className="btn btn-save border-0 px-4 py-2 text-uppercase fw-semibold text-white  m-1"
                               >
-                               Update
+                                Submit
                               </button>
                             </div>{" "}
                           </div>
