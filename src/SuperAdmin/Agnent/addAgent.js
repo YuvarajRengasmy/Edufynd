@@ -308,16 +308,14 @@ function AddAgent() {
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
         </nav>
-        <nav className="navbar navbar-top navbar-expand">
-          <Header />
-        </nav>
+      
 
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header">
-            <div className="container-fluid">
+            <div className="container-fluid ">
               <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                 <div
                   className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
@@ -372,13 +370,13 @@ function AddAgent() {
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="company" className="form-label">
-                          Name
+                          Name<span className="text-danger">*</span>
                         </label>
                         <input
                           name="agentName"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Enter Name"
+                          placeholder="Example John Doe"
                           className="form-control rounded-2"
                           id="company"
                           style={{
@@ -399,14 +397,14 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Job" className="form-label">
-                          Business Name
+                          Business Name<span className="text-danger">*</span>
                         </label>
                         <input
                           name="businessName"
                           type="text"
                           className="form-control rounded-2"
                           onChange={handleInputs}
-                          placeholder="Enter Business Name"
+                          placeholder="Example Jane Doe"
                           id="Job"
                           style={{
                             backgroundColor: "#fff",
@@ -426,14 +424,14 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Job" className="form-label">
-                          Business Website
+                          Business Website<span className="text-danger">*</span>
                         </label>
                         <input
                           name="businessWebsite"
                           type="text"
                           onChange={handleInputs}
                           className="form-control rounded-2"
-                          placeholder="Enter Business Website"
+                          placeholder="Example www.edufynd.com"
                           id="Job"
                           style={{
                             backgroundColor: "#fff",
@@ -454,14 +452,14 @@ function AddAgent() {
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Address" className="form-label">
-                          Email ID
+                          Email ID<span className="text-danger">*</span>
                         </label>
                         <input
                           name="email"
                           type="text"
                           className="form-control rounded-2"
                           onChange={handleInputs}
-                          placeholder="Enter Email ID"
+                          placeholder="Example john123@gmail.com"
                           id="Address"
                           value={agent?.email}
                           style={{
@@ -482,14 +480,14 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Primary Number
+                          Primary Number<span className="text-danger">*</span>
                         </label>
                         <input
                           name="mobileNumber"
                           type="text"
                           className="form-control rounded-2"
                           onChange={handleInputs}
-                          placeholder="Enter Primary Number"
+                          placeholder="Example 123-456-789"
                           id="Email"
                           value={agent?.mobileNumber}
                           style={{
@@ -510,13 +508,13 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Whats App Number
+                          WhatsApp Number<span className="text-danger">*</span>
                         </label>
                         <input
                           name="whatsAppNumber"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Enter WhatsApp Number"
+                          placeholder="Example 123-456-789r"
                           className="form-control rounded-2"
                           id="Email"
                           value={agent?.whatsAppNumber}
@@ -539,13 +537,13 @@ function AddAgent() {
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Country" className="form-label">
-                          Address Line1
+                          Address Line1<span className="text-danger">*</span>
                         </label>
                         <input
                           name="addressLine1"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Enter Address Line1"
+                          placeholder="Example 17/3A2, Gandhi St,"
                           className="form-control rounded-2"
                           id="Country"
                           value={agent?.addressLine1}
@@ -564,13 +562,13 @@ function AddAgent() {
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Country" className="form-label">
-                          Address Line2
+                          Address Line2<span className="text-danger">*</span>
                         </label>
                         <input
                           name="addressLine2"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Enter Address Line2"
+                          placeholder="Example Alwartirunagar, Chennai"
                           className="form-control rounded-2"
                           id="Country"
                           value={agent?.addressLine2}
@@ -588,13 +586,13 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Country" className="form-label">
-                          Pin
+                          Pincode<span className="text-danger">*</span>
                         </label>
                         <input
                           name="addressLine3"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Enter Address Line3"
+                          placeholder="Example 632001"
                           className="form-control rounded-2"
                           id="Country"
                           value={agent?.addressLine3}
@@ -617,7 +615,7 @@ function AddAgent() {
                         <input
                           name="registrationNo"
                           type="text"
-                          placeholder="Enter Registration No"
+                          placeholder="Example 41151904020"
                           className="form-control rounded-2"
                           id="Email"
                           style={{
@@ -635,14 +633,14 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          GSTN{" "}
+                          GSTN{" "}<span className="text-danger">*</span>
                         </label>
                         <input
                           name="gstn"
                           type="text"
                           className="form-control rounded-2"
                           onChange={handleInputs}
-                          placeholder="Enter GSTN "
+                          placeholder="Example 29GGGGG1314R9Z6 "
                           id="Email"
                           value={agent?.gstn}
                           style={{
@@ -663,13 +661,13 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                         <label htmlFor="Email" className="form-label">
-                          PAN of Company{" "}
+                          PAN of Company{" "}<span className="text-danger">*</span>
                         </label>
                         <input
                           name="panNumberCompany"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Enter PAN of Company"
+                          placeholder="Example ABCTY1234D"
                           className="form-control rounded-2"
                           id="Email"
                           value={agent?.panNumberCompany}
@@ -692,7 +690,7 @@ function AddAgent() {
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Staff Name{" "}
+                          Staff Name{" "}<span className="text-danger">*</span>
                         </label>
                         <input
                           name="staffName"
@@ -700,7 +698,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Enter Staff Name"
+                          placeholder="Example Alice Smith"
                           value={agent?.staffName}
                           style={{
                             backgroundColor: "#fff",
@@ -714,13 +712,13 @@ function AddAgent() {
                           </div>
                         ) : errors.staffName.valid ? (
                           <div className="text-danger form-text">
-                            Enter Name Letter Only.
+                            Enter  Letter Only.
                           </div>
                         ) : null}
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Staff Contact No
+                          Staff Contact No<span className="text-danger">*</span>
                         </label>
                         <input
                           name="staffContactNo"
@@ -728,7 +726,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Enter Staff Contact No"
+                          placeholder="Example 123-456-789"
                           value={agent?.staffContactNo}
                           style={{
                             backgroundColor: "#fff",
@@ -748,7 +746,7 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Staff WhatsApp Number
+                          Staff WhatsApp Number<span className="text-danger">*</span>
                         </label>
                         <input
                           name="whatsApp"
@@ -756,7 +754,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Enter  WhatsApp Number"
+                          placeholder="Example 123-456-789"
                           style={{
                             backgroundColor: "#fff",
                             fontFamily: "Plus Jakarta Sans",
@@ -773,10 +771,35 @@ function AddAgent() {
                           </div>
                         ) : null}
                       </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                        <label htmlFor="Email" className="form-label">
+                          {" "}
+                          Bank Name<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          name="bankName"
+                          type="text"
+                          className="form-control rounded-2"
+                          id="Email"
+                          onChange={handleInputs}
+                          placeholder="Example Axis Bank"
+                          value={agent?.bankName}
+                          style={{
+                            backgroundColor: "#fff",
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.bankName.required ? (
+                          <span className="form-text text-danger">
+                            This field is required.
+                          </span>
+                        ) : null}
+                      </div>
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Account Name
+                          Account Name<span className="text-danger">*</span>
                         </label>
                         <input
                           name="accountName"
@@ -784,7 +807,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Enter Account Name"
+                          placeholder="Example  John Smith"
                           value={agent?.accountName}
                           style={{
                             backgroundColor: "#fff",
@@ -801,7 +824,7 @@ function AddAgent() {
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
                           {" "}
-                          Account Number
+                          Account Number<span className="text-danger">*</span>
                         </label>
                         <input
                           name="accountNumber"
@@ -809,7 +832,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Enter Account Number"
+                          placeholder="Example  0112345678"
                           value={agent?.accountNumber}
                           style={{
                             backgroundColor: "#fff",
@@ -838,7 +861,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="text"
                           onChange={handleInputs}
-                          placeholder="Enter Account Type"
+                          placeholder="Example  Personal"
                           value={agent?.branch}
                           style={{
                             backgroundColor: "#fff",
@@ -855,7 +878,7 @@ function AddAgent() {
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          IFSC
+                        IFSC/IBAN<span className="text-danger">*</span>
                         </label>
                         <input
                           name="ifsc"
@@ -863,7 +886,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Enter IFSC"
+                          placeholder="Example AT611904300234573201"
                           value={agent?.ifsc}
                           style={{
                             backgroundColor: "#fff",
@@ -887,7 +910,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="text"
                           onChange={handleInputs}
-                          placeholder="Enter Swift"
+                          placeholder="Example AAAA-BB-CC-123"
                           value={agent?.branch}
                           style={{
                             backgroundColor: "#fff",
@@ -902,35 +925,11 @@ function AddAgent() {
                         ) : null}
                       </div>
 
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                        <label htmlFor="Email" className="form-label">
-                          {" "}
-                          Bank Name
-                        </label>
-                        <input
-                          name="bankName"
-                          type="text"
-                          className="form-control rounded-2"
-                          id="Email"
-                          onChange={handleInputs}
-                          placeholder="Enter Bank Name"
-                          value={agent?.bankName}
-                          style={{
-                            backgroundColor: "#fff",
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                        />
-                        {errors.bankName.required ? (
-                          <span className="form-text text-danger">
-                            This field is required.
-                          </span>
-                        ) : null}
-                      </div>
+                    
 
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Agents Commission
+                          Agents Commission<span className="text-danger">*</span>
                         </label>
                         <input
                           name="agentsCommission"
@@ -938,7 +937,7 @@ function AddAgent() {
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Enter Agents Commission"
+                          placeholder="Example 50"
                           value={agent?.agentsCommission}
                           style={{
                             backgroundColor: "#fff",
@@ -987,7 +986,7 @@ function AddAgent() {
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label htmlFor="Email" className="form-label">
-                          Do require visa filing support{" "}
+                          Do Require Visa Filing Support{" "}
                         </label>
                         <select
                           class="form-select form-select-lg rounded-2"
@@ -1002,19 +1001,19 @@ function AddAgent() {
                           }}
                         >
                           <option selected>
-                            Do require visa filing support{" "}
+                            Do Require Visa Filing sSupport{" "}
                           </option>
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
                         </select>
-                        <span>If 'Yes' show ' 10% on commision will be charged'  </span>
+                        <span className="text-center  text-capitalize" ><small>If 'Yes' 10% on commision will be charged'</small>  </span>
                       </div>
                     </div>
 
                     <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto mt-4">
                       <Link
                         style={{
-                          backgroundColor: "#0f2239",
+                          backgroundColor: "#231f20",
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}

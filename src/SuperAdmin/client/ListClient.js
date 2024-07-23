@@ -310,16 +310,16 @@ export default function Masterproductlist() {
         <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
 
           <div className="container">
-            
-              <div className="row ">
-                <div className="col-xl-12">
-                  <div className="content-header">
-                  <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+
+            <div className="row ">
+              <div className="col-xl-12">
+                <div className="content-header">
+                  <ol className="breadcrumb d-flex flex-row align-items-center justify-content-end">
                     <li className="flex-grow-1">
                       <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
                           type="search"
-                          placeholder="Search"
+                          placeholder="Search..."
                           aria-describedby="button-addon3"
                           className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
                           style={{
@@ -407,7 +407,7 @@ export default function Masterproductlist() {
                                 <button
 
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
+                                  className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white float-right bg"
                                   style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
                                 // onClick={resetFilter}
                                 >
@@ -417,7 +417,7 @@ export default function Masterproductlist() {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   // onClick={filterProgramList}
-                                  className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
+                                  className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2  text-white float-right mx-2"
                                   style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
                                 >
                                   Apply
@@ -462,16 +462,16 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddClient">
+                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/AddClient">
                         <button
-                          className="btn btn-outline border-0 text-white  "
+                          className="btn  border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
                         >
                           <i
-                            class="fa fa-plus-circle me-2"
+                            class="fa fa-plus-circle"
                             aria-hidden="true"
                           ></i>{" "}
-                          Add Client
+                          &nbsp;&nbsp; Add Client
                         </button>
                       </Link>
                     </li>
@@ -579,12 +579,12 @@ export default function Masterproductlist() {
         <Dialog open={open}>
           <DialogContent>
             <div className="text-center p-4">
-              <h5 className="mb-4" style={{fontSize:'14px'}}>
+              <h5 className="mb-4">
                 Are you sure you want to Delete <br /> the selected Product ?
               </h5>
               <button
                 type="button"
-                className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+                className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
                 onClick={deleteClientData}
                 style={{ fontSize: '12px' }}
               >
@@ -592,7 +592,7 @@ export default function Masterproductlist() {
               </button>
               <button
                 type="button"
-                className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+                className="btn btn-cancel  btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase "
                 onClick={closePopup}
                 style={{ fontSize: '12px' }}
               >
@@ -629,15 +629,15 @@ export default function Masterproductlist() {
                     name="file"
                     className="form-control text-dark bg-transparent"
                     onChange={handleFileChange}
-                    style={{fontSize:'14px'}}
+                    style={{ fontSize: '14px' }}
                   />
                 </div>
 
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
-                  className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
+                  to="/client"
+                  className="btn btn-cancel border-0 rounded-pill text-uppercase px-4 py-2 fw-semibold text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 
                 >
@@ -646,7 +646,7 @@ export default function Masterproductlist() {
                 <button
                   type="submit"
                   // onClick={handleFileUpload}
-                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
+                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
                   style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
                 >
                   Apply
