@@ -435,7 +435,7 @@ const App = () => {
     label: country.name,
     states: country.state,
   }));
-
+console.log("ll", selectedCountry)
   const stateOptions = selectedCountry ? selectedCountry.states.map((state) => ({
         value: state.name,
         label: state.name,
@@ -668,7 +668,7 @@ const App = () => {
                               </label>
                               <Select
                                 placeholder="Select Country"
-                                name="country"
+                                name="label"
                                 styles={customStyles}
                                 options={countryOptions}
                                 onChange={handleCountryChange}
