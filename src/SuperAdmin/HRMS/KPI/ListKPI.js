@@ -228,7 +228,12 @@ export const ListKPI = () => {
 
             </div>
           </div>
-          <div className="row">
+
+         
+        </div>
+        <div className="content-body">
+            <div className="container">
+            <div className="row">
             <div className="col-xl-12">
               <div className="card rounded-0  border-0">
                 <div className="card-body">
@@ -315,7 +320,9 @@ export const ListKPI = () => {
               </div>
             </div>
           </div>
-        </div>
+            </div>
+          </div>
+          
 
 
       </div>

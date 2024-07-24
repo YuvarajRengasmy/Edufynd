@@ -120,7 +120,10 @@ if (isAuthenticated()) {
                         <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1"><i class="fa fa-user nav-icon "></i></span>
                             <input type="email" name="email" onChange={handleInputs} className="form-control  " id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address..." style={{fontSize:'12px'}} />
-                            {errors.email.required ? (
+                          
+                          
+                          </div>
+                          {errors.email.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
@@ -129,11 +132,12 @@ if (isAuthenticated()) {
                                 Enter valid Email Id.
                               </div>
                             ) : null}
-                          </div>
                           <div class="input-group mb-3">
                           <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock nav-icon"></i></span>
                             <input type="password" name="password" onChange={handleInputs} autoComplete="off" className="form-control     " id="exampleInputPassword" placeholder="Password..." style={{fontSize:'12px'}} />
-                            {errors.password.required ? (
+                           
+                          </div>
+                          {errors.password.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
@@ -145,7 +149,6 @@ if (isAuthenticated()) {
                                 <strong>special <br /> character{''}</strong> and <strong>number</strong>.
                               </div>
                             ) : null}
-                          </div>
                           <div className="form-group">
                             <div className="custom-control custom-checkbox small">
                               <input type="checkbox" className="form-check-input" id="customCheck" />
@@ -154,7 +157,7 @@ if (isAuthenticated()) {
                             </div>
                           </div>
                           <div className='d-flex justify-content-center'>
-                            <button type="submit" className="w-75 btn btn-sm   border-0  fw-bold text-uppercase px-4 py-2" style={{ backgroundColor: '#fe5722',color:'#fff',fontSize:'10px' }}><i class="fa fa-sign-in-alt nav-icon text-white"></i>Login </button>
+                            <button type="submit" target='_self' className="w-75 btn btn-sm   border-0  fw-bold text-uppercase px-4 py-2" style={{ backgroundColor: '#fe5722',color:'#fff',fontSize:'10px' }}><i class="fa fa-sign-in-alt nav-icon text-white"></i>Login </button>
                           </div>
       
                           <div class="alternative-login d-flex flex-row align-items-center justify-content-center" style={{marginTop:'1rem',marginBottom:'1rem'}}>
@@ -169,10 +172,10 @@ if (isAuthenticated()) {
                           </div>
                           <div className="row g-3 text-center my-2">
                          <div className="col-md-6 col-sm-12">
-                          <Link to='/ForgotPassword' className="btn btn-sm   border-0 text-uppercase  fw-bold px-4 py-2" style={{backgroundColor:'#f0f0f0',color:'#231f20',fontSize:'9px'}} ><i class="fa fa-key nav-icon"></i>Forgot Password</Link>
+                          <Link to='/ForgotPassword' target="_self" className="btn btn-sm   border-0 text-uppercase  fw-bold px-4 py-2" style={{backgroundColor:'#f0f0f0',color:'#231f20',fontSize:'9px'}} ><i class="fa fa-key nav-icon"></i>Forgot Password</Link>
                         </div>
                         <div className="col-md-6 col-sm-12">
-                          <Link to='/Register' className="btn btn-sm  px-4 text-uppercase fw-bold py-2" style={{backgroundColor:'#34A853',color:'#fff',fontSize:'9px'}}><i class="fa fa-plus-circle nav-icon text-white"></i>Create Account!</Link>
+                          <Link to='/Register' target="_self" className="btn btn-sm  px-4 text-uppercase fw-bold py-2" style={{backgroundColor:'#34A853',color:'#fff',fontSize:'9px'}}><i class="fa fa-plus-circle nav-icon text-white"></i>Create Account!</Link>
                         </div>
                          </div>
                         </form>

@@ -293,6 +293,13 @@ export const ListLoanEnquiry = () => {
 
                 </div>
             </div>
+
+
+           
+           
+          </div>
+          <div className="content-body">
+            <div className="container">
             <div className="row">
           
           <div className="col-xl-12">
@@ -402,6 +409,7 @@ export const ListLoanEnquiry = () => {
           </div>
           
         </div>
+            </div>
           </div>
 
       

@@ -294,9 +294,9 @@ function ListStaff() {
           </div>
          
         
-
-        
-                <div className="row">
+          <div className="content-body">
+            <div className="container">
+            <div className="row">
           <div className="col-xl-12">
           <div className="col-md-12">
             <div className="card rounded-0 mt-2 border-0">
@@ -390,6 +390,10 @@ function ListStaff() {
           </div>
           </div>
         </div>
+            </div>
+          </div>
+        
+                
         
 
 

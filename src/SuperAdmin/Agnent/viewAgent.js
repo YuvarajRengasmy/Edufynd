@@ -38,11 +38,11 @@ function Profile() {
 
 
         <div className="content-wrapper"  >
-<div className="content-haeder">
+<div className="content-header">
 <div className="container ">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card border-0 rounded-0 shadow text-bg-white p-4">
+                <div className="card border-0 rounded-0  text-bg-white p-4">
                   <div className="bg-transparent mb-3 ">
                     <div className="row g-0">
                       <div className="col-md-12 text-center">
