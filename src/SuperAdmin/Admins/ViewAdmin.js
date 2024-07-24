@@ -32,18 +32,18 @@ function AddAgent() {
           });
       };
     return (
-        <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-            <div class="container-fluid">
-                <nav class="navbar navbar-vertical navbar-expand-lg">
+        <>
+            <div >
+               
                     <Sidebar />
                    
-                </nav>
+                
                
                
          
             <div className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                 <div className="content-header ">
-                <div className="container-fluid">
+                <div className="container">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                 <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
                 <h6 className='text-center text-capitalize p-1'>View Admin Details</h6>
@@ -97,7 +97,7 @@ function AddAgent() {
                 </div>
             </div>
             </div>
-        </div>
+        </>
     );
 }
 export default AddAgent;

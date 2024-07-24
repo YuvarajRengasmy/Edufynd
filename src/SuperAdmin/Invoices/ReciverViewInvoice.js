@@ -48,11 +48,11 @@ const ViewInvoice = () => {
     };
 
     return (
-        <div style={{ fontFamily: 'Plus Jakarta Sans' }}>
-            <div className="container-fluid">
-                <nav className="navbar navbar-vertical navbar-expand-lg">
+        <>
+            <div >
+                
                     <Mastersidebar />
-                </nav>
+                
                 <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                     <div className="content-header">
                         <div className="card shadow-sm border-0 text-center p-4" >
@@ -109,7 +109,7 @@ const ViewInvoice = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

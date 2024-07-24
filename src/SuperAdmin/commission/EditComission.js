@@ -342,11 +342,11 @@ function AddCommission() {
   };
 
   return (
-    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-      <div className="container-fluid">
-        <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+        
           <Sidebar />
-        </nav>
+       
 
         <div
           className="content-wrapper"
@@ -363,7 +363,7 @@ function AddCommission() {
                         style={{ background: "#fe5722", color: "#fff" }}
                       >
                         <h5 className="text-center text-capitalize p-1">
-                          Add Commission Details
+                          Edit Commission Details
                         </h5>
                       </div>
                       <div className="card-body mt-5">
@@ -777,7 +777,7 @@ function AddCommission() {
                               type="submit"
                               className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
                             >
-                              Submit
+                              Update
                             </button>
                           </div>
                         </div>
@@ -790,7 +790,7 @@ function AddCommission() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

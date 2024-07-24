@@ -145,22 +145,20 @@ const Sidebar = () => {
   }, [currentPath]);
 
   return (
-    <div
-      style={{
-        fontSize: "14px",
-        fontWeight: "bold",
-        fontFamily: "Plus Jakarta Sans",
-        fontVariant: "all-small-caps"
-      }}
-    >
+    <>
       <aside
         className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
         style={{
           position: "fixed",
-          width: "240px",
+          width: "250px",
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
+          fontSize:'14px',
+          fontWeight:'bold',
+          fontFamily: "Plus Jakarta Sans",
+        fontVariant: "all-small-caps"
+
         }}
       >
         <div className="  shadow-none   ">
@@ -1786,7 +1784,7 @@ const Sidebar = () => {
           </div>
         </div>
       </aside>
-    </div>
+    </>
   );
 };
 export default Sidebar;

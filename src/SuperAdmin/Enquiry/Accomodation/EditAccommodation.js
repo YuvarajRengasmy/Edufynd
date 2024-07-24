@@ -220,17 +220,19 @@ export const EditAccommodation = () => {
 
 
   return (
-    <div>
-      <div style={{ fontFamily: 'Plus Jakarta Sans' }}>
-        <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+      
+        <div >
+       
             <Mastersidebar />
-          </nav>
+        
           <div className='content-wrapper' style={{ fontSize: '13px' }}>
             <div className='content-header'>
               <form className="p-1" onSubmit={handleSubmit}>
 
-                <div className='container-fluid'>
+                <div className='container'>
+                <div className='row'>
+                  <div className='col-xl-12'>
                   <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                     <div
                       className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
@@ -506,7 +508,7 @@ export const EditAccommodation = () => {
                               style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                             >
-                              Submit
+                              Update
                             </button>
                           </div>
                         </div>
@@ -515,6 +517,11 @@ export const EditAccommodation = () => {
 
                     </div>
                   </div>
+                  </div>
+                </div>
+
+
+                 
 
 
 
@@ -528,8 +535,8 @@ export const EditAccommodation = () => {
           </div>
 
         </div>
-      </div>
-    </div>
+      
+    </>
 
   )
 }

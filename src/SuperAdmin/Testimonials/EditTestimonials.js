@@ -12,12 +12,12 @@ import { RichTextEditor } from '@mantine/rte';
 export const EditTestimonials = () => {
   return (
     <>
-    <div  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div class="container-fluid">
-            <nav class="navbar navbar-vertical navbar-expand-lg">
+
+        <div >
+            
                 <Sidebar />
               
-            </nav>
+            
         
         <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
             <div className="content-header ">
@@ -159,7 +159,7 @@ export const EditTestimonials = () => {
                                 type="submit"
                                 className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                               >
-                                Submit
+                                Update
                               </button>
                             </div>
                           </div>
@@ -172,7 +172,7 @@ export const EditTestimonials = () => {
             </div>
         </div>
         </div>
-    </div>
+   
     </>
   )
 }

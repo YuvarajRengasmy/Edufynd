@@ -303,11 +303,11 @@ function AddAgent() {
     ));
   }
   return (
-    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-      <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+        
           <Sidebar />
-        </nav>
+        
       
 
         <div
@@ -315,8 +315,10 @@ function AddAgent() {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header">
-            <div className="container-fluid ">
-              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div className="container ">
+              <div className="row">
+                <div className="col-xl-12">
+                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                 <div
                   className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                   style={{ background: "#fe5722", color: "#fff" }}
@@ -1037,11 +1039,14 @@ function AddAgent() {
                   </div>
                 </form>
               </div>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export default AddAgent;

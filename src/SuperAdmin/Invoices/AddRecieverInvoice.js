@@ -2,15 +2,16 @@ import React from 'react'
 import Mastersidebar from '../../compoents/sidebar';
 export const AddRecieverInvoice = () => {
   return (
-    <div> <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
-    <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+      
+    <div >
+        
             <Mastersidebar />
-          </nav>
+        
         <div className='content-wrapper' style={{ fontSize:'14px' }}>
 <div className='content-header'>
   <div className='container card card-body p-4 border-0'>
-    <h4 className='card-title  fw-bold'>Add Invoice Details  </h4>
+    <h4 className='card-title  fw-bold'>Add Reciever Invoice Details  </h4>
     <hr/>
   <form className="p-1">
    
@@ -151,7 +152,7 @@ export const AddRecieverInvoice = () => {
         </div>
                     
                </div>     
-    </div></div>
+    </>
   )
 }
 export default AddRecieverInvoice

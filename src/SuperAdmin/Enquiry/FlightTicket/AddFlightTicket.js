@@ -129,12 +129,12 @@ export const AddForex = () => {
 
 
   return (
-    <div>
-      <div style={{ fontFamily: 'Plus Jakarta Sans' }}>
-        <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+     
+        <div >
+         
             <Mastersidebar />
-          </nav>
+         
           <div className='content-wrapper' style={{ fontSize: '14px' }}>
             <div className='content-header'>
               <form className="p-1" onSubmit={handleSubmit}>
@@ -147,7 +147,7 @@ export const AddForex = () => {
                     >
                       <h6 className="text-center text-capitalize p-1">
                         {" "}
-                        Flight  Enquiry
+                      Add  Flight  Enquiry
                       </h6>
                     </div>
                     <div className='card-body mt-5'>
@@ -318,8 +318,8 @@ export const AddForex = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      
+    </>
   )
 }
 export default AddForex;

@@ -291,19 +291,19 @@ function AddAgent() {
   };
   return (
     <>
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
+      
+        <div >
+         
             <Sidebar />
-          </nav>
+          
 
           <div
             className="content-wrapper "
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
-              <div className="content container-fluid ">
-                <form onSubmit={handleSubmit}>
+              <div className="container ">
+               
                   <div className="row">
                     <div className="col-xl-12 ">
                       <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -317,6 +317,8 @@ function AddAgent() {
                           </h6>
                         </div>
                         <div className="card-body mt-5">
+                        <form onSubmit={handleSubmit}>
+
                           <div className="row g-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -721,16 +723,18 @@ function AddAgent() {
                               </button>
                             </div>
                           </div>
+                          </form>
                         </div>
+                       
                       </div>
                     </div>
                   </div>
-                </form>
+                
               </div>
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 }

@@ -352,8 +352,9 @@ export default function Masterproductlist() {
 
 
         <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="content-header">
         <div className="container">
-          <div className="content-header">
+         
             
               <div className="row ">
 
@@ -533,9 +534,13 @@ export default function Masterproductlist() {
               </div>
             </div>
          
+          
+          </div>
+          <div className="content-body">
+          <div className="container">
           <div className="row">
             <div className="col-xl-12">
-              <div className="card mt-2 border-0 ">
+              <div className="card rounded-0 mt-2 border-0 ">
                 <div className="card-body">
                   <div className="card-table">
                     <div className="table-responsive">
@@ -623,6 +628,7 @@ export default function Masterproductlist() {
             </div>
             </div>
           </div>
+         </div>
         </div>
         <Dialog open={open}>
           <DialogContent>
