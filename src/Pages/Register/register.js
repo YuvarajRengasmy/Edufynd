@@ -169,18 +169,18 @@ const Register = () => {
           
              <div className='card-body p-4'>
              <div className="text-center ">
-                          <h1 className="h3  fw-semibold">Register Now!</h1>
+                          <h1 className="h3  fw-bold" style={{color:'#E91E63'}}>Start Your Journey!</h1>
                         </div>
-             <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white  nav-tab mt-2 text-uppercase fw-bold  mx-auto my-3' style={{ backgroundColor: '#fe5722',color:'#fff',fontSize:'10px' }}>
+             <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white  nav-tab mt-2 text-uppercase fw-bold rounded-2 mx-auto my-3' style={{ backgroundColor: '#0056b3',color:'#fff',fontSize:'10px' }}>
                       <button
-                        className={`btn  border-0 text-white fw-bold text-uppercase px-3 py-2 ${type === 'student' ? 'active bg-success bg-gradient  text-dark signup-button  ' : ''}`}
+                        className={`btn  border-0 text-white fw-bold text-uppercase px-3 py-2 ${type === 'student' ? 'active bg-primary bg-gradient  text-dark signup-button  ' : ''}`}
                         type="button" aria-selected="true"
                         role='tab' onClick={() => handleSinUpType('student')}
                         style={{ fontSize: '10px' }} >
                        <i class="fa fa-user-graduate nav-icon text-white"></i> Student
                       </button>
                      <button
-                        className={`btn  border-0 px-3 py-2 text-white text-uppercase fw-bold ${type === 'superAdmin' ? 'active bg-success bg-gradient  text-dark signup-button' : ''}`}
+                        className={`btn  border-0 px-3 py-2 text-white text-uppercase fw-bold ${type === 'superAdmin' ? 'active bg-primary bg-gradient  text-dark signup-button' : ''}`}
                         type="button"
                         aria-selected="false"
                         role='tab' onClick={() => handleSinUpType('superAdmin')}
@@ -188,7 +188,7 @@ const Register = () => {
                      <i class="fa fa-user-shield nav-icon text-white"></i> SAdmin
                       </button> 
                       <button
-                        className={`btn  border-0 text-white px-3 py-2 text-white text-uppercase fw-bold  ${type === 'agent' ? 'active bg-success bg-gradient text-dark signup-button' : ''}`}
+                        className={`btn  border-0 text-white px-3 py-2 text-white text-uppercase fw-bold  ${type === 'agent' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                         type="button"
                         aria-selected="false"
                         role='tab' onClick={() => handleSinUpType('agent')}

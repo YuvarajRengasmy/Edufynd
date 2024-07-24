@@ -111,7 +111,7 @@ if (isAuthenticated()) {
                 
                <div className="card-body p-4">
                <div className="text-center my-2 ">
-                          <h1 className="h3  fw-semibold">Welcome Back!</h1>
+                          <h1 className="h3  fw-bold"style={{color:'#E91E63'}}>Member Login!</h1>
                         </div>
 
 
