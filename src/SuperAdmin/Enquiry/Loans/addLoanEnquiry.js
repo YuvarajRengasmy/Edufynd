@@ -181,12 +181,12 @@ export const AddLoanEnquiry = () => {
 
 
   return (
-    <div>
-      <div style={{  fontFamily: 'Plus Jakarta Sans' }}>
-        <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+     
+        <div >
+        
             <Mastersidebar />
-          </nav>
+         
           <div className='content-wrapper' style={{  fontSize: '13px' }}>
             <div className='content-header'>
               <form className="p-1" onSubmit={handleSubmit}>
@@ -467,8 +467,8 @@ export const AddLoanEnquiry = () => {
           </div>
 
         </div>
-      </div>
-    </div>
+      
+    </>
   )
 }
 export default AddLoanEnquiry;

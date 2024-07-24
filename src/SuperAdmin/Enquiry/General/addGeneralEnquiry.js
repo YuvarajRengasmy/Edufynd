@@ -150,12 +150,12 @@ export const AddGeneralEnquiry = () => {
 
 
   return (
-    <div>
-      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans' }}>
-        <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+    
+        <div >
+          
             <Mastersidebar />
-          </nav>
+          
           <div className='content-wrapper' style={{ backgroundColor: '#fff', fontSize: '14px' }}>
             <div className='content-header'>
               <div className='container card card-body p-4 border-0'>
@@ -379,8 +379,8 @@ export const AddGeneralEnquiry = () => {
           </div>
 
         </div>
-      </div>
-    </div>
+      
+    </>
   )
 }
 export default AddGeneralEnquiry

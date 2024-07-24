@@ -99,15 +99,16 @@ function ListStaff() {
 
 
   return (
-    <div>
-        <div  style={{ fontFamily: 'Plus Jakarta Sans' }}>
-    <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+        
+    <div >
+         
             <Mastersidebar />
-          </nav>
-        <div className='content-wrapper ' >
+        
+        <div className='content-wrapper ' style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}>
+        <div className='content-header'>
           <div className="container ">
-          <div className='content-header'>
+          
 <div className="row">
   <div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
@@ -298,7 +299,7 @@ function ListStaff() {
                 <div className="row">
           <div className="col-xl-12">
           <div className="col-md-12">
-            <div className="card mt-2 border-0">
+            <div className="card rounded-0 mt-2 border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
@@ -421,8 +422,8 @@ function ListStaff() {
       </Dialog>
                     
                </div>     
-    </div>
-    </div>
+   
+    </>
   )
 };
 export default ListStaff;

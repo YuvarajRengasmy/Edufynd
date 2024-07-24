@@ -2,11 +2,11 @@ import React from 'react'
 import Mastersidebar from '../../compoents/sidebar';
 export const Editinvoice = () => {
   return (
-    <div>  <div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
-    <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
+    <> 
+    <div >
+         
             <Mastersidebar />
-          </nav>
+         
         <div className='content-wrapper' style={{ fontSize:'14px' }}>
 <div className='content-header'>
   <div className='container card card-body p-4 border-0'>
@@ -175,7 +175,7 @@ export const Editinvoice = () => {
                     
                       <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
                       
-                          <button className="btn w-25 " type="submit" style={{backgroundColor:'#fe5722',color:'#fff'}}>Save Changes</button>
+                          <button className="btn w-25 " type="submit" style={{backgroundColor:'#fe5722',color:'#fff'}}>Update</button>
                         
                        
                           <button className="btn w-25 " style={{backgroundColor:'#0f2239',color:'#fff'}} type="submit">Cancel</button>
@@ -194,7 +194,7 @@ export const Editinvoice = () => {
         </div>
                     
                </div>     
-    </div></div>
+    </>
   )
 }
 export default Editinvoice

@@ -131,17 +131,17 @@ function EditAdmin() {
         }
       };
     return (
-        <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-            <div class="container-fluid">
-                <nav class="navbar navbar-vertical navbar-expand-lg">
+        <>
+            <div >
+               
                     <Sidebar />
                    
-                </nav>
+                
                
            
             <div className="content-wrapper "style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
                 <div className="content-header">
-                    <div className="container-fluid">
+                    <div className="container">
                     <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                 <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
                 <h6 className='text-center text-capitalize p-1'> Edit Admin Details</h6>
@@ -316,7 +316,7 @@ function EditAdmin() {
         Cancel
     </Link>
     <button style={{ backgroundColor: "#FE5722", fontSize: '12px' }} type="submit" className="btn btn-save px-4 py-2 fw-semibold text-uppercase d-inline border-0 text-white m-1">
-        Submit
+        Update
     </button>
 </div>
 </div>
@@ -327,7 +327,7 @@ function EditAdmin() {
                 </div>
             </div>
             </div>
-        </div>
+        </>
     );
 }
 export default EditAdmin;

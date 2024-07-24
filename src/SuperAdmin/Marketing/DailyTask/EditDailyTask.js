@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 
 export const EditDailyTask = () => {
   return (
-    <div  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div class="container-fluid">
-            <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+        <div >
+          
                 <Sidebar />
               
-            </nav>
+          
         
         <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
             <div className="content-header ">
@@ -22,7 +22,7 @@ export const EditDailyTask = () => {
               <div className="col-xl-12 ">
               <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
             <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-            <h5 className='text-center text-capitalize p-1'> Add Meetings Details</h5>
+            <h5 className='text-center text-capitalize p-1'> Edit DailyTask Details</h5>
             </div>
             <div className="card-body mt-5">
                           <div className="row g-3">
@@ -158,7 +158,7 @@ export const EditDailyTask = () => {
                                 type="submit"
                                 className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                               >
-                                Submit
+                               Update
                               </button>
                             </div>
                           </div>
@@ -171,7 +171,7 @@ export const EditDailyTask = () => {
             </div>
         </div>
         </div>
-    </div>
+    </>
   )
 }
 export default EditDailyTask

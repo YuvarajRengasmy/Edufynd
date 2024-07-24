@@ -3,13 +3,13 @@ import Sidebar from "../../../compoents/sidebar";
 
 export const ViewCampaign = () => {
   return (
-    <>  <div  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-    <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>  
+    <div >
+      
             <Sidebar />
             
           
-        </nav>
+        
    
     <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header ">
@@ -101,7 +101,7 @@ export const ViewCampaign = () => {
         </div>
     </div>
     </div>
-</div></>
+</>
   )
 }
 export default ViewCampaign

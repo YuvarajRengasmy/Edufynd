@@ -3,18 +3,18 @@ import Sidebar from '../../compoents/sidebar'
 
 export const Application = () => {
   return (
-    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="conatiner-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+       
           <Sidebar />
 
-        </nav>
+      
      
       <div className="content-wrapper" >
         <div className="content-header ">
-          <div className="container-fluid">
-            <div className='row g-3'>
-              <div className='col'>
+          <div className="container">
+            <div className='row '>
+              <div className='col-xl-12'>
                 <div className='card border-0 shadow-sm p-2  '>
 
                   <div className='card-body' >
@@ -51,7 +51,7 @@ export const Application = () => {
       </div>
       </div>
 
-    </div>
+    </>
 
 
 

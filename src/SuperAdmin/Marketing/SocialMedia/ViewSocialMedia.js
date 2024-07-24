@@ -3,24 +3,24 @@ import Sidebar from "../../../compoents/sidebar";
 
 export const ViewSocialMedia = () => {
   return (
-    <>  <div  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-    <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>  
+    <div >
+        
             <Sidebar />
             
           
-        </nav>
+      
    
     <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header ">
-            <div className="container-fluid">
+            <div className="container">
                 
                    
 
                   
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
         <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-        <h5 className='text-center text-capitalize p-1'>View Marketing Details</h5>
+        <h5 className='text-center text-capitalize p-1'>View Social MediaDetails</h5>
         </div>
               <div className="card-body">
               <table className='table table-hover table-bordered table-striped-columns mt-5'  style={{ fontFamily: 'Plus Jakarta Sans',fontSize: '14px' }}>
@@ -101,7 +101,7 @@ export const ViewSocialMedia = () => {
         </div>
     </div>
     </div>
-</div></>
+</>
   )
 }
 export default ViewSocialMedia
