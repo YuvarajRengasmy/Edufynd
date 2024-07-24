@@ -698,7 +698,9 @@ export default function Masterproductlist() {
                                       
                                       </div>
                                     ))} */}
-                                    {data?.campus[0]?.country}
+                                   {data?.campus?.length > 0
+                                      ? data.campus[0]?.country
+                                      : "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start">
                                     {data.campus?.map((campus, yearIndex) => (
