@@ -113,11 +113,10 @@ const App = () => {
   const getAllCountryDetails = () => {
     getallCountryList()
       .then((res) => {
-        console.log("balan", res)
+     
         setCountries(res?.data?.result);
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
