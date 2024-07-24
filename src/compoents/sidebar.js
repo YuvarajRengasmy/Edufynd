@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ const Sidebar = () => {
 
   const [activeLink, setActiveLink] = useState(currentPath);
   const [isOpen, setIsOpen] = useState({
-     enquiry: false,
+    enquiry: false,
     finance: false,
     hrms: false,
     projects: false,
@@ -26,7 +26,7 @@ const Sidebar = () => {
     modules: false,
     privileges: false,
     reports: false,
-    users: false,  
+    users: false,
   });
 
   const handleSetActiveLink = (path) => {
@@ -147,22 +147,23 @@ const Sidebar = () => {
   return (
     <div
       style={{
-        fontSize: "12px",
+        fontSize: "14px",
         fontWeight: "bold",
         fontFamily: "Plus Jakarta Sans",
+        fontVariant: "all-small-caps"
       }}
     >
       <aside
         className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
         style={{
           position: "fixed",
-          width: "230px",
+          width: "240px",
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
         }}
       >
-        <div className="  shadow-lg   ">
+        <div className="  shadow-none   ">
           <div className="sidebar">
             <div className="user-panel mt-2  d-flex">
               <div className="info  mt-1">
@@ -195,11 +196,8 @@ const Sidebar = () => {
                       }`}
                     onClick={() => handleSetActiveLink("/DashBoard")}
                   >
-                    <i
-                      className="nav-icon fas fa-tachometer-alt"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p className="nav-text">Dashboard</p>
+                    <i class="fa fa-tachometer-alt nav-icon"></i>
+                    Dashboard
                   </a>
                 </li>
                 <li className="nav-item">
@@ -207,20 +205,17 @@ const Sidebar = () => {
                     href="/client"
                     target="_self"
                     className={`nav-link ${[
-                        "/client",
-                        "/AddClient",
-                        "/ViewClient",
-                        "/EditClient",
-                      ].includes(currentPath)
-                        ? "active"
-                        : ""
+                      "/client",
+                      "/AddClient",
+                      "/ViewClient",
+                      "/EditClient",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-user"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p className="nav-text">Client</p>
+                    <i class="fa fa-user nav-icon"></i>
+                    Client
                   </a>
                 </li>
 
@@ -229,20 +224,17 @@ const Sidebar = () => {
                     href="/ListUniversity"
                     target="_self"
                     className={`nav-link ${[
-                        "/ListUniversity",
-                        "/AddUniversity",
-                        "/ViewUniversity",
-                        "/EditUniversity",
-                      ].includes(currentPath)
-                        ? "active"
-                        : ""
+                      "/ListUniversity",
+                      "/AddUniversity",
+                      "/ViewUniversity",
+                      "/EditUniversity",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-university"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p className="nav-text">University</p>
+                    <i class="fa fa-graduation-cap nav-icon"></i>
+                    University
                   </a>
                 </li>
 
@@ -251,20 +243,17 @@ const Sidebar = () => {
                     href="/ListCommission"
                     target="_self"
                     className={`nav-link ${[
-                        "/ListCommission",
-                        "/AddCommission",
-                        "/ViewCommission",
-                        "/EditCommission",
-                      ].includes(currentPath)
-                        ? "active"
-                        : ""
+                      "/ListCommission",
+                      "/AddCommission",
+                      "/ViewCommission",
+                      "/EditCommission",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-credit-card"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p className="nav-text">Commission</p>
+                    <i class="fa fa-dollar-sign nav-icon"></i>
+                    Commission
                   </a>
                 </li>
 
@@ -273,20 +262,17 @@ const Sidebar = () => {
                     href="/Programs"
                     target="_self"
                     className={`nav-link ${[
-                        "/Programs",
-                        "/AddProgram",
-                        "/EditProgram",
-                        "/ViewProgram",
-                      ].includes(currentPath)
-                        ? "active"
-                        : ""
+                      "/Programs",
+                      "/AddProgram",
+                      "/EditProgram",
+                      "/ViewProgram",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fa fa-graduation-cap"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p className="nav-text">Program</p>
+                    <i class="fa fa-cogs nav-icon"></i>
+                    Program
                   </a>
                 </li>
 
@@ -295,7 +281,7 @@ const Sidebar = () => {
                     href="#"
                     className="nav-link "
                     data-bs-toggle="collapse"
-                    
+
                     aria-expanded={isOpen.users}
                     aria-controls="collapse3"
                     style={{
@@ -306,11 +292,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("users")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-users"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>Users</p>
+                      <i class="fa fa-users nav-icon"></i>
+                      Users
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.users ? "rotate-icon" : ""
@@ -328,16 +311,16 @@ const Sidebar = () => {
                           href="/ListStudent"
                           target="_self"
                           className={`nav-link ${[
-                              "/ListStudent",
-                              "/AddStudentSA",
-                              "/ViewStudent",
-                              "/EditStudent",
-                            ].includes(currentPath)
-                              ? "active"
-                              : ""
+                            "/ListStudent",
+                            "/AddStudentSA",
+                            "/ViewStudent",
+                            "/EditStudent",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
                             }`}
                         >
-                          Students
+                          <i class="fa fa-user-graduate nav-icon"></i>  Students
                         </a>
                       </li>
                       <li className="nav-item">
@@ -345,16 +328,16 @@ const Sidebar = () => {
                           href="/ListStaff"
                           target="_self"
                           className={`nav-link ${[
-                              "/ListStaff",
-                              "/AddStaff",
-                              "/EditStaff",
-                              "/ViewStaff",
-                            ].includes(currentPath)
-                              ? "active"
-                              : ""
+                            "/ListStaff",
+                            "/AddStaff",
+                            "/EditStaff",
+                            "/ViewStaff",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
                             }`}
                         >
-                          Staffs
+                          <i class="fa fa-user-tie nav-icon"></i>  Staffs
                         </a>
                       </li>
                       <li className="nav-item">
@@ -362,16 +345,16 @@ const Sidebar = () => {
                           href="/ListAgent"
                           target="_self"
                           className={`nav-link ${[
-                              "/ViewAgent",
-                              "/EditAgent",
-                              "/ListAgent",
-                              "/AddAgent",
-                            ].includes(currentPath)
-                              ? "active"
-                              : ""
+                            "/ViewAgent",
+                            "/EditAgent",
+                            "/ListAgent",
+                            "/AddAgent",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
                             }`}
                         >
-                          Agents
+                          <i class="fa fa-user-secret nav-icon"></i>  Agents
                         </a>
                       </li>
                     </ul>
@@ -383,20 +366,17 @@ const Sidebar = () => {
                     href="/ListApplication"
                     target="_self"
                     className={`nav-link ${[
-                        "/ListApplication",
-                        "/AddApplication",
-                        "/EditApplication",
-                        "/Application",
-                      ].includes(currentPath)
-                        ? "active"
-                        : ""
+                      "/ListApplication",
+                      "/AddApplication",
+                      "/EditApplication",
+                      "/Application",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
                       }`}
                   >
-                    <i
-                      className="nav-icon fas fa-book"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p className="nav-text">Application</p>
+                    <i class="fa fa-archive nav-icon"></i>
+                    Application
                   </a>
                 </li>
 
@@ -415,11 +395,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("enquiry")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>Enquiry</p>
+                      <i class="fa fa-question-circle nav-icon"></i>
+                      Enquiry
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.enquiry ? "rotate-icon" : ""
@@ -437,16 +414,16 @@ const Sidebar = () => {
                           href="/ListStudentForm"
                           target="_self"
                           className={`nav-link ${[
-                              "/ListStudentForm",
-                              "/AddStudentForm",
-                              "/EditStudentForm",
-                              "/ViewStudentForm",
-                            ].includes(currentPath)
-                              ? "active"
-                              : ""
+                            "/ListStudentForm",
+                            "/AddStudentForm",
+                            "/EditStudentForm",
+                            "/ViewStudentForm",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
                             }`}
                         >
-                          Student
+                          <i class="fa fa-user-graduate nav-icon"></i>Student
                         </a>
                       </li>
                       <li className="nav-item">
@@ -454,16 +431,16 @@ const Sidebar = () => {
                           href="/ListForexForm"
                           target="_self"
                           className={`nav-link ${[
-                              "/ListForexForm",
-                              "/AddForexForm",
-                              "/EditForexForm",
-                              "/ViewForexForm",
-                            ].includes(currentPath)
-                              ? "active"
-                              : ""
+                            "/ListForexForm",
+                            "/AddForexForm",
+                            "/EditForexForm",
+                            "/ViewForexForm",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
                             }`}
                         >
-                          FOREX
+                          <i class="fa fa-money-bill-wave nav-icon"></i>  FOREX
                         </a>
                       </li>
                       <li className="nav-item">
@@ -478,9 +455,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Accommodation
+                          <i class="fa fa-bed nav-icon"></i> Accommodation
                         </a>
                       </li>
                       <li className="nav-item">
@@ -495,9 +472,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Flight
+                          <i class="fa fa-plane nav-icon"></i>  Flight
                         </a>
                       </li>
                       <li className="nav-item">
@@ -512,9 +489,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Loan
+                          <i class="fa fa-credit-card nav-icon"></i>   Loan
                         </a>
                       </li>
                       <li className="nav-item">
@@ -529,9 +506,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Business Enquiry
+                          <i class="fa fa-briefcase nav-icon"></i>  Business Enquiry
                         </a>
                       </li>
                       <li className="nav-item">
@@ -546,9 +523,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          General Enquiry
+                          <i class="fa fa-info-circle nav-icon"></i>  General Enquiry
                         </a>
                       </li>
                     </ul>
@@ -570,11 +547,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("finance")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fa fa-flag"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>Finance</p>
+                      <i class="fa fa-wallet nav-icon"></i>
+                      Finance
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.finance ? "rotate-icon" : ""
@@ -599,9 +573,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Income
+                          <i class="fa fa-arrow-up nav-icon"></i>  Income
                         </a>
                       </li>
                       <li className="nav-item">
@@ -616,9 +590,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Expense
+                          <i class="fa fa-arrow-down nav-icon"></i> Expense
                         </a>
                       </li>
                       <li className="nav-item">
@@ -633,9 +607,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Raise Quotations
+                          <i class="fa fa-file-invoice nav-icon"></i> Raise Quotations
                         </a>
                       </li>
                       <li className="nav-item">
@@ -651,9 +625,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Raise Invoice
+                          <i class="fa fa-file-invoice-dollar nav-icon"></i>  Raise Invoice
                         </a>
                       </li>
                       <li className="nav-item">
@@ -668,9 +642,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Income Report
+                          <i class="fa fa-chart-line nav-icon"></i>  Income Report
                         </a>
                       </li>
                     </ul>
@@ -692,11 +666,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("hrms")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>HRMS</p>
+                      <i class="fa fa-people-carry nav-icon"></i>
+                      HRMS
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.hrms ? "rotate-icon" : ""
@@ -721,9 +692,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Staffs
+                          <i class="fa fa-user-tie nav-icon"></i> Staffs
                         </a>
                       </li>
                       <li className="nav-item">
@@ -738,9 +709,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Attendance
+                          <i class="fa fa-calendar-check nav-icon"></i> Attendance
                         </a>
                       </li>
                       <li className="nav-item">
@@ -755,9 +726,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Payroll
+                          <i class="fa fa-dollar-sign nav-icon"></i> Payroll
                         </a>
                       </li>
                       <li className="nav-item">
@@ -772,9 +743,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Leave
+                          <i class="fa fa-calendar-times nav-icon"></i> Leave
                         </a>
                       </li>
                       <li className="nav-item">
@@ -789,12 +760,12 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                           KPI
+                          <i class="fa fa-chart-bar nav-icon"></i>  KPI
                         </a>
                       </li>
-                    
+
                       <li className="nav-item">
                         <a
                           href="/ListPolicies"
@@ -807,9 +778,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Policies
+                          <i class="fa fa-file-alt nav-icon"></i> Policies
                         </a>
                       </li>
                       <li className="nav-item">
@@ -824,9 +795,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Performance Report
+                          <i class="fa fa-chart-line nav-icon"></i> Performance Report
                         </a>
                       </li>
                     </ul>
@@ -848,11 +819,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Projects")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-id-card"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>Project & Task</p>
+                      <i class="fa fa-project-diagram nav-icon"></i>
+                      Project & Task
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.Projects ? "rotate-icon" : ""
@@ -877,9 +845,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Project
+                          <i class="fa fa-briefcase nav-icon"></i>  Project
                         </a>
                       </li>
                       <li className="nav-item">
@@ -894,9 +862,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Task
+                          <i class="fa fa-tasks nav-icon"></i>  Task
                         </a>
                       </li>
                     </ul>
@@ -918,11 +886,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Marketing")}
                   >
                     <div>
-                      <i
-                        className="nav-icon fas fa-id-card"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>Marketing</p>
+
+                      <i class="fa fa-bullhorn nav-icon"></i>  Marketing
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.Marketing ? "rotate-icon" : ""
@@ -939,7 +904,7 @@ const Sidebar = () => {
                         <a
                           href="/ListSocialMedia"
                           target="_self"
-                           className={`nav-link ${[
+                          className={`nav-link ${[
                             "/ListSocialMedia",
                             "/AddSocialMedia",
                             "/EditSocialMedia",
@@ -947,9 +912,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Social Media
+                          <i class="fa fa-share-alt nav-icon"></i> Social Media
                         </a>
                       </li>
                       <li className="nav-item">
@@ -964,9 +929,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Campaigns
+                          <i class="fa fa-bullhorn nav-icon"></i> Campaigns
                         </a>
                       </li>
                       <li className="nav-item">
@@ -981,9 +946,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Daily Task
+                          <i class="fa fa-tasks nav-icon"></i> Daily Task
                         </a>
                       </li>
                     </ul>
@@ -1002,13 +967,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fas fa-bell"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Notifications</p>
+                    <i class="fa fa-bell nav-icon"></i>
+                    Notifications
                   </a>
                 </li>
 
@@ -1024,13 +986,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fa fa-flag"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Meetings</p>
+
+                    <i class="fa fa-video nav-icon"></i>  Meetings
                   </a>
                 </li>
 
@@ -1046,13 +1005,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fas fa-flag"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Training Material</p>
+
+                    <i class="fa fa-book nav-icon"></i> Training Material
                   </a>
                 </li>
 
@@ -1068,13 +1024,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fas fa-comment"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Chat</p>
+
+                    <i class="fa fa-comments nav-icon"></i> Chat
                   </a>
                 </li>
 
@@ -1090,13 +1043,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fa fa-envelope"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Email</p>
+                    <i class="fa fa-envelope nav-icon"></i>
+                    Email
                   </a>
                 </li>
 
@@ -1112,13 +1062,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fas fa-certificate"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Promotions</p>
+                    <i class="fa fa-bullhorn nav-icon"></i>
+                    Promotions
                   </a>
                 </li>
 
@@ -1134,13 +1081,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fas fa-calendar"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Events</p>
+                    <i class="fa fa-calendar nav-icon"></i>
+                    Events
                   </a>
                 </li>
 
@@ -1156,13 +1100,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fa fa-rss"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Blogs</p>
+
+                    <i class="fa fa-blog nav-icon"></i> Blogs
                   </a>
                 </li>
 
@@ -1178,13 +1119,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fas fa-cogs"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Testimonials</p>
+
+                    <i class="fa fa-quote-right nav-icon"></i>  Testimonials
                   </a>
                 </li>
 
@@ -1200,13 +1138,10 @@ const Sidebar = () => {
                     ].includes(currentPath)
                       ? "active"
                       : ""
-                    }`}
+                      }`}
                   >
-                    <i
-                      className="nav-icon fas fa-user"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <p>Admin</p>
+                    <i class="fa fa-user-shield nav-icon"></i>
+                    Admin
                   </a>
                 </li>
 
@@ -1218,19 +1153,16 @@ const Sidebar = () => {
                     aria-expanded={isOpen.elt}
                     aria-controls="collapse4"
                     style={{
-                      fontSize: "12px",
+
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
                     }}
                     onClick={() => toggleDropdown("elt")}
                   >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>ELT</p>
+                    <div >
+                      <i class="fa fa-book nav-icon"></i>
+                      ELT
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.elt ? "rotate-icon" : ""
@@ -1256,9 +1188,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Booking
+                          <i class="fa fa-calendar-check nav-icon"></i>  Booking
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1273,9 +1205,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Class Schedule
+                          <i class="fa fa-calendar nav-icon"></i> Class Schedule
                         </a>
                       </li>
                     </ul>
@@ -1297,11 +1229,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("settings")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fa fa-cog fa-spin"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>Settings</p>
+                      <i class="fa fa-cog fa-spin nav-icon"></i>
+                      Settings
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.settings ? "rotate-icon" : ""
@@ -1330,7 +1259,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("globalSettings")}
                         >
                           <div>
-                            <p>Global Settings</p>
+                            <i class="fa fa-globe nav-icon"></i>   Global Settings
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.globalSettings ? "rotate-icon" : ""
@@ -1360,9 +1289,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Email
+                                <i class="fa fa-envelope nav-icon"></i> Email
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1374,9 +1303,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Country
+                                <i class="fa fa-globe nav-icon"></i>  Country
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1391,8 +1320,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
+                                <i class="fa fa-money-bill-wave nav-icon"></i>
                                 Currency
                               </a>
                             </li>
@@ -1402,13 +1332,13 @@ const Sidebar = () => {
                                 target="_self"
                                 className={`nav-link ${[
                                   "/Status",
-                                  
+
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Status
+                                <i class="fa fa-clipboard-list nav-icon"></i>   Status
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1420,9 +1350,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Intake
+                                <i class="fa fa-calendar-alt nav-icon"></i>  Intake
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1434,9 +1364,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Year
+                                <i class="fa fa-calendar nav-icon"></i> Year
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1451,9 +1381,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Privileges
+                                <i class="fa fa-lock nav-icon"></i>   Privileges
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1468,9 +1398,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Dashboard
+                                <i class="fa fa-tachometer-alt nav-icon"></i> Dashboard
                               </a>
                             </li>
                           </ul>
@@ -1493,7 +1423,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("modules")}
                         >
                           <div>
-                            <p>Module</p>
+                            <i class="fa fa-cogs nav-icon"></i> Module
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.modules ? "rotate-icon" : ""
@@ -1519,9 +1449,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                University
+                                <i class="fa fa-university nav-icon"></i>  University
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1533,9 +1463,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Course Type
+                                <i class="fa fa-book nav-icon"></i>  Course Type
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1550,9 +1480,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Email
+                                <i class="fa fa-envelope nav-icon"></i> Email
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1567,9 +1497,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Intake
+                                <i class="fa fa-calendar-alt nav-icon"></i>  Intake
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1581,9 +1511,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Client
+                                <i class="fa fa-user nav-icon"></i>  Client
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1598,9 +1528,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Custom Module
+                                <i class="fa fa-cogs nav-icon"></i> Custom Module
                               </a>
                             </li>
                           </ul>
@@ -1623,7 +1553,7 @@ const Sidebar = () => {
                           onClick={() => toggleDropdown("privileges")}
                         >
                           <div>
-                            <p>Privileges</p>
+                            <i class="fa fa-lock nav-icon"></i> Privileges
                           </div>
                           <i
                             className={`fa fa-angle-right ${isOpen.privileges ? "rotate-icon" : ""
@@ -1653,9 +1583,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Program
+                                <i class="fa fa-cogs nav-icon"></i> Program
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1670,9 +1600,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                HRM
+                                <i class="fa fa-people-carry nav-icon"></i>  HRM
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1687,9 +1617,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Attendance
+                                <i class="fa fa-calendar-check nav-icon"></i>  Attendance
                               </a>
                             </li>
                             <li className="nav-item">
@@ -1704,9 +1634,9 @@ const Sidebar = () => {
                                 ].includes(currentPath)
                                   ? "active"
                                   : ""
-                                }`}
+                                  }`}
                               >
-                                Payroll
+                                <i class="fa fa-dollar-sign nav-icon"></i> Payroll
                               </a>
                             </li>
                           </ul>
@@ -1731,11 +1661,8 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Reports")}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i
-                        className="nav-icon fas fa-envelope"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <p>Reports</p>
+                      <i class="fa fa-file-alt nav-icon"></i>
+                      Reports
                     </div>
                     <i
                       className={`fa fa-angle-right ${isOpen.Reports ? "rotate-icon" : ""
@@ -1760,9 +1687,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Employee
+                          <i class="fa fa-user-tie nav-icon"></i>  Employee
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1777,9 +1704,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Agent
+                          <i class="fa fa-user-secret nav-icon"></i> Agent
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1794,9 +1721,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Students
+                          <i class="fa fa-user-graduate nav-icon"></i> Students
                         </a>
                       </li>
                       <li className="nav-item">
@@ -1811,8 +1738,10 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
+
+                          <i class="fa fa-sitemap nav-icon"></i>
                           Branch
                         </a>
                       </li>
@@ -1828,9 +1757,9 @@ const Sidebar = () => {
                           ].includes(currentPath)
                             ? "active"
                             : ""
-                          }`}
+                            }`}
                         >
-                          Admin
+                          <i class="fa fa-user-shield nav-icon"></i>  Admin
                         </a>
                       </li>
                     </ul>
@@ -1848,7 +1777,7 @@ const Sidebar = () => {
                       aria-hidden="true"
                       style={{ fontSize: "12px" }}
                     />
-                    <p>Log Out</p>
+                    Log Out
                   </div>
                 </li>
               </ul>
