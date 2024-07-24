@@ -15,11 +15,18 @@ const Sidebar = () => {
 
   const [activeLink, setActiveLink] = useState(currentPath);
   const [isOpen, setIsOpen] = useState({
-    enquiry: false,
+     enquiry: false,
     finance: false,
     hrms: false,
-    Projects: false,
-    Marketing: false,
+    projects: false,
+    marketing: false,
+    elt: false,
+    settings: false,
+    globalSettings: false,
+    modules: false,
+    privileges: false,
+    reports: false,
+    users: false,  
   });
 
   const handleSetActiveLink = (path) => {
@@ -584,9 +591,15 @@ const Sidebar = () => {
                         <a
                           href="/ListIncome"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListIncome" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListIncome")}
+                          className={`nav-link ${[
+                            "/ListIncome",
+                            "/AddIncome",
+                            "/EditIncome",
+                            "/ViewIncome",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Income
                         </a>
@@ -595,9 +608,15 @@ const Sidebar = () => {
                         <a
                           href="/ListExpenses"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListExpenses" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListExpenses")}
+                          className={`nav-link ${[
+                            "/ListExpenses",
+                            "/AddExpenses",
+                            "/EditExpenses",
+                            "/ViewExpenses",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Expense
                         </a>
@@ -606,9 +625,15 @@ const Sidebar = () => {
                         <a
                           href="/ListRaiseQuotations"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListRaiseQuotations" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListRaiseQuotations")}
+                          className={`nav-link ${[
+                            "/ListRaiseQuotations",
+                            "/AddRaiseQuotations",
+                            "/EditRaiseQuotations",
+                            "/ViewRaiseQuotations",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Raise Quotations
                         </a>
@@ -635,9 +660,15 @@ const Sidebar = () => {
                         <a
                           href="/ListIncomeReport"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListIncomeReport" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListIncomeReport")}
+                          className={`nav-link ${[
+                            "/ListIncomeReport",
+                            "/AddIncomeReport",
+                            "/EditIncomeReport",
+                            "/ViewIncomeReport",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Income Report
                         </a>
@@ -682,9 +713,15 @@ const Sidebar = () => {
                         <a
                           href="/ListStaffHRM"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListStaffHRM" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListStaffHRM")}
+                          className={`nav-link ${[
+                            "/ListStaffHRM",
+                            "/AddStaffHRM",
+                            "/EditStaffHRM",
+                            "/ViewStaffHRM",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Staffs
                         </a>
@@ -693,9 +730,15 @@ const Sidebar = () => {
                         <a
                           href="/ListAttendance"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListAttendance" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListAttendance")}
+                          className={`nav-link ${[
+                            "/ListAttendance",
+                            "/AddAttendance",
+                            "/EditAttendance",
+                            "/ViewAttendance",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Attendance
                         </a>
@@ -704,9 +747,15 @@ const Sidebar = () => {
                         <a
                           href="/ListPayroll"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListPayroll" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListPayroll")}
+                          className={`nav-link ${[
+                            "/ListPayroll",
+                            "/AddPayroll",
+                            "/EditPayroll",
+                            "/ViewPayroll",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Payroll
                         </a>
@@ -715,9 +764,15 @@ const Sidebar = () => {
                         <a
                           href="/ListLeave"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListLeave" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListLeave")}
+                          className={`nav-link ${[
+                            "/ListLeave",
+                            "/AddLeave",
+                            "/EditLeave",
+                            "/ViewLeave",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Leave
                         </a>
@@ -726,9 +781,15 @@ const Sidebar = () => {
                         <a
                           href="/ListKPI"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListKPI" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListKPI")}
+                          className={`nav-link ${[
+                            "/ListKPI",
+                            "/AddKPI",
+                            "/EditKPI",
+                            "/ViewKPI",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                            KPI
                         </a>
@@ -738,9 +799,15 @@ const Sidebar = () => {
                         <a
                           href="/ListPolicies"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListPolicies" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListPolicies")}
+                          className={`nav-link ${[
+                            "/ListPolicies",
+                            "/AddPolicies",
+                            "/EditPolicies",
+                            "/ViewPolicies",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Policies
                         </a>
@@ -749,9 +816,15 @@ const Sidebar = () => {
                         <a
                           href="/ListPerformanceReport"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListPerformanceReport" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListPerformanceReport")}
+                          className={`nav-link ${[
+                            "/ListPerformanceReport",
+                            "/AddPerformanceReport",
+                            "/EditPerformanceReport",
+                            "/ViewPerformanceReport",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Performance Report
                         </a>
@@ -796,9 +869,15 @@ const Sidebar = () => {
                         <a
                           href="/ListProject"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListProject" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListProject")}
+                          className={`nav-link ${[
+                            "/ListProject",
+                            "/AddProject",
+                            "/EditProject",
+                            "/ViewProject",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Project
                         </a>
@@ -807,9 +886,15 @@ const Sidebar = () => {
                         <a
                           href="/ListTask"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListTask" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListTask")}
+                          className={`nav-link ${[
+                            "/ListTask",
+                            "/AddTask",
+                            "/EditTask",
+                            "/ViewTask",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Task
                         </a>
@@ -854,9 +939,15 @@ const Sidebar = () => {
                         <a
                           href="/ListSocialMedia"
                           target="_self"
-                          className={`nav-link ${activeLink === "/" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/")}
+                           className={`nav-link ${[
+                            "/ListSocialMedia",
+                            "/AddSocialMedia",
+                            "/EditSocialMedia",
+                            "/ViewSocialMedia",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Social Media
                         </a>
@@ -865,9 +956,15 @@ const Sidebar = () => {
                         <a
                           href="/ListCampaign"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListCampaign" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListCampaign")}
+                          className={`nav-link ${[
+                            "/ListCampaign",
+                            "/AddCampaign",
+                            "/EditCampaign",
+                            "/ViewCampaign",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Campaigns
                         </a>
@@ -876,9 +973,15 @@ const Sidebar = () => {
                         <a
                           href="/ListDailyTask"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListDailyTask" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListDailyTask")}
+                          className={`nav-link ${[
+                            "/ListDailyTask",
+                            "/AddDailyTask",
+                            "/EditDailyTask",
+                            "/ViewDailyTask",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Daily Task
                         </a>
@@ -891,9 +994,15 @@ const Sidebar = () => {
                   <a
                     href="/ListNotifications"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListNotifications" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/ListNotifications")}
+                    className={`nav-link ${[
+                      "/ListNotifications",
+                      "/AddNotifications",
+                      "/EditNotifications",
+                      "/ViewNotifications",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fas fa-bell"
@@ -907,9 +1016,15 @@ const Sidebar = () => {
                   <a
                     href="/ListMeetings"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListMeetings" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/ListMeetings")}
+                    className={`nav-link ${[
+                      "/ListMeetings",
+                      "/AddMeetings",
+                      "/EditMeetings",
+                      "/ViewMeetings",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fa fa-flag"
@@ -923,9 +1038,15 @@ const Sidebar = () => {
                   <a
                     href="/ListTraining"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListTraining" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/ListTraining")}
+                    className={`nav-link ${[
+                      "/ListTraining",
+                      "/AddTraining",
+                      "/EditTraining",
+                      "/ViewTraining",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fas fa-flag"
@@ -939,8 +1060,15 @@ const Sidebar = () => {
                   <a
                     href="/ListChat"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListChat" ? "active" : ""}`}
-                    onClick={() => handleSetActiveLink("/ListChat")}
+                    className={`nav-link ${[
+                      "/ListChat",
+                      "/AddChat",
+                      "/EditChat",
+                      "/ViewChat",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fas fa-comment"
@@ -954,8 +1082,15 @@ const Sidebar = () => {
                   <a
                     href="/ListEmail"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListEmail" ? "active" : ""}`}
-                    onClick={() => handleSetActiveLink("/ListEmail")}
+                    className={`nav-link ${[
+                      "/ListEmail",
+                      "/AddEmail",
+                      "/EditEmail",
+                      "/ViewEmail",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fa fa-envelope"
@@ -969,9 +1104,15 @@ const Sidebar = () => {
                   <a
                     href="/ListPromotions"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListPromotions" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/ListPromotions")}
+                    className={`nav-link ${[
+                      "/ListPromotions",
+                      "/AddPromotions",
+                      "/EditPromotions",
+                      "/ViewPromotions",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fas fa-certificate"
@@ -985,9 +1126,15 @@ const Sidebar = () => {
                   <a
                     href="/ListEvents"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListEvents" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/ListEvents")}
+                    className={`nav-link ${[
+                      "/ListEvents",
+                      "/AddEvents",
+                      "/EditEvents",
+                      "/ViewEvents",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fas fa-calendar"
@@ -1001,9 +1148,15 @@ const Sidebar = () => {
                   <a
                     href="/ListBlog"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListBlog" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/ListBlog")}
+                    className={`nav-link ${[
+                      "/ListBlog",
+                      "/AddBlog",
+                      "/EditBlog",
+                      "/ViewBlog",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fa fa-rss"
@@ -1017,9 +1170,15 @@ const Sidebar = () => {
                   <a
                     href="/ListTestimonials"
                     target="_self"
-                    className={`nav-link ${activeLink === "/ListTestimonials" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/ListTestimonials")}
+                    className={`nav-link ${[
+                      "/ListTestimonials",
+                      "/AddTestimonials",
+                      "/EditTestimonials",
+                      "/ViewTestimonials",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fas fa-cogs"
@@ -1033,9 +1192,15 @@ const Sidebar = () => {
                   <a
                     href="/AdminList"
                     target="_self"
-                    className={`nav-link ${activeLink === "/AdminList" ? "active" : ""
-                      }`}
-                    onClick={() => handleSetActiveLink("/AdminList")}
+                    className={`nav-link ${[
+                      "/AdminList",
+                      "/AddAdmin",
+                      "/EditAdmin",
+                      "/ViewAdmin",
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                    }`}
                   >
                     <i
                       className="nav-icon fas fa-user"
@@ -1083,9 +1248,15 @@ const Sidebar = () => {
                         <a
                           href="/ListBookings"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListBookings" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListBookings")}
+                          className={`nav-link ${[
+                            "/ListBookings",
+                            "/AddBookings",
+                            "/EditBookings",
+                            "/ViewBookings",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Booking
                         </a>
@@ -1094,9 +1265,15 @@ const Sidebar = () => {
                         <a
                           href="/ListClassSchedule"
                           target="_self"
-                          className={`nav-link ${activeLink === "/ListClassSchedule" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("/ListClassSchedule")}
+                          className={`nav-link ${[
+                            "/ListClassSchedule",
+                            "/AddClassSchedule",
+                            "/EditClassSchedule",
+                            "/ViewClassSchedule",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Class Schedule
                         </a>
@@ -1175,9 +1352,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListGlobalEmail",
+                                  "/AddGlobalEmail",
+                                  "/EditGlobalEmail",
+                                  "/ViewGlobalEmail",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Email
                               </a>
@@ -1186,13 +1369,12 @@ const Sidebar = () => {
                               <a
                                 href="/GlobalSettings"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/GlobalSettings"
-                                    ? "active"
-                                    : ""
-                                  }`}
-                                onClick={() =>
-                                  handleSetActiveLink("/GlobalSettings")
-                                }
+                                className={`nav-link ${[
+                                  "/GlobalSettings",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Country
                               </a>
@@ -1201,13 +1383,15 @@ const Sidebar = () => {
                               <a
                                 href="/CurrencySettings"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/CurrencySettings"
-                                    ? "active"
-                                    : ""
-                                  }`}
-                                onClick={() =>
-                                  handleSetActiveLink("/CurrencySettings")
-                                }
+                                className={`nav-link ${[
+                                  "/ListLeave",
+                                  "/AddLeave",
+                                  "/EditLeave",
+                                  "/ViewLeave",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Currency
                               </a>
@@ -1216,9 +1400,13 @@ const Sidebar = () => {
                               <a
                                 href="/Status"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/Status" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("/Status")}
+                                className={`nav-link ${[
+                                  "/Status",
+                                  
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Status
                               </a>
@@ -1227,9 +1415,12 @@ const Sidebar = () => {
                               <a
                                 href="/Intake"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/Intake" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("/Intake")}
+                                className={`nav-link ${[
+                                  "/Intake",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Intake
                               </a>
@@ -1238,11 +1429,12 @@ const Sidebar = () => {
                               <a
                                 href="/YearSetting"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/YearSetting" ? "active" : ""
-                                  }`}
-                                onClick={() =>
-                                  handleSetActiveLink("/YearSetting")
-                                }
+                                className={`nav-link ${[
+                                  "/YearSetting",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Year
                               </a>
@@ -1251,9 +1443,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListGlobalPrivileges",
+                                  "/AddGlobalPrivileges",
+                                  "/EditGlobalPrivileges",
+                                  "/ViewGlobalPrivileges",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Privileges
                               </a>
@@ -1262,9 +1460,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListGlobalDashBoard",
+                                  "/AddGlobalDashBoard",
+                                  "/EditGlobalDashBoard",
+                                  "/ViewGlobalDashBoard",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Dashboard
                               </a>
@@ -1310,13 +1514,12 @@ const Sidebar = () => {
                               <a
                                 href="/UniversitySettings"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/UniversitySettings"
-                                    ? "active"
-                                    : ""
-                                  }`}
-                                onClick={() =>
-                                  handleSetActiveLink("/UniversitySettings")
-                                }
+                                className={`nav-link ${[
+                                  "/UniversitySettings",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 University
                               </a>
@@ -1325,11 +1528,12 @@ const Sidebar = () => {
                               <a
                                 href="/CourseType"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/CourseType" ? "active" : ""
-                                  }`}
-                                onClick={() =>
-                                  handleSetActiveLink("/CourseType")
-                                }
+                                className={`nav-link ${[
+                                  "/CourseType",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Course Type
                               </a>
@@ -1338,9 +1542,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListModuleEmail",
+                                  "/AddModuleEmail",
+                                  "/EditModuleEmail",
+                                  "/ViewModuleEmail",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Email
                               </a>
@@ -1349,9 +1559,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListModuleIntake",
+                                  "/AddModuleIntake",
+                                  "/EditModuleIntake",
+                                  "/ViewModuleIntake",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Intake
                               </a>
@@ -1360,11 +1576,12 @@ const Sidebar = () => {
                               <a
                                 href="/ClientModule"
                                 target="_self"
-                                className={`nav-link ${activeLink === "/ClientModule" ? "active" : ""
-                                  }`}
-                                onClick={() =>
-                                  handleSetActiveLink("/ClientModule")
-                                }
+                                className={`nav-link ${[
+                                  "/ClientModule",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Client
                               </a>
@@ -1373,9 +1590,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListCustomModule",
+                                  "/AddCustomModule",
+                                  "/EditCustomModule",
+                                  "/ViewCustomModule",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Custom Module
                               </a>
@@ -1422,9 +1645,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListPrivilegesProgram",
+                                  "/AddPrivilegesProgram",
+                                  "/EditPrivilegesProgram",
+                                  "/ViewPrivilegesProgram",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Program
                               </a>
@@ -1433,9 +1662,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListPrivilegesHRM",
+                                  "/AddPrivilegesHRM",
+                                  "/EditPrivilegesHRM",
+                                  "/ViewPrivilegesHRM",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 HRM
                               </a>
@@ -1444,9 +1679,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListPrivilegesAttendance",
+                                  "/AddPrivilegesAttendance",
+                                  "/EditPrivilegesAttendance",
+                                  "/ViewPrivilegesAttendance",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Attendance
                               </a>
@@ -1455,9 +1696,15 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${activeLink === "#" ? "active" : ""
-                                  }`}
-                                onClick={() => handleSetActiveLink("#")}
+                                className={`nav-link ${[
+                                  "/ListPrivilegesPayroll",
+                                  "/AddPrivilegesPayroll",
+                                  "/EditPrivilegesPayroll",
+                                  "/ViewPrivilegesPayroll",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                }`}
                               >
                                 Payroll
                               </a>
@@ -1505,9 +1752,15 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          className={`nav-link ${[
+                            "/ListReportEmployee",
+                            "/AddReportEmployee",
+                            "/EditReportEmployee",
+                            "/ViewReportEmployee",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Employee
                         </a>
@@ -1516,9 +1769,15 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          className={`nav-link ${[
+                            "/ListReportAgent",
+                            "/AddReportAgent",
+                            "/EditReportAgent",
+                            "/ViewReportAgent",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Agent
                         </a>
@@ -1527,9 +1786,15 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          className={`nav-link ${[
+                            "/ListReportStudents",
+                            "/AddReportStudents",
+                            "/EditReportStudents",
+                            "/ViewReportStudents",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Students
                         </a>
@@ -1538,9 +1803,15 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          className={`nav-link ${[
+                            "/ListReportBranch",
+                            "/AddReportBranch",
+                            "/EditReportBranch",
+                            "/ViewReportBranch",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Branch
                         </a>
@@ -1549,9 +1820,15 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${activeLink === "#" ? "active" : ""
-                            }`}
-                          onClick={() => handleSetActiveLink("#")}
+                          className={`nav-link ${[
+                            "/ListReportAdmin",
+                            "/AddReportAdmin",
+                            "/EditReportAdmin",
+                            "/ViewReportAdmin",
+                          ].includes(currentPath)
+                            ? "active"
+                            : ""
+                          }`}
                         >
                           Admin
                         </a>

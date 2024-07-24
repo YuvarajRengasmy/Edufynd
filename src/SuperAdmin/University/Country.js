@@ -1,352 +1,297 @@
 import React, { useEffect, useState } from "react";
+import {
+  isValidEmail,
+  isValidName,
+  isValidYear,
+  isValidPinCode,
+  isValidWebsite,
+} from "../../Utils/Validation";
+import { getallCountryList } from "../../api/country";
+import { getallClient } from "../../api/client";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { isValidNumber, isValidCourseFees, isValidDuration } from "../../Utils/Validation";
-import { saveProgram } from "../../api/Program";
-import { getallUniversity } from "../../api/university";
-import { getallCountryModule } from "../../api/universityModule/country";
-import { getCountryByCountry, getStatesByCountry,getCitiesByState } from "../../api/country";
+import { useNavigate, Link } from "react-router-dom";
+import { saveUniversity } from "../../api/university";
+import { getallCategories } from "../../api/universityModule/categories";
+import { getallOfferTatModule } from "../../api/universityModule/offerTat";
+import { getallInstitutionModule } from "../../api/universityModule/institutation";
+import { getallModule } from "../../api/allmodule";
+import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 
-function Profile() {
-  const initialState = {
-    universityName: "",
-    universityId: "",
-    programTitle: "",
-    country: "",
-    state: [],
-    cities: [], // Added city
-    courseType: "",
-    applicationFee: "",
-    currency: "",
-    discountedValue: "",
-    englishlanguageTest: "",
-    textBox: "",
-    universityInterview: "",
-    greGmatRequirement: "",
-    score: "",
-    academicRequirement: "",
-    universityLogo: "",
-    popularCategories: "",
-    campuses: [{ id: 1, campus: "", inTake: "", duration: "", courseFees: "" }],
-  };
+const MAX_CAMPUS_FIELDS = 5;
 
-  const initialStateErrors = {
-    universityName: { required: false },
-    universityId: { required: false },
-    country: { required: false },
-    state: { required: false },
-    cities: { required: false }, // Added city
-    programTitle: { required: false },
-    courseType: { required: false },
-    applicationFee: { required: false },
-    currency: { required: false },
-    discountedValue: { required: false },
-    englishlanguageTest: { required: false },
-    textBox: { required: false },
-    universityInterview: { required: false },
-    greGmatRequirement: { required: false },
-    score: { required: false },
-    academicRequirement: { required: false },
-    universityLogo: { required: false },
-    popularCategories: { required: false },
-    campuses: [
-      {
-        id: 1,
-        campus: { required: false },
-        inTake: { required: false },
-        duration: { required: false, valid: false },
-        courseFees: { required: false, valid: false },
-      },
-    ],
-  };
+const initialState = {
+  country: "",
+  campuses: [{ state: "", cities: ""}],
+};
 
-  const [program, setProgram] = useState(initialState);
+const initialStateErrors = {
+  country: { required: false },
+};
+
+const App = () => {
+  const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
-  const [campuses, setCampuses] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]); // Added cities
   const [submitted, setSubmitted] = useState(false);
-  const [university, setUniversity] = useState([]);
-  const [universities, setUniversities] = useState([]);
-  const [selectedCourseType, setSelectedCourseType] = useState(null);
-  const [selectedPopularType, setSelectedPopularType] = useState(null);
-
+  const [client, setClient] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [offerTAT, setOfferTat] = useState([]);
+  const [institution, setInstitution] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [type, setType] = useState([]);
-  const [intake, setIntake] = useState([]);
+  const [inTake, setInTake] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllUniversityList();
-    getAllCurrencyDetails();
-    countryStates();
+    getClientList();
+    getAllCountryDetails();
+    getAllCategoryDetails();
+    getAllCourseDetails();
+    getOfferTatList();
+    getAllInstitutionDetails();
+    getAllIntakeDetails();
   }, []);
 
-  const getAllUniversityList = () => {
-    getallUniversity()
+  const getAllCountryDetails = () => {
+    getallCountryList()
       .then((res) => {
-        setUniversity(res?.data?.result);
+        setCountries(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const getAllCurrencyDetails = () => {
-    getallCountryModule()
+  const getAllCourseDetails = () => {
+    getallModule()
       .then((res) => {
-        setCountries(res?.data?.result);
+        setType(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const getAllIntakeDetails = () => {
+    getallIntake()
+      .then((res) => {
+        setInTake(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getClientList = () => {
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAllCategoryDetails = () => {
+    getallCategories()
+      .then((res) => {
+        setCategories(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getOfferTatList = () => {
+    getallOfferTatModule()
+      .then((res) => {
+        setOfferTat(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAllInstitutionDetails = () => {
+    getallInstitutionModule()
+      .then((res) => {
+        setInstitution(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        [name]: reader.result,
+      }));
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
+
+  const handleCountryChange = (selectedOption) => {
+    setSelectedCountry(selectedOption);
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      campuses: [{ state: "", cities:"" }],
+    }));
+    setStates(selectedOption ? selectedOption.states : []);
+    setCities([]);
+  };
+
+  const handleStateChange = (index, selectedOption) => {
+    const updatedCampuses = [...university.campuses];
+    updatedCampuses[index].state = selectedOption ? selectedOption.value : "";
+    updatedCampuses[index].cities =""; // Reset cities when state changes
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      campuses: updatedCampuses,
+    }));
+
+    // Fetch cities for the selected state
+    const selectedState = states.find(state => state.name === selectedOption.value);
+    setCities(selectedState ? selectedState.cities : []);
+  };
+
+  const handleCityChange = (index, selectedOption) => {
+    const updatedCampuses = [...university.campuses];
+    updatedCampuses[index].cities = selectedOption ? [selectedOption.value] : [];
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      campuses: updatedCampuses,
+    }));
+  };
+
+  const addCampusFields = () => {
+    if (university.campuses.length < MAX_CAMPUS_FIELDS) {
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        campuses: [...prevUniversity.campuses, { state: "", cities: "" }],
+      }));
+    } else {
+      alert("Maximum of 5 campus fields can be added.");
+    }
+  };
+
+  const removeCampus = (index) => {
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      campuses: prevUniversity.campuses.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleInputs = (event) => {
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else {
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        [name]: value,
+      }));
+    }
+
+    if (submitted) {
+      const newError = handleValidation({ ...university, [name]: value });
+      setErrors(newError);
+    }
   };
 
   const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (data.universityName === "") {
-      error.universityName.required = true;
-    }
+    let error = { ...initialStateErrors };
+    if (data.email === "") error.email.required = true;
 
-    if (data.country === "") {
-      error.country.required = true;
-    }
-
-    if (data.state === "") {
-      error.state.required = true;
-    }
-
-    if (data.city === "") {  // Added validation for city
-      error.city.required = true;
-    }
-
-    if (data.programTitle === "") {
-      error.programTitle.required = true;
-    }
-
-    if (data.applicationFee === "") {
-      error.applicationFee.required = true;
-    }
-
-    if (data.universityInterview === "") {
-      error.universityInterview.required = true;
-    }
-    if (data.discountedValue === "") {
-      error.discountedValue.required = true;
-    }
-
-    if (!isValidNumber(data.applicationFee)) {
-      error.applicationFee.valid = true;
-    }
-    if (!isValidNumber(data.discountedValue)) {
-      error.discountedValue.valid = true;
-    }
-    const campusErrors = data.campuses.map((campus) => ({
-      campus: campus.campus === "",
-      inTake: campus.inTake === "",
-      duration: campus.duration === "" || !isValidDuration(campus.duration),
-      courseFees:
-        campus.courseFees === "" || !isValidCourseFees(campus.courseFees),
-    }));
-
-    error.campuses = campusErrors;
-    setErrors(error);
+    // if (!isValidEmail(data.email)) error.email.valid = true;
 
     return error;
   };
 
-  const addCampus = () => {
-    const newCampus = {
-      campus: "",
-      inTake: "",
-      courseFees: "",
-      duration: "",
-    };
-    setCampuses([...campuses, newCampus]);
-  };
-
- 
-  const handleCountryChange = (event) => {
-    const selectedCountry = event.target.value;
-    setProgram({ ...program, country: selectedCountry });
-    
-    getCountryByCountry(selectedCountry)
-      .then((res) => {
-        const result = res?.data?.result;
-        setProgram(result);
-        setUniversities((prev) => ({
-            ...prev,
-            country: result.country,
-        }));
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-
-    countryStates(selectedCountry);
-  };
-
-  const countryStates = (selectedCountry) => {
-    getStatesByCountry(selectedCountry)
-      .then((res) => {
-        setProgram((prevProgram) => ({
-          ...prevProgram,
-          state: res?.data?.result || [], // Ensure it's an array
-        }));
-      })
-      .catch((err) => {
-        console.error("Error fetching states:", err);
-        setProgram((prevProgram) => ({
-          ...prevProgram,
-          state: [], // Fallback to an empty array on error
-        }));
-      });
-  };
-  const handleStateChange = (event) => {
-    const selectedState = event.target.value;
-    setProgram({ ...program, state: selectedState });
-    
-    getStatesByCountry(selectedState)
-      .then((res) => {
-        const result = res?.data?.result;
-        setProgram(result);
-        setUniversities((prev) => ({
-            ...prev,
-            state: result.state.name,
-        }));
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-
-    fetchCitiesByState(selectedState);
-  };
- 
-  
-  const fetchCitiesByState = (selectedState) => {
-    getCitiesByState(selectedState)
-      .then((res) => {
-        setProgram((prevProgram) => ({
-          ...prevProgram,
-          cities: res?.data?.result || [] 
-        }));
-      })
-      .catch((err) => {
-        console.error(`Error fetching cities for ${selectedState}:`, err);
-        setProgram((prevProgram) => ({
-          ...prevProgram,
-          cities: []
-        }));
-      });
-  };
-  
-
-
-
-  const handleInputChange = (index, fieldName, value) => {
-    const updatedCampuses = [...campuses];
-    updatedCampuses[index][fieldName] = value;
-    setCampuses(updatedCampuses);
-  };
-
-  const handleInputs = (event) => {
-    const { name, value } = event.target;
-    
-    // Ensure 'state' and 'city' are handled correctly
-    if (name === "state" || name === "city") {
-      setProgram((prevProgram) => ({
-        ...prevProgram,
-        [name]: value
-      }));
-      
-      // If 'state' or 'city' changes and the form has been submitted, clear the errors
-      if (submitted) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: { required: false }
-        }));
-      }
-  
-      // Fetch cities if state is changed
-      if (name === "state") {
-        fetchCitiesByState(value);
-      }
-      
-    } else {
-      setProgram((prevProgram) => ({
-        ...prevProgram,
-        [name]: value
-      }));
-      
-      // Clear errors if form is submitted and this field has changed
-      if (submitted) {
-        const newError = handleValidation({ ...program, [name]: value });
-        setErrors(newError);
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
       }
     }
+    return true;
   };
-  
-  
-  
-  
-  const handleSelectCourseChange = (selectedOptions) => {
-    setSelectedCourseType(selectedOptions);
-  };
-
-  const handleSelectPopularChange = (selectedOptions) => {
-    setSelectedPopularType(selectedOptions);
-  };
-
-  const campusOptions = program?.state
-    ? program.state.map((state) => ({ value: state, label: state }))
-    : [];
-
-  const courseTypeOptions = program?.courseType
-    ? program.courseType.map((courseType) => ({
-        value: courseType,
-        label: courseType,
-      }))
-    : [];
-
-  const CategoriesOptions = program?.popularCategories
-    ? program.popularCategories.map((category) => ({
-        value: category,
-        label: category,
-      }))
-    : [];
 
   const handleSubmit = (event) => {
     event.preventDefault();
+  
+    // Validate the form data
+    const newError = handleValidation(university);
+    setErrors(newError);
     setSubmitted(true);
-    const error = handleValidation(program);
-    if (Object.values(error).some((err) => err)) {
-      return;
+  
+    // Check if there are no validation errors
+    if (handleErrors(newError)) {
+      // Prepare the data for submission
+      const submissionData = {
+        countryName: selectedCountry ? selectedCountry.label : "", // Ensure country name is included
+        campuses: university.campuses.map(campus => ({
+          state: campus.state ? campus.state.value : "",
+          cities: campus.cities.map(city => city.value),
+        })),
+        // Include other university data as needed
+        ...university,
+      };
+  
+      // Submit the data
+      saveUniversity(submissionData)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          navigate("/ListUniversity");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
     }
+  };
+  
+  
+  const countryOptions = countries.map((country) => ({
+    value: country.name,
+    label: country.name,
+    states: country.state,
+  }));
 
-    const programData = {
-      ...program,
-      courseType: selectedCourseType?.map((option) => option.value) || [],
-      popularCategories: selectedPopularType?.map((option) => option.value) || [],
-      campuses: campuses.map((campus) => ({
-        ...campus,
-        inTake: parseInt(campus.inTake, 10),
-        courseFees: parseFloat(campus.courseFees),
-        duration: parseInt(campus.duration, 10),
-      })),
-    };
+  const stateOptions = selectedCountry
+    ? selectedCountry.states.map((state) => ({
+        value: state.name,
+        label: state.name,
+      }))
+    : [];
 
-    saveProgram(programData)
-      .then(() => {
-        toast.success("Program saved successfully!");
-        navigate("/programs");
-      })
-      .catch((err) => {
-        toast.error("Error saving program!");
-        console.error(err);
-      });
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4.91319px",
+      fontSize: "11px",
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#3B0051" : "#F2CCFF",
+      ":hover": {
+        color: "black",
+      },
+    }),
   };
 
   return (
@@ -355,215 +300,125 @@ function Profile() {
         <nav className="navbar navbar-vertical navbar-expand-lg">
           <Sidebar />
         </nav>
-        <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-          <div className="content-header">
-            <div className="content container-fluid">
-              <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-xl-12">
-                    <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
-                      <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{ background: "#fe5722", color: "#fff" }}>
-                        <h5 className="text-center text-capitalize p-1">Add Program Details</h5>
-                      </div>
-                      <div className="card-body mt-5">
-                        <div className="row mb-2">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>Country<span className="text-danger">*</span></label>
-                            <select
-                              className="form-select font-weight-light"
-                              name="country"
-                              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-                              value={program.country}
+      </div>
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}>
+        <div className="content-header">
+          <div className="container-fluid">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card rounded-0 shadow-sm border-0">
+                    <div className="card-header rounded-0 bg-white">
+                      <h5 style={{ fontVariant: "all-small-caps", fontWeight: "bold" }}>
+                        Add University Details
+                      </h5>
+                    </div>
+                    <div className="card-body p-4">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>
+                              University Country<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              styles={customStyles}
+                              options={countryOptions}
                               onChange={handleCountryChange}
-                            >
-                              <option className="font-weight-light" value="" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                                Select Country
-                              </option>
-                              {countries.map((country, index) => (
-                                Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
-                                  <option key={`${index}-${countryIndex}`} value={countryName}>
-                                    {countryName}
-                                  </option>
-                                ))
-                              ))}
-                            </select>
+                            />
                             {errors.country.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
+                              <span className="text-danger">Please select a country.</span>
                             )}
                           </div>
                         </div>
-                        <div className="row mb-2">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>State<span className="text-danger">*</span></label>
-                            <select
-                              className="form-select font-weight-light"
-                              name="state"
-                              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-                              value={program.state}
+                        <div className="col-md-6">
+                          {/* <div className="form-group">
+                            <label>
+                              University Email Address<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              name="email"
+                              className="form-control"
                               onChange={handleInputs}
-                            >
-                              <option className="font-weight-light" value="" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                                Select State
-                              </option>
-                              {Array.isArray(program.state) && program.state.map((state) => (
-  <option key={state.name} value={state.name}>
-    {state.name}
-  </option>
-))}
-                            </select>
-                            {errors.state?.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
+                            />
+                            {errors.email.required && (
+                              <span className="text-danger">Please enter an email address.</span>
                             )}
-                          </div>
-                        </div>
-                        <div className="row mb-2">
-                          {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>City<span className="text-danger">*</span></label>
-                            <select
-                              className="form-select font-weight-light"
-                              name="city"
-                              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-                              value={program.city}
-                              onChange={(e) => setProgram({ ...program, city: e.target.value })}
-                            >
-                              <option className="font-weight-light" value="" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                                Select City
-                              </option>
-                              {program.state.cities && program.state.cities.map((city, index) => (
-                                <option key={index} value={city.cities}>
-                                  {city.cities}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.city?.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
+                            {errors.email.valid && (
+                              <span className="text-danger">Please enter a valid email address.</span>
                             )}
                           </div> */}
                         </div>
-                        <div className="row g-3">
-                          {/* Render dynamic campuses */}
-                          {campuses.map((campus, index) => (
-                            <div key={index} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <div className="mb-2">
-                                <label>Campus {index + 1}</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  value={campus.campus}
-                                  onChange={(e) => handleInputChange(index, "campus", e.target.value)}
-                                  placeholder="Campus"
-                                />
-                              </div>
-                              <div className="mb-2">
-                                <label>Intake</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  value={campus.inTake}
-                                  onChange={(e) => handleInputChange(index, "inTake", e.target.value)}
-                                  placeholder="Intake"
-                                />
-                              </div>
-                              <div className="mb-2">
-                                <label>Duration</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  value={campus.duration}
-                                  onChange={(e) => handleInputChange(index, "duration", e.target.value)}
-                                  placeholder="Duration"
-                                />
-                                {errors.campuses[index]?.duration && (
-                                  <span className="text-danger form-text profile_error">
-                                    Duration is required or invalid.
-                                  </span>
-                                )}
-                              </div>
-                              <div className="mb-2">
-                                <label>Course Fees</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  value={campus.courseFees}
-                                  onChange={(e) => handleInputChange(index, "courseFees", e.target.value)}
-                                  placeholder="Course Fees"
-                                />
-                                {errors.campuses[index]?.courseFees && (
-                                  <span className="text-danger form-text profile_error">
-                                    Course fees are required or invalid.
-                                  </span>
-                                )}
-                              </div>
+                      </div>
+
+                      {university.campuses.map((campus, index) => (
+                        <div key={index} className="row">
+                          <div className="col-md-5">
+                            <div className="form-group">
+                              <label>State</label>
+                              <Select
+                                styles={customStyles}
+                                options={stateOptions}
+                                onChange={(selectedOption) => handleStateChange(index, selectedOption)}
+                                value={stateOptions.find(option => option.value === campus.state) || null}
+                              />
                             </div>
-                          ))}
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <button type="button" className="btn btn-primary" onClick={addCampus}>
-                              Add Campus
-                            </button>
                           </div>
-                        </div>
-                        <div className="row mb-2">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>Course Type<span className="text-danger">*</span></label>
-                            <Select
-                              isMulti
-                              name="courseType"
-                              options={courseTypeOptions}
-                              className="basic-multi-select"
-                              classNamePrefix="select"
-                              onChange={handleSelectCourseChange}
-                              value={selectedCourseType}
-                            />
-                            {errors.courseType.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
+                          <div className="col-md-5">
+                            <div className="form-group">
+                              <label>City</label>
+                              <Select
+                                styles={customStyles}
+                                options={cities.map((city) => ({
+                                  value: city,
+                                  label: city,
+                                }))}
+                                onChange={(selectedOption) => handleCityChange(index, selectedOption)}
+                                value={campus.cities.length > 0 ? { value: campus.cities[0], label: campus.cities[0] } : null}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-2 d-flex align-items-end">
+                            {index === 0 && university.campuses.length < MAX_CAMPUS_FIELDS && (
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={addCampusFields}
+                              >
+                                Add Campus
+                              </button>
+                            )}
+                            {index > 0 && (
+                              <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={() => removeCampus(index)}
+                              >
+                                Remove
+                              </button>
                             )}
                           </div>
                         </div>
-                        <div className="row mb-2">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>Popular Categories<span className="text-danger">*</span></label>
-                            <Select
-                              isMulti
-                              name="popularCategories"
-                              options={CategoriesOptions}
-                              className="basic-multi-select"
-                              classNamePrefix="select"
-                              onChange={handleSelectPopularChange}
-                              value={selectedPopularType}
-                            />
-                            {errors.popularCategories.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        <div className="row mb-2">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <button type="submit" className="btn btn-primary">
-                              Save
-                            </button>
-                          </div>
-                        </div>
+                      ))}
+
+                      <div className="form-group mt-3">
+                        <button type="submit" className="btn btn-primary">
+                          Save University
+                        </button>
+                        <Link to="/ListUniversity" className="btn btn-secondary ml-2">
+                          Cancel
+                        </Link>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default Profile;
+export default App;

@@ -734,7 +734,7 @@ function EditAgent() {
                         </label>
                         <input
                           name="staffContactNo"
-                          type="text"
+                          type="number"
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
@@ -763,7 +763,7 @@ function EditAgent() {
                         <input
                           name="whatsApp"
                           value={agent?.whatsApp}
-                          type="text"
+                          type="number"
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}

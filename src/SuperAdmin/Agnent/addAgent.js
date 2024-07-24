@@ -484,7 +484,7 @@ function AddAgent() {
                         </label>
                         <input
                           name="mobileNumber"
-                          type="text"
+                          type="number"
                           className="form-control rounded-2"
                           onChange={handleInputs}
                           placeholder="Example 123-456-789"
@@ -512,9 +512,9 @@ function AddAgent() {
                         </label>
                         <input
                           name="whatsAppNumber"
-                          type="text"
+                          type="number"
                           onChange={handleInputs}
-                          placeholder="Example 123-456-789r"
+                          placeholder="Example 123-456-789"
                           className="form-control rounded-2"
                           id="Email"
                           value={agent?.whatsAppNumber}
@@ -722,7 +722,7 @@ function AddAgent() {
                         </label>
                         <input
                           name="staffContactNo"
-                          type="text"
+                          type="number"
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}
@@ -750,7 +750,7 @@ function AddAgent() {
                         </label>
                         <input
                           name="whatsApp"
-                          type="text"
+                          type="number"
                           className="form-control rounded-2"
                           id="Email"
                           onChange={handleInputs}

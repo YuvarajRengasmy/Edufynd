@@ -324,8 +324,8 @@ const UserProfile = () => {
                                 <div className="row">
                                   <div className=" border-0 pt-3 px-4">
                                     <div className="row">
-                                      {Array.isArray(university?.state) &&
-                                        university.state.map((state, index) => (
+                                      {Array.isArray(university?.campuses) &&
+                                        university.campuses.map((data, index) => (
                                           <div key={index} className="col-md-4">
                                             <div
                                               className="card border-1 rounded-3 shadow-sm align-items-center"
@@ -347,11 +347,12 @@ const UserProfile = () => {
                                                 alt="img"
                                               />
                                               <div className="card-body">
+                                               
                                                 <p className="card-text text-center">
-                                                  {university?.lga?.[index]
-                                                    ?.length > 0
-                                                    ? university.lga[index]
-                                                    : state}
+                                                  {data?.cities}
+                                                </p>
+                                                <p className="card-text text-center">
+                                                  {data?.state}
                                                 </p>
                                               </div>
                                             </div>
@@ -534,15 +535,11 @@ const UserProfile = () => {
                                   </div>
                                   <div className="col-sm-6">
                                     <div className=" fw-light text-lead text-capitalize">
-                                      Delivery Currency
+                                      Country
                                     </div>
                                     <div className=" fw-semibold text-capitalize">
-                                      <Flags
-                                        code={university?.flag}
-                                        width={40}
-                                        height={20}
-                                      />{" "}
-                                      {university?.currency}
+                                      {university?.countryName}
+                                     
                                     </div>
                                   </div>
                                 </div>

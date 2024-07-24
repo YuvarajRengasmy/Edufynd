@@ -632,7 +632,7 @@ export default function Masterproductlist() {
    <DialogContent>
      <div className="text-center m-4">
        <h5 className="mb-4 text-capitalize"   >
-         Are you sure you want to Delete <br /> the selected Product ?
+         Are you sure you want to Delete <br /> the selected Student ?
        </h5>
        <button
          type="button"

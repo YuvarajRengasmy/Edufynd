@@ -34,7 +34,7 @@ export const getSingleUniversity = (data) => {
 
   export const getUniversitiesByCountry = (country) => {
     return API.get(`${University}/getUniversityByCountry`, {
-        params: { country: country }, 
+        params: { countryName: country }, 
     });
 };
 
