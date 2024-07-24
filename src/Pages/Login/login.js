@@ -5,6 +5,7 @@ import { saveToken, getLoginType } from '../../Utils/storage';
 import { isAuthenticated } from '../../Utils/Auth';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../api/login';
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -102,24 +103,22 @@ if (isAuthenticated()) {
 }
   return (
     <>
-      <div className="bg-gradient-white" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-xl-10 col-lg-12 col-md-12">
-              <div className="card o-hidden border-0 shadow-lg my-5">
-                <div className="card-body p-0">
-                  <div className="row">
-                    <div className="col-lg-6 col-md-6 d-none d-md-block bg-login-image" >
-                      <img src="https://media.istockphoto.com/id/1312082686/vector/educational-tourism-abstract-concept-vector-illustration.jpg?s=612x612&w=0&k=20&c=ktT4aECl2TPhlA2Zoq-f-UtRo5AgHicn9IsTXBXracY=" className="img-fluid"/>
-                    </div>
-                    <div className="col-lg-6  col-md-6 bg-primary">
-                      <div className="p-5">
-                        <div className="text-center">
-                          <h1 className="h3 text-gray-900 mb-4 fw-semibold">Welcome Back!</h1>
+      <div style={{ backgroundColor: '#f5f5f5', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+        <div className="container-fluid p-3">
+          <div className="row justify-content-center align-items-center">
+            <div className="col-xl-4 col-lg-4 col-md-7 align-self-center">
+              <div className="card card-body border-0 p-5 my-5 ">
+                
+               
+                  
+                   
+                      
+                        <div className="text-center ">
+                          <h1 className="h3  fw-semibold">Welcome Back!</h1>
                         </div>
                         <form className="user" onSubmit={handleSubmit}>
                           <div className="form-group">
-                            <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user border-0 rounded-5 px-4" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." />
+                            <input type="email" name="email" onChange={handleInputs} className="form-control  rounded-2" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address..." style={{fontSize:'12px'}} />
                             {errors.email.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
@@ -131,7 +130,7 @@ if (isAuthenticated()) {
                             ) : null}
                           </div>
                           <div className="form-group">
-                            <input type="password" name="password" onChange={handleInputs} autoComplete="off" className="form-control form-control-user px-4  border-0 rounded-5" id="exampleInputPassword" placeholder="Password" />
+                            <input type="password" name="password" onChange={handleInputs} autoComplete="off" className="form-control     rounded-2" id="exampleInputPassword" placeholder="Password..." style={{fontSize:'12px'}} />
                             {errors.password.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
@@ -147,33 +146,40 @@ if (isAuthenticated()) {
                           </div>
                           <div className="form-group">
                             <div className="custom-control custom-checkbox small">
-                              <input type="checkbox" className="custom-control-input" id="customCheck" />
-                              <label className="custom-control-label" htmlFor="customCheck">Remember
+                              <input type="checkbox" className="form-check-input" id="customCheck" />
+                              <label className="form-check-label fw-semibold" htmlFor="customCheck">Remember
                                 Me</label>
                             </div>
                           </div>
                           <div className='d-flex justify-content-center'>
-                            <button type="submit" className="w-75 p-2 btn rounded-5 border-0 text-white fw-semibold" style={{ backgroundColor: '#fe5722' }}>Login </button>
+                            <button type="submit" className="w-75 btn btn-sm   border-0  fw-bold text-uppercase px-4 py-2" style={{ backgroundColor: '#fe5722',color:'#fff',fontSize:'10px' }}>Login </button>
                           </div>
-                          <hr />
-                          <a href="/" className="btn btn-google btn-user btn-block">
+      
+                          <div class="alternative-login d-flex flex-row align-items-center justify-content-center" style={{marginTop:'1rem',marginBottom:'1rem'}}>
+                <hr className="border-0 border-top border-dark" style={{margin:'0 1rem',flexGrow:'1',borderTop:'1px solid #ccc'}}/>
+                <span>or</span>
+                <hr className="border-0 border-top border-dark " style={{margin:'0 1rem',flexGrow:'1',borderTop:'1px solid #ccc'}}/>
+              </div>
+              <div className='d-flex justify-content-center'>
+                          <Link to='/'  className="btn btn-google btn-user btn-block  btn-sm   border-0  fw-bold text-uppercase  px-4 py-2 w-75" style={{backgroundColor:'#4285F4',color:'#fff',fontSize:'10px'}}>
                             <i className="fab fa-google fa-fw" /> Login with Google
-                          </a>
+                          </Link>
+                          </div>
                         </form>
-                        <hr />
-                         <div className="row g-3 text-center">
+                       
+                         <div className="row g-3 text-center my-2">
                          <div className="col-md-6 col-sm-12">
-                          <a className="btn-sm btn  text-white border-0 rounded-pill px-3 py-2" href="/ForgotPassword" style={{backgroundColor:'#fe5722',color:'white',}}>Forgot Password?</a>
+                          <Link to='/ForgotPassword' className="btn btn-sm   border-0 text-uppercase  fw-bold px-4 py-2" style={{backgroundColor:'#f0f0f0',color:'#231f20',fontSize:'9px'}} >Forgot Password</Link>
                         </div>
                         <div className="col-md-6 col-sm-12">
-                          <a className="btn btn-sm btn-outline-light rounded-pill btn-transparent px-3 py-2" href="/Register">Create an Account!</a>
+                          <Link to='/Register' className="btn btn-sm  px-4 text-uppercase fw-bold py-2" style={{backgroundColor:'#34A853',color:'#fff',fontSize:'9px'}}>Create Account!</Link>
                         </div>
                          </div>
                      
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      
+                    
+                 
+                
               </div>
             </div>
           </div>

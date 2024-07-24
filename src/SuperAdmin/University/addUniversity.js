@@ -10,8 +10,8 @@ import {
 import { getallCountryModule } from "../../api/universityModule/country";
 import {
   getallCountryList,
-  getStatesByCountry,
-  getCitiesByState,
+ 
+  getFilterCountryList
 } from "../../api/country"; // Adjust the imports as necessary
 
 import { getallClient } from "../../api/client";
@@ -31,58 +31,60 @@ import { Currency } from "../../api/endpoints";
 const MAX_CAMPUS_FIELDS = 5;
 
 // Initial states
-const initialState = {
-  banner: "",
-  businessName: "",
-  universityLogo: "",
-  universityName: "",
-  about: "",
-  founded: "",
-  courseType: "",
-  country: "",
-  website: "",
-  inTake: "",
-  state: "",
-  city: "",
-  currency: "",
-  ranking: "",
-  averageFees: "",
-  popularCategories: [],
-  admissionRequirement: "",
-  offerTAT: "",
-  email: "",
-  institutionType: "",
-  country: "",
-  campuses: [{ state: "", cities: "" }],
-};
 
-const initialStateErrors = {
-  businessName: { required: false },
-  universityLogo: { required: false },
-  banner: { required: false },
-  inTake: { required: false },
-  universityName: { required: false },
-  email: { required: false, valid: false },
-  country: { required: false },
-  website: { required: false },
-  courseType: { required: false },
-  country: { required: false },
-  campus: { required: false },
-  ranking: { required: false },
-  averageFees: { required: false },
-  popularCategories: { required: false },
-  admissionRequirement: { required: false },
-  offerTAT: { required: false },
-  founded: { required: false },
-  institutionType: { required: false },
-};
 
 const App = () => {
+
+  const initialState = {
+    banner: "",
+    businessName: "",
+    universityLogo: "",
+    universityName: "",
+    about: "",
+    founded: "",
+    courseType: "",
+    website: "",
+    inTake: "",
+    state: "",
+    city: "",
+    currency: "",
+    ranking: "",
+    averageFees: "",
+    popularCategories: [],
+    admissionRequirement: "",
+    offerTAT: "",
+    email: "",
+    institutionType: "",
+    country: "",
+    campuses: [{ state: "", cities: "" }],
+  };
+  
+  const initialStateErrors = {
+    businessName: { required: false },
+    universityLogo: { required: false },
+    banner: { required: false },
+    inTake: { required: false },
+    universityName: { required: false },
+    email: { required: false, valid: false },
+    country: { required: false },
+    website: { required: false },
+    courseType: { required: false },
+    country: { required: false },
+    campuses: { required: false },
+    ranking: { required: false },
+    averageFees: { required: false },
+    popularCategories: { required: false },
+    admissionRequirement: { required: false },
+    offerTAT: { required: false },
+    founded: { required: false },
+    institutionType: { required: false },
+  };
+
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
-  const [campus, setCampus] = useState([]);
+  
   const [categories, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institution, setInstitution] = useState([]);
@@ -99,7 +101,7 @@ const App = () => {
   useEffect(() => {
     getClientList();
     getAllCountryDetails();
-    getAllCurrencyDetails();
+    // getAllCurrencyDetails();
 
     getAllCategoryDetails();
     getAllCourseDetails();
@@ -109,24 +111,24 @@ const App = () => {
   }, []);
   // API calls to fetch data
   const getAllCountryDetails = () => {
-    getallCountryList()
+    getFilterCountryList()
       .then((res) => {
-        setCountries(res?.data?.result || []);
+        setCountries(res?.data?.result.dropDownList || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const getAllCurrencyDetails = () => {
-    getallCountryModule()
-      .then((res) => {
-        setCountries(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const getAllCurrencyDetails = () => {
+  //   getallCountryModule()
+  //     .then((res) => {
+  //       setCountries(res?.data?.result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const getAllCourseDetails = () => {
     getallModule()
       .then((res) => {

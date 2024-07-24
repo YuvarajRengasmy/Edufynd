@@ -35,7 +35,6 @@ function Profile() {
     about: "",
     courseType: "",
     country: "",
-   
     ranking: "",
     averageFees: "",
     popularCategories: [],
@@ -46,7 +45,7 @@ function Profile() {
     institutionType: "",
     website: "",
     inTake: "",
-    campus: [{ country: "", state: "", cities: "" }],
+    campuses: [{ state: "", cities: "" }],
 
   };
 
@@ -70,7 +69,7 @@ function Profile() {
     institutionType: { required: false },
     website: { required: false },
     inTake: { required: false },
-    campus:{required:false},
+    campuses: { required: false },
   };
 
   const [university, setUniversity] = useState(initialState);
@@ -82,15 +81,12 @@ function Profile() {
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
- 
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [countries, setCountries] = useState([]);
-
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
-
-  const ZERO = 0;
   const [selectedCourseType, setSelectedCourseType] = useState([]);
  
   const navigate = useNavigate();
@@ -587,39 +583,7 @@ function Profile() {
                             )}
                           </div>
 
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-    <label style={{ color: "#231F20" }}>
-      Country<span className="text-danger">*</span>
-    </label>
-    <Select
-      placeholder={university?.campus[0]?.country}
-      name="country"
-      options={countryOptions}
-      styles={customStyles}
-       value={countryOptions.find(option => option.value === university.campus[0]?.country)}
-      onChange={(selectedOption) => handleCountryChange(selectedOption, 0)}
-      className="submain-one-form-body-subsection-select"
-    />
-  </div>
-  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Primary Country<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={university?.country}
-                              className="form-control "
-                              placeholder="Enter Email"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              name="country"
-                              onChange={handleInputs}
-                            />
-                           
-                          </div>
+   
   {Array.isArray(university?.campus) &&
                                         university.campus.map((data, index) => (
     <div  className="row g-3" key={index}>
