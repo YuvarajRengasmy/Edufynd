@@ -209,7 +209,7 @@ function Profile() {
         );
         if (selectedUniversity) {
           const states = selectedUniversity.campuses.map((campus) => campus.state);
-          const lgas = selectedUniversity.campuses.flatMap((campus) => campus.cities);
+          const lgas = selectedUniversity.campuses.flatMap((campus) => campus.lga);
   
           return {
             ...updatedProgram,

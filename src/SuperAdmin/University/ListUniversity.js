@@ -691,7 +691,7 @@ export default function Masterproductlist() {
                                   </td>
                                   <td className="text-capitalize text-start">
                                    
-                                   {data?.countryName}
+                                   {data?.country}
                                   </td>
                                   <td className="text-capitalize text-start">
                                     {data.campuses?.map((campus, yearIndex) => (
@@ -700,8 +700,8 @@ export default function Masterproductlist() {
                                           ? campus.state
                                           : "Not Available"}
                                         __
-                                        {campus?.cities?.length > 0
-                                          ? campus.cities // Assuming cities is an array of strings
+                                        {campus?.lga?.length > 0
+                                          ? campus.lga 
                                           : "Not Available"}
                                         __
                                       </div>
