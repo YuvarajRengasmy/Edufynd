@@ -7,6 +7,7 @@ import { isAuthenticated } from '../../Utils/Auth';
 import { saveStudent } from '../../api/student';
 import { saveAgent } from '../../api/agent';
 import {saveSuperAdmin} from '../../api/superAdmin';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   const initialState = {
@@ -160,52 +161,54 @@ const Register = () => {
   return (
     <>
     
-      <div className="bg-gradient-white" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px'}}>
-        <div className="container">
-          <div className='container '>
-          <div className="card o-hidden border-0 rounded-0 shadow-lg mt-5">
-            <div className="card-body p-0">
-              <div className="row justify-content-center">
-              <div className="col-lg-6 bg-primary">
-                  <div className="pt-4">
-                    <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white rounded-3 nav-tab mt-2 w-50 mx-auto' style={{ backgroundColor: '#fe5722' }}>
+      <div  style={{ backgroundColor: '#f5f5f5', fontFamily: 'Plus Jakarta Sans', fontSize: '12px'}}>
+        <div className="container-fluid">
+        <div className="row justify-content-center align-items-center">
+        <div className="col-xl-4 col-lg-4 col-md-7 align-self-center">
+          <div className="card  my-1 border-0 ">
+          
+             <div className='card-body p-5'>
+             <div className="text-center ">
+                          <h1 className="h3  fw-semibold">Register Now!</h1>
+                        </div>
+             <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white rounded-2 nav-tab mt-2 text-uppercase fw-bold  mx-auto my-3' style={{ backgroundColor: '#fe5722',color:'#fff',fontSize:'10px' }}>
                       <button
-                        className={`btn rounded-5 border-0 text-white fw-semibold ${type === 'student' ? 'active bg-success bg-gradient px-2 py-1 text-dark signup-button  ' : ''}`}
+                        className={`btn rounded-2 border-0 text-white fw-bold text-uppercase px-4 py-2 ${type === 'student' ? 'active bg-success bg-gradient px-2 py-1 text-dark signup-button  ' : ''}`}
                         type="button" aria-selected="true"
                         role='tab' onClick={() => handleSinUpType('student')}
-                        style={{ fontSize: '1rem' }} >
-                        Student
+                        style={{ fontSize: '10px' }} >
+                       <i class="fa fa-user-graduate nav-icon"></i> Student
                       </button>
                      <button
-                        className={`btn rounded-5 border-0  fw-bold ${type === 'superAdmin' ? 'active bg-white  text-success signup-button' : ''}`}
+                        className={`btn rounded-2 border-0 px-4 py-2 text-white text-uppercase fw-bold ${type === 'superAdmin' ? 'active bg-success bg-gradient px-2 py-1 text-dark signup-button' : ''}`}
                         type="button"
                         aria-selected="false"
                         role='tab' onClick={() => handleSinUpType('superAdmin')}
-                        style={{ fontSize: '1rem' }}>
-                      SAdmin
+                        style={{ fontSize: '10px' }}>
+                     <i class="fa fa-user-shield nav-icon"></i> SAdmin
                       </button> 
                       <button
-                        className={`btn rounded-5 border-0 text-white  fw-semibold ${type === 'agent' ? 'active bg-success bg-gradient px-2 py-1 text-dark signup-button' : ''}`}
+                        className={`btn rounded-2 border-0 text-white px-4 py-2 text-white text-uppercase fw-bold  ${type === 'agent' ? 'active bg-success bg-gradient px-2 py-1 text-dark signup-button' : ''}`}
                         type="button"
                         aria-selected="false"
                         role='tab' onClick={() => handleSinUpType('agent')}
-                        style={{ fontSize: '1rem' }}>
-                        Agent
+                        style={{ fontSize: '10px' }}>
+                    <i class="fa fa-user-secret nav-icon"></i>    Agent
                       </button>
                     </div>
-                    <form className="user mt-5 px-5" onSubmit={handleSubmit}>
-                      <div className="form-group row">
-                        <div className="col-sm-6 mb-3 mb-sm-0">
+                    <form  onSubmit={handleSubmit}>
+                     
+                        <div className="mb-3">
                         
-                        <input type="text" name="name" onChange={handleInputs} className="form-control form-control-user  rounded-3" id="exampleFirstName" placeholder=" Name" />
+                        <input type="text" name="name" onChange={handleInputs} className="form-control form-control-user  rounded-2" id="exampleFirstName" placeholder="UserName..." style={{fontSize:'12px'}} />
                         {errors.name.required ? (
                                 <div className="text-danger form-text">
                                     This field is required.
                                 </div>
                             ) : null}
                         </div>
-                        <div className="col-sm-6">
-                          <input type="text" name="mobileNumber" onChange={handleInputs} className="form-control form-control-user rounded-3" id="exampleLastName" placeholder="Mobile Number" />
+                        <div className="mb-3">
+                          <input type="text" name="mobileNumber" onChange={handleInputs} className="form-control form-control-user rounded-2" id="exampleLastName" placeholder="Contact No..." style={{fontSize:'12px'}} />
                           {errors.mobileNumber.required ?
 
                             <span className="text-danger form-text profile_error">
@@ -219,9 +222,9 @@ const Register = () => {
 
                           }
                         </div>
-                      </div>
-                      <div className="form-group">
-                        <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user rounded-3" id="exampleInputEmail" placeholder="Email Address" />
+                     
+                      <div className="mb-3">
+                        <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user rounded-2" id="exampleInputEmail" placeholder="Email Address..." style={{fontSize:'12px'}} />
                         {errors.email.required ? (
                                 <div className="text-danger form-text">
                                     This field is required.
@@ -233,9 +236,9 @@ const Register = () => {
                             ) : null}
                         </div>
                     
-                      <div className="form-group row">
-                        <div className="col-sm-6 mb-3 mb-sm-0">
-                          <input type="password" name="password" onChange={handleInputs} className="form-control form-control-user rounded-3" id="exampleInputPassword" placeholder="Password" />
+                     
+                        <div className="mb-3">
+                          <input type="password" name="password" onChange={handleInputs} className="form-control form-control-user rounded-2" id="exampleInputPassword" placeholder="Password..." style={{fontSize:'12px'}} />
                           {errors.password.required ? (
                                 <div className="text-danger form-text">
                                     This field is required.
@@ -249,8 +252,8 @@ const Register = () => {
                                 </div>
                             ) : null}
                         </div>
-                        <div className="col-sm-6">
-                          <input type="password" name="confirmPassword" onChange={handleInputs} className="form-control form-control-user rounded-3" id="exampleRepeatPassword" placeholder="Repeat Password" />
+                        <div className="mb-3">
+                          <input type="password" name="confirmPassword" onChange={handleInputs} className="form-control form-control-user rounded-2" id="exampleRepeatPassword" placeholder="Confirm Password..." style={{fontSize:'12px'}} />
                           {errors.confirmPassword.required ? (
                                 <div className="text-danger form-text">
                                     This field is required.
@@ -264,38 +267,45 @@ const Register = () => {
                                 </div>
                             ) : null}
                         </div>
-                      </div>
+                     
                       <div className='d-flex justify-content-center'>
-                            <button type="submit" className="w-50 px-3 py-2 btn rounded-5 text-white fw-semibold" style={{ backgroundColor: '#fe5722' }}>Sign Up</button>
+                            <button type="submit" className=" btn btn-sm rounded-2 w-75 px-4 py-2 text-uppercase fw-semibold" style={{ backgroundColor: '#fe5722',color:'#fff',fontSize:'10px' }}>Sign Up</button>
                         </div>
+
+                        <div class="alternative-login d-flex flex-row align-items-center justify-content-center" style={{marginTop:'1rem',marginBottom:'1rem'}}>
+                <hr className="border-0 border-top border-dark" style={{margin:'0 1rem',flexGrow:'1',borderTop:'1px solid #ccc'}}/>
+                <span>or</span>
+                <hr className="border-0 border-top border-dark " style={{margin:'0 1rem',flexGrow:'1',borderTop:'1px solid #ccc'}}/>
+              </div>
                       
-                      <hr />
-                      <a href="/" className="btn btn-google btn-user btn-block">
-                        <i className="fab fa-google fa-fw" /> Register with Google
-                      </a>
-                      <hr />
+              <div className='d-flex justify-content-center'>
+                          <Link to='/'  className="btn btn-google btn-user btn-block  btn-sm   border-0  fw-bold text-uppercase  px-4 py-2 w-75" style={{backgroundColor:'#4285F4',color:'#fff',fontSize:'10px'}}>
+                            <i className="fab fa-google fa-fw" /> Login with Google
+                          </Link>
+                          </div>
                     
                    
-                    <div className='row gy-3 text-center '>
-                    <div className="col-lg-6 ">
-                      <a className="small btn  text-white border-0 rounded-5 px-3 py-2" style={{backgroundColor:'#fe5722',fontSize:'12px'}} href="/ForgotPassword">Forgot Password?</a>
-                    </div>
-                    <div className="col-lg-6">
-                      <a className="btn btn-outline-light rounded-5 btn-transparent px-3 py-2" style={{fontSize:'12px'}} href="/">Already have an account ?</a>
+                    <div className='row g-3 my-2 text-center '>
+                    <div className="col-md-6 col-sm-12">
+                          <Link to='/ForgotPassword' className="btn btn-sm   border-0 text-uppercase  fw-bold px-4 py-2" style={{backgroundColor:'#f0f0f0',color:'#231f20',fontSize:'9px'}} ><i class="fa fa-key nav-icon"></i>Forgot Password</Link>
+                        </div>
+                    <div className="col-md-6 col-sm-12">
+                      <Link to='/'  className="btn btn-sm  px-4 text-uppercase fw-bold py-2" style={{backgroundColor:'#008080',color:'#fff',fontSize:'9px'}} > <i class="fa fa-user-circle nav-icon"></i>Member Login</Link>
                     </div>
                     </div>
                     </form>
+             </div>
+                  
+                  
                
-                  </div>
+                 
                 </div>
-                <div className="col-lg-6 d-none d-lg-block bg-register-image" >
-                  <img src='https://media.istockphoto.com/id/1390864016/vector/educational-tourism-abstract-concept-vector-illustration.jpg?s=612x612&w=0&k=20&c=mhkj3CUSexYWJA2m7oJGdW_4p-N0U-Sw9_DME5nwuV0=' alt='#' className='img-fluid object-fit-fill' style={{width:'100%'}}/>
-                </div>
+              
                
               </div>
-            </div>
+            
           </div>
-          </div>
+         
           
         </div>
       </div>
