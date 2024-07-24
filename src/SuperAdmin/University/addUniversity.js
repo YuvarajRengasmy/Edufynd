@@ -113,7 +113,7 @@ const App = () => {
   const getAllCountryDetails = () => {
     getallCountryList()
       .then((res) => {
-        setCountries(res?.data?.result);
+        setCountries(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
