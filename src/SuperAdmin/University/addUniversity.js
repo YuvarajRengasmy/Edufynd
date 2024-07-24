@@ -111,9 +111,9 @@ const App = () => {
   }, []);
   // API calls to fetch data
   const getAllCountryDetails = () => {
-    getFilterCountryList()
+    getallCountryList()
       .then((res) => {
-        setCountries(res?.data?.result.dropDownList || []);
+        setCountries(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);

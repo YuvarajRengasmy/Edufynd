@@ -1,37 +1,37 @@
 import API from "./api"
-import {CountryList} from "./endpoints"
+import {Demo} from "./endpoints"
 
 export const saveCountryList = (data) => {
-    return API.post(`${CountryList}`, data)
+    return API.post(`${Demo}`, data)
 }
 export const updateCountryList = (data) => {
-    return API.put(`${CountryList}`, data, {params: { _id: data._id }},)
+    return API.put(`${Demo}`, data, {params: { _id: data._id }},)
 }
 export const getSingleCountryList = (data) => {
-    return API.get(`${CountryList}/getSingleCountryList`, { params: { _id: data } })
+    return API.get(`${Demo}/getSingleDemo`, { params: { _id: data } })
 }
 export const getallCountryList = () => {
-    return API.get(`${CountryList}`)
+    return API.get(`${Demo}`)
 }
 export const deleteCountryList = (data) => {
-    return API.delete(`${CountryList}`, { params: { _id: data } });
+    return API.delete(`${Demo}`, { params: { _id: data } });
   };
 
   export const getFilterCountryList = (data) => {
-    return API.put(`${CountryList}/getFilterCountryList`, data);
+    return API.put(`${Demo}/getFilterDemo`, data);
   };
 
   export const getCountryByCountry= (country) => {
-    return API.get(`${CountryList}/getCountryByState`, {params: { country: country }, 
+    return API.get(`${Demo}/getCountryByState`, {params: { country: country }, 
     });
 };
 
 export const getStatesByCountry= (country) => {
-    return API.get(`${CountryList}/getCountryByStates`, {params: { country: country }, 
+    return API.get(`${Demo}/getCountryByStates`, {params: { country: country }, 
     });
 };
 
 export const getCitiesByState= (state) => {
-    return API.get(`${CountryList}/getAllCities`, {params: { state:state }, 
+    return API.get(`${Demo}/getAllCities`, {params: { state:state }, 
     });
 };
