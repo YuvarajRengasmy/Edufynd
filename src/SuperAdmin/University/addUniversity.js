@@ -436,8 +436,7 @@ const App = () => {
     states: country.state,
   }));
 
-  const stateOptions = selectedCountry
-    ? selectedCountry.states.map((state) => ({
+  const stateOptions = selectedCountry ? selectedCountry.states.map((state) => ({
         value: state.name,
         label: state.name,
       }))
