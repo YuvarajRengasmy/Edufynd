@@ -324,8 +324,8 @@ const UserProfile = () => {
                                 <div className="row">
                                   <div className=" border-0 pt-3 px-4">
                                     <div className="row">
-                                      {Array.isArray(university?.campus) &&
-                                        university.campus.map((data, index) => (
+                                      {Array.isArray(university?.campuses) &&
+                                        university.campuses.map((data, index) => (
                                           <div key={index} className="col-md-4">
                                             <div
                                               className="card border-1 rounded-3 shadow-sm align-items-center"
@@ -538,7 +538,7 @@ const UserProfile = () => {
                                       Country
                                     </div>
                                     <div className=" fw-semibold text-capitalize">
-                                      {university?.campus[0]?.country}
+                                      {university?.countryName}
                                      
                                     </div>
                                   </div>

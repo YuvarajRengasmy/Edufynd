@@ -690,22 +690,13 @@ export default function Masterproductlist() {
                                     )}
                                   </td>
                                   <td className="text-capitalize text-start">
-                                    {/* {data.campus?.map((campus, yearIndex) => (
-                                      <div key={yearIndex}>
-                                        {campus?.country?.length > 0
-                                          ? campus[0].country
-                                          : "-"}
-                                      
-                                      </div>
-                                    ))} */}
-                                   {data?.campus?.length > 0
-                                      ? data.campus[0]?.country
-                                      : "Not Available"}
+                                   
+                                   {data?.countryName}
                                   </td>
                                   <td className="text-capitalize text-start">
-                                    {data.campus?.map((campus, yearIndex) => (
+                                    {data.campuses?.map((campus, yearIndex) => (
                                       <div key={yearIndex}>
-                                        {campus?.state?.length > 0
+                                        {campus?.state?.length >0 
                                           ? campus.state
                                           : "Not Available"}
                                         __
