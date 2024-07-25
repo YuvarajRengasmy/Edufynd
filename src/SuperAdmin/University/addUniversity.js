@@ -623,6 +623,7 @@ const App = () => {
                                 placeholder="Select Country"
                                 onChange={handleCountryChange}
                                 options={countries}
+                                name="label"
                                 value={countries.find(
                                   (option) => option.value === client.country
                                 )}
