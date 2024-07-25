@@ -614,7 +614,7 @@ const App = () => {
                               </div>
                             )}
                           </div>
-                          <div className="row g-3">
+                          <div className="row g-3 mb-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Country<span className="text-danger">*</span>
@@ -636,11 +636,27 @@ const App = () => {
                                 </div>
                               )}
                             </div>
+                            <div className="col text-end">
+
+<br/>
+  <button
+    type="button"
+    style={{
+      backgroundColor: "#231F20",
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+    className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+    onClick={addCampus}
+  >
+ <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add Campus
+  </button>
+</div>
 
 
 
                             {university.campuses.map((campus, index) => (
-                              <div className="row row-cols-3 g-3" key={index}>
+                              <div className="row row-cols-3 mb-3 " key={index}>
                                 <div className="col">
                                   <label style={{ color: "#231F20" }}>
                                     State<span className="text-danger">*</span>
@@ -687,8 +703,9 @@ const App = () => {
                                     </div>
                                   )}
                                 </div>
+
                                 {index > 0 && (
-                                  <div className="col-xl-12 mt-3 text-end">
+                                  <div className="col-xl-12 my-3 ">
                                     <button
                                       type="button"
                                       className="btn btn-sm btn-danger"
@@ -699,24 +716,10 @@ const App = () => {
                                   </div>
                                 )}
 
-<div className="col">
 
-                            <br/>
-                              <button
-                                type="button"
-                                style={{
-                                  backgroundColor: "#231F20",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                                onClick={addCampus}
-                              >
-                             <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add Campus
-                              </button>
-                            </div>
                               </div>
                             ))}
+                         
                            
                           </div>
 
