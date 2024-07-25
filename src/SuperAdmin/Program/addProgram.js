@@ -696,7 +696,7 @@ function Profile() {
                                     )
                                   }
                                   name="campus"
-                                  className="form-select"
+                                  className="form-select form-select-lg rounded-2"
                                   placeholder="Enter Campus"
                                 >
                                   <option value="">Select Campus</option>
@@ -736,7 +736,7 @@ function Profile() {
                                         )
                                       }
                                       name="inTake"
-                                      className="form-select"
+                                      className="form-select form-select-lg rounded-2"
                                       placeholder="Enter Intake"
                                     >
                                       <option value="">Select Intake</option>
@@ -840,7 +840,7 @@ function Profile() {
                               English language Test (ELT) Requirement
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-2"
                               name="englishlanguageTest"
                               onChange={handleInputs}
                               style={{
@@ -889,7 +889,7 @@ function Profile() {
                               GRE/GMAT Requirement
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-2"
                               name="greGmatRequirement"
                               style={{
                                 backgroundColor: "#fff",
@@ -938,7 +938,7 @@ function Profile() {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select form-select-lg rounded-2"
                               name="universityInterview"
                               style={{
                                 backgroundColor: "#fff",

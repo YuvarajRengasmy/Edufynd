@@ -93,19 +93,20 @@ const UserProfile = () => {
   };
   return (
     <>
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div className="container-fluid">
-          <div className="navbar navbar-vertical navbar-expand-lg">
+     
+        <div >
+        
             <Sidebar />
-          </div>
+         
           <div
             className="content-wrapper"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
-            <div className="container-fluid ">
+            <div className="content-header">
+            <div className="container ">
               <div className="row">
                 <div className="col-xl-12">
-                  <div className="border-0 rounded-0 bg-transparent p-3 ">
+                 
                     <div className="card border-0 rounded-0 ">
                       <div class="card rounded-0 border-0 text-bg-dark">
                         <img
@@ -680,13 +681,15 @@ const UserProfile = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>
+            </div>
+           
           </div>
         </div>
-      </div>
+    
     </>
   );
 };

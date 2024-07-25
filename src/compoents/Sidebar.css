@@ -1,6 +1,6 @@
 /* Sidebar Background */
 .sidebar {
-  background: linear-gradient(135deg, #F4F4F4, #EAEAEA); /* Soft gradient background */
+  background-color: #F5F5DC; /* Soft gradient background */
   padding: 10px; /* Padding for a more spacious layout */
 }
 

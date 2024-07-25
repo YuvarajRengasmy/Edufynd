@@ -556,15 +556,15 @@ function AddCommission() {
                                                                                     <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
               <button
                 type="button"
-                className="btn text-white ml-2 mb-3"
+                className="btn text-white btn-danger  mb-3"
                 onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
                 style={{
-                  backgroundColor: "#FE5722",
-                  fontFamily: "Plus Jakarta Sans",
-                  fontSize: "14px",
+                
+               
+                  fontSize: "12px",
                 }}
               >
-                <FaTrash />
+                < FaTrash />
               </button>
             </div>
 

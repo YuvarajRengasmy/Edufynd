@@ -1774,7 +1774,7 @@ const Sidebar = () => {
                     <i
                       className="nav-icon fa fa-flag "
                       aria-hidden="true"
-                      style={{ fontSize: "12px" }}
+                      
                     />
                     Log Out
                   </a>
