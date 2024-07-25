@@ -141,13 +141,13 @@ const Login = () => {
                     </div>
                   ) : null}
                   <div className="input-group mb-3">
-                    <span className="input-group-text" id="basic-addon1"><i className="fa fa-lock nav-icon"></i></span>
+                    <span className="input-group-text " id="basic-addon1"><i className="fa fa-lock nav-icon "></i></span>
                     <input
                       type={passwordVisible ? 'text' : 'password'}
                       name="password"
                       onChange={handleInputs}
                       autoComplete="off"
-                      className="form-control"
+                      className="form-control rounded-end"
                       id="exampleInputPassword"
                       placeholder="Password..."
                       style={{ fontSize: '12px' }}

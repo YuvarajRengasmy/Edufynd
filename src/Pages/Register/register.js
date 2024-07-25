@@ -233,7 +233,7 @@ const Register = () => {
                         type={showPassword ? 'text' : 'password'}
                         name="password"
                         onChange={handleInputs}
-                        className="form-control form-control-user"
+                        className="form-control form-control-user rounded-end"
                         id="exampleInputPassword"
                         placeholder="Password..."
                         style={{ fontSize: '12px' }}
@@ -242,7 +242,15 @@ const Register = () => {
                         type="button"
                         className="btn btn-transprent border-0"
                         onClick={handleTogglePassword}
-                        style={{ position: 'absolute', right: '0px', top: '10px',transform:'translate(-25%,-25%)' }}
+                        style={{
+                          position: 'absolute',
+                          right: '10px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                        }}
                       >
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
@@ -265,7 +273,7 @@ const Register = () => {
                         type={showConfirmPassword ? 'text' : 'password'}
                         name="confirmPassword"
                         onChange={handleInputs}
-                        className="form-control form-control-user"
+                        className="form-control form-control-user rounded-end"
                         id="exampleRepeatPassword"
                         placeholder="Confirm Password..."
                         style={{ fontSize: '12px' }}
@@ -274,7 +282,15 @@ const Register = () => {
                         type="button"
                         className="btn btn-transprent border-0"
                         onClick={handleToggleConfirmPassword}
-                        style={{ position: 'absolute', right: '0px', top: '10px',transform:'translate(-25%,-25%)' }}
+                        style={{
+                          position: 'absolute',
+                          right: '10px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                        }}
                       >
                         {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
