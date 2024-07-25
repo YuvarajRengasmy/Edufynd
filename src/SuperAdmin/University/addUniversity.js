@@ -624,9 +624,7 @@ const App = () => {
                                 onChange={handleCountryChange}
                                 options={countries}
                                 name="label"
-                                value={countries.find(
-                                  (option) => option.value === client.country
-                                )}
+                                value={countries.find((option) => option.value === client.country)}
                                 styles={customStyles}
                                 className="submain-one-form-body-subsection-select"
                               />

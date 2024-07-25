@@ -37,6 +37,7 @@ const Register = () => {
 
 
   const handleValidation = (data) => {
+    console.log("kk", data)
     let error = initialStateErrors;
     if (data.name === "") {
       error.name.required = true;
@@ -79,6 +80,7 @@ const Register = () => {
 
 
   const handleErrors = (obj) => {
+    console.log("66", obj)
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const prop = obj[key];
