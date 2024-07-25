@@ -235,7 +235,7 @@ export const ListEmail = () => {
             <div className="container">
             <div className="row">
             <div className="col-xl-12">
-              <div className="card  border-0">
+              <div className="card rounded-0 border-0">
                 <div className="card-body">
                   <div className="card-table">
                     <div className="table-responsive">

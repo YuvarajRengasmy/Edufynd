@@ -298,7 +298,13 @@ export const ListFlightTicket = () => {
 
                 </div>
   </div>
-  <div className="row">
+
+ 
+ 
+</div>
+<div className="content-body">
+            <div className="container">
+            <div className="row">
          
          <div className="col-xl-12">
           
@@ -397,11 +403,17 @@ export const ListFlightTicket = () => {
          </div>
          
        </div>
-</div>
+            </div>
+          </div>
         
               
   
 
+       
+
+
+        
+        </div>
         <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
@@ -428,10 +440,6 @@ export const ListFlightTicket = () => {
           </div>
         </DialogContent>
       </Dialog>
-
-
-        
-        </div>
                     
                </div>     
    

@@ -309,7 +309,14 @@ export const ListGeneralEnquiry = () => {
 
             </div>
               </div>
-              <div className="row">
+
+
+             
+              
+            </div>
+            <div className="content-body">
+            <div className="container">
+            <div className="row">
              
              <div className="col-xl-12">
                <div className="card rounded-0  border-0">
@@ -404,6 +411,7 @@ export const ListGeneralEnquiry = () => {
           
          </div>
             </div>
+          </div>
 
            
          

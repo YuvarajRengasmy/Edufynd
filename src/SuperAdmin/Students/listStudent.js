@@ -534,7 +534,16 @@ export default function Masterproductlist() {
 
               </div>
               </div>
-              <div className="row">
+
+
+             
+            
+             
+          
+        </div>
+        <div className="content-body">
+            <div className="container">
+            <div className="row">
               <div className="col-xl-12">
        
        <div className="card mt-2 rounded-0 border-0">
@@ -622,9 +631,8 @@ export default function Masterproductlist() {
        </div>
      </div>
               </div>
-             
-          
-        </div>
+            </div>
+          </div>
        
       </div>
              

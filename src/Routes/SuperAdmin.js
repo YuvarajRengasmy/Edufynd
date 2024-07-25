@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import Country from "../SuperAdmin/University/Country";
 import AddUniversity from "../SuperAdmin/University/addUniversity";
 import ListUniversity from "../SuperAdmin/University/ListUniversity";
@@ -122,85 +122,85 @@ function SuperAdmin() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/Demo" element={<Country />} />
-          <Route path="/ApplyJob" element={<ApplyJob />} />
+          <Route path="/Demo" element={<PrivateRoute><Country /></PrivateRoute>} />
+          <Route path="/ApplyJob" element={<PrivateRoute><ApplyJob /></PrivateRoute>} />
 
           {/* Settings */}
-          <Route path="/CountryList" element={<CountryList />} />
-          <Route path="/GlobalSettings" element={<GlobalSettings />} />
-          <Route path="/CurrencySettings" element={<CurrencySettings />} />
-          <Route path="/UniversitySettings" element={<UniversitySettings />} />
-          <Route path="/CourseType" element={<ProgramModule />} />
-          <Route path="/ClientModule" element={<ClientModule />} />
-          <Route path="/Status" element={<Status />} />
-          <Route path="/Intake" element={<Intake />} />
-          <Route path="/YearSetting" element={<Year />} />
+          <Route path="/CountryList" element={<PrivateRoute><CountryList /></PrivateRoute>} />
+          <Route path="/GlobalSettings" element={<PrivateRoute><GlobalSettings /></PrivateRoute>} />
+          <Route path="/CurrencySettings" element={<PrivateRoute><CurrencySettings /></PrivateRoute>} />
+          <Route path="/UniversitySettings" element={<PrivateRoute><UniversitySettings /></PrivateRoute>} />
+          <Route path="/CourseType" element={<PrivateRoute><ProgramModule /></PrivateRoute>} />
+          <Route path="/ClientModule" element={<PrivateRoute><ClientModule /></PrivateRoute>} />
+          <Route path="/Status" element={<PrivateRoute><Status /></PrivateRoute>} />
+          <Route path="/Intake" element={<PrivateRoute><Intake /></PrivateRoute>} />
+          <Route path="/YearSetting" element={<PrivateRoute><Year /></PrivateRoute>} />
 
           {/* DashBoard */}
-          <Route path="/DashBoard" element={<DashboardSA />} />
+          <Route path="/DashBoard" element={<PrivateRoute><DashboardSA /></PrivateRoute>} />
 
           {/* University */}
-          <Route path="/AddUniversity" element={<AddUniversity />} />
-          <Route path="/ListUniversity" element={<ListUniversity />} />
-          <Route path="/ViewUniversity" element={<ViewUniversity />} />
-          <Route path="/EditUniversity" element={<EditUniversity />} />
-          <Route path="/ViewUniversityPage" element={<ViewUniversity1 />} />
+          <Route path="/AddUniversity" element={<PrivateRoute><AddUniversity /></PrivateRoute>} />
+          <Route path="/ListUniversity" element={<PrivateRoute><ListUniversity /></PrivateRoute>} />
+          <Route path="/ViewUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
+          <Route path="/EditUniversity" element={<PrivateRoute><EditUniversity /></PrivateRoute>} />
+          <Route path="/ViewUniversityPage" element={<PrivateRoute><ViewUniversity1 /></PrivateRoute>} />
 
           {/* Program */}
-          <Route path="/ViewProgram" element={<ViewProgram />} />
-          <Route path="/Programs" element={<Program />} />
-          <Route path="/AddProgram" element={<AddProgram />} />
-          <Route path="/EditProgram" element={<EditProgram />} />
+          <Route path="/ViewProgram" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
+          <Route path="/Programs" element={<PrivateRoute><Program /></PrivateRoute>} />
+          <Route path="/AddProgram" element={<PrivateRoute><AddProgram /></PrivateRoute>} />
+          <Route path="/EditProgram" element={<PrivateRoute><EditProgram /></PrivateRoute>} />
 
           {/* Students */}
-          <Route path="/ListStudent" element={<ListStudent />} />
-          <Route path="/AddStudentSA" element={<AddStudentSA />} />
-          <Route path="/ViewStudent" element={<ViewStudent />} />
-          <Route path="/EditStudent" element={<Editstudent />} />
+          <Route path="/ListStudent" element={<PrivateRoute><ListStudent /></PrivateRoute>} />
+          <Route path="/AddStudentSA" element={<PrivateRoute><AddStudentSA /></PrivateRoute>} />
+          <Route path="/ViewStudent" element={<PrivateRoute><ViewStudent /></PrivateRoute>} />
+          <Route path="/EditStudent" element={<PrivateRoute><Editstudent /></PrivateRoute>} />
 
           {/* Agent */}
-          <Route path="/AddAgent" element={<AddAgent />} />
-          <Route path="/ListAgent" element={<ListAgent />} />
-          <Route path="/ViewAgent" element={<ViewAgent />} />
-          <Route path="/EditAgent" element={<EditAgent />} />
+          <Route path="/AddAgent" element={<PrivateRoute><AddAgent /></PrivateRoute>} />
+          <Route path="/ListAgent" element={<PrivateRoute><ListAgent /></PrivateRoute>} />
+          <Route path="/ViewAgent" element={<PrivateRoute><ViewAgent /></PrivateRoute>} />
+          <Route path="/EditAgent" element={<PrivateRoute><EditAgent /></PrivateRoute>} />
 
           {/* Admin */}
-          <Route path="/AdminList" element={<AdminList />} />
-          <Route path="/AddAdmin" element={<AddAdmin />} />
-          <Route path="/EditAdmin" element={<EditAdmin />} />
-          <Route path="/ViewAdmin" element={<ViewAdmin />} />
+          <Route path="/AdminList" element={<PrivateRoute><AdminList /></PrivateRoute>} />
+          <Route path="/AddAdmin" element={<PrivateRoute><AddAdmin /></PrivateRoute>} />
+          <Route path="/EditAdmin" element={<PrivateRoute><EditAdmin /></PrivateRoute>} />
+          <Route path="/ViewAdmin" element={<PrivateRoute><ViewAdmin /></PrivateRoute>} />
 
           {/* Client */}
-          <Route path="/AddClient" element={<AddClient />} />
-          <Route path="/client" element={<ListClient />} />
-          <Route path="/EditClient" element={<EditClient />} />
-          <Route path="/viewClient" element={<ViewClient />} />
+          <Route path="/AddClient" element={<PrivateRoute><AddClient /></PrivateRoute>} />
+          <Route path="/client" element={<PrivateRoute><ListClient /></PrivateRoute>} />
+          <Route path="/EditClient" element={<PrivateRoute><EditClient /></PrivateRoute>} />
+          <Route path="/viewClient" element={<PrivateRoute><ViewClient /></PrivateRoute>} />
 
           {/* Application */}
-          <Route path="/ListApplication" element={<ListApplication />} />
-          <Route path="/Application" element={<Application />} />
-          <Route path="/AddApplication" element={<AddApplication />} />
-          <Route path="/EditApplication" element={<EditApplication />} />
+          <Route path="/ListApplication" element={<PrivateRoute><ListApplication /></PrivateRoute>} />
+          <Route path="/Application" element={<PrivateRoute><Application /></PrivateRoute>} />
+          <Route path="/AddApplication" element={<PrivateRoute><AddApplication /></PrivateRoute>} />
+          <Route path="/EditApplication" element={<PrivateRoute><EditApplication /></PrivateRoute>} />
 
           {/* Staff */}
-          <Route path="/ListStaff" element={<ListStaff />} />
-          <Route path="/AddStaff" element={<AddStaff />} />
-          <Route path="/EditStaff" element={<EditStaff />} />
-          <Route path="/ViewStaff" element={<ViewStaff />} />
+          <Route path="/ListStaff" element={<PrivateRoute><ListStaff /></PrivateRoute>} />
+          <Route path="/AddStaff" element={<PrivateRoute><AddStaff /></PrivateRoute>} />
+          <Route path="/EditStaff" element={<PrivateRoute><EditStaff /></PrivateRoute>} />
+          <Route path="/ViewStaff" element={<PrivateRoute><ViewStaff /></PrivateRoute>} />
 
           {/* Invoices */}
-          <Route path="/ListInvoice" element={<Listinvoice />} />
-          <Route path="/AddSenderInvoice" element={<AddSenderInvoice />} />
-          <Route path="/AddRecieverInvoice" element={<AddRecieverInvoice />} />
-          <Route path="/EditInvoice" element={<Editinvoice />} />
-          <Route path="/ViewInvoice" element={<Viewinvoice />} />
-          <Route path="/SenderViewInvoice" element={<SenderViewinvoice />} />
+          <Route path="/ListInvoice" element={<PrivateRoute><Listinvoice /></PrivateRoute>} />
+          <Route path="/AddSenderInvoice" element={<PrivateRoute><AddSenderInvoice /></PrivateRoute>} />
+          <Route path="/AddRecieverInvoice" element={<PrivateRoute><AddRecieverInvoice /></PrivateRoute>} />
+          <Route path="/EditInvoice" element={<PrivateRoute><Editinvoice /></PrivateRoute>} />
+          <Route path="/ViewInvoice" element={<PrivateRoute><Viewinvoice /></PrivateRoute>} />
+          <Route path="/SenderViewInvoice" element={<PrivateRoute><SenderViewinvoice /></PrivateRoute>} />
 
           {/* Commission */}
-          <Route path="/AddCommission" element={<AddCommission />} />
-          <Route path="/EditCommission" element={<EditCommission />} />
-          <Route path="/ViewCommission" element={<ViewComission />} />
-          <Route path="/ListCommission" element={<ListCommission />} />
+          <Route path="/AddCommission" element={<PrivateRoute><AddCommission /></PrivateRoute>} />
+          <Route path="/EditCommission" element={<PrivateRoute><EditCommission /></PrivateRoute>} />
+          <Route path="/ViewCommission" element={<PrivateRoute><ViewComission /></PrivateRoute>} />
+          <Route path="/ListCommission" element={<PrivateRoute><ListCommission /></PrivateRoute>} />
 
           {/* Notifications */}
           <Route path="/ListNotifications" element={<ListNotifications />} />

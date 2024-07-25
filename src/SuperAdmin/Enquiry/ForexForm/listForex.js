@@ -296,6 +296,12 @@ export const ListForex = () => {
                 </div>
               </div>
             </div>
+
+            
+         
+          </div>
+          <div className="content-body">
+            <div className="container">
             <div className="row">
           
           <div className="col-xl-12">
@@ -388,6 +394,7 @@ export const ListForex = () => {
           </div>
           
         </div>
+            </div>
           </div>
 
        
