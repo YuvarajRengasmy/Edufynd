@@ -67,8 +67,6 @@ function Profile() {
   const [selectedPopularType, setSelectedPopularType] = useState(null);
 
   const [selectedCourseType, setSelectedCourseType] = useState([]);
- 
-
 
   const navigate = useNavigate();
 
@@ -76,49 +74,15 @@ function Profile() {
     getAllUniversityList();
     getAllCurrencyDetails();
     getProgramDetails();
-  
-  
   }, []);
 
-
-
-  // const getProgramDetails = () => {
-  //   getSingleProgram(id)
-  //     .then((res) => {
-  //       console.log(res?.data?.result);
-  //       const programDetails = res?.data?.result;
-  //       setProgram(programDetails);
-
-  //       if (programDetails?.country) {
-  //         getUniversitiesByCountry(programDetails.country).then((response) => {
-  //           setUniversities(response.data.result || []);
-           
-  //         });
-  //       }else if(programDetails?.universities){
-  //         getallUniversity().then((response) => {
-  //           setUniversities(response.data.result || []);
-  //         });
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //     // getAllCourseTypes()
-  //     // .then((response) => {
-  //     //   setProgram(response.data.result || []); // Update course types state with fetched data
-  //     // })
-  //     // .catch((error) => {
-  //     //   console.error('Error fetching course types:', error);
-  //     //   setProgram([]);
-  //     // });
-  // };
   const getProgramDetails = () => {
     getSingleProgram(id)
       .then((res) => {
         console.log(res?.data?.result);
         const programDetails = res?.data?.result;
         setProgram(programDetails);
-  
+
         if (programDetails?.country) {
           // Fetch universities by country
           getUniversitiesByCountry(programDetails.country)
@@ -127,7 +91,7 @@ function Profile() {
               // You can further process or display university details here
             })
             .catch((error) => {
-              console.error('Error fetching universities by country:', error);
+              console.error("Error fetching universities by country:", error);
             });
         } else if (programDetails?.universityName) {
           // Fetch all universities
@@ -137,7 +101,7 @@ function Profile() {
               // You can further process or display university details here
             })
             .catch((error) => {
-              console.error('Error fetching all universities:', error);
+              console.error("Error fetching all universities:", error);
             });
         }
       })
@@ -145,9 +109,7 @@ function Profile() {
         console.log(err);
       });
   };
-  
 
-  
   const getAllUniversityList = () => {
     getallUniversity()
       .then((res) => {
@@ -168,7 +130,6 @@ function Profile() {
       });
   };
 
-  
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (data.universityName === "") {
@@ -204,21 +165,28 @@ function Profile() {
 
   const addCampus = () => {
     setProgram({
-        ...program,
-        campuses: [
-            ...program.campuses,
-            { campus: '', inTake: '', courseFees: '', duration: '', englishlanguageTest: '', textBox: '' }
-        ]
+      ...program,
+      campuses: [
+        ...program.campuses,
+        {
+          campus: "",
+          inTake: "",
+          courseFees: "",
+          duration: "",
+          englishlanguageTest: "",
+          textBox: "",
+        },
+      ],
     });
-};
+  };
 
-const handleSelectChange = (selectedOptions, action) => {
-  const { name } = action;
-  const values = selectedOptions
-    ? selectedOptions.map(option => option.value)
-    : [];
-  setUniversity(prevUniversity => ({ ...prevUniversity, [name]: values }));
-};
+  const handleSelectChange = (selectedOptions, action) => {
+    const { name } = action;
+    const values = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    setProgram((prevProgram) => ({ ...prevProgram, [name]: values }));
+  };
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setProgram({ ...program, country: selectedCountry });
@@ -242,7 +210,8 @@ const handleSelectChange = (selectedOptions, action) => {
       (c) => c.country === selectedCountry
     );
     if (selectedCountryData) {
-      setProgram((prevState) => ({...prevState,
+      setProgram((prevState) => ({
+        ...prevState,
         currency: selectedCountryData.currency,
         flag: selectedCountryData.flag,
       }));
@@ -252,47 +221,44 @@ const handleSelectChange = (selectedOptions, action) => {
     const updatedCampuses = [...program.campuses];
     updatedCampuses[index][field] = value;
     setProgram({ ...program, campuses: updatedCampuses });
-};
+  };
 
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
 
-const handleInputs = (event, ) => {
-  const { name, value } = event.target;
-
-  setProgram((prevProgram) => {
-    const updatedProgram = { ...prevProgram, [name]: value };
-    if (name === "universityName") {
-      const selectedUniversity = university.find(u => u.universityName === value);
-      if (selectedUniversity) {
-        return {
-          ...updatedProgram,
-          universityId: selectedUniversity._id,
-          universityLogo: selectedUniversity.universityLogo,
-          state: selectedUniversity.state,
-          lga: selectedUniversity.lga,
-          courseType: selectedUniversity.courseType,
-          country: selectedUniversity.country,
-          inTake: selectedUniversity.inTake,
-          popularCategories:selectedUniversity.popularCategories
-
-        };
+    setProgram((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+      if (name === "universityName") {
+        const selectedUniversity = university.find(
+          (u) => u.universityName === value
+        );
+        if (selectedUniversity) {
+          return {
+            ...updatedProgram,
+            universityId: selectedUniversity._id,
+            universityLogo: selectedUniversity.universityLogo,
+            state: selectedUniversity.state,
+            lga: selectedUniversity.lga,
+            courseType: selectedUniversity.courseType,
+            country: selectedUniversity.country,
+            inTake: selectedUniversity.inTake,
+            popularCategories: selectedUniversity.popularCategories,
+          };
+        }
       }
+
+      return updatedProgram;
+    });
+
+    if (submitted) {
+      const newError = handleValidation({ ...program, [name]: value });
+      setErrors(newError);
     }
-
-    return updatedProgram;
-  });
-
-
-
-  if (submitted) {
-    const newError = handleValidation({ ...program, [name]: value });
-    setErrors(newError);
-  }
-};
+  };
 
   const handleSelectCourseChange = (selectedOption) => {
     setProgram({ ...program, courseType: selectedOption });
   };
-
 
   const campusOptions = program?.state
     ? program.state.map((state) => ({ value: state, label: state }))
@@ -303,20 +269,22 @@ const handleInputs = (event, ) => {
       : [];
   const optionsToRender = lgaOptions.length > 0 ? lgaOptions : campusOptions;
   // const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
-  const inTakeOptions = program?.inTake?program.inTake.map(inTake => ({ value: inTake, label: inTake })) : [];
+  const inTakeOptions = program?.inTake
+    ? program.inTake.map((inTake) => ({ value: inTake, label: inTake }))
+    : [];
   const popularCategoriesOptions = program?.popularCategories
-  ? program.popularCategories.map((popularCategories) => ({
-      value: popularCategories,
-      label: popularCategories,
-    }))
-  : [];
- 
+    ? program.popularCategories.map((popularCategories) => ({
+        value: popularCategories,
+        label: popularCategories,
+      }))
+    : [];
+
   const courseTypeOptions = program?.courseType
-  ? program.courseType.map((courseType) => ({
-      value: courseType,
-      label: courseType,
-    }))
-  : [];
+    ? program.courseType.map((courseType) => ({
+        value: courseType,
+        label: courseType,
+      }))
+    : [];
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -338,7 +306,7 @@ const handleInputs = (event, ) => {
       updatedProgram({
         ...program,
         campuses: campuses,
-        courseType: selectedCourseType?.label 
+        courseType: selectedCourseType?.label,
       })
         .then((res) => {
           toast.success(res?.data?.message);
@@ -373,7 +341,7 @@ const handleInputs = (event, ) => {
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                         Edit Program Details
+                          Edit Program Details
                         </h5>
                       </div>
                       <div className="card-body mt-5">
@@ -582,27 +550,31 @@ const handleInputs = (event, ) => {
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Course Type
+                            </label>
 
-<label style={{ color: "#231F20" }}>
-  Course Type 
-</label>
+                            <Select
+                              name="courseType"
+                              value={
+                                program?.courseType
+                                  ? program?.courseType.map((courseType) => ({
+                                      value: courseType,
+                                      label: courseType,
+                                    }))
+                                  : null
+                              }
+                              options={courseTypeOptions}
+                              placeholder={program.courseType}
+                              onChange={handleSelectCourseChange}
+                            />
 
-<Select
-                                name="courseType"
-                                value={program.courseType}
-                                
-                               placeholder={program.courseType}
-                                onChange={handleSelectCourseChange}
-                              />
-
-{errors.courseType.required ? (
-  <div className="text-danger form-text">
-    This field is required.
-  </div>
-) : null}
-
-</div>
-
+                            {errors.courseType.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -720,145 +692,143 @@ const handleInputs = (event, ) => {
                               <button
                                 type="button"
                                 onClick={addCampus}
-                             
                                 style={{
                                   backgroundColor: "#fe5722",
                                   fontSize: "12px",
                                 }}
                                 className="btn text-white text-uppercase fw-semibold px-4 py-2"
                               >
-                                
                                 <i
                                   class="fa fa-plus-circle"
                                   aria-hidden="true"
-                                ></i>&nbsp;&nbsp;Add Campus{" "}
+                                ></i>
+                                &nbsp;&nbsp;Add Campus{" "}
                               </button>
                             </div>
                           </div>
 
-                          {program?.campuses && program?.campuses?.map((campus, index) => (
-                            <div className="g-3" key={index}>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label>Campus</label>
-
-                                <select
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                    
-                                  }}
-                                  value={campus?.campus}
-                                  onChange={(e) =>
-                                    handleInputChange(
-                                      index,
-                                      "campus",
-                                      e.target.value
-                                    )
-                                  }
-                                  name="campus"
-                                  className=" form-select form-select-lg rounded-2"
-                                  placeholder={campus?.campus}
-                                >
-                                  <option value="">{campus?.campus}</option>
-                                  {optionsToRender.map((option) => (
-                                    <option
-                                      key={option.value}
-                                      value={option.value}
-                                    >
-                                      {option.label}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              <div className="row mt-3">
+                          {program?.campuses &&
+                            program?.campuses?.map((campus, index) => (
+                              <div className="g-3" key={index}>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <div>
-                                    <label>Intake</label>
-                                    <select
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-                                      }}
-                                      value={campus.inTake}
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          index,
-                                          "inTake",
-                                          e.target.value
-                                        )
-                                      }
-                                      name="inTake"
-                                      className="form-select form-select-lg rounded-2"
-                                      placeholder={campus.inTake}
-                                    >
-                                      <option value="">{campus.inTake}</option>
-                                      {inTakeOptions.map((option) => (
-                                        <option
-                                          key={option.value}
-                                          value={option.value}
-                                        >
-                                          {option.label}
+                                  <label>Campus</label>
+
+                                  <select
+                                    style={{
+                                      backgroundColor: "#fff",
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    value={campus?.campus}
+                                    onChange={(e) =>
+                                      handleInputChange(
+                                        index,
+                                        "campus",
+                                        e.target.value
+                                      )
+                                    }
+                                    name="campus"
+                                    className=" form-select form-select-lg rounded-2"
+                                    placeholder={campus?.campus}
+                                  >
+                                    <option value="">{campus?.campus}</option>
+                                    {optionsToRender.map((option) => (
+                                      <option
+                                        key={option.value}
+                                        value={option.value}
+                                      >
+                                        {option.label}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <div className="row mt-3">
+                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                    <div>
+                                      <label>Intake</label>
+                                      <select
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        value={campus.inTake}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            index,
+                                            "inTake",
+                                            e.target.value
+                                          )
+                                        }
+                                        name="inTake"
+                                        className="form-select form-select-lg rounded-2"
+                                        placeholder={campus.inTake}
+                                      >
+                                        <option value="">
+                                          {campus.inTake}
                                         </option>
-                                      ))}
-                                    </select>
+                                        {inTakeOptions.map((option) => (
+                                          <option
+                                            key={option.value}
+                                            value={option.value}
+                                          >
+                                            {option.label}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <div>
-                                    <label>Course Fees</label>
-                                    <input
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-                                      }}
-                                      type="number"
-                                      value={campus.courseFees}
-                                      name="courseFees"
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          index,
-                                          "courseFees",
-                                          e.target.value
-                                        )
-                                      }
-                                      className="form-control"
-                                      placeholder="Example 2500"
-                                    />
+                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                    <div>
+                                      <label>Course Fees</label>
+                                      <input
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        type="number"
+                                        value={campus.courseFees}
+                                        name="courseFees"
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            index,
+                                            "courseFees",
+                                            e.target.value
+                                          )
+                                        }
+                                        className="form-control"
+                                        placeholder="Example 2500"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <div>
-                                    <label>Duration</label>
-                                    <input
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-                                      }}
-                                      type="number"
-                                      value={campus.duration}
-                                      name="duration"
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          index,
-                                          "duration",
-                                          e.target.value
-                                        )
-                                      }
-                                      className="form-control"
-                                      placeholder="Example 16"
-                                    />
+                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                    <div>
+                                      <label>Duration</label>
+                                      <input
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        type="number"
+                                        value={campus.duration}
+                                        name="duration"
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            index,
+                                            "duration",
+                                            e.target.value
+                                          )
+                                        }
+                                        className="form-control"
+                                        placeholder="Example 16"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
-
-
-
+                            ))}
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }} className="">
@@ -875,13 +845,14 @@ const handleInputs = (event, ) => {
                                 fontSize: "12px",
                               }}
                             >
-                              <option value="">Select  Type</option>
+                              <option value="">Select Type</option>
                               <option value="englishlanguageTest">Yes</option>
                               <option value="no">No</option>
                             </select>
                             <br />
                             <br />
-                            {program.englishlanguageTest === "englishlanguageTest" && (
+                            {program.englishlanguageTest ===
+                              "englishlanguageTest" && (
                               <div className="row ">
                                 <div className="col-md-12 col-lg-12">
                                   <label
