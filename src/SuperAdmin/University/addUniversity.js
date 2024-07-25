@@ -19,6 +19,8 @@ import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // Initial states
 
@@ -614,6 +616,8 @@ const App = () => {
                               </div>
                             )}
                           </div>
+
+       
                           <div className="row g-3 mb-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -656,7 +660,7 @@ const App = () => {
 
 
                             {university.campuses.map((campus, index) => (
-                              <div className="row row-cols-3 mb-3 " key={index}>
+                              <div className="row row-cols-3 my-3 " key={index}>
                                 <div className="col">
                                   <label style={{ color: "#231F20" }}>
                                     State<span className="text-danger">*</span>
@@ -944,6 +948,37 @@ const App = () => {
                               </div>
                             ) : null}
                           </div>
+
+
+
+                          <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                                About <span className="text-danger">*</span>
+                              </label>
+                          <CKEditor
+        editor={ClassicEditor}
+        
+                              
+  
+        data="<p>University Details...</p>"
+      />
+                          </div>
+                          <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                                Admission Requirements{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                          <CKEditor
+        editor={ClassicEditor}
+         
+                             
+        data="<p>Requirements Details...</p>"
+      />
+                          </div>
+
+
+
+
                           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
