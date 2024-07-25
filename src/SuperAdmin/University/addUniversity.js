@@ -7,12 +7,7 @@ import {
   isValidYear,
   isValidPinCode,
 } from "../../Utils/Validation";
-
-import { getallCountryModule } from "../../api/universityModule/country";
-import { getallCountryList, getFilterCountryList } from "../../api/country"; // Adjust the imports as necessary
-
 import { getallClient } from "../../api/client";
-
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveUniversity } from "../../api/university";
@@ -24,12 +19,11 @@ import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
-import { Currency } from "../../api/endpoints";
-const MAX_CAMPUS_FIELDS = 5;
 
 // Initial states
 
 const App = () => {
+
   const initialState = {
     banner: "",
     businessName: "",
@@ -40,7 +34,6 @@ const App = () => {
     courseType: "",
     website: "",
     inTake: "",
-    currency: "",
     ranking: "",
     averageFees: "",
     popularCategories: [],
@@ -84,24 +77,20 @@ const App = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
-
   const [categories, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institution, setInstitution] = useState([]);
   const [countries, setCountries] = useState([]);
-
   const [states, setStates] = useState([]);
   const [lgas, setLGAs] = useState([]);
-
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
     getClientList();
 
-    fetchCountries();
+    getCountries();
     getAllCategoryDetails();
     getAllCourseDetails();
     getOfferTatList();
@@ -184,7 +173,7 @@ const App = () => {
     };
   };
 
-  const fetchCountries = async () => {
+  const getCountries = async () => {
     try {
       const countries = await getCountryRegionInstance().getCountries();
       setCountries(
