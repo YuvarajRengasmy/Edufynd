@@ -349,20 +349,21 @@ export default function Masterproductlist() {
   // Function to handle the display of cities or state
 
   return (
-    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-      <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+        
           <Mastersidebar />
-        </nav>
+      
 
         <div
           className="content-wrapper  "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
+           <div className="content-header ">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="content-header ">
+               
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
                       <div
@@ -597,7 +598,7 @@ export default function Masterproductlist() {
                     <li class="m-1">
                       <Link class="btn  border-0" to="/AddUniversity">
                         <button
-                          className="btn border-0 text-white  "
+                          className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{
                             backgroundColor: "#fe5722",
                             fontFamily: "Plus Jakarta Sans",
@@ -616,9 +617,14 @@ export default function Masterproductlist() {
                 </div>
               </div>
             </div>
-            <div className="row">
+           
+           
+          </div>
+          <div className="content-body">
+              <div className="container">
+              <div className="row">
               <div className="col-xl-12">
-                <div className="card border-0 ">
+                <div className="card rounded-0 border-0 ">
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -638,13 +644,13 @@ export default function Masterproductlist() {
                                 S No
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                 Code
+                                Code
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 University Name
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                 country
+                                country
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 Campus
@@ -691,18 +697,17 @@ export default function Masterproductlist() {
                                     )}
                                   </td>
                                   <td className="text-capitalize text-start">
-                                   
-                                   {data?.country}
+                                    {data?.country}
                                   </td>
                                   <td className="text-capitalize text-start">
                                     {data.campuses?.map((campus, yearIndex) => (
                                       <div key={yearIndex}>
-                                        {campus?.state?.length >0 
+                                        {campus?.state?.length > 0
                                           ? campus.state
                                           : "Not Available"}
                                         __
                                         {campus?.lga?.length > 0
-                                          ? campus.lga 
+                                          ? campus.lga
                                           : "Not Available"}
                                         __
                                       </div>
@@ -780,7 +785,8 @@ export default function Masterproductlist() {
                 </div>
               </div>
             </div>
-          </div>
+              </div>
+            </div>
         </div>
         <Dialog open={open}>
           <DialogContent>
@@ -789,7 +795,7 @@ export default function Masterproductlist() {
                 className="mb-4"
                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
               >
-                Are you sure you want to Delete <br /> the selected Product ?
+                Are you sure you want to Delete <br /> the selected University ?
               </h5>
               <button
                 type="button"
@@ -917,6 +923,6 @@ export default function Masterproductlist() {
         </div>
       </div> */}
       </div>
-    </div>
+    </>
   );
 }

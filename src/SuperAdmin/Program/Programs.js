@@ -648,7 +648,7 @@ export default function Masterproductlist() {
                         <td className="text-capitalize text-start">{getDisplayText(data?.programTitle, isExpanded)}</td>
                         <td className="text-capitalize text-start">{data?.applicationFee}</td>
                         <td className="text-capitalize text-start">
-                          {data?.campuses?.length > 0 ? data?.campuses[1]?.courseFees : 'Not Available'}
+                          {data?.campuses?.length > 0 ? data?.campuses[0]?.courseFees : 'Not Available'}
                         </td>
                         <td>
                           <div className="d-flex">

@@ -19,6 +19,8 @@ import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // Initial states
 
@@ -70,7 +72,7 @@ const App = () => {
     offerTAT: { required: false },
     founded: { required: false },
     institutionType: { required: false },
-  
+
   };
 
   const [university, setUniversity] = useState(initialState);
@@ -423,18 +425,18 @@ const App = () => {
 
   return (
     <>
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
+    
+        <div >
+          
             <Sidebar />
-          </nav>
+         
         </div>
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header ">
-            <div className=" container-fluid ">
+            <div className=" container">
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
@@ -614,7 +616,9 @@ const App = () => {
                               </div>
                             )}
                           </div>
-                          <div className="row g-3">
+
+       
+                          <div className="row g-3 mb-3">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Country<span className="text-danger">*</span>
@@ -634,9 +638,28 @@ const App = () => {
                                 </div>
                               )}
                             </div>
+                            <div className="col text-end">
+
+<br/>
+  <button
+    type="button"
+    style={{
+      backgroundColor: "#231F20",
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+    className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+    onClick={addCampus}
+  >
+ <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add Campus
+  </button>
+</div>
+
+
+
                             {university.campuses.map((campus, index) => (
-                              <div className="row" key={index}>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="row row-cols-3 my-3 " key={index}>
+                                <div className="col">
                                   <label style={{ color: "#231F20" }}>
                                     State<span className="text-danger">*</span>
                                   </label>
@@ -659,7 +682,7 @@ const App = () => {
                                     </div>
                                   )}
                                 </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <div className="col">
                                   <label style={{ color: "#231F20" }}>
                                     City<span className="text-danger">*</span>
                                   </label>
@@ -682,33 +705,24 @@ const App = () => {
                                     </div>
                                   )}
                                 </div>
+
                                 {index > 0 && (
-                                  <div className="col-xl-12 mt-3">
+                                  <div className="col-xl-12 my-3 ">
                                     <button
                                       type="button"
-                                      className="btn btn-danger"
+                                      className="btn btn-sm btn-danger"
                                       onClick={() => removeCampus(index)}
                                     >
-                                      <i className="far fa-trash-alt text-white me-1"></i>
+                                      <i className="far fa-trash-alt text-white "></i>
                                     </button>
                                   </div>
                                 )}
+
+
                               </div>
                             ))}
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <button
-                                type="button"
-                                style={{
-                                  backgroundColor: "#231F20",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                                onClick={addCampus}
-                              >
-                                Add Campus
-                              </button>
-                            </div>
+                         
+                           
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -932,6 +946,37 @@ const App = () => {
                               </div>
                             ) : null}
                           </div>
+
+
+
+                          <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                                About <span className="text-danger">*</span>
+                              </label>
+                          <CKEditor
+        editor={ClassicEditor}
+        
+                              
+  
+        data="<p>University Details...</p>"
+      />
+                          </div>
+                          <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                                Admission Requirements{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                          <CKEditor
+        editor={ClassicEditor}
+         
+                             
+        data="<p>Requirements Details...</p>"
+      />
+                          </div>
+
+
+
+
                           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
@@ -1003,7 +1048,7 @@ const App = () => {
             </div>
           </div>
         </div>
-      </div>
+   
     </>
   );
 };

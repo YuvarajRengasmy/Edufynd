@@ -35,6 +35,7 @@ function Profile() {
     score: "",
     academicRequirement: "",
     universityLogo: "",
+    popularCategories: "",
     campuses: [{ id: 1, campus: "", inTake: "", duration: "", courseFees: "" }],
   };
 
@@ -53,7 +54,7 @@ function Profile() {
     greGmatRequirement: { required: false },
     score: { required: false },
     academicRequirement: { required: false },
-
+    popularCategories: { required: false },
     universityLogo: { required: false },
   };
   const [program, setProgram] = useState(initialState);
@@ -63,6 +64,7 @@ function Profile() {
   const [submitted, setSubmitted] = useState(false);
   const [university, setUniversity] = useState([]);
   const [universities, setUniversities] = useState([]);
+  const [selectedPopularType, setSelectedPopularType] = useState(null);
 
   const [selectedCourseType, setSelectedCourseType] = useState([]);
  
@@ -210,7 +212,13 @@ function Profile() {
     });
 };
 
-
+const handleSelectChange = (selectedOptions, action) => {
+  const { name } = action;
+  const values = selectedOptions
+    ? selectedOptions.map(option => option.value)
+    : [];
+  setUniversity(prevUniversity => ({ ...prevUniversity, [name]: values }));
+};
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setProgram({ ...program, country: selectedCountry });
@@ -264,6 +272,8 @@ const handleInputs = (event, ) => {
           courseType: selectedUniversity.courseType,
           country: selectedUniversity.country,
           inTake: selectedUniversity.inTake,
+          popularCategories:selectedUniversity.popularCategories
+
         };
       }
     }
@@ -294,12 +304,20 @@ const handleInputs = (event, ) => {
   const optionsToRender = lgaOptions.length > 0 ? lgaOptions : campusOptions;
   // const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
   const inTakeOptions = program?.inTake?program.inTake.map(inTake => ({ value: inTake, label: inTake })) : [];
-  const CategoriesOptions = program?.popularCategories
+  const popularCategoriesOptions = program?.popularCategories
   ? program.popularCategories.map((popularCategories) => ({
       value: popularCategories,
       label: popularCategories,
     }))
   : [];
+ 
+  const courseTypeOptions = program?.courseType
+  ? program.courseType.map((courseType) => ({
+      value: courseType,
+      label: courseType,
+    }))
+  : [];
+
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -540,10 +558,19 @@ const handleInputs = (event, ) => {
                             </label>
                             <Select
                               isMulti
-                              options={CategoriesOptions}
-                              placeholder="Select courseType"
-                              name="courseType"
-                             
+                              options={popularCategoriesOptions}
+                              value={
+                                program?.popularCategories
+                                  ? program?.popularCategories.map(
+                                      (popularCategories) => ({
+                                        value: popularCategories,
+                                        label: popularCategories,
+                                      })
+                                    )
+                                  : null
+                              }
+                              name="popularCategories"
+                              onChange={handleSelectChange}
                               styles={{
                                 container: (base) => ({
                                   ...base,
@@ -849,12 +876,12 @@ const handleInputs = (event, ) => {
                               }}
                             >
                               <option value="">Select  Type</option>
-                              <option value="categorie">Yes</option>
+                              <option value="englishlanguageTest">Yes</option>
                               <option value="no">No</option>
                             </select>
                             <br />
                             <br />
-                            {program.englishlanguageTest === "categorie" && (
+                            {program.englishlanguageTest === "englishlanguageTest" && (
                               <div className="row ">
                                 <div className="col-md-12 col-lg-12">
                                   <label
