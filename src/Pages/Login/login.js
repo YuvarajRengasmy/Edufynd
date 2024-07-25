@@ -6,11 +6,13 @@ import { isAuthenticated } from '../../Utils/Auth';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../api/login';
 import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: { required: false, valid: false }, password: { required: false, valid: false } });
   const [submitted, setSubmitted] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
   const navigate = useNavigate();
 
   const handleValidation = (data) => {
@@ -118,7 +120,16 @@ const Login = () => {
                 <form className="user" onSubmit={handleSubmit}>
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1"><i className="fa fa-user nav-icon"></i></span>
-                    <input type="email" name="email" onChange={handleInputs} className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address..." style={{ fontSize: '12px' }} />
+                    <input
+                      type="email"
+                      name="email"
+                      onChange={handleInputs}
+                      className="form-control"
+                      id="exampleInputEmail"
+                      aria-describedby="emailHelp"
+                      placeholder="Email Address..."
+                      style={{ fontSize: '12px' }}
+                    />
                   </div>
                   {errors.email.required ? (
                     <div className="text-danger form-text">
@@ -131,7 +142,31 @@ const Login = () => {
                   ) : null}
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1"><i className="fa fa-lock nav-icon"></i></span>
-                    <input type="password" name="password" onChange={handleInputs} autoComplete="off" className="form-control" id="exampleInputPassword" placeholder="Password..." style={{ fontSize: '12px' }} />
+                    <input
+                      type={passwordVisible ? 'text' : 'password'}
+                      name="password"
+                      onChange={handleInputs}
+                      autoComplete="off"
+                      className="form-control"
+                      id="exampleInputPassword"
+                      placeholder="Password..."
+                      style={{ fontSize: '12px' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setPasswordVisible(!passwordVisible)}
+                      style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                    </button>
                   </div>
                   {errors.password.required ? (
                     <div className="text-danger form-text">
