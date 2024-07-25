@@ -45,16 +45,16 @@ function Profile() {
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
-      <div className="container-fluid">
-        <nav className="navbar navbar-vertical navbar-expand-lg">
+    < >
+      <div>
+      
           <Sidebar />
-        </nav>
+     
      
 
-        <div className="content-wrapper">
+        <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header">
-            <div className="container-fluid">
+            <div className="container">
               <div className="row">
                 <div className="col">
                   <div className="card border-0 shadow-sm rounded-0 text-bg-white p-4">
@@ -175,7 +175,7 @@ function Profile() {
         
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

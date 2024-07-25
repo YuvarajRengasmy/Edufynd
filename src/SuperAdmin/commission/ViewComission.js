@@ -25,11 +25,11 @@ export const ViewComission = () => {
   return (
     <>
       {" "}
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
+     
+        <div >
+         
             <Sidebar />
-          </nav>
+         
 
           <div
             className="content-wrapper "
@@ -123,7 +123,7 @@ export const ViewComission = () => {
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 };

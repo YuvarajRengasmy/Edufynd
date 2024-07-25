@@ -5,16 +5,16 @@ import Sidebar from "../../../compoents/sidebar";
 import { Link } from "react-router-dom";
 export const EditSocialMedia = () => {
   return (
-    <div  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-    <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+    <div >
+       
             <Sidebar />
           
-        </nav>
+        
     
     <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
         <div className="content-header ">
-            <div className="content container-fluid ">
+            <div className=" container ">
                 <form >
                     <div className="row">            
           <div className="col-xl-12 ">
@@ -131,7 +131,7 @@ export const EditSocialMedia = () => {
                             type="submit"
                             className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                           >
-                            Submit
+                            Update
                           </button>
                         </div>
                       </div>
@@ -144,7 +144,7 @@ export const EditSocialMedia = () => {
         </div>
     </div>
     </div>
-</div>
+</>
   )
 }
 export default EditSocialMedia

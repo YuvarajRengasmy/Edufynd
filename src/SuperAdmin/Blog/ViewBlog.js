@@ -3,18 +3,19 @@ import Sidebar from "../../compoents/sidebar";
 
 export const ViewBlog  = () => {
   return (
-    <>  <div  style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-    <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>  
+    <div >
+       
             <Sidebar />
             
           
-        </nav>
+      
    
       
 
   
   <div class="content-wrapper" style={{fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+    <div className='content-header'>
     <div className='container'>
       <div className='row'>
         <div className='col-xl-12'>
@@ -305,10 +306,13 @@ export const ViewBlog  = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   
   </div>
     </div>
-</div></>
+
+</>
   )
 }
 export default ViewBlog

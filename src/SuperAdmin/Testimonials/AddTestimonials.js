@@ -13,12 +13,12 @@ import { RichTextEditor } from '@mantine/rte';
 export const AddTestimonials = () => {
   return (
     <>
-    <div  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div class="container-fluid">
-            <nav class="navbar navbar-vertical navbar-expand-lg">
+   
+        <div >
+          
                 <Sidebar />
               
-            </nav>
+           
         
         <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
             <div className="content-header ">
@@ -173,7 +173,7 @@ export const AddTestimonials = () => {
             </div>
         </div>
         </div>
-    </div>
+    
     </>
   )
 }

@@ -33,11 +33,11 @@ export const ViewBusiness = () => {
 
 
   return (
-    <div className="student-form" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-      <div className="container-fluid">
-        <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div>
+      
           <Mastersidebar />
-        </nav>
+      
         <div className="content-wrapper" style={{ fontSize: '14px' }}>
           <div className="content-header">
             <div className="container-fluid">
@@ -113,7 +113,7 @@ export const ViewBusiness = () => {
           </div>
         </div>
       </div>     
-    </div>
+    </>
   )
 }
 export default ViewBusiness;

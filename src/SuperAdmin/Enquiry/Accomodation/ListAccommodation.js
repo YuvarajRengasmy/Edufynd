@@ -114,14 +114,15 @@ export const ListAccommodation = () => {
 
 
   return (
-    <div><div  style={{  fontFamily: 'Plus Jakarta Sans' }}>
-    <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+    <div>
+          
             <Mastersidebar />
-          </nav>
+          
         <div className='content-wrapper' style={{ fontFamily: 'Plus Jakarta Sans',fontSize:'14px' }}>
+        <div className="content-header">
           <div className="container">
-            <div className="content-header">
+           
               <div className="row">
               <div className='col-xl-12'  >
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
@@ -284,7 +285,7 @@ export const ListAccommodation = () => {
                     <li class="m-1">
                       <Link class="btn btn-pix-primary" to="/AddAccommodation">
                         <button
-                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0text-white  "
+                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0  text-white  "
 
                           style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                         >
@@ -303,10 +304,18 @@ export const ListAccommodation = () => {
                 </div>
               </div>
             </div>
+           
+          
+           
+          </div>
+
+     
+          <div className="content-body">
+            <div className="container">
             <div className="row">
          
          <div className="col-xl-12">
-           <div className="card mt-2 border-0">
+           <div className="card mt-2 rounded-0 border-0">
              <div className="card-body">
                <div className="card-table">
                  <div className="table-responsive">
@@ -395,10 +404,8 @@ export const ListAccommodation = () => {
          
          </div>
        </div>
+            </div>
           </div>
-
-     
-               
        
 
 
@@ -433,7 +440,7 @@ export const ListAccommodation = () => {
       </Dialog>
                     
                </div>     
-    </div></div>
+    </>
   )
 }
 export default  ListAccommodation;

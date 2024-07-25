@@ -29,15 +29,17 @@ export const ViewAccommodation = () => {
 
 
   return (
-    <div className="student-form" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-      <div className="container-fluid">
-        <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+   
           <Mastersidebar />
-        </nav>
+        
         <div className="content-wrapper" style={{ fontSize: '14px' }}>
           <div className="content-header">
-            <div className="container-fluid">
-            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div className="container">
+            <div className='row'>
+                  <div className='col-xl-12'>
+                  <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
               <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
                 <h6 className='text-center text-capitalize p-1 h6'>View Accommodation Enquiry Details</h6>
                 </div>
@@ -167,11 +169,14 @@ export const ViewAccommodation = () => {
                   
                 
               </div>
+                  </div>
+                </div>
+            
             </div>
           </div>
         </div>
       </div>     
-    </div>
+    </>
   )
 }
 export default ViewAccommodation

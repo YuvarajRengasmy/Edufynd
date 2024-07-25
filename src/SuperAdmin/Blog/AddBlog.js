@@ -6,16 +6,16 @@ import Sidebar from "../../compoents/sidebar";
 export const AddBlog = () => {
 
   return (
-    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+       
           <Sidebar />
 
-        </nav>
+        
 
         <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header ">
-            <div className="content container-fluid ">
+            <div className="container ">
               <form >
                 <div className="row">
                   <div className="col-lg-8 ">
@@ -668,7 +668,7 @@ export const AddBlog = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 export default AddBlog

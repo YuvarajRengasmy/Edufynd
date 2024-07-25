@@ -119,15 +119,16 @@ export const ListStudentForm = () => {
 
 
   return (
-    <div>
-      <div style={{ fontFamily: 'Plus Jakarta Sans' }}>
-        <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+     
+        <div >
+         
             <Mastersidebar />
-          </nav>
+          
           <div className='content-wrapper' style={{fontSize:'14px' }}>
+          <div className="content-header">
             <div className="container">
-              <div className="content-header">
+             
               <div className="row">
          <div className='col-xl-12'  >
               <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
@@ -309,103 +310,110 @@ export const ListStudentForm = () => {
          </div>
               </div>
           
+
+             
            
+           
+            </div>
+            <div className="content-body">
+            <div className="container">
             <div className="row">
               
-                <div className="col-xl-12">
-                  <div className="card border-0">
-                    <div className="card-body">
-                      <div className="card-table">
-                        <div className="table-responsive">
-                          <table className=" table table-hover card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
-              ref={tableRef}>
-                            <thead className="table-light">
-                              <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
-                                <th className="text-capitalize text-start sortable-handle"> S.No.</th>
-                                <th className="text-capitalize text-start sortable-handle"> Date </th>
-                                <th className="text-capitalize text-start sortable-handle"> Student Code </th>
-                                <th className="text-capitalize text-start sortable-handle"> Name </th>
-                                <th className="text-capitalize text-start sortable-handle"> Contact Number </th>
-                                <th className="text-capitalize text-start sortable-handle"> Email ID </th>
-                                <th className="text-capitalize text-start sortable-handle"> Desired Country</th>
-                                <th className="text-capitalize text-start sortable-handle"> Source</th>
-                                <th className="text-capitalize text-start sortable-handle"> Assigned To</th>
-                                <th className="text-capitalize text-start sortable-handle"> Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {student && student.length > 0 ? (
-                                student.map((data, index) => (
-                                  <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                                    <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                    <td className="text-capitalize text-start" > {formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
-                                   
-                                    <td className="text-capitalize text-start">{data?.studentCode}</td>
-                                    <td className="text-capitalize text-start">{data?.name}</td>
-                                    <td className="text-capitalize text-start">{data?.primaryNumber}</td>
-                                    <td className="text-capitalize text-start">{data?.email}</td>
-                                    <td className="text-capitalize text-start">{data?.desiredCountry}</td>
-                                    <td className="text-capitalize text-start">{data?.source}</td>
-                                    <td className="text-capitalize text-start">{data?.assignedTo}</td>
-                                    <td>
-                                      <div className="d-flex">
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/ViewStudentForm",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                        >
-                                          <i className="far fa-eye text-primary me-1"></i>
-                                        </Link>
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/EditStudentForm",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                        >
-                                          <i className="far fa-edit text-warning me-1"></i>
-                                        </Link>
-                                        <Link
-                                          className="dropdown-item"
-                                          onClick={() => {
-                                            openPopup(data?._id);
-                                          }}
-                                        >
-                                          <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </Link>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
-                              ) : (
-                                <tr>
-                                  <td className="form-text text-danger" colSpan="10">
-                                    No data
+              <div className="col-xl-12">
+                <div className="card rounded-0 border-0">
+                  <div className="card-body">
+                    <div className="card-table">
+                      <div className="table-responsive">
+                        <table className=" table table-hover card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
+            ref={tableRef}>
+                          <thead className="table-light">
+                            <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
+                              <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                              <th className="text-capitalize text-start sortable-handle"> Date </th>
+                              <th className="text-capitalize text-start sortable-handle"> Student Code </th>
+                              <th className="text-capitalize text-start sortable-handle"> Name </th>
+                              <th className="text-capitalize text-start sortable-handle"> Contact Number </th>
+                              <th className="text-capitalize text-start sortable-handle"> Email ID </th>
+                              <th className="text-capitalize text-start sortable-handle"> Desired Country</th>
+                              <th className="text-capitalize text-start sortable-handle"> Source</th>
+                              <th className="text-capitalize text-start sortable-handle"> Assigned To</th>
+                              <th className="text-capitalize text-start sortable-handle"> Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {student && student.length > 0 ? (
+                              student.map((data, index) => (
+                                <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                                  <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                                  <td className="text-capitalize text-start" > {formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
+                                 
+                                  <td className="text-capitalize text-start">{data?.studentCode}</td>
+                                  <td className="text-capitalize text-start">{data?.name}</td>
+                                  <td className="text-capitalize text-start">{data?.primaryNumber}</td>
+                                  <td className="text-capitalize text-start">{data?.email}</td>
+                                  <td className="text-capitalize text-start">{data?.desiredCountry}</td>
+                                  <td className="text-capitalize text-start">{data?.source}</td>
+                                  <td className="text-capitalize text-start">{data?.assignedTo}</td>
+                                  <td>
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/ViewStudentForm",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/EditStudentForm",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </Link>
+                                    </div>
                                   </td>
                                 </tr>
-                              )}
-                            </tbody>
+                              ))
+                            ) : (
+                              <tr>
+                                <td className="form-text text-danger" colSpan="10">
+                                  No data
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
 
-                          </table>
-                        </div>
+                        </table>
                       </div>
-                      <div className="float-right my-2">
-                        <Pagination
-                          count={Math.ceil(pagination.count / pageSize)}
-                          onChange={handlePageChange}
-                          variant="outlined"
-                          shape="rounded"
-                          color="primary"
-                        />
-                      </div>
+                    </div>
+                    <div className="float-right my-2">
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
                     </div>
                   </div>
                 </div>
-             
+              </div>
+           
+          </div>
             </div>
-            </div>
+          </div>
        
          
 
@@ -440,8 +448,8 @@ export const ListStudentForm = () => {
       </Dialog>
 
         </div>
-      </div>
-    </div>
+      
+    </>
     
   )
 }

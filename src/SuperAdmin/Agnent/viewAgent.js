@@ -30,18 +30,19 @@ function Profile() {
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="container-fluid">
-        <nav class=" navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+     
           <Sidebar />
-        </nav>
+      
 
 
         <div className="content-wrapper"  >
-          <div className="container-fluid p-4">
+<div className="content-header">
+<div className="container ">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card border-0 rounded-0 shadow text-bg-white p-4">
+                <div className="card border-0 rounded-0  text-bg-white p-4">
                   <div className="bg-transparent mb-3 ">
                     <div className="row g-0">
                       <div className="col-md-12 text-center">
@@ -210,10 +211,12 @@ function Profile() {
               </div>
             </div>
           </div>
+</div>
+          
 
         </div>
       </div>
-    </div>
+    </>
 
   );
 }

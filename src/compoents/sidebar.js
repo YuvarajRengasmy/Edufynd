@@ -145,28 +145,26 @@ const Sidebar = () => {
   }, [currentPath]);
 
   return (
-    <div
-      style={{
-        fontSize: "14px",
-        fontWeight: "bold",
-        fontFamily: "Plus Jakarta Sans",
-        fontVariant: "all-small-caps"
-      }}
-    >
+    <>
       <aside
         className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
         style={{
           position: "fixed",
-          width: "240px",
+          width: "250px",
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
+          fontSize:'14px',
+          fontWeight:'bold',
+          fontFamily: "Plus Jakarta Sans",
+        fontVariant: "all-small-caps"
+
         }}
       >
         <div className="  shadow-none   ">
           <div className="sidebar">
-            <div className="user-panel mt-2  d-flex">
-              <div className="info  mt-1">
+            <div className="user-panel  d-flex">
+              <div className="info  ">
                 <a
                   href="/DashBoard"
                   target="_self"
@@ -1767,8 +1765,9 @@ const Sidebar = () => {
                 </li>
 
                 <li className="nav-item">
-                  <div
+                  <a href="/"
                     className="nav-link"
+                    target="_self"
                     onClick={logout}
                     style={{ cursor: "pointer" }}
                   >
@@ -1778,7 +1777,7 @@ const Sidebar = () => {
                       style={{ fontSize: "12px" }}
                     />
                     Log Out
-                  </div>
+                  </a>
                 </li>
               </ul>
               <br />
@@ -1786,7 +1785,7 @@ const Sidebar = () => {
           </div>
         </div>
       </aside>
-    </div>
+    </>
   );
 };
 export default Sidebar;

@@ -63,3 +63,7 @@
 .collapse.show {
   transition: height 0.3s ease;
 }
+
+.content-wrapper{
+  font-family: 'Plus Jakarta Sans', sans-serif; /* Font Family */
+}

@@ -41,20 +41,20 @@ export const ListEvents = () => {
     };
   }, []);
   return (
-    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-    <div class="container-fluid">
-      <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+    <div >
+      
         <Mastersidebar />
-      </nav>
+     
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-
+      <div className="content-header">
         <div className="container">
           
             <div className="row ">
               <div className="col-xl-12">
-              <div className="content-header">
+           
                 <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px" }}>
@@ -213,9 +213,16 @@ export const ListEvents = () => {
 
             </div>
           </div>
-          <div className="row">
+
+
+         
+        </div>
+
+        <div className="content-body">
+            <div className="container">
+            <div className="row">
             <div className="col-xl-12">
-              <div className="card  border-0">
+              <div className="card rounded-0  border-0">
                 <div className="card-body">
                   <div className="card-table">
                     <div className="table-responsive">
@@ -300,7 +307,9 @@ export const ListEvents = () => {
               </div>
             </div>
           </div>
-        </div>
+            </div>
+          </div>
+        
 
 
       </div>
@@ -385,7 +394,7 @@ export const ListEvents = () => {
         </DialogContent>
       </Dialog>
     </div>
-  </div>
+  </>
   )
 }
 export default ListEvents

@@ -356,16 +356,17 @@ export default function Masterproductlist() {
 
 
   return (
-    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
+    <>
+      <div >
+       
           <Mastersidebar />
-        </nav>
+        
      
 
       <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="container">
+     
         <div className="content-header">
+        <div className="container">
           
             <div className="row ">
             <div className="col-xl-12">
@@ -534,9 +535,12 @@ export default function Masterproductlist() {
             </div>
             </div>
             </div>
+            </div>
+            <div className="content-body">
+            <div className="container">
             <div className="row">
           <div className="col-xl-12">
-            <div className="card border-0 mt-2">
+            <div className="card rounded-0 border-0 mt-2">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
@@ -696,9 +700,13 @@ export default function Masterproductlist() {
             </div>
           </div>
         </div>
+</div>
+            </div>
+            
+          
              
            
-        </div>
+        
        
       </div>
       <Dialog open={open}>
@@ -779,6 +787,6 @@ export default function Masterproductlist() {
         </DialogContent>
       </Dialog>
     </div>
-    </div>
+    </>
   );
 }

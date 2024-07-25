@@ -5,15 +5,13 @@ import Header from './Header';
 
 const Home = () => {
   return (
-    <div>
-      <div className="container-fluid">
+    <>
+      <div >
        
-          <nav className=" navbar navbar-vertical navbar-expang-lg">
+        
             <SideBar />
-          </nav>
-          <nav className=" navbar navbar-top navbar-expand">
-              <Header />
-          </nav>
+         
+         
         
           <main className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           
@@ -21,7 +19,7 @@ const Home = () => {
           </main>
       
       </div>
-    </div>
+    </>
   );
 };
 

@@ -164,17 +164,17 @@ const AddSenderInvoice = () => {
   };
 
   return (
-    <div>
-      <div style={{ fontFamily: 'Plus Jakarta Sans' }}>
-        <div className="container-fluid">
-          <nav className="navbar navbar-vertical navbar-expand-lg">
+    <>
+    
+        <div >
+         
             <Mastersidebar />
-          </nav>
+         
           <div className='content-wrapper' style={{ fontSize: '13px' }}>
             <form className="p-1" onSubmit={handleSubmited}>
               <div className='content-header'>
                 <div className='container card card-body p-4 border-0'>
-                  <h4 className='card-title  fw-bold'>Add Invoice Details</h4>
+                  <h4 className='card-title  fw-bold'>Add Sender Invoice Details</h4>
                   <hr />
                   <div className='row g-3'>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -354,8 +354,8 @@ const AddSenderInvoice = () => {
             </form>
           </div>
         </div>
-      </div>
-    </div>
+      
+    </>
   );
 }
 
