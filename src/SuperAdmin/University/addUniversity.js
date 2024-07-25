@@ -640,8 +640,8 @@ const App = () => {
 
 
                             {university.campuses.map((campus, index) => (
-                              <div key={index}>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="row row-cols-3 g-3" key={index}>
+                                <div className="col">
                                   <label style={{ color: "#231F20" }}>
                                     State<span className="text-danger">*</span>
                                   </label>
@@ -664,7 +664,7 @@ const App = () => {
                                     </div>
                                   )}
                                 </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <div className="col">
                                   <label style={{ color: "#231F20" }}>
                                     City<span className="text-danger">*</span>
                                   </label>
@@ -688,19 +688,20 @@ const App = () => {
                                   )}
                                 </div>
                                 {index > 0 && (
-                                  <div className="col-xl-12 mt-3">
+                                  <div className="col-xl-12 mt-3 text-end">
                                     <button
                                       type="button"
-                                      className="btn btn-danger"
+                                      className="btn btn-sm btn-danger"
                                       onClick={() => removeCampus(index)}
                                     >
-                                      <i className="far fa-trash-alt text-white me-1"></i>
+                                      <i className="far fa-trash-alt text-white "></i>
                                     </button>
                                   </div>
                                 )}
-                              </div>
-                            ))}
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+<div className="col">
+
+                            <br/>
                               <button
                                 type="button"
                                 style={{
@@ -714,6 +715,9 @@ const App = () => {
                              <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add Campus
                               </button>
                             </div>
+                              </div>
+                            ))}
+                           
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
