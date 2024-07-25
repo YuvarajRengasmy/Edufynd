@@ -70,7 +70,7 @@ const App = () => {
     offerTAT: { required: false },
     founded: { required: false },
     institutionType: { required: false },
-  
+
   };
 
   const [university, setUniversity] = useState(initialState);
@@ -423,18 +423,18 @@ const App = () => {
 
   return (
     <>
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div class="container-fluid">
-          <nav class="navbar navbar-vertical navbar-expand-lg">
+    
+        <div >
+          
             <Sidebar />
-          </nav>
+         
         </div>
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header ">
-            <div className=" container-fluid ">
+            <div className=" container">
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
@@ -636,8 +636,11 @@ const App = () => {
                                 </div>
                               )}
                             </div>
+
+
+
                             {university.campuses.map((campus, index) => (
-                              <div className="row" key={index}>
+                              <div key={index}>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
                                     State<span className="text-danger">*</span>
@@ -708,7 +711,7 @@ const App = () => {
                                 className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                                 onClick={addCampus}
                               >
-                                Add Campus
+                             <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add Campus
                               </button>
                             </div>
                           </div>
@@ -1005,7 +1008,7 @@ const App = () => {
             </div>
           </div>
         </div>
-      </div>
+   
     </>
   );
 };
