@@ -848,6 +848,7 @@ function Profile() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
+                              value={program.englishlanguageTest}
                             >
                               <option value="">Select Type</option>
                               <option value="englishlanguageTest">Yes</option>
