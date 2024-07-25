@@ -7,12 +7,9 @@ import {
   isValidYear,
   isValidPinCode,
 } from "../../Utils/Validation";
+
 import { getallCountryModule } from "../../api/universityModule/country";
-import {
-  getallCountryList,
- 
-  getFilterCountryList
-} from "../../api/country"; // Adjust the imports as necessary
+import { getallCountryList, getFilterCountryList } from "../../api/country"; // Adjust the imports as necessary
 
 import { getallClient } from "../../api/client";
 
@@ -32,9 +29,7 @@ const MAX_CAMPUS_FIELDS = 5;
 
 // Initial states
 
-
 const App = () => {
-
   const initialState = {
     banner: "",
     businessName: "",
@@ -45,8 +40,6 @@ const App = () => {
     courseType: "",
     website: "",
     inTake: "",
-    state: "",
-    city: "",
     currency: "",
     ranking: "",
     averageFees: "",
@@ -56,9 +49,16 @@ const App = () => {
     email: "",
     institutionType: "",
     country: "",
-    campuses: [{ state: "", cities: "" }],
+    campuses: [
+      {
+        state: "",
+        lga: "",
+        states: [],
+        lgas: [],
+      },
+    ],
   };
-  
+
   const initialStateErrors = {
     businessName: { required: false },
     universityLogo: { required: false },
@@ -66,7 +66,6 @@ const App = () => {
     inTake: { required: false },
     universityName: { required: false },
     email: { required: false, valid: false },
-    country: { required: false },
     website: { required: false },
     courseType: { required: false },
     country: { required: false },
@@ -78,21 +77,22 @@ const App = () => {
     offerTAT: { required: false },
     founded: { required: false },
     institutionType: { required: false },
+  
   };
 
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
-  
+
   const [categories, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institution, setInstitution] = useState([]);
   const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState(null);
 
   const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
+  const [lgas, setLGAs] = useState([]);
+
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
 
@@ -100,35 +100,15 @@ const App = () => {
 
   useEffect(() => {
     getClientList();
-    getAllCountryDetails();
-    // getAllCurrencyDetails();
 
+    fetchCountries();
     getAllCategoryDetails();
     getAllCourseDetails();
     getOfferTatList();
     getAllInstitutionDetails();
     getAllIntakeDetails();
   }, []);
-  // API calls to fetch data
-  const getAllCountryDetails = () => {
-    getallCountryList()
-      .then((res) => {
-        setCountries(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
-  // const getAllCurrencyDetails = () => {
-  //   getallCountryModule()
-  //     .then((res) => {
-  //       setCountries(res?.data?.result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
   const getAllCourseDetails = () => {
     getallModule()
       .then((res) => {
@@ -204,105 +184,112 @@ const App = () => {
     };
   };
 
-  // const handleCountryChange = (selectedOption, index) => {
-  //   const updatedCampus = [...university.campus];
-  //   updatedCampus[index].country = selectedOption.value;
-  //   updatedCampus[index].state = ""; // Reset state
-  //   updatedCampus[index].cities = ""; // Reset city
-  //   setUniversity(prevUniversity => ({
-  //     ...prevUniversity,
-  //     campus: updatedCampus
-  //   }));
-
-  //   // Fetch states for the selected country
-
-  //   const selectedCountry = countries.find(country => country.name === selectedOption.value);
-  //   setStates(selectedCountry ? selectedCountry.state : []);
-  //   setCities([]); // Clear cities since state is reset
-  // };
-
-  // const handleStateChange = (selectedOption, index) => {
-  //   const updatedCampus = [...university.campus];
-  //   updatedCampus[index].state = selectedOption.value;
-  //   updatedCampus[index].cities = ""; // Reset city
-  //   setUniversity(prevUniversity => ({
-  //     ...prevUniversity,
-  //     campus: updatedCampus
-  //   }));
-
-  //   // Fetch cities for the selected state
-  //   const selectedState = states.find(state => state.name === selectedOption.value);
-  //   setCities(selectedState ? selectedState.cities : []);
-  // };
-
-  // const handleCityChange = (selectedOption, index) => {
-  //   const updatedCampus = [...university.campus];
-  //   updatedCampus[index].cities = selectedOption.value;
-  //   setUniversity(prevUniversity => ({
-  //     ...prevUniversity,
-  //     campus: updatedCampus
-  //   }));
-  // };
-
-  // const addCampusFields = () => {
-  //   if (university.campus.length < MAX_CAMPUS_FIELDS) {
-  //     setUniversity(prevUniversity => ({
-  //       ...prevUniversity,
-  //       campus: [
-  //         ...prevUniversity.campus,
-  //         { country: "", state: "", cities: "" }
-  //       ]
-  //     }));
-  //   } else {
-  //     alert("Maximum of 3 campus fields can be added.");
-  //   }
-  // };
-  const handleCountryChange = (selectedOption) => {
-    setSelectedCountry(selectedOption);
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campuses: [{ state: "", cities: "" }],
-    }));
-    setStates(selectedOption ? selectedOption.states : []);
-    setCities([]);
-  };
-
-  const handleStateChange = (index, selectedOption) => {
-    const updatedCampuses = [...university.campuses];
-    updatedCampuses[index].state = selectedOption ? selectedOption.value : "";
-    updatedCampuses[index].cities = ""; // Reset cities when state changes
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campuses: updatedCampuses,
-    }));
-
-    // Fetch cities for the selected state
-    const selectedState = states.find(
-      (state) => state.name === selectedOption.value
-    );
-    setCities(selectedState ? selectedState.cities : []);
-  };
-
-  const handleCityChange = (index, selectedOption) => {
-    const updatedCampuses = [...university.campuses];
-    updatedCampuses[index].cities = selectedOption
-      ? [selectedOption.value]
-      : [];
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campuses: updatedCampuses,
-    }));
-  };
-
-  const addCampusFields = () => {
-    if (university.campuses.length < MAX_CAMPUS_FIELDS) {
-      setUniversity((prevUniversity) => ({
-        ...prevUniversity,
-        campuses: [...prevUniversity.campuses, { state: "", cities: "" }],
-      }));
-    } else {
-      alert("Maximum of 5 campus fields can be added.");
+  const fetchCountries = async () => {
+    try {
+      const countries = await getCountryRegionInstance().getCountries();
+      setCountries(
+        countries.map((country) => ({
+          value: country.id,
+          label: country.name,
+        }))
+      );
+    } catch (error) {
+      console.error(error);
     }
+  };
+
+  const getCountryRegionInstance = () => {
+    return new CountryRegion();
+  };
+
+  const fetchStates = async (countryId) => {
+    try {
+      const states = await getCountryRegionInstance().getStates(countryId);
+      const updatedStates = states.map((state) => ({
+        value: state.id,
+        label: state.name,
+      }));
+      setStates(updatedStates);
+      setUniversity((prevState) => ({
+        ...prevState,
+        campuses: prevState.campuses.map((campus) => ({
+          ...campus,
+          states: updatedStates,
+          lgas: [], // Clear LGAs when the state changes
+        })),
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchLGAs = async (countryId, stateId) => {
+    try {
+      const lgas = await getCountryRegionInstance().getLGAs(countryId, stateId);
+      const updatedLGAs = lgas.map((lga) => ({
+        value: lga.id,
+        label: lga.name,
+      }));
+      setLGAs(updatedLGAs);
+      setUniversity((prevState) => ({
+        ...prevState,
+        campuses: prevState.campuses.map((campus) =>
+          campus.state === stateId ? { ...campus, lgas: updatedLGAs } : campus
+        ),
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCountryChange = (selectedCountry) => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      country: selectedCountry.value,
+      campuses: prevState.campuses.map((campus) => ({
+        ...campus,
+        state: "",
+        lga: "",
+        lgas: [],
+      })),
+    }));
+    fetchStates(selectedCountry.value);
+  };
+
+  const handleStateChange = (selectedState, index) => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      campuses: prevState.campuses.map((campus, i) =>
+        i === index
+          ? { ...campus, state: selectedState.value, lga: "", lgas: [] }
+          : campus
+      ),
+    }));
+    fetchLGAs(university.country, selectedState.value);
+  };
+
+  const handleLGAChange = (selectedLGA, index) => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      campuses: prevState.campuses.map((campus, i) =>
+        i === index ? { ...campus, lga: selectedLGA.value } : campus
+      ),
+    }));
+  };
+
+  const addCampus = () => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      campuses: [
+        ...prevState.campuses,
+        {
+          state: "",
+          lga: "",
+          states: states, // Add states to new campus
+          lgas: [],
+        },
+      ],
+    }));
   };
 
   const removeCampus = (index) => {
@@ -374,23 +361,6 @@ const App = () => {
     return true;
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const newError = handleValidation(university);
-  //   setErrors(newError);
-  //   setSubmitted(true);
-  //   if (handleErrors(newError)) {
-  //     saveUniversity({ ...university })
-  //       .then((res) => {
-  //         toast.success(res?.data?.message);
-  //         navigate("/ListUniversity");
-  //       })
-  //       .catch((err) => {
-  //         toast.error(err?.response?.data?.message);
-  //       });
-  //   }
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -402,18 +372,24 @@ const App = () => {
     // Check if there are no validation errors
     if (handleErrors(newError)) {
       // Prepare the data for submission
-      const submissionData = {
-        countryName: selectedCountry ? selectedCountry.label : "", // Ensure country name is included
-        campuses: university.campuses.map((campus) => ({
-          state: campus.state ? campus.state.value : "",
-          cities: campus.cities.map((city) => city.value),
-        })),
-        // Include other university data as needed
+      const updatedUniversity = {
         ...university,
+        country:
+          countries.find((option) => option.value === university.country)
+            ?.label || university.country,
+        campuses: university.campuses.map((campus) => ({
+          ...campus,
+          state:
+            states.find((option) => option.value === campus.state)?.label ||
+            campus.state,
+          lga:
+            lgas.find((option) => option.value === campus.lga)?.label ||
+            campus.lga,
+        })),
       };
 
       // Submit the data
-      saveUniversity(submissionData)
+      saveUniversity(updatedUniversity)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListUniversity");
@@ -429,19 +405,6 @@ const App = () => {
     value: data.popularCategories,
     label: data.popularCategories,
   }));
-
-  const countryOptions = countries.map((country) => ({
-    value: country.name,
-    label: country.name,
-    states: country.state,
-  }));
-
-  const stateOptions = selectedCountry
-    ? selectedCountry.states.map((state) => ({
-        value: state.name,
-        label: state.name,
-      }))
-    : [];
 
   const courseTypeOptions = type.map((data) => ({
     value: data.courseType,
@@ -669,35 +632,44 @@ const App = () => {
                               </label>
                               <Select
                                 placeholder="Select Country"
-                                name="country"
-                                styles={customStyles}
-                                options={countryOptions}
                                 onChange={handleCountryChange}
+                                options={countries}
+                                value={countries.find(
+                                  (option) => option.value === client.country
+                                )}
+                                styles={customStyles}
                                 className="submain-one-form-body-subsection-select"
                               />
+                              {errors.country.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
                             </div>
                             {university.campuses.map((campus, index) => (
-                              <div className="row g-3" key={index}>
+                              <div className="row" key={index}>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
                                     State<span className="text-danger">*</span>
                                   </label>
                                   <Select
                                     placeholder="Select State"
-                                    name="state"
+                                    onChange={(option) =>
+                                      handleStateChange(option, index)
+                                    }
+                                    options={campus.states || []}
+                                    value={campus.states.find(
+                                      (option) => option.value === campus.state
+                                    )}
                                     styles={customStyles}
-                                    options={stateOptions}
-                                    onChange={(selectedOption) =>
-                                      handleStateChange(index, selectedOption)
-                                    }
-                                    value={
-                                      stateOptions.find(
-                                        (option) =>
-                                          option.value === campus.state
-                                      ) || null
-                                    }
+                                    name="state"
                                     className="submain-one-form-body-subsection-select"
                                   />
+                                  {errors.campuses[index]?.state?.required && (
+                                    <div className="text-danger form-text">
+                                      This field is required.
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
@@ -705,54 +677,50 @@ const App = () => {
                                   </label>
                                   <Select
                                     placeholder="Select City"
-                                    name="cities"
+                                    onChange={(option) =>
+                                      handleLGAChange(option, index)
+                                    }
+                                    options={campus.lgas || []}
+                                    value={campus.lgas.find(
+                                      (option) => option.value === campus.lga
+                                    )}
                                     styles={customStyles}
-                                    options={cities.map((city) => ({
-                                      value: city,
-                                      label: city,
-                                    }))}
-                                    onChange={(selectedOption) =>
-                                      handleCityChange(index, selectedOption)
-                                    }
-                                    value={
-                                      campus.cities.length > 0
-                                        ? {
-                                            value: campus.cities[0],
-                                            label: campus.cities[0],
-                                          }
-                                        : null
-                                    }
+                                    name="lga"
                                     className="submain-one-form-body-subsection-select"
                                   />
+                                  {errors.campuses[index]?.lga?.required && (
+                                    <div className="text-danger form-text">
+                                      This field is required.
+                                    </div>
+                                  )}
                                 </div>
-                                
                                 {index > 0 && (
-                                  <div className="col-xl-12">
+                                  <div className="col-xl-12 mt-3">
                                     <button
                                       type="button"
                                       className="btn btn-danger"
                                       onClick={() => removeCampus(index)}
                                     >
-                                      Remove
+                                      <i className="far fa-trash-alt text-white me-1"></i>
                                     </button>
                                   </div>
                                 )}
                               </div>
                             ))}
-                            {
-                                  university.campuses.length <
-                                    MAX_CAMPUS_FIELDS && (
-                                    <div className="col-xl-12">
-                                      <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={addCampusFields}
-                                      >
-                                        Add Campus
-                                      </button>
-                                    </div>
-                                  )}
-                            
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <button
+                                type="button"
+                                style={{
+                                  backgroundColor: "#231F20",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                                onClick={addCampus}
+                              >
+                                Add Campus
+                              </button>
+                            </div>
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">

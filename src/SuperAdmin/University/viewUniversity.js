@@ -349,7 +349,7 @@ const UserProfile = () => {
                                               <div className="card-body">
                                                
                                                 <p className="card-text text-center">
-                                                  {data?.cities}
+                                                  {data?.lga}
                                                 </p>
                                                 <p className="card-text text-center">
                                                   {data?.state}
@@ -538,7 +538,7 @@ const UserProfile = () => {
                                       Country
                                     </div>
                                     <div className=" fw-semibold text-capitalize">
-                                      {university?.countryName}
+                                      {university?.country}
                                      
                                     </div>
                                   </div>
