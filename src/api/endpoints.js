@@ -35,3 +35,6 @@ export const Flight ="flight";
 
 // Invoice
 export const SenderInvoice ="senderInvoice";
+
+//Notifications
+export const Notifications="notification";
