@@ -203,114 +203,114 @@ function SuperAdmin() {
           <Route path="/ListCommission" element={<PrivateRoute><ListCommission /></PrivateRoute>} />
 
           {/* Notifications */}
-          <Route path="/ListNotifications" element={<ListNotifications />} />
-          <Route path="/EditNotifications" element={<EditNotifications />} />
-          <Route path="/AddNotifications" element={<AddNotifications />} />
-          <Route path="/ViewNotifications" element={<ViewNotifications />} />
+          <Route path="/ListNotifications" element={<PrivateRoute><ListNotifications /></PrivateRoute>} />
+          <Route path="/EditNotifications" element={<PrivateRoute><EditNotifications /></PrivateRoute>} />
+          <Route path="/AddNotifications" element={<PrivateRoute><AddNotifications /></PrivateRoute>} />
+          <Route path="/ViewNotifications" element={<PrivateRoute><ViewNotifications /></PrivateRoute>} />
 
           {/* Training */}
-          <Route path="/ListTraining" element={<ListTraining />} />
-          <Route path="/AddTraining" element={<AddTraining />} />
-          <Route path="/EditTraining" element={<EditTraining />} />
-          <Route path="/ViewTraining" element={<ViewTraining />} />
+          <Route path="/ListTraining" element={<PrivateRoute><ListTraining /></PrivateRoute>} />
+          <Route path="/AddTraining" element={<PrivateRoute><AddTraining /></PrivateRoute>} />
+          <Route path="/EditTraining" element={<PrivateRoute><EditTraining /></PrivateRoute>} />
+          <Route path="/ViewTraining" element={<PrivateRoute><ViewTraining /></PrivateRoute>} />
 
           {/* Events */}
-          <Route path="/ListEvents" element={<ListEvents />} />
-          <Route path="/AddEvents" element={<AddEvents />} />
-          <Route path="/EditEvents" element={<EditEvents />} />
-          <Route path="/ViewEvents" element={<ViewEvents />} />
+          <Route path="/ListEvents" element={<PrivateRoute><ListEvents /></PrivateRoute>} />
+          <Route path="/AddEvents" element={<PrivateRoute><AddEvents /></PrivateRoute>} />
+          <Route path="/EditEvents" element={<PrivateRoute><EditEvents /></PrivateRoute>} />
+          <Route path="/ViewEvents" element={<PrivateRoute><ViewEvents /></PrivateRoute>} />
 
           {/* SocialMedia */}
-          <Route path="/AddSocialMedia" element={<AddSocialMedia />} />
-          <Route path="/EditSocialMedia" element={<EditSocialMedia />} />
-          <Route path="/ListSocialMedia" element={<ListSocialMedia />} />
-          <Route path="/ViewSocialMedia" element={<ViewSocialMedia />} />
+          <Route path="/AddSocialMedia" element={<PrivateRoute><AddSocialMedia /></PrivateRoute>} />
+          <Route path="/EditSocialMedia" element={<PrivateRoute><EditSocialMedia /></PrivateRoute>} />
+          <Route path="/ListSocialMedia" element={<PrivateRoute><ListSocialMedia /></PrivateRoute>} />
+          <Route path="/ViewSocialMedia" element={<PrivateRoute><ViewSocialMedia /></PrivateRoute>} />
 
           {/* Campaign */}
-          <Route path="/ListCampaign" element={<ListCampaign />} />
-          <Route path="/AddCampaign" element={<AddCampaign />} />
-          <Route path="/EditCampaign" element={<EditCampaign />} />
-          <Route path="/ViewCampaign" element={<ViewCampaign />} />
+          <Route path="/ListCampaign" element={<PrivateRoute><ListCampaign /></PrivateRoute>} />
+          <Route path="/AddCampaign" element={<PrivateRoute><AddCampaign /></PrivateRoute>} />
+          <Route path="/EditCampaign" element={<PrivateRoute><EditCampaign /></PrivateRoute>} />
+          <Route path="/ViewCampaign" element={<PrivateRoute><ViewCampaign /></PrivateRoute>} />
 
           {/* DailyTask */}
-          <Route path="/ListDailyTask" element={<ListDailyTask />} />
-          <Route path="/EditDailyTask" element={<EditDailyTask />} />
-          <Route path="/AddDailyTask" element={<AddDailyTask />} />
-          <Route path="/ViewDailyTask" element={<ViewDailyTask />} />
+          <Route path="/ListDailyTask" element={<PrivateRoute><ListDailyTask /></PrivateRoute>} />
+          <Route path="/EditDailyTask" element={<PrivateRoute><EditDailyTask /></PrivateRoute>} />
+          <Route path="/AddDailyTask" element={<PrivateRoute><AddDailyTask /></PrivateRoute>} />
+          <Route path="/ViewDailyTask" element={<PrivateRoute><ViewDailyTask /></PrivateRoute>} />
 
           {/* Meetings */}
-          <Route path="/ListMeetings" element={<ListMeetings />} />
-          <Route path="/AddMeetings" element={<AddMeetings />} />
-          <Route path="/EditMeetings" element={<EditMeetings />} />
-          <Route path="/ViewMeetings" element={<ViewMeetings />} />
+          <Route path="/ListMeetings" element={<PrivateRoute><ListMeetings /></PrivateRoute>} />
+          <Route path="/AddMeetings" element={<PrivateRoute><AddMeetings /></PrivateRoute>} />
+          <Route path="/EditMeetings" element={<PrivateRoute><EditMeetings /></PrivateRoute>} />
+          <Route path="/ViewMeetings" element={<PrivateRoute><ViewMeetings /></PrivateRoute>} />
 
           {/* Promotion */}
 
-          <Route path="/ListPromotions" element={<ListPromotions />} />
-          <Route path="/AddPromotions" element={<AddPromotions />} />
-          <Route path="/EditPromotions" element={<EditPromotions />} />
-          <Route path="/ViewPromotion" element={<ViewPromotion />} />
+          <Route path="/ListPromotions" element={<PrivateRoute><ListPromotions /></PrivateRoute>} />
+          <Route path="/AddPromotions" element={<PrivateRoute><AddPromotions /></PrivateRoute>} />
+          <Route path="/EditPromotions" element={<PrivateRoute><EditPromotions /></PrivateRoute>} />
+          <Route path="/ViewPromotion" element={<PrivateRoute><ViewPromotion /></PrivateRoute>} />
 
           {/* Testimonials */}
-          <Route path="/ListTestimonials" element={<ListTestimonials />} />
-          <Route path="/AddTestimonials" element={<AddTestimonials />} />
-          <Route path="/EditTestimonials" element={<EditTestimonials />} />
-          <Route path="/ViewTestimonials" element={<ViewTestimonials />} />
+          <Route path="/ListTestimonials" element={<PrivateRoute><ListTestimonials /></PrivateRoute>} />
+          <Route path="/AddTestimonials" element={<PrivateRoute><AddTestimonials /></PrivateRoute>} />
+          <Route path="/EditTestimonials" element={<PrivateRoute><EditTestimonials /></PrivateRoute>} />
+          <Route path="/ViewTestimonials" element={<PrivateRoute><ViewTestimonials /></PrivateRoute>} />
 
           {/* Blog    */}
-          <Route path="/ListBlog" element={<ListBlog />} />
-          <Route path="/AddBlog" element={<AddBlog />} />
-          <Route path="/EditBlog" element={<EditBlog />} />
-          <Route path="/ViewBlog" element={<ViewBlog />} />
+          <Route path="/ListBlog" element={<PrivateRoute><ListBlog /></PrivateRoute>} />
+          <Route path="/AddBlog" element={<PrivateRoute><AddBlog /></PrivateRoute>} />
+          <Route path="/EditBlog" element={<PrivateRoute><EditBlog /></PrivateRoute>} />
+          <Route path="/ViewBlog" element={<PrivateRoute><ViewBlog /></PrivateRoute>} />
 
           {/* Chat */}
-          <Route path="/ListChat" element={<ListChat/>}/>
+          <Route path="/ListChat" element={<PrivateRoute><ListChat/></PrivateRoute>}/>
 
           {/* Bookings */}
-          <Route path="/ListBookings" element={<ListBookings/>}/>
+          <Route path="/ListBookings" element={<PrivateRoute><ListBookings/></PrivateRoute>}/>
 
           {/* Class Schedule */}
-          <Route path="/ListClassSchedule" element={<ListClassSchedule/>}/>
+          <Route path="/ListClassSchedule" element={<PrivateRoute><ListClassSchedule/></PrivateRoute>}/>
 
           {/* Email */}
-          <Route path="/ListEmail" element={<ListEmail/>}/>
+          <Route path="/ListEmail" element={<PrivateRoute><ListEmail/></PrivateRoute>}/>
 
           {/* Expenses */}
-          <Route path="/ListExpenses" element={<ListExpenses/>}/>
+          <Route path="/ListExpenses" element={<PrivateRoute><ListExpenses/></PrivateRoute>}/>
 
           {/* Income */}
-          <Route path="/ListIncome" element={<ListIncome/>}/>
+          <Route path="/ListIncome" element={<PrivateRoute><ListIncome/></PrivateRoute>}/>
 
           {/* Income Report */}
-          <Route path="/ListIncomeReport" element={<ListIncomeReport/>}/>
+          <Route path="/ListIncomeReport" element={<PrivateRoute><ListIncomeReport/></PrivateRoute>}/>
 
           {/* Raise Quotations */}
-          <Route path="/ListRaiseQuotations" element={<ListQuotations/>}/>
+          <Route path="/ListRaiseQuotations" element={<PrivateRoute><ListQuotations/></PrivateRoute>}/>
 
           {/* Attendance */}
-          <Route path="/ListAttendance" element={<ListAttendance/>}/>
+          <Route path="/ListAttendance" element={<PrivateRoute><ListAttendance/></PrivateRoute>}/>
 
           {/* KPI */}
-          <Route path="/ListKPI" element={<ListKPI/>}/>
+          <Route path="/ListKPI" element={<PrivateRoute><ListKPI/></PrivateRoute>}/>
 
           {/* Leave */}
-          <Route path="/ListLeave" element={<ListLeave/>}/>
+          <Route path="/ListLeave" element={<PrivateRoute><ListLeave/></PrivateRoute>}/>
 
           {/* Payroll */}
-          <Route path="/ListPayroll" element={<ListPayroll/>}/>
+          <Route path="/ListPayroll" element={<PrivateRoute><ListPayroll/></PrivateRoute>}/>
 
           {/* Performance Report */}
-          <Route path="/ListPerformanceReport" element={<ListPeformanceReport/>}/>
+          <Route path="/ListPerformanceReport" element={<PrivateRoute><ListPeformanceReport/></PrivateRoute>}/>
           {/* Policies */}
-          <Route path="/ListPolicies" element={<ListPolicies/>}/>
+          <Route path="/ListPolicies" element={<PrivateRoute><ListPolicies/></PrivateRoute>}/>
 
           {/* Staff Hrm */}
-          <Route path="/ListStaffHRM" element={<ListHrmStaff/>}/>
+          <Route path="/ListStaffHRM" element={<PrivateRoute><ListHrmStaff/></PrivateRoute>}/>
           {/* Project */}
-          <Route path="/ListProject" element={<ListProject/>}/>
+          <Route path="/ListProject" element={<PrivateRoute><ListProject/></PrivateRoute>}/>
 
           {/* Task */}
-          <Route path="/ListTask" element={<ListTask/>}/>
+          <Route path="/ListTask" element={<PrivateRoute><ListTask/></PrivateRoute>}/>
         </Routes>
       </BrowserRouter>
     </div>

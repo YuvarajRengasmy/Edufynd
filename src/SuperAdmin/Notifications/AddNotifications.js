@@ -1,22 +1,118 @@
 import React, { useEffect, useState } from 'react';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import { saveClient } from '../../api/client';
-import {getallClientModule} from "../../api/universityModule/clientModule";
-import Header from "../../compoents/header";
+import { saveNotifications } from '../../api/notifications';
+
+
 import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
-import ReactQuill from 'react-quill';
+
 import 'react-quill/dist/quill.snow.css';
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertToRaw } from 'draft-js';
+
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { RichTextEditor } from '@mantine/rte';
 
 
 
 export const AddNotifications = () => {
+
+  const initialState = {
+
+    typeOfUser: "",
+    userName: "",
+    subject: "",
+    // content: "",
+    uploadImage:"",
+    
+  };
+
+
+  const initialStateErrors = {
+    typeOfUser: { required: false },
+    userName: { required: false },
+    subject: { required: false },
+    // content: { required: false },
+    uploadImage: { required: false },
+   
+  };
+
+  const navigate = useNavigate();
+  const handleValidation = (data) => {
+    let error = initialStateErrors;
+
+    if (data.typeOfUser === "") {
+      error.typeOfUser.required = true;
+    }
+
+    if (data. userName === "") {
+      error. userName.required = true;
+    }
+
+    if (data.subject === "") {
+      error.subject.required = true;
+    }
+    // if (data.content === "") {
+    //   error.content.required = true;
+    // }
+    if (data.uploadImage === "") {
+      error.uploadImage.required = true;
+    }
+   
+   
+
+   
+    return error;
+  };
+
+  const [notification, setnotification] = useState(initialState);
+  const [errors, setErrors] = useState(initialStateErrors);
+  const [submitted, setSubmitted] = useState(false);
+
+  const  handleInputs =(event)=>{
+    const {name,value} = event.target;
+    const updateNotifications={...notification,[name]:value};
+    setnotification(updateNotifications);
+
+    if (submitted) {
+      const newError = handleValidation(updateNotifications);
+      setErrors(newError);
+    }
+  }
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const handleSubmit = (event)=>{
+    event.preventDefault();
+    const newError = handleValidation(notification)
+    setErrors(newError);
+    setSubmitted(true);
+    const updateNotifications = {
+      ...notification
+    };
+    if (handleErrors(newError)) {
+      saveNotifications(updateNotifications)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          navigate("/ListNotifications");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    } else {
+      toast.error("Please fill mandatory fields");
+    }
+
+  }
+
 
 
 
@@ -34,7 +130,7 @@ export const AddNotifications = () => {
           >
             <div className="content-header ">
               <div className=" container-fluid ">
-                <form>
+                <form onSubmit={handleSubmit} >
                   <div className="row">
                     <div className="col-xl-12 ">
                       <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -57,6 +153,9 @@ export const AddNotifications = () => {
 
                               <select
                                 class="form-select form-select-lg"
+                                name='typeOfUser'
+                                onChange={handleInputs}
+                                
                                 aria-label="Default select example"
                                 style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -68,6 +167,11 @@ export const AddNotifications = () => {
                                 <option value="Student">Student</option>
                                 <option value="Agent">Agent</option>
                               </select>
+                              {errors.typeOfUser.required ? (
+                                  <div className="text-danger form-text">
+                                    This field is required.
+                                  </div>
+                                ) : null}
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -77,13 +181,19 @@ export const AddNotifications = () => {
                               <input
                                 type="text"
                                 className="form-control "
+                                onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                                 placeholder="Enter UserName"
-                                name="Username"
+                                name="userName"
                               />
+                               {errors.userName.required ? (
+                                  <div className="text-danger form-text">
+                                    This field is required.
+                                  </div>
+                                ) : null}
                               
                             </div>
                             <div className="row gy-2 ">
@@ -94,13 +204,19 @@ export const AddNotifications = () => {
                               <input
                                 type="text"
                                 className="form-control "
+                                onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                                 placeholder="Enter  Subject"
-                                name="Username"
+                                name="subject"
                               />
+                               {errors.subject.required ? (
+                                  <div className="text-danger form-text">
+                                    This field is required.
+                                  </div>
+                                ) : null}
                               
                             </div>
                             </div>
@@ -118,6 +234,9 @@ export const AddNotifications = () => {
             minHeight: '200px', overflowY: 'auto'
            
           }}
+          name='content'
+          // onChange={handleInputs}
+         
         />
        
                               
@@ -136,8 +255,14 @@ export const AddNotifications = () => {
                                   fontSize: "12px",
                                 }}
                                 placeholder="Enter  Image upload"
-                                name="Username"
+                                name="uploadImage"
+                                onChange={handleInputs}
                               />
+                               {errors.uploadImage.required ? (
+                                  <div className="text-danger form-text">
+                                    This field is required.
+                                  </div>
+                                ) : null}
                               
                             </div>
                             </div>
