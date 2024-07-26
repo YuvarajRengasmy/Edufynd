@@ -1,7 +1,33 @@
-import React from 'react';
+import React, { useState,useEffect } from "react";
 import Mastersidebar from '../../compoents/sidebar';
+import {  useLocation } from "react-router-dom";
+import {  getSingleStaff } from "../../api/staff";
+export const ViewStaff = () => {
 
-export const viewStaff = () => {
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
+
+
+
+  const [staff, setStaff] = useState([]);
+
+
+
+  useEffect(() => {
+    getStaffDetails();
+  }, []);
+  const getStaffDetails = () => {
+    getSingleStaff(id)
+      .then((res) => {
+        console.log(res);
+        setStaff(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <div >
@@ -23,12 +49,13 @@ export const viewStaff = () => {
                   <div className="row g-3">
                     <div className="col-md-3 text-center">
                       <img
-                        src="https://via.placeholder.com/150"
+                        src={staff?.photo?staff?.photo:"https://via.placeholder.com/150"}
                         alt="Profile Photo"
                         className="profile-img mb-3"
+                        style={{ width: '12rem', height: '12rem' }}
                       />
-                      <h5>Name: JayJo</h5>
-                      <p>Role/Designation: Full Stack Developer</p>
+                      <h5>Name: {staff?.empName}</h5>
+                      <p>Role/Designation: {staff?.designation}</p>
                     </div>
 
                     <div className="col-md-9">
@@ -36,33 +63,33 @@ export const viewStaff = () => {
                       <h5 className="card-info">Personal Information</h5>
                     
                         <div className="col-md-6">
-                          <p><strong>Date of Birth (DOB):</strong> 17/01/2002</p>
-                          <p><strong>Date of Joining (DOJ):</strong> 01/05/2024</p>
-                          <p><strong>Reporting Manager:</strong> Amirtha</p>
-                          <p><strong>Shift Timing:</strong> 10:00 AM - 7:00 PM</p>
-                          <p><strong>Probation Duration:</strong> 6 months</p>
-                          <p><strong>Official Mail:</strong> official@example.com</p>
-                          <p><strong>Team:</strong> Development</p>
-                          <p><strong>Personal Mail ID:</strong> JayJo@example.com</p>
-                          <p><strong>Personal Contact No:</strong> +1234567890</p>
-                          <p><strong>Address:</strong> 123 XXX, XX City, XX Country</p>
-                          <p><strong>Emergency Contact:</strong> +0987654321</p>
-                          <p><strong>ID Card:</strong> Issued</p>
-                          <p><strong>Status:</strong> Active</p>
-                          <p><strong>Job Description:</strong> Developing and maintaining web applications.</p>
-                          <p><strong>Eligibility for Casual Leave:</strong> Yes</p>
+                          <p><strong>Date of Birth (DOB):</strong> {staff?.dob}</p>
+                          <p><strong>Date of Joining (DOJ):</strong> {staff?.doj}</p>
+                          <p><strong>Reporting Manager:</strong> {staff?.reportingManager}</p>
+                          <p><strong>Shift Timing:</strong> {staff?.shiftTiming}</p>
+                          <p><strong>Probation Duration:</strong> {staff?.probationDuration}</p>
+                          <p><strong>Official Mail:</strong> {staff?.email}</p>
+                          <p><strong>Team:</strong>{staff?.team}</p>
+                          <p><strong>Personal Mail ID:</strong> {staff?.personalMail}</p>
+                          <p><strong>Personal Contact No:</strong> {staff?.mobileNumber}</p>
+                          <p><strong>Address:</strong>{staff?.address}</p>
+                          <p><strong>Emergency Contact:</strong> {staff?.emergencyContact}</p>
+                          <p><strong>ID Card:</strong> {staff?.idCard}</p>
+                          <p><strong>Status:</strong>{staff?.status}</p>
+                          <p><strong>Job Description:</strong> {staff?.jobDescription}.</p>
+                          <p><strong>Eligibility for Casual Leave:</strong> {staff?.areTheyEligibleForCasualLeave}</p>
                         </div>
                         <div className="col-md-6">
                           <h5 className="card-info">Professional Information</h5>
-                          <p><strong>Company Assets:</strong> Laptop, Mobile</p>
-                          <p><strong>Mobile Brand Name:</strong> iPhone</p>
-                          <p><strong>IMEI:</strong> 123456789012345</p>
-                          <p><strong>Phone Number:</strong> +1234567890</p>
-                          <p><strong>Laptop Brand Name:</strong> Dell</p>
-                          <p><strong>Model:</strong> XPS 13</p>
-                          <p><strong>IP Address:</strong> 192.168.1.1</p>
-                          <p><strong>Username:</strong> jayjo</p>
-                          <p><strong>Password:</strong> ********</p>
+                          <p><strong>Company Assets:</strong> {staff?.companyAssets}</p>
+                          <p><strong>Mobile Brand Name:</strong> {staff?.mobileName}</p>
+                          <p><strong>IMEI:</strong> {staff?.imei}</p>
+                          <p><strong>Phone Number:</strong> {staff?.phoneNumber}</p>
+                          <p><strong>Laptop Brand Name:</strong> {staff?.laptopName}</p>
+                          <p><strong>Model:</strong>{staff?.model}</p>
+                          <p><strong>IP Address:</strong> {staff?.ipAddress}</p>
+                          <p><strong>Username:</strong>{staff?.username}</p>
+                          <p><strong>Password:</strong>{staff?.password}</p>
                           
                     
                         </div>
@@ -82,4 +109,4 @@ export const viewStaff = () => {
   );
 };
 
-export default viewStaff;
+export default ViewStaff;
