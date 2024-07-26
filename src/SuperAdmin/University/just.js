@@ -21,7 +21,7 @@ function AddCommission() {
       {
         id: 1,
         year: "",
-        courseTypes: [{id:1, courseType: "",inTake:[{id:1,type:"",value:""}] }],
+        courseTypes: [{ courseType: "", inTake: [{ type: "", value: null }] }],
       },
     ],
   };
@@ -29,9 +29,7 @@ function AddCommission() {
   const initialStateErrors = {
     country: { required: false },
     universityName: { required: false },
-    
-    years: { required: false },
-    
+   
   };
 
   const [commission, setCommission] = useState(initialState);
@@ -50,11 +48,9 @@ function AddCommission() {
   });
   const navigate = useNavigate();
 
-
- 
   useEffect(() => {
     getAllCurrencyDetails();
-   
+    getAllTaxDetails();
     getAllYearDetails();
   }, [pagination.from, pagination.to]);
 
@@ -84,7 +80,16 @@ function AddCommission() {
         console.log(err);
       });
   };
-  
+  const getAllTaxDetails = () => {
+    getallTaxModule()
+      .then((res) => {
+        console.log(res);
+        setTax(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const validateYears = (years) => {
     const errors = [];
@@ -105,22 +110,15 @@ function AddCommission() {
           courseTypeErrors.courseType = "Course Type is required.";
         }
 
-        if (!courseType.summer) {
-          courseTypeErrors.summer = "Intake is required.";
-        }else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
-            courseTypeErrors.value = "Value must be a number less than 35.";
-          }
-
-        if (courseType.winter === null || courseType.winter === "") {
-          courseTypeErrors.winter = "Value is required.";
-        } else if (isNaN(courseType.winter) || Number(courseType.winter) >= 35) {
-          courseTypeErrors.winter = "Value must be a number less than 35.";
+        if (!courseType.inTake) {
+          courseTypeErrors.inTake = "Intake is required.";
         }
-        if (courseType.fall === null || courseType.fall === "") {
-            courseTypeErrors.fall = "Value is required.";
-          } else if (isNaN(courseType.fall) || Number(courseType.fall) >= 35) {
-            courseTypeErrors.fall = "Value must be a number less than 35.";
-          }
+
+        if (courseType.value === null || courseType.value === "") {
+          courseTypeErrors.value = "Value is required.";
+        } else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
+          courseTypeErrors.value = "Value must be a number less than 35.";
+        }
 
         yearErrors.courseTypes[j] = courseTypeErrors;
       }
@@ -172,22 +170,60 @@ function AddCommission() {
   const addYear = () => {
     const newYear = {
       year: "",
-      courseTypes: [{ courseType: "", summer: "", winter: "", fall: "",  }],
+      courseTypes: [{ courseType: "", intake: "", value: null }],
     };
     setYears([...years, newYear]);
   };
 
-
-
-  const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
+  const addCourseType = (yearIndex) => {
     const updatedYears = [...years];
-    if (courseTypeIndex !== null) {
-      updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
-    } else {
-      updatedYears[yearIndex][fieldName] = value;
-    }
+    updatedYears[yearIndex].courseTypes.push({
+      courseType: "",
+      intake: "",
+      value: null,
+    });
     setYears(updatedYears);
   };
+
+  const removeCourseType = (yearIndex, courseTypeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+    setCommission({
+      ...commission,
+      years: updatedYears,
+    });
+  };
+//   const handleInputChange = (yearIndex, typeIndex, fieldName, value) => {
+//     const updatedYears = [...years];
+//     if (typeIndex !== null) {
+//       // Update specific courseType within the selected year
+//       updatedYears[yearIndex].courseTypes[typeIndex] = {
+//         ...updatedYears[yearIndex].courseTypes[typeIndex],
+//         [fieldName]: value
+//       };
+//     } else {
+//       // Update year level field (if needed)
+//       updatedYears[yearIndex][fieldName] = value;
+//     }
+//     setYears(updatedYears);
+//   };
+  const handleInputChange = (yearIndex, typeIndex, field, value) => {
+    // Create a copy of the current years state
+    const updatedYears = [...years];
+
+    // Check if the yearIndex and typeIndex are within bounds
+    if (updatedYears[yearIndex] && updatedYears[yearIndex].courseTypes) {
+      // Update the specific courseType field
+      updatedYears[yearIndex].courseTypes[typeIndex] = {
+        ...updatedYears[yearIndex].courseTypes[typeIndex],
+        [field]: value
+      };
+    }
+
+    // Update the state with the modified years array
+    setYears(updatedYears);
+  };
+  
   const yearOptions = year.map((data) => ({
     value: data.year,
     label: data.year,
@@ -245,10 +281,9 @@ function AddCommission() {
             ...year,
             courseTypes: [
               {
-                courseType: "",
-                inTake: "",
-                value: "",
-                
+                courseType: selectedUniversity.courseType,
+                intake: "",
+                value: null,
               },
             ],
           }))
@@ -276,28 +311,35 @@ function AddCommission() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+  
     // Validate the commission data
     const newError = handleValidation(commission);
     setErrors(newError);
     setSubmitted(true);
+  
     if (handleErrors(newError)) {
       // Prepare years data for submission
       const yearsData = years.map((year) => ({
         year: year.year,
+
         courseTypes: year.courseTypes.map((courseType) => ({
           courseType: courseType.courseType,
-          inTake: courseType.inTake,
-          value: courseType.value,
+          inTake: courseType.inTake.map((type) => ({
+            type: type.type,
+            value: type.value,
+          })),
+         
+            
+            
         })),
       }));
-
+  
       // Prepare commission data including years
       const dataToSave = {
         ...commission,
         years: yearsData,
       };
-
+  
       // Call API to save commission
       saveCommission(dataToSave)
         .then((res) => {
@@ -305,10 +347,11 @@ function AddCommission() {
           navigate("/ListCommission");
         })
         .catch((err) => {
-          toast.error(err?.response?.data?.message);
+          toast.error(err?.response?.data?.message || 'An error occurred while saving.');
         });
     }
   };
+  
 
   return (
     <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
@@ -399,7 +442,6 @@ function AddCommission() {
                             ) : null}
                           </div>
 
-                   
 
                           <div className="row g-3 mt-3">
                             <div className="col-12">
@@ -457,12 +499,21 @@ function AddCommission() {
                                                     uni.universityName ===
                                                     commission.universityName
                                                 )?.courseType || []
-                                              ).map((type, idx) => (
-                                                <div key={idx}>
+                                              ).map((type, typeIndex) => (
+                                                <div key={typeIndex}>
                                                   <label>
                                                     CourseType:{type}
                                                   </label>
-
+                                                  <label>CourseType: {type}</label>
+                                                  <input 
+      className="form-control rounded-2"
+      type="text"
+      name={`courseType-${typeIndex}`}  // Unique name for each input field
+      placeholder="Enter CourseType"
+      value={years[yearIndex]?.courseTypes[typeIndex]?.courseType ||type}  // Display current value or empty string
+      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+      onChange={(e) => handleInputChange(yearIndex, typeIndex, 'courseType', e.target.value)}  // Handle change for the specific courseType
+    />
                                                   <div className="row g-3">
                                                     {(
                                                       universities.find(
@@ -508,6 +559,41 @@ function AddCommission() {
                                                   </div>
                                                 </div>
                                               ))}
+
+                                              {/* {(universities.find(uni => uni.universityName === commission.universityName)?.courseType || []).map((type, idx) => (
+  <div key={idx}>
+    <label>CourseType: {type}</label>
+    <input 
+      className="form-control rounded-2"
+      type="text"
+      name='courseType'
+      placeholder="Enter CourseType"
+      value={commission.courseTypes[idx]?.courseType || type}
+      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+      onChange={(e) => handleInputChange(yearIndex, idx, 'courseType', e.target.value)}
+    />
+    <div className='row g-3'>
+      {(universities.find(uni => uni.universityName === commission.universityName)?.inTake || []).map((inTakeType, inTakeIdx) => (
+        <div key={inTakeIdx} className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
+          <label style={{ color: "#231F20" }}>{inTakeType}</label>
+          <input
+            className="form-control rounded-2"
+            type="text"
+            name='value'
+            placeholder="Enter Value"
+            value={commission.courseTypes[idx]?.values?.[inTakeIdx] || ''}
+            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            onChange={(e) => {
+              const newValues = [...(commission.courseTypes[idx]?.values || [])];
+              newValues[inTakeIdx] = e.target.value;
+              handleInputChange(yearIndex, idx, 'values', newValues);
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+))} */}
 
                                               {/* </select> */}
 
@@ -583,52 +669,3 @@ function AddCommission() {
 }
 
 export default AddCommission;
-
-
-
-
-
-
-// const handleSubmit = (event) => {
-//     event.preventDefault();
-  
-//     // Validate the commission data
-//     const newError = handleValidation(commission);
-//     setErrors(newError);
-//     setSubmitted(true);
-    
-//     if (handleErrors(newError)) {
-//       // Check if years is defined and is an array
-//       const yearsData = years.map((year, yearIndex) => ({
-//        // Assuming IDs are generated based on the index
-//         year: year.year || "", // Ensure year is a string
-//         courseTypes: year.courseTypes.map((courseType, courseTypeIndex) => ({
-//            // Assuming IDs are generated based on the index
-//           courseType: courseType.courseType || "", // Ensure courseType is a string
-//           inTake: courseType.inTake.map((inTake, inTakeIndex) => ({
-//            // Assuming IDs are generated based on the index
-//             type: inTake.type || "", // Ensure type is a string
-//             value: inTake.value || "", // Ensure value is a string
-//           })),
-//         })),
-//       }));
-  
-//       // Prepare commission data including years
-//       const dataToSave = {
-//         ...commission,
-//         years: yearsData,
-//       };
-  
-//       // Call API to save commission
-//       saveCommission(dataToSave)
-//         .then((res) => {
-//           toast.success(res?.data?.message);
-//           navigate("/ListCommission");
-//         })
-//         .catch((err) => {
-//           toast.error(err?.response?.data?.message);
-//         });
-//     }
-//   };
-  
- 
