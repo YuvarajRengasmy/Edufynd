@@ -188,7 +188,7 @@ const App = () => {
       console.error(error);
     }
   };
-
+console.log("hh", countries)
   const getCountryRegionInstance = () => {
     return new CountryRegion();
   };
@@ -213,6 +213,7 @@ const App = () => {
       console.error(error);
     }
   };
+  console.log("sta", states)
 
   const fetchLGAs = async (countryId, stateId) => {
     try {
@@ -232,7 +233,7 @@ const App = () => {
       console.error(error);
     }
   };
-
+console.log("lzz", lgas)
   const handleCountryChange = (selectedCountry) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -323,8 +324,7 @@ const App = () => {
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
-    if (data.popularCategories.length === 0)
-      error.popularCategories.required = true;
+    if (data.popularCategories.length === 0) error.popularCategories.required = true;
     if (data.offerTAT === "") error.offerTAT.required = true;
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
@@ -382,6 +382,7 @@ const App = () => {
       // Submit the data
       saveUniversity(updatedUniversity)
         .then((res) => {
+          console.log("save", res)
           toast.success(res?.data?.message);
           navigate("/ListUniversity");
         })
@@ -668,7 +669,7 @@ const App = () => {
                                     onChange={(option) =>
                                       handleStateChange(option, index)
                                     }
-                                    options={campus.states || []}
+                                    options={campus.states }
                                     value={campus.states.find(
                                       (option) => option.value === campus.state
                                     )}
@@ -691,7 +692,7 @@ const App = () => {
                                     onChange={(option) =>
                                       handleLGAChange(option, index)
                                     }
-                                    options={campus.lgas || []}
+                                    options={campus.lgas}
                                     value={campus.lgas.find(
                                       (option) => option.value === campus.lga
                                     )}
