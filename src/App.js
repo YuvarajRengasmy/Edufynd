@@ -5,6 +5,7 @@ import SuperAdmin from "./Routes/SuperAdmin";
 import Contact from "./Routes/AgentPage";
 import Enquiry from "./Routes/Enquiry";
 import Staff  from './Routes/Staff'
+import Admin from './Routes/Admin'
 function App() {
   return (
     <div>
@@ -14,6 +15,7 @@ function App() {
       <Contact />
       <Enquiry/>
       <Staff/>
+      <Admin/>
     </div>
   );
 }
