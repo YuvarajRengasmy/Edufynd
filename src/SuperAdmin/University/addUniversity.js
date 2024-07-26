@@ -647,7 +647,7 @@ const App = () => {
                                     onChange={(option) =>
                                       handleStateChange(option, index)
                                     }
-                                    options={campus.states || []}
+                                    options={campus.states }
                                     value={campus.states.find(
                                       (option) => option.value === campus.state
                                     )}
@@ -670,7 +670,7 @@ const App = () => {
                                     onChange={(option) =>
                                       handleLGAChange(option, index)
                                     }
-                                    options={campus.lgas || []}
+                                    options={campus.lgas }
                                     value={campus.lgas.find(
                                       (option) => option.value === campus.lga
                                     )}
