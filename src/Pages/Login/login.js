@@ -92,6 +92,28 @@ const Login = () => {
                     window.location.reload(); // Refresh the page
                 }
             }
+            if (loginType === 'admin') {
+              let adminId = res?.data?.result?.adminDetails?._id;
+              let data = {
+                  token: token, adminId: adminId, loginType: loginType
+              };
+              saveToken(data);
+              if (isAuthenticated()) {
+                  navigate("/AdminHome");
+                  window.location.reload(); // Refresh the page
+              }
+          }
+            if (loginType === 'staff') {
+              let staffId = res?.data?.result?.staffDetails?._id;
+              let data = {
+                  token: token, staffId: staffId, loginType: loginType
+              };
+              saveToken(data);
+              if (isAuthenticated()) {
+                  navigate("/ListStaffUniversity");
+                  window.location.reload(); // Refresh the page
+              }
+          }
             toast.success(res?.data?.message);
         })
         .catch((err) => {
@@ -104,7 +126,9 @@ const Login = () => {
     const type = getLoginType();
     if (type === 'student') { return <Navigate to="/Student" /> }
     else if (type === 'superAdmin') { return <Navigate to="/Dashboard" /> }
-    else { return <Navigate to="/AgentHome" /> }
+    else if (type === 'staff') { return <Navigate to="/ListStaffUniversity" /> }
+    else if (type === 'admin') { return <Navigate to="/adminHome" /> }
+    else  { return <Navigate to="/AgentHome" /> }
   }
 
   return (

@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../compoents/sidebar";
-
+import { getSingleStudent } from "../../api/student";
+import { useLocation } from "react-router-dom";
 import { FaUser, FaPassport, FaCalendarAlt, FaFlag, FaBirthdayCake, FaMale, FaPhone, FaWhatsapp } from 'react-icons/fa';
 
 function Profile() {
   return (
-    < >
+    <>
       <div>
         <Sidebar />
 
@@ -16,17 +17,17 @@ function Profile() {
                 <div className="col">
                   <div className="card border-0 shadow-sm rounded-0 text-bg-white p-4">
                     <div className="bg-transparent mb-3">
-                      <div className="row g-0 ">
-                        <div className="col-md-12 ">
+                      <div className="row g-0">
+                        <div className="col-md-12">
                           <img
                             src="https://pics.craiyon.com/2023-07-15/dc2ec5a571974417a5551420a4fb0587.webp"
                             style={{ width: '150px', height: '150px' }}
-                            className="img-fluid rounded-pill "
+                            className="img-fluid rounded-pill"
                             alt="student_image"
                           />
                         </div>
-                        <div className="col-md-12 align-self-center ">
-                          <div className="row g-4 " >
+                        <div className="col-md-12 align-self-center">
+                          <div className="row g-4">
                             <div className="col-sm-6">
                               <div className="d-flex flex-column align-items-start justify-content-start">
                                 <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Source</p>
@@ -72,11 +73,11 @@ function Profile() {
                       </div>
                     </div>
                     <hr className="border-4 rounded-2" />
-                    <div className="header bg-none">
+                    {/* <div className="header bg-none">
                       <h5>Work Experience</h5>
                       <div className="container my-3 text-center">
                         <div className="row g-3">
-                          <div className="col-md-6 ">
+                          <div className="col-md-6">
                             <div className="d-flex flex-column align-items-start justify-content-start">
                               <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Duration</p>
                               <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Last Employer</p>
@@ -91,11 +92,8 @@ function Profile() {
                               <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Country</p>
                               <p className="card-text text-capitalize fw-bold"><FaFlag style={{ color: '#fe5722' }} /> Any Visa Rejections</p>
                               <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Reason</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Desired University</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Desired Country</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Desired Course</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> How Do You Plan to Fund Your Education</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Work Experience</p>
+                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Agency</p>
+                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Note</p>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -122,14 +120,12 @@ function Profile() {
                           </div>
                         </div>
                       </div>
-                    </div>
-                   
+                    </div> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        
         </div>
       </div>
     </>
