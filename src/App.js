@@ -4,6 +4,7 @@ import StudentPage from "./Routes/StudentPage";
 import SuperAdmin from "./Routes/SuperAdmin";
 import Contact from "./Routes/AgentPage";
 import Enquiry from "./Routes/Enquiry";
+import Staff  from './Routes/Staff'
 function App() {
   return (
     <div>
@@ -12,6 +13,7 @@ function App() {
       <StudentPage />
       <Contact />
       <Enquiry/>
+      <Staff/>
     </div>
   );
 }

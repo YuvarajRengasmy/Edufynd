@@ -25,6 +25,8 @@ import { getallCountryList, getStatesByCountry, getCitiesByState } from "../../a
 import { updateUniversity, getSingleUniversity } from "../../api/university";
 
 function Profile() {
+
+  
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const initialState = {
