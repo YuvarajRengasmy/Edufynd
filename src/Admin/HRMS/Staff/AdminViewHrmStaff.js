@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ViewHrmStaff = () => {
+export const AdminViewHrmStaff = () => {
   return (
     <div>ViewHrmStaff</div>
   )
 }
-export default ViewHrmStaff
+export default AdminViewHrmStaff

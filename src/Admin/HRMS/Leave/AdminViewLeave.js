@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ViewLeave = () => {
+export const AdminViewLeave = () => {
   return (
     <div>ViewLeave</div>
   )
 }
-export default ViewLeave
+export default AdminViewLeave

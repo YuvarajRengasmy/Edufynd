@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const EditQuotation = () => {
+export const AdminEditQuotation = () => {
   return (
     <div>EditQuotation</div>
   )
 }
-export default EditQuotation
+export default AdminEditQuotation

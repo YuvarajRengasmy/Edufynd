@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const AddProject = () => {
+export const AdminAddProject = () => {
   return (
     <div>AddProject</div>
   )
 }
-export default AddProject
+export default AdminAddProject

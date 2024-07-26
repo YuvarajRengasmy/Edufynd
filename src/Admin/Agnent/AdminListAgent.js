@@ -1,29 +1,29 @@
 import React, { useEffect, useState, useRef } from "react";
-import Sortable from 'sortablejs';
+import Sortable from "sortablejs";
 import { getallAgent, deleteAgent, getFilterAgent } from "../../api/agent";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  radioClasses,
+} from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import { getAgentId, getSuperAdminId } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
-import axios from 'axios';
-
-
-
+import axios from "axios";
 
 export const AdminListAgent = () => {
-
-
   const initialStateInputs = {
     agentName: "",
     agentCode: "",
     mobileNumber: "",
     courseFee: "",
-
   };
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
@@ -49,11 +49,8 @@ export const AdminListAgent = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-
-
     };
     getallAgent(data)
-
       .then((res) => {
         setAgent(res?.data?.result);
         setPagination({
@@ -107,7 +104,6 @@ export const AdminListAgent = () => {
       status: inputs.status,
       limit: 10,
       page: pagination.from,
-
     };
     getFilterAgent(data)
       .then((res) => {
@@ -148,21 +144,23 @@ export const AdminListAgent = () => {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('program', file);
+    formData.append("program", file);
 
     try {
-      const response = await axios.post('https://api.edufynd.in/api/agent/import', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('File uploaded successfully:', response.data);
+      const response = await axios.post(
+        "https://api.edufynd.in/api/agent/import",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("File uploaded successfully:", response.data);
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
     }
   };
-
-
 
   const pdfDownload = (event) => {
     event?.preventDefault();
@@ -213,7 +211,6 @@ export const AdminListAgent = () => {
             margin: [20, 5],
             bold: true,
           },
-
         ]);
         result.forEach((element, index) => {
           tablebody.push([
@@ -277,8 +274,6 @@ export const AdminListAgent = () => {
             applicationFee: res?.applicationFee ?? "-",
             courseFee: res?.courseFee ?? "-",
             campus: res?.campus ?? "-",
-
-
           });
         });
         let header1 = [
@@ -287,8 +282,6 @@ export const AdminListAgent = () => {
           "applicationFee",
           "courseFee",
           "campus",
-
-
         ];
         let header2 = [
           "University Name",
@@ -296,7 +289,6 @@ export const AdminListAgent = () => {
           "Application Fees",
           "Course Fees",
           "Campus",
-
         ];
         ExportCsvService.downloadCsv(
           list,
@@ -306,7 +298,6 @@ export const AdminListAgent = () => {
           header1,
           header2
         );
-
       })
       .catch((err) => {
         console.log(err);
@@ -319,20 +310,20 @@ export const AdminListAgent = () => {
     const table = tableRef.current;
 
     // Apply SortableJS to the table headers
-    const sortable = new Sortable(table.querySelector('thead tr'), {
+    const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
       swapThreshold: 0.5,
-      handle: '.sortable-handle',
+      handle: ".sortable-handle",
       onEnd: (evt) => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
 
         // Move the columns in the tbody
-        table.querySelectorAll('tbody tr').forEach((row) => {
+        table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
           row.insertBefore(cells[oldIndex], cells[newIndex]);
         });
-      }
+      },
     });
 
     return () => {
@@ -340,28 +331,25 @@ export const AdminListAgent = () => {
     };
   }, []);
 
-
-
-
   return (
     <>
-      <div >
-       
-          <Mastersidebar />
-        
+      <div>
+        <Mastersidebar />
 
-
-        <div className="content-wrapper " style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className="content-header">
-        <div className="container">
-         
-            
+        <div
+          className="content-wrapper "
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+        >
+          <div className="content-header">
+            <div className="container">
               <div className="row ">
-
-                <div className="col-xl-12" >
+                <div className="col-xl-12">
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
-                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <div
+                        className="input-group"
+                        style={{ maxWidth: "600px" }}
+                      >
                         <input
                           type="search"
                           placeholder="Search"
@@ -373,7 +361,7 @@ export const AdminListAgent = () => {
                             marginLeft: "0px",
                             fontSize: "12px", // Keep the font size if it's correct
                             height: "11px", // Set the height to 11px
-                            padding: "0px" // Adjust padding to fit the height
+                            padding: "0px", // Adjust padding to fit the height
                           }}
                         />
                         <span
@@ -384,22 +372,43 @@ export const AdminListAgent = () => {
                             right: "10px",
                             top: "50%",
                             transform: "translateY(-50%)",
-                            cursor: "pointer"
+                            cursor: "pointer",
                           }}
                         >
-                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                          <i
+                            className="fas fa-search"
+                            style={{ color: "black" }}
+                          ></i>
                         </span>
                       </div>
                     </li>
                     <li class="m-1">
-
-
                       <div>
-                        <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                        <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <button
+                          className="btn btn-primary"
+                          style={{ fontSize: "11px" }}
+                          type="button"
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="#offcanvasRight"
+                          aria-controls="offcanvasRight"
+                        >
+                          {" "}
+                          <FaFilter />
+                        </button>
+                        <div
+                          className="offcanvas offcanvas-end"
+                          tabIndex={-1}
+                          id="offcanvasRight"
+                          aria-labelledby="offcanvasRightLabel"
+                        >
                           <div className="offcanvas-header">
                             <h5 id="offcanvasRightLabel">Filter Agent</h5>
-                            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                            <button
+                              type="button"
+                              className="btn-close text-reset"
+                              data-bs-dismiss="offcanvas"
+                              aria-label="Close"
+                            />
                           </div>
                           <div className="offcanvas-body ">
                             <form>
@@ -412,7 +421,10 @@ export const AdminListAgent = () => {
                                   name="agentName"
                                   onChange={handleInputs}
                                   placeholder="Search...Agent Name"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
                                 />
                                 <label className="form-label">Agent Code</label>
                                 <br />
@@ -422,10 +434,14 @@ export const AdminListAgent = () => {
                                   name="agentCode"
                                   onChange={handleInputs}
                                   placeholder="Search...Agent Code"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
                                 />
-                                <label className="form-label">Mobile Number</label>
+                                <label className="form-label">
+                                  Mobile Number
+                                </label>
                                 <br />
                                 <input
                                   type="text"
@@ -433,8 +449,10 @@ export const AdminListAgent = () => {
                                   name="mobileNumber"
                                   onChange={handleInputs}
                                   placeholder="Search...MobileNumber"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
                                 />
                                 <label className="form-label">Status</label>
                                 <br />
@@ -444,21 +462,22 @@ export const AdminListAgent = () => {
                                   name="status"
                                   onChange={handleInputs}
                                   placeholder="Search...Status"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
                                 />
-
-
                               </div>
                               <div>
                                 <button
-
                                   data-bs-dismiss="offcanvas"
                                   className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
-
                                   onClick={resetFilter}
-                                  style={{ backgroundColor: '#0f2239', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-
+                                  style={{
+                                    backgroundColor: "#0f2239",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "14px",
+                                  }}
                                 >
                                   Reset
                                 </button>
@@ -467,23 +486,29 @@ export const AdminListAgent = () => {
                                   type="submit"
                                   onClick={filterAgentList}
                                   className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
-                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                                  style={{
+                                    backgroundColor: "#fe5722",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "14px",
+                                  }}
                                 >
                                   Apply
                                 </button>
-                            
-
                               </div>
                             </form>
                           </div>
                         </div>
                       </div>
-
-
                     </li>
                     <li class="m-1">
                       <Link onClick={pdfDownload}>
-                        <button style={{ backgroundColor: "#E12929", fontSize: '11px' }} className="btn text-white ">
+                        <button
+                          style={{
+                            backgroundColor: "#E12929",
+                            fontSize: "11px",
+                          }}
+                          className="btn text-white "
+                        >
                           <span>
                             <i class="fa fa-file-pdf" aria-hidden="true"></i>
                           </span>
@@ -493,7 +518,13 @@ export const AdminListAgent = () => {
                     <li class="m-1">
                       <Link onClick={exportCsv} class="btn-filters">
                         <span>
-                          <button style={{ backgroundColor: "#22A033", fontSize: '11px' }} className="btn text-white ">
+                          <button
+                            style={{
+                              backgroundColor: "#22A033",
+                              fontSize: "11px",
+                            }}
+                            className="btn text-white "
+                          >
                             <i class="fa fa-file-excel" aria-hidden="true"></i>
                           </button>
                         </span>
@@ -504,7 +535,10 @@ export const AdminListAgent = () => {
                       <Link onClick={openImportPopup} class="btn-filters">
                         <span>
                           <button
-                            style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                            style={{
+                              backgroundColor: "#9265cc",
+                              fontSize: "11px",
+                            }}
                             className="btn text-white "
                           >
                             <i class="fa fa fa-upload" aria-hidden="true"></i>
@@ -513,10 +547,13 @@ export const AdminListAgent = () => {
                       </Link>
                     </li>
                     <li class="m-0">
-                      <Link class="btn btn-pix-primary" to="/AddAgent">
+                      <Link class="btn btn-pix-primary" to="/AdminAddAgent">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                          style={{ backgroundColor: "#fe5722", fontSize: '12px' }}
+                          style={{
+                            backgroundColor: "#fe5722",
+                            fontSize: "12px",
+                          }}
                         >
                           <i
                             class="fa fa-plus-circle me-2"
@@ -526,120 +563,156 @@ export const AdminListAgent = () => {
                         </button>
                       </Link>
                     </li>
-
                   </ol>
-
-
                 </div>
               </div>
             </div>
-         
-          
           </div>
           <div className="content-body">
-          <div className="container">
-          <div className="row">
-            <div className="col-xl-12">
-              <div className="card rounded-0 mt-2 border-0 ">
-                <div className="card-body">
-                  <div className="card-table">
-                    <div className="table-responsive">
+            <div className="container">
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card rounded-0 mt-2 border-0 ">
+                    <div className="card-body">
+                      <div className="card-table">
+                        <div className="table-responsive">
+                          <table
+                            className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                            style={{ color: "#9265cc", fontSize: "13px" }}
+                            ref={tableRef}
+                          >
+                            <thead className="table-light">
+                              <tr
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
 
-                      <table className=" table table-hover card-table dataTable table-responsive-sm text-center" style={{ color: '#9265cc', fontSize: '13px' }}
-              ref={tableRef}>
-                        <thead className="table-light">
-                          <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            <th className="text-capitalize text-start sortable-handle">S No</th>
-                      
-                            <th className="text-capitalize text-start sortable-handle">Agent Name</th>
-                            <th className="text-capitalize text-start sortable-handle">Agent Code</th>
-                            <th className="text-capitalize text-start sortable-handle">Email</th>
-                            <th className="text-capitalize text-start sortable-handle">Mobile Number</th>
-                            <th className="text-capitalize text-start sortable-handle">Status</th>
-                            <th className="text-capitalize text-start sortable-handle">Created by</th>
-                            <th className="text-capitalize text-start sortable-handle">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {agent?.map((data, index) => (
-                            <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                        
-                              <td className="text-capitalize text-start">{data?.agentName}</td>
-                              <td className="text-capitalize text-start">{data?.agentCode}</td>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Agent Name
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Agent Code
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Email
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Mobile Number
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Status
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Created by
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {agent?.map((data, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className="text-capitalize text-start">
+                                    {pagination.from + index + 1}
+                                  </td>
 
-                              <td className=" text-start">{data?.email}</td>
-                              <td className="text-capitalize text-start">{data?.mobileNumber}</td>
-                              <td className="text-capitalize text-start">{data?.status}</td>
-                              <td className="text-capitalize text-start">{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)}</td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.agentName}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.agentCode}
+                                  </td>
 
-                              <td>
-                                <div className="d-flex">
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/ViewAgent",
-                                      search: `?id=${data?._id}`,
-                                    }}
-                                  >
-                                    <i className="far fa-eye text-primary me-1"></i>
+                                  <td className=" text-start">{data?.email}</td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.mobileNumber}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.status}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {formatDate(
+                                      data?.modifiedOn
+                                        ? data?.modifiedOn
+                                        : data?.createdOn
+                                        ? data?.createdOn
+                                        : null
+                                    )}
+                                  </td>
 
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/EditAgent",
-                                      search: `?id=${data?._id}`,
-                                    }}
-                                  >
-                                    <i className="far fa-edit text-warning me-1"></i>
-
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    onClick={() => {
-                                      openPopup(data?._id);
-                                    }}
-                                  >
-                                    <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                  </Link>
-                                </div>
-
-                              </td>
-                            </tr>
-                          ))}
-
-                        </tbody>
-                      </table>
+                                  <td>
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/AdminViewAgent",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/AdminEditAgent",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </Link>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="float-right my-2">
-                    <Pagination
-                      count={Math.ceil(pagination.count / pageSize)}
-                      onChange={handlePageChange}
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                    />
                   </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
-         </div>
         </div>
         <Dialog open={open}>
           <DialogContent>
             <div className="text-center m-4">
-              <h5 className="mb-4 text-capitalize" >
-
+              <h5 className="mb-4 text-capitalize">
                 Are you sure you want to Delete <br /> the selected Agent ?
               </h5>
               <button
                 type="button"
-                style={{ fontSize: "12px", fontFamily: 'Plus Jakarta Sans' }}
+                style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
                 className="btn btn-success rounded-pill border-0 px-4 py-2 text-white fw-semibold text-uppercase mx-3"
                 onClick={deleteAgentData}
               >
@@ -649,7 +722,7 @@ export const AdminListAgent = () => {
                 type="button"
                 className="btn btn-danger border-0 rounded-pill text-white fw-semibold text-uppercase px-4 py-2 "
                 onClick={closePopup}
-                style={{ fontSize: "12px", fontFamily: 'Plus Jakarta Sans' }}
+                style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
               >
                 No
               </button>
@@ -663,9 +736,7 @@ export const AdminListAgent = () => {
               <i className="fa fa-times fa-xs" aria-hidden="true"></i>
             </IconButton>
           </DialogTitle>
-          <DialogContent>
-
-          </DialogContent>
+          <DialogContent></DialogContent>
         </Dialog>
         <Dialog open={openImport} fullWidth maxWidth="sm">
           <DialogTitle>
@@ -677,7 +748,6 @@ export const AdminListAgent = () => {
           <DialogContent>
             <form>
               <div className="from-group mb-3">
-
                 <div className="mb-3">
                   <input
                     type="file"
@@ -686,14 +756,12 @@ export const AdminListAgent = () => {
                     onChange={handleFileChange}
                   />
                 </div>
-
               </div>
               <div>
                 <Link
                   to="/ListUniversity"
                   className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
-                  style={{ backgroundColor: "#0f2239",fontSize:'14px' }}
-
+                  style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
                 >
                   Cancel
                 </Link>
@@ -701,11 +769,10 @@ export const AdminListAgent = () => {
                   type="submit"
                   onClick={handleFileUpload}
                   className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right mx-2"
-                  style={{ backgroundColor: "#fe5722",fontSize:'14px' }}
+                  style={{ backgroundColor: "#fe5722", fontSize: "14px" }}
                 >
                   Apply
                 </button>
-
               </div>
             </form>
           </DialogContent>
@@ -713,5 +780,5 @@ export const AdminListAgent = () => {
       </div>
     </>
   );
-}
+};
 export default AdminListAgent;

@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const EditPolicies = () => {
+export const AdminEditPolicies = () => {
   return (
     <div>EditPolicies</div>
   )
 }
-export default EditPolicies
+export default AdminEditPolicies

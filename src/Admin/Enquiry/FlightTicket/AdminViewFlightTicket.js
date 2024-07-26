@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getSingleFlightEnquiry } from "../../../api/Enquiry/flight";
 import { useLocation } from "react-router-dom";
-import Mastersidebar from '../../../compoents/sidebar';
+import Mastersidebar from "../../../compoents/AdminSidebar";
 
 export const AdminViewFlightTicket = () => {
   const location = useLocation();
@@ -25,24 +25,28 @@ export const AdminViewFlightTicket = () => {
 
   return (
     <>
-      <div >
-       
-          <Mastersidebar />
-      
-        <div className="content-wrapper" style={{ fontSize: '14px' }}>
+      <div>
+        <Mastersidebar />
+
+        <div className="content-wrapper" style={{ fontSize: "14px" }}>
           <div className="content-header">
             <div className="container-fluid">
               <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
                 <div
                   className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
-                  style={{ background: '#fe5722', color: '#fff' }}
+                  style={{ background: "#fe5722", color: "#fff" }}
                 >
-                  <h5 className="text-center text-capitalize p-1">View Flight Tickets Details</h5>
+                  <h5 className="text-center text-capitalize p-1">
+                    View Flight Tickets Details
+                  </h5>
                 </div>
                 <div className="card-body">
                   <table
                     className="table table-hover table-bordered table-striped-columns mt-5"
-                    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "14px",
+                    }}
                   >
                     <tbody>
                       <tr>
@@ -63,7 +67,7 @@ export const AdminViewFlightTicket = () => {
                       </tr>
                       <tr>
                         <td className="fw-bold">Agent Business Name</td>
-                        <td>{flight?.agentBusinessName }</td>
+                        <td>{flight?.agentBusinessName}</td>
                       </tr>
                       <tr>
                         <td className="fw-bold">Agent Primary Number</td>

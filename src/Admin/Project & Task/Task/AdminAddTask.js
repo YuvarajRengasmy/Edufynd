@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const AddTask = () => {
+export const AdminAddTask = () => {
   return (
     <div>AddTask</div>
   )
 }
-export default AddTask
+export default AdminAddTask

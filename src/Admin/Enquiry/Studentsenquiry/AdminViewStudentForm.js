@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/AdminSidebar";
 
-export const AdminViewBusiness = () => {
+export const AdminViewStudentForm = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [student, setStudent] = useState();
@@ -38,7 +38,7 @@ export const AdminViewBusiness = () => {
                   style={{ background: "#fe5722", color: "#fff" }}
                 >
                   <h5 className="text-center text-capitalize p-1">
-                    Business Enquiry Details
+                    View Student Enquiry Details
                   </h5>
                 </div>
 
@@ -52,27 +52,55 @@ export const AdminViewBusiness = () => {
                   >
                     <tbody>
                       <tr>
+                        <td className="fw-bold">Source </td>
+                        <td>Source</td>
+                      </tr>
+                      <tr>
                         <td className="fw-bold">Student Name </td>
                         <td>{student?.name}</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Gender </td>
+                        <td>Gender</td>
                       </tr>
                       <tr>
                         <td className="fw-bold">Date Of Birth </td>
                         <td>{formatDate(student?.createdOn)}</td>
                       </tr>
                       <tr>
+                        <td className="fw-bold">CitizenShip</td>
+                        <td>CitizenShip</td>
+                      </tr>
+                      <tr>
                         <td className="fw-bold">Passport No </td>
                         <td>{student?.passportNo}</td>
                       </tr>
                       <tr>
-                        <td className="fw-bold">Contact Number </td>
-                        <td>{student?.primaryNumber}</td>
+                        <td className="fw-bold">Expiry Date </td>
+                        <td>Expiry Date</td>
                       </tr>
                       <tr>
                         <td className="fw-bold">Email ID </td>
                         <td>{student?.email}</td>
-                      </tr>{" "}
+                      </tr>
                       <tr>
-                        <td className="fw-bold">CGPA / Year passed </td>
+                        <td className="fw-bold">Primary Number </td>
+                        <td>{student?.primaryNumber}</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Whatsapp Number </td>
+                        <td>{student?.whatsAppNumber}</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Qualification </td>
+                        <td>{student?.qualification}</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Year passed </td>
+                        <td>Year passed</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">CGPA </td>
                         <td>
                           {student?.cgpa}/{student?.yearPassed}
                         </td>
@@ -82,8 +110,46 @@ export const AdminViewBusiness = () => {
                         <td>{student?.desiredCountry}</td>
                       </tr>
                       <tr>
+                        <td className="fw-bold">Desired University </td>
+                        <td>Desired University</td>
+                      </tr>
+                      <tr>
                         <td className="fw-bold">Desired Course </td>
                         <td>{student?.desiredCourse}</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">
+                          Do You Hold Any Other Offer?{" "}
+                        </td>
+                        <td>{student?.desiredCountry}</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Country </td>
+                        <td>Country</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">University </td>
+                        <td>University</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Program </td>
+                        <td>Program</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Referee Name </td>
+                        <td>Referee Name</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Referee Contact </td>
+                        <td>Referee Contact</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Request Loan Support </td>
+                        <td>Request Loan Support</td>
+                      </tr>
+                      <tr>
+                        <td className="fw-bold">Register for IELTS class </td>
+                        <td>Register for IELTS class</td>
                       </tr>
                       <tr>
                         <td className="fw-bold">
@@ -92,12 +158,8 @@ export const AdminViewBusiness = () => {
                         <td>{student?.doYouNeedSupportForLoan}</td>
                       </tr>
                       <tr>
-                        <td className="fw-bold">Qualification </td>
-                        <td>{student?.qualification}</td>
-                      </tr>
-                      <tr>
-                        <td className="fw-bold">Whatsapp Number </td>
-                        <td>{student?.whatsAppNumber}</td>
+                        <td className="fw-bold">Assigned To </td>
+                        <td>{student?.desiredCountry}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -110,4 +172,4 @@ export const AdminViewBusiness = () => {
     </>
   );
 };
-export default AdminViewBusiness;
+export default AdminViewStudentForm;

@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const EditHrmStaff = () => {
+export const AdminEditHrmStaff = () => {
   return (
     <div>EditHrmStaff</div>
   )
 }
-export default EditHrmStaff
+export default AdminEditHrmStaff

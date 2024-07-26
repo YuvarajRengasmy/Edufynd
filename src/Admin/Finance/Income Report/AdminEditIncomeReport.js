@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const EditIncomeReport = () => {
+export const AdminEditIncomeReport = () => {
   return (
     <div>EditIncomeReport</div>
   )
 }
-export default EditIncomeReport
+export default AdminEditIncomeReport

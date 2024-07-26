@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ViewProject = () => {
+export const AdminViewProject = () => {
   return (
     <div>ViewProject</div>
   )
 }
-export default ViewProject
+export default AdminViewProject

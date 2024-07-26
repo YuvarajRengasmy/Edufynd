@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ViewTask = () => {
+export const AdminViewTask = () => {
   return (
     <div>ViewTask</div>
   )
 }
-export default ViewTask
+export default AdminViewTask

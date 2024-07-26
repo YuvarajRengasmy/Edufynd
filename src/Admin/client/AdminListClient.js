@@ -2,15 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import { getallClient, deleteClient } from "../../api/client";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/sidebar";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
+import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 
-export default function Masterproductlist() {
+
+
+export const AdminListClient = () => {
   const initialState = {
     typeOfClient: "",
     businessName: "",
@@ -465,7 +466,7 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/AddClient">
+                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/AdminAddClient">
                         <button
                           className="btn  border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -525,7 +526,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewClient",
+                                        pathname: "/AdminViewClient",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -537,7 +538,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditClient",
+                                        pathname: "/AdminEditClient",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -673,3 +674,4 @@ export default function Masterproductlist() {
     </>
   );
 }
+export default AdminListClient

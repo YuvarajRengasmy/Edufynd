@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { saveFSenderInvoice } from "../../api/invoice/sender";
-import { getallUniversity } from '../../api/university';
+import { getallUniversity } from "../../api/university";
 import { getallApplication } from "../../api/applicatin";
-import Mastersidebar from '../../compoents/sidebar';
+import Mastersidebar from "../../compoents/AdminSidebar";
 
-const AddSenderInvoice = () => {
+const AdminAddSenderInvoice = () => {
   const initialState = {
     tax: "",
     gst: "",
@@ -37,7 +37,7 @@ const AddSenderInvoice = () => {
     courseFeesAmount: { required: false },
     scholarshipAmount: { required: false },
     paidFeesPercentage: { required: false },
-    courseFeesPercentage: { required: false }
+    courseFeesPercentage: { required: false },
   };
 
   const [invoice, setInvoice] = useState(initialState);
@@ -53,19 +53,23 @@ const AddSenderInvoice = () => {
   }, []);
 
   const getAllUniversityList = () => {
-    getallUniversity().then(res => {
-      setUniversityList(res?.data?.result);
-    }).catch(err => {
-      console.log(err);
-    });
+    getallUniversity()
+      .then((res) => {
+        setUniversityList(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const getAllApplicationList = () => {
-    getallApplication().then(res => {
-      setApplicationList(res?.data?.result);
-    }).catch(err => {
-      console.log(err);
-    });
+    getallApplication()
+      .then((res) => {
+        setApplicationList(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleValidation = (data) => {
@@ -97,7 +101,9 @@ const AddSenderInvoice = () => {
       const updatedInvoice = { ...prevInvoice, [name]: value };
 
       if (name === "universityName") {
-        const selectedUniversity = universityList.find(u => u.universityName === value);
+        const selectedUniversity = universityList.find(
+          (u) => u.universityName === value
+        );
         if (selectedUniversity) {
           return {
             ...updatedInvoice,
@@ -113,7 +119,9 @@ const AddSenderInvoice = () => {
       }
 
       if (name === "applicationID") {
-        const selectedApplication = applicationList.find(a => a.applicationCode === value);
+        const selectedApplication = applicationList.find(
+          (a) => a.applicationCode === value
+        );
         if (selectedApplication) {
           return {
             ...updatedInvoice,
@@ -165,198 +173,415 @@ const AddSenderInvoice = () => {
 
   return (
     <>
-    
-        <div >
-         
-            <Mastersidebar />
-         
-          <div className='content-wrapper' style={{ fontSize: '13px' }}>
-            <form className="p-1" onSubmit={handleSubmited}>
-              <div className='content-header'>
-                <div className='container card card-body p-4 border-0'>
-                  <h4 className='card-title  fw-bold'>Add Sender Invoice Details</h4>
-                  <hr />
-                  <div className='row g-3'>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputTax">Tax</label>
-                      <select className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example1" onChange={handleInputs} name='tax'>
-                        <option>Select Tax</option>
-                        <option value="Yes" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
-                        <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
-                      </select>
-                      {errors.tax.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                      <br />
-                     
-                    </div>
-                    {invoice.tax === 'Yes' && (
-                        <div className='row g-4'>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label className="form-label" htmlFor="inputGST">GST</label>
-                            <select className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example2" onChange={handleInputs} name={'gst'}>
-                              <option>Select GST</option>
-                              <option value="18" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
-                              <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
-                            </select>
+      <div>
+        <Mastersidebar />
 
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label className="form-label" htmlFor="inputTDS">TDS</label>
-                            <select className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example3" onChange={handleInputs} name='tds'>
-                              <option>Select TDS</option>
-                              <option value="5" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
-                              <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
-                            </select>
-                            {errors.tds.required && (
-                              <div className="text-danger form-text">This field is required.</div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    <h4 className='card-title fw-bold mt-5'>Sender Name</h4>
-                    <hr />
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputUniversity">University Name</label>
-                      <select onChange={handleInputs} value={invoice.universityName} name='universityName' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">
-                        <option>Select University</option>
-                        {universityList.map((university) => (
-                          <option key={university.universityName} value={university.universityName} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            {university.universityName}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.universityName.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputClientName">Client Name</label>
-                      <input className="form-control" id="inputClientName" type="text" name='businessName' value={invoice.businessName} placeholder='Enter Client Name' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.businessName.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputApplicationID">Application ID</label>
-                      <select onChange={handleInputs} value={invoice.applicationID} name='applicationID' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">
-                        <option>Select Application ID</option>
-                        {applicationList.map((application) => (
-                          <option key={application.applicationCode} value={application.applicationCode} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            {application.applicationCode}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.applicationID.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <h4 className='card-title fw-bold mt-5'>Currency Details</h4>
-                    <hr />
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputCurrency">Currency</label>
-                      <input className="form-control" id="inputCurrency" type="text" name='currency' value={invoice.currency} placeholder='Enter Currency' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.currency.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-
-
-
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                      <label style={{ color: '#231F20' }} className="class-danger">
-                        Payment Method
-                      </label>
-                      <select value={invoice?.paymentMethod} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select form-select-lg rounded-2" name="paymentMethod" onChange={handleInputs}>
-                        <option value="">Select Payment Type</option>
-                        <option value="Fixed">Fixed Ammount</option>
-                        <option value="CourseFees">courseFeesPercentage</option>
-                        <option value="PaidFees">paidFeesPercentage</option>
-                      </select>
-                      <br />
-                      {invoice.paymentMethod === 'Fixed' ? (
-                        <div className="form-group">
-                          <label style={{ color: '#231F20' }} className="class-danger">Fixed Amount</label>
-
-                          <input
-                            name="fixedAmount"
-                            className="form-control"
-                            type="text"
-                            placeholder='Enter Amount'
-                            value={invoice?.fixedAmount}
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-
-                        </div>
-                      ) : invoice.paymentMethod === 'CourseFees' ? (
-                        <div className="form-group">
-                          <label style={{ color: '#231F20' }} className="class-danger"> Course Fees Percentage</label>
-
-                          <input
-                            name="courseFeesPercentage"
-                            className="form-control"
-                            value={invoice?.courseFeesPercentage}
-                            type="number"
-                            placeholder='Enter Percentage'
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-
-                        </div>
-                      ) : invoice.paymentMethod === 'PaidFees' ? (
-                        <div className="form-group">
-                          <label style={{ color: '#231F20' }} className="class-danger"> PaidFees Percentage</label>
-
-                          <input
-                            name="paidFeesPercentage"
-                            className="form-control"
-                            value={invoice?.paidFeesPercentage}
-                            type="number"
-                            placeholder='Enter Percentage'
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-                          <input
-                            name="paidFeesAmount"
-                            className="form-control"
-
-                            type="number"
-                            placeholder='Enter Ammount'
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-
-                        </div>
-                      ) : null}
-                    </div>
-
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputCourseFeesAmount">Course Fees Amount</label>
-                      <input className="form-control" id="inputCourseFeesAmount" type="number" name='courseFeesAmount' placeholder='Enter Course Fees Amount' value={invoice.courseFeesAmount} onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.courseFeesAmount.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputScholarshipAmount">Scholarship Amount</label>
-                      <input className="form-control" id="inputScholarshipAmount" type="number" name='scholarshipAmount' placeholder='Enter Scholarship Amount' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.scholarshipAmount.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-
+        <div className="content-wrapper" style={{ fontSize: "13px" }}>
+          <form className="p-1" onSubmit={handleSubmited}>
+            <div className="content-header">
+              <div className="container card card-body p-4 border-0">
+                <h4 className="card-title  fw-bold">
+                  Add Sender Invoice Details
+                </h4>
+                <hr />
+                <div className="row g-3">
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" htmlFor="inputTax">
+                      Tax
+                    </label>
+                    <select
+                      className="form-select form-select-lg rounded-2"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      aria-label="Default select example1"
+                      onChange={handleInputs}
+                      name="tax"
+                    >
+                      <option>Select Tax</option>
+                      <option
+                        value="Yes"
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                      >
+                        Yes
+                      </option>
+                      <option
+                        value="No"
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                      >
+                        No
+                      </option>
+                    </select>
+                    {errors.tax.required && (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    )}
+                    <br />
                   </div>
-                  <button type="submit" className="btn btn-primary mt-4">Submit</button>
+                  {invoice.tax === "Yes" && (
+                    <div className="row g-4">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" htmlFor="inputGST">
+                          GST
+                        </label>
+                        <select
+                          className="form-select form-select-lg rounded-2"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          aria-label="Default select example2"
+                          onChange={handleInputs}
+                          name={"gst"}
+                        >
+                          <option>Select GST</option>
+                          <option
+                            value="18"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Yes
+                          </option>
+                          <option
+                            value="No"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            No
+                          </option>
+                        </select>
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" htmlFor="inputTDS">
+                          TDS
+                        </label>
+                        <select
+                          className="form-select form-select-lg rounded-2"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          aria-label="Default select example3"
+                          onChange={handleInputs}
+                          name="tds"
+                        >
+                          <option>Select TDS</option>
+                          <option
+                            value="5"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Yes
+                          </option>
+                          <option
+                            value="No"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            No
+                          </option>
+                        </select>
+                        {errors.tds.required && (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  <h4 className="card-title fw-bold mt-5">Sender Name</h4>
+                  <hr />
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" htmlFor="inputUniversity">
+                      University Name
+                    </label>
+                    <select
+                      onChange={handleInputs}
+                      value={invoice.universityName}
+                      name="universityName"
+                      className="form-select form-select-lg rounded-2"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      aria-label="Default select example4"
+                    >
+                      <option>Select University</option>
+                      {universityList.map((university) => (
+                        <option
+                          key={university.universityName}
+                          value={university.universityName}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        >
+                          {university.universityName}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.universityName.required && (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" htmlFor="inputClientName">
+                      Client Name
+                    </label>
+                    <input
+                      className="form-control"
+                      id="inputClientName"
+                      type="text"
+                      name="businessName"
+                      value={invoice.businessName}
+                      placeholder="Enter Client Name"
+                      onChange={handleInputs}
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                    {errors.businessName.required && (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" htmlFor="inputApplicationID">
+                      Application ID
+                    </label>
+                    <select
+                      onChange={handleInputs}
+                      value={invoice.applicationID}
+                      name="applicationID"
+                      className="form-select form-select-lg rounded-2"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      aria-label="Default select example4"
+                    >
+                      <option>Select Application ID</option>
+                      {applicationList.map((application) => (
+                        <option
+                          key={application.applicationCode}
+                          value={application.applicationCode}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        >
+                          {application.applicationCode}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.applicationID.required && (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    )}
+                  </div>
+                  <h4 className="card-title fw-bold mt-5">Currency Details</h4>
+                  <hr />
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" htmlFor="inputCurrency">
+                      Currency
+                    </label>
+                    <input
+                      className="form-control"
+                      id="inputCurrency"
+                      type="text"
+                      name="currency"
+                      value={invoice.currency}
+                      placeholder="Enter Currency"
+                      onChange={handleInputs}
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                    {errors.currency.required && (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label
+                      style={{ color: "#231F20" }}
+                      className="class-danger"
+                    >
+                      Payment Method
+                    </label>
+                    <select
+                      value={invoice?.paymentMethod}
+                      style={{
+                        backgroundColor: "#fff",
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      className="form-select form-select-lg rounded-2"
+                      name="paymentMethod"
+                      onChange={handleInputs}
+                    >
+                      <option value="">Select Payment Type</option>
+                      <option value="Fixed">Fixed Ammount</option>
+                      <option value="CourseFees">courseFeesPercentage</option>
+                      <option value="PaidFees">paidFeesPercentage</option>
+                    </select>
+                    <br />
+                    {invoice.paymentMethod === "Fixed" ? (
+                      <div className="form-group">
+                        <label
+                          style={{ color: "#231F20" }}
+                          className="class-danger"
+                        >
+                          Fixed Amount
+                        </label>
+
+                        <input
+                          name="fixedAmount"
+                          className="form-control"
+                          type="text"
+                          placeholder="Enter Amount"
+                          value={invoice?.fixedAmount}
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
+                      </div>
+                    ) : invoice.paymentMethod === "CourseFees" ? (
+                      <div className="form-group">
+                        <label
+                          style={{ color: "#231F20" }}
+                          className="class-danger"
+                        >
+                          {" "}
+                          Course Fees Percentage
+                        </label>
+
+                        <input
+                          name="courseFeesPercentage"
+                          className="form-control"
+                          value={invoice?.courseFeesPercentage}
+                          type="number"
+                          placeholder="Enter Percentage"
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
+                      </div>
+                    ) : invoice.paymentMethod === "PaidFees" ? (
+                      <div className="form-group">
+                        <label
+                          style={{ color: "#231F20" }}
+                          className="class-danger"
+                        >
+                          {" "}
+                          PaidFees Percentage
+                        </label>
+
+                        <input
+                          name="paidFeesPercentage"
+                          className="form-control"
+                          value={invoice?.paidFeesPercentage}
+                          type="number"
+                          placeholder="Enter Percentage"
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
+                        <input
+                          name="paidFeesAmount"
+                          className="form-control"
+                          type="number"
+                          placeholder="Enter Ammount"
+                          style={{ height: 50 }}
+                          onChange={handleInputs}
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label
+                      className="form-label"
+                      htmlFor="inputCourseFeesAmount"
+                    >
+                      Course Fees Amount
+                    </label>
+                    <input
+                      className="form-control"
+                      id="inputCourseFeesAmount"
+                      type="number"
+                      name="courseFeesAmount"
+                      placeholder="Enter Course Fees Amount"
+                      value={invoice.courseFeesAmount}
+                      onChange={handleInputs}
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                    {errors.courseFeesAmount.required && (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label
+                      className="form-label"
+                      htmlFor="inputScholarshipAmount"
+                    >
+                      Scholarship Amount
+                    </label>
+                    <input
+                      className="form-control"
+                      id="inputScholarshipAmount"
+                      type="number"
+                      name="scholarshipAmount"
+                      placeholder="Enter Scholarship Amount"
+                      onChange={handleInputs}
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                    {errors.scholarshipAmount.required && (
+                      <div className="text-danger form-text">
+                        This field is required.
+                      </div>
+                    )}
+                  </div>
                 </div>
+                <button type="submit" className="btn btn-primary mt-4">
+                  Submit
+                </button>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-      
+      </div>
     </>
   );
-}
+};
 
-export default AddSenderInvoice;
+export default AdminAddSenderInvoice;
