@@ -1,23 +1,12 @@
-import { CiLinkedin } from "react-icons/ci";
+
 import { RiCoinsFill } from "react-icons/ri";
-import { SiGnuprivacyguard } from "react-icons/si";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { IoMdRocket } from "react-icons/io";
 import { IoMailUnread } from "react-icons/io5";
-import {
-  RiProjectorFill,
-  RiMapPin2Line,
-  RiSchoolLine,
-  RiFileTextLine,
-} from "react-icons/ri";
 import banner from "../../styles/Assets/Student/EventBanner.png";
 import { getSingleUniversity, UniversityProgram } from "../../api/university";
 import { getallProgram, getUniversityProgram } from "../../api/Program";
-import { CiSearch } from "react-icons/ci";
-import { Chip } from "@mui/material";
-import Flags from "react-world-flags";
-import { Input } from "reactstrap";
 import Sidebar from "../../compoents/sidebar";
 import { FaUniversity } from "react-icons/fa";
 import { FaGlobeAmericas } from "react-icons/fa";
