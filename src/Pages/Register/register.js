@@ -198,16 +198,19 @@ const Register = () => {
                     <div className="input-group mb-3">
                       <span className="input-group-text" id="basic-addon1"><i className="fa fa-user nav-icon"></i></span>
                       <input type="text" name="name" onChange={handleInputs} className="form-control form-control-user" id="exampleFirstName" placeholder="UserName..." style={{ fontSize: '12px' }} />
-                      {errors.name.required ? (
+                     
+                    </div>
+                    {errors.name.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>
                       ) : null}
-                    </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text" id="basic-addon1"><i class="fa fa-phone-alt nav-icon"></i></span>
                       <input type="text" name="mobileNumber" onChange={handleInputs} className="form-control form-control-user" id="exampleLastName" placeholder="Contact No..." style={{ fontSize: '12px' }} />
-                      {errors.mobileNumber.required ?
+                     
+                    </div>
+                    {errors.mobileNumber.required ?
                         <span className="text-danger form-text profile_error">
                           This field is required.
                         </span> : errors.mobileNumber.valid ?
@@ -215,11 +218,12 @@ const Register = () => {
                             Enter valid mobile number.
                           </span> : null
                       }
-                    </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text" id="basic-addon1"><i className="fa fa-envelope nav-icon"></i></span>
                       <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address..." style={{ fontSize: '12px' }} />
-                      {errors.email.required ? (
+                      
+                    </div>
+                    {errors.email.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>
@@ -228,7 +232,6 @@ const Register = () => {
                           Enter valid Email Id.
                         </div>
                       ) : null}
-                    </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text" id="basic-addon1"><i className="fa fa-lock nav-icon"></i></span>
                       <input
@@ -256,7 +259,9 @@ const Register = () => {
                       >
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
-                      {errors.password.required ? (
+                     
+                    </div>
+                    {errors.password.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>
@@ -268,7 +273,6 @@ const Register = () => {
                           <strong>special <br /> character{''}</strong> and <strong>number</strong>.
                         </div>
                       ) : null}
-                    </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text" id="basic-addon1"><i className="fa fa-shield-alt nav-icon"></i></span>
                       <input
@@ -296,7 +300,9 @@ const Register = () => {
                       >
                         {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
-                      {errors.confirmPassword.required ? (
+                    
+                    </div>
+                    {errors.confirmPassword.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>
@@ -308,7 +314,6 @@ const Register = () => {
                           <strong>special <br /> character{''}</strong> and <strong>number</strong>.
                         </div>
                       ) : null}
-                    </div>
                     <div className='d-flex justify-content-center'>
                       <button type="submit" className="btn btn-sm w-75 px-4 py-2 text-uppercase fw-semibold" style={{ backgroundColor: '#fe5722', color: '#fff', fontSize: '10px' }}><i className="fa fa-user-plus nav-icon text-white"></i> Sign Up</button>
                     </div>
