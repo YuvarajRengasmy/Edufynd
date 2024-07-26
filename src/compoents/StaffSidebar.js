@@ -93,7 +93,7 @@ export const StaffSidebar = () => {
               
                 <li className="nav-item">
                   <a
-                    href="/ViewStaffProfile"
+                    href="/ViewProfile"
                     target="_self"
                     className={`nav-link ${[
                       "/ViewStaffProfile",

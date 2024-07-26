@@ -38,4 +38,10 @@ export const getSingleUniversity = (data) => {
     });
 };
 
+export const getUniversitiesByProgram = (universityName) => {
+  return API.get(`${University}/getUniversityByName`, {
+      params: { universityName: universityName }, 
+  });
+};
+
 

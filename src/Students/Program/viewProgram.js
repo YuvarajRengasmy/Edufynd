@@ -10,6 +10,8 @@ export const Course = () => {
 
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
+
+    
     const [program, setProgram] = useState();
     const pageSize = 5;
     const [input, setInput] = useState()

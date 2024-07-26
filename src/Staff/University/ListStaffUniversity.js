@@ -152,32 +152,9 @@ export const ListStaffUniversity = () => {
     setOpenImport(false);
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+ 
 
-  const handleFileUpload = async () => {
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await axios.post(
-        "https://api.edufynd.in/api/university/import",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("File uploaded successfully:", response.data);
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
-
+ 
   const [expandedRows, setExpandedRows] = useState({});
 
   const toggleRow = (index) => {
@@ -580,39 +557,7 @@ export const ListStaffUniversity = () => {
                       </Link>
                     </li>
 
-                    <li class="m-1">
-                      <Link onClick={openImportPopup} class="btn-filters">
-                        <span>
-                          <button
-                            style={{
-                              backgroundColor: "#9265cc",
-                              fontSize: "11px",
-                            }}
-                            className="btn text-white "
-                          >
-                            <i class="fa fa fa-upload" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="m-1">
-                      <Link class="btn  border-0" to="/AddStaffUniversity">
-                        <button
-                          className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
-                          style={{
-                            backgroundColor: "#fe5722",
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          Add University
-                        </button>
-                      </Link>
-                    </li>
+                  
                   </ol>
                 </div>
               </div>
@@ -742,27 +687,7 @@ export const ListStaffUniversity = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/EditStaffUniversity",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Edit"
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>
-                                      </Link>
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Delete"
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </button>
+                                     
                                     </div>
                                   </td>
                                 </tr>
@@ -825,103 +750,8 @@ export const ListStaffUniversity = () => {
           </DialogTitle>
           <DialogContent></DialogContent>
         </Dialog>
-        <Dialog open={openImport} fullWidth maxWidth="sm">
-          <DialogTitle>
-            Upload University List
-            <IconButton className="float-right" onClick={closeImportPopup}>
-              <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <form>
-              <div className="from-group mb-3">
-                <div className="mb-3">
-                  <input
-                    type="file"
-                    name="file"
-                    style={{ fontSize: "12px" }}
-                    className="form-control   text-dark bg-transparent"
-                    onChange={handleFileChange}
-                  />
-                </div>
-              </div>
-              <div>
-                <Link
-                  to="/ListUniversity"
-                  className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-right bg"
-                  style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
-                >
-                  Cancel
-                </Link>
-                <button
-                  type="submit"
-                  onClick={handleFileUpload}
-                  className="btn btn-save border-0 text-white fw-semibold text-uppercase py-1 px-3 rounded-pill float-right mx-2"
-                  style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
-                >
-                  Apply
-                </button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-        {/* <div className="modal fade" id="addCountryModal" tabIndex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true" ref={modalRef}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="addCountryModalLabel">{isEdit }</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="mb-3">
-                  <label htmlFor="intakeName" className="form-label">Intake Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="intakeName"
-                    name="intakeName"
-                    value={inputs.intakeName}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.intakeName.required && (
-                    <span className="text-danger">Intake Name is required</span>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="startDate" className="form-label">Start Date</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="startDate"
-                    name="startDate"
-                    value={inputs.startDate}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.startDate.required && (
-                    <span className="text-danger">Start Date is required</span>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="endDate" className="form-label">End Date</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="endDate"
-                    name="endDate"
-                    value={inputs.endDate}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.endDate.required && (
-                    <span className="text-danger">End Date is required</span>
-                  )}
-                </div>
-                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> */}
+       
+      
       </div>
     </>
   );

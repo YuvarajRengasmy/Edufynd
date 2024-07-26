@@ -559,41 +559,8 @@ export const ListStaffProgram = () => {
                       </Link>
                     </li>
 
-                    <li class="m-1">
-                      <Link onClick={openImportPopup} class="btn-filters">
-                        <span>
-                          <button
-                            style={{
-                              backgroundColor: "#9265cc",
-                              fontSize: "11px",
-                            }}
-                            className="btn text-white "
-                          >
-                            <i class="fa fa fa-upload" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="m-0">
-                      <Link
-                        class="btn btn-pix-primary border-0"
-                        to="/AddStaffProgram"
-                      >
-                        <button
-                          className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
-                          style={{
-                            backgroundColor: "#fe5722",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          Add Program
-                        </button>
-                      </Link>
-                    </li>
+                    
+                   
                   </ol>
                 </div>
               </div>
@@ -697,23 +664,7 @@ export const ListStaffProgram = () => {
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>
                                         </Link>
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/EditStaffProgram",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                        >
-                                          <i className="far fa-edit text-warning me-1"></i>
-                                        </Link>
-                                        <Link
-                                          className="dropdown-item"
-                                          onClick={() => {
-                                            openPopup(data?._id);
-                                          }}
-                                        >
-                                          <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </Link>
+                                       
                                       </div>
                                     </td>
                                   </tr>

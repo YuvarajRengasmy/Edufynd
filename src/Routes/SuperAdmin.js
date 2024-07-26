@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Just from "../SuperAdmin/University/just";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import Country from "../SuperAdmin/University/Country";
 import AddUniversity from "../SuperAdmin/University/addUniversity";
@@ -124,7 +125,7 @@ function SuperAdmin() {
         <Routes>
           <Route path="/Demo" element={<PrivateRoute><Country /></PrivateRoute>} />
           <Route path="/ApplyJob" element={<PrivateRoute><ApplyJob /></PrivateRoute>} />
-
+          <Route path="/Just" element={<Just/>} />
           {/* Settings */}
           <Route path="/CountryList" element={<PrivateRoute><CountryList /></PrivateRoute>} />
           <Route path="/GlobalSettings" element={<PrivateRoute><GlobalSettings /></PrivateRoute>} />

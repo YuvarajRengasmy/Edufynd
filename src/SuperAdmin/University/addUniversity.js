@@ -19,8 +19,9 @@ import { getallIntake } from "../../api/intake";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { RichTextEditor } from "@mantine/rte";
+
+
 
 // Initial states
 
@@ -307,6 +308,20 @@ const App = () => {
     }
   };
 
+  const handleRichTextChange = (value) => {
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      about: value,
+      admissionRequirement: value,
+    }));
+  };
+  const handleRichAboutChange = (value) => {
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      about: value,
+    
+    }));
+  };
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions
@@ -949,74 +964,56 @@ const App = () => {
                             ) : null}
                           </div>
 
-
-
-                          <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                                About <span className="text-danger">*</span>
-                              </label>
-                          <CKEditor
-        editor={ClassicEditor}
-        
-                              
-  
-        data="<p>University Details...</p>"
-      />
-                          </div>
-                          <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                                Admission Requirements{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                          <CKEditor
-        editor={ClassicEditor}
-         
-                             
-        data="<p>Requirements Details...</p>"
-      />
-                          </div>
-
-
-
-
+                         
+ 
                           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
-                                About <span className="text-danger">*</span>
+                                About{" "}
+                                <span className="text-danger">*</span>
                               </label>
-                              <textarea
-                                className="form-control"
-                                placeholder="University Details..."
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                rows="5" // You can adjust the number of rows as needed
-                                onChange={handleInputs}
+                              <RichTextEditor
+                                placeholder="Start writing your content here..."
                                 name="about"
-                              ></textarea>
+                                onChange={handleRichAboutChange}
+                                value={university.about}
+                               type="text"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  minHeight: "200px",
+                                  overflowY: "auto",
+                                }}
+                              />
                             </div>
                           </div>
+                         
+
+
+
+                          
                           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div className="form-group">
                               <label style={{ color: "#231F20" }}>
                                 Admission Requirements{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              <textarea
-                                className="form-control"
-                                placeholder=" Requirements Details..."
+                              <RichTextEditor
+                                placeholder="Start writing your content here..."
+                                name="admissionRequirement"
+                                onChange={handleRichTextChange}
+                                value={university.admissionRequirement}
+                               type="text"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
+                                  minHeight: "200px",
+                                  overflowY: "auto",
                                 }}
-                                rows="5" // You can adjust the number of rows as needed
-                                onChange={handleInputs}
-                                name="admissionRequirement"
-                              ></textarea>
+                              />
                             </div>
                           </div>
-
+                          
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
                               style={{
