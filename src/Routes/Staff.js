@@ -17,6 +17,7 @@ import AddStaffNotifications from "../Staff/Notifications/AddStaffNotifications"
 import EditStaffNotification from "../Staff/Notifications/EditStaffNotification";
 import ListStaffNotifications from "../Staff/Notifications/ListStaffNotifications";
 import ViewStaffNotifications from "../Staff/Notifications/ViewStaffNotifications";
+import StaffDashBoard from "../Staff/DashBoard/StaffDashBoard";
 
 export const Staff = () => {
   return (
@@ -25,7 +26,7 @@ export const Staff = () => {
         <Routes>
 
 
-        
+        <Route path='/StaffDashboard' element={<StaffDashBoard/>}/>
          <Route path="/AddStaffUniversity" element={<AddStaffUniversity/>}/>
          <Route path="/EditStaffUniversity" element={<EditStaffUniversity/>}/>
         <Route path="/ListStaffUniversity" element={<ListStaffUniversity/>}/>
