@@ -188,7 +188,7 @@ const App = () => {
       console.error(error);
     }
   };
-console.log("hh", countries)
+
   const getCountryRegionInstance = () => {
     return new CountryRegion();
   };
@@ -213,7 +213,6 @@ console.log("hh", countries)
       console.error(error);
     }
   };
-  console.log("sta", states)
 
   const fetchLGAs = async (countryId, stateId) => {
     try {
@@ -233,7 +232,7 @@ console.log("hh", countries)
       console.error(error);
     }
   };
-console.log("lzz", lgas)
+
   const handleCountryChange = (selectedCountry) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -324,7 +323,8 @@ console.log("lzz", lgas)
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
-    if (data.popularCategories.length === 0) error.popularCategories.required = true;
+    if (data.popularCategories.length === 0)
+      error.popularCategories.required = true;
     if (data.offerTAT === "") error.offerTAT.required = true;
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
@@ -382,7 +382,6 @@ console.log("lzz", lgas)
       // Submit the data
       saveUniversity(updatedUniversity)
         .then((res) => {
-          console.log("save", res)
           toast.success(res?.data?.message);
           navigate("/ListUniversity");
         })
@@ -629,7 +628,9 @@ console.log("lzz", lgas)
                                 onChange={handleCountryChange}
                                 options={countries}
                                 name="label"
-                                value={countries.find((option) => option.value === client.country)}
+                                value={countries.find(
+                                  (option) => option.value === client.country
+                                )}
                                 styles={customStyles}
                                 className="submain-one-form-body-subsection-select"
                               />
@@ -692,7 +693,7 @@ console.log("lzz", lgas)
                                     onChange={(option) =>
                                       handleLGAChange(option, index)
                                     }
-                                    options={campus.lgas}
+                                    options={campus.lgas }
                                     value={campus.lgas.find(
                                       (option) => option.value === campus.lga
                                     )}
