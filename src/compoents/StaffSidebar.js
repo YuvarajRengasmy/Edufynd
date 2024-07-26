@@ -75,11 +75,15 @@ export const StaffSidebar = () => {
               >
                 <li className="nav-item">
                   <a
-                    href="/DashBoard"
+                    href="/StaffDashboard"
                     target="_self"
-                    className={`nav-link ${activeLink === "/DashBoard" ? "active" : ""
+                    className={`nav-link ${[
+                      "/StaffDashboard",
+                     
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
                       }`}
-                    onClick={() => handleSetActiveLink("/DashBoard")}
                   >
                     <i class="fa fa-tachometer-alt nav-icon"></i>
                     Dashboard

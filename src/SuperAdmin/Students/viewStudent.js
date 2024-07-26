@@ -5,56 +5,12 @@ import { useLocation } from "react-router-dom";
 import { FaUser, FaPassport, FaCalendarAlt, FaFlag, FaBirthdayCake, FaMale, FaPhone, FaWhatsapp } from 'react-icons/fa';
 
 function Profile() {
-  const location = useLocation();
-  const id = new URLSearchParams(location.search).get("id");
-
-  const [student, setStudent] = useState(null); // Initialize with null
-
-  useEffect(() => {
-    if (id) {
-      getStudentDetails();
-    }
-  }, [id]);
-
-  const getStudentDetails = () => {
-    getSingleStudent(id)
-      .then((res) => {
-        setStudent(res?.data?.result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  if (!student) {
-    return <div>Loading...</div>; // Add a loading state while fetching data
-  }
-
-  const {
-    source,
-    name,
-    citizenship,
-    dob,
-    passportNo,
-    expiryDate,
-    gender,
-    email,
-    primaryNumber,
-    whatsappNumber,
-    highestQualification,
-    degreeName,
-    percentage,
-    institution,
-    startDate,
-    endDate,
-    workExperience = {} // Default to an empty object if not provided
-  } = student;
-
   return (
     <>
       <div>
         <Sidebar />
-        <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+
+        <div className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header">
             <div className="container">
               <div className="row">
@@ -94,22 +50,22 @@ function Profile() {
                             </div>
                             <div className="col-sm-6">
                               <div className="d-flex flex-column align-items-start justify-content-start">
-                                <p className="card-text text-capitalize fw-light">{source}</p>
-                                <p className="card-text text-capitalize fw-light">{name}</p>
-                                <p className="card-text text-capitalize fw-light">{citizenship}</p>
-                                <p className="card-text text-capitalize fw-light">{dob}</p>
-                                <p className="card-text text-capitalize fw-light">{passportNo}</p>
-                                <p className="card-text text-capitalize fw-light">{expiryDate}</p>
-                                <p className="card-text text-capitalize fw-light">{gender}</p>
-                                <p className="card-text text-capitalize fw-light">{email}</p>
-                                <p className="card-text text-capitalize fw-light">{primaryNumber}</p>
-                                <p className="card-text text-capitalize fw-light">{whatsappNumber}</p>
-                                <p className="card-text text-capitalize fw-light">{highestQualification}</p>
-                                <p className="card-text text-capitalize fw-light">{degreeName}</p>
-                                <p className="card-text text-capitalize fw-light">{percentage}</p>
-                                <p className="card-text text-capitalize fw-light">{institution}</p>
-                                <p className="card-text text-capitalize fw-light">{startDate}</p>
-                                <p className="card-text text-capitalize fw-light">{endDate}</p>
+                                <p className="card-text text-capitalize fw-light">Agent</p>
+                                <p className="card-text text-capitalize fw-light">James Lee</p>
+                                <p className="card-text text-capitalize fw-light">Indian</p>
+                                <p className="card-text text-capitalize fw-light">01-01-1990</p>
+                                <p className="card-text text-capitalize fw-light">NEW123LL</p>
+                                <p className="card-text text-capitalize fw-light">28-06-2025</p>
+                                <p className="card-text text-capitalize fw-light">Male</p>
+                                <p className="card-text text-capitalize fw-light">james.lee@example.com</p>
+                                <p className="card-text text-capitalize fw-light">+1234567890</p>
+                                <p className="card-text text-capitalize fw-light">+1234567890</p>
+                                <p className="card-text text-capitalize fw-light">Bachelor's Degree</p>
+                                <p className="card-text text-capitalize fw-light">Computer Science</p>
+                                <p className="card-text text-capitalize fw-light">85%</p>
+                                <p className="card-text text-capitalize fw-light">XYZ University</p>
+                                <p className="card-text text-capitalize fw-light">01-09-2010</p>
+                                <p className="card-text text-capitalize fw-light">01-06-2014</p>
                               </div>
                             </div>
                           </div>
@@ -142,21 +98,24 @@ function Profile() {
                           </div>
                           <div className="col-md-6">
                             <div className="d-flex flex-column align-items-start justify-content-start">
-                              <p className="card-text text-capitalize fw-light">{workExperience.duration}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.lastEmployer}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.lastDesignation}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.englishLanguageTest}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.englishTestType}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.testScore}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.dateOfTest}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.travelHistory}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.travelDate}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.purpose}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.country}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.visaRejections}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.reason}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.agency}</p>
-                              <p className="card-text text-capitalize fw-light">{workExperience.note}</p>
+                              <p className="card-text text-capitalize fw-light">2 years</p>
+                              <p className="card-text text-capitalize fw-light">ABC Corp</p>
+                              <p className="card-text text-capitalize fw-light">Software Engineer</p>
+                              <p className="card-text text-capitalize fw-light">Yes</p>
+                              <p className="card-text text-capitalize fw-light">IELTS</p>
+                              <p className="card-text text-capitalize fw-light">8.0</p>
+                              <p className="card-text text-capitalize fw-light">01-01-2020</p>
+                              <p className="card-text text-capitalize fw-light">Yes</p>
+                              <p className="card-text text-capitalize fw-light">01-01-2019</p>
+                              <p className="card-text text-capitalize fw-light">Business</p>
+                              <p className="card-text text-capitalize fw-light">USA</p>
+                              <p className="card-text text-capitalize fw-light">None</p>
+                              <p className="card-text text-capitalize fw-light"></p>
+                              <p className="card-text text-capitalize fw-light">Stanford University</p>
+                              <p className="card-text text-capitalize fw-light">USA</p>
+                              <p className="card-text text-capitalize fw-light">MSc Computer Science</p>
+                              <p className="card-text text-capitalize fw-light">Self-funded</p>
+                              <p className="card-text text-capitalize fw-light">3 years</p>
                             </div>
                           </div>
                         </div>

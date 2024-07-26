@@ -577,7 +577,7 @@ export const ListStaffProgram = () => {
                     <li class="m-0">
                       <Link
                         class="btn btn-pix-primary border-0"
-                        to="/AddProgram"
+                        to="/AddStaffProgram"
                       >
                         <button
                           className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
@@ -691,7 +691,7 @@ export const ListStaffProgram = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/ViewProgram",
+                                            pathname: "/ViewStaffProgram",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -700,7 +700,7 @@ export const ListStaffProgram = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/EditProgram",
+                                            pathname: "/EditStaffProgram",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

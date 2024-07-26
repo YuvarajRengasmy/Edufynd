@@ -596,7 +596,7 @@ export const ListStaffUniversity = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn  border-0" to="/AddUniversity">
+                      <Link class="btn  border-0" to="/AddStaffUniversity">
                         <button
                           className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{
@@ -734,7 +734,7 @@ export const ListStaffUniversity = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewUniversity",
+                                          pathname: "/ViewStaffUniversity",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -745,7 +745,7 @@ export const ListStaffUniversity = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditUniversity",
+                                          pathname: "/EditStaffUniversity",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
