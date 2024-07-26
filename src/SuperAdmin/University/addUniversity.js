@@ -378,7 +378,7 @@ const App = () => {
             campus.lga,
         })),
       };
-
+console.log("ff", updatedUniversity)
       // Submit the data
       saveUniversity(updatedUniversity)
         .then((res) => {
