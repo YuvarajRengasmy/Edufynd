@@ -34,7 +34,7 @@ export const StaffSidebar = () => {
   return (
     <>
       <aside
-        className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
+        className="main-sidebar elevation-10 d-none   d-lg-block"
         style={{
           position: "fixed",
           width: "250px",
@@ -44,11 +44,12 @@ export const StaffSidebar = () => {
           fontSize:'14px',
           fontWeight:'bold',
           fontFamily: "Plus Jakarta Sans",
-        fontVariant: "all-small-caps"
+        fontVariant: "all-small-caps",
+        background:'#F5F5DC'
 
         }}
       >
-        <div className="  shadow-none   ">
+       
           <div className="sidebar">
             <div className="user-panel  d-flex">
               <div className="info  ">
@@ -92,7 +93,7 @@ export const StaffSidebar = () => {
               
                 <li className="nav-item">
                   <a
-                    href="/ViewStaffProfile"
+                    href="/ViewProfile"
                     target="_self"
                     className={`nav-link ${[
                       "/ViewStaffProfile",
@@ -857,7 +858,7 @@ export const StaffSidebar = () => {
               <br />
             </nav>
           </div>
-        </div>
+       
       </aside>
     </>
   );

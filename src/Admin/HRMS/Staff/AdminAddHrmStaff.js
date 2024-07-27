@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const AddHrmStaff = () => {
+export const AdminAddHrmStaff = () => {
   return (
     <div>AddHrmStaff</div>
   )
 }
-export default AddHrmStaff
+export default AdminAddHrmStaff

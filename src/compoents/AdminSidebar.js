@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
 import "./Sidebar.css";
 import { useLocation } from "react-router-dom";
@@ -42,85 +41,85 @@ export const AdminSidebar = () => {
   useEffect(() => {
     const dropdownPaths = {
       users: [
-        "/ListStudent",
-        "/AddStudentSA",
-        "/ViewStudent",
-        "/EditStudent",
-        "/ListStaff",
-        "/AddStaff",
-        "/EditStaff",
-        "/ViewStaff",
-        "/ViewAgent",
-        "/EditAgent",
-        "/ListAgent",
-        "/AddAgent",
+        "/AdminListStudent",
+        "/AdminAddStudent",
+        "/AdminViewStudent",
+        "/AdminEditStudent",
+        "/AdminListStaff",
+        "/AdminAddStaff",
+        "/AdminEditStaff",
+        "/AdminViewStaff",
+        "/AdminViewAgent",
+        "/AdminEditAgent",
+        "/AdminListAgent",
+        "/AdminAddAgent",
       ],
       enquiry: [
-        "/ListStudentForm",
-        "/AddStudentForm",
-        "/EditStudentForm",
-        "/ViewStudentForm",
-        "/ListForexForm",
-        "/AddForexForm",
-        "/EditForexForm",
-        "/ViewForexForm",
-        "/ListAccommodation",
-        "/AddAccommodation",
-        "/EditAccommodation",
-        "/ViewAccommodation",
-        "/ListFlightTicket",
-        "/AddFlightTicket",
-        "/EditFlightTicket",
-        "/ViewFlightTicket",
-        "/ListLoanEnquiry",
-        "/AddLoanEnquiry",
-        "/EditLoanEnquiry",
-        "/ViewLoanEnquiry",
-        "/ListBusinessEnquiry",
-        "/AddBusinessEnquiry",
-        "/EditBusinessEnquiry",
-        "/ViewBusinessEnquiry",
-        "/ListGeneralEnquiry",
-        "/AddGeneralEnquiry",
-        "/EditGeneralEnquiry",
-        "/ViewGeneralEnquiry",
+        "/AdminListFormStudent",
+        "/AdminAddFormStudent",
+        "/AdminEditFormStudent",
+        "/AdminViewFormStudent",
+        "/AdminListForexForm",
+        "/AdminAddForexForm",
+        "/AdminEditForexForm",
+        "/AdminViewForexForm",
+        "/AdminListAccommodation",
+        "/AdminAddAccommodation",
+        "/AdminEditAccommodation",
+        "/AdminViewAccommodation",
+        "/AdminListFlightTicket",
+        "/AdminAddFlightTicket",
+        "/AdminEditFlightTicket",
+        "/AdminViewFlightTicket",
+        "/AdminListLoanEnquiry",
+        "/AdminAddLoanEnquiry",
+        "/AdminEditLoanEnquiry",
+        "/AdminViewLoanEnquiry",
+        "/AdminListBusinessEnquiry",
+        "/AdminAddBusinessEnquiry",
+        "/AdminEditBusinessEnquiry",
+        "/AdminViewBusinessEnquiry",
+        "/AdminListGeneralEnquiry",
+        "/AdminAddGeneralEnquiry",
+        "/AdminEditGeneralEnquiry",
+        "/AdminViewGeneralEnquiry",
       ],
       finance: [
-        "/ListIncome",
-        "/ListExpenses",
-        "/ListRaiseQuotations",
-        "/ListInvoice",
-        "/ListIncomeReport",
+        "/AdminListIncome",
+        "/AdminListExpenses",
+        "/AdminListRaiseQuotations",
+        "/AdminListInvoice",
+        "/AdminListIncomeReport",
       ],
       hrms: [
-        "/ListStaffHRM",
-        "/ListAttendance",
-        "/ListPayroll",
-        "/ListLeave",
-        "/ListKPI",
-        "/ListPolicies",
-        "/ListPerformanceReport",
+        "/AdminListHRMStaff",
+        "/AdminListAttendance",
+        "/AdminListPayroll",
+        "/AdminListLeave",
+        "/AdminListKPI",
+        "/AdminListPolicies",
+        "/AdminListPerformanceReport",
       ],
       Projects: [
-        "/ListProject",
-        "/ListTask",
+        "/AdminListProject",
+        "/AdminListTask",
       ],
       Marketing: [
-        "/ListSocialMedia",
-        "/ListCampaign",
-        "/ListDailyTask",
+        "/AdminListSocialMedia",
+        "/AdminListCampaign",
+        "/AdminListDailyTask",
       ],
       elt: [
-        "/ListBookings",
-        "/ListClassSchedule",
+        "/AdminListBookings",
+        "/AdminListClassSchedule",
       ],
      
       Reports: [
-        "/EmployeeReports",
-        "/AgentReports",
-        "/StudentReports",
-        "/BranchReports",
-        "/AdminReports",
+        "/AdminEmployeeReports",
+        "/AdminAgentReports",
+        "/AdminStudentReports",
+        "/AdminBranchReports",
+        "/AdminAdminReports",
       ],
     };
 
@@ -135,7 +134,7 @@ export const AdminSidebar = () => {
   return (
     <>
       <aside
-        className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
+        className="main-sidebar elevation-10 d-none   d-lg-block"
         style={{
           position: "fixed",
           width: "250px",
@@ -154,7 +153,7 @@ export const AdminSidebar = () => {
             <div className="user-panel  d-flex">
               <div className="info  ">
                 <a
-                  href="/DashBoard"
+                  href="/AdminDashboard"
                   target="_self"
                   className="brand-text font-weight-light text-decoration-none"
                 >
@@ -176,11 +175,15 @@ export const AdminSidebar = () => {
               >
                 <li className="nav-item">
                   <a
-                    href="/DashBoard"
+                    href="/AdminDashboard"
                     target="_self"
-                    className={`nav-link ${activeLink === "/DashBoard" ? "active" : ""
+                    className={`nav-link ${[
+                      "/AdminDashboard",
+                     
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
                       }`}
-                    onClick={() => handleSetActiveLink("/DashBoard")}
                   >
                     <i class="fa fa-tachometer-alt nav-icon"></i>
                     Dashboard
@@ -188,13 +191,13 @@ export const AdminSidebar = () => {
                 </li>
                 <li className="nav-item">
                   <a
-                    href="/client"
+                    href="/AdminListClient"
                     target="_self"
                     className={`nav-link ${[
-                      "/client",
-                      "/AddClient",
-                      "/ViewClient",
-                      "/EditClient",
+                      "/AdminListClient",
+                      "/AdminAddClient",
+                      "/AdminEditClient",
+                      "/AdminViewClient",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -207,13 +210,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListUniversity"
+                    href="/AdminListUniversity"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListUniversity",
-                      "/AddUniversity",
-                      "/ViewUniversity",
-                      "/EditUniversity",
+                      "/AdminListUniversity",
+                      "/AdminAddUniversity",
+                      "/AdminViewUniversity",
+                      "/AdminEditUniversity",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -226,13 +229,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListCommission"
+                    href="/AdminListCommission"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListCommission",
-                      "/AddCommission",
-                      "/ViewCommission",
-                      "/EditCommission",
+                      "/AdminListCommission",
+                      "/AdminAddCommission",
+                      "/AdminViewCommission",
+                      "/AdminEditCommission",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -245,13 +248,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/Programs"
+                    href="/AdminListProgram"
                     target="_self"
                     className={`nav-link ${[
-                      "/Programs",
-                      "/AddProgram",
-                      "/EditProgram",
-                      "/ViewProgram",
+                      "/AdminListProgram",
+                      "/AdminAddProgram",
+                      "/AdminEditProgram",
+                      "/AdminViewProgram",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -294,13 +297,13 @@ export const AdminSidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="/ListStudent"
+                          href="/AdminListStudent"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListStudent",
-                            "/AddStudentSA",
-                            "/ViewStudent",
-                            "/EditStudent",
+                            "/AdminListStudent",
+                            "/AdminAddStudent",
+                            "/AdminViewStudent",
+                            "/AdminEditStudent",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -311,13 +314,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListStaff"
+                          href="/AdminListStaff"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListStaff",
-                            "/AddStaff",
-                            "/EditStaff",
-                            "/ViewStaff",
+                            "/AdminListStaff",
+                            "/AdminAddStaff",
+                            "/AdminEditStaff",
+                            "/AdminViewStaff",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -328,13 +331,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListAgent"
+                          href="/AdminListAgent"
                           target="_self"
                           className={`nav-link ${[
-                            "/ViewAgent",
-                            "/EditAgent",
-                            "/ListAgent",
-                            "/AddAgent",
+                            "/AdminViewAgent",
+                            "/AdminEditAgent",
+                            "/AdminListAgent",
+                            "/AdminAddAgent",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -349,13 +352,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListApplication"
+                    href="/AdminListApplication"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListApplication",
-                      "/AddApplication",
-                      "/EditApplication",
-                      "/Application",
+                      "/AdminListApplication",
+                      "/AdminAddApplication",
+                      "/AdminEditApplication",
+                      "/AdminApplication",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -397,13 +400,13 @@ export const AdminSidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="/ListStudentForm"
+                          href="/AdminListFormStudent"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListStudentForm",
-                            "/AddStudentForm",
-                            "/EditStudentForm",
-                            "/ViewStudentForm",
+                            "/AdminListFormStudent",
+                            "/AdminAddFormStudent",
+                            "/AdminEditFormStudent",
+                            "/AdminViewFormStudent",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -414,13 +417,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListForexForm"
+                          href="/AdminListForexForm"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListForexForm",
-                            "/AddForexForm",
-                            "/EditForexForm",
-                            "/ViewForexForm",
+                            "/AdminListForexForm",
+                            "/AdminAddForexForm",
+                            "/AdminEditForexForm",
+                            "/AdminViewForexForm",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -431,13 +434,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListAccommodation"
+                          href="/AdminListAccommodation"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListAccommodation",
-                            "/AddAccommodation",
-                            "/EditAccommodation",
-                            "/ViewAccommodation",
+                            "/AdminListAccommodation",
+                            "/AdminAddAccommodation",
+                            "/AdminEditAccommodation",
+                            "/AdminViewAccommodation",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -448,13 +451,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListFlightTicket"
+                          href="/AdminListFlightTicket"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListFlightTicket",
-                            "/AddFlightTicket",
-                            "/EditFlightTicket",
-                            "/ViewFlightTicket",
+                            "/AdminListFlightTicket",
+                            "/AdminAddFlightTicket",
+                            "/AdminEditFlightTicket",
+                            "/AdminViewFlightTicket",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -465,13 +468,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListLoanEnquiry"
+                          href="/AdminListLoanEnquiry"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListLoanEnquiry",
-                            "/AddLoanEnquiry",
-                            "/EditLoanEnquiry",
-                            "/ViewLoanEnquiry",
+                            "/AdminListLoanEnquiry",
+                            "/AdminAddLoanEnquiry",
+                            "/AdminEditLoanEnquiry",
+                            "/AdminViewLoanEnquiry",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -482,13 +485,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListBusinessEnquiry"
+                          href="/AdminListBusinessEnquiry"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListBusinessEnquiry",
-                            "/AddBusinessEnquiry",
-                            "/EditBusinessEnquiry",
-                            "/ViewBusinessEnquiry",
+                            "/AdminListBusinessEnquiry",
+                            "/AdminAddBusinessEnquiry",
+                            "/AdminEditBusinessEnquiry",
+                            "/AdminViewBusinessEnquiry",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -499,13 +502,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListGeneralEnquiry"
+                          href="/AdminListGeneralEnquiry"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListGeneralEnquiry",
-                            "/AddGeneralEnquiry",
-                            "/EditGeneralEnquiry",
-                            "/ViewGeneralEnquiry",
+                            "/AdminListGeneralEnquiry",
+                            "/AdminAddGeneralEnquiry",
+                            "/AdminEditGeneralEnquiry",
+                            "/AdminViewGeneralEnquiry",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -549,13 +552,13 @@ export const AdminSidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="/ListIncome"
+                          href="/AdminListIncome"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListIncome",
-                            "/AddIncome",
-                            "/EditIncome",
-                            "/ViewIncome",
+                            "/AdminListIncome",
+                            "/AdminAddIncome",
+                            "/AdminEditIncome",
+                            "/AdminViewIncome",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -566,13 +569,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListExpenses"
+                          href="/AdminListExpenses"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListExpenses",
-                            "/AddExpenses",
-                            "/EditExpenses",
-                            "/ViewExpenses",
+                            "/AdminListExpenses",
+                            "/AdminAddExpenses",
+                            "/AdminEditExpenses",
+                            "/AdminViewExpenses",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -583,13 +586,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListRaiseQuotations"
+                          href="/AdminListRaiseQuotations"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListRaiseQuotations",
-                            "/AddRaiseQuotations",
-                            "/EditRaiseQuotations",
-                            "/ViewRaiseQuotations",
+                            "/AdminListRaiseQuotations",
+                            "/AdminAddRaiseQuotations",
+                            "/AdminEditRaiseQuotations",
+                            "/AdminViewRaiseQuotations",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -600,14 +603,14 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListInvoice"
+                          href="/AdminListInvoice"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListInvoice",
-                            "/AddSenderInvoice",
-                            "/AddRecieverInvoice",
-                            "/EditInvoice",
-                            "/ViewInvoice",
+                            "/AdminListInvoice",
+                            "/AdminAddSenderInvoice",
+                            "/AdminAddRecieverInvoice",
+                            "/AdminEditInvoice",
+                            "/AdminViewInvoice",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -618,13 +621,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListIncomeReport"
+                          href="/AdminListIncomeReport"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListIncomeReport",
-                            "/AddIncomeReport",
-                            "/EditIncomeReport",
-                            "/ViewIncomeReport",
+                            "/AdminListIncomeReport",
+                            "/AdminAddIncomeReport",
+                            "/AdminEditIncomeReport",
+                            "/AdminViewIncomeReport",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -668,13 +671,13 @@ export const AdminSidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="/ListStaffHRM"
+                          href="/AdminListHRMStaff"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListStaffHRM",
-                            "/AddStaffHRM",
-                            "/EditStaffHRM",
-                            "/ViewStaffHRM",
+                            "/AdminListHRMStaff",
+                            "/AdminAddHRMStaff",
+                            "/AdminEditHRMStaff",
+                            "/AdminViewHRMStaff",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -685,13 +688,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListAttendance"
+                          href="/AdminListAttendance"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListAttendance",
-                            "/AddAttendance",
-                            "/EditAttendance",
-                            "/ViewAttendance",
+                            "/AdminListAttendance",
+                            "/AdminAddAttendance",
+                            "/AdminEditAttendance",
+                            "/AdminViewAttendance",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -705,10 +708,10 @@ export const AdminSidebar = () => {
                           href="/ListPayroll"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListPayroll",
-                            "/AddPayroll",
-                            "/EditPayroll",
-                            "/ViewPayroll",
+                            "/AdminListPayroll",
+                            "/AdminAddPayroll",
+                            "/AdminEditPayroll",
+                            "/AdminViewPayroll",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -719,13 +722,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListLeave"
+                          href="/AdminListLeave"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListLeave",
-                            "/AddLeave",
-                            "/EditLeave",
-                            "/ViewLeave",
+                            "/AdminListLeave",
+                            "/AdminAddLeave",
+                            "/AdminEditLeave",
+                            "/AdminViewLeave",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -736,13 +739,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListKPI"
+                          href="/AdminListKPI"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListKPI",
-                            "/AddKPI",
-                            "/EditKPI",
-                            "/ViewKPI",
+                            "/AdminListKPI",
+                            "/AdminAddKPI",
+                            "/AdminEditKPI",
+                            "/AdminViewKPI",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -754,13 +757,13 @@ export const AdminSidebar = () => {
 
                       <li className="nav-item">
                         <a
-                          href="/ListPolicies"
+                          href="/AdminListPolicies"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListPolicies",
-                            "/AddPolicies",
-                            "/EditPolicies",
-                            "/ViewPolicies",
+                            "/AdminListPolicies",
+                            "/AdminAddPolicies",
+                            "/AdminEditPolicies",
+                            "/AdminViewPolicies",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -771,12 +774,12 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListPerformanceReport"
+                          href="/AdminListPerformanceReport"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListPerformanceReport",
-                            "/AddPerformanceReport",
-                            "/EditPerformanceReport",
+                            "/AdminListPerformanceReport",
+                            "/AdminAddPerformanceReport",
+                            "/AdminEditPerformanceReport",
                             "/ViewPerformanceReport",
                           ].includes(currentPath)
                             ? "active"
@@ -821,13 +824,13 @@ export const AdminSidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="/ListProject"
+                          href="/AdminListProject"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListProject",
-                            "/AddProject",
-                            "/EditProject",
-                            "/ViewProject",
+                            "/AdminListProject",
+                            "/AdminAddProject",
+                            "/AdminEditProject",
+                            "/AdminViewProject",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -838,13 +841,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListTask"
+                          href="/AdminListTask"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListTask",
-                            "/AddTask",
-                            "/EditTask",
-                            "/ViewTask",
+                            "/AdminListTask",
+                            "/AdminAddTask",
+                            "/AdminEditTask",
+                            "/AdminViewTask",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -888,13 +891,13 @@ export const AdminSidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="/ListSocialMedia"
+                          href="/AdminListSocialMedia"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListSocialMedia",
-                            "/AddSocialMedia",
-                            "/EditSocialMedia",
-                            "/ViewSocialMedia",
+                            "/AdminListSocialMedia",
+                            "/AdminAddSocialMedia",
+                            "/AdminEditSocialMedia",
+                            "/AdminViewSocialMedia",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -905,13 +908,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListCampaign"
+                          href="/AdminListCampaign"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListCampaign",
-                            "/AddCampaign",
-                            "/EditCampaign",
-                            "/ViewCampaign",
+                            "/AdminListCampaign",
+                            "/AdminAddCampaign",
+                            "/AdminEditCampaign",
+                            "/AdminViewCampaign",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -922,13 +925,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListDailyTask"
+                          href="/AdminListDailyTask"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListDailyTask",
-                            "/AddDailyTask",
-                            "/EditDailyTask",
-                            "/ViewDailyTask",
+                            "/AdminListDailyTask",
+                            "/AdminAddDailyTask",
+                            "/AdminEditDailyTask",
+                            "/AdminViewDailyTask",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -943,13 +946,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListNotifications"
+                    href="/AdminListNotifications"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListNotifications",
-                      "/AddNotifications",
-                      "/EditNotifications",
-                      "/ViewNotifications",
+                      "/AdminListNotifications",
+                      "/AdminAddNotifications",
+                      "/AdminEditNotifications",
+                      "/AdminViewNotifications",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -962,13 +965,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListMeetings"
+                    href="/AdminListMeetings"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListMeetings",
-                      "/AddMeetings",
-                      "/EditMeetings",
-                      "/ViewMeetings",
+                      "/AdminListMeetings",
+                      "/AdminAddMeetings",
+                      "/AdminEditMeetings",
+                      "/AdminViewMeetings",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -981,13 +984,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListTraining"
+                    href="/AdminListTraining"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListTraining",
-                      "/AddTraining",
-                      "/EditTraining",
-                      "/ViewTraining",
+                      "/AdminListTraining",
+                      "/AdminAddTraining",
+                      "/AdminEditTraining",
+                      "/AdminViewTraining",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1000,13 +1003,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListChat"
+                    href="/AdminListChat"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListChat",
-                      "/AddChat",
-                      "/EditChat",
-                      "/ViewChat",
+                      "/AdminListChat",
+                      "/AdminAddChat",
+                      "/AdminEditChat",
+                      "/AdminViewChat",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1019,13 +1022,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListEmail"
+                    href="/AdminListEmail"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListEmail",
-                      "/AddEmail",
-                      "/EditEmail",
-                      "/ViewEmail",
+                      "/AdminListEmail",
+                      "/AdminAddEmail",
+                      "/AdminEditEmail",
+                      "/AdminViewEmail",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1038,13 +1041,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListPromotions"
+                    href="/AdminListPromotions"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListPromotions",
-                      "/AddPromotions",
-                      "/EditPromotions",
-                      "/ViewPromotions",
+                      "/AdminListPromotions",
+                      "/AdminAddPromotions",
+                      "/AdminEditPromotions",
+                      "/AdminViewPromotions",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1057,13 +1060,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListEvents"
+                    href="/AdminListEvents"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListEvents",
-                      "/AddEvents",
-                      "/EditEvents",
-                      "/ViewEvents",
+                      "/AdminListEvents",
+                      "/AdminAddEvents",
+                      "/AdminEditEvents",
+                      "/AdminViewEvents",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1076,13 +1079,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListBlog"
+                    href="/AdminListBlog"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListBlog",
-                      "/AddBlog",
-                      "/EditBlog",
-                      "/ViewBlog",
+                      "/AdminListBlog",
+                      "/AdminAddBlog",
+                      "/AdminEditBlog",
+                      "/AdminViewBlog",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1095,13 +1098,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/ListTestimonials"
+                    href="/AdminListTestimonials"
                     target="_self"
                     className={`nav-link ${[
-                      "/ListTestimonials",
-                      "/AddTestimonials",
-                      "/EditTestimonials",
-                      "/ViewTestimonials",
+                      "/AdminListTestimonials",
+                      "/AdminAddTestimonials",
+                      "/AdminEditTestimonials",
+                      "/AdminViewTestimonials",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1114,13 +1117,13 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a
-                    href="/AdminList"
+                    href="/AdminAdminList"
                     target="_self"
                     className={`nav-link ${[
-                      "/AdminList",
-                      "/AddAdmin",
-                      "/EditAdmin",
-                      "/ViewAdmin",
+                      "/AdminAdminList",
+                      "/AdminAddAdmin",
+                      "/AdminEditAdmin",
+                      "/AdminViewAdmin",
                     ].includes(currentPath)
                       ? "active"
                       : ""
@@ -1164,13 +1167,13 @@ export const AdminSidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
                         <a
-                          href="/ListBookings"
+                          href="/AdminListBookings"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListBookings",
-                            "/AddBookings",
-                            "/EditBookings",
-                            "/ViewBookings",
+                            "/AdminListBookings",
+                            "/AdminAddBookings",
+                            "/AdminEditBookings",
+                            "/AdminViewBookings",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -1181,13 +1184,13 @@ export const AdminSidebar = () => {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="/ListClassSchedule"
+                          href="/AdminListClassSchedule"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListClassSchedule",
-                            "/AddClassSchedule",
-                            "/EditClassSchedule",
-                            "/ViewClassSchedule",
+                            "/AdminListClassSchedule",
+                            "/AdminAddClassSchedule",
+                            "/AdminEditClassSchedule",
+                            "/AdminViewClassSchedule",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -1236,10 +1239,10 @@ export const AdminSidebar = () => {
                           href="#"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListReportEmployee",
-                            "/AddReportEmployee",
-                            "/EditReportEmployee",
-                            "/ViewReportEmployee",
+                            "/AdminListReportEmployee",
+                            "/AdminAddReportEmployee",
+                            "/AdminEditReportEmployee",
+                            "/AdminViewReportEmployee",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -1253,10 +1256,10 @@ export const AdminSidebar = () => {
                           href="#"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListReportAgent",
-                            "/AddReportAgent",
-                            "/EditReportAgent",
-                            "/ViewReportAgent",
+                            "/AdminListReportAgent",
+                            "/AdminAddReportAgent",
+                            "/AdminEditReportAgent",
+                            "/AdminViewReportAgent",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -1270,10 +1273,10 @@ export const AdminSidebar = () => {
                           href="#"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListReportStudents",
-                            "/AddReportStudents",
-                            "/EditReportStudents",
-                            "/ViewReportStudents",
+                            "/AdminList",
+                            "/AdminAddReportStudents",
+                            "/AdminEditReportStudents",
+                            "/AdminViewReportStudents",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -1287,10 +1290,10 @@ export const AdminSidebar = () => {
                           href="#"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListReportBranch",
-                            "/AddReportBranch",
-                            "/EditReportBranch",
-                            "/ViewReportBranch",
+                            "/AdminListReportBranch",
+                            "/AdminAddReportBranch",
+                            "/AdminEditReportBranch",
+                            "/AdminViewReportBranch",
                           ].includes(currentPath)
                             ? "active"
                             : ""
@@ -1306,10 +1309,10 @@ export const AdminSidebar = () => {
                           href="#"
                           target="_self"
                           className={`nav-link ${[
-                            "/ListReportAdmin",
-                            "/AddReportAdmin",
-                            "/EditReportAdmin",
-                            "/ViewReportAdmin",
+                            "/AdminListReportAdmin",
+                            "/AdminAddReportAdmin",
+                            "/AdminEditReportAdmin",
+                            "/AdminViewReportAdmin",
                           ].includes(currentPath)
                             ? "active"
                             : ""

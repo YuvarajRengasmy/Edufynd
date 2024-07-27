@@ -37,7 +37,6 @@ export const AddAccommodation = () => {
     source: { required: false },
     studentName: { required: false },
     locationWhereAccommodationIsRequired: { required: false },
-   
     universityName: { required: false },
     passportNumber: { required: false },
     primaryNumber: { required: false, valid: false },

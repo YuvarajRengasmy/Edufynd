@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ViewKPI = () => {
+export const AdminViewKPI = () => {
   return (
     <div>ViewKPI</div>
   )
 }
-export default ViewKPI
+export default AdminViewKPI

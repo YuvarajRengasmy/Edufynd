@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ViewPayroll = () => {
+export const AdminViewPayroll = () => {
   return (
     <div>ViewPayroll</div>
   )
 }
-export default ViewPayroll
+export default AdminViewPayroll

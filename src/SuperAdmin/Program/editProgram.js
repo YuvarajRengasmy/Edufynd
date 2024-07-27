@@ -268,7 +268,7 @@ function Profile() {
       ? program.lga.map((lga) => ({ value: lga, label: lga }))
       : [];
   const optionsToRender = lgaOptions.length > 0 ? lgaOptions : campusOptions;
-  // const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
+  //  const courseTypeOptions = program?.courseType ? program.courseType.map(courseType => ({ value: courseType, label: courseType })) : [];
   const inTakeOptions = program?.inTake
     ? program.inTake.map((inTake) => ({ value: inTake, label: inTake }))
     : [];
@@ -279,12 +279,12 @@ function Profile() {
       }))
     : [];
 
-  const courseTypeOptions = program?.courseType
-    ? program.courseType.map((courseType) => ({
-        value: courseType,
-        label: courseType,
-      }))
-    : [];
+  // const courseTypeOptions = program?.courseType
+  //   ? program.courseType.map((courseType) => ({
+  //       value: courseType,
+  //       label: courseType,
+  //     }))
+  //   : [];
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -526,7 +526,7 @@ function Profile() {
                             </label>
                             <Select
                               isMulti
-                              options={popularCategoriesOptions}
+                             options={popularCategoriesOptions}
                               value={
                                 program?.popularCategories
                                   ? program?.popularCategories.map(
@@ -558,14 +558,15 @@ function Profile() {
                               name="courseType"
                               value={
                                 program?.courseType
-                                  ? program?.courseType.map((courseType) => ({
-                                      value: courseType,
-                                      label: courseType,
-                                    }))
+                                  ? {
+                                      value: program?.courseType,
+                                      label: program?.courseType,
+                                    }
                                   : null
+                               
                               }
-                              options={courseTypeOptions}
-                              placeholder={program.courseType}
+                              //  options={courseTypeOptions}
+                              placeholder="Course Type"
                               onChange={handleSelectCourseChange}
                             />
 

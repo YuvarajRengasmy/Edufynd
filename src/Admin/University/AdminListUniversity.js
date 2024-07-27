@@ -18,7 +18,7 @@ import {
   radioClasses,
 } from "@mui/material";
 import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -28,7 +28,7 @@ import axios from "axios";
 
 import * as XLSX from "xlsx";
 
-export default function Masterproductlist() {
+export const AdminListUniversity = () => {
   const initialStateInputs = {
     universityName: "",
     state: "",
@@ -349,20 +349,17 @@ export default function Masterproductlist() {
 
   return (
     <>
-      <div >
-        
-          <Mastersidebar />
-      
+      <div>
+        <Mastersidebar />
 
         <div
           className="content-wrapper  "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-           <div className="content-header ">
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-12">
-               
+          <div className="content-header ">
+            <div className="container">
+              <div className="row">
+                <div className="col-xl-12">
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
                       <div
@@ -595,7 +592,7 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn  border-0" to="/AddUniversity">
+                      <Link class="btn  border-0" to="/AdminAddUniversity">
                         <button
                           className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{
@@ -616,176 +613,176 @@ export default function Masterproductlist() {
                 </div>
               </div>
             </div>
-           
-           
           </div>
           <div className="content-body">
-              <div className="container">
+            <div className="container">
               <div className="row">
-              <div className="col-xl-12">
-                <div className="card rounded-0 border-0 ">
-                  <div className="card-body">
-                    <div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className="table table-hover card-table dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "13px" }}
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Code
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                University Name
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                country
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Campus
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Popular Categories
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                App
-                              </th>
+                <div className="col-xl-12">
+                  <div className="card rounded-0 border-0 ">
+                    <div className="card-body">
+                      <div className="card-table">
+                        <div className="table-responsive">
+                          <table
+                            className="table table-hover card-table dataTable text-center"
+                            style={{ color: "#9265cc", fontSize: "13px" }}
+                            ref={tableRef}
+                          >
+                            <thead className="table-light">
+                              <tr
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Code
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  University Name
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  country
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Campus
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Popular Categories
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  App
+                                </th>
 
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {university?.map((data, index) => {
-                              const isExpanded = !!expandedRows[index];
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {university?.map((data, index) => {
+                                const isExpanded = !!expandedRows[index];
 
-                              return (
-                                <tr
-                                  key={index}
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "11px",
-                                  }}
-                                >
-                                  <td className="text-capitalize text-start">
-                                    {pagination.from + index + 1}
-                                  </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.universityCode}
-                                  </td>
-                                  <td
-                                    className="text-capitalize text-start"
-                                    onMouseEnter={() => toggleRow(index)}
-                                    onMouseLeave={() => toggleRow(index)}
-                                    title={data?.universityName}
+                                return (
+                                  <tr
+                                    key={index}
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "11px",
+                                    }}
                                   >
-                                    {getDisplayText(
-                                      data?.universityName,
-                                      isExpanded
-                                    )}
-                                  </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.country}
-                                  </td>
-                                  <td className="text-capitalize text-start">
-                                    {data.campuses?.map((campus, yearIndex) => (
-                                      <div key={yearIndex}>
-                                        {campus?.state?.length > 0
-                                          ? campus.state
-                                          : "Not Available"}
-                                        __
-                                        {campus?.lga?.length > 0
-                                          ? campus.lga
-                                          : "Not Available"}
-                                        __
+                                    <td className="text-capitalize text-start">
+                                      {pagination.from + index + 1}
+                                    </td>
+                                    <td className="text-capitalize text-start">
+                                      {data?.universityCode}
+                                    </td>
+                                    <td
+                                      className="text-capitalize text-start"
+                                      onMouseEnter={() => toggleRow(index)}
+                                      onMouseLeave={() => toggleRow(index)}
+                                      title={data?.universityName}
+                                    >
+                                      {getDisplayText(
+                                        data?.universityName,
+                                        isExpanded
+                                      )}
+                                    </td>
+                                    <td className="text-capitalize text-start">
+                                      {data?.country}
+                                    </td>
+                                    <td className="text-capitalize text-start">
+                                      {data.campuses?.map(
+                                        (campus, yearIndex) => (
+                                          <div key={yearIndex}>
+                                            {campus?.state?.length > 0
+                                              ? campus.state
+                                              : "Not Available"}
+                                            __
+                                            {campus?.lga?.length > 0
+                                              ? campus.lga
+                                              : "Not Available"}
+                                            __
+                                          </div>
+                                        )
+                                      )}
+                                    </td>
+                                    <td
+                                      className="text-capitalize text-start"
+                                      onMouseEnter={() => toggleRow(index)}
+                                      onMouseLeave={() => toggleRow(index)}
+                                      title={data?.popularCategories}
+                                    >
+                                      {" "}
+                                      {getDisplayText(
+                                        data?.popularCategories.join(", "),
+                                        isExpanded
+                                      )}{" "}
+                                    </td>
+
+                                    <td className="text-capitalize text-start">
+                                      {data?.noofApplications}
+                                    </td>
+                                    <td>
+                                      <div className="d-flex">
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/AdminViewUniversity",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="View"
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/AdminEditUniversity",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="Edit"
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                        <button
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="Delete"
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </button>
                                       </div>
-                                    ))}
-                                  </td>
-                                  <td
-                                    className="text-capitalize text-start"
-                                    onMouseEnter={() => toggleRow(index)}
-                                    onMouseLeave={() => toggleRow(index)}
-                                    title={data?.popularCategories}
-                                  >
-                                    {" "}
-                                    {getDisplayText(
-                                      data?.popularCategories.join(", "),
-                                      isExpanded
-                                    )}{" "}
-                                  </td>
-
-                                  <td className="text-capitalize text-start">
-                                    {data?.noofApplications}
-                                  </td>
-                                  <td>
-                                    <div className="d-flex">
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/ViewUniversity",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="View"
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>
-                                      </Link>
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/EditUniversity",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Edit"
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>
-                                      </Link>
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Delete"
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                    </div>
-                    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
+                      <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-              </div>
-            </div>
+          </div>
         </div>
         <Dialog open={open}>
           <DialogContent>
@@ -924,4 +921,5 @@ export default function Masterproductlist() {
       </div>
     </>
   );
-}
+};
+export default AdminListUniversity

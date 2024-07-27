@@ -12,12 +12,12 @@ import { getallUniversity } from "../../api/university";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
 import { getallCurrency } from "../../api/currency";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AdminSidebar";
 import { getUniversitiesByCountry } from "../../api/university";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 
-function Profile() {
+export const AdminAddProgram = () => {
   const initialState = {
     universityName: "",
     universityId: "",
@@ -208,9 +208,13 @@ function Profile() {
           (u) => u.universityName === value
         );
         if (selectedUniversity) {
-          const states = selectedUniversity.campuses.map((campus) => campus.state);
-          const lgas = selectedUniversity.campuses.flatMap((campus) => campus.lga);
-  
+          const states = selectedUniversity.campuses.map(
+            (campus) => campus.state
+          );
+          const lgas = selectedUniversity.campuses.flatMap(
+            (campus) => campus.lga
+          );
+
           return {
             ...updatedProgram,
             universityId: selectedUniversity._id,
@@ -220,7 +224,7 @@ function Profile() {
             courseType: selectedUniversity.courseType,
             country: selectedUniversity.country,
             inTake: selectedUniversity.inTake,
-            popularCategories:selectedUniversity.popularCategories
+            popularCategories: selectedUniversity.popularCategories,
           };
         }
       }
@@ -261,12 +265,9 @@ function Profile() {
       }))
     : [];
 
- 
-
   const inTakeOptions = program?.inTake
     ? program.inTake.map((inTake) => ({ value: inTake, label: inTake }))
     : [];
- 
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -291,7 +292,9 @@ function Profile() {
         ...program,
         campuses: campuses,
         courseType: selectedCourseType?.label,
-        popularCategories: selectedPopularType.map(popularCategories => popularCategories.label),
+        popularCategories: selectedPopularType.map(
+          (popularCategories) => popularCategories.label
+        ),
       })
         .then((res) => {
           toast.success(res?.data?.message);
@@ -305,10 +308,8 @@ function Profile() {
 
   return (
     <>
-      <div >
-        
-          <Sidebar />
-      
+      <div>
+        <Sidebar />
 
         <div
           className="content-wrapper"
@@ -331,7 +332,7 @@ function Profile() {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row mb-2">
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Country<span className="text-danger">*</span>
                             </label>
@@ -370,9 +371,8 @@ function Profile() {
                               </span>
                             ) : null}
                           </div>
-                          </div>
+                        </div>
                         <div className="row g-3">
-                          
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               University<span className="text-danger">*</span>
@@ -1017,5 +1017,5 @@ function Profile() {
       </div>
     </>
   );
-}
-export default Profile;
+};
+export default AdminAddProgram;

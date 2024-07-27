@@ -110,7 +110,7 @@ const Login = () => {
               };
               saveToken(data);
               if (isAuthenticated()) {
-                  navigate("/ListStaffUniversity");
+                  navigate("/ViewProfile");
                   window.location.reload(); // Refresh the page
               }
           }
@@ -126,7 +126,7 @@ const Login = () => {
     const type = getLoginType();
     if (type === 'student') { return <Navigate to="/Student" /> }
     else if (type === 'superAdmin') { return <Navigate to="/Dashboard" /> }
-    else if (type === 'staff') { return <Navigate to="/ListStaffUniversity" /> }
+    else if (type === 'staff') { return <Navigate to="/ViewProfile" /> }
     else if (type === 'admin') { return <Navigate to="/adminHome" /> }
     else  { return <Navigate to="/AgentHome" /> }
   }

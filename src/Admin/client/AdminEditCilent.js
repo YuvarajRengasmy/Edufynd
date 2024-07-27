@@ -9,15 +9,12 @@ import {
 import { toast } from "react-toastify";
 import { updateClient, getSingleClient } from "../../api/client";
 import { getallClientModule } from "../../api/universityModule/clientModule";
-import Header from "../../compoents/header";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AdminSidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
 
-
-function AddAgent() {
-
+export const AdminEditCilent = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const initialState = {
@@ -44,7 +41,7 @@ function AddAgent() {
     businessContactNo: { required: false, valid: false },
     website: { required: false, valid: false },
     addressLine2: { required: false },
-    country:{ required: false },
+    country: { required: false },
     state: { required: false },
     lga: { required: false },
     addressLine3: { required: false },
@@ -66,8 +63,6 @@ function AddAgent() {
   const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
 
-
- 
   useEffect(() => {
     getAllClientDetails();
     getSingleDetails();
@@ -168,73 +163,77 @@ function AddAgent() {
   const handleInputs = (event) => {
     const { name, value } = event.target;
     const updatedClient = { ...client, [name]: value };
-    
+
     setClient(updatedClient);
-    
+
     if (submitted) {
       const newError = handleValidation(updatedClient);
       setErrors(newError);
     }
   };
-  
 
   const getCountryRegionInstance = () => {
     return new CountryRegion();
-};
+  };
 
   useEffect(() => {
     const getCountries = async () => {
-        try {
-            const countries = await getCountryRegionInstance().getCountries();
-            setCountries(countries.map(country => ({
-                value: country.id,
-                label: country.name
-            })));
-        } catch (error) {
-            console.error(error);
-        }
-    }
+      try {
+        const countries = await getCountryRegionInstance().getCountries();
+        setCountries(
+          countries.map((country) => ({
+            value: country.id,
+            label: country.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
     getCountries();
-}, []);
+  }, []);
 
   useEffect(() => {
     const getStates = async () => {
-        try {
-            const states = await getCountryRegionInstance().getStates(country);
-            setStates(states.map(userState => ({
-                value: userState?.id,
-                label: userState?.name
-            })));
-        } catch (error) {
-            console.error(error);
-        }
-    }
+      try {
+        const states = await getCountryRegionInstance().getStates(country);
+        setStates(
+          states.map((userState) => ({
+            value: userState?.id,
+            label: userState?.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (country) {
-        getStates();
+      getStates();
     }
-}, [country]);
+  }, [country]);
 
- 
   useEffect(() => {
     const getLGAs = async () => {
-        try {
-            const lgas = await getCountryRegionInstance().getLGAs(country, state);
-            setLGAs(lgas?.map(lga => ({
-                value: lga?.id,
-                label: lga?.name
-            })));
-        } catch (error) {
-            console.error(error);
-        }
-    }
+      try {
+        const lgas = await getCountryRegionInstance().getLGAs(country, state);
+        setLGAs(
+          lgas?.map((lga) => ({
+            value: lga?.id,
+            label: lga?.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (state) {
-        getLGAs();
+      getLGAs();
     }
-}, [country, state]);
+  }, [country, state]);
 
   const handleCountryChange = (selectedOption) => {
     setCountry(selectedOption.value);
-   
+
     setState("");
     setStates([]);
     setLGA("");
@@ -266,15 +265,14 @@ function AddAgent() {
     event.preventDefault();
     const newError = handleValidation(client);
     setErrors(newError);
-    setSubmitted(true);  
+    setSubmitted(true);
     const updatedClient = {
       ...client,
-      country: countries.find(option => option.value === country)?.label,
-      state: states.find(option => option.value === state)?.label,
-      lga: lgas.find(option => option.value === lga)?.label
-
+      country: countries.find((option) => option.value === country)?.label,
+      state: states.find((option) => option.value === state)?.label,
+      lga: lgas.find((option) => option.value === lga)?.label,
     };
-  
+
     if (handleErrors(newError)) {
       updateClient(updatedClient)
         .then((res) => {
@@ -288,8 +286,6 @@ function AddAgent() {
       toast.error("Please fill mandatory fields");
     }
   };
-  
-  
 
   const customStyles = {
     control: (provided) => ({
@@ -309,10 +305,9 @@ function AddAgent() {
   return (
     <>
       <>
-        <div >
-          
-            <Sidebar />
-         
+        <div>
+          <Sidebar />
+
           <div
             className="content-wrapper "
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
@@ -329,7 +324,7 @@ function AddAgent() {
                         >
                           <h6 className="text-center text-capitalize p-1">
                             {" "}
-                           Edit Client Details
+                            Edit Client Details
                           </h6>
                         </div>
                         <div className="card-body mt-5">
@@ -345,7 +340,6 @@ function AddAgent() {
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
-                                    
                                   }}
                                   value={client?.typeOfClient}
                                   className="form-select form-select-lg rounded-2  "
@@ -400,7 +394,8 @@ function AddAgent() {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                              Business  Website<span className="text-danger">*</span>
+                                Business Website
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
@@ -482,7 +477,7 @@ function AddAgent() {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                               Business WhatsApp Number
+                                Business WhatsApp Number
                                 <span className="text-danger">*</span>
                               </label>
                               <input
@@ -591,9 +586,6 @@ function AddAgent() {
                               ) : null}
                             </div>
 
-                          
-                          
-
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Address Line1
@@ -667,62 +659,65 @@ function AddAgent() {
                               ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    Country<span className="text-danger">*</span>
-  </label>
-  <Select
-    placeholder={client?.country}
-    onChange={handleCountryChange}
-    options={countries}
-    name="country"
-    styles={customStyles}
-    value={ countries.find((option) => option.value === country)
-    }
-    className="submain-one-form-body-subsection-select"
-  />
-  {errors.country && errors.country.required && (
-    <div className="text-danger form-text">This field is required.</div>
-  )}
-</div>
+                              <label style={{ color: "#231F20" }}>
+                                Country<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                placeholder={client?.country}
+                                onChange={handleCountryChange}
+                                options={countries}
+                                name="country"
+                                styles={customStyles}
+                                value={countries.find(
+                                  (option) => option.value === country
+                                )}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.country && errors.country.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
+                            </div>
 
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    State<span className="text-danger">*</span>
-  </label>
-  <Select
-    placeholder={client?.state}
-    onChange={handleStateChange}
-    options={states}
-    name="state"
-    styles={customStyles}
-    value={
-      states.find((option) => option.value === state)
-    }
-    className="submain-one-form-body-subsection-select"
-  />
-  {errors.state && errors.state.required && (
-    <div className="text-danger form-text">This field is required.</div>
-  )}
-</div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                State<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                placeholder={client?.state}
+                                onChange={handleStateChange}
+                                options={states}
+                                name="state"
+                                styles={customStyles}
+                                value={states.find(
+                                  (option) => option.value === state
+                                )}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.state && errors.state.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
+                            </div>
 
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    City<span className="text-danger">*</span>
-  </label>
-  <Select
-    placeholder={client?.lga}
-    onChange={handleLGAChange}
-    options={lgas}
-    name="lga"
-    styles={customStyles}
-    value={
-      
-      lgas.find((option) => option.value === lga)
-    }
-    className="submain-one-form-body-subsection-select"
-  />
-</div>
-
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                City<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                placeholder={client?.lga}
+                                onChange={handleLGAChange}
+                                options={lgas}
+                                name="lga"
+                                styles={customStyles}
+                                value={lgas.find(
+                                  (option) => option.value === lga
+                                )}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                            </div>
 
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                               <Link
@@ -745,7 +740,7 @@ function AddAgent() {
                                 type="submit"
                                 className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                               >
-                               Update
+                                Update
                               </button>
                             </div>
                           </div>
@@ -761,5 +756,5 @@ function AddAgent() {
       </>
     </>
   );
-}
-export default AddAgent;
+};
+export default AdminEditCilent;

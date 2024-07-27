@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const AddExpenses = () => {
+export const AdminAddExpenses = () => {
   return (
     <div>AddExpenses</div>
   )
 }
-export default AddExpenses
+export default AdminAddExpenses

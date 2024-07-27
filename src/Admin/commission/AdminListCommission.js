@@ -8,39 +8,36 @@ import {
   DialogTitle,
   IconButton,
   Pagination,
-  radioClasses,
 } from "@mui/material";
-import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
 import { FaFilter } from "react-icons/fa";
 
-const initialState = {
-  country: "",
-  universityName: "",
-  paymentMethod: "",
-  amount: null,
-  percentage: null,
-  commissionPaidOn: "",
-  eligibility: "",
-  tax: "",
-  paymentType: "",
-  currency: "",
-  flag: "",
-  clientName: "",
-  years: [
-    {
-      id: 1,
-      year: "",
-      courseTypes: [{ courseType: "", inTake: "", value: null }],
-    },
-  ],
-};
+export const AdminListCommission = () => {
+  const initialState = {
+    country: "",
+    universityName: "",
+    paymentMethod: "",
+    amount: null,
+    percentage: null,
+    commissionPaidOn: "",
+    eligibility: "",
+    tax: "",
+    paymentType: "",
+    currency: "",
+    flag: "",
+    clientName: "",
+    years: [
+      {
+        id: 1,
+        year: "",
+        courseTypes: [{ courseType: "", inTake: "", value: null }],
+      },
+    ],
+  };
 
-export default function Masterproductlist() {
   const [commission, setCommission] = useState([]);
 
   const [submitted, setSubmitted] = useState(false);
@@ -294,20 +291,17 @@ export default function Masterproductlist() {
 
   return (
     <>
-      <div >
-        
-          <Mastersidebar />
-        
+      <div>
+        <Mastersidebar />
 
         <div
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-         
-                <div className="content-header">
-                <div className="container">
-            <div className="row ">
-              <div className="col-xl-12">
+          <div className="content-header">
+            <div className="container">
+              <div className="row ">
+                <div className="col-xl-12">
                   <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
                       <div
@@ -510,7 +504,7 @@ export default function Masterproductlist() {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddCommission">
+                      <Link class="btn btn-pix-primary" to="/AdminAddCommission">
                         <button
                           className="btn text-uppercase fw-semibold px-4 py-2 border-0 text-white  "
                           style={{
@@ -530,167 +524,164 @@ export default function Masterproductlist() {
                 </div>
               </div>
             </div>
-           
           </div>
           <div className="content-body">
             <div className="container">
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card rounded-0 border-0">
-                  <div className="card-body">
-                    <div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className=" table card-table table-hover  dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "12px" }}
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                               
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                University Name
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Country
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Commission
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Payment Type
-                              </th>
-
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action{" "}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {commission.map((data, index) => (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card rounded-0 border-0">
+                    <div className="card-body">
+                      <div className="card-table">
+                        <div className="table-responsive">
+                          <table
+                            className=" table card-table table-hover  dataTable text-center"
+                            style={{ color: "#9265cc", fontSize: "12px" }}
+                            ref={tableRef}
+                          >
+                            <thead className="table-light">
                               <tr
-                                key={index}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                               >
-                                <td className="text-capitalize text-start">
-                                  {pagination.from + index + 1}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.universityName}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.country}
-                                </td>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  University Name
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Country
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Commission
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Payment Type
+                                </th>
 
-                                <td className="text-capitalize text-start">
-                                  {data.years?.map((year, yearIndex) => (
-                                    <div key={yearIndex}>
-                                      {year?.year.length > 0
-                                        ? year?.year
-                                        : "Not Available"}
-                                      __
-                                      {year?.courseTypes?.length > 0
-                                        ? year?.courseTypes[0]?.inTake
-                                        : "Not Available"}
-                                      __
-                                      {year?.courseTypes?.length > 0
-                                        ? year?.courseTypes[0]?.courseType
-                                        : "Not Available"}
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action{" "}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {commission.map((data, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className="text-capitalize text-start">
+                                    {pagination.from + index + 1}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.universityName}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.country}
+                                  </td>
+
+                                  <td className="text-capitalize text-start">
+                                    {data.years?.map((year, yearIndex) => (
+                                      <div key={yearIndex}>
+                                        {year?.year.length > 0
+                                          ? year?.year
+                                          : "Not Available"}
                                         __
                                         {year?.courseTypes?.length > 0
-                                        ? year?.courseTypes[0]?.value
-                                        : "Not Available"}
-                                      {/* {year.courseTypes?.map((courseType, courseIndex) => (
+                                          ? year?.courseTypes[0]?.inTake
+                                          : "Not Available"}
+                                        __
+                                        {year?.courseTypes?.length > 0
+                                          ? year?.courseTypes[0]?.courseType
+                                          : "Not Available"}
+                                        __
+                                        {year?.courseTypes?.length > 0
+                                          ? year?.courseTypes[0]?.value
+                                          : "Not Available"}
+                                        {/* {year.courseTypes?.map((courseType, courseIndex) => (
                                         <div key={courseIndex}>
                                           {courseType.inTake}: {courseType.value}
                                         </div>
                                       ))} */}
-                                    </div>
-                                  ))}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.paymentType}
-                                </td>
+                                      </div>
+                                    ))}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.paymentType}
+                                  </td>
 
-                                <td>
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/ViewCommission",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="View"
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditCommission",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Edit"
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                                  <td>
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/AdminViewCommission",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="View"
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/AdminEditCommission",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="Edit"
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </Link>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                    </div>
-                    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
+                      <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
-          
         </div>
         <Dialog open={open}>
           <DialogContent>
             <div className="text-center m-4">
-              <h5 className="mb-4 text-capitalize" >
+              <h5 className="mb-4 text-capitalize">
                 Are you sure you want to Delete <br /> the Selected Commission ?
               </h5>
               <button
                 type="button"
                 className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
                 onClick={deleteCommissionData}
-                style={{fontSize:'12px'}}
+                style={{ fontSize: "12px" }}
               >
                 Yes
               </button>
@@ -698,7 +689,7 @@ export default function Masterproductlist() {
                 type="button"
                 className="btn btn-cancel btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase "
                 onClick={closePopup}
-                style={{fontSize:'12px'}}
+                style={{ fontSize: "12px" }}
               >
                 No
               </button>
@@ -764,4 +755,5 @@ export default function Masterproductlist() {
       </div>
     </>
   );
-}
+};
+export default AdminListCommission;

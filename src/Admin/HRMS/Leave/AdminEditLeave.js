@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const EditLeave = () => {
+export const AdminEditLeave = () => {
   return (
     <div>EditLeave</div>
   )
 }
-export default EditLeave
+export default AdminEditLeave

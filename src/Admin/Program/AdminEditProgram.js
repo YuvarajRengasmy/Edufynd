@@ -9,13 +9,13 @@ import { getallIntake } from "../../api/intake";
 import { getallCurrency } from "../../api/currency";
 import { Form, Row, Col } from "react-bootstrap";
 import Header from "../../compoents/header";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AdminSidebar";
 import { getUniversitiesByCountry } from "../../api/university";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
 
-function Profile() {
+export const AdminEditProgram = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
@@ -1015,5 +1015,5 @@ function Profile() {
       </div>
     </div>
   );
-}
-export default Profile;
+};
+export default AdminEditProgram;

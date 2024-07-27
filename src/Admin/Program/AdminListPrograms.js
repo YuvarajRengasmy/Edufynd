@@ -15,7 +15,7 @@ import {
   radioClasses,
 } from "@mui/material";
 import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 
-export default function Masterproductlist() {
+export const AdminListPrograms = () => {
   const initialStateInputs = {
     universityName: "",
     programTitle: "",
@@ -573,7 +573,7 @@ export default function Masterproductlist() {
                     <li class="m-0">
                       <Link
                         class="btn btn-pix-primary border-0"
-                        to="/AddProgram"
+                        to="/AdminAddProgram"
                       >
                         <button
                           className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
@@ -603,8 +603,6 @@ export default function Masterproductlist() {
                     <div className="card-body">
                       <div className="card-table">
                         <div className="table-responsive">
-                        
-
                           <table
                             className="table table-hover card-table dataTable text-center"
                             style={{ color: "#9265cc", fontSize: "13px" }}
@@ -687,7 +685,7 @@ export default function Masterproductlist() {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/ViewProgram",
+                                            pathname: "/AdminViewProgram",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -696,7 +694,7 @@ export default function Masterproductlist() {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/EditProgram",
+                                            pathname: "/AdminEditProgram",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -809,4 +807,5 @@ export default function Masterproductlist() {
       </div>
     </>
   );
-}
+};
+export default AdminListPrograms;

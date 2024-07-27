@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ViewAttendance = () => {
+export const AdminViewAttendance = () => {
   return (
     <div>ViewAttendance</div>
   )
 }
-export default ViewAttendance
+export default AdminViewAttendance

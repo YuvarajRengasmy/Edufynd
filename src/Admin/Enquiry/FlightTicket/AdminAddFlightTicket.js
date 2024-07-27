@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPhone } from '../../../Utils/Validation';
-import { toast } from 'react-toastify';
-import { useNavigate, Link } from 'react-router-dom';
-import { saveFlightEnquiry } from '../../../api/Enquiry/flight';
-import Mastersidebar from '../../../compoents/sidebar';
+import React, { useEffect, useState } from "react";
+import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
+import { toast } from "react-toastify";
+import { useNavigate, Link } from "react-router-dom";
+import { saveFlightEnquiry } from "../../../api/Enquiry/flight";
+import Mastersidebar from "../../../compoents/AdminSidebar";
 
-export const AdminAddForex = () => {
-
+export const AdminAddFlightTicket = () => {
   const initialState = {
-    source:"",
-    studentName:"",
-    passportNo:"",
-    dob:"",
-    primaryNumber:"",
-    whatsAppNumber:"",
-    email:"" ,
+    source: "",
+    studentName: "",
+    passportNo: "",
+    dob: "",
+    primaryNumber: "",
+    whatsAppNumber: "",
+    email: "",
     agentName: "",
     businessName: "",
     agentPrimaryNumber: "",
     agentWhatsAppNumber: "",
     agentEmail: "",
     from: "",
-    to:"",
-    dateOfTravel:""
-
-
-  }
+    to: "",
+    dateOfTravel: "",
+  };
   const initialStateErrors = {
     source: { required: false },
     studentName: { required: false },
@@ -33,7 +30,7 @@ export const AdminAddForex = () => {
     dob: { required: false },
     from: { required: false },
     to: { required: false },
-    
+
     primaryNumber: { required: false, valid: false },
     whatsAppNumber: { required: false, valid: false },
     email: { required: false, valid: false },
@@ -43,16 +40,12 @@ export const AdminAddForex = () => {
     agentWhatsAppNumber: { required: false },
     agentEmail: { required: false },
     dateOfTravel: { required: false },
-
-  }
-  const [flight, setFlight] = useState(initialState)
-  const [university, setUniversity] = useState()
-  const [errors, setErrors] = useState(initialStateErrors)
+  };
+  const [flight, setFlight] = useState(initialState);
+  const [university, setUniversity] = useState();
+  const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const navigate = useNavigate()
-
-
-
+  const navigate = useNavigate();
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
@@ -97,16 +90,19 @@ export const AdminAddForex = () => {
       error.whatsAppNumber.valid = true;
     }
 
-    return error
-  }
+    return error;
+  };
 
   const handleInputs = (event) => {
-    setFlight({ ...flight, [event?.target?.name]: event?.target?.value })
+    setFlight({ ...flight, [event?.target?.name]: event?.target?.value });
     if (submitted) {
-      const newError = handleValidation({ ...flight, [event.target.name]: event.target.value })
-      setErrors(newError)
+      const newError = handleValidation({
+        ...flight,
+        [event.target.name]: event.target.value,
+      });
+      setErrors(newError);
     }
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -127,200 +123,404 @@ export const AdminAddForex = () => {
     }
   };
 
-
-
   return (
     <>
-     
-        <div >
-         
-            <Mastersidebar />
-         
-          <div className='content-wrapper' style={{ fontSize: '14px' }}>
-            <div className='content-header'>
-              <form className="p-1" onSubmit={handleSubmit}>
+      <div>
+        <Mastersidebar />
 
-                <div className='container-fluid'>
-                  <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                    <div
-                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                      style={{ background: "#fe5722", color: "#fff" }}
-                    >
-                      <h6 className="text-center text-capitalize p-1">
-                        {" "}
-                      Add  Flight  Enquiry
-                      </h6>
-                    </div>
-                    <div className='card-body mt-5'>
-                      <div className='row g-3'>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputsource">Source<span className="text-danger">*</span></label>
-                          <select className='form-select' onChange={handleInputs} name='source' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} >
-                            <option value="">Select In Source</option>
-                            <option value="Agent">Agent</option>
-                            <option value="Student">Student</option>
-                          </select>
-                          {errors.source.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputstudentname">Name of the Student<span className="text-danger">*</span></label>
-                          <input className="form-control" name="studentName" onChange={handleInputs} id="inputstudentname" type="text" placeholder='Enter Name of the Student' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.studentName.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-
-                        </div>
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputpassportno">Passport No<span className="text-danger">*</span></label>
-                          <input className="form-control" id="inputpassportno" onChange={handleInputs} name='passportNo' type="text" placeholder='Enter Passport No' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.passportNo.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-                        </div>
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputpassportno">Passport valid Date<span className="text-danger">*</span></label>
-                          <input className="form-control" id="inputpassportno" onChange={handleInputs} name='dob' type="date" placeholder='Enter Vaid Passport Date' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.dob.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputuniversity"> From<span className="text-danger">*</span> </label>
-                          <input className="form-control" id="inputstudentid" name='from' onChange={handleInputs} type="text" placeholder="Enter from Location" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.from.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputuniversity">To<span className="text-danger">*</span> </label>
-                          <input className="form-control" id="inputstudentid" name='to' onChange={handleInputs} type="text" placeholder="Enter to Location" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.to.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputuniversity"> Date Of Travel<span className="text-danger">*</span> </label>
-                          <input className="form-control" id="inputstudentid" name='dateOfTravel' onChange={handleInputs} type="date" placeholder="Enter to  dateOfTravel" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.dateOfTravel.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputPrimaryNo">Primary Number<span className="text-danger">*</span></label>
-                          <input className="form-control" name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.primaryNumber.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : errors.primaryNumber.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid emergencyContactNo.
-                            </div>
-                          ) : null}
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number<span className="text-danger">*</span></label>
-                          <input className="form-control" name="whatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.whatsAppNumber.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : errors.whatsAppNumber.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid emergencyContactNo.
-                            </div>
-                          ) : null}
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputEmail">Email ID<span className="text-danger">*</span></label>
-                          <input className="form-control" name="email" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                          {errors.email.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : errors.email.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Email Id.
-                            </div>
-                          ) : null}
-                        </div>
-                        {flight.source === 'Agent' ? (
-                          <div className="row gx-4 gy-2">
-                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
-                              <label className="form-label" for="inputAgentName">Agent Name</label>
-                              <input className="form-control" id="inputAgentName" onChange={handleInputs} type="text" name='agentName' placeholder='Enter Agent Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                              {errors.agentName.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
-                              <label className="form-label" for="inputbusinessname">Business Name</label>
-                              <input className="form-control" id="inputbusinessname" type="text" onChange={handleInputs} name='businessName' placeholder='Enter Business Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label className="form-label" for="inputPrimaryNo">Primary Number</label>
-                              <input className="form-control" name="agentPrimaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label className="form-label" for="inputWhatsAppNumber"> WhatsApp Number</label>
-                              <input className="form-control" name="agentWhatsAppNumber" onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label className="form-label" for="inputEmail">Agent Email ID</label>
-                              <input className="form-control" name="agentEmail" onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                            </div>
+        <div className="content-wrapper" style={{ fontSize: "14px" }}>
+          <div className="content-header">
+            <form className="p-1" onSubmit={handleSubmit}>
+              <div className="container-fluid">
+                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                  <div
+                    className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                    style={{ background: "#fe5722", color: "#fff" }}
+                  >
+                    <h6 className="text-center text-capitalize p-1">
+                      {" "}
+                      Add Flight Enquiry
+                    </h6>
+                  </div>
+                  <div className="card-body mt-5">
+                    <div className="row g-3">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputsource">
+                          Source<span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className="form-select"
+                          onChange={handleInputs}
+                          name="source"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "14px",
+                          }}
+                        >
+                          <option value="">Select In Source</option>
+                          <option value="Agent">Agent</option>
+                          <option value="Student">Student</option>
+                        </select>
+                        {errors.source.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
                           </div>
                         ) : null}
-                        <div className='row g-2'>
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                            <Link
-                              to="/ListFlightTicket"
-                              style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                            >
-                              Cancel
-                            </Link>
-                            <button
-                              style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
-                            >
-                              Submit
-                            </button>
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputstudentname">
+                          Name of the Student
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          name="studentName"
+                          onChange={handleInputs}
+                          id="inputstudentname"
+                          type="text"
+                          placeholder="Enter Name of the Student"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.studentName.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
                           </div>
+                        ) : null}
+                      </div>
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputpassportno">
+                          Passport No<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          id="inputpassportno"
+                          onChange={handleInputs}
+                          name="passportNo"
+                          type="text"
+                          placeholder="Enter Passport No"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.passportNo.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputpassportno">
+                          Passport valid Date
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          id="inputpassportno"
+                          onChange={handleInputs}
+                          name="dob"
+                          type="date"
+                          placeholder="Enter Vaid Passport Date"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.dob.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputuniversity">
+                          {" "}
+                          From<span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          className="form-control"
+                          id="inputstudentid"
+                          name="from"
+                          onChange={handleInputs}
+                          type="text"
+                          placeholder="Enter from Location"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.from.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputuniversity">
+                          To<span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          className="form-control"
+                          id="inputstudentid"
+                          name="to"
+                          onChange={handleInputs}
+                          type="text"
+                          placeholder="Enter to Location"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.to.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputuniversity">
+                          {" "}
+                          Date Of Travel<span className="text-danger">
+                            *
+                          </span>{" "}
+                        </label>
+                        <input
+                          className="form-control"
+                          id="inputstudentid"
+                          name="dateOfTravel"
+                          onChange={handleInputs}
+                          type="date"
+                          placeholder="Enter to  dateOfTravel"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.dateOfTravel.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputPrimaryNo">
+                          Primary Number<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          name="primaryNumber"
+                          onChange={handleInputs}
+                          id="inputPrimaryNo"
+                          type="text"
+                          placeholder="Enter Primary Number"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.primaryNumber.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : errors.primaryNumber.valid ? (
+                          <div className="text-danger form-text">
+                            Enter valid emergencyContactNo.
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputWhatsAppNumber">
+                          WhatsApp Number<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          name="whatsAppNumber"
+                          onChange={handleInputs}
+                          id="inputWhatsAppNumber"
+                          type="text"
+                          placeholder="Enter WhatsApp Number"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.whatsAppNumber.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : errors.whatsAppNumber.valid ? (
+                          <div className="text-danger form-text">
+                            Enter valid emergencyContactNo.
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputEmail">
+                          Email ID<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          name="email"
+                          onChange={handleInputs}
+                          id="inputEmail"
+                          type="text"
+                          placeholder="Enter Email ID"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.email.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : errors.email.valid ? (
+                          <div className="text-danger form-text">
+                            Enter valid Email Id.
+                          </div>
+                        ) : null}
+                      </div>
+                      {flight.source === "Agent" ? (
+                        <div className="row gx-4 gy-2">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label className="form-label" for="inputAgentName">
+                              Agent Name
+                            </label>
+                            <input
+                              className="form-control"
+                              id="inputAgentName"
+                              onChange={handleInputs}
+                              type="text"
+                              name="agentName"
+                              placeholder="Enter Agent Name"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.agentName.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label
+                              className="form-label"
+                              for="inputbusinessname"
+                            >
+                              Business Name
+                            </label>
+                            <input
+                              className="form-control"
+                              id="inputbusinessname"
+                              type="text"
+                              onChange={handleInputs}
+                              name="businessName"
+                              placeholder="Enter Business Name"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label className="form-label" for="inputPrimaryNo">
+                              Primary Number
+                            </label>
+                            <input
+                              className="form-control"
+                              name="agentPrimaryNumber"
+                              onChange={handleInputs}
+                              id="inputPrimaryNo"
+                              type="text"
+                              placeholder="Enter Primary Number"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label
+                              className="form-label"
+                              for="inputWhatsAppNumber"
+                            >
+                              {" "}
+                              WhatsApp Number
+                            </label>
+                            <input
+                              className="form-control"
+                              name="agentWhatsAppNumber"
+                              onChange={handleInputs}
+                              id="inputWhatsAppNumber"
+                              type="text"
+                              placeholder="Enter WhatsApp Number"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label className="form-label" for="inputEmail">
+                              Agent Email ID
+                            </label>
+                            <input
+                              className="form-control"
+                              name="agentEmail"
+                              onChange={handleInputs}
+                              id="inputEmail"
+                              type="text"
+                              placeholder="Enter Email ID"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ) : null}
+                      <div className="row g-2">
+                        <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <Link
+                            to="/ListFlightTicket"
+                            style={{
+                              backgroundColor: "#231F20",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                          >
+                            Cancel
+                          </Link>
+                          <button
+                            style={{
+                              backgroundColor: "#FE5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            type="submit"
+                            className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
+                          >
+                            Submit
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
-      
+      </div>
     </>
-  )
-}
-export default AdminAddForex;
+  );
+};
+export default AdminAddFlightTicket;
