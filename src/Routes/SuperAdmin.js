@@ -117,6 +117,7 @@ import ListPolicies from "../SuperAdmin/HRMS/Policies/ListPolicies";
 import ListHrmStaff from "../SuperAdmin/HRMS/Staff/ListHrmStaff";
 import ListProject from "../SuperAdmin/Project & Task/Project/ListProject";
 import ListTask from "../SuperAdmin/Project & Task/Task/ListTask";
+import GlobalSearch from "../SuperAdmin/Search/GlobalSearch";
 
 function SuperAdmin() {
   return (
@@ -126,6 +127,7 @@ function SuperAdmin() {
           <Route path="/Demo" element={<PrivateRoute><Country /></PrivateRoute>} />
           <Route path="/ApplyJob" element={<PrivateRoute><ApplyJob /></PrivateRoute>} />
           <Route path="/Just" element={<Just/>} />
+          <Route path="/Search" element={<GlobalSearch />} />
           {/* Settings */}
           <Route path="/CountryList" element={<PrivateRoute><CountryList /></PrivateRoute>} />
           <Route path="/GlobalSettings" element={<PrivateRoute><GlobalSettings /></PrivateRoute>} />
