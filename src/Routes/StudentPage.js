@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import Home from "../Students/Home/Program";
 import Profile from "../Students/Profile/Profile";
 import Contact from "../Students/Profile/Contact";
@@ -18,17 +19,17 @@ function RegisterPage() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/Student" element={<Home />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/TrackApplication" element={<TrackApplication />} />
-          <Route path="/Program" element={<ListProgram />} />
-          <Route path="/ViewApplication" element={<ViewApplication />} />
-          <Route path="/Faq" element={<Faq />} />
-          <Route path="/ViewpageUniversity" element={<ViewUniversity />} />
-          <Route path="/ViewProgramUniversity" element={<ViewProgram />} />
-          <Route path="/StudentDashBoard" element={<StudentDashboard/>}/>
+          <Route path="/Student" element={<PrivateRoute><Home /></PrivateRoute>} />
+          <Route path="/Profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/Contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+          <Route path="/About" element={<PrivateRoute><About /></PrivateRoute>} />
+          <Route path="/TrackApplication" element={<PrivateRoute><TrackApplication /></PrivateRoute>} />
+          <Route path="/Program" element={<PrivateRoute><ListProgram /></PrivateRoute>} />
+          <Route path="/ViewApplication" element={<PrivateRoute><ViewApplication /></PrivateRoute>} />
+          <Route path="/Faq" element={<PrivateRoute><Faq /></PrivateRoute>} />
+          <Route path="/ViewpageUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
+          <Route path="/ViewProgramUniversity" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
+          <Route path="/StudentDashBoard" element={<PrivateRoute><StudentDashboard/></PrivateRoute>}/>
         </Routes>
       </BrowserRouter>
     </div>
