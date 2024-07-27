@@ -1,19 +1,47 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallClient, deleteClient } from "../../api/client";
+import {getallNotifications } from "../../api/notifications";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Masterheader from "../../compoents/header";
+import { formatDate } from "../../Utils/DateFormat";
+
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 
 import { FaFilter } from "react-icons/fa";
-import ListAgent from "../Admins/AdminList";
+
 
 
 export const ListNotifications = () => {
+
+
+
+  const [notification, setnotification] = useState([]);
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: 0
+  });
+
+
+  useEffect(() => {
+    getAllClientDetails();
+  }, []);
+
+  const getAllClientDetails = () => {
+    getallNotifications()
+      .then((res) => {
+        console.log(res);
+        setnotification(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
     const tableRef = useRef(null);
 
     useEffect(() => {
@@ -234,21 +262,24 @@ export const ListNotifications = () => {
                           <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
                             <th className="text-capitalize text-start sortable-handle">Date</th>
+                            <th className="text-capitalize text-start sortable-handle">TypeOfUser</th>
+
                             <th className="text-capitalize text-start sortable-handle">Subject</th>
-                            <th className="text-capitalize text-start sortable-handle">Users</th>
                             
                             <th className="text-capitalize text-start sortable-handle">Action </th>
                             
                           </tr>
                         </thead>
                         <tbody>
-                          
-                            <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                        {notification?.map((data, index) => (
+                            <tr key={index}  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
+                              <th className="text-capitalize text-start ">{data?.typeOfUser}</th>
+
+                              <td className="text-capitalize text-start">{data?.subject}</td>
                              
-                              <td className="text-capitalize text-start"></td>
+                            
                             
                               <td>
                                 <div className="d-flex">
@@ -289,7 +320,7 @@ export const ListNotifications = () => {
 
                               </td>
                             </tr>
-                         
+                        ))}
 
                         </tbody>
                       </table>

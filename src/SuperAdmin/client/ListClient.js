@@ -511,6 +511,7 @@ export default function Masterproductlist() {
                             </tr>
                           </thead>
                           <tbody>
+                            
                             {client?.map((data, index) => (
                               <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                                 <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
