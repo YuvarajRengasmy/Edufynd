@@ -8,7 +8,7 @@ import { getSingleUniversity, UniversityProgram } from "../../api/university";
 import { getallProgram, getUniversityProgram } from "../../api/Program";
 
 import Flags from 'react-world-flags';
-import Sidebar from '../../compoents/AgentSidebar';
+import Sidebar from '../../compoents/StudentSidebar';
 
 const UserProfile = () => {
   const location = useLocation();

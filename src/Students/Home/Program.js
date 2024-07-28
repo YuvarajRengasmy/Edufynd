@@ -10,7 +10,7 @@ import { CiSearch } from 'react-icons/ci';
 import { Chip } from '@mui/material';
 import Flags from 'react-world-flags';
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Sidebar from '../../compoents/AgentSidebar';
+import Sidebar from '../../compoents/StudentSidebar';
 
 
 const Program = () => {

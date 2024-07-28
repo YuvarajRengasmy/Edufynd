@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSingleProgram, getallProgram } from "../../api/Program";
 import { Link, useLocation } from "react-router-dom";
 import './Course.css'
-import Sidebar from '../../compoents/AgentSidebar';
+import Sidebar from '../../compoents/StudentSidebar';
 import Flags from 'react-world-flags';
 
 

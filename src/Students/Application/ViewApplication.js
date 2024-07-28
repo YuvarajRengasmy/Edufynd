@@ -2,7 +2,7 @@ import React from "react";
 import "./viewApplication.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/StudentSidebar";
 const ViewApplication = () => {
   return (
     <>

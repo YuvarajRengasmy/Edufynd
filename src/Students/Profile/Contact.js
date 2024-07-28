@@ -3,7 +3,7 @@ import Header from "../Home/HeaderHome";
 import { toast } from "react-toastify";
 import { saveContact } from "../../api/student";
 import Footer from "../../compoents/Footer";
-import Sidebar from "../../compoents/AgentSidebar";
+import Sidebar from "../../compoents/StudentSidebar";
 const Contact = () => {
   const initialStateInputs = {
     name: "",

@@ -30,7 +30,7 @@ function RegisterPage() {
           <Route path="/Faq" element={<PrivateRoute><Faq /></PrivateRoute>} />
           <Route path="/ViewpageUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
           <Route path="/ViewProgramUniversity" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
-          <Route path="/StudentDashboard" element={<StudentDashBoard/>}/>
+          <Route path="/StudentDashboard" element={<PrivateRoute><StudentDashBoard/></PrivateRoute>}/>
         </Routes>
       </BrowserRouter>
     </div>

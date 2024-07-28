@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "../Home/HeaderHome";
 import Footer from "../../compoents/Footer";
-import Sidebar from '../../compoents/AgentSidebar';
+import Sidebar from '../../compoents/StudentSidebar';
 const TrackApplication = () => {
   return (
 

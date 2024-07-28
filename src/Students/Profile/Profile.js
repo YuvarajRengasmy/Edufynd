@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Header from "../Home/HeaderHome";
 import EditProfile from "./EditProfile";
 import Footer from "../../compoents/Footer";
-import Sidebar from "../../compoents/AgentSidebar";
+import Sidebar from "../../compoents/StudentSidebar";
 
 const Profile = () => {
   const [student, setStudent] = useState(null);

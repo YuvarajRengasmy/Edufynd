@@ -1,7 +1,7 @@
 import React from 'react';
 import './trackapply.css';
 
-import Sidebar from '../../compoents/AgentSidebar';
+import Sidebar from '../../compoents/StudentSidebar';
 
 const TrackApplication = () => {
   return (

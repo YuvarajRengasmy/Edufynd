@@ -2,7 +2,7 @@ import React from 'react';
 import Header from "./HeaderHome";
 import Footer from "../../compoents/Footer";
 import { CiSearch } from 'react-icons/ci';
-import Sidebar from '../../compoents/AgentSidebar';
+import Sidebar from '../../compoents/StudentSidebar';
 
 export default function Event() {
   return (
