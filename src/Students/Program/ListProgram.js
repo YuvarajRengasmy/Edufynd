@@ -10,6 +10,7 @@ import { getAllProgramForWeb } from "../../api/Program";
 import { Link , useNavigate} from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { University } from '../../api/endpoints';
+import Sidebar from '../../compoents/AgentSidebar';
 const ListProgram = () => {
 
   const [program, setProgram] = useState([]);
@@ -44,8 +45,9 @@ const ListProgram = () => {
   };
   return (
     <>
-    <Header/><br/><br/><br/>
-<div>
+    <Sidebar/>
+   
+<div className='content-wrapper'>
     <div style={{ width: '100%', height: '400px', backgroundImage: `url(${"https://campusdirect.io/static/media/banner.b190f2c0.jpg"})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="mask" style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)', height: '400px' }}>
               <div className='text-center'>
@@ -222,7 +224,7 @@ const ListProgram = () => {
         </div>
       </div>
       </div>
-    <Footer/>
+   
     </>
   )
 };

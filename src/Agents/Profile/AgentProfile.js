@@ -5,11 +5,9 @@ import { isValidPhone, isValidEmail } from "../../Utils/Validation";
 import { getSingleAgent, updateAgent } from "../../api/agent";
 import { getAgentId } from "../../Utils/storage";
 import Select from 'react-select';
-import Header from "../Agents/AgentHeader";
-import Footer from "../Agents/AgentFooter";
 import { getFilterCountry } from '../../api/globalsettings';
 
-import Sidebar from "../../compoents/HoverBar";
+import Sidebar from "../../compoents/AgentSidebar";
 const AgentProfile = () => {
 
   const initialState = {

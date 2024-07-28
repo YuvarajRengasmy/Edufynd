@@ -10,7 +10,7 @@ import { getAllProgramForWeb } from "../../api/Program";
 import { Link, useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { University } from '../../api/endpoints';
-import Sidebar from "../../compoents/HoverBar";
+import Sidebar from "../../compoents/AgentSidebar";
 const ListProgram = () => {
 
   const [program, setProgram] = useState([]);

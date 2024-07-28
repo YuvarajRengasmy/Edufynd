@@ -11,7 +11,8 @@ import ViewApplication from "../Students/Application/ViewApplication";
 import Faq from "../Students/Profile/Faq";
 import ViewUniversity from "../Students/University/ViewUniversity";
 import ViewProgram from "../Students/Program/viewProgram";
-import StudentDashboard from "../Students/DashBoard/StudentDashboard";
+import StudentDashBoard from "../Students/DashBoard/StudentDashBoard";
+
 
 
 function RegisterPage() {
@@ -29,7 +30,7 @@ function RegisterPage() {
           <Route path="/Faq" element={<PrivateRoute><Faq /></PrivateRoute>} />
           <Route path="/ViewpageUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
           <Route path="/ViewProgramUniversity" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
-          <Route path="/StudentDashBoard" element={<PrivateRoute><StudentDashboard/></PrivateRoute>}/>
+          <Route path="/StudentDashboard" element={<StudentDashBoard/>}/>
         </Routes>
       </BrowserRouter>
     </div>

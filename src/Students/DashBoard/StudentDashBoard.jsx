@@ -1,6 +1,5 @@
 import React from 'react'
 import { FaPaypal } from "react-icons/fa";
-import './HeroContent.css'
 import { FaCaretDown } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 import { FaMoneyCheckAlt } from "react-icons/fa";
@@ -14,8 +13,10 @@ import { ScatterChart, Scatter } from 'recharts';
 import { FaBell } from 'react-icons/fa';
 import { IoMdSearch } from 'react-icons/io';
 import { FaBars } from 'react-icons/fa6';
+import Sidebar from '../../compoents/AgentSidebar'
 
-export const HeroContent = () => {
+export const StudentDashBoard = () => {
+
     const data1 = [
         { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
         { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
@@ -72,11 +73,14 @@ export const HeroContent = () => {
 
         return dataMax / (dataMax - dataMin);
     };
-
-    const off = gradientOffset();
-    return (
-
-        <div className='container-fluid' style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans',fontSize:'13px' }}>
+  return (
+    <div>
+        <Sidebar/>
+        <div className="content-wrapper"style={{  fontFamily: 'Plus Jakarta Sans',fontSize:'14px' }}>
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-12">
+                    <div className='container-fluid' >
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
 
@@ -363,25 +367,7 @@ export const HeroContent = () => {
                                         </div>
 
                                         <div className="charts">
-                                            <ResponsiveContainer width="100%" height={150}>
-                                                <AreaChart
-                                                    data={data4}
-                                                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                                                >
-                                                    <CartesianGrid strokeDasharray="3 3" />
-                                                    <XAxis dataKey="name" />
-                                                    <YAxis />
-                                                    <Tooltip />
-                                                    <Legend />
-                                                    <defs>
-                                                        <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-                                                            <stop offset={off} stopColor="green" stopOpacity={1} />
-                                                            <stop offset={off} stopColor="red" stopOpacity={1} />
-                                                        </linearGradient>
-                                                    </defs>
-                                                    <Area type="monotone" dataKey="uv" stroke="#000" fill="url(#splitColor)" />
-                                                </AreaChart>
-                                            </ResponsiveContainer>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -509,6 +495,11 @@ export const HeroContent = () => {
                 </div>
             </div>
         </div>
-    )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  )
 }
-export default HeroContent
+export default StudentDashBoard

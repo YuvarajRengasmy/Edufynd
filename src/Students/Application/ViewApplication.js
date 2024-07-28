@@ -2,14 +2,12 @@ import React from "react";
 import "./viewApplication.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import Header from "../Home/HeaderHome";
-import Footer from "../../compoents/Footer";
+import Sidebar from "../../compoents/sidebar";
 const ViewApplication = () => {
   return (
     <>
-      <Header /><br />
-      <br />
-      <div>
+      <Sidebar/>
+      <div className="content-wrapper">
         <div className="container-fluid mt-5">
           <div className="d-flex justify-content-center row">
             <div className="col-md-12">
@@ -79,7 +77,7 @@ const ViewApplication = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   )
 };

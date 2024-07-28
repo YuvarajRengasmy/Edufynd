@@ -6,7 +6,7 @@ import Footer from "../../compoents/Footer";
 import { CiSearch } from 'react-icons/ci';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
 
-import Sidebar from "../../compoents/HoverBar";
+import Sidebar from "../../compoents/AgentSidebar";
 
 
 
