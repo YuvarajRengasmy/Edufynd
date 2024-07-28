@@ -200,10 +200,10 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <a
-                    href="/client"
+                    href="/ListClient"
                     target="_self"
                     className={`nav-link sidebar_link ${[
-                      "/client",
+                      "/ListClient",
                       "/AddClient",
                       "/ViewClient",
                       "/EditClient",
