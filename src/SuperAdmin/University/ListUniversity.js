@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-
+import {getSuperAdminForSearch} from '../../api/superAdmin';
 import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
   getFilterUniversity,
 } from "../../api/university";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -38,6 +38,10 @@ export default function Masterproductlist() {
     popularCategories: "",
   };
   const [file, setFile] = useState(null);
+  const location = useLocation()
+  var searchValue = location.state
+  const [link ,setLink] = useState('');
+  const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
@@ -45,6 +49,7 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -55,7 +60,22 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getAllUniversityDetails();
+    
   }, [pagination.from, pagination.to]);
+
+  
+  useEffect(() => {
+    if (search.current) {
+        search.current.focus()
+    }
+}, [])
+
+useEffect(() => {
+    if (searchValue) {
+        search.current.value = searchValue.substring(1)
+        handleSearch()
+    }
+}, [searchValue])
 
   const getAllUniversityDetails = () => {
     const data = {
@@ -74,6 +94,27 @@ export default function Masterproductlist() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === 'Enter') {
+        search.current.blur();
+        handleSearch()
+    }
+  }
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then(res => {
+        const universityList = res?.data?.result?.universityList;
+        setUniversity(universityList);
+        const result = universityList.length ? 'universities' : '';
+        setLink(result);
+        setData(result === '' ? true : false);
+      })
+      .catch(err => console.log(err));
   };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
@@ -365,6 +406,7 @@ export default function Masterproductlist() {
                
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
+                      <form onSubmit={handleSearch}>
                       <div
                         className="input-group"
                         style={{ maxWidth: "600px" }}
@@ -372,6 +414,8 @@ export default function Masterproductlist() {
                         <input
                           type="search"
                           placeholder="Search"
+                          ref={search}
+                          onChange={handleInputsearch}
                           aria-describedby="button-addon3"
                           className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
                           style={{
@@ -383,9 +427,10 @@ export default function Masterproductlist() {
                             padding: "0px", // Adjust padding to fit the height
                           }}
                         />
-                        <span
+                        <button
                           className="input-group-text bg-transparent border-0"
                           id="button-addon3"
+                          type="submit"
                           style={{
                             position: "absolute",
                             right: "10px",
@@ -398,8 +443,9 @@ export default function Masterproductlist() {
                             className="fas fa-search"
                             style={{ color: "black" }}
                           ></i>
-                        </span>
+                        </button>
                       </div>
+                      </form>
                     </li>
                     <li class="m-1">
                       <div

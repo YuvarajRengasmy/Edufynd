@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import {getallNotifications } from "../../api/notifications";
+import {getallNotifications,deleteProgram  } from "../../api/notifications";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
@@ -19,6 +19,8 @@ export const ListNotifications = () => {
 
 
   const [notification, setnotification] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -69,7 +71,27 @@ export const ListNotifications = () => {
       };
     }, []);
   
+    const deleteProgramData = () => {
+      deleteProgram(deleteId)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          closePopup();
+          getAllClientDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
+
+    const openPopup = (data) => {
+      setOpen(true);
+      setDeleteId(data);
+    };
+  
+    const closePopup = () => {
+      setOpen(false);
+    };
 
   return (
     <>
@@ -282,41 +304,34 @@ export const ListNotifications = () => {
                             
                             
                               <td>
-                                <div className="d-flex">
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/ViewNotifications",
-                                      
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="View"
-                                  >
-                                    <i className="far fa-eye text-primary me-1"></i>
-
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/EditNotifications",
-                                      
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="Edit"
-                                  >
-                                    <i className="far fa-edit text-warning me-1"></i>
-
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                
-                                    data-bs-toggle="tooltip"
-                                    title="Delete"
-                                  >
-                                    <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                  </Link>
-                                </div>
+                              <div className="d-flex">
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/ViewNotifications",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/EditNotifications",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </Link>
+                                      </div>
 
                               </td>
                             </tr>
@@ -343,16 +358,16 @@ export const ListNotifications = () => {
 
 
       </div>
-      <Dialog >
+      <Dialog open={open}>
         <DialogContent>
           <div className="text-center p-4">
             <h5 className="mb-4" style={{fontSize:'14px'}}>
-              Are you sure you want to Delete <br /> the selected Product ?
+              Are you sure you want to Delete <br /> the selected Notification ?
             </h5>
             <button
               type="button"
               className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
-              
+              onClick={deleteProgramData}
               style={{ fontSize: '12px' }}
             >
               Yes
@@ -360,7 +375,7 @@ export const ListNotifications = () => {
             <button
               type="button"
               className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
-              
+              onClick={closePopup}
               style={{ fontSize: '12px' }}
             >
               No

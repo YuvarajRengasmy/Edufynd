@@ -1,400 +1,233 @@
-import React, { useEffect, useState, useRef } from "react";
-import Sortable from 'sortablejs';
-import { getallClient, deleteClient } from "../../api/client";
-import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/StaffSidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { getallNotifications } from '../../api/notifications';
+import { Link } from 'react-router-dom';
+import { timeCal } from '../../Utils/DateFormat';
+import Sidebar from "../../compoents/StaffSidebar";
+import { getStaffId } from '../../Utils/storage';
 
-import { FaFilter } from "react-icons/fa";
-
-
-
-export const ListStaffNotifications = () => {
-    const tableRef = useRef(null);
+const Notification = () => {
+    const [activeTab, setActiveTab] = useState('all');
+    const [notification, setNotification] = useState([]);
+    const [count, setCount] = useState('');
+    const [scroll, setScroll] = useState(false);
+    const [next, setNext] = useState(0);
+    const [reload, setReload] = useState(false);
+    const [title, setTitle] = useState();
 
     useEffect(() => {
-      const table = tableRef.current;
-  
-      // Apply SortableJS to the table headers
-      const sortable = new Sortable(table.querySelector('thead tr'), {
-        animation: 150,
-        swapThreshold: 0.5,
-        handle: '.sortable-handle',
-        onEnd: (evt) => {
-          const oldIndex = evt.oldIndex;
-          const newIndex = evt.newIndex;
-  
-          // Move the columns in the tbody
-          table.querySelectorAll('tbody tr').forEach((row) => {
-            const cells = Array.from(row.children);
-            row.insertBefore(cells[oldIndex], cells[newIndex]);
-          });
-        }
-      });
-  
-      return () => {
-        sortable.destroy();
-      };
+        getNotificationList();
+    }, [next]);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll); // Clean up listener
     }, []);
-  
 
+    const handleScroll = () => {
+        const value = window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 200;
+        setScroll(value);
+    };
 
-  return (
-    <>
-    <div >
-      
-        <Mastersidebar />
-      
+    useEffect(() => {
+        if (scroll) {
+            loadMoreNotification();
+        }
+    }, [scroll]);
 
+    const getNotificationList = () => {
+        const findData = {
+            limit: 10,
+            page: next,
+            title: title,
+            to: getStaffId() // Pass staff ID here
+        };
+        getallNotifications(findData).then(res => {
+            const notificationList = res?.data?.result;
+            setNotification(prevNotifications => [...prevNotifications, ...notificationList]);
+            setCount(res?.data?.notificationCount);
+        }).catch(err => console.log(err));
+    };
 
-      <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
-        <div className="container">
-          
-            <div className="row ">
-              <div className="col-xl-12">
-             
-                <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                        style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
-                          fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px" // Adjust padding to fit the height
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <i className="fas fa-search" style={{ color: "black" }}></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li class="m-1">
+    const loadMoreNotification = () => {
+        let nextNotification = next + 10;
+        if (count <= nextNotification) {
+            setReload(true);
+        } else {
+            setNext(nextNotification);
+        }
+    };
 
+    const handleTabs = (tab) => {
+        setActiveTab(tab);
+        setReload(false);
+        let title;
+        if (tab === 'mypost') {
+            title = ['Like', 'Comment'];
+        } else if (tab === 'mentions') {
+            title = ['Mention'];
+        } else if (tab === 'session') {
+            title = ['Book Session'];
+        }
+        setTitle(title);
+        setScroll(false);
+        if (next !== 0) {
+            setNotification([]);
+            setNext(0);
+        } else {
+            getNotificationList(); // Fetch notifications based on the updated tab and title
+        }
+    };
 
-                    <div>
-                      <button className="btn btn-primary" style={{ fontSize: "11px" }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Notifications</h5>
-                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Date</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessName"
-                               
-                                placeholder="Search...Date"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              />
-                              <label className="form-label">Subject</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessContactNo"
-                               
-                                placeholder="Search...Subject"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              />
+    return (
+        <div style={{ display: 'flex' }}>
+            <Sidebar style={{ position: 'fixed', top: 0, left: 0, height: '100vh', width: '250px' }} />
+            <div style={{ marginLeft: '250px', width: 'calc(100% - 250px)' }}>
+                <div className='container '>
+                    <div className='container d-flex flex-column border-start border-end gap-2 align-items-center py-5 bg-white '>
+                        {/* Nav tabs */}
+                        <div className='container bg-white rounded-2 p-2' style={{ minHeight: '500px' }}>
+                            <nav className="nav nav-pills d-flex flex-wrap justify-content-lg-center justify-content-center mb-3 align-items-center gap-1 mt-lg-1 mt-5" id="pills-tab" role="tablist">
+                                <a
+                                    className={`nav-link navLinkBtn text-dark p-2 rounded-5 border ${activeTab === 'all' ? 'active bg-success text-white' : ''}`}
+                                    id="pills-all-tab" data-bs-toggle="pill"
+                                    href="#pills-all"
+                                    role="tab"
+                                    aria-controls="pills-all"
+                                    aria-selected={activeTab === 'all'}
+                                    onClick={() => handleTabs('all')}>
+                                    All 
+                                </a>
+                                <a
+                                    className={`nav-link navLinkBtn text-dark p-2 rounded-5 border ${activeTab === 'session' ? 'active bg-success text-white' : ''}`}
+                                    id="pills-session-tab" data-bs-toggle="pill"
+                                    href="#pills-session"
+                                    role="tab"
+                                    aria-controls="pills-session"
+                                    aria-selected={activeTab === 'session'}
+                                    onClick={() => handleTabs('session')}>
+                                    Application
+                                </a>
+                                <a
+                                    className={`nav-link navLinkBtn text-dark p-2 rounded-5 border ${activeTab === 'mypost' ? 'active bg-success text-white' : ''}`}
+                                    id="pills-mypost-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-mypost"
+                                    role="tab"
+                                    aria-controls="pills-mypost"
+                                    aria-selected={activeTab === 'mypost'}
+                                    onClick={() => handleTabs('mypost')}>
+                                    Student
+                                </a>
+                                <a
+                                    className={`nav-link navLinkBtn text-dark p-2 rounded-5 border ${activeTab === 'mentions' ? 'active bg-success text-white' : ''}`}
+                                    id="pills-mentions-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-mentions"
+                                    role="tab"
+                                    aria-controls="pills-mentions"
+                                    aria-selected={activeTab === 'mentions'}
+                                    onClick={() => handleTabs('mentions')}>
+                                   Enquiry
+                                </a>
+                            </nav>
 
-                              <label className="form-label">Users</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                               
-                                placeholder="Search...Users"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              />
-                          
-
-                            </div>
-                            <div>
-                              <button
-
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
-                                style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
-                              // onClick={resetFilter}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
-                                style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-
-
-                  </li>
-                  <li class="m-1">
-                    <Link >
-                      <button style={{ backgroundColor: "#E12929", fontSize: "11px" }} className="btn text-white ">
-                        <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link  class="btn-filters">
-                      <span>
-                        <button style={{ backgroundColor: "#22A033", fontSize: "11px" }} className="btn text-white ">
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li class="m-1">
-                    <Link class="btn-filters">
-                      <span>
-                        <button
-                          style={{ backgroundColor: "#9265cc", fontSize: "11px" }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddStaffNotifications">
-                      <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                        style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
-                      >
-                        <i
-                          class="fa fa-plus-circle me-2"
-                          aria-hidden="true"
-                        ></i>{" "}
-                         Add Notifications
-                      </button>
-                    </Link>
-                  </li>
-
-                </ol>
-              </div>
-
-
-            </div>
-          </div>
-
-         
-        
-        </div>
-        <div className="content-body">
-            <div className="container">
-            <div className="row">
-            <div className="col-xl-12">
-              <div className="card rounded-0  border-0">
-                <div className="card-body">
-                  <div className="card-table">
-                    <div className="table-responsive">
-
-                      <table className=" table  table-hover card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
-                        <thead className="table-light">
-                          <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            <th className="text-capitalize text-start sortable-handle">S No</th>
-                            <th className="text-capitalize text-start sortable-handle">Date</th>
-                            <th className="text-capitalize text-start sortable-handle">Subject</th>
-                            <th className="text-capitalize text-start sortable-handle">Users</th>
-                            
-                            <th className="text-capitalize text-start sortable-handle">Action </th>
-                            
-                          </tr>
-                        </thead>
-                        <tbody>
-                          
-                            <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                             
-                              <td className="text-capitalize text-start"></td>
-                            
-                              <td>
-                                <div className="d-flex">
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/ViewStaffNotifications",
-                                      
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="View"
-                                  >
-                                    <i className="far fa-eye text-primary me-1"></i>
-
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/EditStaffNotifications",
-                                      
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="Edit"
-                                  >
-                                    <i className="far fa-edit text-warning me-1"></i>
-
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                
-                                    data-bs-toggle="tooltip"
-                                    title="Delete"
-                                  >
-                                    <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                  </Link>
+                            {/* Tab Content */}
+                            <div className="tab-content w-100" id="pills-tabContent">
+                                {/* All Notification */}
+                                <div className="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                                    <div className='container-fluid bg-white'>
+                                        <div className='card mt-2 mb-2'>
+                                            <div className='card-body p-2'>
+                                                {notification.map((data, index) => (
+                                                    <div key={index} className='row-col-lg-3 mb-3 d-flex align-items-center gap-2'>
+                                                        <div className='col-lg-1 col-md-1 col-2'>
+                                                            <img className='img-fluid rounded-circle' src={data?.from?.user?.image ?? 'https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png'} alt="avatar" style={{ width: '3rem', height: '3rem', objectFit: 'cover' }} />
+                                                        </div>
+                                                        <div className='col-lg-9 col-md-9 col-8 text-start'>
+                                                            <span className='fw-bolder'><Link to="/ProfilePage" className='text-decoration-none text-dark'>Edufynd</Link></span><br />
+                                                            <small className='text-secondary d-block'>{timeCal(data?.createdOn)}</small>
+                                                            <small className='text-secondary'>{data?.subject}</small>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                {reload && notification.length > 0 ? (
+                                                    <div className='form-text text-danger text-center'>The notification has ended.</div>
+                                                ) : null}
+                                                {notification.length === 0 ? (
+                                                    <div className='form-text text-danger text-center'>Notifications aren't there.</div>
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                              </td>
-                            </tr>
-                         
+                                {/* Booked Session Notification */}
+                                <div className="tab-pane fade" id="pills-session" role="tabpanel" aria-labelledby="pills-session-tab">
+                                    <div className='container-fluid card bg-white'>
+                                        {notification.map((data, index) => (
+                                            <div key={index} className='container mt-2 mb-2 d-flex align-items-center justify-content-lg-between justify-content-sm-between justify-content-center flex-wrap'>
+                                                <div className='d-flex align-items-center gap-3 flex-wrap justify-content-lg-between justify-content-md-between justify-content-center'>
+                                                    <div>
+                                                        <img className='img-fluid rounded-circle' src={data?.from?.user?.image ?? 'https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png'} alt="avatar" style={{ width: '3rem', height: '3rem', objectFit: 'cover' }} />
+                                                    </div>
+                                                    <div className='text-center text-lg-start'>
+                                                        <span className='fw-bolder'><Link to="/ProfilePage" className='text-decoration-none text-dark'>Edufynd</Link></span><br />
+                                                        <small className='text-secondary'>{timeCal(data?.date)}</small>
+                                                        <small className='text-secondary d-block'>{data?.description}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
 
-                        </tbody>
-                      </table>
+                                {/* My Post Notification */}
+                                <div className="tab-pane fade" id="pills-mypost" role="tabpanel" aria-labelledby="pills-mypost-tab">
+                                    <div className='container-fluid card bg-white'>
+                                        {notification.map((data, index) => (
+                                            <div key={index} className='container mt-2 mb-2 d-flex align-items-center justify-content-lg-between justify-content-sm-between justify-content-center flex-wrap'>
+                                                <div className='d-flex align-items-center gap-3 flex-wrap justify-content-lg-between justify-content-md-between justify-content-center'>
+                                                    <div>
+                                                        <img className='img-fluid rounded-circle' src={data?.from?.user?.image ?? 'https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png'} alt="avatar" style={{ width: '3rem', height: '3rem', objectFit: 'cover' }} />
+                                                    </div>
+                                                    <div className='text-center text-lg-start'>
+                                                        <span className='fw-bolder'><Link to="/ProfilePage" className='text-decoration-none text-dark'>Edufynd</Link></span><br />
+                                                        <small className='text-secondary'>{timeCal(data?.date)}</small>
+                                                        <small className='text-secondary d-block'>{data?.description}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Mentions Notification */}
+                                <div className="tab-pane fade" id="pills-mentions" role="tabpanel" aria-labelledby="pills-mentions-tab">
+                                    <div className='container-fluid card bg-white'>
+                                        {notification.map((data, index) => (
+                                            <div key={index} className='container mt-2 mb-2 d-flex align-items-center justify-content-lg-between justify-content-sm-between justify-content-center flex-wrap'>
+                                                <div className='d-flex align-items-center gap-3 flex-wrap justify-content-lg-between justify-content-md-between justify-content-center'>
+                                                    <div>
+                                                        <img className='img-fluid rounded-circle' src={data?.from?.user?.image ?? 'https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png'} alt="avatar" style={{ width: '3rem', height: '3rem', objectFit: 'cover' }} />
+                                                    </div>
+                                                    <div className='text-center text-lg-start'>
+                                                        <span className='fw-bolder'><Link to="/ProfilePage" className='text-decoration-none text-dark'>Edufynd</Link></span><br />
+                                                        <small className='text-secondary'>{timeCal(data?.date)}</small>
+                                                        <small className='text-secondary d-block'>{data?.description}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div className="float-right my-2">
-                    <Pagination
-                    
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                    />
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-            </div>
-          </div>
+        </div>
+    );
+};
 
-
-      </div>
-      <Dialog >
-        <DialogContent>
-          <div className="text-center p-4">
-            <h5 className="mb-4" style={{fontSize:'14px'}}>
-              Are you sure you want to Delete <br /> the selected Product ?
-            </h5>
-            <button
-              type="button"
-              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
-              
-              style={{ fontSize: '12px' }}
-            >
-              Yes
-            </button>
-            <button
-              type="button"
-              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
-              
-              style={{ fontSize: '12px' }}
-            >
-              No
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
-      <Dialog  fullWidth maxWidth="sm">
-        <DialogTitle>
-          Filter University
-          <IconButton className="float-right" >
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-
-        </DialogContent>
-      </Dialog>
-      <Dialog fullWidth maxWidth="sm">
-        <DialogTitle>
-          Upload University List
-          <IconButton className="float-right" >
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <form>
-            <div className="from-group mb-3">
-
-              <div className="mb-3">
-                <input
-                  type="file"
-                  name="file"
-                  className="form-control text-dark bg-transparent"
-                 
-                  style={{fontSize:'14px'}}
-                />
-              </div>
-
-            </div>
-            <div>
-              <Link
-                to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
-                style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
-
-              >
-                Cancel
-              </Link>
-              <button
-                type="submit"
-                // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
-                style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
-              >
-                Apply
-              </button>
-
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
-  </>
-  )
-}
-
-export default ListStaffNotifications
+export default Notification;

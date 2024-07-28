@@ -4,23 +4,24 @@ import { isValidPassword } from '../../Utils/Validation';
 import { resetPassword } from '../../api/login';
 import { toast } from 'react-toastify';
 const ResetPassword = () => {
-
+  const initialState = {
+    password: "",
+    confirmPassword: "",
+};
+const initialStateErrors = {
+  password: { required: false, valid: false },
+  confirmPassword: { required: false, valid: false },
+};
 
   const location = useLocation()
   const resetId = new URLSearchParams(location.search).get('id')
   const navigate = useNavigate()
-  let initialStateErrors = {
-      password: { required: false, valid: false },
-      confirmPassword: { required: false, confirm: false },
-  };
-
+  
+  const [inputs, setInputs] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
 
-  const [inputs, setInputs] = useState({
-      password: "",
-      confirmPassword: "",
-  });
+  
 
   const handleValidation = (data) => {
       let error = initialStateErrors;
@@ -34,7 +35,7 @@ const ResetPassword = () => {
           error.password.valid = true;
       }
       if (data.confirmPassword !== data.password) {
-          error.confirmPassword.confirm = true;
+          error.confirmPassword.valid = true;
       }
       return error
   }
@@ -68,7 +69,8 @@ const ResetPassword = () => {
       if (handleErrors(newError)) {
           var data = {
               _id: resetId,
-              password: inputs.confirmPassword
+              password: inputs.password,
+              confirmPassword: inputs.confirmPassword
           }
           resetPassword(data)
               .then((res) => {

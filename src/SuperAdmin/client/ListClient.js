@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import { getallClient, deleteClient } from "../../api/client";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from 'react-router-dom';
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import Masterheader from "../../compoents/header";
+import {getSuperAdminForSearch} from '../../api/superAdmin';
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -27,9 +28,11 @@ export default function Masterproductlist() {
     status: "",
   }
   const [client, setClient] = useState([]);
-
+  const location = useLocation()
+  var searchValue = location.state
+  const [link ,setLink] = useState('');
+  const [data, setData] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -37,7 +40,10 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [searchClear, setSearchClear] = useState("");
   const pageSize = 10;
+  const search = useRef(null)
+ 
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -51,7 +57,45 @@ export default function Masterproductlist() {
     getClientList();
   }, []);
 
+  useEffect(() => {
+    if (search.current) {
+        search.current.focus()
+    }
+}, [])
 
+useEffect(() => {
+    if (searchValue) {
+        search.current.value = searchValue.substring(1)
+        handleSearch()
+    }
+}, [searchValue])
+
+const handleInputsearch = (event) => {
+  if (event.key === 'Enter') {
+      search.current.blur();
+      handleSearch()
+  }
+}
+
+const handleClear = () => {
+  setSearchClear([]); // Clear the state value
+  if (search.current) {
+    search.current.value = ""; // Clear the input field using ref
+  }
+};
+const handleSearch = (event) => {
+  const data = search.current.value;
+  event?.preventDefault();
+  getSuperAdminForSearch(data)
+    .then(res => {
+      const clientList = res?.data?.result?.clientList;
+      setClient(clientList);
+      const result = clientList.length ? 'clients' : '';
+      setLink(result);
+      setData(result === '' ? true : false);
+    })
+    .catch(err => console.log(err));
+};
 
   const getClientList = () => {
     getallClient()
@@ -112,7 +156,7 @@ export default function Masterproductlist() {
   };
 
 
-
+  
 
   const pdfDownload = (event) => {
     event?.preventDefault();
@@ -318,12 +362,16 @@ export default function Masterproductlist() {
                   <div className="row">
                   <div className="col-xl-12">
                   <ol className="breadcrumb d-flex flex-row align-items-center justify-content-end">
+                   
                     <li className="flex-grow-1">
+                    <form onSubmit={handleSearch}>
                       <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
                           type="search"
                           placeholder="Search..."
                           aria-describedby="button-addon3"
+                          ref={search}
+                          onChange={handleInputsearch}
                           className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
                           style={{
                             borderColor: "#FE5722",
@@ -334,7 +382,8 @@ export default function Masterproductlist() {
                             padding: "0px" // Adjust padding to fit the height
                           }}
                         />
-                        <span
+                         
+                        <button
                           className="input-group-text bg-transparent border-0"
                           id="button-addon3"
                           style={{
@@ -344,11 +393,16 @@ export default function Masterproductlist() {
                             transform: "translateY(-50%)",
                             cursor: "pointer"
                           }}
+                          
                         >
                           <i className="fas fa-search" style={{ color: "black" }}></i>
-                        </span>
+                        </button>
+                      
+                       
                       </div>
+                      </form>
                     </li>
+                  
                     <li class="m-1">
 
 
