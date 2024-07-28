@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
+import {getSuperAdminForSearch} from '../../api/superAdmin';
+
 import {
   getallProgram,
   deleteProgram,
   getFilterProgram,
 } from "../../api/Program";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -31,13 +33,19 @@ export default function Masterproductlist() {
     courseFee: "",
   };
   const [file, setFile] = useState(null);
+  const location = useLocation()
+  var searchValue = location.state
+  const [link ,setLink] = useState('');
+  const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [deleteId, setDeleteId] = useState();
+
   const pageSize = 10;
+  const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -49,6 +57,19 @@ export default function Masterproductlist() {
   useEffect(() => {
     getAllProgaramDetails();
   }, [pagination.from, pagination.to]);
+
+  useEffect(() => {
+    if (search.current) {
+        search.current.focus()
+    }
+}, [])
+
+useEffect(() => {
+    if (searchValue) {
+        search.current.value = searchValue.substring(1)
+        handleSearch()
+    }
+}, [searchValue])
 
   const getAllProgaramDetails = () => {
     const data = {
@@ -71,6 +92,28 @@ export default function Masterproductlist() {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+  };
+
+
+  const handleInputsearch = (event) => {
+    if (event.key === 'Enter') {
+        search.current.blur();
+        handleSearch()
+    }
+  }
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then(res => {
+        const programList = res?.data?.result?.programList;
+        setProgaram(programList);
+        const result = programList.length ? 'programs' : '';
+        setLink(result);
+        setData(result === '' ? true : false);
+      })
+      .catch(err => console.log(err));
   };
   const openPopup = (data) => {
     setOpen(true);
@@ -368,12 +411,15 @@ export default function Masterproductlist() {
                 <div className="col-xl-12">
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
+                      <form onSubmit={handleSearch}>
                       <div
                         className="input-group"
                         style={{ maxWidth: "600px" }}
                       >
                         <input
                           type="search"
+                          ref={search}
+                          onChange={handleInputsearch}
                           placeholder="Search"
                           aria-describedby="button-addon3"
                           className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
@@ -386,9 +432,10 @@ export default function Masterproductlist() {
                             padding: "0px", // Adjust padding to fit the height
                           }}
                         />
-                        <span
+                        <button
                           className="input-group-text bg-transparent border-0"
                           id="button-addon3"
+                          type="submit"
                           style={{
                             position: "absolute",
                             right: "10px",
@@ -401,8 +448,9 @@ export default function Masterproductlist() {
                             className="fas fa-search"
                             style={{ color: "black" }}
                           ></i>
-                        </span>
+                        </button>
                       </div>
+                      </form>
                     </li>
                     <li class="m-1">
                       <div>
