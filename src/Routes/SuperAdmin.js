@@ -175,7 +175,7 @@ function SuperAdmin() {
 
           {/* Client */}
           <Route path="/AddClient" element={<PrivateRoute><AddClient /></PrivateRoute>} />
-          <Route path="/client" element={<PrivateRoute><ListClient /></PrivateRoute>} />
+          <Route path="/ListClient" element={<PrivateRoute><ListClient /></PrivateRoute>} />
           <Route path="/EditClient" element={<PrivateRoute><EditClient /></PrivateRoute>} />
           <Route path="/viewClient" element={<PrivateRoute><ViewClient /></PrivateRoute>} />
 
