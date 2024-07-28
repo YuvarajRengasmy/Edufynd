@@ -254,7 +254,7 @@ export const ListPromotions = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewPromotion",
+                                      pathname: "/ViewPromotions",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
