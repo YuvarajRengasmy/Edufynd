@@ -1,8 +1,11 @@
-import { useEffect, useState, useRef } from "react";
-// import { getsingleuser } from "../../Api/user";
-import { getStaffId} from "../../Utils/storage";
-// import { getAllDoctor } from "../../Api/doctorprofile";
-// import { postChat, getMessages } from "../../Api/chat";
+import { useEffect, useState,  useRef} from "react";
+ import {getSuperAdmin } from "../../api/superAdmin";
+import { getSuperAdminId } from "../../Utils/storage";
+// import { getStaffId} from "../../Utils/storage";
+import { timeCal} from "../../Utils/DateFormat";
+
+ import { getallStaff } from "../../api/staff";
+import { postChat, getMessages } from "../../api/chat";
 import "./Chatus.css";
 import {
   MDBCol,
@@ -17,18 +20,17 @@ import io from "socket.io-client";
 const ListChat = () => {
   const [showChatlist, setShowChatlist] = useState(true);
   const [showChat, setShowChat] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [user, setUser] = useState(null);
-  const [doctors, setDoctors] = useState(null);
+  const [selectedStaff, setSelectedStaff] = useState(null);
+  const [superAdmin, setSuperAdmin] = useState(null);
+  const [staff, setStaff] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(false);
-  const [userMessage, setUserMessage] = useState("");
+  const [superAdminMessage, setsuperAdminMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const [socketmessage, setSocketMessage] = useState("");
-  const [connectedUsers, setConnectedUsers] = useState([]);
+  const [connectedsuperAdmins, setConnectedsuperAdmins] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
   const messagesContainerRef = useRef(null);
 
   useEffect(() => {
@@ -58,35 +60,35 @@ const ListChat = () => {
       ) {
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       } else {
-        setUserMessage([]);
+        setsuperAdminMessage([]);
       }
     });
     newSocket.on("get-superAdmin", (superadmins) => {
-      setConnectedUsers(superadmins);
+      setConnectedsuperAdmins(superadmins);
     });
 
-    newSocket.emit("new-user-add", getStaffId());
+    newSocket.emit("new-superAdmin-add", getSuperAdminId());
 
     return () => {
       newSocket.disconnect();
     };
   }, [selectedStaff, superAdmin]);
-  const isUserOnline = (superAdmin) => {
-    return connectedUsers.some((superAdmin) => superAdmin.superAdminId === superAdminId && superAdmin.online);
+  const issuperAdminOnline = (superAdminId) => {
+    return connectedsuperAdmins.some((superAdmin) => superAdmin.superAdminId === superAdminId && superAdmin.online);
   };
 
   useEffect(() => {});
   useEffect(() => {
-    getUserDetails();
+    getsuperAdminDetails();
 
     getDoctors();
   }, [searchQuery]);
 
-  const getUserDetails = () => {
-    const id = getUserId();
-    getsingleuser(id)
+  const getsuperAdminDetails = () => {
+    const id = getSuperAdminId();
+    getSuperAdmin(id)
       .then((res) => {
-        setUser(res?.data?.result);
+        setSuperAdmin(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -94,20 +96,20 @@ const ListChat = () => {
   };
 
   const getDoctors = () => {
-    getAllDoctor()
+    getallStaff()
       .then((res) => {
-        const doctorsData = res?.data?.result || [];
+        const staffData = res?.data?.result || [];
         if (searchQuery) {
-          const filteredDoctors = doctorsData.filter((doctor) =>
-            doctor.doctorName.toLowerCase().includes(searchQuery.toLowerCase())
+          const filteredstaff = staffData.filter((staff) =>
+            staff.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
-          setDoctors(filteredDoctors);
+          setStaff(filteredstaff);
         } else {
-          const doctorsWithStatuses = doctorsData.map((doctor) => ({
-            ...doctor,
-            isActive: doctor.someLogicToDetermineActiveStatus,
+          const staffWithStatuses = staffData.map((staff) => ({
+            ...staff,
+            isActive: staff.someLogicToDetermineActiveStatus,
           }));
-          setDoctors(doctorsWithStatuses);
+          setStaff(staffWithStatuses);
         }
       })
       .catch((err) => {
@@ -120,48 +122,48 @@ const ListChat = () => {
   };
 
   const handleSendMessage = () => {
-    if (!selectedDoctor) {
+    if (!selectedStaff) {
       return;
     }
 
     const newMessage = {
       text: inputMessage,
-      sender: user.name,
+      sender: superAdmin._id,
       timestamp: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
       }),
-      sentBy: "user",
+      sentBy: "superAdmin",
     };
 
-    postChatMessage(selectedDoctor._id, newMessage);
+    postChatMessage(selectedStaff._id, newMessage);
     setInputMessage("");
   };
 
-  const postChatMessage = (doctorId, message) => {
-    const userId = getUserId();
+  const postChatMessage = (staffId, message) => {
+    const superAdmin = getSuperAdminId();
     const data = {
-      doctorId: doctorId,
-      userId: userId,
+      staffId: staffId,
+      superAdminId: superAdmin,
       message: message.text,
       senderType: message.sender,
     };
 
     postChat(data)
       .then((res) => {
-        const userMessage = res.data.result;
-        setUserMessage(userMessage);
+        const superAdminMessage = res.data.result;
+        setsuperAdminMessage(superAdminMessage);
         const list = {
-          _id: user._id,
-          name: user.name,
-          profileImage: user.profileImage,
+          _id: superAdmin._id,
+          name: "edufynd",
+          profileImage: superAdmin.profileImage,
         };
         const socketdata = {
-          doctorId: selectedDoctor._id,
-          userId: list,
-          senderType: "user",
-          message: userMessage.message,
+          staffId: selectedStaff._id,
+          superAdmin: list,
+          senderType: "superAdmin",
+          message: superAdminMessage.message,
           sentOn: new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -169,9 +171,9 @@ const ListChat = () => {
           }),
         };
         const socketdata1 = {
-          doctorId: selectedDoctor._id,
-          userId: list,
-          senderType: "user",
+         staffId: selectedStaff._id,
+          superAdmin: list,
+          senderType: "superAdmin",
           message: socketdata,
           sentOn: new Date().toLocaleTimeString([], {
             hour: "2-digit",
@@ -189,10 +191,10 @@ const ListChat = () => {
 
   useEffect(() => {
     getMessage();
-  }, [selectedDoctor]);
+  }, [selectedStaff]);
 
   const getMessage = () => {
-    if (selectedDoctor && selectedDoctor._id) {
+    if (selectedStaff && selectedStaff._id) {
       setLoadingMessages(true);
 
       getMessages()
@@ -200,12 +202,12 @@ const ListChat = () => {
           if (Array.isArray(res.data.result)) {
             const filteredMessages = res.data.result.filter(
               (message) =>
-                (message.senderType === "doctor" ||
-                  message.senderType === "user") &&
-                message.userId &&
-                message.userId._id === user._id &&
-                message.doctorId &&
-                message.doctorId._id === selectedDoctor._id
+                (message.senderType === "staff" ||
+                  message.senderType === "superAdmin") &&
+                message.superAdminId &&
+                message.superAdminId._id === superAdmin._id &&
+                message.staffId &&
+                message.staffId._id === selectedStaff._id
             );
 
             setMessages(filteredMessages);
@@ -222,21 +224,21 @@ const ListChat = () => {
     }
   };
 
-  const handleDoctorSelect = (doctor) => {
-    setSelectedDoctor(doctor);
+  const handleDoctorSelect = (staff) => {
+    setSelectedStaff(staff);
     setShowChatlist(false);
     setShowChat(true);
   };
 
   return (
     <>
-      <Header />
+     
       <div className="py-3 gradient-custom1" style={{ height: "100vh" }}>
         <div className="container mb-5">
           <div className="row mx-1 mx-md-5">
             <div className="list-divider col-lg-4 col-12 mb-4 mb-md-0 ">
               <h5 className="font-weight-bold mb-3 text-center text-white mt-2">
-                Let's Chat With Doctor!
+                Let's Chat With Edufynd!
               </h5>
 
               <div
@@ -258,46 +260,46 @@ const ListChat = () => {
                     className="mask-custom-scroll list-unstyled rounded-3 "
                     style={{ maxHeight: "420px", overflowY: "auto" }}
                   >
-                    {doctors &&
-                      doctors.map((doctor) => (
+                    {staff &&
+                      staff.map((staff) => (
                         <li
                           className="p-2 border-bottom "
                           style={{
                             backgroundColor:
-                              selectedDoctor &&
-                              selectedDoctor._id === doctor._id
+                              selectedStaff &&
+                              selectedStaff._id === staff._id
                                 ? "#1C2E46"
                                 : "white",
                             color:
-                              selectedDoctor &&
-                              selectedDoctor._id === doctor._id
+                              selectedStaff &&
+                              selectedStaff._id === staff._id
                                 ? "white"
                                 : "black",
                             border:
-                              selectedDoctor &&
-                              selectedDoctor._id === doctor._id
+                              selectedStaff &&
+                              selectedStaff._id === staff._id
                                 ? "1px solid white"
                                 : "1px solid white",
                             width: "auto",
                             cursor: "pointer",
                           }}
-                          onClick={() => handleDoctorSelect(doctor)}
-                          key={doctor._id}
+                          onClick={() => handleDoctorSelect(staff)}
+                          key={staff._id}
                         >
                           <div className="pt-1 d-flex justify-content-between">
                             <span
                               className="small  mb-1"
                               style={{
-                                color: isUserOnline(doctor._id)
+                                color: issuperAdminOnline(staff._id)
                                   ? "green"
                                   : "red",
                                 fontWeight: "700",
                               }}
                             >
-                              {isUserOnline(doctor._id) ? "Online" : "Offline"}
+                              {issuperAdminOnline(staff._id) ? "Online" : "Offline"}
                             </span>
 
-                            <span className="small  mb-1">1 day ago</span>
+                            <span className="small  mb-1">{timeCal(staff.createdOn)}</span>
                           </div>
                           <div className="d-flex justify-content-between ">
                             <div className="d-flex flex-row hover-zoom">
@@ -308,7 +310,7 @@ const ListChat = () => {
                                 <span
                                   className="online-dot"
                                   style={{
-                                    color: isUserOnline(doctor._id)
+                                    color: issuperAdminOnline(staff._id)
                                       ? "#10B118  "
                                       : "transparent",
                                     position: "absolute",
@@ -317,22 +319,22 @@ const ListChat = () => {
                                     height: "15px",
                                     width: "15px",
                                     borderRadius: "50%",
-                                    backgroundColor: isUserOnline(doctor._id)
+                                    backgroundColor: issuperAdminOnline(staff._id)
                                       ? "#10B118"
                                       : "transparent",
-                                    border: isUserOnline(doctor._id)
+                                    border: issuperAdminOnline(staff._id)
                                       ? "2px solid white"
                                       : "none",
                                   }}
                                 ></span>
                                 <img
-                                  src={doctor.profileImage}
+                                  src={staff.photo}
                                   alt="avatar"
                                   className="rounded-circle d-flex align-self-center me-3 shadow-1-strong p-1"
                                   width="60"
                                   height="60"
                                   style={{
-                                    border: isUserOnline(doctor._id)
+                                    border: issuperAdminOnline(staff._id)
                                       ? "3px solid #10B118"
                                       : "none",
                                     backgroundColor: "white",
@@ -342,7 +344,7 @@ const ListChat = () => {
 
                               <div className="pt-1">
                                 <small className="fw-bold mb-0 ">
-                                  {doctor && doctor.doctorName}
+                                  {staff && staff.empName}
                                 </small>
                               </div>
                             </div>
@@ -374,9 +376,9 @@ const ListChat = () => {
                       style={{ zIndex: 9999, backgroundColor: "#1C2E46" }}
                     >
                       <div className="d-flex flex-row hover-zoom">
-                        {selectedDoctor && selectedDoctor.profileImage ? (
+                        {selectedStaff && selectedStaff.photo ? (
                           <img
-                            src={selectedDoctor.profileImage}
+                            src={selectedStaff.photo}
                             alt="avatar"
                             className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
                             width="40"
@@ -394,7 +396,7 @@ const ListChat = () => {
                             }}
                           >
                             <img
-                              src={emptyprofile}
+                              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                               alt="avatar"
                               className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
                               width="40"
@@ -404,19 +406,19 @@ const ListChat = () => {
                         )}
                         <div className="pt-1">
                           <p className="fw-bold mb-0 text-white">
-                            {selectedDoctor && selectedDoctor.doctorName}
+                            {selectedStaff && selectedStaff.empName}
                           </p>
-                          {selectedDoctor && selectedDoctor._id ? (
+                          {selectedStaff && selectedStaff._id ? (
                             <span
                               className="small  mb-1"
                               style={{
-                                color: isUserOnline(selectedDoctor._id)
+                                color: issuperAdminOnline(selectedStaff._id)
                                   ? "green"
                                   : "red",
                                 fontWeight: "700",
                               }}
                             >
-                              {isUserOnline(selectedDoctor._id)
+                              {issuperAdminOnline(selectedStaff._id)
                                 ? "Online"
                                 : "Offline"}
                             </span>
@@ -435,26 +437,26 @@ const ListChat = () => {
                           {messages.map((message, index) => (
                             <li
                               className={`d-flex justify-content-${
-                                message.senderType === "user" ? "end" : "start"
+                                message.senderType === "superAdmin" ? "end" : "start"
                               } mb-4`}
                               key={index}
                             >
-                              {message.senderType === "user" &&
+                              {message.senderType === "superAdmin" &&
                               message &&
-                              message.userId.profileImage ? (
+                              message.superAdminId.profileImage ? (
                                 <img
-                                  src={message.userId.profileImage}
+                                  src={message.superAdminId.profileImage}
                                   alt="avatar"
                                   className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
                                   width="30"
                                   height="30"
                                 />
                               ) : (
-                                message.senderType === "doctor" &&
+                                message.senderType === "staff" &&
                                 message &&
-                                message.doctorId.profileImage && (
+                                message.staffId.photo && (
                                   <img
-                                    src={message.doctorId.profileImage}
+                                    src={message.staffId.photo}
                                     alt="avatar"
                                     className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
                                     width="30"
@@ -475,7 +477,7 @@ const ListChat = () => {
                                 <MDBCardBody
                                   style={{
                                     backgroundColor:
-                                      message.senderType === "user"
+                                      message.senderType === "superAdmin"
                                         ? "#EB2562"
                                         : "#1C2E46",
                                     borderRadius: "50px 50px 0px 50px ",
@@ -485,8 +487,8 @@ const ListChat = () => {
                                   }}
                                 >
                                   <p className="mb-0 text-white  ">
-                                    {message.sentBy === "user"
-                                      ? `${userMessage}`
+                                    {message.sentBy === "superAdmin"
+                                      ? `${superAdminMessage}`
                                       : `${message.message}`}
                                   </p>
                                 </MDBCardBody>
