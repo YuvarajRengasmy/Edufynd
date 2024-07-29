@@ -8,6 +8,7 @@ import { getSingleUniversity, UniversityProgram } from "../../api/university";
 import { getallProgram, getUniversityProgram } from "../../api/Program";
 
 import Flags from 'react-world-flags';
+import Sidebar from '../../compoents/StudentSidebar';
 
 const UserProfile = () => {
   const location = useLocation();
@@ -81,10 +82,12 @@ const UserProfile = () => {
   };
   return (
     <>
-      <div className="container-fluid ">
+    <Sidebar/>
+    <div className='content-wrapper'>
+<div className="container-fluid ">
         <div className="row">
           
-          <div className="col-lg-10">
+          <div className="col-12">
             <div className="card border-0 rounded-2 mt-3  ">
 
               <div className="card-header rounded-top border-0   img-1 ">
@@ -299,6 +302,8 @@ const UserProfile = () => {
         </div>
 
       </div>
+    </div>
+      
 
     </>
   )

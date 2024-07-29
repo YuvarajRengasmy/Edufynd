@@ -208,9 +208,9 @@ export const ListBookings = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddCommission">
+                    <Link class="btn btn-pix-primary" to="/AddBookings">
                       <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0text-white  "
+                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
                       >
                         <i
@@ -244,11 +244,11 @@ export const ListBookings = () => {
                         <thead>
                           <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
-                            <th className="text-capitalize text-start sortable-handle">University Code</th>
-                            <th className="text-capitalize text-start sortable-handle">University Name</th>
-                            <th className="text-capitalize text-start sortable-handle">Commission</th>
-                            <th className="text-capitalize text-start sortable-handle">Primary Campus</th>
-                            <th className="text-capitalize text-start sortable-handle">No of Applications</th>
+                            <th className="text-capitalize text-start sortable-handle">Date Scheduled</th>
+                            <th className="text-capitalize text-start sortable-handle">Host Name</th>
+                            <th className="text-capitalize text-start sortable-handle">Participant Name</th>
+                            <th className="text-capitalize text-start sortable-handle">Meeting Topic</th>
+                           
                             <th className="text-capitalize text-start sortable-handle">Action </th>
                             
                           </tr>
@@ -258,7 +258,7 @@ export const ListBookings = () => {
                             <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                               <td className="text-capitalize text-start"></td>
                               <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                            
                               <td className="text-capitalize text-start"></td>
                               <td className="text-capitalize text-start"></td>
                               <td className="text-capitalize text-start"></td>
@@ -268,7 +268,7 @@ export const ListBookings = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewCommission",
+                                      pathname: "/ViewBookings",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -280,7 +280,7 @@ export const ListBookings = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditCommission",
+                                      pathname: "/EditBookings",
                                       
                                     }}
                                     data-bs-toggle="tooltip"

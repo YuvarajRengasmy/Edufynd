@@ -2,14 +2,14 @@ import React from 'react';
 import Header from "./HeaderHome";
 import Footer from "../../compoents/Footer";
 import { CiSearch } from 'react-icons/ci';
+import Sidebar from '../../compoents/StudentSidebar';
 
 export default function Event() {
   return (
     <>
-      <Header />
-      <br />
-      <br />
-      <div>
+    <Sidebar/>
+    
+      <div className='content-wrapper'>
         <div style={{ width: '100%', height: '400px', backgroundImage: `url(${"https://campusdirect.io/static/media/banner.b190f2c0.jpg"})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="mask" style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)', height: '400px' }}>
             <div className='text-center'>
@@ -192,7 +192,7 @@ export default function Event() {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   )
 };

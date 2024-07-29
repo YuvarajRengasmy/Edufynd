@@ -17,3 +17,17 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.nav-pills .nav-link{
+ 
+  color: #231f20 !important;
+  font-weight: bold !important;
+  font-variant: small-caps !important;
+  }
+
+.nav-pills .nav-link.active{
+background-color: #231f20 !important;
+color: #fff !important;
+font-weight: bold !important;
+font-variant: small-caps !important;
+}

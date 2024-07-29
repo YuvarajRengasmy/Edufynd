@@ -208,7 +208,7 @@ export const ListEmail = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="#">
+                    <Link class="btn btn-pix-primary" to="/AddEmail">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -268,7 +268,7 @@ export const ListEmail = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewCommission",
+                                      pathname: "/ViewEmail",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -280,7 +280,7 @@ export const ListEmail = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditCommission",
+                                      pathname: "/EdiEmail",
                                       
                                     }}
                                     data-bs-toggle="tooltip"

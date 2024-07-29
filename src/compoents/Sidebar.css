@@ -1,61 +1,61 @@
 /* Sidebar Background */
 .sidebar {
-  background-color: #F5F5DC; /* Soft gradient background */
+  background-color: #2C3E50; /* Dark Slate Blue for a striking contrast */
   padding: 10px; /* Padding for a more spacious layout */
+  /* Rounded corners for a modern look */
 }
 
 /* Sidebar Styles */
-.nav-link {
-  color: #333333 !important; /* Default text color */
+.sidebar_link {
+  color: #ECF0F1 !important; /* Light color for contrast with the dark background */
   text-decoration: none; /* Remove underline */
   display: flex; /* Align icon and text */
   align-items: center; /* Center items vertically */
   padding: 10px 20px; /* Adjust padding as needed */
   font-weight: bold;
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 4px; /* Rounded corners for each link */
 }
 
 /* Default and active styles */
-.nav-item .nav-link {
+.nav-item .sidebar_link {
   margin: 0; /* Remove default margin */
-  color: #333333 !important; /* Default text color */
+  color: #ECF0F1 !important; /* Default text color */
 }
 
 /* Icon styles */
 .nav-icon {
   margin-right: 8px; /* Space between icon and text */
-  color: #333333 !important; /* Default icon color */
-  font-size: 12px  !important;
+  color: #ECF0F1 !important; /* Default icon color */
+  font-size: 12px !important;
 }
 
 /* Hover styles */
-.nav-link:hover {
-  color: #333333 !important; /* Hover text color */
-  background-color: #FFE5D9 !important; /* Pale peach background on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+.sidebar_link:hover {
+  color: #2C3E50 !important; /* Dark color text on hover for contrast */
+  background-color: #BDC3C7 !important; /* Light Gray background on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
 }
 
 /* Active styles */
-.nav-link.active {
-  color: #333333 !important; /* Active text color */
-  background-color: #FFDAC1 !important; /* Light coral background for active link */
- 
+.sidebar_link.active {
+  color: #2C3E50 !important; /* Dark color text for active link */
+  background-color: #ECF0F1 !important; /* Light background for active link */
 }
 
-.nav-link.active .nav-icon {
-  color: #333333 !important; /* Active icon color */
+.sidebar_link.active .nav-icon {
+  color: #2C3E50 !important; /* Active icon color */
 }
 
 /* Rotate icon for dropdown */
 .rotate-icon {
   transform: rotate(90deg);
   transition: transform 0.1s ease;
-  color: #333333 !important;
+  color: #ECF0F1 !important;
 }
 
 /* Submenu styles */
-.collapse .nav-item .nav-link {
+.collapse .nav-item .sidebar_link {
   padding-left: 32px; /* Indent submenu items */
 }
 
@@ -64,6 +64,7 @@
   transition: height 0.3s ease;
 }
 
-.content-wrapper{
-  font-family: 'Plus Jakarta Sans', sans-serif; /* Font Family */
+.nav-link{
+  color: #231f20 !important;
 }
+

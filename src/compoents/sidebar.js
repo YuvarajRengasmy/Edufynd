@@ -181,7 +181,7 @@ const Sidebar = () => {
             </div>
             <nav>
               <ul
-                className="nav nav-pills nav-sidebar flex-column "
+                className="nav  nav-sidebar flex-column "
                 data-widget="treeview"
                 role="menu"
                 data-accordion="false"
@@ -190,7 +190,7 @@ const Sidebar = () => {
                   <a
                     href="/DashBoard"
                     target="_self"
-                    className={`nav-link ${activeLink === "/DashBoard" ? "active" : ""
+                    className={`nav-link sidebar_link ${activeLink === "/DashBoard" ? "active" : ""
                       }`}
                     onClick={() => handleSetActiveLink("/DashBoard")}
                   >
@@ -200,10 +200,10 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <a
-                    href="/client"
+                    href="/ListClient"
                     target="_self"
-                    className={`nav-link ${[
-                      "/client",
+                    className={`nav-link sidebar_link ${[
+                      "/ListClient",
                       "/AddClient",
                       "/ViewClient",
                       "/EditClient",
@@ -221,7 +221,7 @@ const Sidebar = () => {
                   <a
                     href="/ListUniversity"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListUniversity",
                       "/AddUniversity",
                       "/ViewUniversity",
@@ -240,7 +240,7 @@ const Sidebar = () => {
                   <a
                     href="/ListCommission"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListCommission",
                       "/AddCommission",
                       "/ViewCommission",
@@ -259,7 +259,7 @@ const Sidebar = () => {
                   <a
                     href="/Programs"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/Programs",
                       "/AddProgram",
                       "/EditProgram",
@@ -277,7 +277,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
 
                     aria-expanded={isOpen.users}
@@ -308,7 +308,7 @@ const Sidebar = () => {
                         <a
                           href="/ListStudent"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListStudent",
                             "/AddStudentSA",
                             "/ViewStudent",
@@ -325,7 +325,7 @@ const Sidebar = () => {
                         <a
                           href="/ListStaff"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListStaff",
                             "/AddStaff",
                             "/EditStaff",
@@ -342,7 +342,7 @@ const Sidebar = () => {
                         <a
                           href="/ListAgent"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ViewAgent",
                             "/EditAgent",
                             "/ListAgent",
@@ -363,7 +363,7 @@ const Sidebar = () => {
                   <a
                     href="/ListApplication"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListApplication",
                       "/AddApplication",
                       "/EditApplication",
@@ -381,7 +381,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.enquiry}
                     aria-controls="collapse1"
@@ -411,7 +411,7 @@ const Sidebar = () => {
                         <a
                           href="/ListStudentForm"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListStudentForm",
                             "/AddStudentForm",
                             "/EditStudentForm",
@@ -428,7 +428,7 @@ const Sidebar = () => {
                         <a
                           href="/ListForexForm"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListForexForm",
                             "/AddForexForm",
                             "/EditForexForm",
@@ -445,7 +445,7 @@ const Sidebar = () => {
                         <a
                           href="/ListAccommodation"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListAccommodation",
                             "/AddAccommodation",
                             "/EditAccommodation",
@@ -462,7 +462,7 @@ const Sidebar = () => {
                         <a
                           href="/ListFlightTicket"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListFlightTicket",
                             "/AddFlightTicket",
                             "/EditFlightTicket",
@@ -479,7 +479,7 @@ const Sidebar = () => {
                         <a
                           href="/ListLoanEnquiry"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListLoanEnquiry",
                             "/AddLoanEnquiry",
                             "/EditLoanEnquiry",
@@ -496,7 +496,7 @@ const Sidebar = () => {
                         <a
                           href="/ListBusinessEnquiry"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListBusinessEnquiry",
                             "/AddBusinessEnquiry",
                             "/EditBusinessEnquiry",
@@ -513,7 +513,7 @@ const Sidebar = () => {
                         <a
                           href="/ListGeneralEnquiry"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListGeneralEnquiry",
                             "/AddGeneralEnquiry",
                             "/EditGeneralEnquiry",
@@ -533,7 +533,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.finance}
                     aria-controls="collapse2"
@@ -563,7 +563,7 @@ const Sidebar = () => {
                         <a
                           href="/ListIncome"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListIncome",
                             "/AddIncome",
                             "/EditIncome",
@@ -580,7 +580,7 @@ const Sidebar = () => {
                         <a
                           href="/ListExpenses"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListExpenses",
                             "/AddExpenses",
                             "/EditExpenses",
@@ -597,7 +597,7 @@ const Sidebar = () => {
                         <a
                           href="/ListRaiseQuotations"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListRaiseQuotations",
                             "/AddRaiseQuotations",
                             "/EditRaiseQuotations",
@@ -614,7 +614,7 @@ const Sidebar = () => {
                         <a
                           href="/ListInvoice"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListInvoice",
                             "/AddSenderInvoice",
                             "/AddRecieverInvoice",
@@ -632,7 +632,7 @@ const Sidebar = () => {
                         <a
                           href="/ListIncomeReport"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListIncomeReport",
                             "/AddIncomeReport",
                             "/EditIncomeReport",
@@ -652,7 +652,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.hrms}
                     aria-controls="collapse5"
@@ -682,7 +682,7 @@ const Sidebar = () => {
                         <a
                           href="/ListStaffHRM"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListStaffHRM",
                             "/AddStaffHRM",
                             "/EditStaffHRM",
@@ -699,7 +699,7 @@ const Sidebar = () => {
                         <a
                           href="/ListAttendance"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListAttendance",
                             "/AddAttendance",
                             "/EditAttendance",
@@ -716,7 +716,7 @@ const Sidebar = () => {
                         <a
                           href="/ListPayroll"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListPayroll",
                             "/AddPayroll",
                             "/EditPayroll",
@@ -733,7 +733,7 @@ const Sidebar = () => {
                         <a
                           href="/ListLeave"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListLeave",
                             "/AddLeave",
                             "/EditLeave",
@@ -750,7 +750,7 @@ const Sidebar = () => {
                         <a
                           href="/ListKPI"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListKPI",
                             "/AddKPI",
                             "/EditKPI",
@@ -768,7 +768,7 @@ const Sidebar = () => {
                         <a
                           href="/ListPolicies"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListPolicies",
                             "/AddPolicies",
                             "/EditPolicies",
@@ -785,7 +785,7 @@ const Sidebar = () => {
                         <a
                           href="/ListPerformanceReport"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListPerformanceReport",
                             "/AddPerformanceReport",
                             "/EditPerformanceReport",
@@ -805,7 +805,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
                     aria-controls="collapse12"
@@ -835,7 +835,7 @@ const Sidebar = () => {
                         <a
                           href="/ListProject"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListProject",
                             "/AddProject",
                             "/EditProject",
@@ -852,7 +852,7 @@ const Sidebar = () => {
                         <a
                           href="/ListTask"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListTask",
                             "/AddTask",
                             "/EditTask",
@@ -872,7 +872,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Marketing}
                     aria-controls="collapse17"
@@ -902,7 +902,7 @@ const Sidebar = () => {
                         <a
                           href="/ListSocialMedia"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListSocialMedia",
                             "/AddSocialMedia",
                             "/EditSocialMedia",
@@ -919,7 +919,7 @@ const Sidebar = () => {
                         <a
                           href="/ListCampaign"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListCampaign",
                             "/AddCampaign",
                             "/EditCampaign",
@@ -936,7 +936,7 @@ const Sidebar = () => {
                         <a
                           href="/ListDailyTask"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListDailyTask",
                             "/AddDailyTask",
                             "/EditDailyTask",
@@ -957,7 +957,7 @@ const Sidebar = () => {
                   <a
                     href="/ListNotifications"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListNotifications",
                       "/AddNotifications",
                       "/EditNotifications",
@@ -976,7 +976,7 @@ const Sidebar = () => {
                   <a
                     href="/ListMeetings"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListMeetings",
                       "/AddMeetings",
                       "/EditMeetings",
@@ -995,7 +995,7 @@ const Sidebar = () => {
                   <a
                     href="/ListTraining"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListTraining",
                       "/AddTraining",
                       "/EditTraining",
@@ -1014,7 +1014,7 @@ const Sidebar = () => {
                   <a
                     href="/ListChat"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListChat",
                       "/AddChat",
                       "/EditChat",
@@ -1033,7 +1033,7 @@ const Sidebar = () => {
                   <a
                     href="/ListEmail"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListEmail",
                       "/AddEmail",
                       "/EditEmail",
@@ -1052,7 +1052,7 @@ const Sidebar = () => {
                   <a
                     href="/ListPromotions"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListPromotions",
                       "/AddPromotions",
                       "/EditPromotions",
@@ -1071,7 +1071,7 @@ const Sidebar = () => {
                   <a
                     href="/ListEvents"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListEvents",
                       "/AddEvents",
                       "/EditEvents",
@@ -1090,7 +1090,7 @@ const Sidebar = () => {
                   <a
                     href="/ListBlog"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListBlog",
                       "/AddBlog",
                       "/EditBlog",
@@ -1109,7 +1109,7 @@ const Sidebar = () => {
                   <a
                     href="/ListTestimonials"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListTestimonials",
                       "/AddTestimonials",
                       "/EditTestimonials",
@@ -1128,7 +1128,7 @@ const Sidebar = () => {
                   <a
                     href="/AdminList"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminList",
                       "/AddAdmin",
                       "/EditAdmin",
@@ -1146,7 +1146,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.elt}
                     aria-controls="collapse4"
@@ -1178,7 +1178,7 @@ const Sidebar = () => {
                         <a
                           href="/ListBookings"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListBookings",
                             "/AddBookings",
                             "/EditBookings",
@@ -1195,7 +1195,7 @@ const Sidebar = () => {
                         <a
                           href="/ListClassSchedule"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListClassSchedule",
                             "/AddClassSchedule",
                             "/EditClassSchedule",
@@ -1215,7 +1215,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.settings}
                     aria-controls="collapse6"
@@ -1245,7 +1245,7 @@ const Sidebar = () => {
                       <li className="nav-item">
                         <a
                           href="#"
-                          className="nav-link "
+                          className="nav-link sidebar_link "
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.globalSettings}
                           aria-controls="collapse7"
@@ -1279,7 +1279,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListGlobalEmail",
                                   "/AddGlobalEmail",
                                   "/EditGlobalEmail",
@@ -1296,7 +1296,7 @@ const Sidebar = () => {
                               <a
                                 href="/GlobalSettings"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/GlobalSettings",
                                 ].includes(currentPath)
                                   ? "active"
@@ -1310,7 +1310,7 @@ const Sidebar = () => {
                               <a
                                 href="/CurrencySettings"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListLeave",
                                   "/AddLeave",
                                   "/EditLeave",
@@ -1328,7 +1328,7 @@ const Sidebar = () => {
                               <a
                                 href="/Status"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/Status",
 
                                 ].includes(currentPath)
@@ -1343,7 +1343,7 @@ const Sidebar = () => {
                               <a
                                 href="/Intake"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/Intake",
                                 ].includes(currentPath)
                                   ? "active"
@@ -1357,7 +1357,7 @@ const Sidebar = () => {
                               <a
                                 href="/YearSetting"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/YearSetting",
                                 ].includes(currentPath)
                                   ? "active"
@@ -1371,7 +1371,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListGlobalPrivileges",
                                   "/AddGlobalPrivileges",
                                   "/EditGlobalPrivileges",
@@ -1388,7 +1388,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListGlobalDashBoard",
                                   "/AddGlobalDashBoard",
                                   "/EditGlobalDashBoard",
@@ -1409,7 +1409,7 @@ const Sidebar = () => {
                       <li className="nav-item">
                         <a
                           href="#"
-                          className="nav-link "
+                          className="nav-link sidebar_link "
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.modules}
                           aria-controls="collapse8"
@@ -1442,7 +1442,7 @@ const Sidebar = () => {
                               <a
                                 href="/UniversitySettings"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/UniversitySettings",
                                 ].includes(currentPath)
                                   ? "active"
@@ -1456,7 +1456,7 @@ const Sidebar = () => {
                               <a
                                 href="/CourseType"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/CourseType",
                                 ].includes(currentPath)
                                   ? "active"
@@ -1470,7 +1470,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListModuleEmail",
                                   "/AddModuleEmail",
                                   "/EditModuleEmail",
@@ -1487,7 +1487,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListModuleIntake",
                                   "/AddModuleIntake",
                                   "/EditModuleIntake",
@@ -1504,7 +1504,7 @@ const Sidebar = () => {
                               <a
                                 href="/ClientModule"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ClientModule",
                                 ].includes(currentPath)
                                   ? "active"
@@ -1518,7 +1518,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListCustomModule",
                                   "/AddCustomModule",
                                   "/EditCustomModule",
@@ -1539,7 +1539,7 @@ const Sidebar = () => {
                       <li className="nav-item">
                         <a
                           href="#"
-                          className="nav-link "
+                          className="nav-link sidebar_link "
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.privileges}
                           aria-controls="collapse9"
@@ -1573,7 +1573,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesProgram",
                                   "/AddPrivilegesProgram",
                                   "/EditPrivilegesProgram",
@@ -1590,7 +1590,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesHRM",
                                   "/AddPrivilegesHRM",
                                   "/EditPrivilegesHRM",
@@ -1607,7 +1607,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesAttendance",
                                   "/AddPrivilegesAttendance",
                                   "/EditPrivilegesAttendance",
@@ -1624,7 +1624,7 @@ const Sidebar = () => {
                               <a
                                 href="#"
                                 target="_self"
-                                className={`nav-link ${[
+                                className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesPayroll",
                                   "/AddPrivilegesPayroll",
                                   "/EditPrivilegesPayroll",
@@ -1647,7 +1647,7 @@ const Sidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Reports}
                     aria-controls="collapse4"
@@ -1677,7 +1677,7 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportEmployee",
                             "/AddReportEmployee",
                             "/EditReportEmployee",
@@ -1694,7 +1694,7 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportAgent",
                             "/AddReportAgent",
                             "/EditReportAgent",
@@ -1711,7 +1711,7 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportStudents",
                             "/AddReportStudents",
                             "/EditReportStudents",
@@ -1728,7 +1728,7 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportBranch",
                             "/AddReportBranch",
                             "/EditReportBranch",
@@ -1747,7 +1747,7 @@ const Sidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportAdmin",
                             "/AddReportAdmin",
                             "/EditReportAdmin",
@@ -1766,7 +1766,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <a href="/"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     target="_self"
                     onClick={logout}
                     style={{ cursor: "pointer" }}

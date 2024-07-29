@@ -100,23 +100,94 @@ import ListBlog from "../SuperAdmin/Blog/ListBlog";
 import AddBlog from "../SuperAdmin/Blog/AddBlog";
 import ViewBlog from "../SuperAdmin/Blog/ViewBlog";
 import EditBlog from "../SuperAdmin/Blog/EditBlog";
-import { ListChat } from "../SuperAdmin/Chat/ListChat";
+import {ListChat}  from "../SuperAdmin/Chat/ListChat";
+import AddChat  from "../SuperAdmin/Chat/AddChat";
+import EditChat  from "../SuperAdmin/Chat/EditChat";
+import ViewChat  from "../SuperAdmin/Chat/ViewChat";
+
 import ListBookings from "../SuperAdmin/ELT/Bookings/ListBookings";
+import AddBookings from "../SuperAdmin/ELT/Bookings/AddBookings";
+import EditBookings from "../SuperAdmin/ELT/Bookings/EditBookings";
+import ViewBookings from "../SuperAdmin/ELT/Bookings/ViewBookings";
+
 import ListClassSchedule from "../SuperAdmin/ELT/Class Schedule/ListClassSchedule";
+import AddClassSchedule from "../SuperAdmin/ELT/Class Schedule/AddClassSchedule";
+import EditClassSchedule from "../SuperAdmin/ELT/Class Schedule/EditClassSchedule";
+import  ViewClassSchedule from "../SuperAdmin/ELT/Class Schedule/ViewClassSchedule";
+
 import ListEmail from "../SuperAdmin/Email/ListEmail";
+import ViewEmail from "../SuperAdmin/Email/ViewEmail";
+import AddEmail from "../SuperAdmin/Email/AddEmail";
+import EditEmail from "../SuperAdmin/Email/EditEmail";
+
+
 import ListExpenses from "../SuperAdmin/Finance/Expenses/ListExpenses";
+import AddExpenses from "../SuperAdmin/Finance/Expenses/AddExpenses";
+import EditExpenses from "../SuperAdmin/Finance/Expenses/EditExpenses";
+import ViewExpenses from "../SuperAdmin/Finance/Expenses/ViewExpenses";
+
 import ListIncome from "../SuperAdmin/Finance/Income/ListIncome";
+import AddIncome from "../SuperAdmin/Finance/Income/AddIncome";
+import EditIncome from "../SuperAdmin/Finance/Income/EditIncome";
+import ViewIncome from "../SuperAdmin/Finance/Income/ViewIncome";
+
 import ListIncomeReport from "../SuperAdmin/Finance/Income Report/ListIncomereport";
+import AddIncomeReport from "../SuperAdmin/Finance/Income Report/AddIncomeReport";
+import EditIncomeReport from "../SuperAdmin/Finance/Income Report/EditIncomeReport";
+import ViewIncomeReport from "../SuperAdmin/Finance/Income Report/ViewIncomeReport";
+
 import ListQuotations from "../SuperAdmin/Finance/Raise Quotations/ListQuottions";
+import AddQuotations from "../SuperAdmin/Finance/Raise Quotations/AddQuotation";
+import EditQuotations from "../SuperAdmin/Finance/Raise Quotations/EditQuotation";
+import ViewQuotations from "../SuperAdmin/Finance/Raise Quotations/ViewQuotation";
+
 import ListAttendance from "../SuperAdmin/HRMS/Attendance/ListAttendance";
+import AddAttendance from "../SuperAdmin/HRMS/Attendance/AddAttendance";
+import EditAttendance from "../SuperAdmin/HRMS/Attendance/EditAttendance";
+import ViewAttendance from "../SuperAdmin/HRMS/Attendance/ViewAttendance";
+
 import ListKPI from "../SuperAdmin/HRMS/KPI/ListKPI";
+import AddKPI from "../SuperAdmin/HRMS/KPI/AddKPI";
+import EditKPI from "../SuperAdmin/HRMS/KPI/EditKPI";
+import ViewKPI from "../SuperAdmin/HRMS/KPI/ViewKPI";
+
 import ListLeave from "../SuperAdmin/HRMS/Leave/ListLeave";
+import AddLeave from "../SuperAdmin/HRMS/Leave/AddLeave";
+import EditLeave from "../SuperAdmin/HRMS/Leave/EditLeave";
+import ViewLeave from "../SuperAdmin/HRMS/Leave/ViewLeave";
+
 import ListPayroll from "../SuperAdmin/HRMS/Payroll/ListPayroll";
+import AddPayroll from "../SuperAdmin/HRMS/Payroll/AddPayroll";
+import EditPayroll from "../SuperAdmin/HRMS/Payroll/EditPayroll";
+import ViewPayroll from "../SuperAdmin/HRMS/Payroll/ViewPayroll";
+
 import ListPeformanceReport from "../SuperAdmin/HRMS/Performance Report/ListPerformanceReport";
+import AddPeformanceReport from "../SuperAdmin/HRMS/Performance Report/AddPerformanceReport";
+import EditPeformanceReport from "../SuperAdmin/HRMS/Performance Report/EditPerformanceReports";
+import ViewPeformanceReport from "../SuperAdmin/HRMS/Performance Report/ViewPerformanceReports";
+
 import ListPolicies from "../SuperAdmin/HRMS/Policies/ListPolicies";
+import AddPolicies from "../SuperAdmin/HRMS/Policies/AddPolicies";
+import EditPolicies from "../SuperAdmin/HRMS/Policies/EditPolicies";
+import ViewPolicies from "../SuperAdmin/HRMS/Policies/ViewPolicies";
+
 import ListHrmStaff from "../SuperAdmin/HRMS/Staff/ListHrmStaff";
+import AddHrmStaff from "../SuperAdmin/HRMS/Staff/ListHrmStaff";
+import EditHrmStaff from "../SuperAdmin/HRMS/Staff/ListHrmStaff";
+import ViewHrmStaff from "../SuperAdmin/HRMS/Staff/ListHrmStaff";
+
+
 import ListProject from "../SuperAdmin/Project & Task/Project/ListProject";
+import AddProject from "../SuperAdmin/Project & Task/Project/AddProject";
+import EditProject from "../SuperAdmin/Project & Task/Project/EditProject";
+import ViewProject from "../SuperAdmin/Project & Task/Project/ViewProject";
+
 import ListTask from "../SuperAdmin/Project & Task/Task/ListTask";
+import AddTask from "../SuperAdmin/Project & Task/Task/AddTask";
+import EditTask from "../SuperAdmin/Project & Task/Task/EditTask";
+import ViewTask from "../SuperAdmin/Project & Task/Task/ViewTask";
+
+
 import GlobalSearch from "../SuperAdmin/Search/GlobalSearch";
 
 function SuperAdmin() {
@@ -175,7 +246,7 @@ function SuperAdmin() {
 
           {/* Client */}
           <Route path="/AddClient" element={<PrivateRoute><AddClient /></PrivateRoute>} />
-          <Route path="/client" element={<PrivateRoute><ListClient /></PrivateRoute>} />
+          <Route path="/ListClient" element={<PrivateRoute><ListClient /></PrivateRoute>} />
           <Route path="/EditClient" element={<PrivateRoute><EditClient /></PrivateRoute>} />
           <Route path="/viewClient" element={<PrivateRoute><ViewClient /></PrivateRoute>} />
 
@@ -252,7 +323,7 @@ function SuperAdmin() {
           <Route path="/ListPromotions" element={<PrivateRoute><ListPromotions /></PrivateRoute>} />
           <Route path="/AddPromotions" element={<PrivateRoute><AddPromotions /></PrivateRoute>} />
           <Route path="/EditPromotions" element={<PrivateRoute><EditPromotions /></PrivateRoute>} />
-          <Route path="/ViewPromotion" element={<PrivateRoute><ViewPromotion /></PrivateRoute>} />
+          <Route path="/ViewPromotions" element={<PrivateRoute><ViewPromotion /></PrivateRoute>} />
 
           {/* Testimonials */}
           <Route path="/ListTestimonials" element={<PrivateRoute><ListTestimonials /></PrivateRoute>} />
@@ -268,52 +339,113 @@ function SuperAdmin() {
 
           {/* Chat */}
           <Route path="/ListChat" element={<PrivateRoute><ListChat/></PrivateRoute>}/>
+          <Route path="/AddChat" element={<PrivateRoute><AddChat/></PrivateRoute>}/>
+          <Route path="/AddChat" element={<PrivateRoute><EditChat/></PrivateRoute>}/>
+          <Route path="/EditChat" element={<PrivateRoute><ViewChat/></PrivateRoute>}/>
 
           {/* Bookings */}
           <Route path="/ListBookings" element={<PrivateRoute><ListBookings/></PrivateRoute>}/>
+          <Route path="/AddBookings" element={<PrivateRoute><AddBookings/></PrivateRoute>}/>
+          <Route path="/EditBookings" element={<PrivateRoute><EditBookings/></PrivateRoute>}/>
+          <Route path="/ViewBookings" element={<PrivateRoute><ViewBookings/></PrivateRoute>}/>
 
           {/* Class Schedule */}
           <Route path="/ListClassSchedule" element={<PrivateRoute><ListClassSchedule/></PrivateRoute>}/>
+          <Route path="/AddClassSchedule" element={<PrivateRoute><AddClassSchedule/></PrivateRoute>}/>
+          <Route path="/EditClassSchedule" element={<PrivateRoute><EditClassSchedule/></PrivateRoute>}/>
+          <Route path="/ViewClassSchedule" element={<PrivateRoute><ViewClassSchedule/></PrivateRoute>}/>
 
           {/* Email */}
           <Route path="/ListEmail" element={<PrivateRoute><ListEmail/></PrivateRoute>}/>
+          <Route path="/AddEmail" element={<PrivateRoute><AddEmail/></PrivateRoute>}/>
+          <Route path="/EditEmail" element={<PrivateRoute><EditEmail/></PrivateRoute>}/>
+          <Route path="/ViewEmail" element={<PrivateRoute><ViewEmail/></PrivateRoute>}/>
 
           {/* Expenses */}
           <Route path="/ListExpenses" element={<PrivateRoute><ListExpenses/></PrivateRoute>}/>
+          <Route path="/AddExpenses" element={<PrivateRoute><AddExpenses/></PrivateRoute>}/>
+          <Route path="/EditExpenses" element={<PrivateRoute><EditExpenses/></PrivateRoute>}/>
+          <Route path="/ViewExpenses" element={<PrivateRoute><ViewExpenses/></PrivateRoute>}/>
 
           {/* Income */}
           <Route path="/ListIncome" element={<PrivateRoute><ListIncome/></PrivateRoute>}/>
+          <Route path="/AddIncome" element={<PrivateRoute><AddIncome/></PrivateRoute>}/>
+          <Route path="/EditIncome" element={<PrivateRoute><EditIncome/></PrivateRoute>}/>
+          <Route path="/ViewIncome" element={<PrivateRoute><ViewIncome/></PrivateRoute>}/>
+
 
           {/* Income Report */}
           <Route path="/ListIncomeReport" element={<PrivateRoute><ListIncomeReport/></PrivateRoute>}/>
+          <Route path="/AddIncomeReport" element={<PrivateRoute><AddIncomeReport/></PrivateRoute>}/>
+          <Route path="/EditIncomeReport" element={<PrivateRoute><EditIncomeReport/></PrivateRoute>}/>
+          <Route path="/ViewIncomeReport" element={<PrivateRoute><ViewIncomeReport/></PrivateRoute>}/>
 
           {/* Raise Quotations */}
           <Route path="/ListRaiseQuotations" element={<PrivateRoute><ListQuotations/></PrivateRoute>}/>
+          <Route path="/AddRaiseQuotations" element={<PrivateRoute><AddQuotations/></PrivateRoute>}/>
+          <Route path="/EditRaiseQuotations" element={<PrivateRoute><EditQuotations/></PrivateRoute>}/>
+          <Route path="/ViewRaiseQuotations" element={<PrivateRoute><ViewQuotations/></PrivateRoute>}/>
 
           {/* Attendance */}
           <Route path="/ListAttendance" element={<PrivateRoute><ListAttendance/></PrivateRoute>}/>
+          <Route path="/AddAttendance" element={<PrivateRoute><AddAttendance/></PrivateRoute>}/>
+          <Route path="/EditAttendance" element={<PrivateRoute><EditAttendance/></PrivateRoute>}/>
+          <Route path="/ViewAttendance" element={<PrivateRoute><ViewAttendance/></PrivateRoute>}/>
 
           {/* KPI */}
           <Route path="/ListKPI" element={<PrivateRoute><ListKPI/></PrivateRoute>}/>
+          <Route path="/AddKPI" element={<PrivateRoute><AddKPI/></PrivateRoute>}/>
+          <Route path="/EditKPI" element={<PrivateRoute><EditKPI/></PrivateRoute>}/>
+          <Route path="/ViewKPI" element={<PrivateRoute><ViewKPI/></PrivateRoute>}/>
 
           {/* Leave */}
           <Route path="/ListLeave" element={<PrivateRoute><ListLeave/></PrivateRoute>}/>
+          <Route path="/AddLeave" element={<PrivateRoute><AddLeave/></PrivateRoute>}/>
+          <Route path="/EditLeave" element={<PrivateRoute><EditLeave/></PrivateRoute>}/>
+          <Route path="/ViewLeave" element={<PrivateRoute><ViewLeave/></PrivateRoute>}/>
+
+
+
+
 
           {/* Payroll */}
           <Route path="/ListPayroll" element={<PrivateRoute><ListPayroll/></PrivateRoute>}/>
+          <Route path="/AddPayroll" element={<PrivateRoute><AddPayroll/></PrivateRoute>}/>
+          <Route path="/EditPayroll" element={<PrivateRoute><EditPayroll/></PrivateRoute>}/>
+          <Route path="/ViewPayroll" element={<PrivateRoute><ViewPayroll/></PrivateRoute>}/>
 
           {/* Performance Report */}
           <Route path="/ListPerformanceReport" element={<PrivateRoute><ListPeformanceReport/></PrivateRoute>}/>
+          <Route path="/AddPerformanceReport" element={<PrivateRoute><AddPeformanceReport/></PrivateRoute>}/>
+          <Route path="/EditPerformanceReport" element={<PrivateRoute><EditPeformanceReport/></PrivateRoute>}/>
+          <Route path="/ViewPerformanceReport" element={<PrivateRoute><ViewPeformanceReport/></PrivateRoute>}/>
+
+
           {/* Policies */}
           <Route path="/ListPolicies" element={<PrivateRoute><ListPolicies/></PrivateRoute>}/>
+          <Route path="/AddPolicies" element={<PrivateRoute><AddPolicies/></PrivateRoute>}/>
+          <Route path="/EditPolicies" element={<PrivateRoute><EditPolicies/></PrivateRoute>}/>
+          <Route path="/ViewPolicies" element={<PrivateRoute><ViewPolicies/></PrivateRoute>}/>
 
           {/* Staff Hrm */}
           <Route path="/ListStaffHRM" element={<PrivateRoute><ListHrmStaff/></PrivateRoute>}/>
+          <Route path="/AddStaffHRM" element={<PrivateRoute><AddHrmStaff/></PrivateRoute>}/>
+          <Route path="/EditStaffHRM" element={<PrivateRoute><EditHrmStaff/></PrivateRoute>}/>
+          <Route path="/ViewStaffHRM" element={<PrivateRoute><ViewHrmStaff/></PrivateRoute>}/>
           {/* Project */}
           <Route path="/ListProject" element={<PrivateRoute><ListProject/></PrivateRoute>}/>
+          <Route path="/AddProject" element={<PrivateRoute><AddProject/></PrivateRoute>}/>
+
+          <Route path="/EditProject" element={<PrivateRoute><EditProject/></PrivateRoute>}/>
+
+          <Route path="/ViewProject" element={<PrivateRoute><ViewProject/></PrivateRoute>}/>
+
 
           {/* Task */}
           <Route path="/ListTask" element={<PrivateRoute><ListTask/></PrivateRoute>}/>
+          <Route path="/AddTask" element={<PrivateRoute><AddTask/></PrivateRoute>}/>
+          <Route path="/EditTask" element={<PrivateRoute><EditTask/></PrivateRoute>}/>
+          <Route path="/ViewTask" element={<PrivateRoute><ViewTask/></PrivateRoute>}/>
         </Routes>
       </BrowserRouter>
     </div>

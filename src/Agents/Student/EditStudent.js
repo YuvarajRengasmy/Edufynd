@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../compoents/header";
-import Sidebar from "../../compoents/HoverBar";
+import Sidebar from "../../compoents/AgentSidebar";
 import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {

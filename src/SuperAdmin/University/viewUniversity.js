@@ -1,4 +1,3 @@
-
 import { RiCoinsFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -82,127 +81,176 @@ const UserProfile = () => {
   };
   return (
     <>
-     
-        <div >
-        
-            <Sidebar />
-         
-          <div
-            className="content-wrapper"
-            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
-          >
-            <div className="content-header">
+      <div>
+        <Sidebar />
+
+        <div
+          className="content-wrapper"
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+        >
+          <div className="content-header">
             <div className="container ">
               <div className="row">
                 <div className="col-xl-12">
-                 
-                    <div className="card border-0 rounded-0 ">
-                      <div class="card rounded-0 border-0 text-bg-dark">
-                        <img
-                          src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg"
-                          class="card-img img-fluid"
-                          alt="university_bg_image"
-                          style={{
-                            mixBlendMode: "multiply",
-                            maxHeight: "15rem",
-                          }}
-                        />
-                        <div class="card-img-overlay">
-                          <div className=" rounded-0 border-0  bg-transparent ">
-                            <div className="row g-0 ">
-                              <div className="col-md-3 align-self-center ">
-                                <img
-                                  src={
-                                    university?.universityLogo
-                                      ? university?.universityLogo
-                                      : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
-                                  }
-                                  className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
-                                  style={{ width: "7rem", height: "7rem" }}
-                                  alt="Berry College Campus"
-                                />
-                              </div>
-                              <div className="col-md-9">
-                                <div className="card-body">
-                                  <div className="d-flex flex-row justify-content-between align-items-start">
-                                    <div className="d-flex flex-column">
-                                      <p className="text-white mb-1 fw-bold">
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          <FaUniversity />
-                                        </span>{" "}
-                                        {university?.universityName}
-                                      </p>
-                                      <p className="text-white mb-1">
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          <FaGlobeAmericas />
-                                        </span>{" "}
-                                        {university?.country}
-                                      </p>
-                                    </div>
-                                    <div className="d-flex flex-column align-items-end">
-                                      <Link
-                                        to={university?.website}
-                                        className="text-decoration-none text-white mb-1"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          <IoMdRocket />
-                                        </span>{" "}
-                                        {university?.website}
-                                      </Link>
-                                      <div className="text-white mb-1">
-                                        {" "}
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          {" "}
-                                          <IoMailUnread />
-                                        </span>{" "}
-                                        {university?.email}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="bg-white text-dark shadow border-0  align-self-end rounded-1 mt-4 p-3">
-                                    <span
-                                      className="text-secondary fw-bolder d-flex align-items-center gap-2 text-capitalize "
-                                      style={{ fontSize: "13px" }}
-                                    >
-                                      University Rank:
-                                      <span>
-                                        <RiCoinsFill className="text-warning " />
-                                        {university?.ranking}
-                                      </span>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
+                  <div className="card border-0 rounded-0 ">
+                    <div
+                      className="card rounded-0 border-0  "
+                      style={{
+                        position: "relative",
+                        overflow: "hidden",
+                        height: "70vh",
+                      }}
+                    >
+                      <img
+                        src="https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
+                        className="card-img img-fluid rounded-0 border-0"
+                        alt="university_bg_image"
+                        style={{
+                          width: "100%",
+                          height: "100%", // Ensure the image covers the entire card height
+                          objectFit: "cover",
+                          mixBlendMode: "multiply",
+                        }}
+                      />
+                      <div
+                        className="gradient-overlay"
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "200px", // Height of the gradient
+                          background:
+                            "linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))",
+                          zIndex: 1,
+                        }}
+                      ></div>
+                      <div
+                        className="card-img-overlay align-self-end"
+                        style={{ position: "absolute", zIndex: 2 }}
+                      >
+                        <div className="border-0 rounded-0 bg-transparent">
+                          <img
+                            src={
+                              university?.universityLogo
+                                ? university?.universityLogo
+                                : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
+                            }
+                            className="img-fluid rounded-circle img-thumbnail"
+                            style={{ width: "9rem", height: "9rem" }}
+                            alt="University Logo"
+                          />
+                          <div className="card-body">
+                            <div className="py-3 my-2">
+                              <h5 className="h1 fw-bolder text-white d-flex align-items-center gap-2 text-capitalize">
+                                {university?.universityName}
+                              </h5>
+                            </div>
+                            <div className="d-flex flex-row justify-content-between align-items-start">
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-globe nav-icon"></i>
+                                </span>{" "}
+                                {university?.country}
+                              </p>
+
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-calendar nav-icon"></i>
+                                </span>{" "}
+                                {university?.founded}
+                              </p>
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-building nav-icon"></i>
+                                </span>{" "}
+                                {university?.institutionType}
+                              </p>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-trophy nav-icon"></i>
+                                </span>
+                                {university?.ranking}
+                              </p>
+
+                              <Link
+                                to={university?.website}
+                                className="text-decoration-none text-white fw-semibold mb-1"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-link nav-icon"></i>
+                                </span>{" "}
+                                {university?.website}
+                              </Link>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i class="fa fa-clock nav-icon"></i>
+                                </span>
+                                {university?.offerTAT}
+                              </p>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                Avg &nbsp; {university?.averageFees}{" "}
+                                <i class="fa fa-dollar-sign nav-icon"></i>
+                              </p>
+                              {/* <div className="text-white mb-1 fw-semibold" style={{ fontSize: '14px' }}>
+                <span style={{ color: '#fe5722', fontSize: '14px' }}>
+                  <i className="fa fa-envelope nav-icon"></i>
+                </span>{' '}
+                {university?.email}
+              </div> */}
                             </div>
                           </div>
                         </div>
                       </div>
-
-                      <div className="card-body  ">
+                    </div>
+                    <div className="card-body  ">
+                      <div className="container">
                         <div className="row ">
                           <div className="col-md-8">
                             <ul
-                              class="nav nav-underline fs-9"
+                              class="nav nav-pills fs-9"
                               id="myTab"
                               role="tablist"
                             >
                               <li class="nav-item" role="presentation">
                                 <a
-                                  class="nav-link active text-uppercase "
+                                  class="nav-link active text-Capitalize "
                                   id="home-tab"
                                   data-bs-toggle="tab"
                                   href="#tab-home"
@@ -215,7 +263,7 @@ const UserProfile = () => {
                               </li>
                               <li class="nav-item" role="presentation">
                                 <a
-                                  class="nav-link text-uppercase "
+                                  class="nav-link text-Capitalize "
                                   id="profile-tab"
                                   data-bs-toggle="tab"
                                   href="#tab-profile"
@@ -229,7 +277,7 @@ const UserProfile = () => {
                               </li>
                               <li class="nav-item" role="presentation">
                                 <a
-                                  class="nav-link text-uppercase "
+                                  class="nav-link   text-Capitalize "
                                   id="profile-tab"
                                   data-bs-toggle="tab"
                                   href="#tab-populatCourse"
@@ -243,7 +291,7 @@ const UserProfile = () => {
                               </li>
                               <li class="nav-item" role="presentation">
                                 <a
-                                  class="nav-link text-uppercase "
+                                  class="nav-link text-Capitalize "
                                   id="profile-tab"
                                   data-bs-toggle="tab"
                                   href="#tab-Course"
@@ -257,7 +305,7 @@ const UserProfile = () => {
                               </li>
                               <li class="nav-item" role="presentation">
                                 <a
-                                  class="nav-link text-uppercase "
+                                  class="nav-link text-Capitalize "
                                   id="profile-tab"
                                   data-bs-toggle="tab"
                                   href="#Payment-course"
@@ -271,7 +319,7 @@ const UserProfile = () => {
                               </li>
                               <li class="nav-item" role="presentation">
                                 <a
-                                  class="nav-link text-uppercase "
+                                  class="nav-link text-Capitalize "
                                   id="home-review-tab"
                                   data-bs-toggle="tab"
                                   href="#tab-Review"
@@ -279,7 +327,7 @@ const UserProfile = () => {
                                   aria-controls="tab-home"
                                   aria-selected="true"
                                 >
-                                 Requirement
+                                  Requirement
                                 </a>
                               </li>
                             </ul>
@@ -312,78 +360,81 @@ const UserProfile = () => {
                                 aria-labelledby="profile-tab"
                               >
                                 <div className="row">
-                                  <div className=" border-0 pt-3 px-4">
-                                    <div className="row">
-                                      {Array.isArray(university?.campuses) &&
-                                        university.campuses.map((data, index) => (
-                                          <div key={index} className="col-md-4">
+                                  {Array.isArray(university?.campuses) &&
+                                    university.campuses.map((data, index) => (
+                                      <div key={index} className="col-md-3">
+                                        <div className="card text-bg-light  border-0   border-start   border-5 border-danger  align-items-center">
+                                          <div className="align-self-center mt-2 mb-0">
+                                            <img
+                                              src={
+                                                university?.universityLogo
+                                                  ? university?.universityLogo
+                                                  : "https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg"
+                                              }
+                                              className="card-img-top img-fluid rounded-circle object-fit-cover mx-auto d-block mb-0"
+                                             
+                                              alt="img"
+                                              style={{width:'4rem',height:'4rem'}}
+                                            />
+                                          </div>
+
+                                          <div className="card-body">
+                                            <p className="card-text text-center mb-1">
+                                              {data?.lga}
+                                            </p>
+                                            <p className="card-text text-center">
+                                              {data?.state}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+                              <div
+                                className="tab-pane fade"
+                                id="tab-populatCourse"
+                                role="tabpanel"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div className="container">
+                                  <div className="row">
+                                    {Array.isArray(
+                                      university?.popularCategories
+                                    ) &&
+                                      university.popularCategories.map(
+                                        (category, index) => (
+                                          <div
+                                            key={index}
+                                            className="col-4 mb-3" // This ensures each card takes up 4 out of 12 columns, allowing 3 cards per row
+                                          >
                                             <div
-                                              className="card border-1 rounded-3 shadow-sm align-items-center"
+                                              className="card border-0 text-white"
                                               style={{
-                                                width: "8rem",
+                                                backgroundColor:
+                                                  "rgba(0,0,0,0.4)",
                                               }}
                                             >
                                               <img
-                                                src={
-                                                  university?.universityLogo
-                                                    ? university?.universityLogo
-                                                    : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
-                                                }
-                                                className="card-img-top img-fluid rounded-circle  mx-auto d-block"
+                                                src="https://imageio.forbes.com/specials-images/imageserve/61d52d4e3a76ed81ac034ea8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
+                                                className="card-img img-fluid object-fit-cover"
+                                                alt="Popular category"
                                                 style={{
-                                                  width: "4rem",
-                                                  height: "4rem",
+                                                  mixBlendMode: "multiply",
                                                 }}
-                                                alt="img"
                                               />
-                                              <div className="card-body">
-                                               
-                                                <p className="card-text text-center">
-                                                  {data?.lga}
-                                                </p>
-                                                <p className="card-text text-center">
-                                                  {data?.state}
+                                              <div className="card-img-overlay d-flex align-items-center justify-content-center">
+                                                <p className="text-center">
+                                                  {category}
                                                 </p>
                                               </div>
                                             </div>
                                           </div>
-                                        ))}
-                                    </div>
+                                        )
+                                      )}
                                   </div>
                                 </div>
                               </div>
-                              <div
-  className="tab-pane fade"
-  id="tab-populatCourse"
-  role="tabpanel"
-  aria-labelledby="profile-tab"
->
-  <div className="container">
-  <div className="row">
-    <div className="col-lg-4 ">
-      {Array.isArray(university?.popularCategories) &&
-        university.popularCategories.map((category, index) => (
-          <div
-            key={index}
-            className="card border-0 text-white mb-3"
-            style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
-          >
-            <img
-              src="https://imageio.forbes.com/specials-images/imageserve/61d52d4e3a76ed81ac034ea8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
-              className="card-img img-fluid object-fit-cover"
-              alt="Popular category"
-              style={{ mixBlendMode: 'multiply' }}
-            />
-            <div className="card-img-overlay d-flex align-items-center justify-content-center">
-              <p className="text-center">{category}</p>
-            </div>
-          </div>
-        ))}
-    </div>
-  </div>
-  </div>
- 
-</div>
 
                               <div
                                 class="tab-pane fade"
@@ -399,9 +450,9 @@ const UserProfile = () => {
                                           (courseType, index) => (
                                             <div
                                               key={index}
-                                              className="card card-body shadow-sm border-1 rounded  mb-2"
+                                              className="card card-body  border-0   border-top   border-5 border-warning  mb-2"
                                             >
-                                              <span className="text-dark fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase">
+                                              <span className="text-dark fw-bolder d-flex align-items-center justify-content-center gap-2 text-Capitalize">
                                                 {courseType}
                                               </span>
                                             </div>
@@ -506,69 +557,204 @@ const UserProfile = () => {
 
                           <div className="col-md-4">
                             <div
-                              className="alert alert-primary text-center fw-semibold border-0   text-uppercase "
+                              className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
                               role="alert"
                             >
-                              University Details.
+                              Intakes
                             </div>
 
-                            <div className="card     mt-3">
-                              <div className="card-body">
-                                <div className="row gy-3 py-2">
-                                  <div className="col-sm-6">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      OfferTAT
-                                    </div>
-                                    <div className="fw-semibold text-capitalize">
-                                      {university?.offerTAT}
-                                    </div>
-                                  </div>
-                                  <div className="col-sm-6">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      Country
-                                    </div>
-                                    <div className=" fw-semibold text-capitalize">
-                                      {university?.country}
-                                     
+                            <div className="card card-body">
+                              <h5 className="text-capitalize text-center">
+                                Program Intakes
+                              </h5>
+
+                              <div
+                                className="accordion accordion-flush"
+                                id="programIntakesAccordion"
+                                style={{ fontSize: "12px" }}
+                              >
+                                <div className="accordion-item">
+                                  <h2 className="accordion-header">
+                                    <button
+                                      className="accordion-button collapsed btn-sm"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#flush-collapseOpen"
+                                      aria-expanded="false"
+                                      aria-controls="flush-collapseOpen"
+                                    >
+                                      Open
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="flush-collapseOpen"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#programIntakesAccordion"
+                                  >
+                                    <div className="accordion-body">
+                                      <div className="row row-cols-2">
+                                        <div className="col">
+                                          <p className="fw-bold">Open Time</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2024
+                                          </p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-bold">Deadline</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2025
+                                          </p>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                                <div className="row gy-3 py-2">
-                                  <div className="col-sm-6">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      Average Fees
-                                    </div>
-                                    <div className=" fw-semibold text-capitalize">
-                                      {university?.averageFees}
-                                    </div>
-                                  </div>
-                                  <div className="col-sm-6  ">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      Founded
-                                    </div>
-                                    <div className=" fw-semibold text-capitalize">
-                                      {university?.founded}
+                                <div className="accordion-item">
+                                  <h2 className="accordion-header">
+                                    <button
+                                      className="accordion-button collapsed btn-sm"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#flush-collapseClosed"
+                                      aria-expanded="false"
+                                      aria-controls="flush-collapseClosed"
+                                    >
+                                      Closed
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="flush-collapseClosed"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#programIntakesAccordion"
+                                  >
+                                    <div className="accordion-body">
+                                      <div className="row row-cols-2">
+                                        <div className="col">
+                                          <p className="fw-bold">Open Time</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2024
+                                          </p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-bold">Deadline</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2025
+                                          </p>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                                <div className="row gy-3 py-2">
-                                  <div className="col-sm-6">
-                                    <div className=" fw-light text-lead text-capitalize">
-                                      Institution Type
-                                    </div>
-                                    <div className=" fw-semibold text-capitalize">
-                                      {university?.institutionType}
+                                <div className="accordion-item">
+                                  <h2 className="accordion-header">
+                                    <button
+                                      className="accordion-button collapsed btn-sm"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#flush-collapseLikelyOpen"
+                                      aria-expanded="false"
+                                      aria-controls="flush-collapseLikelyOpen"
+                                    >
+                                      Likely Open
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="flush-collapseLikelyOpen"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#programIntakesAccordion"
+                                  >
+                                    <div className="accordion-body">
+                                      <div className="row row-cols-2">
+                                        <div className="col">
+                                          <p className="fw-bold">Open Time</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2024
+                                          </p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-bold">Deadline</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2025
+                                          </p>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
+
+                            {/* <div className="card  mt-3">
+                            <div className="card-body">
+                              <div className="row ">
+                                <div className="col-6">
+                                  <div className=" fw-light text-lead text-capitalize">
+                                    OfferTAT
+                                  </div>
+                                  <div className="fw-semibold text-capitalize">
+                                    {university?.offerTAT}
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className=" fw-light text-lead text-capitalize">
+                                    Average Fees
+                                  </div>
+                                  <div className=" fw-semibold text-capitalize">
+                                
+                                    {university?.averageFees}
+                                  </div>
+                                </div>
+                                
+                                <div className="col-6">
+                                  <div className=" fw-light text-lead text-capitalize">
+                                    Country
+                                  </div>
+                                  <div className=" fw-semibold text-capitalize">
+                                    {university?.country}
+
+                                  </div>
+                                </div>
+                              </div>
+                             
+                              
+                                <div className="col-6  ">
+                                  <div className=" fw-light text-lead text-capitalize">
+                                    Founded
+                                  </div>
+                                  <div className=" fw-semibold text-capitalize">
+                                    {university?.founded}
+                                  </div>
+                                </div>
+                          
+                                <div className="col-6">
+                                  <div className=" fw-light text-lead text-capitalize">
+                                    Institution Type
+                                  </div>
+                                  <div className=" fw-semibold text-capitalize">
+                                    {university?.institutionType}
+                                  </div>
+                                </div>
+                             
+                            </div>
+                          </div> */}
                           </div>
 
-                          <div className="row g-3">
+                          <div className="row g-3 mb-3">
                             <div className="d-flex flex-row align-items-start justify-content-between">
                               <div
-                                className="text-semibold text-decoration-underline fw-semibold text-uppercase "
+                                className="text-semibold text-decoration-underline fw-semibold text-Capitalize "
                                 style={{ color: "#fe5722", fontSize: "14px" }}
                               >
                                 Programs
@@ -576,56 +762,56 @@ const UserProfile = () => {
                             </div>
                             {program?.map((data, index) => (
                               <div key={index} className="col-md-4 ">
-                                <div className="card mb-3  border-1   shadow-sm">
+                                <div className="card mb-3  shadow border-0 border-start border-5 border-primary  h-100  shadow ">
                                   <div className="row g-0 align-items-center justify-content-center">
-                                    <div className="col-md-3 align-self-center ">
+                                    <div className="col-md-4 align-self-center ">
                                       <img
                                         src={
                                           data?.universityLogo
                                             ? data?.universityLogo
                                             : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
                                         }
-                                        className="img-fluid rounded-pill img-thumbnail mx-auto d-block"
+                                        className="img-fluid rounded-circle mx-auto d-block "
                                         alt="Course Image"
                                         style={{
-                                          width: "4rem",
-                                          height: "4rem",
+                                          width: "7rem",
+                                          height: "7rem",
                                         }}
                                       />
                                     </div>
-                                    <div className="col-md-9">
+                                    <div className="col-md-8">
                                       <div className="card-body">
                                         <h6
-                                          className="university-name"
+                                          className="university-name mb-2 lh-sm"
                                           style={{
                                             fontSize: "14px",
                                             fontWeight: "bold",
                                           }}
                                         >
-                                          {data?.universityName}
+                                        <i class="fa fa-university nav-icon text-dark"></i>  {data?.universityName}
                                         </h6>
                                         <p
-                                          className="course-name"
+                                          className="course-name mb-2 lh-sm"
                                           style={{ fontSize: "12px" }}
                                         >
-                                          <b> CourseName -</b>{" "}
+                                         <i class="fa fa-book nav-icon text-dark"></i> <b> CourseName </b>{" "}
                                           {data?.programTitle}
                                         </p>
                                         <p
-                                          className="duration"
+                                          className="duration mb-2 lh-sm"
                                           style={{ fontSize: "12px" }}
                                         >
-                                          <b>Duration -</b> {data?.duration}
+                                         <i class="fa fa-hourglass-half nav-icon text-dark"></i> <b>Duration </b> {data?.duration}
                                         </p>
 
                                         <button
-                                          className="btn btn-sm  rounded-pill text-white text-uppercase fw-semibold px-3 py-1"
+                                          className="btn btn-sm  rounded-pill text-white text-Capitalize fw-semibold px-4 "
                                           style={{
                                             backgroundColor: "#fe5722",
                                             fontSize: "12px",
                                           }}
                                         >
-                                          Apply
+                                        <i class="fa fa-paper-plane nav-icon text-white"></i>  Apply
                                         </button>
                                       </div>
                                     </div>
@@ -670,15 +856,13 @@ const UserProfile = () => {
                         </div>
                       </div>
                     </div>
-                  
+                  </div>
                 </div>
               </div>
             </div>
-            </div>
-           
           </div>
         </div>
-    
+      </div>
     </>
   );
 };

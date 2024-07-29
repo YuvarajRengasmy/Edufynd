@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import ListStaffUniversity from "../Staff/University/ListStaffUniversity";
 import ViewStaffProfile from "../Staff/Profile/ViewStaffProfile";
 
@@ -22,18 +22,18 @@ export const Staff = () => {
     <div>
       <BrowserRouter>
         <Routes>
-        <Route path='/StaffDashboard' element={<StaffDashBoard/>}/>
-        <Route path="/ListStaffUniversity" element={<ListStaffUniversity/>}/>
-        <Route path="/ViewStaffUniversity" element={<ViewStaffUniversity/>}/>
-        <Route path="/ViewProfile" element={<ViewStaffProfile/>}/>   
-        <Route path="/AddStaffApplication" element={<AddStaffApplication/>}/>
-        <Route path="/EditStaffApplication" element={<EditStaffApplication/>}/>
-        <Route path="/ListStaffApplication" element={<ListStaffApplication/>}/>
-        <Route path="/ViewStaffApplication" element={<ViewStaffApplication/>}/>
-        <Route path="/ListStaffProgram" element={<ListStaffProgram/>}/>
-        <Route path="/ViewStaffProgram" element={<ViewStaffProgram/>}/>
-        <Route path="/ListStaffNotifications" element={<ListStaffNotifications/>}/>
-        <Route path="/ViewStaffNotifications" element={<ViewStaffNotifications/>}/> 
+        <Route path='/StaffDashboard' element={<PrivateRoute><StaffDashBoard/></PrivateRoute>}/>
+        <Route path="/ListStaffUniversity" element={<PrivateRoute><ListStaffUniversity/></PrivateRoute>}/>
+        <Route path="/ViewStaffUniversity" element={<PrivateRoute><ViewStaffUniversity/></PrivateRoute>}/>
+        <Route path="/ViewProfile" element={<PrivateRoute><ViewStaffProfile/></PrivateRoute>}/>   
+        <Route path="/AddStaffApplication" element={<PrivateRoute><AddStaffApplication/></PrivateRoute>}/>
+        <Route path="/EditStaffApplication" element={<PrivateRoute><EditStaffApplication/></PrivateRoute>}/>
+        <Route path="/ListStaffApplication" element={<PrivateRoute><ListStaffApplication/></PrivateRoute>}/>
+        <Route path="/ViewStaffApplication" element={<PrivateRoute><ViewStaffApplication/></PrivateRoute>}/>
+        <Route path="/ListStaffProgram" element={<PrivateRoute><ListStaffProgram/></PrivateRoute>}/>
+        <Route path="/ViewStaffProgram" element={<PrivateRoute><ViewStaffProgram/></PrivateRoute>}/>
+        <Route path="/ListStaffNotifications" element={<PrivateRoute><ListStaffNotifications/></PrivateRoute>}/>
+        <Route path="/ViewStaffNotifications" element={<PrivateRoute><ViewStaffNotifications/></PrivateRoute>}/> 
         </Routes>
       </BrowserRouter>
     </div>
