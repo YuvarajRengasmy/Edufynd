@@ -12,3 +12,7 @@ export const getSuperAdmin = () => {
 export const getSuperAdminForSearch = (data) => {
     return API.get(`${SuperAdmin}/getSuperAdminForSearch`, { params: { search: data } })
 }
+
+export const getSingleSuperAdmin = (data) => {
+    return API.get(`${SuperAdmin}/getSingleSuperAdmin`, { params: { _id: data } });
+  };

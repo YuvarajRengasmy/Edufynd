@@ -35,7 +35,7 @@ export const Flight ="flight";
 
 // Invoice
 export const SenderInvoice ="senderInvoice";
-
+export const Chat ="chat";
 //Notifications
 export const Notifications="notification";
 export const Promotion ="promotion"
