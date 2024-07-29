@@ -2,7 +2,7 @@ import { useEffect, useState,  useRef} from "react";
  import {getSingleSuperAdmin } from "../../api/superAdmin";
 import { getSuperAdminId } from "../../Utils/storage";
 // import { getStaffId} from "../../Utils/storage";
-import { timeCal} from "../../Utils/DateFormat";
+import { timeCall} from "../../Utils/DateFormat";
 
  import { getallStaff } from "../../api/staff";
 import { postChat, getMessages } from "../../api/chat";
