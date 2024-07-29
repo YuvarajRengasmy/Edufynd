@@ -167,6 +167,22 @@ export const StaffSidebar = () => {
                     Application
                   </a>
                 </li>
+                <li className="nav-item">
+                  <a
+                    href="/chat"
+                    target="_self"
+                    className={`nav-link ${[
+                      "/chat",
+                     
+                    ].includes(currentPath)
+                      ? "active"
+                      : ""
+                      }`}
+                  >
+                    <i class="fa fa-bell nav-icon"></i>
+                    Chat
+                  </a>
+                </li>
 
                 <li className="nav-item">
                   <a
