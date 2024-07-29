@@ -12,6 +12,7 @@ import ListStaffApplication from "../Staff/Application/ListStaffApplication";
 
 import ListStaffProgram from "../Staff/Program/ListStaffProgram";
 import ViewStaffProgram from "../Staff/Program/ViewStaffProgram";
+import ChatList from "../Staff/Chat/ListChat"
 
 import ListStaffNotifications from "../Staff/Notifications/ListStaffNotifications";
 import ViewStaffNotifications from "../Staff/Notifications/ViewStaffNotifications";
@@ -34,6 +35,7 @@ export const Staff = () => {
         <Route path="/ViewStaffProgram" element={<PrivateRoute><ViewStaffProgram/></PrivateRoute>}/>
         <Route path="/ListStaffNotifications" element={<PrivateRoute><ListStaffNotifications/></PrivateRoute>}/>
         <Route path="/ViewStaffNotifications" element={<PrivateRoute><ViewStaffNotifications/></PrivateRoute>}/> 
+        <Route path="/chat" element={<PrivateRoute><ChatList/></PrivateRoute>}/>
         </Routes>
       </BrowserRouter>
     </div>
