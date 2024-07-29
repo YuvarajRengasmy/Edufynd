@@ -1,5 +1,5 @@
 import { useEffect, useState,  useRef} from "react";
- import {getSuperAdmin } from "../../api/superAdmin";
+ import {getSingleSuperAdmin } from "../../api/superAdmin";
 import { getSuperAdminId } from "../../Utils/storage";
 // import { getStaffId} from "../../Utils/storage";
 import { timeCal} from "../../Utils/DateFormat";
@@ -86,7 +86,7 @@ const ListChat = () => {
 
   const getsuperAdminDetails = () => {
     const id = getSuperAdminId();
-    getSuperAdmin(id)
+    getSingleSuperAdmin(id)
       .then((res) => {
         setSuperAdmin(res?.data?.result);
       })
@@ -128,7 +128,7 @@ const ListChat = () => {
 
     const newMessage = {
       text: inputMessage,
-      sender: superAdmin._id,
+      sender: superAdmin.name,
       timestamp: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -156,7 +156,7 @@ const ListChat = () => {
         setsuperAdminMessage(superAdminMessage);
         const list = {
           _id: superAdmin._id,
-          name: "edufynd",
+          name: superAdmin.name,
           profileImage: superAdmin.profileImage,
         };
         const socketdata = {
@@ -286,7 +286,7 @@ const ListChat = () => {
                           onClick={() => handleDoctorSelect(staff)}
                           key={staff._id}
                         >
-                          <div className="pt-1 d-flex justify-content-between">
+                          {/* <div className="pt-1 d-flex justify-content-between">
                             <span
                               className="small  mb-1"
                               style={{
@@ -300,7 +300,7 @@ const ListChat = () => {
                             </span>
 
                             <span className="small  mb-1">{timeCal(staff.createdOn)}</span>
-                          </div>
+                          </div> */}
                           <div className="d-flex justify-content-between ">
                             <div className="d-flex flex-row hover-zoom">
                               <div
@@ -346,6 +346,18 @@ const ListChat = () => {
                                 <small className="fw-bold mb-0 ">
                                   {staff && staff.empName}
                                 </small>
+                                <span
+                              className="small  mb-1 d-flex justify-content-between"
+                              style={{
+                                color: issuperAdminOnline(staff._id)
+                                  ? "green"
+                                  : "red",
+                                fontWeight: "700",
+                              }}
+                            >
+                              {issuperAdminOnline(staff._id) ? "Online" : "Offline"}
+                            </span>
+                            <span className="small  mb-1">{timeCall(staff.createdOn)}</span>
                               </div>
                             </div>
                           </div>
