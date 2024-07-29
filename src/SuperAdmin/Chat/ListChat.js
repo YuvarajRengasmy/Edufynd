@@ -286,21 +286,7 @@ const ListChat = () => {
                           onClick={() => handleDoctorSelect(staff)}
                           key={staff._id}
                         >
-                          {/* <div className="pt-1 d-flex justify-content-between">
-                            <span
-                              className="small  mb-1"
-                              style={{
-                                color: issuperAdminOnline(staff._id)
-                                  ? "green"
-                                  : "red",
-                                fontWeight: "700",
-                              }}
-                            >
-                              {issuperAdminOnline(staff._id) ? "Online" : "Offline"}
-                            </span>
-
-                            <span className="small  mb-1">{timeCal(staff.createdOn)}</span>
-                          </div> */}
+                         
                           <div className="d-flex justify-content-between ">
                             <div className="d-flex flex-row hover-zoom">
                               <div
@@ -356,8 +342,9 @@ const ListChat = () => {
                               }}
                             >
                               {issuperAdminOnline(staff._id) ? "Online" : "Offline"}
+                              {timeCall(staff.createdOn)}
                             </span>
-                            <span className="small  mb-1">{timeCall(staff.createdOn)}</span>
+                           
                               </div>
                             </div>
                           </div>
