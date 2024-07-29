@@ -1,417 +1,564 @@
-import React, { useEffect, useState, useRef } from "react";
-import Sortable from 'sortablejs';
-import { getallClient, deleteClient } from "../../api/client";
-import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import { useEffect, useState, useRef } from "react";
+// import { getsingleuser } from "../../Api/user";
+import { getStaffId} from "../../Utils/storage";
+// import { getAllDoctor } from "../../Api/doctorprofile";
+// import { postChat, getMessages } from "../../Api/chat";
+import "./Chatus.css";
+import {
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBTypography,
+  MDBCardFooter,
+} from "mdb-react-ui-kit";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import io from "socket.io-client";
 
-import Mastersidebar from "../../compoents/sidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
-import { toast } from "react-toastify";
+const ListChat = () => {
+  const [showChatlist, setShowChatlist] = useState(true);
+  const [showChat, setShowChat] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [user, setUser] = useState(null);
+  const [doctors, setDoctors] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [inputMessage, setInputMessage] = useState("");
+  const [loadingMessages, setLoadingMessages] = useState(false);
+  const [userMessage, setUserMessage] = useState("");
+  const [socket, setSocket] = useState(null);
+  const [socketmessage, setSocketMessage] = useState("");
+  const [connectedUsers, setConnectedUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-import { FaFilter } from "react-icons/fa";
-
-
-
-
-export const ListChat = () => {
-
-
-
-  const tableRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
-    const table = tableRef.current;
+    scrollToBottom();
+  }, [messages]);
 
-    // Apply SortableJS to the table headers
-    const sortable = new Sortable(table.querySelector('thead tr'), {
-      animation: 150,
-      swapThreshold: 0.5,
-      handle: '.sortable-handle',
-      onEnd: (evt) => {
-        const oldIndex = evt.oldIndex;
-        const newIndex = evt.newIndex;
+  const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  };
+  useEffect(() => {
+    const newSocket = io("http://localhost:4409");
+    setSocket(newSocket);
 
-        // Move the columns in the tbody
-        table.querySelectorAll('tbody tr').forEach((row) => {
-          const cells = Array.from(row.children);
-          row.insertBefore(cells[oldIndex], cells[newIndex]);
-        });
+    newSocket.on("socketId", (id) => {});
+
+    newSocket.on("newMessage", (newMessage) => {
+      if (
+        (newMessage.senderType === "staff" ||
+          newMessage.senderType === "superAdmin") &&
+        ((newMessage.superAdminId && newMessage.superAdminId === superAdmin._id) ||
+          newMessage.superAdminId._id === superAdmin._id) &&
+        ((newMessage.staffId && newMessage.staffId === selectedStaff?._id) ||
+          newMessage.staffId._id === selectedStaff?._id)
+      ) {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      } else {
+        setUserMessage([]);
       }
     });
+    newSocket.on("get-superAdmin", (superadmins) => {
+      setConnectedUsers(superadmins);
+    });
+
+    newSocket.emit("new-user-add", getStaffId());
 
     return () => {
-      sortable.destroy();
+      newSocket.disconnect();
     };
-  }, []);
+  }, [selectedStaff, superAdmin]);
+  const isUserOnline = (superAdmin) => {
+    return connectedUsers.some((superAdmin) => superAdmin.superAdminId === superAdminId && superAdmin.online);
+  };
 
+  useEffect(() => {});
+  useEffect(() => {
+    getUserDetails();
 
+    getDoctors();
+  }, [searchQuery]);
+
+  const getUserDetails = () => {
+    const id = getUserId();
+    getsingleuser(id)
+      .then((res) => {
+        setUser(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getDoctors = () => {
+    getAllDoctor()
+      .then((res) => {
+        const doctorsData = res?.data?.result || [];
+        if (searchQuery) {
+          const filteredDoctors = doctorsData.filter((doctor) =>
+            doctor.doctorName.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+          setDoctors(filteredDoctors);
+        } else {
+          const doctorsWithStatuses = doctorsData.map((doctor) => ({
+            ...doctor,
+            isActive: doctor.someLogicToDetermineActiveStatus,
+          }));
+          setDoctors(doctorsWithStatuses);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleInputChange = (e) => {
+    setInputMessage(e.target.value);
+  };
+
+  const handleSendMessage = () => {
+    if (!selectedDoctor) {
+      return;
+    }
+
+    const newMessage = {
+      text: inputMessage,
+      sender: user.name,
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
+      sentBy: "user",
+    };
+
+    postChatMessage(selectedDoctor._id, newMessage);
+    setInputMessage("");
+  };
+
+  const postChatMessage = (doctorId, message) => {
+    const userId = getUserId();
+    const data = {
+      doctorId: doctorId,
+      userId: userId,
+      message: message.text,
+      senderType: message.sender,
+    };
+
+    postChat(data)
+      .then((res) => {
+        const userMessage = res.data.result;
+        setUserMessage(userMessage);
+        const list = {
+          _id: user._id,
+          name: user.name,
+          profileImage: user.profileImage,
+        };
+        const socketdata = {
+          doctorId: selectedDoctor._id,
+          userId: list,
+          senderType: "user",
+          message: userMessage.message,
+          sentOn: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+        };
+        const socketdata1 = {
+          doctorId: selectedDoctor._id,
+          userId: list,
+          senderType: "user",
+          message: socketdata,
+          sentOn: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+        };
+        setSocketMessage(socketdata1);
+        socket.emit("sendMessage", socketdata1);
+      })
+      .catch((err) => {
+        console.error("Error sending chat message:", err);
+      });
+  };
+
+  useEffect(() => {
+    getMessage();
+  }, [selectedDoctor]);
+
+  const getMessage = () => {
+    if (selectedDoctor && selectedDoctor._id) {
+      setLoadingMessages(true);
+
+      getMessages()
+        .then((res) => {
+          if (Array.isArray(res.data.result)) {
+            const filteredMessages = res.data.result.filter(
+              (message) =>
+                (message.senderType === "doctor" ||
+                  message.senderType === "user") &&
+                message.userId &&
+                message.userId._id === user._id &&
+                message.doctorId &&
+                message.doctorId._id === selectedDoctor._id
+            );
+
+            setMessages(filteredMessages);
+          } else {
+            console.error("Invalid message data:", res.data);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching chat messages:", err);
+        })
+        .finally(() => {
+          setLoadingMessages(false);
+        });
+    }
+  };
+
+  const handleDoctorSelect = (doctor) => {
+    setSelectedDoctor(doctor);
+    setShowChatlist(false);
+    setShowChat(true);
+  };
 
   return (
     <>
-    <div>
-      
-        <Mastersidebar />
-     
+      <Header />
+      <div className="py-3 gradient-custom1" style={{ height: "100vh" }}>
+        <div className="container mb-5">
+          <div className="row mx-1 mx-md-5">
+            <div className="list-divider col-lg-4 col-12 mb-4 mb-md-0 ">
+              <h5 className="font-weight-bold mb-3 text-center text-white mt-2">
+                Let's Chat With Doctor!
+              </h5>
 
+              <div
+                className="mask-custom rounded-3 "
+                style={{ backgroundColor: "#1C2E46" }}
+              >
+                <div>
+                  <div className="input-group mb-3 p-3 ">
+                    <input
+                      className="form-control p-3"
+                      placeholder="Search for..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="mb-0 p-3">
+                  <div
+                    className="mask-custom-scroll list-unstyled rounded-3 "
+                    style={{ maxHeight: "420px", overflowY: "auto" }}
+                  >
+                    {doctors &&
+                      doctors.map((doctor) => (
+                        <li
+                          className="p-2 border-bottom "
+                          style={{
+                            backgroundColor:
+                              selectedDoctor &&
+                              selectedDoctor._id === doctor._id
+                                ? "#1C2E46"
+                                : "white",
+                            color:
+                              selectedDoctor &&
+                              selectedDoctor._id === doctor._id
+                                ? "white"
+                                : "black",
+                            border:
+                              selectedDoctor &&
+                              selectedDoctor._id === doctor._id
+                                ? "1px solid white"
+                                : "1px solid white",
+                            width: "auto",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleDoctorSelect(doctor)}
+                          key={doctor._id}
+                        >
+                          <div className="pt-1 d-flex justify-content-between">
+                            <span
+                              className="small  mb-1"
+                              style={{
+                                color: isUserOnline(doctor._id)
+                                  ? "green"
+                                  : "red",
+                                fontWeight: "700",
+                              }}
+                            >
+                              {isUserOnline(doctor._id) ? "Online" : "Offline"}
+                            </span>
 
-      <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
-        <div className="container">
-          
-            <div className="row ">
-              <div className="col-xl-12">
-              
-                <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                        style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
-                          fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px" // Adjust padding to fit the height
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <i className="fas fa-search" style={{ color: "black" }}></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li class="m-1">
-
-
-                    <div>
-                      <button className="btn btn-primary" style={{ fontSize: "11px" }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Chat</h5>
-                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Client Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessName"
-                               
-                                placeholder="Search...Client Name"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              />
-                              <label className="form-label">Client Contact No </label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessContactNo"
-                               
-                                placeholder="Search...Client Contact No"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              />
-
-                              <label className="form-label">Status</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                               
-                                placeholder="Search...Status"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              />
-                              <label className="form-label">Client Id</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="clientID"
-                               
-                                placeholder="Search...Client Id"
-                                style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              />
-
-
-                            </div>
-                            <div>
-                              <button
-
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
-                                style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
-                              // onClick={resetFilter}
+                            <span className="small  mb-1">1 day ago</span>
+                          </div>
+                          <div className="d-flex justify-content-between ">
+                            <div className="d-flex flex-row hover-zoom">
+                              <div
+                                className="profile-container"
+                                style={{ position: "relative" }}
                               >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
-                                style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
-                              >
-                                Apply
-                              </button>
+                                <span
+                                  className="online-dot"
+                                  style={{
+                                    color: isUserOnline(doctor._id)
+                                      ? "#10B118  "
+                                      : "transparent",
+                                    position: "absolute",
+                                    top: "39px",
+                                    left: "66%",
+                                    height: "15px",
+                                    width: "15px",
+                                    borderRadius: "50%",
+                                    backgroundColor: isUserOnline(doctor._id)
+                                      ? "#10B118"
+                                      : "transparent",
+                                    border: isUserOnline(doctor._id)
+                                      ? "2px solid white"
+                                      : "none",
+                                  }}
+                                ></span>
+                                <img
+                                  src={doctor.profileImage}
+                                  alt="avatar"
+                                  className="rounded-circle d-flex align-self-center me-3 shadow-1-strong p-1"
+                                  width="60"
+                                  height="60"
+                                  style={{
+                                    border: isUserOnline(doctor._id)
+                                      ? "3px solid #10B118"
+                                      : "none",
+                                    backgroundColor: "white",
+                                  }}
+                                />
+                              </div>
+
+                              <div className="pt-1">
+                                <small className="fw-bold mb-0 ">
+                                  {doctor && doctor.doctorName}
+                                </small>
+                              </div>
                             </div>
-                          </form>
+                          </div>
+                        </li>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="  col-lg-8 col-md-12 "
+              style={{ maxHeight: "590px", zIndex: "1" }}
+            >
+              <div
+                className="special-divider  mt-5 rounded-3"
+                id="message_box"
+                style={{
+                  maxHeight: "480px",
+                  overflowY: "auto",
+                  backgroundColor: "#E6EDF8",
+                }}
+                ref={messagesContainerRef}
+              >
+                <MDBCol>
+                  <MDBTypography listUnStyled className="">
+                    <div
+                      className="  position-sticky fixed-top w-100  p-2 rounded d-flex justify-content-between"
+                      style={{ zIndex: 9999, backgroundColor: "#1C2E46" }}
+                    >
+                      <div className="d-flex flex-row hover-zoom">
+                        {selectedDoctor && selectedDoctor.profileImage ? (
+                          <img
+                            src={selectedDoctor.profileImage}
+                            alt="avatar"
+                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                            width="40"
+                            height="40"
+                          />
+                        ) : (
+                          <div
+                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong bg-light text-dark"
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <img
+                              src={emptyprofile}
+                              alt="avatar"
+                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                              width="40"
+                              height="40"
+                            />
+                          </div>
+                        )}
+                        <div className="pt-1">
+                          <p className="fw-bold mb-0 text-white">
+                            {selectedDoctor && selectedDoctor.doctorName}
+                          </p>
+                          {selectedDoctor && selectedDoctor._id ? (
+                            <span
+                              className="small  mb-1"
+                              style={{
+                                color: isUserOnline(selectedDoctor._id)
+                                  ? "green"
+                                  : "red",
+                                fontWeight: "700",
+                              }}
+                            >
+                              {isUserOnline(selectedDoctor._id)
+                                ? "Online"
+                                : "Offline"}
+                            </span>
+                          ) : null}
                         </div>
+                      </div>
+                      <div className="mt-2 text-white">
+                        <BsThreeDotsVertical />
                       </div>
                     </div>
 
+                    <div className="mask-custom-scroll p-5 ">
+                      {loadingMessages && <p>Loading messages...</p>}
+                      {!loadingMessages && messages.length > 0 ? (
+                        <ul className="list-unstyled">
+                          {messages.map((message, index) => (
+                            <li
+                              className={`d-flex justify-content-${
+                                message.senderType === "user" ? "end" : "start"
+                              } mb-4`}
+                              key={index}
+                            >
+                              {message.senderType === "user" &&
+                              message &&
+                              message.userId.profileImage ? (
+                                <img
+                                  src={message.userId.profileImage}
+                                  alt="avatar"
+                                  className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
+                                  width="30"
+                                  height="30"
+                                />
+                              ) : (
+                                message.senderType === "doctor" &&
+                                message &&
+                                message.doctorId.profileImage && (
+                                  <img
+                                    src={message.doctorId.profileImage}
+                                    alt="avatar"
+                                    className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
+                                    width="30"
+                                    height="30"
+                                  />
+                                )
+                              )}
+                              <MDBCard
+                                className="mask-custom "
+                                style={{
+                                  background: "none",
+                                  backgroundColor: "none",
+                                  border: "none",
+                                  borderBottom: "none",
+                                  boxShadow: "none",
+                                }}
+                              >
+                                <MDBCardBody
+                                  style={{
+                                    backgroundColor:
+                                      message.senderType === "user"
+                                        ? "#EB2562"
+                                        : "#1C2E46",
+                                    borderRadius: "50px 50px 0px 50px ",
 
-                  </li>
-                  <li class="m-1">
-                    <Link >
-                      <button style={{ backgroundColor: "#E12929", fontSize: "11px" }} className="btn text-white ">
-                        <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link  class="btn-filters">
-                      <span>
-                        <button style={{ backgroundColor: "#22A033", fontSize: "11px" }} className="btn text-white ">
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li class="m-1">
-                    <Link class="btn-filters">
-                      <span>
-                        <button
-                          style={{ backgroundColor: "#9265cc", fontSize: "11px" }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddCommission">
-                      <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                        style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
-                      >
-                        <i
-                          class="fa fa-plus-circle me-2"
-                          aria-hidden="true"
-                        ></i>{" "}
-                         Add Chat
-                      </button>
-                    </Link>
-                  </li>
-
-                </ol>
-              </div>
-
-
-            </div>
-          </div>
-          
-         
-        </div>
-        <div className="content-body">
-            <div className="container">
-            <div className="row">
-            <div className="col-xl-12">
-              <div className="card rounded-0 border-0">
-                <div className="card-body">
-                  <div className="card-table">
-                    <div className="table-responsive">
-
-                      <table className=" table card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
-                        <thead>
-                          <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            <th className="text-capitalize text-start sortable-handle">S No</th>
-                            <th className="text-capitalize text-start sortable-handle">University Code</th>
-                            <th className="text-capitalize text-start sortable-handle">University Name</th>
-                            <th className="text-capitalize text-start sortable-handle">Commission</th>
-                            <th className="text-capitalize text-start sortable-handle">Primary Campus</th>
-                            <th className="text-capitalize text-start sortable-handle">No of Applications</th>
-                            <th className="text-capitalize text-start sortable-handle">Action </th>
-                            
-                          </tr>
-                        </thead>
-                        <tbody>
-                          
-                            <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                            
-                              <td>
-                                <div className="d-flex">
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/ViewCommission",
-                                      
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="View"
-                                  >
-                                    <i className="far fa-eye text-primary me-1"></i>
-
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/EditCommission",
-                                      
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="Edit"
-                                  >
-                                    <i className="far fa-edit text-warning me-1"></i>
-
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                
-                                    data-bs-toggle="tooltip"
-                                    title="Delete"
-                                  >
-                                    <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                  </Link>
-                                </div>
-
-                              </td>
-                            </tr>
-                         
-
-                        </tbody>
-                      </table>
+                                    border: "none",
+                                    borderBottom: "none",
+                                  }}
+                                >
+                                  <p className="mb-0 text-white  ">
+                                    {message.sentBy === "user"
+                                      ? `${userMessage}`
+                                      : `${message.message}`}
+                                  </p>
+                                </MDBCardBody>
+                                <MDBCardFooter
+                                  style={{
+                                    background: "none",
+                                    borderTop: "none",
+                                  }}
+                                >
+                                  <p className="text-black ms-5 d-flex justify-content-end small mb-0 ms-2">
+                                    {" "}
+                                    {message.sentOn && `${message.sentOn}`}
+                                  </p>
+                                </MDBCardFooter>
+                              </MDBCard>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div>No messages available.</div>
+                      )}
                     </div>
-                  </div>
-                  <div className="float-right my-2">
-                    <Pagination
-                    
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                    />
+                  </MDBTypography>
+                </MDBCol>
+              </div>
+              <div
+                className="container p-2 rounded-2 "
+                style={{ backgroundColor: "#1C2E46" }}
+              >
+                <div className="row">
+                  <div
+                    className=" col-sm-12 col-lg-12 col-md-8"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        const messageText = e.target.value.trim();
+                        if (messageText !== "") {
+                          handleSendMessage(messageText);
+                          e.target.value = "";
+                        }
+                      }
+                    }}
+                  >
+                    <div className="messages-box d-flex mt-2 ms-2">
+                      <input
+                        className="form-control"
+                        placeholder="Type your message"
+                        rows={2}
+                        value={inputMessage}
+                        onChange={handleInputChange}
+                      ></input>
+                      <button
+                        style={{
+                          backgroundColor: "#EB2562",
+                          color: "white",
+                          borderRadius: "5px",
+                          border: "none",
+                          padding: "2%",
+                        }}
+                        onClick={handleSendMessage}
+                      >
+                        Send
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-            </div>
-          </div>
-      
-
-
+        </div>
       </div>
-      <Dialog >
-        <DialogContent>
-          <div className="text-center p-4">
-            <h5 className="mb-4" style={{fontSize:'14px'}}>
-              Are you sure you want to Delete <br /> the selected Product ?
-            </h5>
-            <button
-              type="button"
-              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
-              
-              style={{ fontSize: '12px' }}
-            >
-              Yes
-            </button>
-            <button
-              type="button"
-              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
-              
-              style={{ fontSize: '12px' }}
-            >
-              No
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
-      <Dialog  fullWidth maxWidth="sm">
-        <DialogTitle>
-          Filter University
-          <IconButton className="float-right" >
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
+    </>
+  );
+};
 
-        </DialogContent>
-      </Dialog>
-      <Dialog fullWidth maxWidth="sm">
-        <DialogTitle>
-          Upload University List
-          <IconButton className="float-right" >
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <form>
-            <div className="from-group mb-3">
-
-              <div className="mb-3">
-                <input
-                  type="file"
-                  name="file"
-                  className="form-control text-dark bg-transparent"
-                 
-                  style={{fontSize:'14px'}}
-                />
-              </div>
-
-            </div>
-            <div>
-              <Link
-                to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
-                style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
-
-              >
-                Cancel
-              </Link>
-              <button
-                type="submit"
-                // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
-                style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
-              >
-                Apply
-              </button>
-
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
-  </>
-  )
-}
-
-
-
+export default ListChat;

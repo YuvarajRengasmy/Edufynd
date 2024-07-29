@@ -100,7 +100,7 @@ import ListBlog from "../SuperAdmin/Blog/ListBlog";
 import AddBlog from "../SuperAdmin/Blog/AddBlog";
 import ViewBlog from "../SuperAdmin/Blog/ViewBlog";
 import EditBlog from "../SuperAdmin/Blog/EditBlog";
-import {ListChat}  from "../SuperAdmin/Chat/ListChat";
+import ListChat  from "../SuperAdmin/Chat/ListChat";
 import AddChat  from "../SuperAdmin/Chat/AddChat";
 import EditChat  from "../SuperAdmin/Chat/EditChat";
 import ViewChat  from "../SuperAdmin/Chat/ViewChat";
