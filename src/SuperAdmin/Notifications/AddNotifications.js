@@ -25,6 +25,7 @@ export const AddNotifications = () => {
     subject: "",
     content: "",
     uploadImage: "",
+    createdBy:"",
   };
 
   const initialStateErrors = {
@@ -270,10 +271,10 @@ export const AddNotifications = () => {
                               }}
                             >
                               <option selected>Select User</option>
-                              <option value="Staff">Staff</option>
-                              <option value="Student">Student</option>
-                              <option value="Agent">Agent</option>
-                              <option value="Admin">Admin</option>
+                              <option value="staff">Staff</option>
+                              <option value="student">Student</option>
+                              <option value="agent">Agent</option>
+                              <option value="admin">Admin</option>
                             </select>
                             {errors.typeOfUser.required ? (
                               <div className="text-danger form-text">
@@ -281,7 +282,7 @@ export const AddNotifications = () => {
                               </div>
                             ) : null}
                           </div>
-                          {notification.typeOfUser === "Staff" ? (
+                          {notification.typeOfUser === "staff" ? (
                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                              <label style={{ color: "#231F20" }}>
                                Admin List<span className="text-danger">*</span>
@@ -302,7 +303,7 @@ export const AddNotifications = () => {
                                </div>
                              ) : null}
                            </div>
-                          ) : notification.typeOfUser === "Student" ? (
+                          ) : notification.typeOfUser === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Student List<span className="text-danger">*</span>
@@ -323,7 +324,7 @@ export const AddNotifications = () => {
                                 </div>
                               ) : null}
                             </div>
-                          ) :notification.typeOfUser === "Agent" ? (
+                          ) :notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Admin List<span className="text-danger">*</span>
@@ -344,7 +345,7 @@ export const AddNotifications = () => {
                               </div>
                             ) : null}
                           </div>
-                          ) : notification.typeOfUser === "Admin" ? (
+                          ) : notification.typeOfUser === "admin" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Admin List<span className="text-danger">*</span>

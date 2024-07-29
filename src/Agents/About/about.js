@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../Agents/AgentHeader";
 import Footer from "../Agents/AgentFooter";
 import { CiSearch } from "react-icons/ci";
-import Sidebar from "../../compoents/HoverBar";
+import Sidebar from "../../compoents/AgentSidebar";
 const AboutPage = () => {
   const [showMore, setShowMore] = useState(false);
   const toggleShowMore = () => {

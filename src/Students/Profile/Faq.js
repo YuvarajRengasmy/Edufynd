@@ -1,11 +1,18 @@
 import React from 'react';
 import Header from "../Home/HeaderHome";
 import Footer from "../../compoents/Footer";
+import Sidebar from '../../compoents/StudentSidebar';
 const TrackApplication = () => {
   return (
-    <div>
-      <Header />
-      <main id="main" className="main">
+
+<>
+    <Sidebar/>
+    <div className='content-wrapper'>
+
+      <div className='container'>
+        <div className='row'>
+          <div className='col-12'>
+          <main id="main" className="main">
         <div className="pagetitle">
           <h1>Frequently Asked Questions</h1>
           <nav>
@@ -243,8 +250,14 @@ const TrackApplication = () => {
           </div>
         </section>
       </main>
-      <Footer />
+          </div>
+        </div>
+      </div>
+    
+    
+      
     </div>
+    </>
   )
 }
 export default TrackApplication;

@@ -258,7 +258,7 @@ export const AdminListIncomeReport = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="#">
+                      <Link class="btn btn-pix-primary" to="/AdminListIncomeReport">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -342,7 +342,7 @@ export const AdminListIncomeReport = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewCommission",
+                                        pathname: "/AdminViewIncomeReport",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -352,7 +352,7 @@ export const AdminListIncomeReport = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditCommission",
+                                        pathname: "/AdminEditIncomeReport",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"

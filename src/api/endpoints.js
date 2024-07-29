@@ -38,3 +38,7 @@ export const SenderInvoice ="senderInvoice";
 
 //Notifications
 export const Notifications="notification";
+export const Promotion ="promotion"
+export const Meeting ="meeting"
+export const Event ="event"
+export const Training ="training"

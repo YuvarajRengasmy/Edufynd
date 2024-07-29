@@ -3,7 +3,7 @@ import { getallStudent, deleteStudent, getFilterStudent } from "../../api/studen
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/HoverBar";
+import Mastersidebar from "../../compoents/AgentSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";

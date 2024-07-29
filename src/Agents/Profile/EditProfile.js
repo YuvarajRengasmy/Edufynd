@@ -10,7 +10,7 @@ import Header from "../Agents/AgentHeader";
 import Footer from "../Agents/AgentFooter";
 import { getSingleAgent, updateAgent } from "../../api/agent";
 
-import Sidebar from "../../compoents/HoverBar";
+import Sidebar from "../../compoents/AdminSidebar";
 const AgentProfile = () => {
 
 
