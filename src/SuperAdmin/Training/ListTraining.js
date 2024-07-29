@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallClient, deleteClient } from "../../api/client";
+import {getallTraining,deleteTraining  } from "../../api/Notification/traning";
+import { formatDate } from "../../Utils/DateFormat";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -14,6 +14,57 @@ import ListAgent from "../Admins/AdminList";
 
 
 export const ListTraining = () => {
+
+  
+  const [notification, setnotification] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: 0
+  });
+
+
+  useEffect(() => {
+    getAllClientDetails();
+  }, []);
+
+  const getAllClientDetails = () => {
+    getallTraining()
+      .then((res) => {
+        console.log(res);
+        setnotification(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteProgramData = () => {
+    deleteTraining(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllClientDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+
+  
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -94,7 +145,7 @@ export const ListTraining = () => {
                       <button className="btn btn-primary" style={{ fontSize: "11px" }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Notifications</h5>
+                          <h5 id="offcanvasRightLabel">Filter Trainings</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                         </div>
                         <div className="offcanvas-body ">
@@ -240,13 +291,13 @@ export const ListTraining = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          
-                            <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                        {notification?.map((data, index) => (
+                            <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
+                              <td className="text-capitalize text-start">{data?.trainingTopic}</td>
                              
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start">{data?.typeOfUser}</td>
                             
                               <td>
                                 <div className="d-flex">
@@ -254,7 +305,7 @@ export const ListTraining = () => {
                                     className="dropdown-item"
                                     to={{
                                       pathname: "/ViewTraining",
-                                      
+                                      search: `?id=${data?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="View"
@@ -266,7 +317,7 @@ export const ListTraining = () => {
                                     className="dropdown-item"
                                     to={{
                                       pathname: "/EditTraining",
-                                      
+                                      search: `?id=${data?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="Edit"
@@ -276,9 +327,10 @@ export const ListTraining = () => {
                                   </Link>
                                   <Link
                                     className="dropdown-item"
-                                
-                                    data-bs-toggle="tooltip"
-                                    title="Delete"
+                                    onClick={() => {
+                                      openPopup(data?._id);
+                                    }}
+                                   
                                   >
                                     <i className="far fa-trash-alt text-danger me-1"></i>
 
@@ -287,7 +339,7 @@ export const ListTraining = () => {
 
                               </td>
                             </tr>
-                         
+                        ))}
 
                         </tbody>
                       </table>
@@ -310,16 +362,16 @@ export const ListTraining = () => {
 
 
       </div>
-      <Dialog >
+      <Dialog open={open}>
         <DialogContent>
           <div className="text-center p-4">
             <h5 className="mb-4" style={{fontSize:'14px'}}>
-              Are you sure you want to Delete <br /> the selected Product ?
+              Are you sure you want to Delete <br /> the selected Training Material* ?
             </h5>
             <button
               type="button"
               className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
-              
+              onClick={deleteProgramData}
               style={{ fontSize: '12px' }}
             >
               Yes
@@ -327,7 +379,7 @@ export const ListTraining = () => {
             <button
               type="button"
               className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
-              
+              onClick={closePopup}
               style={{ fontSize: '12px' }}
             >
               No
