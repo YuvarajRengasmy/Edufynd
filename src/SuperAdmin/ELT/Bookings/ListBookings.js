@@ -242,12 +242,12 @@ export const ListBookings = () => {
 
                       <table className=" table card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
                         <thead>
-                          <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                        <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
-                            <th className="text-capitalize text-start sortable-handle">Date Scheduled</th>
-                            <th className="text-capitalize text-start sortable-handle">Host Name</th>
-                            <th className="text-capitalize text-start sortable-handle">Participant Name</th>
-                            <th className="text-capitalize text-start sortable-handle">Meeting Topic</th>
+                            <th className="text-capitalize text-start sortable-handle">Student Name</th>
+                            <th className="text-capitalize text-start sortable-handle">Test Name</th>
+                            <th className="text-capitalize text-start sortable-handle">Scheduled date</th>
+                            <th className="text-capitalize text-start sortable-handle">Status</th>
                            
                             <th className="text-capitalize text-start sortable-handle">Action </th>
                             

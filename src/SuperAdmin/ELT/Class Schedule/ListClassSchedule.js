@@ -210,7 +210,7 @@ export const ListClassSchedule = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="#">
+                    <Link class="btn btn-pix-primary" to="/AddClassSchedule">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -246,11 +246,11 @@ export const ListClassSchedule = () => {
                         <thead>
                           <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
-                            <th className="text-capitalize text-start sortable-handle">University Code</th>
-                            <th className="text-capitalize text-start sortable-handle">University Name</th>
-                            <th className="text-capitalize text-start sortable-handle">Commission</th>
-                            <th className="text-capitalize text-start sortable-handle">Primary Campus</th>
-                            <th className="text-capitalize text-start sortable-handle">No of Applications</th>
+                            <th className="text-capitalize text-start sortable-handle">Student Name</th>
+                            <th className="text-capitalize text-start sortable-handle">Test Name</th>
+                            <th className="text-capitalize text-start sortable-handle">Scheduled date</th>
+                            <th className="text-capitalize text-start sortable-handle">Status</th>
+                           
                             <th className="text-capitalize text-start sortable-handle">Action </th>
                             
                           </tr>
@@ -262,7 +262,7 @@ export const ListClassSchedule = () => {
                               <td className="text-capitalize text-start"></td>
                               <td className="text-capitalize text-start"></td>
                               <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                             
                               <td className="text-capitalize text-start"></td>
                             
                               <td>
@@ -270,7 +270,7 @@ export const ListClassSchedule = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewCommission",
+                                      pathname: "/ViewClassSchedule",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -282,7 +282,7 @@ export const ListClassSchedule = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditCommission",
+                                      pathname: "/EditClassSchedule",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
