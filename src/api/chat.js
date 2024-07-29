@@ -6,3 +6,7 @@ export const postChat = (data) => {
 export const getMessages = (data) => {
   return API.get(`${Chat}/`, data);
 };
+
+export const postChatStaff = (data) => {
+  return API.post(`${Chat}/doctorChat`, data);
+};
