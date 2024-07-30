@@ -811,38 +811,27 @@ const UserProfile = () => {
     <form>
 
 
-    <div class="mb-3">
-  <label for="country" class="form-label">Country</label>
-  <input type="text" class="form-control" id="country" placeholder="Example New York" style={{fontSize:'12px'}}/>
-</div>
+
 <div class="mb-3">
-  <label for="state" class="form-label">Province/State</label>
-  <input type="text" class="form-control" id="state" placeholder="Example Coventry" style={{fontSize:'12px'}}/>
+  <label for="duration" class="form-label">Duration</label>
+  <input type="text" class="form-control" id="duration" placeholder="Example Coventry" style={{fontSize:'12px'}}/>
 </div>
+
+
 <div class="mb-3">
-  <label for="university" class="form-label">University Name</label>
+  <label for="university" class="form-label">University</label>
   <input type="text" class="form-control" id="university" placeholder="Example Standford University " style={{fontSize:'12px'}}/>
 </div>
-<div class="mb-3">
-  <label for="fees" class="form-label">Fees</label>
-  <input type="text" class="form-control" id="fees" placeholder="Example 12500" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="fieldofstudy" class="form-label">Field Of Study</label>
-  <input type="text" class="form-control" id="fieldofstudy" placeholder="Example Medicine" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="elt" class="form-label">ELT</label>
-  <input type="text" class="form-control" id="elt" placeholder="Example Duo Lingo" style={{fontSize:'12px'}}/>
-</div>
+
+
+
+
+
 <div class="mb-3">
   <label for="coursetype" class="form-label">Course Type</label>
   <input type="text" class="form-control" id="corsetype" placeholder="Example Game Designer" style={{fontSize:'12px'}}/>
 </div>
-<div class="mb-3">
-  <label for="universityinterview" class="form-label">University Interview</label>
-  <input type="text" class="form-control" id="universityinterview" placeholder="Example..." style={{fontSize:'12px'}}/>
-</div>
+
     </form>
     
   </div>
@@ -881,6 +870,14 @@ const UserProfile = () => {
                     >
                       <i className="fa fa-hourglass-half nav-icon text-white"></i>{" "}
                       <b>Duration: </b>
+                      {data?.duration || "Duration"}
+                    </p>
+                    <p
+                      className="duration mb-2 lh-sm"
+                      style={{ fontSize: "12px" }}
+                    >
+                      <i className="fa fa-flag nav-icon text-white"></i>{" "}
+                      <b>Intake: </b>
                       {data?.duration || "Duration"}
                     </p>
 
