@@ -3,10 +3,7 @@ import Sidebar from "../../compoents/sidebar";
 import { getSingleStudent } from "../../api/student";
 import { useLocation } from "react-router-dom";
 
-
 function Profile() {
-
-
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
@@ -15,6 +12,7 @@ function Profile() {
   useEffect(() => {
     getStudentDetails();
   }, []);
+
   const getStudentDetails = () => {
     getSingleStudent(id)
       .then((res) => {
@@ -25,207 +23,219 @@ function Profile() {
         console.log(err);
       });
   };
-  
 
   return (
     <>
       <div>
         <Sidebar />
 
-        <div className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+        <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header">
+            <div className="container-fluid">
+              <h2 className="mb-4 text-center">Student Details</h2>
 
+              <div className="row mb-4">
+                <div className="col-md-4 text-center">
+                  <img
+                    src={student?.photo ? student?.photo : "https://via.placeholder.com/150"}
+                    alt="Profile Photo"
+                    className="img-fluid rounded-circle img-thumbnail"
+                    style={{ width: '10rem', height: '10rem' }}
+                  />
+                </div>
 
-        
-          <div class="container mt-4">
-        <h2 class="mb-4">Student Details</h2>
+                <div className="col-md-8">
+                  <h3 className="mb-2">{student?.name}</h3>
+                  <p className="text-muted mb-2">Student Code: {student?.studentCode}</p>
+                  <p className="text-muted mb-2"><i className="fas fa-envelope me-2"></i>{student?.email}</p>
+                  <p className="text-muted mb-2"><i className="fas fa-phone-alt me-2"></i>{student?.primaryNumber}</p>
+                </div>
+              </div>
 
-      
-        <div class="row mb-4 align-items-center">
-            <div class="col-md-3 text-center">
-                <img src={student?.photo?student?.photo:"https://via.placeholder.com/150"} alt="Profile Photo" class="profile-img rounded-circle border" style={{width:'150px',height:'150px'}}/>
-                <h5 class="mt-2">John Doe</h5>
-                <p class="text-muted">Student Code: Auto Generated</p>
-            </div>
-            <div class="col-md-9">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="card p-3 border-primary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fas fa-passport  card-icon" ></i> Passport No</h5>
-                                <p class="card-text">AB123456</p>
-                                <h6 class="mt-3"><i class="fas fa-calendar-alt card-icon"></i> Expiry Date</h6>
-                                <p class="card-text">2025-12-31</p>
-                            </div>
-                        </div>
+              <div className="row mb-4">
+                <div className="col-lg-6">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-primary text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-info-circle me-2"></i> Basic Information</h5>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border-primary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fas fa-birthday-cake card-icon"></i> Date of Birth</h5>
-                                <p class="card-text">1995-01-01</p>
-                                <h6 class="mt-3"><i class="fas fa-flag card-icon"></i> Citizenship</h6>
-                                <p class="card-text">USA</p>
-                            </div>
-                        </div>
+                    <div className="card-body">
+                      <ul className="list-unstyled">
+                        <li><strong>Source:</strong> {student?.source}</li>
+                        <li><strong>Date of Birth:</strong> {student?.dob}</li>
+                        <li><strong>Passport:</strong> {student?.passportNo}</li>
+                        <li><strong>Expiry Date:</strong> {student?.expiryDate}</li>
+                        <li><strong>Citizenship:</strong> {student?.citizenship}</li>
+                        <li><strong>Gender:</strong> {student?.gender}</li>
+                        <li><strong>WhatsApp Number:</strong> {student?.whatsAppNumber}</li>
+                      </ul>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border-primary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fas fa-genderless card-icon"></i> Gender</h5>
-                                <p class="card-text">Male</p>
-                                <h6 class="mt-3"><i class="fas fa-envelope card-icon"></i> Email ID</h6>
-                                <p class="card-text">john.doe@example.com</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border-primary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fas fa-phone-alt card-icon"></i> Contact Number</h5>
-                                <p class="card-text">+1 234 567 890 (Primary)</p>
-                                <p class="card-text">+1 234 567 891 (WhatsApp)</p>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+                <div className="col-lg-6">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-success text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-graduation-cap me-2"></i> Academic Information</h5>
+                    </div>
+                    <div className="card-body">
+                      <ul className="list-unstyled">
+                        <li><strong>Highest Qualification:</strong> {student?.highestQualification}</li>
+                        <li><strong>Degree Name:</strong> {student?.degreeName}</li>
+                        <li><strong>Institution:</strong> {student?.institution}</li>
+                        <li><strong>Percentage:</strong> {student?.percentage}</li>
+                        <li><strong>Academic Year:</strong> {student?.academicYear}</li>
+                        <li><strong>Year Passed:</strong> {student?.yearPassed}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-      
-        <h3 class="mb-3">Highest Qualification</h3>
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="card p-3 border-success">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-graduation-cap card-icon"></i> Degree Name</h5>
-                        <p class="card-text">Bachelor of Science</p>
+              <div className="row mb-4">
+                <div className="col-lg-4">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-warning text-dark">
+                      <h5 className="card-title mb-0"><i className="fas fa-file-alt me-2"></i> Test Type</h5>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 border-success">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-calendar card-icon"></i> Academic Year & Year Passed</h5>
-                        <p class="card-text">2015 - 2019</p>
+                    <div className="card-body">
+                      <p className="card-text">{student?.englishTestType}</p>
                     </div>
+                  </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 border-success">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-school card-icon"></i> Institution</h5>
-                        <p class="card-text">ABC University</p>
+                <div className="col-lg-4">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-warning text-dark">
+                      <h5 className="card-title mb-0"><i className="fas fa-tachometer-alt me-2"></i> Test Score</h5>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 border-success">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-percent card-icon"></i> Percentage</h5>
-                        <p class="card-text">85%</p>
+                    <div className="card-body">
+                      <p className="card-text">{student?.testScore}</p>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+                <div className="col-lg-4">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-warning text-dark">
+                      <h5 className="card-title mb-0"><i className="fas fa-calendar-day me-2"></i> Date of Test</h5>
+                    </div>
+                    <div className="card-body">
+                      <p className="card-text">{student?.dateOfTest}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-        
-        <h3 class="mb-3">English Language Test</h3>
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                <div class="card p-3 border-warning">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-file-alt card-icon"></i> Test Taken</h5>
-                        <p class="card-text">IELTS</p>
+              <div className="row mb-4">
+                <div className="col-lg-4">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-info text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-globe me-2"></i> Desired Country</h5>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 border-warning">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-tachometer-alt card-icon"></i> Test Score</h5>
-                        <p class="card-text">8.0</p>
+                    <div className="card-body">
+                      <p className="card-text">{student?.country}</p>
                     </div>
+                  </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 border-warning">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-calendar-day card-icon"></i> Date of Test</h5>
-                        <p class="card-text">2024-01-01</p>
+                <div className="col-lg-4">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-info text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-university me-2"></i> Desired University</h5>
                     </div>
+                    <div className="card-body">
+                      <p className="card-text">{student?.desiredUniversity}</p>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+                <div className="col-lg-4">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-info text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-book me-2"></i> Desired Course</h5>
+                    </div>
+                    <div className="card-body">
+                      <p className="card-text">{student?.desiredCourse}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-       
-        <h3 class="mb-3">Desired Information</h3>
-        <div class="row g-3 mb-4">
-            <div class="col-md-4">
-                <div class="card p-3 border-info">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-globe card-icon"></i> Desired Country</h5>
-                        <p class="card-text">USA</p>
+              <div className="row mb-4">
+                <div className="col-lg-6">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-danger text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-briefcase me-2"></i> Work Experience</h5>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3 border-info">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-university card-icon"></i> Desired University</h5>
-                        <p class="card-text">XYZ University</p>
+                    <div className="card-body">
+                      <p className="card-text">{student?.workExperience}</p>
                     </div>
+                  </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3 border-info">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-book card-icon"></i> Desired Course</h5>
-                        <p class="card-text">Computer Science</p>
+                <div className="col-lg-6">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-danger text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-ban me-2"></i> Visa Rejections</h5>
                     </div>
+                    <div className="card-body">
+                      <p className="card-text">{student?.anyVisaRejections}</p>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+                <div className="col-lg-6">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-danger text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-globe-americas me-2"></i> Travel History</h5>
+                    </div>
+                    <div className="card-body">
+                      <p className="card-text">{student?.doYouHaveTravelHistory}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-header bg-danger text-white">
+                      <h5 className="card-title mb-0"><i className="fas fa-money-bill me-2"></i> Finance</h5>
+                    </div>
+                    <div className="card-body">
+                      <p className="card-text">{student?.finance}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-      
-        <h3 class="mb-3">Work Experience & Additional Information</h3>
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                <div class="card p-3 border-danger">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-briefcase card-icon"></i> Work Experience</h5>
-                        <p class="card-text">3 years at ABC Company</p>
+              <h3 className="mb-4">Social Media Links</h3>
+              <div className="row">
+                <div className="col-md-3">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-body text-center">
+                      <h5 className="card-title"><i className="fab fa-twitter me-2"></i>{student?.twitter}</h5>
+                      <a href="#" className="btn btn-outline-primary btn-sm">View Profile</a>
                     </div>
+                  </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card p-3 border-danger">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-ban card-icon"></i> Visa Rejections</h5>
-                        <p class="card-text">No</p>
+                <div className="col-md-3">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-body text-center">
+                      <h5 className="card-title"><i className="fab fa-facebook me-2"></i>{student?.facebook}</h5>
+                      <a href="#" className="btn btn-outline-primary btn-sm">View Profile</a>
                     </div>
+                  </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card p-3 border-danger">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-globe-americas card-icon"></i> Travel History</h5>
-                        <p class="card-text">Yes</p>
-                        <p class="card-text">Visited Canada in 2023</p>
+                <div className="col-md-3">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-body text-center">
+                      <h5 className="card-title"><i className="fab fa-instagram me-2"></i>{student?.instagram}</h5>
+                      <a href="#" className="btn btn-outline-primary btn-sm">View Profile</a>
                     </div>
+                  </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card p-3 border-danger">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-money-bill card-icon"></i> Finance</h5>
-                        <p class="card-text">Self Funding</p>
+                <div className="col-md-3">
+                  <div className="card mb-3 shadow-sm">
+                    <div className="card-body text-center">
+                      <h5 className="card-title"><i className="fab fa-linkedin me-2"></i>{student?.linkedIn}</h5>
+                      <a href="#" className="btn btn-outline-primary btn-sm">View Profile</a>
                     </div>
+                  </div>
                 </div>
+              </div>
+
             </div>
-        </div>
-    </div>
-           
           </div>
         </div>
       </div>
