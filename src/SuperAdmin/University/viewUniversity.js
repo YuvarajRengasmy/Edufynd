@@ -846,7 +846,7 @@ const UserProfile = () => {
           <div key={index} className="col-md-4">
 
 <div class="card border-0 " style={{backgroundColor:'rgba(0,0,0,0.5)',height:'10rem'}}>
-  <img src="https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg" class="card-img img-fluid" alt="..." style={{mixBlendMode:'multiply',height:'10rem'}}/>
+  <img src={data?.universityLogo?data?.universityLogo:"https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"} class="card-img img-fluid" alt="..." style={{mixBlendMode:'multiply',height:'10rem'}}/>
   <div class="card-img-overlay  text-white" >
   <h6
                       className="university-name mb-2 lh-sm"
@@ -874,7 +874,7 @@ const UserProfile = () => {
                     >
                       <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
                      
-                      {data?.duration || "Application"}
+                      {data?.applicationFee || "Null"}
                     </p>
                    
                     <p
@@ -883,7 +883,7 @@ const UserProfile = () => {
                     >
                       <i className="fa fa-clock nav-icon text-white"></i>{" "}
                     
-                      {data?.duration || "Duration"}
+                      {data?.courseType || "Null"}
                     </p>
                    
 
@@ -900,28 +900,7 @@ const UserProfile = () => {
                     </button>
   </div>
 </div>
-            {/* <div className="card mb-3 shadow border-0 border-start border-5 border-primary h-100">
-              <div className="row g-0 align-items-center justify-content-center">
-                <div className="col-md-4 d-flex align-items-center justify-content-center">
-                  <img
-                    src={
-                      data?.universityLogo
-                        ? data.universityLogo
-                        : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                    }
-                    className="img-fluid rounded-circle"
-                    alt="University Logo"
-                    style={{
-                      width: "7rem",
-                      height: "7rem",
-                    }}
-                  />
-                </div>
-                <div className="col-md-8">
-                  
-                </div>
-              </div>
-            </div> */}
+          
           </div>
         ))
       ) : (
