@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getallSuperAdmin } from "../../api/superAdmin";
-import { getallStudent } from "../../api/student";
+import { getallStudent} from "../../api/student";
 import { getSingleStaff } from "../../api/staff";
-import { postChatStaff, getMessages } from "../../api/chat";
+import { postChatStaff, getMessages,postChatStudent } from "../../api/chat";
+import { timeCall} from "../../Utils/DateFormat";
+
 import "./Chatus.css";
-import { MDBCol, MDBCard, MDBCardBody, MDBTypography, MDBCardFooter } from "mdb-react-ui-kit";
+import {
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBTypography,
+  MDBCardFooter,
+} from "mdb-react-ui-kit";
 import { getStaffId } from "../../Utils/storage";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import io from "socket.io-client";
@@ -14,17 +22,19 @@ const ChatApp = () => {
   const [showChatlist, setShowChatlist] = useState(true);
   const [showChat, setShowChat] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const [staff, setStaff] = useState(null);
-  const [superAdmin, setSuperAdmin] = useState([]);
-  const [student, setStudent] = useState([]);
+  const [superAdmin, setSuperAdmin] = useState(null);
+  const [student, setStudent] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [userMessage, setUserMessage] = useState("");
   const [socket, setSocket] = useState(null);
-  const [socketMessage, setSocketMessage] = useState("");
+  const [socketmessage, setSocketMessage] = useState("");
   const [connectedUsers, setConnectedUsers] = useState([]);
   const messagesContainerRef = useRef(null);
+  const messagesContainerRefStudent = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const scrollToBottom = () => {
@@ -34,9 +44,15 @@ const ChatApp = () => {
     }
   };
 
+  const scrollToBottomStudent = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  };
   useEffect(() => {
-    scrollToBottom();
-  }, [selectedUser, messages]);
+    scrollToBottomStudent();
+  }, [selectedStudent, messages]);
 
   useEffect(() => {
     const newSocket = io("http://localhost:4409");
@@ -45,38 +61,52 @@ const ChatApp = () => {
     newSocket.on("socketId", (id) => {
       console.log("Received socketId from server:", id);
     });
-
     newSocket.on("newMessage", (newMessage) => {
-      if (
-        (newMessage.senderType === "staff" || newMessage.senderType === "superAdmin") &&
-        ((newMessage.superAdminId && newMessage.superAdminId._id === selectedUser?._id) ||
-          newMessage.superAdmin === selectedUser?._id) &&
-        ((newMessage.staffId && newMessage.staffId._id === staff._id) ||
-          newMessage.staffId === staff._id)
-      ) {
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-      } else {
-        setUserMessage([]);
-      }
-    });
+        if (
+          (newMessage.senderType === "staff" ||
+            newMessage.senderType === "superAdmin" ||
+            newMessage.senderType === "student" ) &&
+          ((newMessage.superAdminId && newMessage.superAdminId._id === selectedUser?._id) ||
+            newMessage.superAdmin === selectedUser?._id) &&
+          ((newMessage.studentId && newMessage.studentId._id === selectedStudent?._id) ||
+          newMessage.student === selectedStudent?._id)&&
+          ((newMessage.staffId && newMessage.staffId._id === staff._id) ||
+            newMessage.staffId === staff._id)
+        ) {
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        } else {
+          setUserMessage([]);
+        }
+      });
+      newSocket.on("get-users", (superAdmin) => {
+        setConnectedUsers(superAdmin);
+      });
+      newSocket.on("get-users", (student) => {
+        setConnectedUsers(student);
+      });
 
-    newSocket.on("get-users", (superAdmin) => {
-      setConnectedUsers(superAdmin);
-    });
+      newSocket.emit("new-user-add", getStaffId());
 
-    newSocket.emit("new-user-add", getStaffId());
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [selectedUser, staff]);
+      return () => {
+        newSocket.disconnect();
+      };
+    }, [selectedUser, staff, selectedStudent]);
 
-  const isUserOnline = (userId) => {
-    return connectedUsers.some((user) => user.userId === userId && user.online);
+  const isUserOnline = (superAdminId) => {
+    return connectedUsers.some((staff) => staff.superAdminId === superAdminId && staff.online);
+  };
+  const isStudentOnline = (studentId) => {
+    return connectedUsers.some((student) => student.studentId === studentId && student.online);
   };
 
   useEffect(() => {
     getUserDetails();
-    getallSuperAdminUsers();
+    getallUser();
+   
+  }, [searchQuery]);
+  
+  useEffect(() => {
+    
     getallStudentUsers();
   }, [searchQuery]);
 
@@ -91,16 +121,22 @@ const ChatApp = () => {
       });
   };
 
-  const getallSuperAdminUsers = () => {
+  const getallUser = () => {
     getallSuperAdmin()
       .then((res) => {
         const usersData = res?.data?.result || [];
-        const filteredUsers = searchQuery
-          ? usersData.filter((staff) =>
-              staff.name.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-          : usersData;
-        setSuperAdmin(filteredUsers);
+        if (searchQuery) {
+          const filteredUsers = usersData.filter((staff) =>
+            staff.name.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+          setSuperAdmin(filteredUsers);
+        } else {
+          const usersWithStatuses = usersData.map((staff) => ({
+            ...staff,
+            isActive: staff.someLogicToDetermineActiveStatus,
+          }));
+          setSuperAdmin(usersWithStatuses);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -122,32 +158,41 @@ const ChatApp = () => {
         console.log(err);
       });
   };
-
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
 
   const handleSendMessage = () => {
-    if (!selectedUser) {
-      return;
+    if (selectedUser) {
+      const newMessage = {
+        text: inputMessage,
+        sender: 'staff',
+        timestamp: new Date(),
+        sentBy: 'staff',
+      };
+
+      postChatMessage(selectedUser._id, newMessage);
+      setInputMessage('');
+    } else if (selectedStudent) {
+      const newMessage = {
+        text: inputMessage,
+        sender: 'staff',
+        timestamp: new Date(),
+        sentBy: 'staff',
+      };
+
+      postStudentMessage(selectedStudent._id, newMessage);
+      setInputMessage('');
     }
 
-    const newMessage = {
-      text: inputMessage,
-      sender: staff.empName,
-      timestamp: new Date(),
-      sentBy: "staff",
-    };
-
-    postChatMessage(selectedUser._id, newMessage);
-    setInputMessage("");
+    setInputMessage('');
   };
 
-  const postChatMessage = (userId, message) => {
+  const postChatMessage = (superAdminId, message) => {
     const staffId = getStaffId();
     const data = {
       staffId: staffId,
-      userId: userId,
+      superAdminId: selectedUser._id,
       message: message.text,
       senderType: message.sentBy,
     };
@@ -161,9 +206,9 @@ const ChatApp = () => {
           name: staff.empName,
           photo: staff.photo,
         };
-        const socketData = {
+        const socketdata = {
           staffId: list,
-          userId: userId,
+          superAdminId: selectedUser._id,
           senderType: "staff",
           message: userMessage.message,
           sentOn: new Date().toLocaleTimeString([], {
@@ -172,8 +217,71 @@ const ChatApp = () => {
             hour12: true,
           }),
         };
-        setSocketMessage(socketData);
-        socket.emit("sendMessage", socketData);
+        const socketdata1 = {
+          staffId: list,
+          staffId: selectedUser._id,
+          senderType: "staff",
+          message: socketdata,
+          sentOn: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+        };
+        setSocketMessage(socketdata1);
+        socket.emit("sendMessage", socketdata1);
+      })
+      .catch((err) => {
+        console.error("Error sending chat message:", err);
+      });
+  };
+ 
+
+
+//   student chat code
+
+const postStudentMessage = (studentId, message) => {
+    const staffId = getStaffId();
+    const data = {
+      staffId: staffId,
+      studentId: selectedStudent._id,
+      message: message.text,
+      senderType: message.sentBy,
+    };
+
+    postChatStudent(data)
+      .then((res) => {
+        const userMessage = res.data.result;
+        setUserMessage(userMessage);
+        const list = {
+          _id: staff._id,
+          name: staff.name,
+          photo: staff.photo,
+        };
+        const socketdata = {
+          staffId: list,
+          superAdminId: selectedStudent._id,
+          senderType: "staff",
+          message: userMessage.message,
+          sentOn: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+        };
+        const socketdata1 = {
+          staffId: list,
+          staffId: selectedStudent._id,
+          senderType: "staff",
+          message: socketdata,
+          sentOn: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+        };
+        setSocketMessage(socketdata1);
+        socket.emit("sendMessage", socketdata1);
       })
       .catch((err) => {
         console.error("Error sending chat message:", err);
@@ -181,12 +289,83 @@ const ChatApp = () => {
   };
 
   useEffect(() => {
-    if (selectedUser) {
-      fetchMessagesForUser(selectedUser._id);
-    }
+    getMessage();
   }, [selectedUser]);
 
-  const fetchMessagesForUser = (userId) => {
+  const getMessage = () => {
+    if (selectedUser && selectedUser._id) {
+      setLoadingMessages(true);
+
+      getMessages()
+        .then((res) => {
+          if (Array.isArray(res.data.result)) {
+            const filteredMessages = res.data.result.filter(
+              (message) =>
+                (message.senderType === "staff" ||
+                  message.senderType === "superAdmin") &&
+                message.staffId &&
+                message.staffId._id === staff._id &&
+                message.superAdminId &&
+                message.superAdminId._id === selectedUser._id
+            );
+            setMessages(filteredMessages);
+          } else {
+            console.error("Invalid message data:", res.data);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching chat messages:", err);
+        })
+        .finally(() => {
+          setLoadingMessages(false);
+        });
+    }
+  };
+
+
+//   student chat code
+useEffect(() => {
+    getStudentMessage();
+  }, [selectedStudent]);
+
+  const getStudentMessage = () => {
+    if (selectedStudent && selectedStudent._id) {
+      setLoadingMessages(true);
+
+      getMessages()
+        .then((res) => {
+          if (Array.isArray(res.data.result)) {
+            const filteredMessages = res.data.result.filter(
+              (message) =>
+                (message.senderType === "staff" ||
+                  message.senderType === "student") &&
+                message.staffId &&
+                message.staffId._id === staff._id &&
+                message.studentId &&
+                message.studentId._id === selectedStudent._id
+            );
+            setMessages(filteredMessages);
+          } else {
+            console.error("Invalid message data:", res.data);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching chat messages:", err);
+        })
+        .finally(() => {
+          setLoadingMessages(false);
+        });
+    }
+  };
+
+  const handleStudentSelect = (userchat) => {
+    setSelectedStudent(userchat);
+    setShowChatlist(false);
+    setShowChat(true);
+    fetchMessagesForStudent(userchat._id);
+  };
+
+  const fetchMessagesForStudent = (studentId) => {
     setMessages([]);
     setLoadingMessages(true);
     getMessages()
@@ -195,12 +374,13 @@ const ChatApp = () => {
           const filteredMessages = res.data.result.filter(
             (message) =>
               (message.senderType === "staff" ||
-                message.senderType === "superAdmin") &&
+                message.senderType === "student") &&
               message.staffId &&
               message.staffId._id === staff._id &&
-              message.userId &&
-              message.userId._id === userId
+              message.studentId &&
+              message.studentId._id === studentId
           );
+
           setMessages(filteredMessages);
           scrollToBottom();
         } else {
@@ -215,131 +395,343 @@ const ChatApp = () => {
       });
   };
 
-  const handleUserSelect = (user) => {
-    setSelectedUser(user);
+//   superadmin chat code
+
+  const handleUserSelect = (userchat) => {
+    setSelectedUser(userchat);
     setShowChatlist(false);
     setShowChat(true);
+    fetchMessagesForUser(userchat._id);
+  };
+
+  const fetchMessagesForUser = (superAdminId) => {
+    setMessages([]);
+    setLoadingMessages(true);
+    getMessages()
+      .then((res) => {
+        if (Array.isArray(res.data.result)) {
+          const filteredMessages = res.data.result.filter(
+            (message) =>
+              (message.senderType === "staff" ||
+                message.senderType === "superAdmin") &&
+              message.staffId &&
+              message.staffId._id === staff._id &&
+              message.superAdminId &&
+              message.superAdminId._id === superAdminId
+          );
+
+          setMessages(filteredMessages);
+          scrollToBottom();
+        } else {
+          console.error("Invalid message data:", res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching chat messages:", err);
+      })
+      .finally(() => {
+        setLoadingMessages(false);
+      });
   };
 
   return (
     <>
-      <div className="py-3 gradient-custom1" style={{ height: "100vh" }}>
-        <div className="container">
-          <div className="row">
-            <div className="list-divider col-lg-4 col-12">
-              <h5 className="font-weight-bold mb-3 text-center text-white mt-2">
-                Let's Chat With Edufynd!
-              </h5>
-              <div className="mask-custom rounded-3" style={{ backgroundColor: "#1C2E46" }}>
-                <div className="input-group mb-3 p-3">
-                  <input
-                    className="form-control p-3"
-                    placeholder="Search for..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <div className="mb-0 p-3">
-                  <div className="mask-custom-scroll list-unstyled rounded-3" style={{ maxHeight: "500px", overflowY: "auto" }}>
-                    {superAdmin &&
-                      superAdmin.map((userchat) => (
+    
+    <div className="py-3 gradient-custom1" style={{ height: '100vh' }}>
+      <div className="container">
+        <div className="row">
+          <div className="list-divider col-lg-4 col-12">
+            <h5 className="font-weight-bold mb-3 text-center text-white mt-2">
+              Let's Chat With Edufynd!
+            </h5>
+            <div className="mask-custom rounded-3" style={{ backgroundColor: '#1C2E46' }}>
+              <div className="input-group mb-3 p-3">
+                <input
+                  className="form-control p-3"
+                  placeholder="Search for..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <div className="mb-0 p-3">
+                <div
+                  className="mask-custom-scroll list-unstyled rounded-3"
+                  style={{ maxHeight: '500px', overflowY: 'auto' }}
+                >
+                  {superAdmin &&
+                    superAdmin
+                      .filter(userchat => userchat.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map((userchat) => (
                         <li
                           className="p-2 border-bottom"
                           style={{
                             backgroundColor: selectedUser && selectedUser._id === userchat._id
-                              ? "#1C2E46"
-                              : "white",
+                              ? '#1C2E46'
+                              : 'white',
                             color: selectedUser && selectedUser._id === userchat._id
-                              ? "white"
-                              : "black",
-                            border: "3px solid white",
-                            width: "auto",
-                            cursor: "pointer",
+                              ? 'white'
+                              : 'black',
+                            border: '3px solid white',
+                            cursor: 'pointer',
                           }}
-                          key={userchat._id}
                           onClick={() => handleUserSelect(userchat)}
+                          key={userchat._id}
                         >
-                          <div className="d-flex flex-start">
-                            <img
-                              className="rounded-circle d-flex align-self-center me-3"
-                              src={userchat.photo || "https://mdbootstrap.com/img/Photos/Avatars/img%20(1).jpg"}
-                              alt="avatar"
-                              width="60"
-                              height="60"
-                            />
-                            <div className="w-100">
-                              <div className="d-flex justify-content-between mb-3">
+                          <div className="d-flex justify-content-between">
+                            <div className="d-flex flex-row hover-zoom">
+                              <div className="profile-container" style={{ position: 'relative' }}>
+                                <span
+                                  className="online-dot"
+                                  style={{
+                                    color: isUserOnline(userchat._id) ? '#10B118' : 'transparent',
+                                    position: 'absolute',
+                                    top: '39px',
+                                    left: '66%',
+                                    height: '15px',
+                                    width: '15px',
+                                    borderRadius: '50%',
+                                    backgroundColor: isUserOnline(userchat._id) ? '#10B118' : 'transparent',
+                                    border: isUserOnline(userchat._id) ? '2px solid white' : 'none',
+                                  }}
+                                ></span>
+                                <img
+                                  src={userchat.photo}
+                                  alt="avatar"
+                                  className="rounded-circle d-flex align-self-center me-3 shadow-1-strong p-1"
+                                  width="60"
+                                  height="60"
+                                  style={{
+                                    border: isUserOnline(userchat._id) ? '3px solid #10B118' : 'none',
+                                    backgroundColor: 'white',
+                                  }}
+                                />
+                              </div>
+                              <div className="pt-1">
                                 <p className="fw-bold mb-0">{userchat.name}</p>
+                                <span
+                                  className="small mb-1"
+                                  style={{
+                                    color: isUserOnline(userchat._id) ? 'green' : 'red',
+                                    fontWeight: '900',
+                                  }}
+                                >
+                                  {isUserOnline(userchat._id) ? 'Online' : 'Offline'}
+                                </span>
                               </div>
-                              <p className="text-muted mb-0">
-                                {isUserOnline(userchat._id) ? "Online" : "Offline"}
-                              </p>
                             </div>
                           </div>
                         </li>
                       ))}
-                    {student &&
-                      student.map((userchat) => (
+                </div>
+                <div
+                  className="mask-custom-scroll list-unstyled rounded-3"
+                  style={{ maxHeight: '500px', overflowY: 'auto' }}
+                >
+                  {student &&
+                    student
+                      .filter(userchat => userchat.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map((userchat) => (
                         <li
                           className="p-2 border-bottom"
                           style={{
-                            backgroundColor: selectedUser && selectedUser._id === userchat._id
-                              ? "#1C2E46"
-                              : "white",
-                            color: selectedUser && selectedUser._id === userchat._id
-                              ? "white"
-                              : "black",
-                            border: "3px solid white",
-                            width: "auto",
-                            cursor: "pointer",
+                            backgroundColor: selectedStudent && selectedStudent._id === userchat._id
+                              ? '#1C2E46'
+                              : 'white',
+                            color: selectedStudent && selectedStudent._id === userchat._id
+                              ? 'white'
+                              : 'black',
+                            border: '3px solid white',
+                            cursor: 'pointer',
                           }}
                           key={userchat._id}
-                          onClick={() => handleUserSelect(userchat)}
+                          onClick={() => handleStudentSelect(userchat)}
                         >
                           <div className="d-flex flex-start">
                             <img
                               className="rounded-circle d-flex align-self-center me-3"
-                              src={userchat.photo || "https://mdbootstrap.com/img/Photos/Avatars/img%20(1).jpg"}
+                              src={userchat.photo || 'https://mdbootstrap.com/img/Photos/Avatars/img%20(1).jpg'}
                               alt="avatar"
                               width="60"
                               height="60"
                             />
                             <div className="w-100">
-                              <div className="d-flex justify-content-between mb-3">
-                                <p className="fw-bold mb-0">{userchat.studentName}</p>
+                              <div className="justify-content-between mb-3">
+                                <p className="fw-bold mb-0">{userchat.name}</p>
+                                <p className="text-muted mb-0">
+                                  {isStudentOnline(userchat._id) ? 'Online' : 'Offline'} &nbsp;
+                                  {timeCall(userchat?.createdOn)}
+                                </p>
                               </div>
-                              <p className="text-muted mb-0">
-                                {isUserOnline(userchat._id) ? "Online" : "Offline"}
-                              </p>
                             </div>
                           </div>
                         </li>
                       ))}
-                  </div>
                 </div>
               </div>
             </div>
-            <MDBCol lg="8" md="6" className="chat-col">
-              {showChat && (
-                <MDBCard className="chat-card">
-                  <MDBCardBody className="overflow-auto chat-body" ref={messagesContainerRef}>
-                    {loadingMessages ? (
-                      <p>Loading...</p>
-                    ) : (
-                      messages.map((message, index) => (
-                        <MDBTypography
-                          tag="p"
-                          key={index}
-                          className={`message-bubble ${
-                            message.sentBy === "staff" ? "sent" : "received"
-                          }`}
-                        >
-                          {message.text}
-                        </MDBTypography>
-                      ))
-                    )}
-                  </MDBCardBody>
-                  <MDBCardFooter className="d-flex justify-content-between align-items-center chat-footer">
+          </div>
+
+          <div className="col-lg-8 col-12" style={{ maxHeight: '590px', zIndex: '1' }}>
+            <div
+              className="special-divider mt-5 rounded-3"
+              id="message_box"
+              style={{
+                maxHeight: '530px',
+                overflowY: 'auto',
+                backgroundColor: '#E6EDF8',
+              }}
+              ref={messagesContainerRef}
+            >
+              <MDBCol>
+                  <MDBTypography listUnStyled className="">
+                    <div
+                      className="  position-sticky fixed-top w-100  p-2 rounded d-flex justify-content-between"
+                      style={{ zIndex: 9999, backgroundColor: "#1C2E46" }}
+                    >
+                      <div className="d-flex flex-row hover-zoom">
+                        {selectedUser && selectedUser.photo ? (
+                          <img
+                            src={selectedUser.photo}
+                            alt="avatar"
+                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                            width="40"
+                            height="40"
+                          />
+                        ) : (
+                          <div
+                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong bg-light text-dark"
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <img
+                              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                              alt="avatar"
+                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                              width="40"
+                              height="40"
+                            />
+                          </div>
+                        )}
+                        <div className="pt-1">
+                          <p className="fw-bold mb-0 text-white">
+                            {selectedUser && selectedUser.name}
+                          </p>
+                          {selectedUser && selectedUser._id ? (
+                            <span
+                              className="small  mb-1"
+                              style={{
+                                color: isUserOnline(selectedUser._id)
+                                  ? "green"
+                                  : "red",
+                                fontWeight: "700",
+                              }}
+                            >
+                              {isUserOnline(selectedUser._id)
+                                ? "Online"
+                                : "Offline"}
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+                      <div className="mt-2 text-white">
+                        <BsThreeDotsVertical />
+                      </div>
+                    </div>
+
+                    <div className="mask-custom-scroll p-5 ">
+                      {loadingMessages && <p>Loading messages...</p>}
+                      {!loadingMessages && messages.length > 0 ? (
+                        <ul className="list-unstyled">
+                          {messages.map((message, index) => (
+                            <li
+                              className={`d-flex justify-content-${
+                                message.senderType === "superAdmin" ? "end" : "start"
+                              } mb-4`}
+                              key={index}
+                            >
+                              {message.senderType === "superAdmin" &&
+                              message &&
+                              message.superAdminId.profileImage ? (
+                                <img
+                                  src={message.superAdminId.profileImage}
+                                  alt="avatar"
+                                  className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
+                                  width="30"
+                                  height="30"
+                                />
+                              ) : (
+                                message.senderType === "staff" &&
+                                message &&
+                                message.staffId.photo && (
+                                  <img
+                                    src={message.staffId.photo}
+                                    alt="avatar"
+                                    className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
+                                    width="30"
+                                    height="30"
+                                  />
+                                )
+                              )}
+                              <MDBCard
+                                className="mask-custom "
+                                style={{
+                                  background: "none",
+                                  backgroundColor: "none",
+                                  border: "none",
+                                  borderBottom: "none",
+                                  boxShadow: "none",
+                                }}
+                              >
+                                <MDBCardBody
+                                  style={{
+                                    backgroundColor:
+                                      message.senderType === "staff"
+                                        ? "#EB2562"
+                                        : "#1C2E46",
+                                    borderRadius: "50px 50px 0px 50px ",
+
+                                    border: "none",
+                                    borderBottom: "none",
+                                  }}
+                                >
+                                  <p className="mb-0 text-white  ">
+                                    {message.sentBy === "staff"
+                                      ? `${message.staffId.empName}`
+                                      : `${message.message}`}
+                                  </p>
+                                </MDBCardBody>
+                                <MDBCardFooter
+                                  style={{
+                                    background: "none",
+                                    borderTop: "none",
+                                  }}
+                                >
+                                  <p className="text-black ms-5 d-flex justify-content-end small mb-0 ms-2">
+                                    {" "}
+                                    {message.sentOn && `${message.sentOn}`}
+                                  </p>
+                                </MDBCardFooter>
+                              </MDBCard>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div>No messages available.</div>
+                      )}
+                    </div>
+                  </MDBTypography>
+                </MDBCol>
+            </div>
+            <div
+                className="container p-2 rounded-2 "
+                style={{ backgroundColor: "#1C2E46" }}
+              >
+                <div className="row">
                   <div
                     className=" col-sm-12 col-lg-12 col-md-8"
                     onKeyPress={(e) => {
@@ -354,7 +746,7 @@ const ChatApp = () => {
                   >
                     <div className="messages-box d-flex mt-2 ms-2">
                       <input
-                        className="form-control p-4"
+                        className="form-control"
                         placeholder="Type your message"
                         rows={2}
                         value={inputMessage}
@@ -374,13 +766,12 @@ const ChatApp = () => {
                       </button>
                     </div>
                   </div>
-                  </MDBCardFooter>
-                </MDBCard>
-              )}
-            </MDBCol>
+                </div>
+              </div>
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 };
