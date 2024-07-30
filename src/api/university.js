@@ -44,4 +44,8 @@ export const getUniversitiesByProgram = (universityName) => {
   });
 };
 
-
+export const getUniversityByName = (name) => {
+  return API.get(`${University}/getUniversityByCountry`, {
+      params: { name: name }, 
+  });
+};

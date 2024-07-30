@@ -5,7 +5,8 @@ import { IoMdRocket } from "react-icons/io";
 import { IoMailUnread } from "react-icons/io5";
 import banner from "../../styles/Assets/Student/EventBanner.png";
 import { getSingleUniversity, UniversityProgram } from "../../api/university";
-import { getallProgram, getUniversityProgram } from "../../api/Program";
+import { getallCommission } from "../../api/commission";
+import { getallProgram, getUniversityProgram,getUniversityByName } from "../../api/Program";
 import Sidebar from "../../compoents/sidebar";
 import { FaUniversity } from "react-icons/fa";
 import { FaGlobeAmericas } from "react-icons/fa";
@@ -13,6 +14,7 @@ const UserProfile = () => {
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
   const [university, setUniversity] = useState();
+  const [commission, setCommission] = useState([]);
   const [program, setProgram] = useState([]);
   const pageSize = 5;
   const [filter, setFilter] = useState(false);
@@ -24,9 +26,32 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUniversityDetails();
+    getUniversityCommission();
     filter ? filterProgramList() : getAllProgram();
   }, [universityId, pagination.from, pagination.to]);
 
+
+  useEffect(() => {
+    const fetchUniversityDetails = async () => {
+      try {
+        const data = await getUniversityByName(name);
+        setUniversity(data.result);
+      } catch (error) {
+        console.error('Failed to fetch university details:', error);
+      }
+    };
+
+    fetchUniversityDetails();
+  }, [name]);
+  const getUniversityCommission = () => {
+    getallCommission()
+      .then((res) => {
+        setCommission(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getUniversityDetails = () => {
     getSingleUniversity(universityId)
       .then((res) => {
@@ -36,7 +61,6 @@ const UserProfile = () => {
         console.log(err);
       });
   };
-
   const getAllProgram = () => {
     const data = {
       limit: pageSize,
@@ -468,76 +492,84 @@ const UserProfile = () => {
                                 role="tabpanel"
                                 aria-labelledby="profile-tab"
                               >
-                                <div className="row">
-                                  <div className=" col-sm-12 pt-3 px-5">
-                                    <div className="row">
-                                      <div className="card    shadow-sm mt-3">
-                                        <div className="card-body">
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                payment Method
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.paymentMethod}
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                amount/percentage
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.amount
-                                                  ? university?.amount
-                                                  : university?.percentage
-                                                  ? university?.percentage
-                                                  : "null"}{" "}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Eligibility For Commission
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {
-                                                  university?.eligibilityForCommission
-                                                }
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Payment TAT
-                                              </div>
-                                              <div className="fw-nsemibold">
-                                                {university?.paymentTAT}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Tax
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.tax}
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Commission PaidOn
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.commissionPaidOn}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                                 <div className="row">
+      <div className="col-sm-12 pt-3 px-5">
+        {commission.length > 0 ? (
+          commission.map((item, index) => {
+            const universityDetails = findUniversityByName(item.name);
+            
+            return (
+              <div key={index} className="row">
+                <div className="card shadow-sm mt-3">
+                  <div className="card-body">
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Payment Method
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {universityDetails ? universityDetails.name : item.universityName}
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Amount/Percentage
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {item.amount
+                            ? item.amount
+                            : item.percentage
+                            ? item.percentage
+                            : "null"}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Eligibility For Commission
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {item.eligibilityForCommission}
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Payment TAT
+                        </div>
+                        <div className="fw-nsemibold">
+                          {item.paymentTAT}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Tax
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {item.tax}
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Commission Paid On
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {item.commissionPaidOn}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="text-center">No commission data available.</div>
+        )}
+      </div>
+    </div>
                               </div>
                               <div
                                 class="tab-pane fade "
