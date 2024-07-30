@@ -780,7 +780,67 @@ const UserProfile = () => {
                               >
                                 Programs
                               </div>
+
+
                             </div>
+                            <div className="row g-3">
+                              <div className="col-md-10">
+                              <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Search Program..." aria-label="programsearch" aria-describedby="programsearch"/>
+  <span class="input-group-text bg-white border-start-0" id="programsearch"><i class="fa fa-search nav-icon text-dark"></i></span>
+</div>
+                              </div>
+                              <div className="col-md-2">
+                              <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn btn-sm text-uppercase fw-semibold px-4 py-2" style={{backgroundColor:'#231f20',color:'#fff'}}><i class="fa fa-filter nav-icon text-white"></i>&nbsp;&nbsp;Filter</button>
+                             
+                              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter Program</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style={{scrollbarWidth:'none'}}>
+    <form>
+
+
+    <div class="mb-3">
+  <label for="country" class="form-label">Country</label>
+  <input type="text" class="form-control" id="country" placeholder="Example New York" style={{fontSize:'12px'}}/>
+</div>
+<div class="mb-3">
+  <label for="state" class="form-label">Province/State</label>
+  <input type="text" class="form-control" id="state" placeholder="Example Coventry" style={{fontSize:'12px'}}/>
+</div>
+<div class="mb-3">
+  <label for="university" class="form-label">University Name</label>
+  <input type="text" class="form-control" id="university" placeholder="Example Standford University " style={{fontSize:'12px'}}/>
+</div>
+<div class="mb-3">
+  <label for="fees" class="form-label">Fees</label>
+  <input type="text" class="form-control" id="fees" placeholder="Example 12500" style={{fontSize:'12px'}}/>
+</div>
+<div class="mb-3">
+  <label for="fieldofstudy" class="form-label">Field Of Study</label>
+  <input type="text" class="form-control" id="fieldofstudy" placeholder="Example Medicine" style={{fontSize:'12px'}}/>
+</div>
+<div class="mb-3">
+  <label for="elt" class="form-label">ELT</label>
+  <input type="text" class="form-control" id="elt" placeholder="Example Duo Lingo" style={{fontSize:'12px'}}/>
+</div>
+<div class="mb-3">
+  <label for="coursetype" class="form-label">Course Type</label>
+  <input type="text" class="form-control" id="corsetype" placeholder="Example Game Designer" style={{fontSize:'12px'}}/>
+</div>
+<div class="mb-3">
+  <label for="universityinterview" class="form-label">University Interview</label>
+  <input type="text" class="form-control" id="universityinterview" placeholder="Example..." style={{fontSize:'12px'}}/>
+</div>
+    </form>
+    
+  </div>
+</div>
+                              </div>
+                            </div>
+
                             {program?.map((data, index) => (
                               <div key={index} className="col-md-4 ">
                                 <div className="card mb-3  shadow border-0 border-start border-5 border-primary  h-100  shadow ">
