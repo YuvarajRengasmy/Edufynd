@@ -238,13 +238,19 @@ const ListChat = () => {
   return (
     <>
       <Sidebar />
+
+
+
+
       <div
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       >
         <div className="content-header">
 
-        <div class="container my-4">
+      
+
+        <div class="container-fluid my-4">
         <div class="row">
           
             <div class="col-md-4 col-lg-4">
@@ -359,6 +365,7 @@ const ListChat = () => {
             </div>
         </div>
     </div>
+    
           <div className="container-fluid">
             <div className="row">
               <div className="col-12 col-md-4">
