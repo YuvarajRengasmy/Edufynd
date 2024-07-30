@@ -23,6 +23,8 @@ import {
 import Sidebar from "../../compoents/sidebar";
 import { FaUniversity } from "react-icons/fa";
 import { FaGlobeAmericas } from "react-icons/fa";
+import { RichTextEditor } from "@mantine/rte";
+
 const UserProfile = () => {
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
@@ -69,11 +71,11 @@ const UserProfile = () => {
 
   const getAllProgram = () => {
     const data = {
-      limit: 12,
+      limit: pageSize,
       page: pagination.from,
       universityId: universityId,
     };
-    getProgramUniversity(data)
+    getProgramUniversity(universityId,data)
       .then((res) => {
         console.log("API Response:", res); // Debugging API response
         if (res?.data?.result && Array.isArray(res.data.result)) {
@@ -388,7 +390,8 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                  {university?.about}{" "}
+                                  <RichTextEditor value={university?.about} readOnly />
+                                  {" "}
                                 </p>
                               </div>
                               <div
@@ -579,7 +582,8 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                  {university?.admissionRequirement}{" "}
+                                    <RichTextEditor value= {university?.admissionRequirement} readOnly />
+                                 
                                 </p>
                               </div>
                             </div>
