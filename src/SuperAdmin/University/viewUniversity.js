@@ -226,7 +226,7 @@ const UserProfile = () => {
                                 style={{ fontSize: "14px" }}
                               >
                                 Avg &nbsp; {university?.averageFees}{" "}
-                                <i class="fa fa-dollar-sign nav-icon"></i>
+                                <i class="fa  nav-icon"></i>
                               </p>
                               {/* <div className="text-white mb-1 fw-semibold" style={{ fontSize: '14px' }}>
                 <span style={{ color: '#fe5722', fontSize: '14px' }}>

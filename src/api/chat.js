@@ -10,3 +10,6 @@ export const getMessages = (data) => {
 export const postChatStaff = (data) => {
   return API.post(`${Chat}/doctorChat`, data);
 };
+export const postChatStudent = (data) => {
+  return API.post(`${Chat}/StudentChat`, data);
+};
