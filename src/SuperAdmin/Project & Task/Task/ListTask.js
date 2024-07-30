@@ -208,7 +208,7 @@ export const ListTask = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="#">
+                    <Link class="btn btn-pix-primary" to="/AddTask">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -269,7 +269,7 @@ export const ListTask = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewCommission",
+                                      pathname: "/ViewTask",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -281,7 +281,7 @@ export const ListTask = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditCommission",
+                                      pathname: "/EditTask",
                                       
                                     }}
                                     data-bs-toggle="tooltip"

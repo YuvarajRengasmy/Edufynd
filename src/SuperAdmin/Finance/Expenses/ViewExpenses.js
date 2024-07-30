@@ -46,10 +46,10 @@ export const ViewExpenses = () => {
             <div class="col-md-6 mb-3">
                 <div class="p-3 mb-3 bg-light border rounded">
                     <h5 class="mb-2">Office Supplies</h5>
-                    <p><strong>Date:</strong> 2024-07-29</p>
-                    <p><strong>Paid Against:</strong> Stationery</p>
-                    <p><strong>Amount:</strong> $150</p>
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewExpenseModal">View Details</button>
+                    <p className='mb-1'><strong>Date:</strong> 2024-07-29</p>
+                    <p  className='mb-1'><strong>Paid Against:</strong> Stationery</p>
+                    <p  className='mb-3'><strong>Amount:</strong> $150</p>
+                    <button class="btn  btn-sm px-3 py-2 fw-semibold text-uppercase text-white" data-bs-toggle="modal" data-bs-target="#viewExpenseModal" style={{backgroundColor:'#231f20',fontSize:'12px'}}>View Details</button>
                 </div>
             </div>
            
@@ -62,7 +62,7 @@ export const ViewExpenses = () => {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewExpenseModalLabel">Expense Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -79,7 +79,7 @@ export const ViewExpenses = () => {
                     </dl>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Edit</button>
                 </div>
             </div>

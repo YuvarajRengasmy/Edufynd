@@ -2,9 +2,31 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { getSingleStudent } from "../../api/student";
 import { useLocation } from "react-router-dom";
-import { FaUser, FaPassport, FaCalendarAlt, FaFlag, FaBirthdayCake, FaMale, FaPhone, FaWhatsapp } from 'react-icons/fa';
+
 
 function Profile() {
+
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
+  const [student, setStudent] = useState([]);
+
+  useEffect(() => {
+    getStudentDetails();
+  }, []);
+  const getStudentDetails = () => {
+    getSingleStudent(id)
+      .then((res) => {
+        console.log(res);
+        setStudent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+
   return (
     <>
       <div>
@@ -12,119 +34,198 @@ function Profile() {
 
         <div className="content-wrapper" style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
           <div className="content-header">
-            <div className="container">
-              <div className="row">
-                <div className="col">
-                  <div className="card border-0 shadow-sm rounded-0 text-bg-white p-4">
-                    <div className="bg-transparent mb-3">
-                      <div className="row g-0">
-                        <div className="col-md-12">
-                          <img
-                            src="https://pics.craiyon.com/2023-07-15/dc2ec5a571974417a5551420a4fb0587.webp"
-                            style={{ width: '150px', height: '150px' }}
-                            className="img-fluid rounded-pill"
-                            alt="student_image"
-                          />
-                        </div>
-                        <div className="col-md-12 align-self-center">
-                          <div className="row g-4">
-                            <div className="col-sm-6">
-                              <div className="d-flex flex-column align-items-start justify-content-start">
-                                <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Source</p>
-                                <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Student Name</p>
-                                <p className="card-text text-capitalize fw-bold"><FaFlag style={{ color: '#fe5722' }} /> Citizenship</p>
-                                <p className="card-text text-capitalize fw-bold"><FaBirthdayCake style={{ color: '#fe5722' }} /> DOB</p>
-                                <p className="card-text text-capitalize fw-bold"><FaPassport style={{ color: '#fe5722' }} /> Passport No</p>
-                                <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Expiry Date</p>
-                                <p className="card-text text-capitalize fw-bold"><FaMale style={{ color: '#fe5722' }} /> Gender</p>
-                                <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Email ID</p>
-                                <p className="card-text text-capitalize fw-bold"><FaPhone style={{ color: '#fe5722' }} /> Primary Number</p>
-                                <p className="card-text text-capitalize fw-bold"><FaWhatsapp style={{ color: '#fe5722' }} /> WhatsApp Number</p>
-                                <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Highest Qualification</p>
-                                <p className="card-text text-capitalize fw-bold"><FaPassport style={{ color: '#fe5722' }} /> Degree Name</p>
-                                <p className="card-text text-capitalize fw-bold"><FaFlag style={{ color: '#fe5722' }} /> Percentage</p>
-                                <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Institution</p>
-                                <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Start Date</p>
-                                <p className="card-text text-capitalize fw-bold"><FaFlag style={{ color: '#fe5722' }} /> End Date</p>
-                              </div>
-                            </div>
-                            <div className="col-sm-6">
-                              <div className="d-flex flex-column align-items-start justify-content-start">
-                                <p className="card-text text-capitalize fw-light">Agent</p>
-                                <p className="card-text text-capitalize fw-light">James Lee</p>
-                                <p className="card-text text-capitalize fw-light">Indian</p>
-                                <p className="card-text text-capitalize fw-light">01-01-1990</p>
-                                <p className="card-text text-capitalize fw-light">NEW123LL</p>
-                                <p className="card-text text-capitalize fw-light">28-06-2025</p>
-                                <p className="card-text text-capitalize fw-light">Male</p>
-                                <p className="card-text text-capitalize fw-light">james.lee@example.com</p>
-                                <p className="card-text text-capitalize fw-light">+1234567890</p>
-                                <p className="card-text text-capitalize fw-light">+1234567890</p>
-                                <p className="card-text text-capitalize fw-light">Bachelor's Degree</p>
-                                <p className="card-text text-capitalize fw-light">Computer Science</p>
-                                <p className="card-text text-capitalize fw-light">85%</p>
-                                <p className="card-text text-capitalize fw-light">XYZ University</p>
-                                <p className="card-text text-capitalize fw-light">01-09-2010</p>
-                                <p className="card-text text-capitalize fw-light">01-06-2014</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <hr className="border-4 rounded-2" />
-                    {/* <div className="header bg-none">
-                      <h5>Work Experience</h5>
-                      <div className="container my-3 text-center">
-                        <div className="row g-3">
-                          <div className="col-md-6">
-                            <div className="d-flex flex-column align-items-start justify-content-start">
-                              <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Duration</p>
-                              <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Last Employer</p>
-                              <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Last Designation</p>
-                              <p className="card-text text-capitalize fw-bold"><FaUser style={{ color: '#fe5722' }} /> Do You Have Any English Language Test</p>
-                              <p className="card-text text-capitalize fw-bold"><FaPassport style={{ color: '#fe5722' }} /> English Test Type</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Test Score</p>
-                              <p className="card-text text-capitalize fw-bold"><FaFlag style={{ color: '#fe5722' }} /> Date Of Test</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Do You Have Travel History</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Travel Date</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Purpose</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Country</p>
-                              <p className="card-text text-capitalize fw-bold"><FaFlag style={{ color: '#fe5722' }} /> Any Visa Rejections</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Reason</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Agency</p>
-                              <p className="card-text text-capitalize fw-bold"><FaCalendarAlt style={{ color: '#fe5722' }} /> Note</p>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="d-flex flex-column align-items-start justify-content-start">
-                              <p className="card-text text-capitalize fw-light">2 years</p>
-                              <p className="card-text text-capitalize fw-light">ABC Corp</p>
-                              <p className="card-text text-capitalize fw-light">Software Engineer</p>
-                              <p className="card-text text-capitalize fw-light">Yes</p>
-                              <p className="card-text text-capitalize fw-light">IELTS</p>
-                              <p className="card-text text-capitalize fw-light">8.0</p>
-                              <p className="card-text text-capitalize fw-light">01-01-2020</p>
-                              <p className="card-text text-capitalize fw-light">Yes</p>
-                              <p className="card-text text-capitalize fw-light">01-01-2019</p>
-                              <p className="card-text text-capitalize fw-light">Business</p>
-                              <p className="card-text text-capitalize fw-light">USA</p>
-                              <p className="card-text text-capitalize fw-light">None</p>
-                              <p className="card-text text-capitalize fw-light"></p>
-                              <p className="card-text text-capitalize fw-light">Stanford University</p>
-                              <p className="card-text text-capitalize fw-light">USA</p>
-                              <p className="card-text text-capitalize fw-light">MSc Computer Science</p>
-                              <p className="card-text text-capitalize fw-light">Self-funded</p>
-                              <p className="card-text text-capitalize fw-light">3 years</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
-                  </div>
-                </div>
-              </div>
+
+
+        
+          <div class="container mt-4">
+        <h2 class="mb-4">Student Details</h2>
+
+      
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-3 text-center">
+                <img src={student?.photo?student?.photo:"https://via.placeholder.com/150"} alt="Profile Photo" class="profile-img rounded-circle border" style={{width:'150px',height:'150px'}}/>
+                <h5 class="mt-2">John Doe</h5>
+                <p class="text-muted">Student Code: Auto Generated</p>
             </div>
+            <div class="col-md-9">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card p-3 border-primary">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-passport  card-icon" ></i> Passport No</h5>
+                                <p class="card-text">AB123456</p>
+                                <h6 class="mt-3"><i class="fas fa-calendar-alt card-icon"></i> Expiry Date</h6>
+                                <p class="card-text">2025-12-31</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-3 border-primary">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-birthday-cake card-icon"></i> Date of Birth</h5>
+                                <p class="card-text">1995-01-01</p>
+                                <h6 class="mt-3"><i class="fas fa-flag card-icon"></i> Citizenship</h6>
+                                <p class="card-text">USA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-3 border-primary">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-genderless card-icon"></i> Gender</h5>
+                                <p class="card-text">Male</p>
+                                <h6 class="mt-3"><i class="fas fa-envelope card-icon"></i> Email ID</h6>
+                                <p class="card-text">john.doe@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-3 border-primary">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-phone-alt card-icon"></i> Contact Number</h5>
+                                <p class="card-text">+1 234 567 890 (Primary)</p>
+                                <p class="card-text">+1 234 567 891 (WhatsApp)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+        <h3 class="mb-3">Highest Qualification</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card p-3 border-success">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-graduation-cap card-icon"></i> Degree Name</h5>
+                        <p class="card-text">Bachelor of Science</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-success">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-calendar card-icon"></i> Academic Year & Year Passed</h5>
+                        <p class="card-text">2015 - 2019</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-success">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-school card-icon"></i> Institution</h5>
+                        <p class="card-text">ABC University</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-success">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-percent card-icon"></i> Percentage</h5>
+                        <p class="card-text">85%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <h3 class="mb-3">English Language Test</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card p-3 border-warning">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-file-alt card-icon"></i> Test Taken</h5>
+                        <p class="card-text">IELTS</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-warning">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-tachometer-alt card-icon"></i> Test Score</h5>
+                        <p class="card-text">8.0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-warning">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-calendar-day card-icon"></i> Date of Test</h5>
+                        <p class="card-text">2024-01-01</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+        <h3 class="mb-3">Desired Information</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card p-3 border-info">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-globe card-icon"></i> Desired Country</h5>
+                        <p class="card-text">USA</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 border-info">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-university card-icon"></i> Desired University</h5>
+                        <p class="card-text">XYZ University</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 border-info">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-book card-icon"></i> Desired Course</h5>
+                        <p class="card-text">Computer Science</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+        <h3 class="mb-3">Work Experience & Additional Information</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card p-3 border-danger">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-briefcase card-icon"></i> Work Experience</h5>
+                        <p class="card-text">3 years at ABC Company</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3 border-danger">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-ban card-icon"></i> Visa Rejections</h5>
+                        <p class="card-text">No</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3 border-danger">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-globe-americas card-icon"></i> Travel History</h5>
+                        <p class="card-text">Yes</p>
+                        <p class="card-text">Visited Canada in 2023</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3 border-danger">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-money-bill card-icon"></i> Finance</h5>
+                        <p class="card-text">Self Funding</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+           
           </div>
         </div>
       </div>

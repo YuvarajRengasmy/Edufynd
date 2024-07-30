@@ -784,12 +784,123 @@ const UserProfile = () => {
                             </div>
                           </div> */}
                           </div>
+                          <div className="col-lg-12">
+                                                            <div className="row g-3">
+                                                                <div className="d-flex flex-row align-items-start justify-content-between mb-3">
+                                                                    <div className=" text-decoration-underline text-Capitalize" style={{ color: '#fe5722' }}>
+                                                                        Programs
+                                                                    </div>
 
+
+                                                                </div>
+
+                                                                <div className="row g-3">
+                              <div className="col-md-10">
+                              <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Search Program..." aria-label="programsearch" aria-describedby="programsearch"/>
+  <span class="input-group-text bg-white border-start-0" id="programsearch"><i class="fa fa-search nav-icon text-dark"></i></span>
+</div>
+                              </div>
+                              <div className="col-md-2">
+                              <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn btn-sm text-uppercase fw-semibold px-4 py-2" style={{backgroundColor:'#231f20',color:'#fff'}}><i class="fa fa-filter nav-icon text-white"></i>&nbsp;&nbsp;Filter</button>
+                             
+                              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter Program</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style={{scrollbarWidth:'none'}}>
+    <form>
+
+
+
+<div class="mb-3">
+  <label for="duration" class="form-label">Duration</label>
+  <input type="text" class="form-control" id="duration" placeholder="Example Coventry" style={{fontSize:'12px'}}/>
+</div>
+
+
+<div class="mb-3">
+  <label for="university" class="form-label">University</label>
+  <input type="text" class="form-control" id="university" placeholder="Example Standford University " style={{fontSize:'12px'}}/>
+</div>
+
+
+
+
+
+<div class="mb-3">
+  <label for="coursetype" class="form-label">Course Type</label>
+  <input type="text" class="form-control" id="corsetype" placeholder="Example Game Designer" style={{fontSize:'12px'}}/>
+</div>
+
+    </form>
+    
+  </div>
+</div>
+                              </div>
+                            </div></div></div>
                           <div className="row">
       {Array.isArray(program) && program.length > 0 ? (
         program.map((data, index) => (
           <div key={index} className="col-md-4">
-            <div className="card mb-3 shadow border-0 border-start border-5 border-primary h-100">
+
+<div class="card border-0 " style={{backgroundColor:'rgba(0,0,0,0.5)',height:'10rem'}}>
+  <img src="https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg" class="card-img img-fluid" alt="..." style={{mixBlendMode:'multiply',height:'10rem'}}/>
+  <div class="card-img-overlay  text-white" >
+  <h6
+                      className="university-name mb-2 lh-sm"
+                      style={{
+                        
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <i className="fa fa-book nav-icon text-white "></i>{" "}
+
+                      {data?.programTitle || "Program Title"}
+                     
+                    </h6>
+                    <p
+                      className="course-name mb-2 lh-sm"
+                      style={{ fontSize: "12px" }}
+                    >
+                      <i className="fa fa-university nav-icon text-white "></i>{" "}
+                     
+                      {data?.universityName || "University Name"}
+                    </p>
+                    <p
+                      className="duration mb-2 lh-sm"
+                      style={{ fontSize: "12px" }}
+                    >
+                      <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
+                     
+                      {data?.duration || "Application"}
+                    </p>
+                   
+                    <p
+                      className="duration mb-2 lh-sm"
+                      style={{ fontSize: "12px" }}
+                    >
+                      <i className="fa fa-clock nav-icon text-white"></i>{" "}
+                    
+                      {data?.duration || "Duration"}
+                    </p>
+                   
+
+
+                    <button
+                      className="btn btn-sm rounded-pill text-white fw-semibold px-4 "
+                      style={{
+                        backgroundColor: "#fe5722",
+                        fontSize: "12px",
+                      }}
+                    >
+                      <i className="fa fa-paper-plane nav-icon text-white "></i>{" "}
+                      Apply
+                    </button>
+  </div>
+</div>
+            {/* <div className="card mb-3 shadow border-0 border-start border-5 border-primary h-100">
               <div className="row g-0 align-items-center justify-content-center">
                 <div className="col-md-4 d-flex align-items-center justify-content-center">
                   <img
@@ -807,48 +918,10 @@ const UserProfile = () => {
                   />
                 </div>
                 <div className="col-md-8">
-                  <div className="card-body">
-                    <h6
-                      className="university-name mb-2 lh-sm"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <i className="fa fa-university nav-icon text-dark"></i>{" "}
-                      {data?.universityName || "University Name"}
-                    </h6>
-                    <p
-                      className="course-name mb-2 lh-sm"
-                      style={{ fontSize: "12px" }}
-                    >
-                      <i className="fa fa-book nav-icon text-dark"></i>{" "}
-                      <b>Course Name: </b>
-                      {data?.programTitle || "Program Title"}
-                    </p>
-                    <p
-                      className="duration mb-2 lh-sm"
-                      style={{ fontSize: "12px" }}
-                    >
-                      <i className="fa fa-hourglass-half nav-icon text-dark"></i>{" "}
-                      <b>Duration: </b>
-                      {data?.duration || "Duration"}
-                    </p>
-
-                    <button
-                      className="btn btn-sm rounded-pill text-white fw-semibold px-4"
-                      style={{
-                        backgroundColor: "#fe5722",
-                        fontSize: "12px",
-                      }}
-                    >
-                      <i className="fa fa-paper-plane nav-icon text-white"></i>{" "}
-                      Apply
-                    </button>
-                  </div>
+                  
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         ))
       ) : (
