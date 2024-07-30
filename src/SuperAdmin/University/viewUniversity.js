@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import { IoMdRocket } from "react-icons/io";
 import { IoMailUnread } from "react-icons/io5";
 import banner from "../../styles/Assets/Student/EventBanner.png";
-import { getSingleUniversity, UniversityProgram } from "../../api/university";
-import { getallProgram, getUniversityProgram } from "../../api/Program";
+import { getSingleUniversity,  findUniversityByName } from "../../api/university";
+import { getSingleUniversityCommission } from "../../api/commission";
+import { getallProgram, getUniversityProgram,getUniversityByName } from "../../api/Program";
 import Sidebar from "../../compoents/sidebar";
 import { FaUniversity } from "react-icons/fa";
 import { FaGlobeAmericas } from "react-icons/fa";
@@ -13,6 +14,7 @@ const UserProfile = () => {
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
   const [university, setUniversity] = useState();
+  const [commission, setCommission] = useState([]);
   const [program, setProgram] = useState([]);
   const pageSize = 5;
   const [filter, setFilter] = useState(false);
@@ -24,9 +26,22 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUniversityDetails();
+  
+    getUniversityCommissionDetails();
     filter ? filterProgramList() : getAllProgram();
   }, [universityId, pagination.from, pagination.to]);
 
+ 
+  const getUniversityCommissionDetails = () => {
+    getSingleUniversityCommission(universityId)
+      .then((res) => {
+        console.log("yuvi",res);
+        setCommission(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getUniversityDetails = () => {
     getSingleUniversity(universityId)
       .then((res) => {
@@ -36,7 +51,6 @@ const UserProfile = () => {
         console.log(err);
       });
   };
-
   const getAllProgram = () => {
     const data = {
       limit: pageSize,
@@ -226,7 +240,7 @@ const UserProfile = () => {
                                 style={{ fontSize: "14px" }}
                               >
                                 Avg &nbsp; {university?.averageFees}{" "}
-                                <i class="fa fa-dollar-sign nav-icon"></i>
+                                <i class="fa  nav-icon"></i>
                               </p>
                               {/* <div className="text-white mb-1 fw-semibold" style={{ fontSize: '14px' }}>
                 <span style={{ color: '#fe5722', fontSize: '14px' }}>
@@ -304,7 +318,7 @@ const UserProfile = () => {
                                 </a>
                               </li>
                               <li class="nav-item" role="presentation">
-                                <a
+                               <a
                                   class="nav-link text-Capitalize "
                                   id="profile-tab"
                                   data-bs-toggle="tab"
@@ -462,83 +476,97 @@ const UserProfile = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                class="tab-pane fade"
-                                id="Payment-course"
-                                role="tabpanel"
-                                aria-labelledby="profile-tab"
-                              >
+                              <div className="tab-pane fade" id="Payment-course" role="tabpanel" aria-labelledby="profile-tab">
                                 <div className="row">
-                                  <div className=" col-sm-12 pt-3 px-5">
-                                    <div className="row">
-                                      <div className="card    shadow-sm mt-3">
-                                        <div className="card-body">
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                payment Method
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.paymentMethod}
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                amount/percentage
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.amount
-                                                  ? university?.amount
-                                                  : university?.percentage
-                                                  ? university?.percentage
-                                                  : "null"}{" "}
+                                  <div className="col-sm-12 pt-3 px-5">
+                                   
+                                        {/* <div  className="row">
+                                          <div className="card shadow-sm mt-3">
+                                            <div className="card-body">
+                                              <div className="row gy-3 py-2">
+                                                <div className="col-lg-4 text-center">
+                                                  <FaUniversity size="3rem" />
+                                                  <p className="mt-2 mb-0 text-muted">
+                                                    {commission?.universityName}
+                                                  </p>
+                                                </div>
+                                                <div className="col-lg-4 text-center">
+                                                  <FaGlobeAmericas size="3rem" />
+                                                  <p className="mt-2 mb-0 text-muted">
+                                                    {commission?.paymentMethod}
+                                                  </p>
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Eligibility For Commission
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {
-                                                  university?.eligibilityForCommission
-                                                }
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Payment TAT
-                                              </div>
-                                              <div className="fw-nsemibold">
-                                                {university?.paymentTAT}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Tax
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.tax}
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className=" fw-light text-lead text-capitalize">
-                                                Commission PaidOn
-                                              </div>
-                                              <div className=" fw-semibold text-capitalize">
-                                                {university?.commissionPaidOn}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
+                                        </div> */}
+
+<div  className="row">
+                <div className="card shadow-sm mt-3">
+                  <div className="card-body">
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Payment Method
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission?.universityName}
+                         </div>
+                       </div>
+                       <div className="col-sm-6">
+                         <div className="fw-light text-lead text-capitalize">
+                           Amount/Percentage
+                         </div>
+                         <div className="fw-semibold text-capitalize">
+                          {commission.paymentMethod}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Eligibility For Commission
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission.eligibility}
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Payment TAT
+                        </div>
+                        <div className="fw-nsemibold">
+                          {commission.paymentType}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Tax
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission.tax}
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Commission Paid On
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission.commissionPaidOn?commission.commissionPaidOn: "null"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                                     
+                                    
                                   </div>
                                 </div>
                               </div>
+                           
                               <div
                                 class="tab-pane fade "
                                 id="tab-Review"

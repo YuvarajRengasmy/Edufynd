@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidebar from '../../../compoents/sidebar'
+import { Link } from 'react-router-dom'
 export const AddBookings = () => {
   return (
     <div >
@@ -8,7 +9,7 @@ export const AddBookings = () => {
   
 
 
-<div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+<div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
 <div className="content-header ">
     <div className="content container-fluid ">
         <form >
@@ -19,112 +20,66 @@ export const AddBookings = () => {
 <h5 className='text-center text-capitalize p-1'> Add Bookings Details</h5>
 </div>
 <div className="card-body mt-5">
-              <div className="row g-3">
+              <div className="row mb-3">
+              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label style={{ color: "#231F20" }}>
+                 Student Name<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control rounded-2 "
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "12px",
+                    }}
+                    placeholder="Example John Doe"
+                    name="studetname"
+                  />
+                  
+                </div>
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label style={{ color: "#231F20" }}>
-                    Type of Users{" "}
+                 ELT Test Name {" "}
                     <span className="text-danger">*</span>
                   </label>
 
                   <select
-                    class="form-select form-select-lg"
+                    class="form-select form-select-lg rounded-2"
                     aria-label="Default select example"
                     style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
                   >
-                    <option selected>Select User</option>
-                    <option value="Staff">Staff</option>
-                    <option value="Student">Student</option>
-                    <option value="Agent">Agent</option>
+                    <option selected>Select ELT</option>
+                    <option value=" IELTS "> IELTS </option>
+                    <option value=" TOEFL"> TOEFL</option>
+                    <option value=" PTE"> PTE</option>
+                    <option value=" Cambridge English Exams "> Cambridge English Exams</option>
+                    <option value=" Duolingo English Test"> Duolingo English Test</option>
+                    <option value=" TOEIC">TOEIC</option>
                   </select>
                 </div>
 
+                
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label style={{ color: "#231F20" }}>
-                  Host Name<span className="text-danger">*</span>
+                 Schedule Class  <span className="text-danger">*</span>
                   </label>
                   <input
-                    type="text"
-                    className="form-control "
+                    type="datetime-local"
+                    className="form-control rounded-2 text-uppercase "
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "12px",
                     }}
-                    placeholder="Enter UserName"
-                    name="hostname"
-                  />
-                  
-                </div>
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label style={{ color: "#231F20" }}>
-                  	Participant Name <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control "
-                    style={{
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "12px",
-                    }}
-                    placeholder="Enter •	Participant Name "
-                    name="Username"
+                    placeholder="Example 29-07-2024 12:47 "
+                    name="scheduleclass"
                   />
                   
                 </div>
               
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label style={{ color: "#231F20" }}>
-                 Mail ID <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control "
-                    style={{
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "12px",
-                    }}
-                    placeholder="Enter  Mail ID "
-                    name="email"
-                  />
-                  
-                </div>
-                
-
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label style={{ color: "#231F20" }}>
-                 Meeting Topic<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control "
-                    style={{
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "12px",
-                    }}
-                    placeholder="Enter  Meeting Topic"
-                    name="meeting"
-                  />
-                  
-                </div>
-                
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label style={{ color: "#231F20" }}>
-                 Date<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="datetime-local"
-                    className="form-control "
-                    style={{
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "12px",
-                    }}
-                    placeholder="Enter  Date"
-                    name="date"
-                  />
-                  
-                </div>
+             
               
               
               
@@ -134,8 +89,10 @@ export const AddBookings = () => {
                
                 
 
-                <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                <button
+               
+              </div>
+              <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                <Link to="/ListBookings"
                     style={{
                       backgroundColor: "#231F20",
                       fontFamily: "Plus Jakarta Sans",
@@ -145,7 +102,7 @@ export const AddBookings = () => {
                     className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                   >
                     Cancel
-                  </button>
+                  </Link>
                   <button
                     style={{
                       backgroundColor: "#FE5722",
@@ -158,7 +115,6 @@ export const AddBookings = () => {
                     Submit
                   </button>
                 </div>
-              </div>
             </div>
             </div>
             </div>

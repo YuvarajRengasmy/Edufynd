@@ -247,6 +247,7 @@ function AddCommission() {
                 setCommission(prevState => ({
                     ...prevState,
                     universityId: selectedUniversity._id,
+                    
                     clientName: selectedUniversity.businessName,
                     courseType: selectedUniversity.courseType,
 
@@ -370,6 +371,49 @@ function AddCommission() {
                                                         </select>
                                                         {errors.universityName.required ? <span className="text-danger form-text profile_error">This field is required.</span> : null}
                                                     </div>
+
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+<label style={{ color: "#231F20" }}>
+  {" "}
+  University Id
+  <span className="text-danger">*</span>
+</label>
+<select
+  onChange={handleInputs}
+  value={commission?.universityName ?? ""}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+  }}
+  className="form-select rounded-2 p-2 "
+  name="universityId"
+>
+  <option
+    value={""}
+    disabled
+    hidden
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+  >
+    Select UniversityId
+  </option>
+  {universities.map((data, index) => (
+    <option
+      key={index}
+      value={data?.universityId}
+      style={{
+        fontFamily: "Plus Jakarta Sans",
+        fontSize: "12px",
+      }}
+    >
+      {" "}
+      {data?.universityName}
+    </option>
+  ))}
+</select>
+</div>
 
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Payment Method<span className="text-danger">*</span></label>

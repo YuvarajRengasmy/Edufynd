@@ -100,7 +100,7 @@ import ListBlog from "../SuperAdmin/Blog/ListBlog";
 import AddBlog from "../SuperAdmin/Blog/AddBlog";
 import ViewBlog from "../SuperAdmin/Blog/ViewBlog";
 import EditBlog from "../SuperAdmin/Blog/EditBlog";
-import {ListChat}  from "../SuperAdmin/Chat/ListChat";
+import ListChat  from "../SuperAdmin/Chat/ListChat";
 import AddChat  from "../SuperAdmin/Chat/AddChat";
 import EditChat  from "../SuperAdmin/Chat/EditChat";
 import ViewChat  from "../SuperAdmin/Chat/ViewChat";
@@ -167,7 +167,7 @@ import EditPeformanceReport from "../SuperAdmin/HRMS/Performance Report/EditPerf
 import ViewPeformanceReport from "../SuperAdmin/HRMS/Performance Report/ViewPerformanceReports";
 
 import ListPolicies from "../SuperAdmin/HRMS/Policies/ListPolicies";
-import AddPolicies from "../SuperAdmin/HRMS/Policies/AddPolicies";
+import Add from "../SuperAdmin/HRMS/Policies/AddPolicies";
 import EditPolicies from "../SuperAdmin/HRMS/Policies/EditPolicies";
 import ViewPolicies from "../SuperAdmin/HRMS/Policies/ViewPolicies";
 
@@ -423,7 +423,7 @@ function SuperAdmin() {
 
           {/* Policies */}
           <Route path="/ListPolicies" element={<PrivateRoute><ListPolicies/></PrivateRoute>}/>
-          <Route path="/AddPolicies" element={<PrivateRoute><AddPolicies/></PrivateRoute>}/>
+          <Route path="/AddPolicies" element={<PrivateRoute><Add/></PrivateRoute>}/>
           <Route path="/EditPolicies" element={<PrivateRoute><EditPolicies/></PrivateRoute>}/>
           <Route path="/ViewPolicies" element={<PrivateRoute><ViewPolicies/></PrivateRoute>}/>
 

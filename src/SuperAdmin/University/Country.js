@@ -1,902 +1,414 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { saveCommission } from "../../api/commission";
-import { getallCurrency } from "../../api/currency";
-import { getFilterYear } from "../../api/year";
-import { getallTaxModule } from "../../api/universityModule/tax";
-import { FaTrash } from "react-icons/fa";
-import { getUniversitiesByCountry } from "../../api/university";
-import Flags from "react-world-flags";
-import Select from "react-select";
+// import { RiCoinsFill } from "react-icons/ri";
+// import { Link, useLocation } from "react-router-dom";
+// import React, { useEffect, useState } from "react";
+// import { IoMdRocket } from "react-icons/io";
+// import { IoMailUnread } from "react-icons/io5";
+// import banner from "../../styles/Assets/Student/EventBanner.png";
+// import { getSingleUniversity, UniversityProgram } from "../../api/university";
+// import { getallCommission } from "../../api/commission";
+// import { getallProgram, getUniversityProgram,getUniversityByName } from "../../api/Program";
+// import Sidebar from "../../compoents/sidebar";
+// import { FaUniversity } from "react-icons/fa";
+// import { FaGlobeAmericas } from "react-icons/fa";
+// const UserProfile = () => {
+//   const location = useLocation();
+//   const universityId = new URLSearchParams(location.search).get("id");
+//   const [university, setUniversity] = useState();
+//   const [commission, setCommission] = useState([]);
+//   const [program, setProgram] = useState([]);
+//   const pageSize = 5;
+//   const [filter, setFilter] = useState(false);
+//   const [pagination, setPagination] = useState({
+//     count: 0,
+//     from: 0,
+//     to: pageSize,
+//   });
 
-import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
+//   useEffect(() => {
+//     getUniversityDetails();
+//     getUniversityCommission();
+//     filter ? filterProgramList() : getAllProgram();
+//   }, [universityId, pagination.from, pagination.to]);
 
-function AddCommission() {
-  const initialState = {
-    country: "",
-    universityName: "",
-    paymentMethod: "",
-    commissionPaidOn: "",
-    eligibility: "",
-    tax: "",
-    paymentType: "",
-    currency: "",
-    flag: "",
-    clientName: "",
-    years: [
-      {
-        id: 1,
-        year: "",
-        courseTypes: [{ courseType: "", summer: "", fall: "", winter: "" }],
-      },
-    ],
-  };
 
-  const initialStateErrors = {
-    country: { required: false },
-    universityName: { required: false },
-    paymentMethod: { required: false },
-    commissionPaidOn: { required: false },
-    eligibility: { required: false },
-    tax: { required: false },
-    paymentType: { required: false },
-    years: { required: false },
-    flag: { required: false },
-    clientName: { required: false },
-    currency: { required: false },
-  };
+//   useEffect(() => {
+//     const fetchUniversityDetails = async () => {
+//       try {
+//         const data = await getUniversityByName(name);
+//         setUniversity(data.result);
+//       } catch (error) {
+//         console.error('Failed to fetch university details:', error);
+//       }
+//     };
 
-  const [commission, setCommission] = useState(initialState);
-  const [errors, setErrors] = useState(initialStateErrors);
-  const [submitted, setSubmitted] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [tax, setTax] = useState([]);
-  const [universities, setUniversities] = useState([]);
-  const [years, setYears] = useState([]);
-  const [year, setYear] = useState([]);
-  const pageSize = 5;
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
-  const navigate = useNavigate();
+//     fetchUniversityDetails();
+//   }, [name]);
+//   const getUniversityCommission = () => {
+//     getallCommission()
+//       .then((res) => {
+//         setCommission(res?.data?.result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+//   const getUniversityDetails = () => {
+//     getSingleUniversity(universityId)
+//       .then((res) => {
+//         setUniversity(res?.data?.result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+//   const getAllProgram = () => {
+//     const data = {
+//       limit: pageSize,
+//       page: pagination.from,
+//       universityId: universityId,
+//     };
 
-  useEffect(() => {
-    getAllCurrencyDetails();
-    getAllTaxDetails();
-    getAllYearDetails();
-  }, [pagination.from, pagination.to]);
+//     getallProgram(data)
+//       .then((res) => {
+//         console.log(res);
+//         setProgram(res?.data?.result?.programList);
+//         setPagination({
+//           ...pagination,
+//           count: res?.data?.result?.programCount,
+//         });
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
 
-  const getAllCurrencyDetails = () => {
-    getallCurrency()
-      .then((res) => {
-        setCountries(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllYearDetails = () => {
-    const data = {
-      limit: 10,
-      page: pagination.from,
-    };
-    getFilterYear(data)
-      .then((res) => {
-        setYear(res?.data?.result?.yearList || []);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.yearCount || 0,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllTaxDetails = () => {
-    getallTaxModule()
-      .then((res) => {
-        console.log(res);
-        setTax(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+//   const filterProgramList = (event) => {
+//     event?.preventDefault();
+//     setFilter(true);
+//     const data = {
+//       universityName: university?.universityName,
+//       universityId: university?._id,
+//       limit: 10,
+//       page: pagination.from,
+//     };
+//     getUniversityProgram(data)
+//       .then((res) => {
+//         setProgram(res?.data?.result?.programList);
+//         setPagination({
+//           ...pagination,
+//           count: res?.data?.result?.programCount,
+//         });
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+//   return (
+//     <>
+//       <div>
+//         <Sidebar />
 
-  const validateYears = (years) => {
-    const errors = [];
-    for (let i = 0; i < years.length; i++) {
-      const year = years[i];
-      const yearErrors = {};
+//         <div
+//           className="content-wrapper"
+//           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+//         >
+//           <div className="content-header">
+//             <div className="container ">
+//               <div className="row">
+//                 <div className="col-xl-12">
+//                   <div className="card border-0 rounded-0 ">
+                   
+//                     <div className="card-body  ">
+//                       <div className="container">
+//                         <div className="row ">
+//                           <div className="col-md-8">
+//                             <ul
+//                               class="nav nav-pills fs-9"
+//                               id="myTab"
+//                               role="tablist"
+//                             >
+//                               <li class="nav-item" role="presentation">
+//                                 <a
+//                                   class="nav-link active text-Capitalize "
+//                                   id="home-tab"
+//                                   data-bs-toggle="tab"
+//                                   href="#tab-home"
+//                                   role="tab"
+//                                   aria-controls="tab-home"
+//                                   aria-selected="true"
+//                                 >
+//                                   About
+//                                 </a>
+//                               </li>
+//                               <li class="nav-item" role="presentation">
+//                                 <a
+//                                   class="nav-link text-Capitalize "
+//                                   id="profile-tab"
+//                                   data-bs-toggle="tab"
+//                                   href="#tab-profile"
+//                                   role="tab"
+//                                   aria-controls="tab-profile"
+//                                   aria-selected="false"
+//                                   tabindex="-1"
+//                                 >
+//                                   Campus
+//                                 </a>
+//                               </li>
+//                               <li class="nav-item" role="presentation">
+//                                 <a
+//                                   class="nav-link   text-Capitalize "
+//                                   id="profile-tab"
+//                                   data-bs-toggle="tab"
+//                                   href="#tab-populatCourse"
+//                                   role="tab"
+//                                   aria-controls="tab-profile"
+//                                   aria-selected="false"
+//                                   tabindex="-1"
+//                                 >
+//                                   Categories
+//                                 </a>
+//                               </li>
+//                               <li class="nav-item" role="presentation">
+//                                 <a
+//                                   class="nav-link text-Capitalize "
+//                                   id="profile-tab"
+//                                   data-bs-toggle="tab"
+//                                   href="#tab-Course"
+//                                   role="tab"
+//                                   aria-controls="tab-profile"
+//                                   aria-selected="false"
+//                                   tabindex="-1"
+//                                 >
+//                                   Course
+//                                 </a>
+//                               </li>
+//                               <li class="nav-item" role="presentation">
+//                                 <a
+//                                   class="nav-link text-Capitalize "
+//                                   id="profile-tab"
+//                                   data-bs-toggle="tab"
+//                                   href="#Payment-course"
+//                                   role="tab"
+//                                   aria-controls="tab-profile"
+//                                   aria-selected="false"
+//                                   tabindex="-1"
+//                                 >
+//                                   Payment Method
+//                                 </a>
+//                               </li>
+//                               <li class="nav-item" role="presentation">
+//                                 <a
+//                                   class="nav-link text-Capitalize "
+//                                   id="home-review-tab"
+//                                   data-bs-toggle="tab"
+//                                   href="#tab-Review"
+//                                   role="tab"
+//                                   aria-controls="tab-home"
+//                                   aria-selected="true"
+//                                 >
+//                                   Requirement
+//                                 </a>
+//                               </li>
+//                             </ul>
+//                             <div
+//                               class="tab-content mt-3"
+//                               id="myTabContent"
+//                               style={{
+//                                 height: "350px",
+//                                 overflowY: "auto",
+//                                 scrollbarWidth: "none",
+//                               }}
+//                             >
+//                               <div
+//                                 class="tab-pane fade active show"
+//                                 id="tab-home"
+//                                 role="tabpanel"
+//                                 aria-labelledby="home-tab"
+//                               >
+//                                 <p
+//                                   className="clearfix"
+//                                   style={{ textAlign: "justify" }}
+//                                 >
+//                                   {university?.about}{" "}
+//                                 </p>
+//                               </div>
+//                               <div
+//                                 class="tab-pane fade"
+//                                 id="tab-profile"
+//                                 role="tabpanel"
+//                                 aria-labelledby="profile-tab"
+//                               >
+//                                 <div className="row">
+//                                   {Array.isArray(university?.campuses) &&
+//                                     university.campuses.map((data, index) => (
+//                                       <div key={index} className="col-md-3">
+//                                         <div className="card text-bg-light  border-0   border-start   border-5 border-danger  align-items-center">
+//                                           <div className="align-self-center mt-2 mb-0">
+//                                             <img
+//                                               src={
+//                                                 university?.universityLogo
+//                                                   ? university?.universityLogo
+//                                                   : "https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg"
+//                                               }
+//                                               className="card-img-top img-fluid rounded-circle object-fit-cover mx-auto d-block mb-0"
+                                             
+//                                               alt="img"
+//                                               style={{width:'4rem',height:'4rem'}}
+//                                             />
+//                                           </div>
 
-      if (!year.year) {
-        yearErrors.year = "Year is required.";
-      }
+//                                           <div className="card-body">
+//                                             <p className="card-text text-center mb-1">
+//                                               {data?.lga}
+//                                             </p>
+//                                             <p className="card-text text-center">
+//                                               {data?.state}
+//                                             </p>
+//                                           </div>
+//                                         </div>
+//                                       </div>
+//                                     ))}
+//                                 </div>
+//                               </div>
+                             
 
-      yearErrors.courseTypes = [];
-      for (let j = 0; j < year.courseTypes.length; j++) {
-        const courseType = year.courseTypes[j];
-        const courseTypeErrors = {};
+                             
+//                               <div
+//                                 class="tab-pane fade"
+//                                 id="Payment-course"
+//                                 role="tabpanel"
+//                                 aria-labelledby="profile-tab"
+//                               >
+//                                  <div className="row">
+//       <div className="col-sm-12 pt-3 px-5">
+//         {commission.length > 0 ? (
+//           commission.map((item, index) => {
+//             const universityDetails = findUniversityByName(item.name);
+            
+//             return (
+//               <div key={index} className="row">
+//                 <div className="card shadow-sm mt-3">
+//                   <div className="card-body">
+//                     <div className="row gy-3 py-2">
+//                       <div className="col-sm-6">
+//                         <div className="fw-light text-lead text-capitalize">
+//                           Payment Method
+//                         </div>
+//                         <div className="fw-semibold text-capitalize">
+//                           {universityDetails ? universityDetails.name : item.universityName}
+//                         </div>
+//                       </div>
+//                       <div className="col-sm-6">
+//                         <div className="fw-light text-lead text-capitalize">
+//                           Amount/Percentage
+//                         </div>
+//                         <div className="fw-semibold text-capitalize">
+//                           {item.amount
+//                             ? item.amount
+//                             : item.percentage
+//                             ? item.percentage
+//                             : "null"}
+//                         </div>
+//                       </div>
+//                     </div>
+//                     <div className="row gy-3 py-2">
+//                       <div className="col-sm-6">
+//                         <div className="fw-light text-lead text-capitalize">
+//                           Eligibility For Commission
+//                         </div>
+//                         <div className="fw-semibold text-capitalize">
+//                           {item.eligibilityForCommission}
+//                         </div>
+//                       </div>
+//                       <div className="col-sm-6">
+//                         <div className="fw-light text-lead text-capitalize">
+//                           Payment TAT
+//                         </div>
+//                         <div className="fw-nsemibold">
+//                           {item.paymentTAT}
+//                         </div>
+//                       </div>
+//                     </div>
+//                     <div className="row gy-3 py-2">
+//                       <div className="col-sm-6">
+//                         <div className="fw-light text-lead text-capitalize">
+//                           Tax
+//                         </div>
+//                         <div className="fw-semibold text-capitalize">
+//                           {item.tax}
+//                         </div>
+//                       </div>
+//                       <div className="col-sm-6">
+//                         <div className="fw-light text-lead text-capitalize">
+//                           Commission Paid On
+//                         </div>
+//                         <div className="fw-semibold text-capitalize">
+//                           {item.commissionPaidOn}
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             );
+//           })
+//         ) : (
+//           <div className="text-center">No commission data available.</div>
+//         )}
+//       </div>
+//     </div>
+//                               </div>
+                              
+//                             </div>
+//                           </div>
 
-        if (!courseType.courseType) {
-          courseTypeErrors.courseType = "Course Type is required.";
-        }
+                         
 
-        if (!courseType.inTake) {
-          courseTypeErrors.inTake = "Intake is required.";
-        }
+                         
+//                           <nav aria-label="Page navigation example justify-content-end  text-end">
+//                             <ul className="pagination">
+//                               <li className="page-item">
+//                                 <a
+//                                   className="page-link"
+//                                   href="#"
+//                                   aria-label="Previous"
+//                                 >
+//                                   <span aria-hidden="true">&laquo;</span>
+//                                 </a>
+//                               </li>
+//                               <li className="page-item">
+//                                 <a className="page-link" href="#">
+//                                   1
+//                                 </a>
+//                               </li>
+//                               <li className="page-item">
+//                                 <a className="page-link" href="#">
+//                                   2
+//                                 </a>
+//                               </li>
 
-        if (courseType.value === null || courseType.value === "") {
-          courseTypeErrors.value = "Value is required.";
-        } else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
-          courseTypeErrors.value = "Value must be a number less than 35.";
-        }
-
-        yearErrors.courseTypes[j] = courseTypeErrors;
-      }
-
-      errors[i] = yearErrors;
-    }
-    return errors;
-  };
-  const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (!data.country) {
-      error.country.required = true;
-    }
-    if (!data.universityName) {
-      error.universityName.required = true;
-    }
-    if (!data.paymentMethod) {
-      error.paymentMethod.required = true;
-    }
-    if (!data.eligibility) {
-      error.eligibility.required = true;
-    }
-    if (!data.tax) {
-      error.tax.required = true;
-    }
-    if (!data.paymentType) {
-      error.paymentType.required = true;
-    }
-    if (!data.years) {
-      error.years.required = true;
-    }
-
-    const yearValidationErrors = validateYears(data.years);
-    if (
-      yearValidationErrors.some(
-        (yearError) => Object.keys(yearError).length > 0
-      )
-    ) {
-      errors.years = {
-        required: false,
-        valid: true,
-        message: "Please fix the errors in the year fields.",
-      };
-      errors.yearErrors = yearValidationErrors;
-    }
-
-    return error;
-  };
-  const addYear = () => {
-    const newYear = {
-      year: "",
-      courseTypes: [{ courseType: "", intake: "", value: null }],
-    };
-    setYears([...years, newYear]);
-  };
-
-  const addCourseType = (yearIndex) => {
-    const updatedYears = [...years];
-    updatedYears[yearIndex].courseTypes.push({
-      courseType: "",
-      intake: "",
-      value: null,
-    });
-    setYears(updatedYears);
-  };
-
-  const removeCourseType = (yearIndex, courseTypeIndex) => {
-    const updatedYears = [...commission.years];
-    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
-    setCommission({
-      ...commission,
-      years: updatedYears,
-    });
-  };
-  const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
-    setYears((prevYears) => {
-      // Create a copy of the current years state
-      const updatedYears = [...prevYears];
-
-      // Update the specific field based on the indices provided
-      if (courseTypeIndex !== null) {
-        updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
-      } else {
-        updatedYears[yearIndex][fieldName] = value;
-      }
-
-      return updatedYears;
-    });
-  };
-
-  const yearOptions = year.map((data) => ({
-    value: data.year,
-    label: data.year,
-  }));
-
-  const fetchCountryDetails = (selectedCountry) => {
-    const selectedCountryData = countries.find(
-      (c) => c.country === selectedCountry
-    );
-    if (selectedCountryData) {
-      setCommission((prevState) => ({
-        ...prevState,
-        currency: selectedCountryData.currency,
-        flag: selectedCountryData.flag,
-      }));
-    }
-  };
-
-  const handleCountryChange = (event) => {
-    const selectedCountry = event.target.value;
-    setCommission({ ...commission, country: selectedCountry });
-
-    getUniversitiesByCountry(selectedCountry)
-      .then((res) => {
-        setUniversities(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.error(
-          `Error fetching universities for ${selectedCountry}:`,
-          err
-        );
-        setUniversities([]);
-      });
-
-    fetchCountryDetails(selectedCountry);
-  };
-
-  const handleInputs = (event) => {
-    const { name, value } = event.target;
-    setCommission({ ...commission, [name]: value });
-
-    if (name === "universityName") {
-      const selectedUniversity = universities.find(
-        (u) => u.universityName === value
-      );
-      if (selectedUniversity) {
-        setCommission((prevState) => ({
-          ...prevState,
-          universityId: selectedUniversity._id,
-          clientName: selectedUniversity.businessName,
-          courseType: selectedUniversity.courseType,
-          inTake: selectedUniversity.inTake,
-        }));
-        setYears((prevYears) =>
-          prevYears.map((year) => ({
-            ...year,
-            courseTypes: [
-              {
-                courseType: selectedUniversity.courseType,
-                intake: "",
-                value: null,
-              },
-            ],
-          }))
-        );
-      }
-    }
-
-    if (submitted) {
-      const newError = handleValidation({ ...commission, [name]: value });
-      setErrors(newError);
-    }
-  };
-
-  const handleErrors = (obj) => {
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        const prop = obj[key];
-        if (prop.required === true || prop.valid === true) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Validate the commission data
-    const validationErrors = handleValidation(commission);
-    setErrors(validationErrors);
-    setSubmitted(true);
-
-    if (handleErrors(validationErrors)) {
-      // Prepare years data for submission
-      const yearsData = years.map((year) => ({
-        year: year.year,
-        courseTypes: year.courseTypes.map((courseType) => ({
-          courseType: courseType.courseType,
-          winter: courseType.winter,
-          summer: courseType.summer,
-        })),
-      }));
-
-      // Prepare commission data including years
-      const dataToSave = {
-        ...commission,
-        years: yearsData,
-      };
-
-      // Call API to save commission
-      saveCommission(dataToSave)
-        .then((res) => {
-          toast.success(res?.data?.message || "Commission saved successfully!");
-          navigate("/ListCommission");
-        })
-        .catch((err) => {
-          toast.error(
-            err?.response?.data?.message ||
-              "An error occurred while saving the commission."
-          );
-        });
-    }
-  };
-
-  const courseTypeOptions = universities?.courseType
-    ? universities.courseType.map((courseType) => ({
-        value: courseType,
-        label: courseType,
-      }))
-    : [];
-
-  return (
-    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-      <div className="container-fluid">
-        <nav className="navbar navbar-vertical navbar-expand-lg">
-          <Sidebar />
-        </nav>
-
-        <div
-          className="content-wrapper"
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
-        >
-          <div className="content-header">
-            <div className="content container-fluid">
-              <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-xl-12">
-                    <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
-                      <div
-                        className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                        style={{ background: "#fe5722", color: "#fff" }}
-                      >
-                        <h5 className="text-center text-capitalize p-1">
-                          Add Commission Details
-                        </h5>
-                      </div>
-                      <div className="card-body mt-5">
-                        <div className="row g-3">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Country<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select  form-select-lg  rounded-2"
-                              name="country"
-                              value={commission.country}
-                              onChange={handleCountryChange}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <option value="">Select Country</option>
-                              {countries.map((country) => (
-                                <option
-                                  key={country._id}
-                                  value={country.country}
-                                >
-                                  {country.country}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.country.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              University<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select form-select-lg rounded-2"
-                              name="universityName"
-                              value={commission.universityName}
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <option value="">Select University</option>
-                              {universities.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.universityName}
-                                >
-                                  {uni.universityName}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.universityName.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Payment Method
-                              <span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select form-select-lg rounded-2"
-                              name="paymentMethod"
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <option value="">Select Payment Type</option>
-                              <option value="Fixed">Fixed Amount</option>
-                              <option value="Percentage">Percentage</option>
-                            </select>
-                            {errors.paymentMethod.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-                          <div className="row g-2">
-                            {commission.paymentMethod === "Percentage" ? (
-                              <div className="row g-2">
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Commission Paid On
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <select
-                                    className="form-select form-select-lg rounded-2"
-                                    name="commissionPaidOn"
-                                    onChange={handleInputs}
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                  >
-                                    <option value="">
-                                      Select Commission Paid On
-                                    </option>
-                                    <option value="CourseFees">Net Fees</option>
-                                    <option value="PaidFees">Paid Fees</option>
-                                    <option value="PaidFees">Gross Fees</option>
-                                  </select>
-                                </div>
-                              </div>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Eligibility<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={commission?.eligibility}
-                              className="form-control rounded-2"
-                              placeholder="Enter Eligibility"
-                              name="eligibility"
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            />
-                            {errors.eligibility.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Tax<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select form-select-lg rounded-2 rounded-2 p-2 "
-                              name="tax"
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              displayEmpty
-                              inputProps={{ "aria-label": "Without label" }}
-                            >
-                              <option value="">Select Tax</option>
-                              {tax.map((data, index) => (
-                                <option key={index} value={data?.tax}>
-                                  {" "}
-                                  {data?.tax}
-                                </option>
-                              ))}
-                            </select>
-
-                            {errors.tax.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                            <label style={{ color: "#231F20" }}>
-                              Client Name<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={commission?.clientName}
-                              className="form-control rounded-2"
-                              placeholder="Enter Client Name"
-                              name="clientName"
-                              onChange={handleInputs}
-                            />
-                            {errors.clientName.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  visually-hidden">
-                            <label style={{ color: "#231F20" }}>Currency</label>
-                            <div sm="9" className="d-flex align-items-center">
-                              {commission.flag && (
-                                <Flags
-                                  code={commission.flag}
-                                  className="me-2"
-                                  style={{ width: "40px", height: "30px" }}
-                                  onChange={handleInputs}
-                                  name="flag"
-                                />
-                              )}
-                              <input
-                                className="form-control rounded-2"
-                                type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                onChange={handleInputs}
-                                name="currency"
-                                value={`${commission.currency}`}
-                                readOnly
-                              />
-                            </div>
-                            {errors.currency.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Payment Type<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select form-select-lg rounded-2"
-                              value={commission?.paymentType}
-                              aria-label="Default select example"
-                              name="paymentType"
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <option value=""> select Payment Type</option>
-                              <option value="One_Time">One Time</option>
-                              <option value="Semester"> Semester </option>
-                            </select>
-                            {errors.paymentType.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="row g-3 mt-3">
-                            <div className="col-12">
-                              {years.map((year, yearIndex) => (
-                                <div
-                                  key={yearIndex}
-                                  className="year-section mb-3"
-                                >
-                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>
-                                      Year
-                                    </label>
-                                    <select
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "14px",
-                                      }}
-                                      value={year.year}
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          yearIndex,
-                                          null,
-                                          "year",
-                                          e.target.value
-                                        )
-                                      }
-                                      name="year"
-                                      className="form-select form-select-lg rounded-2 mb-3"
-                                      placeholder="Enter Year"
-                                    >
-                                      <option value="">Select Year</option>
-                                      {yearOptions.map((option) => (
-                                        <option
-                                          key={option.value}
-                                          value={option.value}
-                                        >
-                                          {option.label}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
-
-                                  <div>
-                                    {year.courseTypes.map(
-                                      (courseType, courseTypeIndex) => (
-                                        <div
-                                          className="row g-3"
-                                          key={courseTypeIndex}
-                                        >
-                                          {(
-                                            universities.find(
-                                              (uni) =>
-                                                uni.universityName ===
-                                                commission.universityName
-                                            )?.courseType || []
-                                          ).map((type, idx) => (
-                                            <div key={idx}>
-                                              <label>CourseType: {type}</label>
-
-                                              <div className=" col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                <label
-                                                  style={{ color: "#231F20" }}
-                                                >
-                                                  Course Type
-                                                </label>
-                                                <select
-                                                  className="form-select form-select-lg rounded-2"
-                                                  value={courseType.courseType}
-                                                  onChange={(e) =>
-                                                    handleInputChange(
-                                                      yearIndex,
-                                                      courseTypeIndex,
-                                                      "courseType",
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                  style={{
-                                                    fontFamily:
-                                                      "Plus Jakarta Sans",
-                                                    fontSize: "12px",
-                                                  }}
-                                                >
-                                                  <option value="">
-                                                    Select Course Type
-                                                  </option>
-
-                                                  {(
-                                                    universities.find(
-                                                      (uni) =>
-                                                        uni.universityName ===
-                                                        commission.universityName
-                                                    )?.courseType || []
-                                                  ).map((type, idx) => (
-                                                    <option
-                                                      key={idx}
-                                                      value={type}
-                                                    >
-                                                      {type}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-
-                                              <div className="row g-3 mt-3 ">
-                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                  <label
-                                                    style={{ color: "#231F20" }}
-                                                  >
-                                                    Summer{" "}
-                                                    <span className="text-danger">
-                                                      *
-                                                    </span>
-                                                  </label>
-                                                  <input
-                                                    className="form-control rounded-2"
-                                                    type="text"
-                                                    name="summer"
-                                                    placeholder="Enter Value"
-                                                    value={type.summer}
-                                                    style={{
-                                                      fontFamily:
-                                                        "Plus Jakarta Sans",
-                                                      fontSize: "12px",
-                                                    }}
-                                                    onChange={(e) =>
-                                                      handleInputChange(
-                                                        yearIndex,
-                                                        courseTypeIndex,
-                                                        "summer",
-                                                        e.target.value
-                                                      )
-                                                    }
-                                                  />
-                                                </div>
-
-                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                  <label
-                                                    style={{ color: "#231F20" }}
-                                                  >
-                                                    Winter{" "}
-                                                    <span className="text-danger">
-                                                      *
-                                                    </span>
-                                                  </label>
-                                                  <input
-                                                    className="form-control rounded-2"
-                                                    type="text"
-                                                    name="winter"
-                                                    placeholder="Enter Value"
-                                                    value={type.winter}
-                                                    style={{
-                                                      fontFamily:
-                                                        "Plus Jakarta Sans",
-                                                      fontSize: "12px",
-                                                    }}
-                                                    onChange={(e) =>
-                                                      handleInputChange(
-                                                        yearIndex,
-                                                        courseTypeIndex,
-                                                        "winter",
-                                                        e.target.value
-                                                      )
-                                                    }
-                                                  />
-                                                </div>
-
-                                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                                  <label
-                                                    style={{ color: "#231F20" }}
-                                                  >
-                                                    Fall{" "}
-                                                    <span className="text-danger">
-                                                      *
-                                                    </span>
-                                                  </label>
-                                                  <input
-                                                    className="form-control rounded-2"
-                                                    type="text"
-                                                    name="fall"
-                                                    placeholder="Enter Value"
-                                                    value={type.fall}
-                                                    style={{
-                                                      fontFamily:
-                                                        "Plus Jakarta Sans",
-                                                      fontSize: "12px",
-                                                    }}
-                                                    onChange={(e) =>
-                                                      handleInputChange(
-                                                        yearIndex,
-                                                        courseTypeIndex,
-                                                        "fall",
-                                                        e.target.value
-                                                      )
-                                                    }
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          ))}
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="row g-3">
-                            <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto">
-                              <button
-                                type="button"
-                                className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
-                                style={{
-                                  backgroundColor: "#FE5722",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                onClick={addYear}
-                              >
-                                <i
-                                  class="fa fa-plus-circle me-2"
-                                  aria-hidden="true"
-                                ></i>{" "}
-                                Add Year
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row g-2">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                            <Link
-                              type="reset"
-                              style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                            >
-                              Cancel
-                            </Link>
-                            <button
-                              style={{
-                                backgroundColor: "#FE5722",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
-                            >
-                              Submit
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default AddCommission;
+//                               <li className="page-item">
+//                                 <a
+//                                   className="page-link"
+//                                   href="#"
+//                                   aria-label="Next"
+//                                 >
+//                                   <span aria-hidden="true">&raquo;</span>
+//                                 </a>
+//                               </li>
+//                             </ul>
+//                           </nav>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+// export default UserProfile;

@@ -311,7 +311,7 @@ const App = () => {
   const handleRichTextChange = (value) => {
     setUniversity((prevUniversity) => ({
       ...prevUniversity,
-      about: value,
+    
       admissionRequirement: value,
     }));
   };
