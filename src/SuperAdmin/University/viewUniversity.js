@@ -1,10 +1,12 @@
 import { RiCoinsFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { IoMdRocket } from "react-icons/io";
 import { IoMailUnread } from "react-icons/io5";
 import banner from "../../styles/Assets/Student/EventBanner.png";
-import {getSingleUniversity} from "../../api/university";
+import { getSingleUniversity } from "../../api/university";
+import { getSuperAdminForSearch } from "../../api/superAdmin";
+
 import {
   Dialog,
   DialogContent,
@@ -15,23 +17,34 @@ import {
   radioClasses,
 } from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
-import {
-  getallProgram,
-  getUniversityProgram,
-  getProgramUniversity
-} from "../../api/Program";
+import { getFilterProgram, getProgramUniversity } from "../../api/Program";
 import Sidebar from "../../compoents/sidebar";
 import { FaUniversity } from "react-icons/fa";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { RichTextEditor } from "@mantine/rte";
 
 const UserProfile = () => {
+  const initialStateInputs = {
+    inTake: "",
+    programTitle: "",
+    applicationFee: "",
+    courseType: "",
+  };
+
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [inputs, setInputs] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState(false);
   const [university, setUniversity] = useState();
   const [commission, setCommission] = useState([]);
+  const [openFilter, setOpenFilter] = useState(false);
+
   const [program, setProgram] = useState([]);
   const pageSize = 5;
+  const search = useRef(null);
   const [filter, setFilter] = useState(false);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -41,15 +54,27 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUniversityDetails();
-  
+
     getUniversityCommissionDetails();
     // filter ? filterProgramList() : getAllProgram();
   }, [universityId, pagination.from, pagination.to]);
 
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
   const getUniversityCommissionDetails = () => {
     getSingleUniversityCommission(universityId)
       .then((res) => {
-       
         setCommission(res?.data?.result);
       })
       .catch((err) => {
@@ -75,7 +100,7 @@ const UserProfile = () => {
       page: pagination.from,
       universityId: universityId,
     };
-    getProgramUniversity(universityId,data)
+    getProgramUniversity(universityId, data)
       .then((res) => {
         console.log("API Response:", res); // Debugging API response
         if (res?.data?.result && Array.isArray(res.data.result)) {
@@ -92,13 +117,69 @@ const UserProfile = () => {
         console.error("Error fetching programs:", err);
       });
   };
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+  };
+  const filterProgramList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+      inTake: inputs.inTake,
+      programTitle: inputs.programTitle,
+      applicationFee: inputs.applicationFee,
+      courseFee: inputs.courseFee,
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterProgram(data)
+      .then((res) => {
+        setProgram(res?.data?.result?.programList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.programCount,
+        });
+        closeFilterPopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
+  const closeFilterPopup = () => {
+    setOpenFilter(false);
+  };
+  const resetFilter = () => {
+     setFilter(false);
+    // setInputs(initialStateInputs);
+    getAllProgram();
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const programList = res?.data?.result?.programList;
+        setProgram(programList);
+        const result = programList.length ? "programs" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
-  // const filterProgramList = (event) => {
+
   //   event?.preventDefault();
   //   setFilter(true);
   //   const data = {
@@ -142,7 +223,7 @@ const UserProfile = () => {
                       }}
                     >
                       <img
-                        src="https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
+                        src={university?.banner?university?.banner:"https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"}
                         className="card-img img-fluid rounded-0 border-0"
                         alt="university_bg_image"
                         style={{
@@ -390,8 +471,10 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                  <RichTextEditor value={university?.about} readOnly />
-                                  {" "}
+                                  <RichTextEditor
+                                    value={university?.about}
+                                    readOnly
+                                  />{" "}
                                 </p>
                               </div>
                               <div
@@ -513,7 +596,6 @@ const UserProfile = () => {
                               >
                                 <div className="row">
                                   <div className="col-sm-12 pt-3 px-5">
-                                    
                                     <div className="row">
                                       <div className="card shadow-sm mt-3">
                                         <div className="card-body">
@@ -582,8 +664,10 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                    <RichTextEditor value= {university?.admissionRequirement} readOnly />
-                                 
+                                  <RichTextEditor
+                                    value={university?.admissionRequirement}
+                                    readOnly
+                                  />
                                 </p>
                               </div>
                             </div>
@@ -729,193 +813,268 @@ const UserProfile = () => {
                                 </div>
                               </div>
                             </div>
-
-                            {/* <div className="card  mt-3">
-                            <div className="card-body">
-                              <div className="row ">
-                                <div className="col-6">
-                                  <div className=" fw-light text-lead text-capitalize">
-                                    OfferTAT
-                                  </div>
-                                  <div className="fw-semibold text-capitalize">
-                                    {university?.offerTAT}
-                                  </div>
-                                </div>
-                                <div className="col-6">
-                                  <div className=" fw-light text-lead text-capitalize">
-                                    Average Fees
-                                  </div>
-                                  <div className=" fw-semibold text-capitalize">
-                                
-                                    {university?.averageFees}
-                                  </div>
-                                </div>
-                                
-                                <div className="col-6">
-                                  <div className=" fw-light text-lead text-capitalize">
-                                    Country
-                                  </div>
-                                  <div className=" fw-semibold text-capitalize">
-                                    {university?.country}
-
-                                  </div>
-                                </div>
-                              </div>
-                             
-                              
-                                <div className="col-6  ">
-                                  <div className=" fw-light text-lead text-capitalize">
-                                    Founded
-                                  </div>
-                                  <div className=" fw-semibold text-capitalize">
-                                    {university?.founded}
-                                  </div>
-                                </div>
-                          
-                                <div className="col-6">
-                                  <div className=" fw-light text-lead text-capitalize">
-                                    Institution Type
-                                  </div>
-                                  <div className=" fw-semibold text-capitalize">
-                                    {university?.institutionType}
-                                  </div>
-                                </div>
-                             
-                            </div>
-                          </div> */}
                           </div>
                           <div className="col-lg-12">
-                                                            <div className="row g-3">
-                                                                <div className="d-flex flex-row align-items-start justify-content-between mb-3">
-                                                                    <div className=" text-decoration-underline text-Capitalize" style={{ color: '#fe5722' }}>
-                                                                        Programs
-                                                                    </div>
-
-
-                                                                </div>
-
-                                                                <div className="row g-3">
-                              <div className="col-md-10">
-                              <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Search Program..." aria-label="programsearch" aria-describedby="programsearch"/>
-  <span class="input-group-text bg-white border-start-0" id="programsearch"><i class="fa fa-search nav-icon text-dark"></i></span>
-</div>
+                            <div className="row g-3">
+                              <div className="d-flex flex-row align-items-start justify-content-between mb-3">
+                                <div
+                                  className=" text-decoration-underline text-Capitalize"
+                                  style={{ color: "#fe5722" }}
+                                >
+                                  Programs
+                                </div>
                               </div>
-                              <div className="col-md-2">
-                              <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn btn-sm text-uppercase fw-semibold px-4 py-2" style={{backgroundColor:'#231f20',color:'#fff'}}><i class="fa fa-filter nav-icon text-white"></i>&nbsp;&nbsp;Filter</button>
-                             
-                              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter Program</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body" style={{scrollbarWidth:'none'}}>
-    <form>
 
+                              <div className="row g-3">
+                                <div className="col-md-10">
+                                  <form onSubmit={handleSearch}>
+                                    <div class="input-group mb-3">
+                                      <input
+                                        type="text"
+                                        ref={search}
+                                        onChange={handleInputsearch}
+                                        class="form-control"
+                                        placeholder="Search Program..."
+                                        aria-label="programsearch"
+                                        aria-describedby="programsearch"
+                                      />
+                                      <button
+                                        class="input-group-text bg-white border-start-0"
+                                        type="submit"
+                                        id="programsearch"
+                                      >
+                                        <i class="fa fa-search nav-icon text-dark"></i>
+                                      </button>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div className="col-md-2">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasExample"
+                                    aria-controls="offcanvasExample"
+                                    class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
+                                    style={{
+                                      backgroundColor: "#231f20",
+                                      color: "#fff",
+                                    }}
+                                  >
+                                    <i class="fa fa-filter nav-icon text-white"></i>
+                                    &nbsp;&nbsp;Filter
+                                  </button>
 
+                                  <div
+                                    class="offcanvas offcanvas-end"
+                                    tabindex="-1"
+                                    id="offcanvasExample"
+                                    aria-labelledby="offcanvasExampleLabel"
+                                  >
+                                    <div class="offcanvas-header">
+                                      <h5
+                                        class="offcanvas-title"
+                                        id="offcanvasExampleLabel"
+                                      >
+                                        Filter Program
+                                      </h5>
+                                      <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="offcanvas"
+                                        aria-label="Close"
+                                      ></button>
+                                    </div>
+                                    <div
+                                      class="offcanvas-body"
+                                      style={{ scrollbarWidth: "none" }}
+                                    >
+                                      <form>
+                                        <div class="mb-3">
+                                          <label
+                                            for="duration"
+                                            class="form-label"
+                                          >
+                                            Program Title
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="duration"
+                                            name="programTitle"
+                                            onChange={handleInputs}
+                                            placeholder="Example Coventry"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
 
-<div class="mb-3">
-  <label for="duration" class="form-label">Duration</label>
-  <input type="text" class="form-control" id="duration" placeholder="Example Coventry" style={{fontSize:'12px'}}/>
-</div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="university"
+                                            class="form-label"
+                                          >
+                                            inTake
+                                          </label>
+                                          <input
+                                            type="text"
+                                            name="inTake"
+                                            onChange={handleInputs}
+                                            class="form-control"
+                                            id="university"
+                                            placeholder="Example Standford University "
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
 
-
-<div class="mb-3">
-  <label for="university" class="form-label">University</label>
-  <input type="text" class="form-control" id="university" placeholder="Example Standford University " style={{fontSize:'12px'}}/>
-</div>
-
-
-
-
-
-<div class="mb-3">
-  <label for="coursetype" class="form-label">Course Type</label>
-  <input type="text" class="form-control" id="corsetype" placeholder="Example Game Designer" style={{fontSize:'12px'}}/>
-</div>
-
-    </form>
-    
-  </div>
-</div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="coursetype"
+                                            class="form-label"
+                                          >
+                                            Course Type
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            name="courseType"
+                                            onChange={handleInputs}
+                                            id="corsetype"
+                                            placeholder="Example Game Designer"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="coursetype"
+                                            class="form-label"
+                                          >
+                                            Application Fee
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            name="applicationFee"
+                                            onChange={handleInputs}
+                                            id="corsetype"
+                                            placeholder="Example Game Designer"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <button
+                                          data-bs-dismiss="offcanvas"
+                                          type="submit"
+                                          onClick={filterProgramList}
+                                          className="btn btn-save border-0 text-white fw-semibold text-uppercase rounded-pill px-3 py-2 float-right mx-2"
+                                          style={{
+                                            backgroundColor: "#fe5722",
+                                            fontSize: "14px",
+                                          }}
+                                        >
+                                          Apply
+                                        </button>
+                                        <button
+                                          data-bs-dismiss="offcanvas"
+                                          className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-3 py-2 text-white float-right bg"
+                                          style={{
+                                            backgroundColor: "#0f2239",
+                                            fontSize: "14px",
+                                          }}
+                                          onClick={resetFilter}
+                                        >
+                                          Reset
+                                        </button>
+                                       
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                            </div></div></div>
+                            </div>
+                          </div>
                           <div className="row">
-      {Array.isArray(program) && program.length > 0 ? (
-        program.map((data, index) => (
-          <div key={index} className="col-md-4">
+                            {Array.isArray(program) && program.length > 0 ? (
+                              program.map((data, index) => (
+                                <div key={index} className="col-md-4">
+                                  <div
+                                    class="card border-0 "
+                                    style={{
+                                      backgroundColor: "rgba(0,0,0,0.5)",
+                                      height: "10rem",
+                                    }}
+                                  >
+                                    <img
+                                      src={
+                                        data?.universityLogo
+                                          ? data?.universityLogo
+                                          : "https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
+                                      }
+                                      class="card-img img-fluid"
+                                      alt="..."
+                                      style={{
+                                        mixBlendMode: "multiply",
+                                        height: "10rem",
+                                      }}
+                                    />
+                                    <div class="card-img-overlay  text-white">
+                                      <h6
+                                        className="university-name mb-2 lh-sm"
+                                        style={{
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        <i className="fa fa-book nav-icon text-white "></i>{" "}
+                                        {data?.programTitle || "Program Title"}
+                                      </h6>
+                                      <p
+                                        className="course-name mb-2 lh-sm"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <i className="fa fa-university nav-icon text-white "></i>{" "}
+                                        {data?.universityName ||
+                                          "University Name"}
+                                      </p>
+                                      <p
+                                        className="duration mb-2 lh-sm"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
+                                        {data?.applicationFee || "Null"}
+                                      </p>
 
-<div class="card border-0 " style={{backgroundColor:'rgba(0,0,0,0.5)',height:'10rem'}}>
-  <img src={data?.universityLogo?data?.universityLogo:"https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"} class="card-img img-fluid" alt="..." style={{mixBlendMode:'multiply',height:'10rem'}}/>
-  <div class="card-img-overlay  text-white" >
-  <h6
-                      className="university-name mb-2 lh-sm"
-                      style={{
-                        
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <i className="fa fa-book nav-icon text-white "></i>{" "}
+                                      <p
+                                        className="duration mb-2 lh-sm"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <i className="fa fa-clock nav-icon text-white"></i>{" "}
+                                        {data?.courseType || "Null"}
+                                      </p>
 
-                      {data?.programTitle || "Program Title"}
-                     
-                    </h6>
-                    <p
-                      className="course-name mb-2 lh-sm"
-                      style={{ fontSize: "12px" }}
-                    >
-                      <i className="fa fa-university nav-icon text-white "></i>{" "}
-                     
-                      {data?.universityName || "University Name"}
-                    </p>
-                    <p
-                      className="duration mb-2 lh-sm"
-                      style={{ fontSize: "12px" }}
-                    >
-                      <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
-                     
-                      {data?.applicationFee || "Null"}
-                    </p>
-                   
-                    <p
-                      className="duration mb-2 lh-sm"
-                      style={{ fontSize: "12px" }}
-                    >
-                      <i className="fa fa-clock nav-icon text-white"></i>{" "}
-                    
-                      {data?.courseType || "Null"}
-                    </p>
-                   
-
-
-                    <button
-                      className="btn btn-sm rounded-pill text-white fw-semibold px-4 "
-                      style={{
-                        backgroundColor: "#fe5722",
-                        fontSize: "12px",
-                      }}
-                    >
-                      <i className="fa fa-paper-plane nav-icon text-white "></i>{" "}
-                      Apply
-                    </button>
-  </div>
-</div>
-          
-          </div>
-        ))
-      ) : (
-        <p>No programs available.</p>
-      )}
-    </div>
-    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                    </div> 
+                                      <button
+                                        className="btn btn-sm rounded-pill text-white fw-semibold px-4 "
+                                        style={{
+                                          backgroundColor: "#fe5722",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        <i className="fa fa-paper-plane nav-icon text-white "></i>{" "}
+                                        Apply
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))
+                            ) : (
+                              <p>No programs available.</p>
+                            )}
+                          </div>
+                          <div className="float-right my-2">
+                            <Pagination
+                              count={Math.ceil(pagination.count / pageSize)}
+                              onChange={handlePageChange}
+                              variant="outlined"
+                              shape="rounded"
+                              color="primary"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
