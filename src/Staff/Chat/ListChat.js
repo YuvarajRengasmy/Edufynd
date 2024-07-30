@@ -44,16 +44,8 @@ const ChatApp = () => {
     }
   };
 
-  const scrollToBottomStudent = () => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
-    }
-  };
-  useEffect(() => {
-    scrollToBottomStudent();
-  }, [selectedStudent, messages]);
 
+ 
   useEffect(() => {
     const newSocket = io("http://localhost:4409");
     setSocket(newSocket);
@@ -65,7 +57,7 @@ const ChatApp = () => {
         if (
           (newMessage.senderType === "staff" ||
             newMessage.senderType === "superAdmin" ||
-            newMessage.senderType === "student" ) &&
+            newMessage.senderType === "student") &&
           ((newMessage.superAdminId && newMessage.superAdminId._id === selectedUser?._id) ||
             newMessage.superAdmin === selectedUser?._id) &&
           ((newMessage.studentId && newMessage.studentId._id === selectedStudent?._id) ||
@@ -571,168 +563,207 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="col-lg-8 col-12" style={{ maxHeight: '590px', zIndex: '1' }}>
-            <div
-              className="special-divider mt-5 rounded-3"
-              id="message_box"
-              style={{
-                maxHeight: '530px',
-                overflowY: 'auto',
-                backgroundColor: '#E6EDF8',
-              }}
+          <div
+              className="  col-lg-8 col-md-12 "
+              style={{ maxHeight: "590px", zIndex: "1" }}
             >
-              <MDBCol>
-                <MDBTypography listUnStyled className="text-white">
-                  <div
-                    className="position-sticky fixed-top w-100 p-2 rounded d-flex justify-content-between"
-                    style={{ zIndex: 9999, backgroundColor: '#1C2E46' }}
-                  >
-                    <div className="d-flex flex-row hover-zoom">
-                       {selectedUser ? (
-                        <>
-                          {selectedUser.photo ? (
-                            <img
-                              src={selectedUser.photo}
-                              alt="avatar"
-                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
-                              width="40"
-                              height="40"
-                            />
-                          ) : (
-                            <div
-                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong bg-light text-dark"
-                              style={{
-                                width: '40px',
-                                height: '40px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                              }}
-                            >
-                              {selectedUser.name[0].toUpperCase()}
-                            </div>
-                          )}
-                          <div className="pt-1">
-                            <p className="fw-bold mb-0">
-                              {selectedUser.name}
-                            </p>
-                            <p className="small mb-1">Super Admin</p>
-                          </div>
-                        </>
-                      ) : 
-                       selectedStudent ? ( 
-                        <>
-                          {selectedStudent.photo ? (
-                            <img
-                              src={selectedStudent.photo}
-                              alt="avatar"
-                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
-                              width="40"
-                              height="40"
-                            />
-                          ) : (
-                            <div
-                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong bg-light text-dark"
-                              style={{
-                                width: '40px',
-                                height: '40px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                              }}
-                            >
-                              {selectedStudent.name[0].toUpperCase()}
-                            </div>
-                          )}
-                          <div className="pt-1">
-                            <p className="fw-bold mb-0">
-                              {selectedStudent.name}
-                            </p>
-                            <p className="small mb-1">Student</p>
-                          </div>
-                        </>
-                      ) : (
-                        <p className="fw-bold mb-0">Chat</p>
-                      )}
-                      <BsThreeDotsVertical
-                        className="text-light"
-                        style={{ cursor: 'pointer' }}
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    className="d-flex flex-column"
-                    ref={selectedUser ? messagesContainerRef : messagesContainerRefStudent}
-                  >
-                    {loadingMessages ? (
-                      <p>Loading...</p>
-                    ) : (
-                      messages.map((message, index) => (
-                        <div key={index} className={`d-flex flex-column ${message.senderType === 'superAdmin' ? 'align-items-start' : 'align-items-end'}`}>
+              <div
+                className="special-divider  mt-5 rounded-3"
+                id="message_box"
+                style={{
+                  maxHeight: "480px",
+                  overflowY: "auto",
+                  backgroundColor: "#E6EDF8",
+                }}
+                ref={messagesContainerRef}
+              >
+                <MDBCol>
+                  <MDBTypography listUnStyled className="">
+                    <div
+                      className="  position-sticky fixed-top w-100  p-2 rounded d-flex justify-content-between"
+                      style={{ zIndex: 9999, backgroundColor: "#1C2E46" }}
+                    >
+                      <div className="d-flex flex-row hover-zoom">
+                        {selectedUser && selectedUser.photo ? (
+                          <img
+                            src={selectedUser.photo}
+                            alt="avatar"
+                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                            width="40"
+                            height="40"
+                          />
+                        ) : (
                           <div
-                            className={`d-flex flex-row mb-4 ${
-                              message.senderType === 'superAdmin' ? 'justify-content-start' : 'justify-content-end'
-                            }`}
+                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong bg-light text-dark"
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
                           >
-                            {message.senderType === 'superAdmin' ? (
-                              <div
-                                className="text-white rounded-3 px-3 py-2 me-3"
+                            <img
+                              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                              alt="avatar"
+                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                              width="40"
+                              height="40"
+                            />
+                          </div>
+                        )}
+                        <div className="pt-1">
+                          <p className="fw-bold mb-0 text-white">
+                            {selectedUser && selectedUser.name}
+                          </p>
+                          {selectedUser && selectedUser._id ? (
+                            <span
+                              className="small  mb-1"
+                              style={{
+                                color: isUserOnline(selectedUser._id)
+                                  ? "green"
+                                  : "red",
+                                fontWeight: "700",
+                              }}
+                            >
+                              {isUserOnline(selectedUser._id)
+                                ? "Online"
+                                : "Offline"}
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+                      <div className="mt-2 text-white">
+                        <BsThreeDotsVertical />
+                      </div>
+                    </div>
+
+                    <div className="mask-custom-scroll p-5 ">
+                      {loadingMessages && <p>Loading messages...</p>}
+                      {!loadingMessages && messages.length > 0 ? (
+                        <ul className="list-unstyled">
+                          {messages.map((message, index) => (
+                            <li
+                              className={`d-flex justify-content-${
+                                message.senderType === "staff" ? "end" : "start"
+                              } mb-4`}
+                              key={index}
+                            >
+                              {message.senderType === "staff" &&
+                              message &&
+                              message.staffId.photo ? (
+                                <img
+                                  src={message.staffId.photo}
+                                  alt="avatar"
+                                  className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
+                                  width="30"
+                                  height="30"
+                                />
+                              ) : (
+                                message.senderType === "superAdmin" &&
+                                message &&
+                                message.superAdminId.photo && (
+                                  <img
+                                    src={message.superAdminId.photo}
+                                    alt="avatar"
+                                    className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
+                                    width="30"
+                                    height="30"
+                                  />
+                                )
+                              )}
+                              <MDBCard
+                                className="mask-custom "
                                 style={{
-                                  backgroundColor: '#1C2E46',
-                                  border: '1px solid white',
-                                  borderRadius: '20px',
+                                  background: "none",
+                                  backgroundColor: "none",
+                                  border: "none",
+                                  borderBottom: "none",
+                                  boxShadow: "none",
                                 }}
                               >
-                                <p className="small mb-0">{message.message}</p>
-                              </div>
-                            ) : (
-                              <div
-                                className="bg-light rounded-3 px-3 py-2"
-                                style={{ border: '1px solid white', borderRadius: '20px' }}
-                              >
-                                <p className="small mb-0">{message.message}</p>
-                              </div>
-                            )}
-                          </div>
-                          <p className={`small text-muted ${message.senderType === 'superAdmin' ? 'text-start' : 'text-end'}`}>
-                            {message.sentBy} | {message.sentOn}
-                          </p>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </MDBTypography>
-              </MDBCol>
-            </div>
-            <div
-              className="position-sticky bottom-0"
-              style={{ zIndex: 9999 }}
-            >
-              <MDBCard className="d-flex flex-row" style={{ border: 'none' }}>
-                <MDBCardBody>
-                  <textarea
-                    className="form-control"
-                    rows="3"
-                    placeholder="Type your message..."
-                    value={inputMessage}
-                    onChange={handleInputChange}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputMessage)}
-                  />
-                </MDBCardBody>
-                <MDBCardFooter>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handleSendMessage(inputMessage)}
-                  >
-                    Send
-                  </button>
-                </MDBCardFooter>
-              </MDBCard>
+                                <MDBCardBody
+                                  style={{
+                                    backgroundColor:
+                                      message.senderType === "staff"
+                                        ? "#EB2562"
+                                        : "#1C2E46",
+                                    borderRadius: "50px 50px 0px 50px ",
 
-            
+                                    border: "none",
+                                    borderBottom: "none",
+                                  }}
+                                >
+                                  <p className="mb-0 text-white  ">
+                                    {message.sentBy === "staff"
+                                      ? `${userMessage}`
+                                      : `${message.message}`}
+                                  </p>
+                                </MDBCardBody>
+                                <MDBCardFooter
+                                  style={{
+                                    background: "none",
+                                    borderTop: "none",
+                                  }}
+                                >
+                                  <p className="text-black ms-5 d-flex justify-content-end small mb-0 ms-2">
+                                    {" "}
+                                    {message.sentOn && `${message.sentOn}`}
+                                  </p>
+                                </MDBCardFooter>
+                              </MDBCard>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div>No messages available.</div>
+                      )}
+                    </div>
+                  </MDBTypography>
+                </MDBCol>
+              </div>
+              <div
+                className="container p-2 rounded-2 "
+                style={{ backgroundColor: "#1C2E46" }}
+              >
+                <div className="row">
+                  <div
+                    className=" col-sm-12 col-lg-12 col-md-8"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        const messageText = e.target.value.trim();
+                        if (messageText !== "") {
+                          handleSendMessage(messageText);
+                          e.target.value = "";
+                        }
+                      }
+                    }}
+                  >
+                    <div className="messages-box d-flex mt-2 ms-2">
+                      <input
+                        className="form-control"
+                        placeholder="Type your message"
+                        rows={2}
+                        value={inputMessage}
+                        onChange={handleInputChange}
+                      ></input>
+                      <button
+                        style={{
+                          backgroundColor: "#EB2562",
+                          color: "white",
+                          borderRadius: "5px",
+                          border: "none",
+                          padding: "2%",
+                        }}
+                        onClick={handleSendMessage}
+                      >
+                        Send
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
