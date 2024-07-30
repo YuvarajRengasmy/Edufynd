@@ -843,43 +843,47 @@ const UserProfile = () => {
         program.map((data, index) => (
           <div key={index} className="col-md-4">
 
-<div class="card border-0 " style={{backgroundColor:'rgba(0,0,0,0.3)'}}>
-  <img src="https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg" class="card-img img-fluid" alt="..." style={{mixBlendMode:'multiply'}}/>
+<div class="card border-0 " style={{backgroundColor:'rgba(0,0,0,0.5)',height:'10rem'}}>
+  <img src="https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg" class="card-img img-fluid" alt="..." style={{mixBlendMode:'multiply',height:'10rem'}}/>
   <div class="card-img-overlay  text-white" >
   <h6
                       className="university-name mb-2 lh-sm"
                       style={{
-                        fontSize: "14px",
+                        
                         fontWeight: "bold",
                       }}
                     >
-                      <i className="fa fa-university nav-icon text-white "></i>{" "}
-                      {data?.universityName || "University Name"}
+                      <i className="fa fa-book nav-icon text-white "></i>{" "}
+
+                      {data?.programTitle || "Program Title"}
+                     
                     </h6>
                     <p
                       className="course-name mb-2 lh-sm"
                       style={{ fontSize: "12px" }}
                     >
-                      <i className="fa fa-book nav-icon text-white "></i>{" "}
-                      <b>Course Name: </b>
-                      {data?.programTitle || "Program Title"}
+                      <i className="fa fa-university nav-icon text-white "></i>{" "}
+                     
+                      {data?.universityName || "University Name"}
                     </p>
                     <p
                       className="duration mb-2 lh-sm"
                       style={{ fontSize: "12px" }}
                     >
-                      <i className="fa fa-hourglass-half nav-icon text-white"></i>{" "}
-                      <b>Duration: </b>
-                      {data?.duration || "Duration"}
+                      <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
+                     
+                      {data?.duration || "Application"}
                     </p>
+                   
                     <p
                       className="duration mb-2 lh-sm"
                       style={{ fontSize: "12px" }}
                     >
-                      <i className="fa fa-flag nav-icon text-white"></i>{" "}
-                      <b>Intake: </b>
+                      <i className="fa fa-clock nav-icon text-white"></i>{" "}
+                    
                       {data?.duration || "Duration"}
                     </p>
+                   
 
 
                     <button
