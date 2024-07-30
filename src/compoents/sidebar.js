@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
+import Edufynd from "../Assests/EduFynd.png";
 import "./Sidebar.css";
 import { useLocation } from "react-router-dom";
 
