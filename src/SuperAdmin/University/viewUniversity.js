@@ -480,7 +480,7 @@ const UserProfile = () => {
                                 <div className="row">
                                   <div className="col-sm-12 pt-3 px-5">
                                    
-                                        <div  className="row">
+                                        {/* <div  className="row">
                                           <div className="card shadow-sm mt-3">
                                             <div className="card-body">
                                               <div className="row gy-3 py-2">
@@ -499,7 +499,68 @@ const UserProfile = () => {
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
+                                        </div> */}
+
+<div  className="row">
+                <div className="card shadow-sm mt-3">
+                  <div className="card-body">
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Payment Method
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission?.universityName}
+                         </div>
+                       </div>
+                       <div className="col-sm-6">
+                         <div className="fw-light text-lead text-capitalize">
+                           Amount/Percentage
+                         </div>
+                         <div className="fw-semibold text-capitalize">
+                          {commission.paymentMethod}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Eligibility For Commission
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission.eligibility}
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Payment TAT
+                        </div>
+                        <div className="fw-nsemibold">
+                          {commission.paymentType}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row gy-3 py-2">
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Tax
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission.tax}
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="fw-light text-lead text-capitalize">
+                          Commission Paid On
+                        </div>
+                        <div className="fw-semibold text-capitalize">
+                          {commission.commissionPaidOn?commission.commissionPaidOn: "null"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
                                      
                                     
                                   </div>
