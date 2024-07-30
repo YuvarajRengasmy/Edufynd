@@ -510,17 +510,10 @@ const UserProfile = () => {
                           Payment Method
                         </div>
                         <div className="fw-semibold text-capitalize">
-                          {commission?.universityName}
+                        {commission.paymentMethod}
                          </div>
                        </div>
-                       <div className="col-sm-6">
-                         <div className="fw-light text-lead text-capitalize">
-                           Amount/Percentage
-                         </div>
-                         <div className="fw-semibold text-capitalize">
-                          {commission.paymentMethod}
-                        </div>
-                      </div>
+                       
                     </div>
                     <div className="row gy-3 py-2">
                       <div className="col-sm-6">
