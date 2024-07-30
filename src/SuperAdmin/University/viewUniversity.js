@@ -4,9 +4,22 @@ import React, { useEffect, useState } from "react";
 import { IoMdRocket } from "react-icons/io";
 import { IoMailUnread } from "react-icons/io5";
 import banner from "../../styles/Assets/Student/EventBanner.png";
-import { getSingleUniversity,  findUniversityByName } from "../../api/university";
+import {getSingleUniversity} from "../../api/university";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  backdropClasses,
+  radioClasses,
+} from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
-import { getallProgram, getUniversityProgram,getUniversityByName } from "../../api/Program";
+import {
+  getallProgram,
+  getUniversityProgram,
+  getProgramUniversity
+} from "../../api/Program";
 import Sidebar from "../../compoents/sidebar";
 import { FaUniversity } from "react-icons/fa";
 import { FaGlobeAmericas } from "react-icons/fa";
@@ -28,14 +41,13 @@ const UserProfile = () => {
     getUniversityDetails();
   
     getUniversityCommissionDetails();
-    filter ? filterProgramList() : getAllProgram();
+    // filter ? filterProgramList() : getAllProgram();
   }, [universityId, pagination.from, pagination.to]);
 
- 
   const getUniversityCommissionDetails = () => {
     getSingleUniversityCommission(universityId)
       .then((res) => {
-        console.log("yuvi",res);
+       
         setCommission(res?.data?.result);
       })
       .catch((err) => {
@@ -51,48 +63,60 @@ const UserProfile = () => {
         console.log(err);
       });
   };
+  useEffect(() => {
+    getAllProgram();
+  }, [universityId]);
+
   const getAllProgram = () => {
     const data = {
-      limit: pageSize,
+      limit: 12,
       page: pagination.from,
       universityId: universityId,
     };
-
-    getallProgram(data)
+    getProgramUniversity(data)
       .then((res) => {
-        console.log(res);
-        setProgram(res?.data?.result?.programList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.programCount,
-        });
+        console.log("API Response:", res); // Debugging API response
+        if (res?.data?.result && Array.isArray(res.data.result)) {
+          setProgram(res.data.result);
+          setPagination({
+            ...pagination,
+            count: res?.data?.result?.length,
+          });
+        } else {
+          console.warn("Unexpected response structure:", res);
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error fetching programs:", err);
       });
   };
 
-  const filterProgramList = (event) => {
-    event?.preventDefault();
-    setFilter(true);
-    const data = {
-      universityName: university?.universityName,
-      universityId: university?._id,
-      limit: 10,
-      page: pagination.from,
-    };
-    getUniversityProgram(data)
-      .then((res) => {
-        setProgram(res?.data?.result?.programList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.programCount,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
   };
+  // const filterProgramList = (event) => {
+  //   event?.preventDefault();
+  //   setFilter(true);
+  //   const data = {
+  //     universityName: university?.universityName,
+  //     universityId: university?._id,
+  //     limit: 10,
+  //     page: pagination.from,
+  //   };
+  //   getUniversityProgram(data)
+  //     .then((res) => {
+  //       setProgram(res?.data?.result?.programList);
+  //       setPagination({
+  //         ...pagination,
+  //         count: res?.data?.result?.programCount,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   return (
     <>
       <div>
@@ -318,7 +342,7 @@ const UserProfile = () => {
                                 </a>
                               </li>
                               <li class="nav-item" role="presentation">
-                               <a
+                                <a
                                   class="nav-link text-Capitalize "
                                   id="profile-tab"
                                   data-bs-toggle="tab"
@@ -386,9 +410,11 @@ const UserProfile = () => {
                                                   : "https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg"
                                               }
                                               className="card-img-top img-fluid rounded-circle object-fit-cover mx-auto d-block mb-0"
-                                             
                                               alt="img"
-                                              style={{width:'4rem',height:'4rem'}}
+                                              style={{
+                                                width: "4rem",
+                                                height: "4rem",
+                                              }}
                                             />
                                           </div>
 
@@ -476,90 +502,73 @@ const UserProfile = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="tab-pane fade" id="Payment-course" role="tabpanel" aria-labelledby="profile-tab">
+                              <div
+                                className="tab-pane fade"
+                                id="Payment-course"
+                                role="tabpanel"
+                                aria-labelledby="profile-tab"
+                              >
                                 <div className="row">
                                   <div className="col-sm-12 pt-3 px-5">
-                                   
-                                        {/* <div  className="row">
-                                          <div className="card shadow-sm mt-3">
-                                            <div className="card-body">
-                                              <div className="row gy-3 py-2">
-                                                <div className="col-lg-4 text-center">
-                                                  <FaUniversity size="3rem" />
-                                                  <p className="mt-2 mb-0 text-muted">
-                                                    {commission?.universityName}
-                                                  </p>
-                                                </div>
-                                                <div className="col-lg-4 text-center">
-                                                  <FaGlobeAmericas size="3rem" />
-                                                  <p className="mt-2 mb-0 text-muted">
-                                                    {commission?.paymentMethod}
-                                                  </p>
-                                                </div>
+                                    
+                                    <div className="row">
+                                      <div className="card shadow-sm mt-3">
+                                        <div className="card-body">
+                                          <div className="row gy-3 py-2">
+                                            <div className="col-sm-6">
+                                              <div className="fw-light text-lead text-capitalize">
+                                                Payment Method
+                                              </div>
+                                              <div className="fw-semibold text-capitalize">
+                                                {commission.paymentMethod}
                                               </div>
                                             </div>
                                           </div>
-                                        </div> */}
-
-<div  className="row">
-                <div className="card shadow-sm mt-3">
-                  <div className="card-body">
-                    <div className="row gy-3 py-2">
-                      <div className="col-sm-6">
-                        <div className="fw-light text-lead text-capitalize">
-                          Payment Method
-                        </div>
-                        <div className="fw-semibold text-capitalize">
-                        {commission.paymentMethod}
-                         </div>
-                       </div>
-                       
-                    </div>
-                    <div className="row gy-3 py-2">
-                      <div className="col-sm-6">
-                        <div className="fw-light text-lead text-capitalize">
-                          Eligibility For Commission
-                        </div>
-                        <div className="fw-semibold text-capitalize">
-                          {commission.eligibility}
-                        </div>
-                      </div>
-                      <div className="col-sm-6">
-                        <div className="fw-light text-lead text-capitalize">
-                          Payment TAT
-                        </div>
-                        <div className="fw-nsemibold">
-                          {commission.paymentType}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row gy-3 py-2">
-                      <div className="col-sm-6">
-                        <div className="fw-light text-lead text-capitalize">
-                          Tax
-                        </div>
-                        <div className="fw-semibold text-capitalize">
-                          {commission.tax}
-                        </div>
-                      </div>
-                      <div className="col-sm-6">
-                        <div className="fw-light text-lead text-capitalize">
-                          Commission Paid On
-                        </div>
-                        <div className="fw-semibold text-capitalize">
-                          {commission.commissionPaidOn?commission.commissionPaidOn: "null"}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                                     
-                                    
+                                          <div className="row gy-3 py-2">
+                                            <div className="col-sm-6">
+                                              <div className="fw-light text-lead text-capitalize">
+                                                Eligibility For Commission
+                                              </div>
+                                              <div className="fw-semibold text-capitalize">
+                                                {commission.eligibility}
+                                              </div>
+                                            </div>
+                                            <div className="col-sm-6">
+                                              <div className="fw-light text-lead text-capitalize">
+                                                Payment TAT
+                                              </div>
+                                              <div className="fw-nsemibold">
+                                                {commission.paymentType}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="row gy-3 py-2">
+                                            <div className="col-sm-6">
+                                              <div className="fw-light text-lead text-capitalize">
+                                                Tax
+                                              </div>
+                                              <div className="fw-semibold text-capitalize">
+                                                {commission.tax}
+                                              </div>
+                                            </div>
+                                            <div className="col-sm-6">
+                                              <div className="fw-light text-lead text-capitalize">
+                                                Commission Paid On
+                                              </div>
+                                              <div className="fw-semibold text-capitalize">
+                                                {commission.commissionPaidOn
+                                                  ? commission.commissionPaidOn
+                                                  : "null"}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                           
+
                               <div
                                 class="tab-pane fade "
                                 id="tab-Review"
@@ -772,168 +781,85 @@ const UserProfile = () => {
                           </div> */}
                           </div>
 
-                          <div className="row g-3 mb-3">
-                            <div className="d-flex flex-row align-items-start justify-content-between">
-                              <div
-                                className="text-semibold text-decoration-underline fw-semibold text-Capitalize "
-                                style={{ color: "#fe5722", fontSize: "14px" }}
-                              >
-                                Programs
-                              </div>
+                          <div className="row">
+      {Array.isArray(program) && program.length > 0 ? (
+        program.map((data, index) => (
+          <div key={index} className="col-md-4">
+            <div className="card mb-3 shadow border-0 border-start border-5 border-primary h-100">
+              <div className="row g-0 align-items-center justify-content-center">
+                <div className="col-md-4 d-flex align-items-center justify-content-center">
+                  <img
+                    src={
+                      data?.universityLogo
+                        ? data.universityLogo
+                        : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
+                    }
+                    className="img-fluid rounded-circle"
+                    alt="University Logo"
+                    style={{
+                      width: "7rem",
+                      height: "7rem",
+                    }}
+                  />
+                </div>
+                <div className="col-md-8">
+                  <div className="card-body">
+                    <h6
+                      className="university-name mb-2 lh-sm"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <i className="fa fa-university nav-icon text-dark"></i>{" "}
+                      {data?.universityName || "University Name"}
+                    </h6>
+                    <p
+                      className="course-name mb-2 lh-sm"
+                      style={{ fontSize: "12px" }}
+                    >
+                      <i className="fa fa-book nav-icon text-dark"></i>{" "}
+                      <b>Course Name: </b>
+                      {data?.programTitle || "Program Title"}
+                    </p>
+                    <p
+                      className="duration mb-2 lh-sm"
+                      style={{ fontSize: "12px" }}
+                    >
+                      <i className="fa fa-hourglass-half nav-icon text-dark"></i>{" "}
+                      <b>Duration: </b>
+                      {data?.duration || "Duration"}
+                    </p>
 
-
-                            </div>
-                            <div className="row g-3">
-                              <div className="col-md-10">
-                              <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Search Program..." aria-label="programsearch" aria-describedby="programsearch"/>
-  <span class="input-group-text bg-white border-start-0" id="programsearch"><i class="fa fa-search nav-icon text-dark"></i></span>
-</div>
-                              </div>
-                              <div className="col-md-2">
-                              <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn btn-sm text-uppercase fw-semibold px-4 py-2" style={{backgroundColor:'#231f20',color:'#fff'}}><i class="fa fa-filter nav-icon text-white"></i>&nbsp;&nbsp;Filter</button>
-                             
-                              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter Program</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body" style={{scrollbarWidth:'none'}}>
-    <form>
-
-
-    <div class="mb-3">
-  <label for="country" class="form-label">Country</label>
-  <input type="text" class="form-control" id="country" placeholder="Example New York" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="state" class="form-label">Province/State</label>
-  <input type="text" class="form-control" id="state" placeholder="Example Coventry" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="university" class="form-label">University Name</label>
-  <input type="text" class="form-control" id="university" placeholder="Example Standford University " style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="fees" class="form-label">Fees</label>
-  <input type="text" class="form-control" id="fees" placeholder="Example 12500" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="fieldofstudy" class="form-label">Field Of Study</label>
-  <input type="text" class="form-control" id="fieldofstudy" placeholder="Example Medicine" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="elt" class="form-label">ELT</label>
-  <input type="text" class="form-control" id="elt" placeholder="Example Duo Lingo" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="coursetype" class="form-label">Course Type</label>
-  <input type="text" class="form-control" id="corsetype" placeholder="Example Game Designer" style={{fontSize:'12px'}}/>
-</div>
-<div class="mb-3">
-  <label for="universityinterview" class="form-label">University Interview</label>
-  <input type="text" class="form-control" id="universityinterview" placeholder="Example..." style={{fontSize:'12px'}}/>
-</div>
-    </form>
-    
-  </div>
-</div>
-                              </div>
-                            </div>
-
-                            {program?.map((data, index) => (
-                              <div key={index} className="col-md-4 ">
-                                <div className="card mb-3  shadow border-0 border-start border-5 border-primary  h-100  shadow ">
-                                  <div className="row g-0 align-items-center justify-content-center">
-                                    <div className="col-md-4 align-self-center ">
-                                      <img
-                                        src={
-                                          data?.universityLogo
-                                            ? data?.universityLogo
-                                            : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                                        }
-                                        className="img-fluid rounded-circle mx-auto d-block "
-                                        alt="Course Image"
-                                        style={{
-                                          width: "7rem",
-                                          height: "7rem",
-                                        }}
-                                      />
-                                    </div>
-                                    <div className="col-md-8">
-                                      <div className="card-body">
-                                        <h6
-                                          className="university-name mb-2 lh-sm"
-                                          style={{
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
-                                          }}
-                                        >
-                                        <i class="fa fa-university nav-icon text-dark"></i>  {data?.universityName}
-                                        </h6>
-                                        <p
-                                          className="course-name mb-2 lh-sm"
-                                          style={{ fontSize: "12px" }}
-                                        >
-                                         <i class="fa fa-book nav-icon text-dark"></i> <b> CourseName </b>{" "}
-                                          {data?.programTitle}
-                                        </p>
-                                        <p
-                                          className="duration mb-2 lh-sm"
-                                          style={{ fontSize: "12px" }}
-                                        >
-                                         <i class="fa fa-hourglass-half nav-icon text-dark"></i> <b>Duration </b> {data?.duration}
-                                        </p>
-
-                                        <button
-                                          className="btn btn-sm  rounded-pill text-white text-Capitalize fw-semibold px-4 "
-                                          style={{
-                                            backgroundColor: "#fe5722",
-                                            fontSize: "12px",
-                                          }}
-                                        >
-                                        <i class="fa fa-paper-plane nav-icon text-white"></i>  Apply
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          <nav aria-label="Page navigation example justify-content-end  text-end">
-                            <ul className="pagination">
-                              <li className="page-item">
-                                <a
-                                  className="page-link"
-                                  href="#"
-                                  aria-label="Previous"
-                                >
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li className="page-item">
-                                <a className="page-link" href="#">
-                                  1
-                                </a>
-                              </li>
-                              <li className="page-item">
-                                <a className="page-link" href="#">
-                                  2
-                                </a>
-                              </li>
-
-                              <li className="page-item">
-                                <a
-                                  className="page-link"
-                                  href="#"
-                                  aria-label="Next"
-                                >
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
+                    <button
+                      className="btn btn-sm rounded-pill text-white fw-semibold px-4"
+                      style={{
+                        backgroundColor: "#fe5722",
+                        fontSize: "12px",
+                      }}
+                    >
+                      <i className="fa fa-paper-plane nav-icon text-white"></i>{" "}
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p>No programs available.</p>
+      )}
+    </div>
+    <div className="float-right my-2">
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div> 
                         </div>
                       </div>
                     </div>
