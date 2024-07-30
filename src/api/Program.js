@@ -14,6 +14,10 @@ export const getFilterProgram = (data) => {
 export const getSingleProgram = (data) => {
     return API.get(`${Program}/getSingleProgram`, { params: { _id: data } });
   };
+
+  export const getProgramUniversity = (data) => {
+    return API.get(`${Program}/getProgramUniversity`, { params: {universityId: data } });
+  };
   export const deleteProgram = (data) => {
     return API.delete(`${Program}`, { params: { _id: data } });
   };
