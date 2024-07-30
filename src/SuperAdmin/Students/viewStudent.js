@@ -12,7 +12,19 @@ function Profile() {
 
   const [student, setStudent] = useState([]);
 
-
+  useEffect(() => {
+    getStudentDetails();
+  }, []);
+  const getStudentDetails = () => {
+    getSingleStudent(id)
+      .then((res) => {
+        console.log(res);
+        setStudent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   
 
   return (
@@ -31,7 +43,7 @@ function Profile() {
       
         <div class="row mb-4 align-items-center">
             <div class="col-md-3 text-center">
-                <img src="https://via.placeholder.com/150" alt="Profile Photo" class="profile-img rounded-circle border" style={{width:'150px',height:'150px'}}/>
+                <img src={student?.photo?student?.photo:"https://via.placeholder.com/150"} alt="Profile Photo" class="profile-img rounded-circle border" style={{width:'150px',height:'150px'}}/>
                 <h5 class="mt-2">John Doe</h5>
                 <p class="text-muted">Student Code: Auto Generated</p>
             </div>
