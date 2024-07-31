@@ -6,7 +6,7 @@ import { saveClient } from '../../api/client';
 import {getallClientModule} from "../../api/universityModule/clientModule";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-import { saveMeeting } from "../../api/meeting";
+import { saveMeeting } from "../../api/Notification/meeting";
 import { getallStaff } from "../../api/staff";
 import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";

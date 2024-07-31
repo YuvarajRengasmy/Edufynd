@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { saveEvent } from "../../api/event";
+import { saveEvent } from "../../api/Notification/event";
 import { getallStaff } from "../../api/staff";
 import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";

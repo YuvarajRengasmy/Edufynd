@@ -6,7 +6,7 @@ import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getallEvent,deleteEvent } from "../../api/event";
+import {getallEvent,deleteEvent } from "../../api/Notification/event";
 import { formatDate } from "../../Utils/DateFormat";
 
 import { FaFilter } from "react-icons/fa";

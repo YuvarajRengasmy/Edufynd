@@ -7,7 +7,7 @@ import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import{getallUniversity} from "../../api/university";
-import { updatedEvent, getSingleEvent } from "../../api/event";
+import { updatedEvent, getSingleEvent } from "../../api/Notification/event";
 
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
