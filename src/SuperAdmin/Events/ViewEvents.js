@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { updatedEvent, getSingleEvent } from "../../api/event";
+import { updatedEvent, getSingleEvent } from "../../api/Notification/event";
 import { Link, useLocation } from "react-router-dom";
 
 import Sidebar from "../../compoents/sidebar";

@@ -6,7 +6,7 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { updatedNotifications, getSingleNotifications } from "../../api/notifications";
+import { updatedNotifications, getSingleNotifications } from "../../api/Notification/Notification";
 import { getallStaff } from "../../api/staff";
 import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";

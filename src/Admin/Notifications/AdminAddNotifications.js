@@ -6,7 +6,7 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { saveNotifications } from "../../api/notifications";
+import { saveNotifications } from "../../api/Notification/Notification";
 
 import Sidebar from "../../compoents/AdminSidebar";
 

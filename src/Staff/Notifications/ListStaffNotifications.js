@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getallNotifications } from '../../api/notifications';
+import { getallNotifications } from '../../api/Notification/Notification';
 import { Link } from 'react-router-dom';
 import { timeCal } from '../../Utils/DateFormat';
 import Sidebar from "../../compoents/StaffSidebar";

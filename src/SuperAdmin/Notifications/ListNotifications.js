@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import {getallNotifications,deleteProgram  } from "../../api/notifications";
+import {getallNotifications,deleteProgram,getFilterNotification  } from "../../api/Notification/Notification";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
@@ -21,6 +21,7 @@ export const ListNotifications = () => {
   const [notification, setnotification] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -33,16 +34,28 @@ export const ListNotifications = () => {
   }, []);
 
   const getAllClientDetails = () => {
-    getallNotifications()
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterNotification(data)
       .then((res) => {
         console.log(res);
-        setnotification(res?.data?.result);
+        setnotification(res?.data?.result?.notificationList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.notificationCount,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
 
     const tableRef = useRef(null);
 
@@ -342,13 +355,14 @@ export const ListNotifications = () => {
                     </div>
                   </div>
                   <div className="float-right my-2">
-                    <Pagination
-                    
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                    />
-                  </div>
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
                 </div>
               </div>
             </div>
