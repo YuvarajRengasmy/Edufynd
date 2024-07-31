@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getSingleNotifications } from "../../api/notifications";
+import { getSingleNotifications } from "../../api/Notification/Notification";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
 
