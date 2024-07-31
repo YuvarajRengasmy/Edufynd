@@ -204,7 +204,8 @@ useEffect(() => {
 
     try {
       const response = await axios.post(
-        "https://api.edufynd.in/api/university/import",
+        // "https://api.edufynd.in/api/university/import",
+        "http://localhost:4409/api/university/import",
         formData,
         {
           headers: {
