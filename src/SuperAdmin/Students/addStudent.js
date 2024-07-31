@@ -407,7 +407,7 @@ const getStudentDetails = () => {
                                   </span>
                                 ) : errors.name.valid ? (
                                   <span className="text-danger form-text profile_error">
-                                    Enter 15 Year eligible Student Apply
+                                    Enter a Letter Only.
                                   </span>
                                 ) : null}
                               </div>
