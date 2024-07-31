@@ -1,5 +1,5 @@
-import API from "./api";
-import { Meeting} from './endpoints'
+import API from "../api";
+import { Meeting} from '../endpoints'
 
 export const saveMeeting = (data) => {
     return API.post(`${Meeting}`, data)

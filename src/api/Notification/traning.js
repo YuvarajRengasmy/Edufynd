@@ -14,12 +14,13 @@ export const getallTraining = () => {
 export const getSingleTraining = (data) => {
     return API.get(`${Training}/getSingleTraining`, { params: { _id: data } });
   };
-
 export const updatedTraining = (data) => {
     return API.put(`${Training}`, data);
   };
 
-
+  export const getFilterTraining = (data) => {
+    return API.put(`${Training}/getFilterTraining`, data);
+  };
 export const deleteTraining = (data) => {
     return API.delete(`${Training}`, { params: { _id: data } });
   };

@@ -6,7 +6,7 @@ import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getallMeeting,deleteMeeting  } from "../../api/meeting";
+import {getallMeeting,deleteMeeting  } from "../../api/Notification/meeting";
 import { formatDate } from "../../Utils/DateFormat";
 import { FaFilter } from "react-icons/fa";
 import ListAgent from "../Admins/AdminList";

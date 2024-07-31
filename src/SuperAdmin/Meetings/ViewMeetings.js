@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getSingleMeeting } from "../../api/meeting";
+import { getSingleMeeting } from "../../api/Notification/meeting";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
 export const ViewMeetings = () => {
