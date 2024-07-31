@@ -6,7 +6,7 @@ import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getallMeeting,deleteMeeting  } from "../../api/Notification/meeting";
+import {getallMeeting,deleteMeeting,getFilterMeeting  } from "../../api/Notification/meeting";
 import { formatDate } from "../../Utils/DateFormat";
 import { FaFilter } from "react-icons/fa";
 import ListAgent from "../Admins/AdminList";
@@ -16,6 +16,7 @@ export const ListMeetings = () => {
   const [notification, setnotification] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -25,13 +26,22 @@ export const ListMeetings = () => {
 
   useEffect(() => {
     getAllClientDetails();
-  }, []);
+  }, [pagination.from, pagination.to]);
 
   const getAllClientDetails = () => {
-    getallMeeting()
+    const data={
+      limit: 10,
+      page: pagination.from,
+
+    }
+    getFilterMeeting(data)
       .then((res) => {
         console.log(res);
-        setnotification(res?.data?.result);
+        setnotification(res?.data?.result?.meetingList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.meetingCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -51,7 +61,11 @@ export const ListMeetings = () => {
       });
   };
 
-
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -343,13 +357,14 @@ export const ListMeetings = () => {
                   </div>
                 </div>
                 <div className="float-right my-2">
-                  <Pagination
-                  
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
-                </div>
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
               </div>
             </div>
           </div>

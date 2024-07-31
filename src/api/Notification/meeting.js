@@ -23,3 +23,7 @@ export const updatedMeeting = (data) => {
 export const deleteMeeting = (data) => {
     return API.delete(`${Meeting}`, { params: { _id: data } });
   };
+
+  export const getFilterMeeting = (data) => {
+    return API.put(`${Meeting}/getFilterMeeting`, data);
+  };

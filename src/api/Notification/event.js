@@ -23,3 +23,7 @@ export const updatedEvent = (data) => {
 export const deleteEvent = (data) => {
     return API.delete(`${Event}`, { params: { _id: data } });
   };
+
+  export const getFilterEvent = (data) => {
+    return API.put(`${Event}/getFilterEvent`, data);
+  };

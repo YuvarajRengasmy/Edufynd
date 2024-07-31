@@ -31,7 +31,7 @@ export const ListNotifications = () => {
 
   useEffect(() => {
     getAllClientDetails();
-  }, []);
+  }, [pagination.from, pagination.to]);
 
   const getAllClientDetails = () => {
     const data = {
@@ -95,7 +95,6 @@ export const ListNotifications = () => {
           console.log(err);
         });
     };
-
 
     const openPopup = (data) => {
       setOpen(true);

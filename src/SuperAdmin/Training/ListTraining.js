@@ -29,7 +29,7 @@ export const ListTraining = () => {
 
   useEffect(() => {
     getAllClientDetails();
-  }, []);
+  }, [pagination.from, pagination.to]);
 
   const getAllClientDetails = () => {
 
