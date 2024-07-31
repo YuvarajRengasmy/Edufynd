@@ -512,7 +512,7 @@ function AddCommission() {
                                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                                         <label style={{ color: "#231F20" }}>Payment Type<span className="text-danger">*</span></label>
                                                         <select className="form-select form-select-lg rounded-2" value={commission?.paymentType} aria-label="Default select example" name="paymentType" onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                                                            <option value=""> select Payment Type</option>
+                                                            <option value=""> Select Payment Type</option>
                                                             <option value="One_Time">One Time</option>
                                                             <option value="Semester">  Semester   </option>
                                                         </select>
@@ -661,7 +661,7 @@ function AddCommission() {
                                                     <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                                                         <Link
 
-                                                           type='reset'
+                                                           to='/ListCommission'
                                                             style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                                             className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                                                         >
