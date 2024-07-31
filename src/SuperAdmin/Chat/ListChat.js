@@ -45,7 +45,7 @@ const ListChat = () => {
     }
   };
   useEffect(() => {
-    const newSocket = io("http://localhost:4409");
+    const newSocket = io("https://api.edufynd.in");
     setSocket(newSocket);
 
     newSocket.on("socketId", (id) => {});
