@@ -279,7 +279,7 @@ function AddAgent() {
       updateClient(updatedClient)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/client");
+          navigate("/ListClient");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -731,7 +731,7 @@ function AddAgent() {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                to="/client"
+                                to="/ListClient"
                                 className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                               >
                                 Cancel

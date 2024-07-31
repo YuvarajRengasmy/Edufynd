@@ -55,7 +55,7 @@ export const StudentForm = () => {
         <tbody >
         <tr >
             <td className='fw-bold'>Source  </td>
-            <td>Source</td>
+            <td>{student?.source}</td>
            
           </tr>
           <tr >
@@ -65,16 +65,16 @@ export const StudentForm = () => {
           </tr>
           <tr >
             <td className='fw-bold'>Gender  </td>
-            <td>Gender</td>
+            <td>{student?.gender}</td>
            
           </tr>
           <tr >
             <td className='fw-bold'>Date Of Birth  </td>
-            <td>{formatDate(student?.createdOn)}</td>
+            <td>{formatDate(student?.dob)}</td>
           </tr>
           <tr >
             <td className='fw-bold'>CitizenShip</td>
-            <td>CitizenShip</td>
+            <td>{student?.citizenShip}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Passport No  </td>
@@ -82,7 +82,7 @@ export const StudentForm = () => {
           </tr>
           <tr >
             <td className='fw-bold'>Expiry Date  </td>
-            <td>Expiry Date</td>
+            <td>{formatDate(student?.expiryDate)}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Email ID </td>
@@ -102,11 +102,11 @@ export const StudentForm = () => {
           </tr>
           <tr >
             <td className='fw-bold'>Year passed  </td>
-            <td>Year passed</td>
+            <td>{student?.yearPassed}</td>
           </tr>
           <tr >
             <td className='fw-bold'>CGPA   </td>
-            <td>{student?.cgpa}/{student?.yearPassed}</td>
+            <td>{student?.cgpa}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Desired Country  </td>
@@ -114,7 +114,7 @@ export const StudentForm = () => {
           </tr>
           <tr >
             <td className='fw-bold'>Desired University </td>
-            <td>Desired University</td>
+            <td>{student?.desiredUniversity}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Desired Course  </td>
@@ -122,35 +122,31 @@ export const StudentForm = () => {
           </tr>
           <tr >
             <td className='fw-bold'>Do You Hold Any Other Offer?  </td>
-            <td>{student?.desiredCountry}</td>
+            <td>{student?.doYouHoldAnyOtherOffer}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Country  </td>
-            <td>Country</td>
+            <td>{student?.country?student?.country:"N/A"}</td>
           </tr>
           <tr >
             <td className='fw-bold'>University  </td>
-            <td>University</td>
+            <td>{student?.university?student?.university:"N/A"}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Program </td>
-            <td>Program</td>
+            <td>{student?.program?student?.program:"N/A"}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Referee Name  </td>
-            <td>Referee Name</td>
+            <td>{student?.refereeName?student?.refereeName:"N/A"}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Referee Contact  </td>
-            <td>Referee Contact</td>
-          </tr>
-          <tr >
-            <td className='fw-bold'>Request Loan Support  </td>
-            <td>Request Loan Support</td>
+            <td>{student?.refereeContactNo?student?.refereeContactNo:"N/A"}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Register for IELTS class  </td>
-            <td>Register for IELTS class</td>
+            <td>{student?.registerForIELTSClass}</td>
           </tr>
           <tr >
             <td className='fw-bold'>Do you need support for loan?  </td>
@@ -158,7 +154,7 @@ export const StudentForm = () => {
           </tr>
           <tr >
             <td className='fw-bold'>Assigned To  </td>
-            <td>{student?.desiredCountry}</td>
+            <td>{student?.assignedTo}</td>
           </tr>
         
          

@@ -31,15 +31,9 @@ export const AddStudentForm = () => {
     desiredUniversity: "",
     desiredCourse: "",
     doYouHoldAnyOtherOffer: "",
-
     doYouNeedSupportForLoan: "",
-
     assignedTo: "",
     gender: "",
-    
-    
-    
-    
     country: "",
     universityName: "",
     programName: "",
