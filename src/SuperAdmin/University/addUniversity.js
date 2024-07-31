@@ -23,8 +23,6 @@ import { RichTextEditor } from "@mantine/rte";
 
 
 
-// Initial states
-
 const App = () => {
 
   const initialState = {
