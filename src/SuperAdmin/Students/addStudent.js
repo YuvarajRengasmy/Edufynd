@@ -112,6 +112,7 @@ function AddAgent() {
 const getStudentDetails = () => {
     getSingleStudent(id)
         .then((res) => {
+          console.log("balan", res)
             setStudent(res?.data?.result);
         })
         .catch((err) => {
