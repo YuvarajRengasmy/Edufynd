@@ -8,7 +8,7 @@ import {
   isValidPassportNumber
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
-import { StudentSuperAdmin, getSingleStudent } from "../../api/student";
+import { StudentSuperAdmin, getallStudent } from "../../api/student";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
@@ -110,7 +110,7 @@ function AddAgent() {
 }, []);
 
 const getStudentDetails = () => {
-    getSingleStudent(id)
+  getallStudent(id)
         .then((res) => {
           console.log("balan", res)
             setStudent(res?.data?.result);
