@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
+import Edufynd from '../Assests/White Logo EduFynd.png'
 import "./Sidebar.css";
 import { useLocation } from "react-router-dom";
 
@@ -45,7 +45,7 @@ export const StaffSidebar = () => {
           fontWeight:'bold',
           fontFamily: "Plus Jakarta Sans",
         fontVariant: "all-small-caps",
-        background:'#F5F5DC'
+        background:'#231f20'
 
         }}
       >
@@ -78,7 +78,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/StaffDashboard"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/StaffDashboard",
                      
                     ].includes(currentPath)
@@ -95,7 +95,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ViewProfile"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ViewStaffProfile",
                     ].includes(currentPath)
                       ? "active"
@@ -111,7 +111,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListStaffUniversity"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListStaffUniversity",
                       "/AddStaffUniversity",
                       "/EditStaffUniversity",
@@ -132,7 +132,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListStaffProgram"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListStaffProgram",
                       "/AddStaffProgram",
                       "/EditStaffProgram",
@@ -153,7 +153,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListStaffApplication"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListStaffApplication",
                       "/AddStaffApplication",
                       "/EditStaffApplication",
@@ -171,7 +171,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/chat"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/chat",
                      
                     ].includes(currentPath)
@@ -188,7 +188,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListStaffNotifications"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListStaffNotifications",
                       "/AddStaffNotifications",
                       "/EditStaffNotifications",
@@ -208,7 +208,7 @@ export const StaffSidebar = () => {
                 {/* <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.hrms}
                     aria-controls="collapse5"
@@ -238,7 +238,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListStaffHRM"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListStaffHRM",
                             "/AddStaffHRM",
                             "/EditStaffHRM",
@@ -255,7 +255,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListAttendance"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListAttendance",
                             "/AddAttendance",
                             "/EditAttendance",
@@ -272,7 +272,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListPayroll"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListPayroll",
                             "/AddPayroll",
                             "/EditPayroll",
@@ -289,7 +289,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListLeave"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListLeave",
                             "/AddLeave",
                             "/EditLeave",
@@ -306,7 +306,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListKPI"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListKPI",
                             "/AddKPI",
                             "/EditKPI",
@@ -324,7 +324,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListPolicies"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListPolicies",
                             "/AddPolicies",
                             "/EditPolicies",
@@ -341,7 +341,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListPerformanceReport"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListPerformanceReport",
                             "/AddPerformanceReport",
                             "/EditPerformanceReport",
@@ -361,7 +361,7 @@ export const StaffSidebar = () => {
                 {/* <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
                     aria-controls="collapse12"
@@ -391,7 +391,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListProject"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListProject",
                             "/AddProject",
                             "/EditProject",
@@ -408,7 +408,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListTask"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListTask",
                             "/AddTask",
                             "/EditTask",
@@ -428,7 +428,7 @@ export const StaffSidebar = () => {
                 {/* <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Marketing}
                     aria-controls="collapse17"
@@ -458,7 +458,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListSocialMedia"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListSocialMedia",
                             "/AddSocialMedia",
                             "/EditSocialMedia",
@@ -475,7 +475,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListCampaign"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListCampaign",
                             "/AddCampaign",
                             "/EditCampaign",
@@ -492,7 +492,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListDailyTask"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListDailyTask",
                             "/AddDailyTask",
                             "/EditDailyTask",
@@ -516,7 +516,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListTraining"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListTraining",
                       "/AddTraining",
                       "/EditTraining",
@@ -535,7 +535,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListChat"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListChat",
                       "/AddChat",
                       "/EditChat",
@@ -554,7 +554,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListEmail"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListEmail",
                       "/AddEmail",
                       "/EditEmail",
@@ -573,7 +573,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListPromotions"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListPromotions",
                       "/AddPromotions",
                       "/EditPromotions",
@@ -592,7 +592,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListEvents"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListEvents",
                       "/AddEvents",
                       "/EditEvents",
@@ -611,7 +611,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListBlog"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListBlog",
                       "/AddBlog",
                       "/EditBlog",
@@ -630,7 +630,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/ListTestimonials"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/ListTestimonials",
                       "/AddTestimonials",
                       "/EditTestimonials",
@@ -649,7 +649,7 @@ export const StaffSidebar = () => {
                   <a
                     href="/AdminList"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminList",
                       "/AddAdmin",
                       "/EditAdmin",
@@ -667,7 +667,7 @@ export const StaffSidebar = () => {
                 {/* <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.elt}
                     aria-controls="collapse4"
@@ -699,7 +699,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListBookings"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListBookings",
                             "/AddBookings",
                             "/EditBookings",
@@ -716,7 +716,7 @@ export const StaffSidebar = () => {
                         <a
                           href="/ListClassSchedule"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListClassSchedule",
                             "/AddClassSchedule",
                             "/EditClassSchedule",
@@ -738,7 +738,7 @@ export const StaffSidebar = () => {
                 {/* <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Reports}
                     aria-controls="collapse4"
@@ -768,7 +768,7 @@ export const StaffSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportEmployee",
                             "/AddReportEmployee",
                             "/EditReportEmployee",
@@ -785,7 +785,7 @@ export const StaffSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportAgent",
                             "/AddReportAgent",
                             "/EditReportAgent",
@@ -802,7 +802,7 @@ export const StaffSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportStudents",
                             "/AddReportStudents",
                             "/EditReportStudents",
@@ -819,7 +819,7 @@ export const StaffSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportBranch",
                             "/AddReportBranch",
                             "/EditReportBranch",
@@ -838,7 +838,7 @@ export const StaffSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/ListReportAdmin",
                             "/AddReportAdmin",
                             "/EditReportAdmin",
@@ -857,7 +857,7 @@ export const StaffSidebar = () => {
 
                 <li className="nav-item">
                   <a href="/"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     target="_self"
                     onClick={logout}
                     style={{ cursor: "pointer" }}

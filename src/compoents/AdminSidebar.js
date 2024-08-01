@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { clearStorage } from "../Utils/storage";
 import { useNavigate } from "react-router-dom";
-import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
+import Edufynd from "../Assests/White Logo EduFynd.png";
 import "./Sidebar.css";
 import { useLocation } from "react-router-dom";
 
@@ -177,7 +177,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminDashboard"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminDashboard",
                      
                     ].includes(currentPath)
@@ -193,7 +193,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListClient"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListClient",
                       "/AdminAddClient",
                       "/AdminEditClient",
@@ -212,7 +212,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListUniversity"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListUniversity",
                       "/AdminAddUniversity",
                       "/AdminViewUniversity",
@@ -231,7 +231,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListCommission"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListCommission",
                       "/AdminAddCommission",
                       "/AdminViewCommission",
@@ -250,7 +250,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListProgram"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListProgram",
                       "/AdminAddProgram",
                       "/AdminEditProgram",
@@ -268,7 +268,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
 
                     aria-expanded={isOpen.users}
@@ -299,7 +299,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListStudent"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListStudent",
                             "/AdminAddStudent",
                             "/AdminViewStudent",
@@ -316,7 +316,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListStaff"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListStaff",
                             "/AdminAddStaff",
                             "/AdminEditStaff",
@@ -333,7 +333,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListAgent"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminViewAgent",
                             "/AdminEditAgent",
                             "/AdminListAgent",
@@ -354,7 +354,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListApplication"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListApplication",
                       "/AdminAddApplication",
                       "/AdminEditApplication",
@@ -372,7 +372,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.enquiry}
                     aria-controls="collapse1"
@@ -402,7 +402,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListFormStudent"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListFormStudent",
                             "/AdminAddFormStudent",
                             "/AdminEditFormStudent",
@@ -419,7 +419,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListForexForm"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListForexForm",
                             "/AdminAddForexForm",
                             "/AdminEditForexForm",
@@ -436,7 +436,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListAccommodation"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListAccommodation",
                             "/AdminAddAccommodation",
                             "/AdminEditAccommodation",
@@ -453,7 +453,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListFlightTicket"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListFlightTicket",
                             "/AdminAddFlightTicket",
                             "/AdminEditFlightTicket",
@@ -470,7 +470,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListLoanEnquiry"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListLoanEnquiry",
                             "/AdminAddLoanEnquiry",
                             "/AdminEditLoanEnquiry",
@@ -487,7 +487,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListBusinessEnquiry"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListBusinessEnquiry",
                             "/AdminAddBusinessEnquiry",
                             "/AdminEditBusinessEnquiry",
@@ -504,7 +504,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListGeneralEnquiry"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListGeneralEnquiry",
                             "/AdminAddGeneralEnquiry",
                             "/AdminEditGeneralEnquiry",
@@ -524,7 +524,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.finance}
                     aria-controls="collapse2"
@@ -554,7 +554,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListIncome"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListIncome",
                             "/AdminAddIncome",
                             "/AdminEditIncome",
@@ -571,7 +571,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListExpenses"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListExpenses",
                             "/AdminAddExpenses",
                             "/AdminEditExpenses",
@@ -588,7 +588,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListRaiseQuotations"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListRaiseQuotations",
                             "/AdminAddRaiseQuotations",
                             "/AdminEditRaiseQuotations",
@@ -605,7 +605,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListInvoice"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListInvoice",
                             "/AdminAddSenderInvoice",
                             "/AdminAddRecieverInvoice",
@@ -623,7 +623,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListIncomeReport"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListIncomeReport",
                             "/AdminAddIncomeReport",
                             "/AdminEditIncomeReport",
@@ -643,7 +643,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.hrms}
                     aria-controls="collapse5"
@@ -673,7 +673,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListHRMStaff"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListHRMStaff",
                             "/AdminAddHRMStaff",
                             "/AdminEditHRMStaff",
@@ -690,7 +690,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListAttendance"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListAttendance",
                             "/AdminAddAttendance",
                             "/AdminEditAttendance",
@@ -707,7 +707,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/ListPayroll"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListPayroll",
                             "/AdminAddPayroll",
                             "/AdminEditPayroll",
@@ -724,7 +724,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListLeave"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListLeave",
                             "/AdminAddLeave",
                             "/AdminEditLeave",
@@ -741,7 +741,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListKPI"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListKPI",
                             "/AdminAddKPI",
                             "/AdminEditKPI",
@@ -759,7 +759,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListPolicies"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListPolicies",
                             "/AdminAddPolicies",
                             "/AdminEditPolicies",
@@ -776,7 +776,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListPerformanceReport"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListPerformanceReport",
                             "/AdminAddPerformanceReport",
                             "/AdminEditPerformanceReport",
@@ -796,7 +796,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
                     aria-controls="collapse12"
@@ -826,7 +826,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListProject"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListProject",
                             "/AdminAddProject",
                             "/AdminEditProject",
@@ -843,7 +843,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListTask"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListTask",
                             "/AdminAddTask",
                             "/AdminEditTask",
@@ -863,7 +863,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Marketing}
                     aria-controls="collapse17"
@@ -893,7 +893,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListSocialMedia"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListSocialMedia",
                             "/AdminAddSocialMedia",
                             "/AdminEditSocialMedia",
@@ -910,7 +910,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListCampaign"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListCampaign",
                             "/AdminAddCampaign",
                             "/AdminEditCampaign",
@@ -927,7 +927,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListDailyTask"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListDailyTask",
                             "/AdminAddDailyTask",
                             "/AdminEditDailyTask",
@@ -948,7 +948,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListNotifications"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListNotifications",
                       "/AdminAddNotifications",
                       "/AdminEditNotifications",
@@ -967,7 +967,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListMeetings"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListMeetings",
                       "/AdminAddMeetings",
                       "/AdminEditMeetings",
@@ -986,7 +986,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListTraining"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListTraining",
                       "/AdminAddTraining",
                       "/AdminEditTraining",
@@ -1005,7 +1005,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListChat"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListChat",
                       "/AdminAddChat",
                       "/AdminEditChat",
@@ -1024,7 +1024,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListEmail"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListEmail",
                       "/AdminAddEmail",
                       "/AdminEditEmail",
@@ -1043,7 +1043,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListPromotions"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListPromotions",
                       "/AdminAddPromotions",
                       "/AdminEditPromotions",
@@ -1062,7 +1062,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListEvents"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListEvents",
                       "/AdminAddEvents",
                       "/AdminEditEvents",
@@ -1081,7 +1081,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListBlog"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListBlog",
                       "/AdminAddBlog",
                       "/AdminEditBlog",
@@ -1100,7 +1100,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminListTestimonials"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminListTestimonials",
                       "/AdminAddTestimonials",
                       "/AdminEditTestimonials",
@@ -1119,7 +1119,7 @@ export const AdminSidebar = () => {
                   <a
                     href="/AdminAdminList"
                     target="_self"
-                    className={`nav-link ${[
+                    className={`nav-link sidebar_link ${[
                       "/AdminAdminList",
                       "/AdminAddAdmin",
                       "/AdminEditAdmin",
@@ -1137,7 +1137,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.elt}
                     aria-controls="collapse4"
@@ -1169,7 +1169,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListBookings"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListBookings",
                             "/AdminAddBookings",
                             "/AdminEditBookings",
@@ -1186,7 +1186,7 @@ export const AdminSidebar = () => {
                         <a
                           href="/AdminListClassSchedule"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListClassSchedule",
                             "/AdminAddClassSchedule",
                             "/AdminEditClassSchedule",
@@ -1208,7 +1208,7 @@ export const AdminSidebar = () => {
                 <li className="nav-item" style={{ position: "relative" }}>
                   <a
                     href="#"
-                    className="nav-link "
+                    className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Reports}
                     aria-controls="collapse4"
@@ -1238,7 +1238,7 @@ export const AdminSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListReportEmployee",
                             "/AdminAddReportEmployee",
                             "/AdminEditReportEmployee",
@@ -1255,7 +1255,7 @@ export const AdminSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListReportAgent",
                             "/AdminAddReportAgent",
                             "/AdminEditReportAgent",
@@ -1272,7 +1272,7 @@ export const AdminSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminList",
                             "/AdminAddReportStudents",
                             "/AdminEditReportStudents",
@@ -1289,7 +1289,7 @@ export const AdminSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListReportBranch",
                             "/AdminAddReportBranch",
                             "/AdminEditReportBranch",
@@ -1308,7 +1308,7 @@ export const AdminSidebar = () => {
                         <a
                           href="#"
                           target="_self"
-                          className={`nav-link ${[
+                          className={`nav-link sidebar_link ${[
                             "/AdminListReportAdmin",
                             "/AdminAddReportAdmin",
                             "/AdminEditReportAdmin",
@@ -1327,7 +1327,7 @@ export const AdminSidebar = () => {
 
                 <li className="nav-item">
                   <a href="/"
-                    className="nav-link"
+                    className="nav-link sidebar_link"
                     target="_self"
                     onClick={logout}
                     style={{ cursor: "pointer" }}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
+import Edufynd from "../Assests/White Logo EduFynd.png";
 import './Hoverbar.css';
 
 const HoverBar = () => {

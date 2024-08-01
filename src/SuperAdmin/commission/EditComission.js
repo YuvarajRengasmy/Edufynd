@@ -350,7 +350,7 @@ function AddCommission() {
 
         <div
           className="content-wrapper"
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header">
             <div className="content container-fluid">
@@ -373,13 +373,13 @@ function AddCommission() {
                               Country<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select"
+                              className="form-select form-select-lg rounded-2"
                               name="country"
-                              
+                              style={{fontSize:'12px'}}
                               value={commission.country}
                               onChange={handleCountryChange}
                             >
-                              <option value="">Select Country</option>
+                              <option value=""  style={{fontSize:'12px'}}>Select Country</option>
                               {countries.map((country) => (
                                 <option
                                   key={country._id}
@@ -401,12 +401,13 @@ function AddCommission() {
                               University<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select"
+                              className="form-select form-select-lg rounded-2"
                               name="universityName"
                               value={commission.universityName}
                               onChange={handleInputs}
+                              style={{fontSize:'12px'}}
                             >
-                              <option value="">{commission.universityName}</option>
+                              <option value=""  style={{fontSize:'12px'}}>{commission.universityName}</option>
                               {universities.map((uni) => (
                                 <option
                                   key={uni._id}
@@ -429,14 +430,15 @@ function AddCommission() {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select"
+                              className="form-select form-select-lg rounded-2"
                               value={commission?.paymentMethod}
                               name="paymentMethod"
                               onChange={handleInputs}
+                              style={{fontSize:'12px'}}
                             >
-                              <option value="">Select Payment Type</option>
-                              <option value="Fixed">Fixed Amount</option>
-                              <option value="Percentage">Percentage</option>
+                              <option value=""  style={{fontSize:'12px'}}>Select Payment Type</option>
+                              <option value="Fixed" style={{fontSize:'12px'}}>Fixed Amount</option>
+                              <option value="Percentage" style={{fontSize:'12px'}}>Percentage</option>
                             </select>
                             {errors.paymentMethod.required ? (
                               <span className="text-danger form-text profile_error">
@@ -453,18 +455,19 @@ function AddCommission() {
                                     <span className="text-danger">*</span>
                                   </label>
                                   <select
-                                    className="form-select"
+                                    className="form-select form-select-lg rounded-2"
                                     name="commissionPaidOn"
                                     onChange={handleInputs}
                                     value={commission?.commissionPaidOn}
+                                    style={{fontSize:'12px'}}
                                   >
-                                    <option value="PaidFees">
+                                    <option value="PaidFees"  style={{fontSize:'12px'}}>
                                       Select Commission Paid On
                                     </option>
-                                    <option value="CourseFees">
+                                    <option value="CourseFees"  style={{fontSize:'12px'}}>
                                       Course Fees
                                     </option>
-                                    <option value="PaidFees">Paid Fees</option>
+                                    <option value="PaidFees"  style={{fontSize:'12px'}}>Paid Fees</option>
                                   </select>
                                 </div>
                               
@@ -479,10 +482,11 @@ function AddCommission() {
                             <input
                               type="text"
                               value={commission?.eligibility}
-                              className="form-control"
+                              className="form-control rounded-2"
                               placeholder="Enter Eligibility"
                               name="eligibility"
                               onChange={handleInputs}
+                              style={{fontSize:'12px'}}
                             />
                             {errors.eligibility.required ? (
                               <span className="text-danger form-text profile_error">
@@ -496,7 +500,7 @@ function AddCommission() {
                               Tax<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select rounded-2 p-2 "
+                              className="form-select form-select-lg rounded-2  "
                               name="tax"
                               onChange={handleInputs}
                               value={commission?.tax}
@@ -530,10 +534,11 @@ function AddCommission() {
                             <input
                               type="text"
                               value={commission?.clientName}
-                              className="form-control"
+                              className="form-control rounded-2"
                               placeholder="Enter Client Name"
                               name="clientName"
                               onChange={handleInputs}
+                              style={{fontSize:'12px'}}
                             />
                             {errors.clientName.required ? (
                               <span className="text-danger form-text profile_error">
@@ -555,7 +560,7 @@ function AddCommission() {
                                 />
                               )}
                               <input
-                                className="form-control"
+                                className="form-control rounded-2"
                                 type="text"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -579,15 +584,16 @@ function AddCommission() {
                               Payment Type<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select"
+                              className="form-select form-select-lg rounded-2"
                               value={commission?.paymentType}
                               aria-label="Default select example"
                               name="paymentType"
                               onChange={handleInputs}
+                              style={{fontSize:'12px'}}
                             >
-                              <option value=""> select Payment Type</option>
-                              <option value="One_Time">One Time</option>
-                              <option value="Semester"> Semester </option>
+                              <option value="" style={{fontSize:'12px'}}> Select Payment Type</option>
+                              <option value="One_Time" style={{fontSize:'12px'}}>One Time</option>
+                              <option value="Semester" style={{fontSize:'12px'}}> Semester </option>
                             </select>
                             {errors.paymentType.required ? (
                               <span className="text-danger form-text profile_error">
@@ -597,17 +603,17 @@ function AddCommission() {
                           </div>
                           <div className="row g-2">
                             <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                              <button
+                           <button
                                 type="button"
-                                className="btn text-white ml-2"
+                                className="btn btn-sm text-uppercase fw-semibold px-4 py-2 text-white ml-2"
                                 style={{
                                   backgroundColor: "#FE5722",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
+                                  fontSize: "12px",
                                 }}
                                 onClick={addYear}
                               >
-                                Add Year
+                                  <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;   Add Year
                               </button>
                             </div>
                           </div>
@@ -621,17 +627,17 @@ function AddCommission() {
         style={{
           backgroundColor: "#fff",
           fontFamily: "Plus Jakarta Sans",
-          fontSize: "14px",
+          fontSize: "12px",
         }}
         value={year.year}  // Changed this line
         onChange={(e) =>
           handleInputChange(yearIndex, null, "year", e.target.value)
         }
         name="year"
-        className="form-select mb-3"
+        className="form-select form-select-lg rounded-2 mb-3"
         placeholder="Enter Year"
       >
-        <option value="">Select Year</option>
+        <option value="" style={{fontSize:'12px'}}>Select Year</option>
         {yearOptions.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -646,7 +652,8 @@ function AddCommission() {
             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
               <label style={{ color: "#231F20" }}>Course Type</label>
               <select
-                className="form-select"
+                className="form-select form-select-lg rounded-2"
+                style={{fontSize:'12px'}}
                 value={courseType.courseType}
                 onChange={(e) =>
                   handleInputChange(
@@ -657,7 +664,7 @@ function AddCommission() {
                   )
                 }
               >
-                <option value="">{courseType.courseType}</option>
+                <option value="" style={{fontSize:'12px'}}>{courseType.courseType}</option>
                 {(
                   universities.find(
                     (uni) => uni.universityName === commission.universityName
@@ -672,7 +679,8 @@ function AddCommission() {
             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
               <label style={{ color: "#231F20" }}>Intake</label>
               <select
-                className="form-select"
+                className="form-select form-select-lg rounded-2"
+                style={{fontSize:'12px'}}
                 value={courseType.inTake}
                 onChange={(e) =>
                   handleInputChange(
@@ -683,7 +691,7 @@ function AddCommission() {
                   )
                 }
               >
-                <option value="">{courseType.inTake}</option>
+                <option value="" style={{fontSize:'12px'}}>{courseType.inTake}</option>
                 {(
                   universities.find(
                     (uni) => uni.universityName === commission.universityName
@@ -698,9 +706,10 @@ function AddCommission() {
             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
               <label style={{ color: "#231F20" }}>Value</label>
               <input
-                className="form-control"
+                className="form-control rounded-2"
                 type="text"
                 name="value"
+                style={{fontSize:'12px'}}
                 placeholder="Value"
                 value={courseType.value}
                 onChange={(e) =>
@@ -716,15 +725,11 @@ function AddCommission() {
             <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
               <button
                 type="button"
-                className="btn text-white ml-2 mb-3"
+                className="btn btn-sm btn-danger text-white ml-2 mb-3"
                 onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
-                style={{
-                  backgroundColor: "#FE5722",
-                  fontFamily: "Plus Jakarta Sans",
-                  fontSize: "14px",
-                }}
+              
               >
-                <FaTrash />
+              <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
             </div>
           </div>
@@ -732,15 +737,15 @@ function AddCommission() {
       <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
         <button
           type="button"
-          className="btn text-white ml-2"
+          className="btn btn-sm text-uppercase fw-semibold px-4 py-2 text-white ml-2"
           onClick={() => addCourseType(yearIndex)}
           style={{
             backgroundColor: "#FE5722",
             fontFamily: "Plus Jakarta Sans",
-            fontSize: "14px",
+            fontSize: "12px",
           }}
         >
-          Add Course
+       <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;   Add Course
         </button>
       </div>
     </div>
