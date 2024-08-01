@@ -887,6 +887,7 @@ const App = () => {
                                   ...base,
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
+                                  
                                 }),
                               }}
                               placeholder="Select Popular Categories"
@@ -996,6 +997,7 @@ const App = () => {
                                   fontSize: "12px",
                                   minHeight: "200px",
                                   overflowY: "auto",
+                                  zIndex:'0'
                                 }}
                               />
                             </div>
@@ -1022,6 +1024,7 @@ const App = () => {
                                   fontSize: "12px",
                                   minHeight: "200px",
                                   overflowY: "auto",
+                                  zIndex:'0'
                                 }}
                               />
                             </div>

@@ -428,6 +428,7 @@ export const AddNotifications = () => {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
+                                  zIndex:'0'
                                 }}
                                 placeholder="Enter  Image upload"
                                 name="uploadImage"
