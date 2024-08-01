@@ -17,7 +17,6 @@ import "react-quill/dist/quill.snow.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { RichTextEditor } from "@mantine/rte";
 
-
 export const AddNotifications = () => {
   const initialState = {
     typeOfUser: "",
@@ -25,14 +24,14 @@ export const AddNotifications = () => {
     subject: "",
     content: "",
     uploadImage: "",
-    createdBy:"",
+    createdBy: "",
   };
 
   const initialStateErrors = {
     typeOfUser: { required: false },
     userName: { required: false },
     subject: { required: false },
-     content: { required: false },
+    content: { required: false },
     uploadImage: { required: false },
   };
 
@@ -63,7 +62,7 @@ export const AddNotifications = () => {
   const getAdminList = () => {
     getallAdmin()
       .then((res) => {
-        setAdmin(res?.data?.result );
+        setAdmin(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -102,9 +101,9 @@ export const AddNotifications = () => {
     if (data.subject === "") {
       error.subject.required = true;
     }
-     if (data.content === "") {
-       error.content.required = true;
-     }
+    if (data.content === "") {
+      error.content.required = true;
+    }
     if (data.uploadImage === "") {
       error.uploadImage.required = true;
     }
@@ -112,7 +111,6 @@ export const AddNotifications = () => {
     return error;
   };
 
-  
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -131,13 +129,18 @@ export const AddNotifications = () => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
-    } else{
-      setnotification({ ...notification, [event?.target?.name]: event?.target?.value });
+    } else {
+      setnotification({
+        ...notification,
+        [event?.target?.name]: event?.target?.value,
+      });
     }
-    
+
     if (submitted) {
-      const newError = handleValidation({...notification,
-        [event.target.name]: event.target.value,});
+      const newError = handleValidation({
+        ...notification,
+        [event.target.name]: event.target.value,
+      });
       setErrors(newError);
     }
   };
@@ -146,7 +149,10 @@ export const AddNotifications = () => {
     const values = selectedOptions
       ? selectedOptions.map((option) => option.value)
       : [];
-    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
+    setnotification((prevNotification) => ({
+      ...prevNotification,
+      [name]: values,
+    }));
   };
 
   const handleErrors = (obj) => {
@@ -161,14 +167,12 @@ export const AddNotifications = () => {
     return true;
   };
 
-  
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -201,7 +205,7 @@ export const AddNotifications = () => {
     value: data.empName,
     label: data.empName,
   }));
- 
+
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
@@ -211,7 +215,7 @@ export const AddNotifications = () => {
     value: data.agentName,
     label: data.agentName,
   }));
- 
+
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -227,7 +231,7 @@ export const AddNotifications = () => {
       },
     }),
   };
- 
+
   return (
     <>
       <div>
@@ -283,83 +287,80 @@ export const AddNotifications = () => {
                             ) : null}
                           </div>
                           {notification.typeOfUser === "staff" ? (
-                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                             <label style={{ color: "#231F20" }}>
-                               Admin List<span className="text-danger">*</span>
-                             </label>
-                            <Select
-                             isMulti
-                             placeholder="Select staff"
-                             onChange={handleSelectChange}
-                              options={staffOptions}
-                             name="userName"
-                             
-                             styles={customStyles}
-                             className="submain-one-form-body-subsection-select"
-                           />
-                             {errors.userName.required ? (
-                               <div className="text-danger form-text">
-                                 This field is required.
-                               </div>
-                             ) : null}
-                           </div>
-                          ) : notification.typeOfUser === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Student List<span className="text-danger">*</span>
+                                Admin List<span className="text-danger">*</span>
                               </label>
-                             <Select
-                              isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={studentOptions}
-                              name="userName"
-                              
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
+                              <Select
+                                isMulti
+                                placeholder="Select staff"
+                                onChange={handleSelectChange}
+                                options={staffOptions}
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
                               {errors.userName.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
                               ) : null}
                             </div>
-                          ) :notification.typeOfUser === "agent" ? (
+                          ) : notification.typeOfUser === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Admin List<span className="text-danger">*</span>
-                            </label>
-                           <Select
-                            isMulti
-                            placeholder="Select Country"
-                             onChange={handleSelectChange}
-                             options={agentOptions}
-                            name="userName"
-                            
-                            styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
-                          />
-                            {errors.userName.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
+                              <label style={{ color: "#231F20" }}>
+                                Student List
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                options={studentOptions}
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.userName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : notification.typeOfUser === "agent" ? (
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Admin List<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                options={agentOptions}
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.userName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
                           ) : notification.typeOfUser === "admin" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Admin List<span className="text-danger">*</span>
                               </label>
-                             <Select
-                              isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={adminOptions}
-                              name="userName"
-                              
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                options={adminOptions}
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
                               {errors.userName.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -428,7 +429,7 @@ export const AddNotifications = () => {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  zIndex:'0'
+                                  zIndex: "0",
                                 }}
                                 placeholder="Enter  Image upload"
                                 name="uploadImage"
