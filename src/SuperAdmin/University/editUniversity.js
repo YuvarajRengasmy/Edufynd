@@ -534,6 +534,19 @@ function Profile() {
                             transform: "translate(-50%, -50%)",
                           }}
                         />
+                        <label
+                                htmlFor="fileInputImage"
+                                className="position-absolute fs-6 rounded-circle "
+                                style={{
+                                  cursor: "pointer",
+                                  bottom: "15%",
+                                  left: "53.5%",
+                                  transform: "translate(-25%, -25%)",
+                                  color: "#0f2239",
+                                }}
+                              >
+                                <i className="fas fa-camera"></i>
+                              </label>
                       </label>
                       <input
                         name="universityLogo"
@@ -1085,7 +1098,7 @@ function Profile() {
                               type="submit"
                               className="btn btn-save border-0 px-4 py-2 text-uppercase fw-semibold text-white  m-1"
                             >
-                              Submit
+                              Update
                             </button>
                           </div>{" "}
                         </div>

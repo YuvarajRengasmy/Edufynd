@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import {getSuperAdminForSearch} from '../../api/superAdmin';
+import { getSuperAdminForSearch } from "../../api/superAdmin";
 import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
   getFilterUniversity,
 } from "../../api/university";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import "./ListTable.css";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
-
+import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import * as XLSX from "xlsx";
 
 export default function Masterproductlist() {
@@ -38,9 +38,9 @@ export default function Masterproductlist() {
     popularCategories: "",
   };
   const [file, setFile] = useState(null);
-  const location = useLocation()
-  var searchValue = location.state
-  const [link ,setLink] = useState('');
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
   const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -60,22 +60,20 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getAllUniversityDetails();
-    
   }, [pagination.from, pagination.to]);
 
-  
   useEffect(() => {
     if (search.current) {
-        search.current.focus()
+      search.current.focus();
     }
-}, [])
+  }, []);
 
-useEffect(() => {
+  useEffect(() => {
     if (searchValue) {
-        search.current.value = searchValue.substring(1)
-        handleSearch()
+      search.current.value = searchValue.substring(1);
+      handleSearch();
     }
-}, [searchValue])
+  }, [searchValue]);
 
   const getAllUniversityDetails = () => {
     const data = {
@@ -97,24 +95,24 @@ useEffect(() => {
   };
 
   const handleInputsearch = (event) => {
-    if (event.key === 'Enter') {
-        search.current.blur();
-        handleSearch()
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
     }
-  }
+  };
 
   const handleSearch = (event) => {
     const data = search.current.value;
     event?.preventDefault();
     getSuperAdminForSearch(data)
-      .then(res => {
+      .then((res) => {
         const universityList = res?.data?.result?.universityList;
         setUniversity(universityList);
-        const result = universityList.length ? 'universities' : '';
+        const result = universityList.length ? "universities" : "";
         setLink(result);
-        setData(result === '' ? true : false);
+        setData(result === "" ? true : false);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
@@ -391,61 +389,58 @@ useEffect(() => {
 
   return (
     <>
-      <div >
-        
-          <Mastersidebar />
-      
+      <div>
+        <Mastersidebar />
 
         <div
           className="content-wrapper  "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-           <div className="content-header ">
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-12">
-               
+          <div className="content-header ">
+            <div className="container">
+              <div className="row">
+                <div className="col-xl-12">
                   <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                     <li className="flex-grow-1">
                       <form onSubmit={handleSearch}>
-                      <div
-                        className="input-group"
-                        style={{ maxWidth: "600px" }}
-                      >
-                        <input
-                          type="search"
-                          placeholder="Search"
-                          ref={search}
-                          onChange={handleInputsearch}
-                          aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
-                          style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
-                            fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px", // Adjust padding to fit the height
-                          }}
-                        />
-                        <button
-                          className="input-group-text bg-transparent border-0"
-                          id="button-addon3"
-                          type="submit"
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
-                          }}
+                        <div
+                          className="input-group"
+                          style={{ maxWidth: "600px" }}
                         >
-                          <i
-                            className="fas fa-search"
-                            style={{ color: "black" }}
-                          ></i>
-                        </button>
-                      </div>
+                          <input
+                            type="search"
+                            placeholder="Search"
+                            ref={search}
+                            onChange={handleInputsearch}
+                            aria-describedby="button-addon3"
+                            className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
+                            style={{
+                              borderColor: "#FE5722",
+                              paddingRight: "1.5rem",
+                              marginLeft: "0px",
+                              fontSize: "12px", // Keep the font size if it's correct
+                              height: "11px", // Set the height to 11px
+                              padding: "0px", // Adjust padding to fit the height
+                            }}
+                          />
+                          <button
+                            className="input-group-text bg-transparent border-0"
+                            id="button-addon3"
+                            type="submit"
+                            style={{
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <i
+                              className="fas fa-search"
+                              style={{ color: "black" }}
+                            ></i>
+                          </button>
+                        </div>
                       </form>
                     </li>
                     <li class="m-1">
@@ -498,7 +493,7 @@ useEffect(() => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Search...University Name"
+                                  placeholder="Example StandFord"
                                 />
 
                                 <label className="form-label">Campus</label>
@@ -513,7 +508,7 @@ useEffect(() => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Search...Campus"
+                                  placeholder="Example Apple Park"
                                 />
                                 <label className="form-label">
                                   Average Fees
@@ -529,7 +524,7 @@ useEffect(() => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Search...Average Fees"
+                                  placeholder="Example 5000"
                                 />
                                 <label className="form-label">Country</label>
                                 <br />
@@ -543,7 +538,7 @@ useEffect(() => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Search...Country"
+                                  placeholder="Example United Kingdom"
                                 />
 
                                 <label className="form-label">
@@ -560,27 +555,15 @@ useEffect(() => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  placeholder="Search...Popular Categories"
+                                  placeholder="Example Havard University"
                                 />
                               </div>
                               <div>
                                 <button
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white rounded-pill px-4 py-2 float-right fw-semibold bg text-uppercase"
-                                  style={{
-                                    backgroundColor: "#0f2239",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  onClick={resetFilter}
-                                >
-                                  Reset
-                                </button>
-                                <button
-                                  data-bs-dismiss="offcanvas"
                                   type="submit"
                                   onClick={filterUniversityList}
-                                  className="btn btn-save border-0 text-white float-right rounded-pill px-4 py-2 fw-semibold text-uppercase mx-2"
+                                  className="btn btn-save border-0 text-white float-right  px-4 py-2 fw-semibold text-uppercase mx-2"
                                   style={{
                                     backgroundColor: "#fe5722",
                                     fontFamily: "Plus Jakarta Sans",
@@ -588,6 +571,18 @@ useEffect(() => {
                                   }}
                                 >
                                   Apply
+                                </button>
+                                <button
+                                  data-bs-dismiss="offcanvas"
+                                  className="btn btn-cancel border-0 text-white px-4 py-2 float-right fw-semibold bg text-uppercase"
+                                  style={{
+                                    backgroundColor: "#231f20",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  onClick={resetFilter}
+                                >
+                                  Reset
                                 </button>
                               </div>
                             </form>
@@ -663,176 +658,186 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-           
-           
           </div>
           <div className="content-body">
-              <div className="container">
+            <div className="container">
               <div className="row">
-              <div className="col-xl-12">
-                <div className="card rounded-0 border-0 ">
-                  <div className="card-body">
-                    <div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className="table table-hover card-table dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "13px" }}
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Code
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                University Name
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                country
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Campus
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Popular Categories
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                App
-                              </th>
+                <div className="col-xl-12">
+                  <div className="card rounded-0 border-0 ">
+                    <div className="card-body">
+                      <div className="card-table">
+                        <div className="table-responsive">
+                          <table
+                            className="table table-hover card-table dataTable text-center"
+                            style={{ color: "#9265cc", fontSize: "13px" }}
+                            ref={tableRef}
+                          >
+                            <thead className="table-light">
+                              <tr
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Code
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  University Name
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  country
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Campus
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Popular Categories
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  App
+                                </th>
 
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {university?.map((data, index) => {
-                              const isExpanded = !!expandedRows[index];
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {university?.map((data, index) => {
+                                const isExpanded = !!expandedRows[index];
 
-                              return (
-                                <tr
-                                  key={index}
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "11px",
-                                  }}
-                                >
-                                  <td className="text-capitalize text-start">
-                                    {pagination.from + index + 1}
-                                  </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.universityCode}
-                                  </td>
-                                  <td
-                                    className="text-capitalize text-start"
-                                    onMouseEnter={() => toggleRow(index)}
-                                    onMouseLeave={() => toggleRow(index)}
-                                    title={data?.universityName}
+                                return (
+                                  <tr
+                                    key={index}
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "11px",
+                                    }}
                                   >
-                                    {getDisplayText(
-                                      data?.universityName,
-                                      isExpanded
-                                    )}
-                                  </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.country}
-                                  </td>
-                                  <td className="text-capitalize text-start">
-                                    {data.campuses?.map((campus, yearIndex) => (
-                                      <div key={yearIndex}>
-                                        {campus?.state?.length > 0
-                                          ? campus.state
-                                          : "Not Available"}
-                                        __
-                                        {campus?.lga?.length > 0
-                                          ? campus.lga
-                                          : "Not Available"}
-                                        __
+                                    <td className="text-capitalize text-start">
+                                      {pagination.from + index + 1}
+                                    </td>
+                                    <td className="text-capitalize text-start">
+                                      {data?.universityCode}
+                                    </td>
+                                    <td
+                                      className="text-capitalize text-start"
+                                      onMouseEnter={() => toggleRow(index)}
+                                      onMouseLeave={() => toggleRow(index)}
+                                      title={data?.universityName}
+                                    >
+                                      {getDisplayText(
+                                        data?.universityName,
+                                        isExpanded
+                                      )}
+                                    </td>
+                                    <td className="text-capitalize text-start">
+                                      {data?.country}
+                                    </td>
+                                    <td className="text-capitalize text-start">
+                                      {data.campuses?.map(
+                                        (campus, yearIndex) => (
+                                          <div key={yearIndex}>
+                                            {campus?.state?.length > 0
+                                              ? campus.state
+                                              : "Not Available"}
+                                            __
+                                            {campus?.lga?.length > 0
+                                              ? campus.lga
+                                              : "Not Available"}
+                                            __
+                                          </div>
+                                        )
+                                      )}
+                                    </td>
+                                    <td
+                                      className="text-capitalize text-start"
+                                      onMouseEnter={() => toggleRow(index)}
+                                      onMouseLeave={() => toggleRow(index)}
+                                      title={data?.popularCategories}
+                                    >
+                                      {" "}
+                                      {getDisplayText(
+                                        data?.popularCategories.join(", "),
+                                        isExpanded
+                                      )}{" "}
+                                    </td>
+
+                                    <td className="text-capitalize text-start">
+                                      {data?.noofApplications}
+                                    </td>
+                                    <td>
+                                      <div className="d-flex">
+                                        <OverlayTrigger
+                                          placement="bottom"
+                                          overlay={<Tooltip >View</Tooltip>}
+                                        >
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/ViewUniversity",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-eye text-primary me-1"></i>
+                                          </Link>
+                                        </OverlayTrigger>
+
+                                        <OverlayTrigger
+                                          placement="bottom"
+                                          overlay={<Tooltip>Edit</Tooltip>}
+                                        >
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/EditUniversity",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-edit text-warning me-1"></i>
+                                          </Link>
+                                        </OverlayTrigger>
+                                        <OverlayTrigger
+                                          placement="bottom"
+                                          overlay={<Tooltip>Delete</Tooltip>}
+                                        >
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              openPopup(data?._id);
+                                            }}
+                                          >
+                                            <i className="far fa-trash-alt text-danger me-1"></i>
+                                          </button>
+                                        </OverlayTrigger>
                                       </div>
-                                    ))}
-                                  </td>
-                                  <td
-                                    className="text-capitalize text-start"
-                                    onMouseEnter={() => toggleRow(index)}
-                                    onMouseLeave={() => toggleRow(index)}
-                                    title={data?.popularCategories}
-                                  >
-                                    {" "}
-                                    {getDisplayText(
-                                      data?.popularCategories.join(", "),
-                                      isExpanded
-                                    )}{" "}
-                                  </td>
-
-                                  <td className="text-capitalize text-start">
-                                    {data?.noofApplications}
-                                  </td>
-                                  <td>
-                                    <div className="d-flex">
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/ViewUniversity",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="View"
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>
-                                      </Link>
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/EditUniversity",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Edit"
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>
-                                      </Link>
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Delete"
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                    </div>
-                    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
+                      <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-              </div>
-            </div>
+          </div>
         </div>
         <Dialog open={open}>
           <DialogContent>

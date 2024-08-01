@@ -1,13 +1,16 @@
+/* Import the Plus Jakarta Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap');
+
 /* Sidebar Background */
 .sidebar {
-  background-color: #231f20; /* Dark Slate Blue for a striking contrast */
+  background-color: #231f20; /* Dark background */
   padding: 10px; /* Padding for a more spacious layout */
-  /* Rounded corners for a modern look */
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 /* Sidebar Styles */
 .sidebar_link {
-  color: #ECF0F1 !important; /* Light color for contrast with the dark background */
+  color: #FFFFFF !important; /* White text for contrast with the dark background */
   text-decoration: none; /* Remove underline */
   display: flex; /* Align icon and text */
   align-items: center; /* Center items vertically */
@@ -20,38 +23,38 @@
 /* Default and active styles */
 .nav-item .sidebar_link {
   margin: 0; /* Remove default margin */
-  color: #ECF0F1 !important; /* Default text color */
+  color: #FFFFFF !important; /* Default text color */
 }
 
 /* Icon styles */
 .nav-icon {
   margin-right: 8px; /* Space between icon and text */
-  color: #ECF0F1 !important; /* Default icon color */
+  color: #FFFFFF !important; /* Default icon color */
   font-size: 12px !important;
 }
 
 /* Hover styles */
 .sidebar_link:hover {
-  color: #2C3E50 !important; /* Dark color text on hover for contrast */
-  background-color: #BDC3C7 !important; /* Light Gray background on hover */
+  color: #FFFFFF !important; /* White text on hover */
+  background-color: #2C3E50 !important; /* Slightly lighter dark gray background on hover */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
 }
 
 /* Active styles */
 .sidebar_link.active {
-  color: #2C3E50 !important; /* Dark color text for active link */
-  background-color: #ECF0F1 !important; /* Light background for active link */
+  color: #FFFFFF !important; /* White text for active link */
+  background-color: #BDC3C7 !important; /* Light gray background for active link */
 }
 
 .sidebar_link.active .nav-icon {
-  color: #2C3E50 !important; /* Active icon color */
+  color: #FFFFFF !important; /* Active icon color */
 }
 
 /* Rotate icon for dropdown */
 .rotate-icon {
   transform: rotate(90deg);
   transition: transform 0.1s ease;
-  color: #ECF0F1 !important;
+  color: #FFFFFF !important;
 }
 
 /* Submenu styles */
@@ -63,8 +66,3 @@
 .collapse.show {
   transition: height 0.3s ease;
 }
-
-.nav-link{
-  color: #231f20 !important;
-}
-

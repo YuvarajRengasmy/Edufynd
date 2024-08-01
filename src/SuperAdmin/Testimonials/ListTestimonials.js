@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import { getallClient, deleteClient } from "../../api/client";
 import { Link } from "react-router-dom";
+import {deleteTestimonial,getFilterTestimonial  } from "../../api/Notification/Testimonial";
+import { formatDate } from "../../Utils/DateFormat";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/sidebar";
@@ -15,7 +17,98 @@ import ListAgent from "../Admins/AdminList";
 
 export const ListTestimonials = () => {
 
-  const tableRef = useRef(null);
+
+  const [notification, setnotification] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: 0
+  });
+
+
+  useEffect(() => {
+    getAllClientDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllClientDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterTestimonial(data)
+      .then((res) => {
+        console.log(res);
+        setnotification(res?.data?.result?.testimonialList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.testimonialCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+
+    const tableRef = useRef(null);
+
+    useEffect(() => {
+      const table = tableRef.current;
+  
+      // Apply SortableJS to the table headers
+      const sortable = new Sortable(table.querySelector('thead tr'), {
+        animation: 150,
+        swapThreshold: 0.5,
+        handle: '.sortable-handle',
+        onEnd: (evt) => {
+          const oldIndex = evt.oldIndex;
+          const newIndex = evt.newIndex;
+  
+          // Move the columns in the tbody
+          table.querySelectorAll('tbody tr').forEach((row) => {
+            const cells = Array.from(row.children);
+            row.insertBefore(cells[oldIndex], cells[newIndex]);
+          });
+        }
+      });
+  
+      return () => {
+        sortable.destroy();
+      };
+    }, []);
+  
+    const deleteProgramData = () => {
+      deleteTestimonial(deleteId)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          closePopup();
+          getAllClientDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const openPopup = (data) => {
+      setOpen(true);
+      setDeleteId(data);
+    };
+  
+    const closePopup = () => {
+      setOpen(false);
+    };
+
+
+
+
+  
 
   useEffect(() => {
     const table = tableRef.current;
@@ -233,7 +326,7 @@ export const ListTestimonials = () => {
                           <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
                             <th className="text-capitalize text-start sortable-handle">Date</th>
-                            <th className="text-capitalize text-start sortable-handle">Subject</th>
+                            <th className="text-capitalize text-start sortable-handle">course</th>
                             <th className="text-capitalize text-start sortable-handle">Users</th>
                             
                             <th className="text-capitalize text-start sortable-handle">Action </th>
@@ -241,21 +334,20 @@ export const ListTestimonials = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          
-                            <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                        {notification?.map((item, index) => (
+                            <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start">{formatDate(item?.createdOn ? item?.createdOn : item?.modifiedOn ? item?.modifiedOn : "-")}</td>
+                              <td className="text-capitalize text-start">{item?.courseOrUniversityName}</td>
+                              <td className="text-capitalize text-start">{item.typeOfUser}</td>
                              
-                              <td className="text-capitalize text-start"></td>
-                            
                               <td>
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"
                                     to={{
                                       pathname: "/ViewTestimonials",
-                                      
+                                      search: `?id=${item?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="View"
@@ -267,41 +359,40 @@ export const ListTestimonials = () => {
                                     className="dropdown-item"
                                     to={{
                                       pathname: "/EditTestimonials",
-                                      
+                                      search: `?id=${item?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="Edit"
                                   >
-                                    <i className="far fa-edit text-warning me-1"></i>
-
+                                    <i className="far fa-edit text-primary me-1"></i>
                                   </Link>
                                   <Link
-                                    className="dropdown-item"
-                                
-                                    data-bs-toggle="tooltip"
-                                    title="Delete"
-                                  >
-                                    <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                  </Link>
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(item?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </Link>
                                 </div>
-
                               </td>
                             </tr>
-                         
+                          ))}
+                           
 
                         </tbody>
                       </table>
                     </div>
                   </div>
                   <div className="float-right my-2">
-                    <Pagination
-                    
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                    />
-                  </div>
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
                 </div>
               </div>
             </div>

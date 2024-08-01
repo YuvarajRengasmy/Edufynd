@@ -63,12 +63,12 @@ export const Course = () => {
   };
   return (
     <>
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-        <div className="container-fluid">
-          <div className="navbar navbar-vertical navbar-expand-lg">
+      
+        <div >
+         
             <Sidebar />
-          </div>
-          <div className="  content-wrapper">
+         
+          <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
             <div className="container-fluid">
               <div className="row">
                 <div className="col-xl-12">
@@ -935,7 +935,7 @@ export const Course = () => {
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 };
