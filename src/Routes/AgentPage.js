@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 import AgentHome from "../Agents/Agents/AgentHome";
 import Contact from "../Agents/About/contact";
 import About from "../Agents/About/about";
@@ -14,7 +14,7 @@ import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 function RegisterPage() {
   return (
     <div>
-      <BrowserRouter>
+     
         <Routes>
           <Route path="/AgentHome" element={<PrivateRoute><AgentHome /></PrivateRoute>} />
           <Route path="/AgentContact" element={<PrivateRoute><Contact /></PrivateRoute>} />
@@ -26,7 +26,7 @@ function RegisterPage() {
           <Route path="/ViewAgentStudent" element={<PrivateRoute><ViewStudent /></PrivateRoute>} />
           <Route path="/EditAgentStudent" element={<PrivateRoute><EditAgentStudent /></PrivateRoute>} />
         </Routes>
-      </BrowserRouter>
+     
     </div>
   );
 }

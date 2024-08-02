@@ -7,6 +7,7 @@ import Edufynd from "../Assests/White Logo EduFynd.png";
 import "./Sidebar.css";
 import { useLocation } from "react-router-dom";
 
+
 const Sidebar = () => {
 
   const location = useLocation();
@@ -222,9 +223,9 @@ const Sidebar = () => {
           <div className="sidebar">
             <div className="user-panel  d-flex">
               <div className="info  ">
-                <a
-                  href="/DashBoard"
-                  target="_self"
+                <Link to="/DashBoard"
+                 
+                 
                   className="brand-text font-weight-light text-decoration-none"
                 >
                   <img
@@ -233,7 +234,7 @@ const Sidebar = () => {
                     className="img-fluid "
                     style={{ width: "100%" }}
                   />
-                </a>
+                </Link>
               </div>
             </div>
             <nav>
@@ -244,21 +245,21 @@ const Sidebar = () => {
                 data-accordion="false"
               >
                 <li className="nav-item">
-                  <a
-                    href="/DashBoard"
-                    target="_self"
+                  <Link to="/DashBoard"
+                   
+                   
                     className={`nav-link sidebar_link ${activeLink === "/DashBoard" ? "active" : ""
                       }`}
                     onClick={() => handleSetActiveLink("/DashBoard")}
                   >
                     <i class="fa fa-tachometer-alt nav-icon"></i>
                     Dashboard
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a
-                    href="/ListClient"
-                    target="_self"
+                  <Link to="/ListClient"
+                   
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListClient",
                       "/AddClient",
@@ -271,13 +272,13 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-user nav-icon"></i>
                     Client
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListUniversity"
-                    target="_self"
+                  <Link to="/ListUniversity"
+                   
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListUniversity",
                       "/AddUniversity",
@@ -290,13 +291,13 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-graduation-cap nav-icon"></i>
                     University
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListCommission"
-                    target="_self"
+                  <Link to="/ListCommission"
+                   
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListCommission",
                       "/AddCommission",
@@ -309,13 +310,13 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-dollar-sign nav-icon"></i>
                     Commission
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/Programs"
-                    target="_self"
+                  <Link to="/Programs"
+                   
+                   
                     className={`nav-link sidebar_link ${[
                       "/Programs",
                       "/AddProgram",
@@ -328,12 +329,12 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-cogs nav-icon"></i>
                     Program
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
 
@@ -355,16 +356,16 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.users ? "show" : ""}`}
                     id="collapse3"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListStudent"
-                          target="_self"
+                        <Link to="/ListStudent"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListStudent",
                             "/AddStudentSA",
@@ -376,12 +377,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-graduate nav-icon"></i>  Students
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListStaff"
-                          target="_self"
+                        <Link to="/ListStaff"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListStaff",
                             "/AddStaff",
@@ -393,12 +394,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-tie nav-icon"></i>  Staffs
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListAgent"
-                          target="_self"
+                        <Link to="/ListAgent"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ViewAgent",
                             "/EditAgent",
@@ -410,16 +411,16 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-secret nav-icon"></i>  Agents
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListApplication"
-                    target="_self"
+                  <Link to="/ListApplication"
+                   
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListApplication",
                       "/AddApplication",
@@ -432,12 +433,12 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-archive nav-icon"></i>
                     Application
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.enquiry}
@@ -458,16 +459,16 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.enquiry ? "show" : ""}`}
                     id="collapse1"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListStudentForm"
-                          target="_self"
+                        <Link to="/ListStudentForm"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListStudentForm",
                             "/AddStudentForm",
@@ -479,12 +480,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-graduate nav-icon"></i>Student
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListForexForm"
-                          target="_self"
+                        <Link to="/ListForexForm"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListForexForm",
                             "/AddForexForm",
@@ -496,12 +497,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-money-bill-wave nav-icon"></i>  FOREX
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListAccommodation"
-                          target="_self"
+                        <Link to="/ListAccommodation"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListAccommodation",
                             "/AddAccommodation",
@@ -513,12 +514,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-bed nav-icon"></i> Accommodation
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListFlightTicket"
-                          target="_self"
+                        <Link to="/ListFlightTicket"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListFlightTicket",
                             "/AddFlightTicket",
@@ -530,12 +531,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-plane nav-icon"></i>  Flight
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListLoanEnquiry"
-                          target="_self"
+                        <Link to="/ListLoanEnquiry"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListLoanEnquiry",
                             "/AddLoanEnquiry",
@@ -547,12 +548,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-credit-card nav-icon"></i>   Loan
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListBusinessEnquiry"
-                          target="_self"
+                        <Link to="/ListBusinessEnquiry"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListBusinessEnquiry",
                             "/AddBusinessEnquiry",
@@ -564,12 +565,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-briefcase nav-icon"></i>  Business Enquiry
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListGeneralEnquiry"
-                          target="_self"
+                        <Link to="/ListGeneralEnquiry"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListGeneralEnquiry",
                             "/AddGeneralEnquiry",
@@ -581,15 +582,15 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-info-circle nav-icon"></i>  General Enquiry
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.finance}
@@ -610,16 +611,16 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.finance ? "show" : ""}`}
                     id="collapse2"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListIncome"
-                          target="_self"
+                        <Link to="/ListIncome"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListIncome",
                             "/AddIncome",
@@ -631,12 +632,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-arrow-up nav-icon"></i>  Income
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListExpenses"
-                          target="_self"
+                        <Link to="/ListExpenses"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListExpenses",
                             "/AddExpenses",
@@ -648,12 +649,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-arrow-down nav-icon"></i> Expense
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListRaiseQuotations"
-                          target="_self"
+                        <Link to="/ListRaiseQuotations"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListRaiseQuotations",
                             "/AddRaiseQuotations",
@@ -665,12 +666,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-file-invoice nav-icon"></i> Raise Quotations
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListInvoice"
-                          target="_self"
+                        <Link to="/ListInvoice"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListInvoice",
                             "/AddSenderInvoice",
@@ -683,12 +684,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-file-invoice-dollar nav-icon"></i>  Raise Invoice
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListIncomeReport"
-                          target="_self"
+                        <Link to="/ListIncomeReport"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListIncomeReport",
                             "/AddIncomeReport",
@@ -700,15 +701,15 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-chart-line nav-icon"></i>  Income Report
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.hrms}
@@ -729,16 +730,16 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.hrms ? "show" : ""}`}
                     id="collapse5"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListStaffHRM"
-                          target="_self"
+                        <Link to="/ListStaffHRM"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListStaffHRM",
                             "/AddStaffHRM",
@@ -750,12 +751,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-tie nav-icon"></i> Staffs
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListAttendance"
-                          target="_self"
+                        <Link to="/ListAttendance"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListAttendance",
                             "/AddAttendance",
@@ -767,12 +768,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-calendar-check nav-icon"></i> Attendance
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListPayroll"
-                          target="_self"
+                        <Link to="/ListPayroll"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListPayroll",
                             "/AddPayroll",
@@ -784,12 +785,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-dollar-sign nav-icon"></i> Payroll
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListLeave"
-                          target="_self"
+                        <Link to="/ListLeave"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListLeave",
                             "/AddLeave",
@@ -801,12 +802,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-calendar-times nav-icon"></i> Leave
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListKPI"
-                          target="_self"
+                        <Link to="/ListKPI"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListKPI",
                             "/AddKPI",
@@ -818,13 +819,13 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-chart-bar nav-icon"></i>  KPI
-                        </a>
+                        </Link>
                       </li>
 
                       <li className="nav-item">
-                        <a
-                          href="/ListPolicies"
-                          target="_self"
+                        <Link to="/ListPolicies"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListPolicies",
                             "/AddPolicies",
@@ -836,12 +837,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-file-alt nav-icon"></i> Policies
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListPerformanceReport"
-                          target="_self"
+                        <Link to="/ListPerformanceReport"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListPerformanceReport",
                             "/AddPerformanceReport",
@@ -853,15 +854,15 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-chart-line nav-icon"></i> Performance Report
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Projects}
@@ -882,16 +883,16 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.Projects ? "show" : ""}`}
                     id="collapse12"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListProject"
-                          target="_self"
+                        <Link to="/ListProject"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListProject",
                             "/AddProject",
@@ -903,12 +904,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-briefcase nav-icon"></i>  Project
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListTask"
-                          target="_self"
+                        <Link to="/ListTask"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListTask",
                             "/AddTask",
@@ -920,15 +921,15 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-tasks nav-icon"></i>  Task
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Marketing}
@@ -949,16 +950,16 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.Marketing ? "show" : ""}`}
                     id="collapse17"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListSocialMedia"
-                          target="_self"
+                        <Link to="/ListSocialMedia"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListSocialMedia",
                             "/AddSocialMedia",
@@ -970,12 +971,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-share-alt nav-icon"></i> Social Media
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListCampaign"
-                          target="_self"
+                        <Link to="/ListCampaign"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListCampaign",
                             "/AddCampaign",
@@ -987,12 +988,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-bullhorn nav-icon"></i> Campaigns
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListDailyTask"
-                          target="_self"
+                        <Link to="/ListDailyTask"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListDailyTask",
                             "/AddDailyTask",
@@ -1004,16 +1005,16 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-tasks nav-icon"></i> Daily Task
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListNotifications"
-                    target="_self"
+                  <Link to="/ListNotifications"
+                   
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListNotifications",
                       "/AddNotifications",
@@ -1026,13 +1027,13 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-bell nav-icon"></i>
                     Notifications
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListMeetings"
-                    target="_self"
+                  <Link to="/ListMeetings"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListMeetings",
                       "/AddMeetings",
@@ -1045,13 +1046,13 @@ const Sidebar = () => {
                   >
 
                     <i class="fa fa-video nav-icon"></i>  Meetings
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListTraining"
-                    target="_self"
+                  <Link to="/ListTraining"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListTraining",
                       "/AddTraining",
@@ -1064,13 +1065,13 @@ const Sidebar = () => {
                   >
 
                     <i class="fa fa-book nav-icon"></i> Training Material
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListChat"
-                    target="_self"
+                  <Link to="/ListChat"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListChat",
                       "/AddChat",
@@ -1083,13 +1084,13 @@ const Sidebar = () => {
                   >
 
                     <i class="fa fa-comments nav-icon"></i> Chat
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListEmail"
-                    target="_self"
+                  <Link to="/ListEmail"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListEmail",
                       "/AddEmail",
@@ -1102,13 +1103,13 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-envelope nav-icon"></i>
                     Email
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListPromotions"
-                    target="_self"
+                  <Link to="/ListPromotions"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListPromotions",
                       "/AddPromotions",
@@ -1121,13 +1122,13 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-bullhorn nav-icon"></i>
                     Promotions
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListEvents"
-                    target="_self"
+                  <Link to="/ListEvents"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListEvents",
                       "/AddEvents",
@@ -1140,13 +1141,13 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-calendar nav-icon"></i>
                     Events
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListBlog"
-                    target="_self"
+                  <Link to="/ListBlog"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListBlog",
                       "/AddBlog",
@@ -1159,13 +1160,13 @@ const Sidebar = () => {
                   >
 
                     <i class="fa fa-blog nav-icon"></i> Blogs
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/ListTestimonials"
-                    target="_self"
+                  <Link to="/ListTestimonials"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/ListTestimonials",
                       "/AddTestimonials",
@@ -1178,13 +1179,13 @@ const Sidebar = () => {
                   >
 
                     <i class="fa fa-quote-right nav-icon"></i>  Testimonials
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a
-                    href="/AdminList"
-                    target="_self"
+                  <Link to="/AdminList"
+                    
+                   
                     className={`nav-link sidebar_link ${[
                       "/AdminList",
                       "/AddAdmin",
@@ -1197,12 +1198,12 @@ const Sidebar = () => {
                   >
                     <i class="fa fa-user-shield nav-icon"></i>
                     Admin
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link"
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.elt}
@@ -1225,16 +1226,16 @@ const Sidebar = () => {
                       aria-hidden="true"
                       style={{ fontSize: "12px", fontWeight: "bold" }}
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.elt ? "show" : ""}`}
                     id="collapse4"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="/ListBookings"
-                          target="_self"
+                        <Link to="/ListBookings"
+                          
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListBookings",
                             "/AddBookings",
@@ -1246,12 +1247,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-calendar-check nav-icon"></i>  Booking
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="/ListClassSchedule"
-                          target="_self"
+                        <Link to="/ListClassSchedule"
+                          
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListClassSchedule",
                             "/AddClassSchedule",
@@ -1263,15 +1264,15 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-calendar nav-icon"></i> Class Schedule
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.settings}
@@ -1292,7 +1293,7 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.settings ? "show" : ""}`}
                     id="collapse6"
@@ -1300,8 +1301,8 @@ const Sidebar = () => {
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       {/* Global Settings */}
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link to="#"
+                         
                           className="nav-link sidebar_link "
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.globalSettings}
@@ -1325,7 +1326,7 @@ const Sidebar = () => {
                               fontWeight: "bold",
                             }}
                           />
-                        </a>
+                        </Link>
                         <div
                           className={`collapse ${isOpen.globalSettings ? "show" : ""
                             }`}
@@ -1333,9 +1334,9 @@ const Sidebar = () => {
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListGlobalEmail",
                                   "/AddGlobalEmail",
@@ -1347,12 +1348,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-envelope nav-icon"></i> Email
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/GlobalSettings"
-                                target="_self"
+                              <Link to="/GlobalSettings"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/GlobalSettings",
                                 ].includes(currentPath)
@@ -1361,12 +1362,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-globe nav-icon"></i>  Country
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/CurrencySettings"
-                                target="_self"
+                              <Link to="/CurrencySettings"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListLeave",
                                   "/AddLeave",
@@ -1379,12 +1380,12 @@ const Sidebar = () => {
                               >
                                 <i class="fa fa-money-bill-wave nav-icon"></i>
                                 Currency
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/Status"
-                                target="_self"
+                              <Link to="/Status"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/Status",
 
@@ -1394,12 +1395,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-clipboard-list nav-icon"></i>   Status
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/Intake"
-                                target="_self"
+                              <Link to="/Intake"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/Intake",
                                 ].includes(currentPath)
@@ -1408,12 +1409,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-calendar-alt nav-icon"></i>  Intake
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/YearSetting"
-                                target="_self"
+                              <Link to="/YearSetting"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/YearSetting",
                                 ].includes(currentPath)
@@ -1422,12 +1423,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-calendar nav-icon"></i> Year
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListGlobalPrivileges",
                                   "/AddGlobalPrivileges",
@@ -1439,12 +1440,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-lock nav-icon"></i>   Privileges
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListGlobalDashBoard",
                                   "/AddGlobalDashBoard",
@@ -1456,7 +1457,7 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-tachometer-alt nav-icon"></i> Dashboard
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         </div>
@@ -1464,8 +1465,8 @@ const Sidebar = () => {
 
                       {/* Module */}
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link to="#"
+                         
                           className="nav-link sidebar_link "
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.modules}
@@ -1489,16 +1490,16 @@ const Sidebar = () => {
                               fontWeight: "bold",
                             }}
                           />
-                        </a>
+                        </Link>
                         <div
                           className={`collapse ${isOpen.modules ? "show" : ""}`}
                           id="collapse8"
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <a
-                                href="/UniversitySettings"
-                                target="_self"
+                              <Link to="/UniversitySettings"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/UniversitySettings",
                                 ].includes(currentPath)
@@ -1507,12 +1508,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-university nav-icon"></i>  University
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/CourseType"
-                                target="_self"
+                              <Link to="/CourseType"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/CourseType",
                                 ].includes(currentPath)
@@ -1521,12 +1522,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-book nav-icon"></i>  Course Type
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListModuleEmail",
                                   "/AddModuleEmail",
@@ -1538,12 +1539,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-envelope nav-icon"></i> Email
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListModuleIntake",
                                   "/AddModuleIntake",
@@ -1555,12 +1556,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-calendar-alt nav-icon"></i>  Intake
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="/ClientModule"
-                                target="_self"
+                              <Link to="/ClientModule"
+                                
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ClientModule",
                                 ].includes(currentPath)
@@ -1569,12 +1570,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-user nav-icon"></i>  Client
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListCustomModule",
                                   "/AddCustomModule",
@@ -1586,7 +1587,7 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-cogs nav-icon"></i> Custom Module
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         </div>
@@ -1594,8 +1595,8 @@ const Sidebar = () => {
 
                       {/* Privileges */}
                       <li className="nav-item">
-                        <a
-                          href="#"
+                        <Link to="#"
+                         
                           className="nav-link sidebar_link "
                           data-bs-toggle="collapse"
                           aria-expanded={isOpen.privileges}
@@ -1619,7 +1620,7 @@ const Sidebar = () => {
                               fontWeight: "bold",
                             }}
                           />
-                        </a>
+                        </Link>
                         <div
                           className={`collapse ${isOpen.privileges ? "show" : ""
                             }`}
@@ -1627,9 +1628,9 @@ const Sidebar = () => {
                         >
                           <ul className="nav d-flex flex-column border-0 ps-4">
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesProgram",
                                   "/AddPrivilegesProgram",
@@ -1641,12 +1642,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-cogs nav-icon"></i> Program
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesHRM",
                                   "/AddPrivilegesHRM",
@@ -1658,12 +1659,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-people-carry nav-icon"></i>  HRM
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesAttendance",
                                   "/AddPrivilegesAttendance",
@@ -1675,12 +1676,12 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-calendar-check nav-icon"></i>  Attendance
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
-                              <a
-                                href="#"
-                                target="_self"
+                              <Link to="#"
+                               
+                               
                                 className={`nav-link sidebar_link ${[
                                   "/ListPrivilegesPayroll",
                                   "/AddPrivilegesPayroll",
@@ -1692,7 +1693,7 @@ const Sidebar = () => {
                                   }`}
                               >
                                 <i class="fa fa-dollar-sign nav-icon"></i> Payroll
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         </div>
@@ -1702,8 +1703,8 @@ const Sidebar = () => {
                 </li>
 
                 <li className="nav-item" style={{ position: "relative" }}>
-                  <a
-                    href="#"
+                  <Link to="#"
+                   
                     className="nav-link sidebar_link "
                     data-bs-toggle="collapse"
                     aria-expanded={isOpen.Reports}
@@ -1724,16 +1725,16 @@ const Sidebar = () => {
                         }`}
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className={`collapse ${isOpen.Reports ? "show" : ""}`}
                     id="collapse4"
                   >
                     <ul className="nav d-flex flex-column border-0 ps-4">
                       <li className="nav-item">
-                        <a
-                          href="#"
-                          target="_self"
+                        <Link to="#"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListReportEmployee",
                             "/AddReportEmployee",
@@ -1745,12 +1746,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-tie nav-icon"></i>  Employee
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
-                          target="_self"
+                        <Link to="#"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListReportAgent",
                             "/AddReportAgent",
@@ -1762,12 +1763,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-secret nav-icon"></i> Agent
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
-                          target="_self"
+                        <Link to="#"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListReportStudents",
                             "/AddReportStudents",
@@ -1779,12 +1780,12 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-graduate nav-icon"></i> Students
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
-                          target="_self"
+                        <Link to="#"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListReportBranch",
                             "/AddReportBranch",
@@ -1798,12 +1799,12 @@ const Sidebar = () => {
 
                           <i class="fa fa-sitemap nav-icon"></i>
                           Branch
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a
-                          href="#"
-                          target="_self"
+                        <Link to="#"
+                         
+                         
                           className={`nav-link sidebar_link ${[
                             "/ListReportAdmin",
                             "/AddReportAdmin",
@@ -1815,16 +1816,16 @@ const Sidebar = () => {
                             }`}
                         >
                           <i class="fa fa-user-shield nav-icon"></i>  Admin
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
 
                 <li className="nav-item">
-                  <a href="/"
+                  <Link to="/" 
                     className="nav-link sidebar_link"
-                    target="_self"
+                   
                     onClick={logout}
                     style={{ cursor: "pointer" }}
                   >
@@ -1834,7 +1835,7 @@ const Sidebar = () => {
                       
                     />
                     Log Out
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <br />

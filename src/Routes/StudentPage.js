@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import Home from "../Students/Home/Program";
 import Profile from "../Students/Profile/Profile";
@@ -18,7 +18,7 @@ import StudentDashBoard from "../Students/DashBoard/StudentDashBoard";
 function RegisterPage() {
   return (
     <div>
-      <BrowserRouter>
+      
         <Routes>
           <Route path="/Student" element={<PrivateRoute><Home /></PrivateRoute>} />
           <Route path="/Profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
@@ -32,7 +32,7 @@ function RegisterPage() {
           <Route path="/ViewProgramUniversity" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
           <Route path="/StudentDashboard" element={<PrivateRoute><StudentDashBoard/></PrivateRoute>}/>
         </Routes>
-      </BrowserRouter>
+    
     </div>
   );
 }

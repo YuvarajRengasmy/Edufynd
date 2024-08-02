@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 import PrivateRoute from "../../src/Pages/Login/PrivateRoute";
 
 import AdminAddAdmin from "../Admin/Admins/AdminAddAdmin";
@@ -189,7 +189,7 @@ import AdminListNotifications from "../Admin/Notifications/AdminListNotification
 
 export const Admin = () => {
   return (
-    <BrowserRouter>
+   
       <Routes>
         <Route
           path="/AdminDashboard"
@@ -1656,7 +1656,7 @@ export const Admin = () => {
           }
         />
       </Routes>
-    </BrowserRouter>
+    
   );
 };
 export default Admin;

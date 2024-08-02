@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import StudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/StudentForm";
 import EditStudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/EditStudentForm";
@@ -34,7 +34,7 @@ import ListLoanEnquiry from "../SuperAdmin/Enquiry/Loans/listLoanEnquiry";
 function Enquiry() {
   return (
     <div>
-      <BrowserRouter>
+     
         <Routes>
           <Route path="/ViewStudentForm" element={<PrivateRoute><StudentForm /></PrivateRoute>} />
           <Route path="/ListStudentForm" element={<PrivateRoute><ListStudentForm /></PrivateRoute>} />
@@ -65,7 +65,7 @@ function Enquiry() {
           <Route path="/EditLoanEnquiry" element={<PrivateRoute><EditLoanEnquiry /></PrivateRoute>} />
           <Route path="/ListLoanEnquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
         </Routes>
-      </BrowserRouter>
+      
     </div>
   );
 }
