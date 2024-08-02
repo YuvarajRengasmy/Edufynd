@@ -406,17 +406,22 @@ const ListChat = () => {
               </div>
             </div>
             <div className="card-footer bg-white">
-              <form className="d-flex">
+              <form className="d-flex" onSubmit={handleSendMessage}>
+             
                 <input
                   type="text"
                   className="form-control form-control-sm"
                   placeholder="Type a message..."
+                  value={inputMessage}
+                  onChange={handleInputChange}
                   style={{ fontSize: '12px' }}
                 />
-                <button type="submit" className="btn btn-primary btn-sm ml-2">
+                <button type="submit"  o className="btn btn-primary btn-sm ml-2">
                   <i className="fa fa-paper-plane"></i>
                 </button>
+              
               </form>
+             
             </div>
           </div>
         </div>

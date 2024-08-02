@@ -502,7 +502,7 @@ function Profile() {
                               Popular Categories
                             </label>
                             <Select
-                              isMulti
+                              
                               options={CategoriesOptions}
                               placeholder="Select courseType"
                               name="courseType"
