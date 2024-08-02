@@ -160,10 +160,10 @@ export const ViewApplication = () => {
                             </div>
                             <button
                               type="button"
-                              className="position-absolute text-bold text-black top-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                              className="position-absolute text-bold  top-0 translate-middle btn btn-sm btn-primary rounded-pill"
                               data-bs-toggle="modal"
                               data-bs-target={`#modal-${index}`}
-                              style={{ width: "2rem", height: "2rem", left: '0' }}
+                              style={{ width: "3rem", height: "3rem", left: '0',fontSize:'10px',color:'#FFF' }}
                               onClick={() => handleEditModule(item)}
                             >
                               {item.statusName}
@@ -226,6 +226,11 @@ export const ViewApplication = () => {
                       ))}
                     </div>
                   </div>
+                </div>
+                <div className="card border-0">
+                    <div className="card-body">
+                        
+                    </div>
                 </div>
               </div>
             </div>
