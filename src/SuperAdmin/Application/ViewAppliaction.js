@@ -1,10 +1,10 @@
-import React, { useEffect, useState,useRef } from "react";
-import Sidebar from "../../compoents/sidebar"; // Corrected import path
+import React, { useEffect, useState, useRef } from "react";
+import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
-import { trackApplication, getSingleApplication } from "../../api/applicatin"; // Corrected import path
-import { getAllStatus, getFilterStatus } from "../../api/status"; // Corrected function name
+import { trackApplication, getSingleApplication } from "../../api/applicatin";
+import { getAllStatus, getFilterStatus } from "../../api/status";
 import { toast } from "react-toastify";
-import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa"; // Import status icons
+import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -12,17 +12,19 @@ export const ViewApplication = () => {
 
   const initialState = {
     newStatus: "",
+    commentBox: "",
   };
 
   const initialStateErrors = {
     newStatus: { required: false },
+    commentBox: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
-  const [isEditing, setIsEditing] = useState(false); // Track if editing
-  const [editId, setEditId] = useState(null); // Track the id of the item being edited
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
   const modalRef = useRef(null);
 
   const [pagination, setPagination] = useState({
@@ -31,8 +33,8 @@ export const ViewApplication = () => {
     to: 5,
   });
   const [submitted, setSubmitted] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState(null); // For handling the status being edited
-  const [statusUpdate, setStatusUpdate] = useState(null); // To track the status of the submission
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [statusUpdate, setStatusUpdate] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -69,6 +71,9 @@ export const ViewApplication = () => {
     if (!data.newStatus) {
       error.newStatus.required = true;
     }
+    if (!data.commentBox) {
+      error.commentBox.required = true;
+    }
     return error;
   };
 
@@ -76,13 +81,18 @@ export const ViewApplication = () => {
     const { name, value } = e.target;
     setTrack({ ...track, [name]: value });
   };
+
   const handleEditModule = (item) => {
-    setTrack(item); // Set the form inputs to the data of the item being edited
-    setIsEditing(true); // Set editing mode to true
-    setEditId(item._id); // Set the ID of the item being edited
-    setSubmitted(false); // Reset submitted state
-    setTrackErrors(initialStateErrors); // Reset errors
+    setTrack({
+      newStatus: item.statusName, // Set the statusName to the newStatus
+      commentBox: "", // Initialize commentBox as empty or with a value if needed
+    });
+    setIsEditing(true);
+    setEditId(item._id);
+    setSubmitted(false);
+    setTrackErrors(initialStateErrors);
   };
+
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -104,30 +114,30 @@ export const ViewApplication = () => {
     if (allInputsValid) {
       const data = {
         ...track,
-        _id: editId, // If editing, include the ID in the data
+        _id: editId,
       };
-    if (isEditing) {
-      trackApplication(data)
-        .then((res) => {
-          toast.success(res?.data?.message);
-         
-          setTrack(initialState);
-          setTrackErrors(initialStateErrors);
-          setSubmitted(false);
-          getApplicationDetails(); // Refetch application details
-          getAllModuleDetails();
-         
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
-    }
+      if (isEditing) {
+        trackApplication(data)
+          .then((res) => {
+            toast.success(res?.data?.message);
+            setTrack(initialState);
+            setTrackErrors(initialStateErrors);
+            setSubmitted(false);
+            getApplicationDetails(); 
+            getAllModuleDetails();
+          })
+          .catch((err) => {
+            toast.error(err?.response?.data?.message);
+          });
+      }
     }
   };
 
   // Get progress percentage based on status
   const getProgress = (statusIndex) => {
-    const percentage = (statusIndex / status.length) * 100;
+    const completedCount = status.slice(0, 2).length; // Assume first two statuses are completed
+    const totalCount = status.length;
+    const percentage = (completedCount / totalCount) * 100;
     return percentage;
   };
 
@@ -154,7 +164,6 @@ export const ViewApplication = () => {
                               data-bs-toggle="modal"
                               data-bs-target={`#modal-${index}`}
                               style={{ width: "2rem", height: "2rem", left: '0' }}
-                              // onClick={() => setSelectedStatus(item._id)}
                               onClick={() => handleEditModule(item)}
                             >
                               {item.statusName}
@@ -183,6 +192,20 @@ export const ViewApplication = () => {
                                           style={{ fontSize: '12px' }}
                                         />
                                       </div>
+                                      <div className="input-group mb-3">
+                                        <span className="input-group-text" id="basic-addon1"><i className="fa fa-comments nav-icon text-dark"></i></span>
+                                        <input
+                                          type="text"
+                                          name="commentBox"
+                                          value={track.commentBox}
+                                          onChange={handleTrack}
+                                          className="form-control"
+                                          placeholder="Enter Comment...."
+                                          aria-label="CommentBox"
+                                          aria-describedby="basic-addon1"
+                                          style={{ fontSize: '12px' }}
+                                        />
+                                      </div>
                                       <div className="modal-footer">
                                         <button type="button" className="btn px-4 py-2 text-uppercase fw-semibold" data-bs-dismiss="modal" style={{ fontSize: '12px', backgroundColor: '#231f20', color: '#fff' }}>Close</button>
                                         <button
@@ -194,24 +217,6 @@ export const ViewApplication = () => {
                                         </button>
                                       </div>
                                     </form>
-                                    {statusUpdate === 'success' && (
-                                      <div className="text-center text-success">
-                                        <FaCheckCircle size={24} />
-                                        <p>Status updated successfully!</p>
-                                      </div>
-                                    )}
-                                    {statusUpdate === 'fail' && (
-                                      <div className="text-center text-danger">
-                                        <FaTimesCircle size={24} />
-                                        <p>Failed to update status.</p>
-                                      </div>
-                                    )}
-                                    {statusUpdate === null && (
-                                      <div className="text-center">
-                                        <FaSpinner size={24} className="spinner" />
-                                        <p>Updating...</p>
-                                      </div>
-                                    )}
                                   </div>
                                 </div>
                               </div>
