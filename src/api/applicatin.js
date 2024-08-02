@@ -18,3 +18,6 @@ export const getSingleApplication = (data) => {
   export const updateApplication = (data) => {
     return API.put(`${Application}`, data);
   };
+  export const trackApplication = (data) => {
+    return API.put(`${Application}/track`, data);
+  };
