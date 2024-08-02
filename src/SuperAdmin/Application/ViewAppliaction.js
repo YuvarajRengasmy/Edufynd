@@ -11,13 +11,14 @@ export const ViewApplication = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    newStatus: "",
-    commentBox: "",
+    status:[{
+      newStatus: "",
+      commentBox: "",}]
+   
   };
 
   const initialStateErrors = {
-    newStatus: { required: false },
-    commentBox: { required: false },
+   status: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
