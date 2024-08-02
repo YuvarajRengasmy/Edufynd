@@ -10,7 +10,7 @@ export const getallApplication = () => {
 }
 
 export const getSingleApplication = (data) => {
-    return API.get(`${Application}/getSingleApplication`, { params: { _id: data } });
+    return API.get(`${Application}/getSingleApplicant`, { params: { _id: data } });
   };
   export const deleteApplication = (data) => {
     return API.delete(`${Application}`, { params: { _id: data } });
