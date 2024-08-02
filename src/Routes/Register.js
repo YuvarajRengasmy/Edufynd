@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {  Routes, Route } from 'react-router-dom';
 
 import Register from "../Pages/Register/register";
 import Login from "../Pages/Login/login";
@@ -11,7 +11,7 @@ import Check from "./checkcode"
 function RegisterPage() {
   return (
     <div>
-      <Router>
+    
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/Register" element={<Register />} />
@@ -20,7 +20,7 @@ function RegisterPage() {
           <Route path="/Check" element={<Check />} />
         </Routes>
       
-      </Router>
+      
     </div>
   );
 }

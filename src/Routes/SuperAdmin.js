@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Just from "../SuperAdmin/University/just";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import Country from "../SuperAdmin/University/Country";
@@ -195,7 +195,7 @@ import GlobalSearch from "../SuperAdmin/Search/GlobalSearch";
 function SuperAdmin() {
   return (
     <div>
-      <BrowserRouter>
+     
         <Routes>
           <Route path="/Demo" element={<PrivateRoute><Country /></PrivateRoute>} />
           <Route path="/ApplyJob" element={<PrivateRoute><ApplyJob /></PrivateRoute>} />
@@ -450,7 +450,7 @@ function SuperAdmin() {
           <Route path="/EditTask" element={<PrivateRoute><EditTask/></PrivateRoute>}/>
           <Route path="/ViewTask" element={<PrivateRoute><ViewTask/></PrivateRoute>}/>
         </Routes>
-      </BrowserRouter>
+      
     </div>
   );
 }
