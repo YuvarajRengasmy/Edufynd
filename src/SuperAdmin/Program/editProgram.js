@@ -14,6 +14,7 @@ import { getUniversitiesByCountry } from "../../api/university";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
+import { RichTextEditor } from "@mantine/rte";
 
 function Profile() {
   const location = useLocation();
@@ -217,6 +218,14 @@ function Profile() {
       }));
     }
   };
+
+  const handleRichTextChange = (value) => {
+    setProgram((prevUniversity) => ({
+      ...prevUniversity,
+    
+      academicRequirement: value,
+    }));
+  };
   const handleInputChange = (index, field, value) => {
     const updatedCampuses = [...program.campuses];
     updatedCampuses[index][field] = value;
@@ -272,12 +281,12 @@ function Profile() {
   const inTakeOptions = program?.inTake
     ? program.inTake.map((inTake) => ({ value: inTake, label: inTake }))
     : [];
-  const popularCategoriesOptions = program?.popularCategories
-    ? program.popularCategories.map((popularCategories) => ({
-        value: popularCategories,
-        label: popularCategories,
-      }))
-    : [];
+  // const popularCategoriesOptions = program?.popularCategories
+  //   ? program.popularCategories.map((popularCategories) => ({
+  //       value: popularCategories,
+  //       label: popularCategories,
+  //     }))
+  //   : [];
 
   // const courseTypeOptions = program?.courseType
   //   ? program.courseType.map((courseType) => ({
@@ -525,18 +534,18 @@ function Profile() {
                               Popular Categories
                             </label>
                             <Select
-                              isMulti
-                             options={popularCategoriesOptions}
-                              value={
-                                program?.popularCategories
-                                  ? program?.popularCategories.map(
-                                      (popularCategories) => ({
-                                        value: popularCategories,
-                                        label: popularCategories,
-                                      })
-                                    )
-                                  : null
-                              }
+                             
+                            //  options={popularCategoriesOptions}
+                            value={
+                              program?.popularCategories
+                                ? {
+                                    value: program?.popularCategories,
+                                    label: program?.popularCategories,
+                                  }
+                                : null
+                             
+                            }
+                              placeholder="Popular Categories"
                               name="popularCategories"
                               onChange={handleSelectChange}
                               styles={{
@@ -547,6 +556,11 @@ function Profile() {
                                 }),
                               }}
                             />
+                             {errors.popularCategories.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -963,20 +977,22 @@ function Profile() {
                             <label style={{ color: "#231F20" }}>
                               Academic requirement
                             </label>
-                            <textarea
-                              className="form-control"
-                              placeholder="Enter Academic requirement "
-                              style={{
-                                backgroundColor: "#fff",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              name="academicRequirement"
-                              value={program?.academicRequirement}
-                              rows="5" // You can adjust the number of rows as needed
-                              onChange={handleInputs}
-                            ></textarea>
+                            <RichTextEditor
+                                placeholder="Start writing your content here..."
+                                name="academicRequirement"
+                                onChange={handleRichTextChange}
+                                value={program.academicRequirement}
+                               type="text"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  minHeight: "200px",
+                                  overflowY: "auto",
+                                  zIndex:'0'
+                                }}
+                              />
                           </div>
+
 
                           <div className="row g-2">
                             <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
