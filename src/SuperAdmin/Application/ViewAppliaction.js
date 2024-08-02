@@ -154,6 +154,39 @@ export const ViewApplication = () => {
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
+              <div className="card border-0">
+              <div className="card-header bg-primary text-white">
+                      <h5 className="mb-0">Personal Information</h5>
+                    </div>
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <p>
+                            <i className="fas fa-user me-2"></i>
+                            <strong>Name</strong> Jameslee
+                          </p>
+                          <p>
+                            <i className="fas fa-envelope me-2"></i>
+                            <strong>Email</strong> jameslee123@gmail.com
+                          </p>
+                          <p>
+                            <i className="fas fa-mobile-alt me-2"></i>
+                            <strong>Contact Number</strong> +123456789
+                          </p>
+                          <p>
+                            <i className="fas fa-globe me-2"></i>
+                            <strong>Country</strong> America
+                          </p>
+                          <p>
+                            <i className="fas fa-flag me-2"></i>
+                            <strong>Intake</strong> Falls
+                          </p>
+                          
+                        </div>
+                        
+                      </div>
+                    </div>
+                </div>
                 <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
                     <div className="d-flex flex-row flex-wrap justify-content-around align-items-center">
