@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import RegisterPage from "./Routes/Register";
 import StudentPage from "./Routes/StudentPage";
 import SuperAdmin from "./Routes/SuperAdmin";
@@ -9,13 +10,16 @@ import Admin from './Routes/Admin'
 function App() {
   return (
     <div>
-    <RegisterPage />
+      <BrowserRouter>
+      <RegisterPage />
       <SuperAdmin />
       <StudentPage />
       <Contact />
       <Enquiry/>
       <Staff/>
       <Admin/>
+      </BrowserRouter>
+ 
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import ListStaffUniversity from "../Staff/University/ListStaffUniversity";
 import ViewStaffProfile from "../Staff/Profile/ViewStaffProfile";
@@ -21,7 +21,7 @@ import StaffDashBoard from "../Staff/DashBoard/StaffDashBoard";
 export const Staff = () => {
   return (
     <div>
-      <BrowserRouter>
+     
         <Routes>
         <Route path='/StaffDashboard' element={<PrivateRoute><StaffDashBoard/></PrivateRoute>}/>
         <Route path="/ListStaffUniversity" element={<PrivateRoute><ListStaffUniversity/></PrivateRoute>}/>
@@ -37,7 +37,7 @@ export const Staff = () => {
         <Route path="/ViewStaffNotifications" element={<PrivateRoute><ViewStaffNotifications/></PrivateRoute>}/> 
         <Route path="/chat" element={<PrivateRoute><ChatList/></PrivateRoute>}/>
         </Routes>
-      </BrowserRouter>
+     
     </div>
   );
 };
