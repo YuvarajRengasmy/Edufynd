@@ -16,6 +16,8 @@ import Sidebar from "../../compoents/sidebar";
 import { getUniversitiesByCountry } from "../../api/university";
 import { Link } from "react-router-dom";
 import Select from "react-select";
+import { RichTextEditor } from "@mantine/rte";
+
 
 function Profile() {
   const initialState = {
@@ -162,6 +164,13 @@ function Profile() {
     setCampuses([...campuses, newCampus]);
   };
 
+  const handleRichTextChange = (value) => {
+    setProgram((prevUniversity) => ({
+      ...prevUniversity,
+    
+      academicRequirement: value,
+    }));
+  };
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setProgram({ ...program, country: selectedCountry });
@@ -291,7 +300,8 @@ function Profile() {
         ...program,
         campuses: campuses,
         courseType: selectedCourseType?.label,
-        popularCategories: selectedPopularType.map(popularCategories => popularCategories.label),
+        popularCategories: selectedCourseType?.label,
+
       })
         .then((res) => {
           toast.success(res?.data?.message);
@@ -502,10 +512,10 @@ function Profile() {
                               Popular Categories
                             </label>
                             <Select
-                              isMulti
+                              value={selectedPopularType}
                               options={CategoriesOptions}
-                              placeholder="Select courseType"
-                              name="courseType"
+                              placeholder="Select Popular Categories"
+                              name="popularCategories"
                               onChange={handleSelectPopularChange}
                               styles={{
                                 container: (base) => ({
@@ -965,18 +975,20 @@ function Profile() {
                             <label style={{ color: "#231F20" }}>
                               Academic requirement
                             </label>
-                            <textarea
-                              className="form-control"
-                              placeholder="Enter Academic requirement "
-                              style={{
-                                backgroundColor: "#fff",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              name="academicRequirement"
-                              rows="5" // You can adjust the number of rows as needed
-                              onChange={handleInputs}
-                            ></textarea>
+                            <RichTextEditor
+                                placeholder="Start writing your content here..."
+                                name="academicRequirement"
+                                onChange={handleRichTextChange}
+                                value={program.academicRequirement}
+                               type="text"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  minHeight: "200px",
+                                  overflowY: "auto",
+                                  zIndex:'0'
+                                }}
+                              />
                           </div>
 
                           <div className="row g-2">
