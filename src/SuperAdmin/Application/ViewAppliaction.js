@@ -30,7 +30,7 @@ export const ViewApplication = () => {
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
-    to: 5,
+    to: 10,
   });
   const [submitted, setSubmitted] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
@@ -50,7 +50,7 @@ export const ViewApplication = () => {
 
   const getAllModuleDetails = () => {
     const data = {
-      limit: 5,
+      limit: 10,
       page: pagination.from,
     };
     getFilterStatus(data)
