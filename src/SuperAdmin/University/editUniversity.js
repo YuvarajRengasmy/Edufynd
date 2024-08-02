@@ -25,6 +25,7 @@ import {
 } from "../../api/country"; // Adjust the imports as necessary
 import { updateUniversity, getSingleUniversity } from "../../api/university";
 import { RichTextEditor } from "@mantine/rte";
+import zIndex from "@mui/material/styles/zIndex";
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -881,6 +882,7 @@ function Profile() {
                           <Select
                             isMulti
                             options={popularCategoriesOptions}
+                        
                             value={
                               university?.popularCategories
                                 ? university?.popularCategories.map(
@@ -1002,6 +1004,7 @@ function Profile() {
                           <Select
                             isMulti
                             options={intakeOptions}
+                        
                             value={
                               university?.inTake
                                 ? university?.inTake.map((inTake) => ({
@@ -1045,6 +1048,7 @@ function Profile() {
                                   fontSize: "12px",
                                   minHeight: "200px",
                                   overflowY: "auto",
+                                  zIndex:'0'
                                 }}
                               />
                             </div>
@@ -1071,6 +1075,7 @@ function Profile() {
                                   fontSize: "12px",
                                   minHeight: "200px",
                                   overflowY: "auto",
+                                  zIndex:'0'
                                 }}
                               />
                             </div>
