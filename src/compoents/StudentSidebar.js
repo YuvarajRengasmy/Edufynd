@@ -1,14 +1,23 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import Edufynd from "../styles/Assets/Admin/edufynd-logo.svg";
-import './Sidebar.css';
+import './Hoverbar.css';
+import { toast } from "react-toastify";
+import { clearStorage } from "../Utils/storage";
+import { useNavigate } from "react-router-dom";
 
 export const StudentSidebar = () => {
+  const navigate = useNavigate();
+  const logout = () => {
+    clearStorage(); // Assuming clearStorage is defined elsewhere
+    toast.success("You have been logged out successfully.");
+    navigate("/");
+  };
   return (
 
    
 
-    <div className="sidebar ">
+    <div className="sBar text-bg-dark ">
       <ul className="nav flex-column">
         <div className="user-panel mt-2 d-flex">
           <div className="info mt-1 p-2">
@@ -83,6 +92,21 @@ export const StudentSidebar = () => {
             <span>View Program University</span>
           </Link>
         </li>
+        <li className="nav-item">
+                  <a href="/"
+                    className="nav-link sidebar_link"
+                    target="_self"
+                    onClick={logout}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <i
+                      className="nav-icon fa fa-flag "
+                      aria-hidden="true"
+                      
+                    />
+                    Log Out
+                  </a>
+                </li>
      
       </ul>
     </div>
