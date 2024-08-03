@@ -52,8 +52,205 @@ function Profile() {
 
                 <div className="card card-body border-0 p-4">
                   <h6 className="fw-semibold text-center">Application Submission</h6>
-                  <p className="card-text text-center my-2"><Link to='#' className="btn btn-sm px-4 py-2 text-uppercase fw-semibold" style={{backgroundColor:'#fe5722',color:'#fff'}}>Apply</Link></p>
+                  <p className="card-text text-center my-2"><Link to='#' className="btn btn-sm px-4 py-2 text-uppercase fw-semibold" data-bs-toggle="modal" data-bs-target="#ApplyStudentUniversity" style={{backgroundColor:'#fe5722',color:'#fff'}}>Apply</Link></p>
                 </div>
+                <div class="modal fade" id="ApplyStudentUniversity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">University Apply</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form>
+      <div class="modal-body">
+      <div className="container">
+                            
+                                <div className="row g-4">
+                                   
+                                       
+                                           
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Country<span className="text-danger">*</span></label>
+                                                        <select
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="form-select rounded-1 p-2"
+                                                            name='campus'
+                                                           
+                                                        >
+                                                            <option>Select Country</option>
+                                                           
+                                                                    <option ></option>
+                                                               
+                                                        </select>
+                                                      
+                                                    </div>
+                                              
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Campus<span className="text-danger">*</span></label>
+                                                        <select
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="form-select rounded-1 p-2"
+                                                            name='campus'
+                                                           
+                                                        >
+                                                            <option>Select Campus</option>
+                                                           
+                                                                    <option ></option>
+                                                               
+                                                        </select>
+                                                      
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>InTake<span className="text-danger">*</span></label>
+                                                        <select
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            className="form-select rounded-1 p-2"
+                                                           
+                                                           
+                                                        >
+                                                            <option >Select InTake</option>
+                                                           
+                                                                    <option></option>
+                                                              
+                                                        </select>
+                                                       
+                                                    </div>
+
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>University Name<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter University Name"
+                                                            name="universityName"
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            disabled
+                                                        />
+                                                       
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Name<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter Name"
+                                                          
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                        />
+                                                       
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>DOB<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="date"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter DOB"
+                                                            name="dob"
+                                                           
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                        />
+                                                      
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Passport No<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter Passport No"
+                                                            name="passportNo"
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                        />
+                                                        
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Email<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="email"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter Email"
+                                                            name="email"
+                                                         
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                        />
+                                                     
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Primary Number<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter Primary Number"
+                                                            name="primaryNumber"
+                                                           
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                        />
+                                                      
+                                                       
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>WhatsApp Number<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter WhatsApp Number"
+                                                            name="whatsAppNumber"
+                                                           
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                        />
+                                                       
+                                                    </div>
+                                                   
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Course Type<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter Course Type"
+                                                            name="course"
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            disabled
+                                                        />
+                                                       
+                                                    </div>
+                                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                        <label style={{ color: "#231F20" }}>Course Fees<span className="text-danger">*</span></label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control rounded-1 p-2"
+                                                            placeholder="Enter Course Fees"
+                                                            name="courseFees"
+                                                          
+                                                            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                                            disabled
+                                                        />
+                                                      
+                                                    </div>
+                                                    <div className=" border-0 d-flex justify-content-center py-3">
+                                                     
+                                                    </div>
+                                              
+                                           
+                                       
+                                   
+                                </div>
+                           
+                        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary text-white px-4 py-2 text-uppercase fw-semibold" style={{fontSize:'12px'}} data-bs-dismiss="modal">Close</button>
+        <button type="submit" className="btn text-white px-4 py-2 text-uppercase fw-semibold"   style={{ backgroundColor: '#fe5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Submit</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
               </div>
             </div>
 
