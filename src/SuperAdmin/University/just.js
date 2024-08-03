@@ -1,478 +1,327 @@
-
-import { RiCoinsFill } from "react-icons/ri";
-import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { IoMdRocket } from "react-icons/io";
-import { IoMailUnread } from "react-icons/io5";
-import banner from "../../styles/Assets/Student/EventBanner.png";
-import { getSingleUniversity, UniversityProgram } from "../../api/university";
-import { getallProgram, getUniversityProgram } from "../../api/Program";
 import Sidebar from "../../compoents/sidebar";
-import { FaUniversity } from "react-icons/fa";
-import { FaGlobeAmericas } from "react-icons/fa";
-const UserProfile = () => {
+import { getSingleStudent } from "../../api/student";
+import { getallCurrency } from "../../api/currency";
+import { getallProgram, getProgramByCountry } from "../../api/Program";
+import { toast } from "react-toastify";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+function Profile() {
   const location = useLocation();
-  const universityId = new URLSearchParams(location.search).get("id");
-  const [university, setUniversity] = useState();
-  const [program, setProgram] = useState([]);
-  const pageSize = 5;
-  const [filter, setFilter] = useState(false);
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
+  const id = new URLSearchParams(location.search).get("id");
+
+  const initialStateInputs = {
+    name: "",
+    dob: "",
+    passportNo: "",
+    email: "",
+    primaryNumber: "",
+    whatsAppNumber: "",
+    inTake: "",
+    universityName: "",
+    course: "",
+    campus: "",
+    courseFees: "",
+  };
+  const initialStateErrors = {
+    name: { required: false },
+    email: { required: false },
+    primaryNumber: { required: false },
+    whatsAppNumber: { required: false },
+    inTake: { required: false },
+    universityName: { required: false },
+    course: { required: false },
+    campus: { required: false },
+    courseFees: { required: false },
+  };
+
+  const [inputs, setInputs] = useState(initialStateInputs);
+  const [errors, setErrors] = useState(initialStateErrors);
+  const [countries, setCountries] = useState([]);
+  const [universities, setUniversities] = useState([]);
+  const [student, setStudent] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getUniversityDetails();
-    filter ? filterProgramList() : getAllProgram();
-  }, [universityId, pagination.from, pagination.to]);
+    getStudentDetails();
+    getAllCurrencyDetails();
+    getAllUniversityList();
+  }, []);
 
-  const getUniversityDetails = () => {
-    getSingleUniversity(universityId)
+  const getStudentDetails = () => {
+    getSingleStudent(id)
       .then((res) => {
-        setUniversity(res?.data?.result);
+        setStudent(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const getAllProgram = () => {
-    const data = {
-      limit: pageSize,
-      page: pagination.from,
-      universityId: universityId,
-    };
-
-    getallProgram(data)
+  const getAllCurrencyDetails = () => {
+    getallCurrency()
       .then((res) => {
-        console.log(res);
-        setProgram(res?.data?.result?.programList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.programCount,
-        });
+        setCountries(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const filterProgramList = (event) => {
-    event?.preventDefault();
-    setFilter(true);
-    const data = {
-      universityName: university?.universityName,
-      universityId: university?._id,
-      limit: 10,
-      page: pagination.from,
-    };
-    getUniversityProgram(data)
+  const getAllUniversityList = () => {
+    getallProgram()
       .then((res) => {
-        setProgram(res?.data?.result?.programList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.programCount,
-        });
+        setUniversities(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const handleValidation = (data) => {
+    let error = { ...initialStateErrors };
+    Object.keys(initialStateInputs).forEach((key) => {
+      if (!data[key]) {
+        error[key].required = true;
+      }
+    });
+    return error;
+  };
+
+  const handleErrors = (error) => {
+    return !Object.values(error).some((field) => field.required);
+  };
+
+  const handleCountryChange = (event) => {
+    const selectedCountry = event.target.value;
+    setStudent({ ...student, country: selectedCountry });
+
+    getProgramByCountry(selectedCountry)
+      .then((res) => {
+        setUniversities(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(`Error fetching universities for ${selectedCountry}:`, err);
+        setUniversities([]);
+      });
+  };
+
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+    if (submitted) {
+      const newErrors = handleValidation({ ...inputs, [event.target.name]: event.target.value });
+      setErrors(newErrors);
+    }
+  };
+
+  const handleAddModule = () => {
+    setInputs(initialStateInputs);
+    setIsEditing(false);
+    setSubmitted(false);
+    setErrors(initialStateErrors);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    const newErrors = handleValidation(inputs);
+    setErrors(newErrors);
+
+    if (handleErrors(newErrors)) {
+      setIsEditing(true);
+    }
+  };
+
   return (
     <>
-     
-        <div >
-        
-            <Sidebar />
-         
-          <div
-            className="content-wrapper"
-            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
-          >
-            <div className="content-header">
-            <div className="container ">
-              <div className="row">
-                <div className="col-xl-12">
-                 
-                    <div className="card border-0 rounded-0 ">
-                      <div class="card rounded-0 border-0 text-bg-dark">
-                        <img
-                          src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg"
-                          class="card-img img-fluid"
-                          alt="university_bg_image"
-                          style={{
-                            mixBlendMode: "multiply",
-                            maxHeight: "15rem",
-                          }}
-                        />
-                        <div class="card-img-overlay">
-                          <div className=" rounded-0 border-0  bg-transparent ">
-                            <div className="row g-0 ">
-                              <div className="col-md-3 align-self-center ">
-                                <img
-                                  src={
-                                    university?.universityLogo
-                                      ? university?.universityLogo
-                                      : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
-                                  }
-                                  className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
-                                  style={{ width: "7rem", height: "7rem" }}
-                                  alt="Berry College Campus"
+      <Sidebar />
+
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+        <div className="content-header">
+          <div className="container-fluid">
+            <h2 className="mb-4 text-center">Student Details</h2>
+
+            <div className="row mb-4">
+              <div className="col-md-4 text-center">
+                <img
+                  src={student?.photo || "https://via.placeholder.com/150"}
+                  alt="Profile Photo"
+                  className="img-fluid rounded-circle img-thumbnail"
+                  style={{ width: "10rem", height: "10rem" }}
+                />
+              </div>
+
+              <div className="col-md-4">
+                <h3 className="mb-2">{student?.name}</h3>
+                <p className="text-muted mb-2">Student Code: {student?.studentCode}</p>
+                <p className="text-muted mb-2">
+                  <i className="fas fa-envelope me-2"></i>{student?.email}
+                </p>
+                <p className="text-muted mb-2">
+                  <i className="fas fa-phone-alt me-2"></i>{student?.primaryNumber}
+                </p>
+              </div>
+              <div className="col-md-4">
+                <div className="card card-body border-0 p-4">
+                  <h6 className="fw-semibold text-center">Application Submission</h6>
+                  <p className="card-text text-center my-2">
+                    <Link
+                      to="#"
+                      className="btn btn-sm px-4 py-2 text-uppercase fw-semibold"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ApplyStudentUniversity"
+                      style={{ backgroundColor: "#fe5722", color: "#fff" }}
+                      onClick={handleAddModule}
+                    >
+                      Apply
+                    </Link>
+                  </p>
+                </div>
+                <div className="modal fade" id="ApplyStudentUniversity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-fullscreen">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">Course Apply</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <form onSubmit={handleSubmit}>
+                        <div className="modal-body">
+                          <div className="container">
+                            <div className="row g-4">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Country<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  className="form-select font-weight-light"
+                                  name="country"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  value={student.country || ""}
+                                  onChange={handleCountryChange}
+                                >
+                                  <option className="font-weight-light" value="" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                                    Select Country
+                                  </option>
+                                  {countries.map((country) => (
+                                    <option key={country._id} value={country.country}>{country.country}</option>
+                                  ))}
+                                </select>
+                                {errors.country?.required && (
+                                  <span className="text-danger form-text profile_error">This field is required.</span>
+                                )}
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  InTake<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  style={{ backgroundColor: "#fff", fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                  className="form-select rounded-1 p-2"
+                                  name="inTake"
+                                  value={inputs.inTake}
+                                  onChange={handleInputs}
+                                >
+                                  <option>Select InTake</option>
+                                  {/* Add intake options here */}
+                                </select>
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  University<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  className="form-select font-weight-light"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  name="universityName"
+                                  value={inputs.universityName}
+                                  onChange={handleInputs}
+                                >
+                                  <option className="font-weight-light" value="">Select University</option>
+                                  {universities.map((university) => (
+                                    <option key={university._id} value={university.name}>{university.name}</option>
+                                  ))}
+                                </select>
+                                {errors.universityName?.required && (
+                                  <span className="text-danger form-text profile_error">This field is required.</span>
+                                )}
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Course<span className="text-danger">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="course"
+                                  value={inputs.course}
+                                  onChange={handleInputs}
                                 />
+                                {errors.course?.required && (
+                                  <span className="text-danger form-text profile_error">This field is required.</span>
+                                )}
                               </div>
-                              <div className="col-md-9">
-                                <div className="card-body">
-                                  <div className="d-flex flex-row justify-content-between align-items-start">
-                                    <div className="d-flex flex-column">
-                                      <p className="text-white mb-1 fw-bold">
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          <FaUniversity />
-                                        </span>{" "}
-                                        {university?.universityName}
-                                      </p>
-                                      <p className="text-white mb-1">
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          <FaGlobeAmericas />
-                                        </span>{" "}
-                                        {university?.country}
-                                      </p>
-                                    </div>
-                                    <div className="d-flex flex-column align-items-end">
-                                      <Link
-                                        to={university?.website}
-                                        className="text-decoration-none text-white mb-1"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          <IoMdRocket />
-                                        </span>{" "}
-                                        {university?.website}
-                                      </Link>
-                                      <div className="text-white mb-1">
-                                        {" "}
-                                        <span
-                                          className="me-2"
-                                          style={{ color: "#fe5722" }}
-                                        >
-                                          {" "}
-                                          <IoMailUnread />
-                                        </span>{" "}
-                                        {university?.email}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="bg-white text-dark shadow border-0  align-self-end rounded-1 mt-4 p-3">
-                                    <span
-                                      className="text-secondary fw-bolder d-flex align-items-center gap-2 text-capitalize "
-                                      style={{ fontSize: "13px" }}
-                                    >
-                                      University Rank:
-                                      <span>
-                                        <RiCoinsFill className="text-warning " />
-                                        {university?.ranking}
-                                      </span>
-                                    </span>
-                                  </div>
-                                </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Campus<span className="text-danger">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="campus"
+                                  value={inputs.campus}
+                                  onChange={handleInputs}
+                                />
+                                {errors.campus?.required && (
+                                  <span className="text-danger form-text profile_error">This field is required.</span>
+                                )}
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Course Fees<span className="text-danger">*</span>
+                                </label>
+                                <input
+                                  type="number"
+                                  className="form-control"
+                                  name="courseFees"
+                                  value={inputs.courseFees}
+                                  onChange={handleInputs}
+                                />
+                                {errors.courseFees?.required && (
+                                  <span className="text-danger form-text profile_error">This field is required.</span>
+                                )}
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="card-body  ">
-                        <div className="row ">
-                          <div className="col-md-8">
-                            <ul
-                              class="nav nav-underline fs-9"
-                              id="myTab"
-                              role="tablist"
-                            >
-                              <li class="nav-item" role="presentation">
-                                <a
-                                  class="nav-link active text-uppercase "
-                                  id="home-tab"
-                                  data-bs-toggle="tab"
-                                  href="#tab-home"
-                                  role="tab"
-                                  aria-controls="tab-home"
-                                  aria-selected="true"
-                                >
-                                  About
-                                </a>
-                              </li>
-                              <li class="nav-item" role="presentation">
-                                <a
-                                  class="nav-link text-uppercase "
-                                  id="profile-tab"
-                                  data-bs-toggle="tab"
-                                  href="#tab-profile"
-                                  role="tab"
-                                  aria-controls="tab-profile"
-                                  aria-selected="false"
-                                  tabindex="-1"
-                                >
-                                  Campus
-                                </a>
-                              </li>
-                              <li class="nav-item" role="presentation">
-                                <a
-                                  class="nav-link text-uppercase "
-                                  id="profile-tab"
-                                  data-bs-toggle="tab"
-                                  href="#tab-populatCourse"
-                                  role="tab"
-                                  aria-controls="tab-profile"
-                                  aria-selected="false"
-                                  tabindex="-1"
-                                >
-                                  Categories
-                                </a>
-                              </li>
-                              <li class="nav-item" role="presentation">
-                                <a
-                                  class="nav-link text-uppercase "
-                                  id="profile-tab"
-                                  data-bs-toggle="tab"
-                                  href="#tab-Course"
-                                  role="tab"
-                                  aria-controls="tab-profile"
-                                  aria-selected="false"
-                                  tabindex="-1"
-                                >
-                                  Course
-                                </a>
-                              </li>
-                              <li class="nav-item" role="presentation">
-                                <a
-                                  class="nav-link text-uppercase "
-                                  id="profile-tab"
-                                  data-bs-toggle="tab"
-                                  href="#Payment-course"
-                                  role="tab"
-                                  aria-controls="tab-profile"
-                                  aria-selected="false"
-                                  tabindex="-1"
-                                >
-                                  Payment Method
-                                </a>
-                              </li>
-                              <li class="nav-item" role="presentation">
-                                <a
-                                  class="nav-link text-uppercase "
-                                  id="home-review-tab"
-                                  data-bs-toggle="tab"
-                                  href="#tab-Review"
-                                  role="tab"
-                                  aria-controls="tab-home"
-                                  aria-selected="true"
-                                >
-                                 Requirement
-                                </a>
-                              </li>
-                            </ul>
-                            <div
-                              class="tab-content mt-3"
-                              id="myTabContent"
-                              style={{
-                                height: "350px",
-                                overflowY: "auto",
-                                scrollbarWidth: "none",
-                              }}
-                            >
-                              <div
-                                class="tab-pane fade active show"
-                                id="tab-home"
-                                role="tabpanel"
-                                aria-labelledby="home-tab"
-                              >
-                                <p
-                                  className="clearfix"
-                                  style={{ textAlign: "justify" }}
-                                >
-                                  {university?.about}{" "}
-                                </p>
-                              </div>
-                              <div
-                                class="tab-pane fade"
-                                id="tab-profile"
-                                role="tabpanel"
-                                aria-labelledby="profile-tab"
-                              >
-                                <div className="row">
-                                  <div className=" border-0 pt-3 px-4">
-                                    <div className="row">
-                                      {Array.isArray(university?.campuses) &&
-                                        university.campuses.map((data, index) => (
-                                          <div key={index} className="col-md-4">
-                                            <div
-                                              className="card border-1 rounded-3 shadow-sm align-items-center"
-                                              style={{
-                                                width: "8rem",
-                                              }}
-                                            >
-                                              <img
-                                                src={
-                                                  university?.universityLogo
-                                                    ? university?.universityLogo
-                                                    : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
-                                                }
-                                                className="card-img-top img-fluid rounded-circle  mx-auto d-block"
-                                                style={{
-                                                  width: "4rem",
-                                                  height: "4rem",
-                                                }}
-                                                alt="img"
-                                              />
-                                              <div className="card-body">
-                                               
-                                                <p className="card-text text-center">
-                                                  {data?.lga}
-                                                </p>
-                                                <p className="card-text text-center">
-                                                  {data?.state}
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        ))}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-  className="tab-pane fade"
-  id="tab-populatCourse"
-  role="tabpanel"
-  aria-labelledby="profile-tab"
->
-  <div className="container">
-  <div className="row">
-    <div className="col-lg-4 ">
-      {Array.isArray(university?.popularCategories) &&
-        university.popularCategories.map((category, index) => (
-          <div
-            key={index}
-            className="card border-0 text-white mb-3"
-            style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
-          >
-            <img
-              src="https://imageio.forbes.com/specials-images/imageserve/61d52d4e3a76ed81ac034ea8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
-              className="card-img img-fluid object-fit-cover"
-              alt="Popular category"
-              style={{ mixBlendMode: 'multiply' }}
-            />
-            <div className="card-img-overlay d-flex align-items-center justify-content-center">
-              <p className="text-center">{category}</p>
-            </div>
-          </div>
-        ))}
-    </div>
-  </div>
-  </div>
- 
-</div>
-
-                            
-                            </div>
-                          </div>
-
-                         
-                          <div className="row g-3">
-                            <div className="d-flex flex-row align-items-start justify-content-between">
-                              <div
-                                className="text-semibold text-decoration-underline fw-semibold text-uppercase "
-                                style={{ color: "#fe5722", fontSize: "14px" }}
-                              >
-                                Programs
-                              </div>
-                            </div>
-                            {program?.map((data, index) => (
-                              <div key={index} className="col-md-4 ">
-                                <div className="card mb-3  border-1   shadow-sm">
-                                  <div className="row g-0 align-items-center justify-content-center">
-                                    <div className="col-md-3 align-self-center ">
-                                      <img
-                                        src={
-                                          data?.universityLogo
-                                            ? data?.universityLogo
-                                            : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                                        }
-                                        className="img-fluid rounded-pill img-thumbnail mx-auto d-block"
-                                        alt="Course Image"
-                                        style={{
-                                          width: "4rem",
-                                          height: "4rem",
-                                        }}
-                                      />
-                                    </div>
-                                    <div className="col-md-9">
-                                      <div className="card-body">
-                                        <h6
-                                          className="university-name"
-                                          style={{
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
-                                          }}
-                                        >
-                                          {data?.universityName}
-                                        </h6>
-                                        <p
-                                          className="course-name"
-                                          style={{ fontSize: "12px" }}
-                                        >
-                                          <b> CourseName -</b>{" "}
-                                          {data?.programTitle}
-                                        </p>
-                                        <p
-                                          className="duration"
-                                          style={{ fontSize: "12px" }}
-                                        >
-                                          <b>Duration -</b> {data?.duration}
-                                        </p>
-
-                                        <button
-                                          className="btn btn-sm  rounded-pill text-white text-uppercase fw-semibold px-3 py-1"
-                                          style={{
-                                            backgroundColor: "#fe5722",
-                                            fontSize: "12px",
-                                          }}
-                                        >
-                                          Apply
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                         
+                        <div className="modal-footer">
+                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" className="btn btn-primary">Save changes</button>
                         </div>
-                      </div>
+                      </form>
                     </div>
-                  
+                  </div>
                 </div>
               </div>
             </div>
+
+            <div className="card card-body border-0 p-4 mt-4">
+              <h5 className="text-center">Student Profile</h5>
+              <div className="text-center mt-2">
+                <p><strong>Name:</strong> {student?.name}</p>
+                <p><strong>Email:</strong> {student?.email}</p>
+                <p><strong>Primary Number:</strong> {student?.primaryNumber}</p>
+                <p><strong>WhatsApp Number:</strong> {student?.whatsAppNumber}</p>
+              </div>
             </div>
-           
           </div>
         </div>
-    
+      </div>
     </>
   );
-};
-export default UserProfile;
+}
+
+export default Profile;
