@@ -76,6 +76,14 @@ const HoverBar = () => {
             <i className="fas fa-edit"></i>
             <span>Edit Student</span>
           </Link>
+          
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/AgentViewUniversity" style={{ fontSize: "14px", fontWeight: "bold" }}>
+            <i className="fas fa-edit"></i>
+            <span>University</span>
+          </Link>
+          
         </li>
         <li className="nav-item">
                   <a href="/"
