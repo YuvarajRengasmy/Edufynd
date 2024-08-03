@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import { StudentSuperAdmin, getallStudent } from "../../api/student";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { getSingleStudnetEnquiry } from "../../api/Enquiry/student";
+
 import { MdCameraAlt } from "react-icons/md";
 function AddAgent() {
     const location = useLocation();
@@ -110,7 +112,7 @@ function AddAgent() {
 }, []);
 
 const getStudentDetails = () => {
-  getallStudent(id)
+    getSingleStudnetEnquiry(id)
         .then((res) => {
             setStudent(res?.data?.result);
         })
@@ -307,7 +309,7 @@ const getStudentDetails = () => {
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                          Edit Student Details
+                          Add Student Details
                         </h5>
                       </div>
                       <form onSubmit={handleSubmit}>
@@ -443,7 +445,7 @@ const getStudentDetails = () => {
                                 type="date"
                                 className="form-control text-uppercase "
                                 placeholder="Enter Name"
-                                value={student?.dob}
+                                value={student?.dob?.slice(0, 10)}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -495,7 +497,7 @@ const getStudentDetails = () => {
                               </label>
                               <input
                                 type="date"
-                                value={student?.expiryDate}
+                                value={student?.expiryDate?.slice(0, 10)}
                                 className="form-control   text-uppercase"
                                 placeholder="Enter Contact Number "
                                 style={{

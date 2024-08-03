@@ -127,7 +127,7 @@ function Profile() {
                     <h5 className="card-title mb-0"><i className="fas fa-globe me-2"></i> Desired Country</h5>
                   </div>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">{student?.country}</li>
+                    <li className="list-group-item">{student?.desiredCountry}</li>
                   </ul>
                 </div>
               </div>

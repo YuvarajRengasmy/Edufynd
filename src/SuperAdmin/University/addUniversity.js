@@ -415,11 +415,20 @@ const App = () => {
     label: data.courseType,
   }));
 
-  const intakeOptions = inTake.map((data) => ({
-    value: data.intakeName,
-    label: data.intakeName,
-  }));
+  // const intakeOptions = inTake.map((data) => ({
+    
+  //   value: `${data.intakeName} - ${data.startDate}`,
+  //   label: `${data.intakeName} - ${data.startDate}`,
+  // }));
 
+  const intakeOptions = inTake.map((data) => {
+    const year = new Date(data.startDate).getFullYear();
+    return {
+      value: `${data.intakeName} - ${year}`,
+      label: `${data.intakeName} - ${year}`,
+    };
+  });
+  
   const customStyles = {
     control: (provided) => ({
       ...provided,
