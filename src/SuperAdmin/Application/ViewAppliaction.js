@@ -14,11 +14,13 @@ export const ViewApplication = () => {
   const initialState = {
     newStatus: "",
     commentBox: "",
+    document: "",
   };
 
   const initialStateErrors = {
     newStatus: { required: false },
     commentBox: { required: false },
+    document: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
@@ -38,16 +40,29 @@ export const ViewApplication = () => {
     if (id) {
       getAllModuleDetails();
       getApplicationDetails();
+      getAgentList();
     }
   }, [id]);
 
+  const getAgentList = () => {
+    getSingleApplication(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setTrack(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getApplicationDetails = () => {
     getSingleApplication(id)
       .then((res) => {
+        
         if (res.data.result?.status) {
           setTrack({
             newStatus: res.data.result || "",
             commentBox: res.data.result || "",
+            document: res.data.result || "",
           });
         }
       })
@@ -82,11 +97,37 @@ export const ViewApplication = () => {
     }
     return error;
   };
-
-  const handleTrack = (e) => {
-    const { name, value } = e.target;
-    setTrack({ ...track, [name]: value });
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setTrack((prevUniversity) => ({
+        ...prevUniversity,
+        [name]: reader.result,
+      }));
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
   };
+  const handleTrack = (event) => {
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else {
+      setTrack((prevState) => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
+    if (submitted) {
+      const newError = handleValidation({...track,
+        [event.target.name]: event.target.value,});
+      setTrackErrors(newError);
+    }
+  };
+  
 
   const handleEditModule = (item) => {
     setTrack({
@@ -183,7 +224,7 @@ export const ViewApplication = () => {
                             </div>
                             <OverlayTrigger
                               placement="bottom"
-                              overlay={<Tooltip>Duration</Tooltip>}
+                              overlay={<Tooltip>{item.duration}</Tooltip>}
                             >
                               <button
                                 type="button"
@@ -258,6 +299,23 @@ export const ViewApplication = () => {
                                         />
                                         {submitted && trackErrors.commentBox.required && <p className="text-danger">Comment is required</p>}
                                       </div>
+                                      <div className="input-group mb-3">
+                                        <span className="input-group-text" id="basic-addon1">
+                                          <i className="fa fa-file nav-icon text-dark"></i>
+                                        </span>
+                                        <input
+                                type="file"
+                               
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Image upload"
+                                name="document"
+                                onChange={handleTrack}
+                              />
+                                      </div>
                                       <div className="modal-footer">
                                         <button
                                           type="button"
@@ -275,6 +333,7 @@ export const ViewApplication = () => {
                                             backgroundColor: "#fe5722",
                                             color: "#fff",
                                           }}
+                                          data-bs-dismiss="modal"
                                         >
                                           Submit
                                         </button>
@@ -303,7 +362,7 @@ export const ViewApplication = () => {
                     <div class="application-profile border-0 ">
   <img src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png" class="card-img-top rounded-circle border-0 " alt="..." style={{width:'4rem',height:'4rem'}}/>
   <div class="card-body">
-    <p class="card-text" style={{fontSize:'10px'}}>Juhi Patley</p>
+    <p class="card-text" style={{fontSize:'10px'}}>{track?.name}</p>
   </div>
 </div>
                     </div>
@@ -317,30 +376,21 @@ export const ViewApplication = () => {
                             </h6>
                           </div>
                           <div className="card-body">
-                        <p> Hi Fynd,</p>
-                        <p>  I hope you are having a great day!</p>
-                        <p>   Please
-                            note that the intake has passed for decisions to be
-                            shared for November 2023 applications, and the
-                            application will now be moved into withdrawn status.
-                            We know this will be very disappointing to the
-                            student and wanted to provide an alternate option
-                            for the student:</p>
-
-                            <p>   1) Re-apply to a new intake that is
-                            available for a program that the student is
-                            qualified for.
-                            </p><p> We understand the impact this has on
-                            the student, and we are here to support you and the
-                            student where needed.</p><p> If you have any questions or
-                            concerns, please leave us a note here.</p>
-
-                            <p>   We appreciate
-                            your business,</p>
-                            <p>   Best Regards, </p>
-                            <p>   Juhi</p>
-                            <p>   EduFynd</p>
-                        
+                       
+                          <h1>
+                            <b>Application Withdrawn</b>
+                          </h1>
+                          {track?.status && track.status.map((item, index) => (
+  <div key={index}>
+    <h4>Status: {item?.newStatus}</h4>
+    <p> {item?.commentBox}</p>
+    <img src={item?.document?item?.document:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"} class="card-img-top rounded-circle border-0 " alt="..." style={{width:'4rem',height:'4rem'}}/>
+    <div class="card-body">
+      <p class="card-text" style={{fontSize:'10px'}}>{item?.name}</p>
+    </div>
+    <p>{item?.createdBy}</p>
+  </div>
+))}
                           </div>
                         </div>
                       </div>
