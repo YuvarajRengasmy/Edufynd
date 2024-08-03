@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { getSingleStudent } from "../../api/student";
 import { useLocation } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -42,11 +42,18 @@ function Profile() {
                 />
               </div>
 
-              <div className="col-md-8">
+              <div className="col-md-4">
                 <h3 className="mb-2">{student?.name}</h3>
                 <p className="text-muted mb-2">Student Code: {student?.studentCode}</p>
                 <p className="text-muted mb-2"><i className="fas fa-envelope me-2"></i>{student?.email}</p>
                 <p className="text-muted mb-2"><i className="fas fa-phone-alt me-2"></i>{student?.primaryNumber}</p>
+              </div>
+              <div className="col-md-4">
+
+                <div className="card card-body border-0 p-4">
+                  <h6 className="fw-semibold text-center">Application Submission</h6>
+                  <p className="card-text text-center my-2"><Link to='#' className="btn btn-sm px-4 py-2 text-uppercase fw-semibold" style={{backgroundColor:'#fe5722',color:'#fff'}}>Apply</Link></p>
+                </div>
               </div>
             </div>
 
