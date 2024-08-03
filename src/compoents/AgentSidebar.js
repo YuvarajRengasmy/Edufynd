@@ -5,7 +5,7 @@ import './Hoverbar.css';
 
 const HoverBar = () => {
   return (
-    <div className="sBar text-bg-white">
+    <div className="sBar text-bg-dark">
       <ul className="nav flex-column">
         <div className="user-panel mt-2 d-flex">
           <div className="info mt-1 p-2">

@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Header from "./AgentHeader";
 import "../../styles/Student/university.css"
 import { Link, useNavigate } from "react-router-dom";
 import { getAllUniversityForWeb } from "../../api/university";
 import { getAllProgramForWeb } from "../../api/Program";
-import Footer from "../../compoents/Footer";
-import banner from '../../styles/Assets/Student/EventBanner.png';
 import { CiSearch } from 'react-icons/ci';
 import { Chip } from '@mui/material';
-import Flags from 'react-world-flags';
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import {  Pagination } from "@mui/material";
 import Sidebar from '../../compoents/AgentSidebar';
 
 
@@ -60,14 +56,14 @@ const Program = () => {
   return (
     <>
 
-      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div className="container-fluid">
-          <div className="navbar navbar-vertical navbar-expand-lg">
+      
+        <div >
+          
             <Sidebar />
-          </div>
+         
           <div
             className="content-wrapper"
-            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="container-fluid ">
               <div className="row">
@@ -252,7 +248,7 @@ const Program = () => {
             </div>
           </div>
         </div>
-      </div>
+      
 
 
 
