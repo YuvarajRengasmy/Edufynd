@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
-import { trackApplication, getSingleApplication } from "../../api/applicatin";
+import { updateApplication, getSingleApplication } from "../../api/applicatin";
 import { getAllStatus, getFilterStatus } from "../../api/status";
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
@@ -9,16 +9,16 @@ import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 export const ViewApplication = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
+  const modalRef = useRef(null);
 
   const initialState = {
-    status:[{
-      newStatus: "",
-      commentBox: "",}]
-   
+    newStatus: "",
+    commentBox: "",
   };
 
   const initialStateErrors = {
-   status: { required: false },
+    newStatus: { required: false },
+    commentBox: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
@@ -26,26 +26,31 @@ export const ViewApplication = () => {
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
-  const modalRef = useRef(null);
-
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: 10,
   });
   const [submitted, setSubmitted] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  const [statusUpdate, setStatusUpdate] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllModuleDetails();
-    getApplicationDetails();
+    if (id) {
+      getAllModuleDetails();
+      getApplicationDetails();
+    }
   }, [id]);
 
   const getApplicationDetails = () => {
     getSingleApplication(id)
-      .then((res) => setTrack(res.data.result))
+      .then((res) => {
+        if (res.data.result?.status) {
+          setTrack({
+            newStatus: res.data.result || "",
+            commentBox: res.data.result || "",
+          });
+        }
+      })
       .catch((err) => console.log(err));
   };
 
@@ -85,8 +90,9 @@ export const ViewApplication = () => {
 
   const handleEditModule = (item) => {
     setTrack({
-      newStatus: item.statusName, // Set the statusName to the newStatus
-      commentBox: "", // Initialize commentBox as empty or with a value if needed
+      newStatus: item.statusName,
+      commentBox: "",
+      document:"" // Initialize commentBox as empty or with a value if needed
     });
     setIsEditing(true);
     setEditId(item._id);
@@ -106,35 +112,30 @@ export const ViewApplication = () => {
     return true;
   };
 
-  const handleTrackSubmit = (e) => {
-    e.preventDefault();
+  const handleTrackSubmit = (event) => {
+    event.preventDefault();
+    const newErrorEducation = handleValidation(track);
+    setTrackErrors(newErrorEducation);
     setSubmitted(true);
-    const newError = handleValidation(track);
-    setTrackErrors(newError);
-    const allInputsValid = Object.values(newError).every((x) => !x.required);
-    if (allInputsValid) {
-      const data = {
-        ...track,
-        _id: editId,
-      };
-      if (isEditing) {
-        trackApplication(data)
+    if (handleErrors(newErrorEducation)) {
+      if (id) {
+        const data = {
+          _id: id,
+          status: track,
+        };
+        updateApplication(data)
           .then((res) => {
-            toast.success(res?.data?.message);
-            setTrack(initialState);
-            setTrackErrors(initialStateErrors);
-            setSubmitted(false);
-            getApplicationDetails(); 
+            toast.success("Successfully updated application status");
             getAllModuleDetails();
+            if (modalRef.current) {
+              modalRef.current.click(); // Close the modal
+            }
           })
-          .catch((err) => {
-            toast.error(err?.response?.data?.message);
-          });
+          .catch((err) => console.log(err));
       }
     }
   };
 
-  // Get progress percentage based on status
   const getProgress = (statusIndex) => {
     const completedCount = status.slice(0, 2).length; // Assume first two statuses are completed
     const totalCount = status.length;
@@ -161,10 +162,10 @@ export const ViewApplication = () => {
                             </div>
                             <button
                               type="button"
-                              className="position-absolute text-bold  top-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                              className="position-absolute text-bold top-0 translate-middle btn btn-sm btn-primary rounded-pill"
                               data-bs-toggle="modal"
                               data-bs-target={`#modal-${index}`}
-                              style={{ width: "3rem", height: "3rem", left: '0',fontSize:'10px',color:'#FFF' }}
+                              style={{ width: "3rem", height: "3rem", left: '0', fontSize: '10px', color: '#FFF' }}
                               onClick={() => handleEditModule(item)}
                             >
                               {item.statusName}
@@ -175,12 +176,20 @@ export const ViewApplication = () => {
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h1 className="modal-title fs-5" id="staticBackdropLabel">Application Status</h1>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      data-bs-dismiss="modal"
+                                      aria-label="Close"
+                                      ref={modalRef}
+                                    ></button>
                                   </div>
                                   <div className="modal-body">
                                     <form onSubmit={handleTrackSubmit}>
                                       <div className="input-group mb-3">
-                                        <span className="input-group-text" id="basic-addon1"><i className="fa fa-tasks nav-icon text-dark"></i></span>
+                                        <span className="input-group-text" id="basic-addon1">
+                                          <i className="fa fa-tasks nav-icon text-dark"></i>
+                                        </span>
                                         <input
                                           type="text"
                                           name="newStatus"
@@ -192,9 +201,12 @@ export const ViewApplication = () => {
                                           aria-describedby="basic-addon1"
                                           style={{ fontSize: '12px' }}
                                         />
+                                        {submitted && trackErrors.newStatus.required && <p className="text-danger">Status is required</p>}
                                       </div>
                                       <div className="input-group mb-3">
-                                        <span className="input-group-text" id="basic-addon1"><i className="fa fa-comments nav-icon text-dark"></i></span>
+                                        <span className="input-group-text" id="basic-addon1">
+                                          <i className="fa fa-comments nav-icon text-dark"></i>
+                                        </span>
                                         <input
                                           type="text"
                                           name="commentBox"
@@ -206,9 +218,17 @@ export const ViewApplication = () => {
                                           aria-describedby="basic-addon1"
                                           style={{ fontSize: '12px' }}
                                         />
+                                        {submitted && trackErrors.commentBox.required && <p className="text-danger">Comment is required</p>}
                                       </div>
                                       <div className="modal-footer">
-                                        <button type="button" className="btn px-4 py-2 text-uppercase fw-semibold" data-bs-dismiss="modal" style={{ fontSize: '12px', backgroundColor: '#231f20', color: '#fff' }}>Close</button>
+                                        <button
+                                          type="button"
+                                          className="btn px-4 py-2 text-uppercase fw-semibold"
+                                          data-bs-dismiss="modal"
+                                          style={{ fontSize: '12px', backgroundColor: '#231f20', color: '#fff' }}
+                                        >
+                                          Close
+                                        </button>
                                         <button
                                           type="submit"
                                           className="btn px-4 py-2 text-uppercase fw-semibold"
@@ -229,9 +249,9 @@ export const ViewApplication = () => {
                   </div>
                 </div>
                 <div className="card border-0">
-                    <div className="card-body">
-                        
-                    </div>
+                  <div className="card-body">
+                    {/* Additional content here if needed */}
+                  </div>
                 </div>
               </div>
             </div>
