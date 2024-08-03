@@ -32,3 +32,8 @@ export const getSingleProgram = (data) => {
   export const updatedProgram = (data) => {
     return API.put(`${Program}`, data);
   };
+  export const getProgramByCountry = (country) => {
+    return API.get(`${Program}/getProgramByCountry`, {
+        params: { country: country }, 
+    });
+};
