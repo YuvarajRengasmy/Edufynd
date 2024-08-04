@@ -10,6 +10,7 @@ import AddStudent from "../Agents/Student/AddStudent";
 import ViewStudent from "../Agents/Student/ViewStudent";
 import EditAgentStudent from "../Agents/Student/EditStudent";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
+import AgentsViewUniversity from "../Agents/University/AgentsViewUniversity";
 
 function RegisterPage() {
   return (
@@ -25,6 +26,7 @@ function RegisterPage() {
           <Route path="/AddStudent" element={<PrivateRoute><AddStudent /></PrivateRoute>} />
           <Route path="/ViewAgentStudent" element={<PrivateRoute><ViewStudent /></PrivateRoute>} />
           <Route path="/EditAgentStudent" element={<PrivateRoute><EditAgentStudent /></PrivateRoute>} />
+          <Route path="/AgentViewUniversity" element={<AgentsViewUniversity/>}/>
         </Routes>
      
     </div>

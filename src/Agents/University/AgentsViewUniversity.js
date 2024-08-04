@@ -1,3 +1,5 @@
+
+
 import { RiCoinsFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
@@ -18,12 +20,12 @@ import {
 } from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
 import { getFilterProgram, getProgramUniversity } from "../../api/Program";
-import Sidebar from "../../compoents/AdminSidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import { FaUniversity } from "react-icons/fa";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { RichTextEditor } from "@mantine/rte";
 
-const AdminViewUniversity = () => {
+const AgentsViewUniversity = () => {
   const initialStateInputs = {
     inTake: "",
     programTitle: "",
@@ -424,20 +426,7 @@ const AdminViewUniversity = () => {
                                   Course
                                 </a>
                               </li>
-                              <li class="nav-item" role="presentation">
-                                <a
-                                  class="nav-link text-Capitalize "
-                                  id="profile-tab"
-                                  data-bs-toggle="tab"
-                                  href="#Payment-course"
-                                  role="tab"
-                                  aria-controls="tab-profile"
-                                  aria-selected="false"
-                                  tabindex="-1"
-                                >
-                                  Payment Method
-                                </a>
-                              </li>
+                             
                               <li class="nav-item" role="presentation">
                                 <a
                                   class="nav-link text-Capitalize "
@@ -588,71 +577,7 @@ const AdminViewUniversity = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="tab-pane fade"
-                                id="Payment-course"
-                                role="tabpanel"
-                                aria-labelledby="profile-tab"
-                              >
-                                <div className="row">
-                                  <div className="col-sm-12 pt-3 px-5">
-                                    <div className="row">
-                                      <div className="card shadow-sm mt-3">
-                                        <div className="card-body">
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Payment Method
-                                              </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.paymentMethod}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Eligibility For Commission
-                                              </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.eligibility}
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Payment TAT
-                                              </div>
-                                              <div className="fw-nsemibold">
-                                                {commission.paymentType}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
-                                            <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Tax
-                                              </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.tax}
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Commission Paid On
-                                              </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.commissionPaidOn
-                                                  ? commission.commissionPaidOn
-                                                  : "null"}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                            
 
                               <div
                                 class="tab-pane fade "
@@ -987,4 +912,4 @@ const AdminViewUniversity = () => {
     </>
   );
 };
-export default AdminViewUniversity;
+export default AgentsViewUniversity;
