@@ -17,6 +17,7 @@ function Profile() {
     name:"",
     dob:"",
     passportNo:"",
+    country:"",
     email:"",
     primaryNumber:"",
     whatsAppNumber:"",
@@ -28,6 +29,7 @@ function Profile() {
   };
   const initialStateErrors = {
     name: { required: false },
+    country: { required: false },
     email: { required: false },
     primaryNumber: { required: false },
     whatsAppNumber: { required: false },
@@ -87,33 +89,36 @@ function Profile() {
 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
-    if (!data.name) {
-      error.name.required = true;
+    if (!data.country) {
+      error.country.required = true;
     }
-    if (!data.email) {
-      error.email.required = true;
-    }
-    if (!data.primaryNumber) {
-      error.primaryNumber.required = true;
-    }
-    if (!data.whatsAppNumber) {
-      error.whatsAppNumber.required = true;
-    }
-    if (!data.inTake) {
-      error.inTake.required = true;
-    }
-    if (!data.universityName) {
-      error.universityName.required = true;
-    }
-    if (!data.course) {
-      error.course.required = true;
-    }
-    if (!data.campus) {
-      error.campus.required = true;
-    }
-    if (!data.courseFees) {
-      error.courseFees.required = true;
-    }
+    // if (!data.name) {
+    //   error.name.required = true;
+    // }
+    // if (!data.email) {
+    //   error.email.required = true;
+    // }
+    // if (!data.primaryNumber) {
+    //   error.primaryNumber.required = true;
+    // }
+    // if (!data.whatsAppNumber) {
+    //   error.whatsAppNumber.required = true;
+    // }
+    // if (!data.inTake) {
+    //   error.inTake.required = true;
+    // }
+    // if (!data.universityName) {
+    //   error.universityName.required = true;
+    // }
+    // if (!data.course) {
+    //   error.course.required = true;
+    // }
+    // if (!data.campus) {
+    //   error.campus.required = true;
+    // }
+    // if (!data.courseFees) {
+    //   error.courseFees.required = true;
+    // }
     setErrors(error);
   };
   const handleAddModule = () => {
@@ -142,12 +147,40 @@ const handleCountryChange = (event) => {
   
 };
 const handleInputs = (event) => {
-  setInputs({ ...inputs, [event.target.name]: event.target.value });
+  const { name, value } = event.target;
+
+  setInputs((prevProgram) => {
+    const updatedProgram = { ...prevProgram, [name]: value };
+    if (name === "universityName") {
+      const selectedUniversity = university.find(
+        (u) => u.universityName === value
+      );
+      if (selectedUniversity) {
+        const campus = selectedUniversity.campuses.map((campus) => campus.campus);
+        const inTake = selectedUniversity.campuses.map((campus) => campus.inTake);
+        const courseFees = selectedUniversity.campuses.flatMap((campus) => campus.courseFees);
+
+        return {
+          ...updatedProgram,
+          universityId: selectedUniversity._id,
+          universityLogo: selectedUniversity.universityLogo,
+          inTake: inTake,
+          campus: campus,
+          courseFees: courseFees,
+          course: selectedUniversity.programTitle,
+          courseType: selectedUniversity.courseType,
+          country: selectedUniversity.country,
+        
+          popularCategories:selectedUniversity.popularCategories
+        };
+      }
+    }
+
+    return updatedProgram;
+  });
+
   if (submitted) {
-    const newError = handleValidation({
-      ...inputs,
-      [event.target.name]: event.target.value,
-    });
+    const newError = handleValidation({ ...inputs, [name]: value });
     setErrors(newError);
   }
 };
@@ -261,7 +294,7 @@ const handleSubmit = (event) => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "14px",
                               }}
-                              value={student.country}
+                             value={student.country}
                               onChange={handleCountryChange}
                             >
                               <option
@@ -288,8 +321,8 @@ const handleSubmit = (event) => {
                                 This field is required.
                               </span>
                             ) : null}
-                          </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   InTake<span className="text-danger">*</span>
                                 </label>
@@ -300,12 +333,22 @@ const handleSubmit = (event) => {
                                     fontSize: "12px",
                                   }}
                                   className="form-select rounded-1 p-2"
+                                  name="inTake"
+                                  onChange={handleInputs}
+                                  value={student.inTake}
                                 >
                                   <option>Select InTake</option>
 
-                                  <option></option>
+                                  <option value="2022">2022</option>
+                                  <option value="2023">2023</option>
+                                  <option value="2024">2024</option>
                                 </select>
-                              </div>
+                                {errors.inTake.required ? (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+                            </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               University<span className="text-danger">*</span>
@@ -357,6 +400,8 @@ const handleSubmit = (event) => {
                                   }}
                                   className="form-select rounded-1 p-2"
                                   name="campus"
+                                  value={student.campus}
+                                  onChange={handleInputs}
                                 >
                                   <option>Select Campus</option>
 
@@ -387,20 +432,22 @@ const handleSubmit = (event) => {
                                     fontSize: "12px",
                                   }}
                                   className="form-select rounded-1 p-2"
-                                  name="campus"
+                                  name="course"
+                                  onChange={handleInputs}
+                                  value={student.course}
                                 >
                                   <option>Select Campus</option>
 
                                   {universities.map((uni) => (
                                 <option
                                   key={uni._id}
-                                  value={uni.programTitle}
+                                  value={uni.course}
                                 >
-                                  {uni.programTitle}
+                                  {uni.course}
                                 </option>
                               ))}
                                 </select>
-                                {errors.campus.required ? (
+                                {errors.course.required ? (
                                   <span className="text-danger form-text profile_error">
                                     This field is required.
                                   </span>
@@ -472,6 +519,11 @@ const handleSubmit = (event) => {
                                     fontSize: "12px",
                                   }}
                                 />
+                                {errors.passportNo.required ? (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                ) : null}
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
@@ -490,6 +542,11 @@ const handleSubmit = (event) => {
                                     fontSize: "12px",
                                   }}
                                 />
+                                {errors.email.required ? (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                ) : null}
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
@@ -549,7 +606,7 @@ const handleSubmit = (event) => {
                                   type="text"
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Course Type"
-                                  name="course"
+                                  name="courseType"
                                   value={universities?.courseType}
                                   onChange={handleInputs}
                                   style={{
@@ -618,7 +675,7 @@ const handleSubmit = (event) => {
               </div>
             </div>
 
-            <div className="row mb-4">
+            {/* <div className="row mb-4">
               <div className="col-lg-6">
                 <div className="card mb-3 shadow-sm">
                   <div className="card-header bg-primary text-white">
@@ -840,7 +897,7 @@ const handleSubmit = (event) => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
