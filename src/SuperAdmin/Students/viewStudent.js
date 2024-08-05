@@ -2,34 +2,40 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { getSingleStudent } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
-import { getallProgram } from "../../api/Program";
-import { getProgramByCountry } from "../../api/Program";
+import { getallProgram, getProgramByUniversity, getProgramByCountry } from "../../api/Program";
+import { getUniversitiesByCountry } from "../../api/university";
+import { getallUniversity } from "../../api/university";
+
 import { getallIntake } from "../../api/intake";
-import {formatYear} from "../../Utils/DateFormat";
+import { formatYear } from "../../Utils/DateFormat";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
 import { Link } from "react-router-dom";
+
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
   const initialStateInputs = {
-    name:"",
-    dob:"",
-    passportNo:"",
-    country:"",
-    email:"",
-    primaryNumber:"",
-    whatsAppNumber:"",
-    inTake:"",
-    universityName:"",
-    course:"",
-    campus:"",
-    courseFees:"",
+    name: "",
+    dob: "",
+    passportNo: "",
+    country: "",
+    email: "",
+    primaryNumber: "",
+    whatsAppNumber: "",
+    inTake: "",
+    universityName: "",
+    course: "",
+    campus: "",
+    courseFees: "",
+    courseType: "",
   };
   const initialStateErrors = {
     name: { required: false },
+    dob: { required: false },
+    passportNo: { required: false },
     country: { required: false },
     email: { required: false },
     primaryNumber: { required: false },
@@ -39,13 +45,16 @@ function Profile() {
     course: { required: false },
     campus: { required: false },
     courseFees: { required: false },
+    courseType: { required: false },
   };
 
   const [inputs, setInputs] = useState(initialStateInputs);
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
   const [program, setProgram] = useState([]);
+  const [programs, setPrograms] = useState([]);
   const [universities, setUniversities] = useState([]);
+  const [university, setUniversity] = useState([]);
 
   const navigate = useNavigate();
   const [inTake, setInTake] = useState([]);
@@ -56,10 +65,19 @@ function Profile() {
   useEffect(() => {
     getStudentDetails();
     getAllCurrencyDetails();
-    getAllUniversityList();
+    getAllProgramList();
+    getAllUniversity();
     getAllIntakeDetails();
   }, []);
-
+  const getAllUniversity = () => {
+    getallUniversity()
+      .then((res) => {
+        setUniversity(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getStudentDetails = () => {
     getSingleStudent(id)
       .then((res) => {
@@ -87,10 +105,10 @@ function Profile() {
         console.log(err);
       });
   };
-  const getAllUniversityList = () => {
+  const getAllProgramList = () => {
     getallProgram()
       .then((res) => {
-        console.log("res", res);
+        
         setProgram(res?.data?.result);
       })
       .catch((err) => {
@@ -103,18 +121,24 @@ function Profile() {
     if (!data.country) {
       error.country.required = true;
     }
-    // if (!data.name) {
-    //   error.name.required = true;
-    // }
-    // if (!data.email) {
-    //   error.email.required = true;
-    // }
-    // if (!data.primaryNumber) {
-    //   error.primaryNumber.required = true;
-    // }
-    // if (!data.whatsAppNumber) {
-    //   error.whatsAppNumber.required = true;
-    // }
+    if (!data.name) {
+      error.name.required = true;
+    }
+    if (!data.dob) {
+      error.dob.required = true;
+    }
+    if (!data.passportNo) {
+      error.passportNo.required = true;
+    }
+    if (!data.email) {
+      error.email.required = true;
+    }
+    if (!data.primaryNumber) {
+      error.primaryNumber.required = true;
+    }
+    if (!data.whatsAppNumber) {
+      error.whatsAppNumber.required = true;
+    }
     if (!data.inTake) {
       error.inTake.required = true;
     }
@@ -127,98 +151,125 @@ function Profile() {
     if (!data.campus) {
       error.campus.required = true;
     }
-    // if (!data.courseFees) {
-    //   error.courseFees.required = true;
-    // }
+    if (!data.courseFees) {
+      error.courseFees.required = true;
+    }
+    if (!data.courseType) {
+      error.courseType.required = true;
+    }
     setErrors(error);
   };
   const handleAddModule = () => {
-    setInputs( initialStateInputs)
+    setInputs(initialStateInputs);
     setIsEditing(false);
-    setSubmitted(false)
-    setErrors(initialStateErrors)
+    setSubmitted(false);
+    setErrors(initialStateErrors);
+  };
+  const handleCountryChange = (event) => {
+    const selectedCountry = event.target.value;
+    setProgram({ ...program, country: selectedCountry });
 
-}
-const handleCountryChange = (event) => {
-  const selectedCountry = event.target.value;
-  setStudent({ ...student, country: selectedCountry });
-
-  const selectedIntake = inputs.inTake; // Replace this with how you get intake value
-  getProgramByCountry(selectedCountry, selectedIntake)
+    getUniversitiesByCountry(selectedCountry)
       .then((res) => {
-          setUniversities(res?.data?.result || []);
+        setUniversities(res?.data?.result || []);
       })
       .catch((err) => {
-          console.error(
-              `Error fetching universities for ${selectedCountry} and intake ${selectedIntake}:`,
-              err
-          );
-          setUniversities([]);
+        console.error(
+          `Error fetching universities for ${selectedCountry}:`,
+          err
+        );
+        setUniversities([]);
       });
-};
 
-
-
-const handleInputs = (event) => {
-  const { name, value } = event.target;
-
-  setInputs((prevInputs) => {
-    const updatedInputs = { ...prevInputs, [name]: value };
-
-    if (name === "universityName") {
-      const selectedUniversity = program.find(
-        console.log("universityName", value),
-        (u) => u.universityName === value
-      );
-        if (selectedUniversity) {
-          const campus = selectedUniversity.campuses.map((campus) => campus.campus);
-          const inTake = selectedUniversity.campuses.map((campus) => campus.inTake);
-          const courseFees = selectedUniversity.campuses.flatMap((campus) => campus.courseFees);
-
-          return {
-            ...updatedInputs,
-            universityId: selectedUniversity._id,
-            universityLogo: selectedUniversity.universityLogo,
-            inTake: inTake,
-            campus: campus,
-            courseFees: courseFees,
-            course: selectedUniversity.programTitle,
-            courseType: selectedUniversity.courseType,
-            country: selectedUniversity.country,
-            popularCategories: selectedUniversity.popularCategories,
-          };
-        }
-      } else {
-        console.error("Program is not an array or is undefined.");
-      }
    
+  };
+  const handleUniversityChange = (event) => {
+    const selectedUniversity = event.target.value;
+    setStudent({ ...student, universityName: selectedUniversity });
 
-    return updatedInputs;
-  })
+    // Replace this with how you get intake value
+    getProgramByUniversity(selectedUniversity)
+      .then((res) => {
+        console.log("res", res);
+        setPrograms(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(
+          `Error fetching universities for ${selectedUniversity} :`,
+          err
+        );
+        setPrograms([]);
+      });
+  };
 
-  if (submitted) {
-    const newError = handleValidation({ ...inputs, [name]: value });
-    setErrors(newError);
-  }
-};
+ 
 
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
 
-const handleErrors = (error) => {
-  let isValid = true;
-  Object.keys(error).forEach((key) => {
-    if (error[key].required) {
-      isValid = false;
+    setInputs((prevInputs) => {
+      const updatedInputs = { ...prevInputs, [name]: value };
+
+      // if (name === "universityName") {
+      //   const selectedUniversity = program.find(
+      //     console.log("universityName", value),
+      //     (u) => u.universityName === value
+      //   );
+      //   if (selectedUniversity) {
+      //     const campus = selectedUniversity.campuses.map(
+      //       (campus) => campus.campus
+      //     );
+      //     const inTake = selectedUniversity.campuses.map(
+      //       (campus) => campus.inTake
+      //     );
+      //     const courseFees = selectedUniversity.campuses.flatMap(
+      //       (campus) => campus.courseFees
+      //     );
+
+      //     return {
+      //       ...updatedInputs,
+      //       universityId: selectedUniversity._id,
+      //       universityLogo: selectedUniversity.universityLogo,
+      //       inTake: inTake,
+      //       campus: campus,
+      //       courseFees: courseFees,
+      //       course: selectedUniversity.programTitle,
+      //       courseType: selectedUniversity.courseType,
+      //       country: selectedUniversity.country,
+      //       popularCategories: selectedUniversity.popularCategories,
+      //     };
+      //   }
+      // } else {
+      //   console.error("Program is not an array or is undefined.");
+      // }
+
+      return updatedInputs;
+    });
+
+    if (submitted) {
+      const newError = handleValidation({ ...inputs, [name]: value });
+      setErrors(newError);
     }
-  });
-  return isValid;
-};
-const handleSubmit = (event) => {
-  event.preventDefault();
-  setSubmitted(true);
-  if (handleErrors(errors)) {
-    setIsEditing(true);
-  }
-};
+  };
+
+  const handleErrors = (error) => {
+    let isValid = true;
+    Object.keys(error).forEach((key) => {
+      if (error[key].required) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    if (handleErrors(errors)) {
+      setIsEditing(true);
+    }
+  };
+
   return (
     <>
       <Sidebar />
@@ -271,7 +322,9 @@ const handleSubmit = (event) => {
                       data-bs-toggle="modal"
                       data-bs-target="#ApplyStudentUniversity"
                       style={{ backgroundColor: "#fe5722", color: "#fff" }}
-                      onClick={() => { handleAddModule () }}
+                      onClick={() => {
+                        handleAddModule();
+                      }}
                     >
                       Apply
                     </Link>
@@ -312,7 +365,7 @@ const handleSubmit = (event) => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "14px",
                               }}
-                             value={student.country}
+                              value={program.country}
                               onChange={handleCountryChange}
                             >
                               <option
@@ -339,8 +392,8 @@ const handleSubmit = (event) => {
                                 This field is required.
                               </span>
                             ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   InTake<span className="text-danger">*</span>
                                 </label>
@@ -357,22 +410,25 @@ const handleSubmit = (event) => {
                                 >
                                   <option>Select InTake</option>
                                   {inTake.map((data) => (
-    <option
-      key={data._id}
-      value={`${data.intakeName} -  ${formatYear(data?.startDate)}`} 
-    >
-      {`${data.intakeName} - ${formatYear(data?.startDate)}`} 
-    </option>
-  ))}
-                                 
+                                    <option
+                                      key={data._id}
+                                      value={`${
+                                        data.intakeName
+                                      } -  ${formatYear(data?.startDate)}`}
+                                    >
+                                      {`${data.intakeName} - ${formatYear(
+                                        data?.startDate
+                                      )}`}
+                                    </option>
+                                  ))}
                                 </select>
                                 {errors.inTake.required ? (
                                   <span className="text-danger form-text profile_error">
                                     This field is required.
                                   </span>
                                 ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               University<span className="text-danger">*</span>
                             </label>
@@ -383,8 +439,8 @@ const handleSubmit = (event) => {
                                 fontSize: "14px",
                               }}
                               name="universityName"
-                              value={student.universityName}
-                              onChange={handleInputs}
+                              value={program.universityName}
+                              onChange={handleUniversityChange}
                             >
                               <option
                                 className=" font-weight-light"
@@ -411,9 +467,10 @@ const handleSubmit = (event) => {
                               </span>
                             ) : null}
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
-                                  InTake<span className="text-danger">*</span>
+                                 Program Name
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <select
                                   style={{
@@ -422,23 +479,23 @@ const handleSubmit = (event) => {
                                     fontSize: "12px",
                                   }}
                                   className="form-select rounded-1 p-2"
-                                  name="inTake"
+                                  name="course"
                                   onChange={handleInputs}
-                                  value={student.inTake}
+                                  value={student.course}
                                 >
-                                  <option>Select InTake</option>
+                                  <option>Select Campus</option>
 
-                                  <option value="2022">2022</option>
-                                  <option value="2023">2023</option>
-                                  <option value="2024">2024</option>
+                                  {Array.isArray(program) && program.map(program => (
+            <option key={program.id} value={program.programTitle}>{program.programTitle}</option>
+          ))}
                                 </select>
-                                {errors.inTake.required ? (
+                                {errors.course.required ? (
                                   <span className="text-danger form-text profile_error">
                                     This field is required.
                                   </span>
                                 ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   Campus<span className="text-danger">*</span>
                                 </label>
@@ -456,13 +513,10 @@ const handleSubmit = (event) => {
                                   <option>Select Campus</option>
 
                                   {universities.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.campus}
-                                >
-                                  {uni.campus}
-                                </option>
-                              ))}
+                                    <option key={uni._id} value={uni.campus}>
+                                      {uni.campus}
+                                    </option>
+                                  ))}
                                 </select>
                                 {errors.campus.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -470,44 +524,8 @@ const handleSubmit = (event) => {
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Course Name
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  className="form-select rounded-1 p-2"
-                                  name="course"
-                                  onChange={handleInputs}
-                                  value={student.course}
-                                >
-                                  <option>Select Campus</option>
 
-                                {universities.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.course}
-                                >
-                                  {uni.course}
-                                </option>
-                              ))}
-                                </select>
-                                {errors.course.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                            {/* 
-                            
-                             
-                             
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
                                   Student Name
                                   <span className="text-danger">*</span>
@@ -531,8 +549,7 @@ const handleSubmit = (event) => {
                                   </span>
                                 ) : null}
                               </div>
-
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
                                   DOB<span className="text-danger">*</span>
                                 </label>
@@ -555,7 +572,7 @@ const handleSubmit = (event) => {
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
                                   Passport No
                                   <span className="text-danger">*</span>
@@ -579,7 +596,7 @@ const handleSubmit = (event) => {
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
                                   Email<span className="text-danger">*</span>
                                 </label>
@@ -602,7 +619,7 @@ const handleSubmit = (event) => {
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
                                   Primary Number
                                   <span className="text-danger">*</span>
@@ -626,7 +643,7 @@ const handleSubmit = (event) => {
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
                                   WhatsApp Number
                                   <span className="text-danger">*</span>
@@ -650,7 +667,6 @@ const handleSubmit = (event) => {
                                   </span>
                                 ) : null}
                               </div>
-
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   Course Type
@@ -697,7 +713,7 @@ const handleSubmit = (event) => {
                                     This field is required.
                                   </span>
                                 ) : null}
-                              </div> */}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -729,7 +745,7 @@ const handleSubmit = (event) => {
               </div>
             </div>
 
-            {/* <div className="row mb-4">
+            <div className="row mb-4">
               <div className="col-lg-6">
                 <div className="card mb-3 shadow-sm">
                   <div className="card-header bg-primary text-white">
@@ -951,7 +967,7 @@ const handleSubmit = (event) => {
                   </ul>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

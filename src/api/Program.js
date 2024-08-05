@@ -37,3 +37,9 @@ export const getSingleProgram = (data) => {
       params: { country, inTake }, 
     });
 };
+
+export const getProgramByUniversity = (name) => {
+  return API.get(`${Program}/getProgramByUniversity`, {
+    params: { universityName: name }, 
+  });
+};
