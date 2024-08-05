@@ -12,6 +12,7 @@ import ListStudent from "../SuperAdmin/Students/listStudent";
 import AddStudentSA from "../SuperAdmin/Students/addStudent";
 import ViewStudent from "../SuperAdmin/Students/viewStudent";
 import Editstudent from "../SuperAdmin/Students/editStudent";
+import EnquiryStudent from "../SuperAdmin/Students/enquiryStudent";
 import AddAgent from "../SuperAdmin/Agnent/addAgent";
 import ListAgent from "../SuperAdmin/Agnent/ListAgent";
 import Program from "../SuperAdmin/Program/Programs";
@@ -212,6 +213,7 @@ function SuperAdmin() {
           <Route path="/Intake" element={<PrivateRoute><Intake /></PrivateRoute>} />
           <Route path="/YearSetting" element={<PrivateRoute><Year /></PrivateRoute>} />
 
+
           {/* DashBoard */}
           <Route path="/DashBoard" element={<PrivateRoute><DashboardSA /></PrivateRoute>} />
 
@@ -233,6 +235,7 @@ function SuperAdmin() {
           <Route path="/AddStudentSA" element={<PrivateRoute><AddStudentSA /></PrivateRoute>} />
           <Route path="/ViewStudent" element={<PrivateRoute><ViewStudent /></PrivateRoute>} />
           <Route path="/EditStudent" element={<PrivateRoute><Editstudent /></PrivateRoute>} />
+          <Route path="/EnquiryStudent" element={<PrivateRoute><EnquiryStudent /></PrivateRoute>} />
 
           {/* Agent */}
           <Route path="/AddAgent" element={<PrivateRoute><AddAgent /></PrivateRoute>} />

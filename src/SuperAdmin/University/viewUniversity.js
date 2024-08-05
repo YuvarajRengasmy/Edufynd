@@ -685,8 +685,10 @@ const UserProfile = () => {
                               <h5 className="text-capitalize text-center">
                                 Program Intakes
                               </h5>
-
-                              <div
+                              {Array.isArray(university?.inTake) &&
+                                        university.inTake.map(
+                                          (inTake, index) => (
+                              <div key={index}
                                 className="accordion accordion-flush"
                                 id="programIntakesAccordion"
                                 style={{ fontSize: "12px" }}
@@ -701,117 +703,14 @@ const UserProfile = () => {
                                       aria-expanded="false"
                                       aria-controls="flush-collapseOpen"
                                     >
-                                      Open
+                                     {inTake}
                                     </button>
                                   </h2>
-                                  <div
-                                    id="flush-collapseOpen"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                 
                                 </div>
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="accordion-button collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseClosed"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseClosed"
-                                    >
-                                      Closed
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseClosed"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="accordion-button collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseLikelyOpen"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseLikelyOpen"
-                                    >
-                                      Likely Open
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseLikelyOpen"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                              
                               </div>
+                                          ))}
                             </div>
                           </div>
                           <div className="col-lg-12">

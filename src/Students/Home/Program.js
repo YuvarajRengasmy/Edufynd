@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Header from "./HeaderHome";
 import "../../styles/Student/university.css"
 import { Link, useNavigate } from "react-router-dom";
 import { getAllUniversityForWeb } from "../../api/university";
 import { getAllProgramForWeb } from "../../api/Program";
-import Footer from "../../compoents/Footer";
-import banner from '../../styles/Assets/Student/EventBanner.png';
 import { CiSearch } from 'react-icons/ci';
 import { Chip } from '@mui/material';
-import Flags from 'react-world-flags';
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import { Pagination } from "@mui/material";
 import Sidebar from '../../compoents/StudentSidebar';
 
 
@@ -123,7 +119,7 @@ const Program = () => {
                 </div>
                 <div className="row g-4 justify-content-center gy-5 ">
                   {university.map((university) => (
-                  <div className="col-lg-3 col-md-6 wow fadeInUp border-radius-10  " data-wow-delay="0.1s">
+                  <div className="col-lg-4 col-md-6 wow fadeInUp border-radius-10  " data-wow-delay="0.1s">
                   <div className="course-item bg-white shadow" style={{width:'18rem',height:"24rem"}}>
                     <div className="position-relative overflow-hidden image-container">
                       <img
@@ -193,7 +189,7 @@ const Program = () => {
                 <div className='row mt-4'>
                   {program.map((program,index) => (
                   <div key={index} className="col-12 col-lg-6 col-md-6 col-xl-4 mb-3">
-                    <div className="card border-0 rounded-2 shadow" style={{ width: '22rem',height:"15rem" }}>
+                    <div className="card border-0 rounded-2 shadow h-100" style={{ width: '20rem' }}>
                       <div className='d-flex'>
                       <img src={program?.universityLogo} className="card-img-top" alt="events" style={{ maxHeight: '100px',maxWidth: '100px', objectFit: 'cover' }} />
                       <h5 className='ms-3 mt-4'><span className="text-info fw-normal text-center">{program.universityName}</span> </h5>

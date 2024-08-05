@@ -34,7 +34,7 @@ function AddAgent() {
     englishTestType: "",
     testScore: "",
     dateOfTest: "",
-    country: "",
+    desiredCountry: "",
     desiredUniversity: "",
     desiredCourse: "",
     workExperience: "",
@@ -76,7 +76,7 @@ function AddAgent() {
     englishTestType: { required: false },
     testScore: { required: false },
     dateOfTest: { required: false },
-    country: { required: false },
+    desiredCountry: { required: false },
     desiredUniversity: { required: false },
     desiredCourse: { required: false },
     workExperience: { required: false },
@@ -172,8 +172,8 @@ const getStudentDetails = () => {
     if (data.doHaveAnyEnglishLanguageTest === "") {
       error.doHaveAnyEnglishLanguageTest.required = true;
     }
-    if (data.country === "") {
-      error.country.required = true;
+    if (data.desiredCountry === "") {
+      error.desiredCountry.required = true;
     }
     if (data.desiredUniversity === "") {
       error.desiredUniversity.required = true;
@@ -1170,17 +1170,17 @@ const getStudentDetails = () => {
                               </label>
                               <input
                                 type="text"
-                                value={student?.country}
+                                value={student?.desiredCountry}
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                                 placeholder="Example New York "
-                                name="country"
+                                name="desiredCountry"
                                 onChange={handleInputs}
                               />
-                              {errors.country.required ? (
+                              {errors.desiredCountry.required ? (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>

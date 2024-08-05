@@ -2,10 +2,19 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import Edufynd from "../Assests/White Logo EduFynd.png";
 import './Hoverbar.css';
+import { toast } from "react-toastify";
+import { clearStorage } from "../Utils/storage";
+import { useNavigate } from "react-router-dom";
 
 const HoverBar = () => {
+  const navigate = useNavigate();
+  const logout = () => {
+    clearStorage(); // Assuming clearStorage is defined elsewhere
+    toast.success("You have been logged out successfully.");
+    navigate("/");
+  };
   return (
-    <div className="sBar text-bg-white">
+    <div className="sBar text-bg-dark">
       <ul className="nav flex-column">
         <div className="user-panel mt-2 d-flex">
           <div className="info mt-1 p-2">
@@ -67,7 +76,30 @@ const HoverBar = () => {
             <i className="fas fa-edit"></i>
             <span>Edit Student</span>
           </Link>
+          
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/AgentViewUniversity" style={{ fontSize: "14px", fontWeight: "bold" }}>
+            <i className="fas fa-edit"></i>
+            <span>University</span>
+          </Link>
+          
+        </li>
+        <li className="nav-item">
+                  <a href="/"
+                    className="nav-link sidebar_link"
+                    target="_self"
+                    onClick={logout}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <i
+                      className="nav-icon fa fa-flag "
+                      aria-hidden="true"
+                      
+                    />
+                    Log Out
+                  </a>
+                </li>
       </ul>
     </div>
   );
