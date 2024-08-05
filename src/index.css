@@ -6,6 +6,15 @@ body {
 }
 
 
+
+
+ *{
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+}
+
 /* Hide the spin buttons in Chrome, Safari, Edge, and Opera */
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
