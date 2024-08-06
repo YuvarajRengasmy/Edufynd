@@ -64,11 +64,11 @@ export const Course = () => {
   return (
     <>
       
-        <div >
+        <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
          
             <Sidebar />
          
-          <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+          <div className="content-wrapper" >
             <div className="container-fluid">
               <div className="row">
                 <div className="col-xl-12">
@@ -240,6 +240,7 @@ export const Course = () => {
                               <p className="text-center  float-end text-md-start ">
                                 <button
                                   className="btn btn-sm rounded-pill text-white text-Capitalize fw-semibold px-4 py-2"
+                                  data-bs-toggle="modal" data-bs-target="#SAProgramApply"
                                   style={{
                                     backgroundColor: "#fe5722",
                                     color: "#fff",
@@ -250,6 +251,7 @@ export const Course = () => {
                                   Apply Now
                                 </button>
                               </p>
+                              
                             </div>
                           </div>
                         </div>
@@ -934,6 +936,64 @@ export const Course = () => {
               </div>
             </div>
           </div>
+
+          <div class="modal fade" id="SAProgramApply" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Apply Program</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form>
+        <div className="row gy-3 gx-4 mb-3">
+
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label  class="form-label">Student Name</label>
+  <input type="text" name='text' class="form-control rounded-1"  placeholder="Example John Doe" style={{fontSize:'12px'}}/>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label  class="form-label">DOB</label>
+  <input type="date" name='text' class="form-control text-uppercase rounded-1"  placeholder="Example John Doe" style={{fontSize:'12px'}}/>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label  class="form-label">Passport No</label>
+  <input type="text" name='passportno' class="form-control rounded-1"  placeholder="Example ABC123EFG" style={{fontSize:'12px'}}/>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label  class="form-label">Country</label>
+  <input type="text" name='country' class="form-control rounded-1"  placeholder="Example United Kingdom" style={{fontSize:'12px'}}/>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label  class="form-label">Email</label>
+  <input type="text" name='email' class="form-control rounded-1"  placeholder="Example johndoe123@gmail.com" style={{fontSize:'12px'}}/>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label  class="form-label">Primary No</label>
+  <input type="number" name='primaryno' class="form-control rounded-1"  placeholder="Example 123-4567-890" style={{fontSize:'12px'}}/>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label  class="form-label">WhatsApp No</label>
+  <input type="number" name='whatsappno' class="form-control rounded-1"  placeholder="Example 123-4567-890" style={{fontSize:'12px'}}/>
+</div>
+        </div>
+  
+
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn  px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold " data-bs-dismiss="modal" style={{fontSize:'12px',backgroundColor:'#231f20',color:'#fff'}}>Close</button>
+        <button type="button" class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold " style={{fontSize:'12px',backgroundColor:'#fe5722',color:'#fff'}}>Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
       
     </>
