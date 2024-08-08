@@ -23,7 +23,7 @@ export const Currency ="currency";
 export const TypeOfClient ="typeOfClient";
 export const Staff ="staff";
 export const Year ="year";
-
+export const DepartmentHead="departmentHead";
 export const Demo = "demo";
 
 // enquiry
