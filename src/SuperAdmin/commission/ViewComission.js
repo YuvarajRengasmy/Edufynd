@@ -26,107 +26,112 @@ export const ViewComission = () => {
 
   return (
     <>
-      <div>
-        <Sidebar />
-        <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-          <div className="content-header">
-            <div className="container ">
-              <div className="row">
-                <div className="col-12 text-center my-4">
-                  <h2 className="fw-semibold">Commission Details</h2>
+      <Sidebar />
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+      >
+        <div className="content-header">
+          <div className="container ">
+            <div className="row">
+              <div className="col-12 text-center my-4">
+                <h2 className="fw-semibold">Commission Details</h2>
+              </div>
+            </div>
+
+            <div className="row g-3">
+              <div className="col-md-6">
+                <div className="card border-0 h-100">
+                  <div className="card-header bg-primary text-white">
+                    Country and University
+                  </div>
+                  <div className="card-body">
+                    <ul className="list-group list-group-flush">
+                      <li className="list-group-item">
+                        <strong>Country:</strong> {commission?.country}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>University:</strong>{" "}
+                        {commission?.universityName}
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
 
-              <div className="row g-3">
-                <div className="col-md-6">
-                  <div className="card border-0 h-100">
-                    <div className="card-header bg-primary text-white">
-                      Country and University
-                    </div>
-                    <div className="card-body">
-                      <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                          <strong>Country:</strong> {commission?.country}
-                        </li>
-                        <li className="list-group-item">
-                          <strong>University:</strong> {commission?.universityName}
-                        </li>
-                      </ul>
-                    </div>
+              <div className="col-md-6">
+                <div className="card border-0 h-100">
+                  <div className="card-header bg-primary text-white">
+                    Payment Information
+                  </div>
+                  <div className="card-body">
+                    <ul className="list-group list-group-flush">
+                      <li className="list-group-item">
+                        <strong>Payment Method:</strong>{" "}
+                        {commission?.paymentMethod}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Eligibility:</strong> {commission?.eligibility}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Tax:</strong> {commission?.tax}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Payment Type:</strong> {commission?.paymentType}
+                      </li>
+                    </ul>
                   </div>
                 </div>
+              </div>
 
-                <div className="col-md-6">
-                  <div className="card border-0 h-100">
+              {commission?.years?.map((year, yearIndex) => (
+                <div className="col-md-6" key={yearIndex}>
+                  <div className="card border-0">
                     <div className="card-header bg-primary text-white">
-                      Payment Information
+                      Year {year.year}
                     </div>
-                    <div className="card-body">
-                      <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                          <strong>Payment Method:</strong> {commission?.paymentMethod}
-                        </li>
-                        <li className="list-group-item">
-                          <strong>Eligibility:</strong> {commission?.eligibility}
-                        </li>
-                        <li className="list-group-item">
-                          <strong>Tax:</strong> {commission?.tax}
-                        </li>
-                        <li className="list-group-item">
-                          <strong>Payment Type:</strong> {commission?.paymentType}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {commission?.years?.map((year, yearIndex) => (
-                  <div className="col-md-6" key={yearIndex}>
-                    <div className="card border-0">
-                      <div className="card-header bg-primary text-white">
-                        Year {year.year}
+                    {year.courseTypes?.map((courseType, courseIndex) => (
+                      <div key={courseIndex} className="card-body">
+                        <ul className="list-group list-group-flush">
+                          <li className="list-group-item">
+                            <strong>Course Type:</strong>{" "}
+                            {courseType.courseType}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Intake:</strong> {courseType.inTake}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Commission:</strong> {courseType.value}
+                          </li>
+                        </ul>
                       </div>
-                      {year.courseTypes?.map((courseType, courseIndex) => (
-                        <div key={courseIndex} className="card-body">
-                          <ul className="list-group list-group-flush">
-                           
-                            <li className="list-group-item">
-                              <strong>Course Type:</strong> {courseType.courseType}
-                            </li>
-                            <li className="list-group-item">
-                              <strong>Intake:</strong> {courseType.inTake}
-                            </li>
-                            <li className="list-group-item">
-                              <strong>Commission:</strong> {courseType.value}
-                            </li>
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+              ))}
 
+              <nav aria-label="breadcrumb">
+                <ol className="breadcrumb float-end">
+                  <li className="breadcrumb-item">
+                    <Link to="/DashBoard" target="_self">
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className="breadcrumb-item">
+                    <Link to="/ListCommission">ListCommission</Link>
+                  </li>
 
-<nav aria-label="breadcrumb">
-  <ol className="breadcrumb float-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListCommission'>ListCommission</Link>
-    </li>
-   
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditCommission",
-         
-        }}>EditCommission</Link>
-      </li>
-  
-  </ol>
-</nav>
-              </div>
-            
+                  <li className="breadcrumb-item">
+                    <Link
+                      to={{
+                        pathname: "/EditCommission",
+                      }}
+                    >
+                      EditCommission
+                    </Link>
+                  </li>
+                </ol>
+              </nav>
             </div>
           </div>
         </div>

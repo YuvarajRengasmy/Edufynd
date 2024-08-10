@@ -40,7 +40,7 @@ function AddAgent() {
     businessContactNo: { required: false, valid: false },
     website: { required: false, valid: false },
     addressLine2: { required: false },
-    country:{ required: false },
+    country: { required: false },
     state: { required: false },
     lga: { required: false },
     addressLine3: { required: false },
@@ -51,19 +51,17 @@ function AddAgent() {
     whatsAppNumber: { required: false, valid: false },
   };
 
-  
   const [client, setClient] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState([]);
-    const [state, setState] = useState("");
-    const [states, setStates] = useState([]);
-    const [country, setCountry] = useState("");
-    const [countries, setCountries] = useState([]);
-    const [lga, setLGA] = useState("");
-    const [lgas, setLGAs] = useState([]);
+  const [state, setState] = useState("");
+  const [states, setStates] = useState([]);
+  const [country, setCountry] = useState("");
+  const [countries, setCountries] = useState([]);
+  const [lga, setLGA] = useState("");
+  const [lgas, setLGAs] = useState([]);
 
- 
   useEffect(() => {
     getAllClientDetails();
   }, []);
@@ -154,72 +152,77 @@ function AddAgent() {
   const handleInputs = (event) => {
     const { name, value } = event.target;
     const updatedClient = { ...client, [name]: value };
-    
+
     setClient(updatedClient);
-    
+
     if (submitted) {
       const newError = handleValidation(updatedClient);
       setErrors(newError);
     }
   };
-  
+
   const getCountryRegionInstance = () => {
     return new CountryRegion();
-};
+  };
 
   useEffect(() => {
     const getCountries = async () => {
-        try {
-            const countries = await getCountryRegionInstance().getCountries();
-            setCountries(countries.map(country => ({
-                value: country.id,
-                label: country.name
-            })));
-        } catch (error) {
-            console.error(error);
-        }
-    }
+      try {
+        const countries = await getCountryRegionInstance().getCountries();
+        setCountries(
+          countries.map((country) => ({
+            value: country.id,
+            label: country.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
     getCountries();
-}, []);
+  }, []);
 
   useEffect(() => {
     const getStates = async () => {
-        try {
-            const states = await getCountryRegionInstance().getStates(country);
-            setStates(states.map(userState => ({
-                value: userState?.id,
-                label: userState?.name
-            })));
-        } catch (error) {
-            console.error(error);
-        }
-    }
+      try {
+        const states = await getCountryRegionInstance().getStates(country);
+        setStates(
+          states.map((userState) => ({
+            value: userState?.id,
+            label: userState?.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (country) {
-        getStates();
+      getStates();
     }
-}, [country]);
+  }, [country]);
 
- 
   useEffect(() => {
     const getLGAs = async () => {
-        try {
-            const lgas = await getCountryRegionInstance().getLGAs(country, state);
-            setLGAs(lgas?.map(lga => ({
-                value: lga?.id,
-                label: lga?.name
-            })));
-        } catch (error) {
-            console.error(error);
-        }
-    }
+      try {
+        const lgas = await getCountryRegionInstance().getLGAs(country, state);
+        setLGAs(
+          lgas?.map((lga) => ({
+            value: lga?.id,
+            label: lga?.name,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (state) {
-        getLGAs();
+      getLGAs();
     }
-}, [country, state]);
+  }, [country, state]);
 
   const handleCountryChange = (selectedOption) => {
     setCountry(selectedOption.value);
-   
+
     setState("");
     setStates([]);
     setLGA("");
@@ -252,12 +255,12 @@ function AddAgent() {
     const newError = handleValidation(client);
     setErrors(newError);
     setSubmitted(true);
-   const updatedClient = {
+    const updatedClient = {
       ...client,
-      country: countries.find(option => option.value === country)?.label,
-      state: states.find(option => option.value === state)?.label,
-      lga: lgas.find(option => option.value === lga)?.label
-  };
+      country: countries.find((option) => option.value === country)?.label,
+      state: states.find((option) => option.value === state)?.label,
+      lga: lgas.find((option) => option.value === lga)?.label,
+    };
     if (handleErrors(newError)) {
       saveClient(updatedClient)
         .then((res) => {
@@ -271,8 +274,6 @@ function AddAgent() {
       toast.error("Please fill mandatory fields");
     }
   };
-  
-  
 
   const customStyles = {
     control: (provided) => ({
@@ -291,450 +292,438 @@ function AddAgent() {
   };
   return (
     <>
-      
-        <div >
-         
-            <Sidebar />
-          
+      <Sidebar />
 
-          <div
-            className="content-wrapper "
-            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
-          >
-            <div className="content-header ">
-              <div className="container ">
-               
-                  <div className="row">
-                    <div className="col-xl-12 ">
-                      <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                        <div
-                          className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                          style={{ background: "#fe5722", color: "#fff" }}
-                        >
-                          <h6 className="text-center text-capitalize p-1">
-                            {" "}
-                            Add Client Details
-                          </h6>
-                        </div>
-                        <div className="card-body mt-5">
-                        <form onSubmit={handleSubmit}>
-
-                          <div className="row g-3">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Type of Client{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <div className="">
-                                <select
-                                  onChange={handleInputs}
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  className="form-select form-select-lg rounded-2  "
-                                  name="typeOfClient"
-                                >
-                                  <option value={""}>Select Client Type</option>
-                                  {type.map((data, index) => (
-                                    <option
-                                      key={index}
-                                      value={data?.typeOfClient}
-                                    >
-                                      {" "}
-                                      {data?.typeOfClient}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.typeOfClient.required ? (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                {" "}
-                                Business Name
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="businessName"
-                                onChange={handleInputs}
-                                className="form-control  "
-                                placeholder="Example John Doe"
-                              />
-                              {errors.businessName.required && (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              )}
-                              {errors.businessName.valid && (
-                                <div className="text-danger form-text">
-                                  Name should contain only letters.
-                                </div>
-                              )}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                              Business  Website<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example www.edufynd.com"
-                                name="website"
-                                onChange={handleInputs}
-                              />
-                              {errors.website.required && (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              )}
-                              {errors.website.valid && (
-                                <div className="text-danger form-text">
-                                  Enter a valid Website URL.
-                                </div>
-                              )}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                {" "}
-                                Business Mail ID
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                placeholder="Example john123@gmail.com"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="businessMailID"
-                                onChange={handleInputs}
-                              />
-                              {errors.businessMailID.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : errors.businessMailID.valid ? (
-                                <div className="text-danger form-text">
-                                  Enter valid Email Id.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Business Primary Number{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="number"
-                                className="form-control"
-                                placeholder="Example 123-456-7890 "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="businessContactNo"
-                                onChange={handleInputs}
-                              />
-                              {errors.businessContactNo.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : errors.businessContactNo.valid ? (
-                                <span className="text-danger form-text profile_error">
-                                  Enter valid mobile number.
-                                </span>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                               Business WhatsApp Number
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="number"
-                                className="form-control"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 123-456-7890"
-                                name="whatsAppNumber"
-                                onChange={handleInputs}
-                              />
-                              {errors.whatsAppNumber.required && (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              )}
-                              {errors.whatsAppNumber.valid && (
-                                <div className="text-danger form-text">
-                                  Enter a valid WhatsApp Number.
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Staff Name<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                placeholder="Example Jane Doe"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="name"
-                                onChange={handleInputs}
-                              />
-                              {errors.name.required && (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              )}
-                              {errors.name.valid && (
-                                <div className="text-danger form-text">
-                                  Name should contain only letters.
-                                </div>
-                              )}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Staff Email ID
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example janedoe123@gmail.com"
-                                name="emailID"
-                                onChange={handleInputs}
-                              />
-                              {errors.emailID.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : errors.emailID.valid ? (
-                                <div className="text-danger form-text">
-                                  Enter valid Email Id.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Staff Contact Number
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                              type="number"
-                                className="form-control "
-                                placeholder="Example 123-456-7890"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="contactNo"
-                                onChange={handleInputs}
-                              />
-                              {errors.contactNo.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : errors.contactNo.valid ? (
-                                <span className="text-danger form-text profile_error">
-                                  Enter valid mobile number.
-                                </span>
-                              ) : null}
-                            </div>
-
-                          
-                          
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Address Line1
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 17/3A2, Gandhi St,"
-                                name="addressLine1"
-                                onChange={handleInputs}
-                              />
-                              {errors.addressLine1.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Address Line2
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example Alwartirunagar, Chennai "
-                                name="addressLine2"
-                                onChange={handleInputs}
-                              />
-                              {errors.addressLine2.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Pincode<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 600087"
-                                name="addressLine3"
-                                onChange={handleInputs}
-                              />
-                              {errors.addressLine3.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : errors.addressLine3.valid ? (
-                                <span className="text-danger form-text profile_error">
-                                  Enter valid Pincode.
-                                </span>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Country<span className="text-danger">*</span>
-                            </label>
-
-                            <Select
-                              placeholder="Select  Country"
-                              onChange={handleCountryChange}
-                              options={countries}
-                              name="country"
-                              styles={customStyles}
-                              value={countries.find(option => option.value === country)}
-                              className="submain-one-form-body-subsection-select "
-                            />
-                            {errors.country.required ? (
+      <div
+        className="content-wrapper "
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+      >
+        <div className="content-header ">
+          <div className="container ">
+            <div className="row">
+              <div className="col-xl-12 ">
+                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                  <div
+                    className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                    style={{ background: "#fe5722", color: "#fff" }}
+                  >
+                    <h6 className="text-center text-capitalize p-1">
+                      {" "}
+                      Add Client Details
+                    </h6>
+                  </div>
+                  <div className="card-body mt-5">
+                    <form onSubmit={handleSubmit}>
+                      <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Type of Client{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="">
+                            <select
+                              onChange={handleInputs}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              className="form-select form-select-lg rounded-1 "
+                              name="typeOfClient"
+                            >
+                              <option value={""}>Select Client Type</option>
+                              {type.map((data, index) => (
+                                <option key={index} value={data?.typeOfClient}>
+                                  {" "}
+                                  {data?.typeOfClient}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.typeOfClient.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
                             ) : null}
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              State<span className="text-danger">*</span>
-                            </label>
-                         
-                              <Select
-                                placeholder="Select  State"
-                                onChange={handleStateChange}
-                                options={states}
-                                name="state"
-                                styles={customStyles}
-                                value={states.find(option => option.value === state)}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                         
-                            {errors.state.required && (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            )}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              City<span className="text-danger">*</span>
-                            </label>
-                         
-                              <Select
-                                placeholder="Select  City"
-                                value={lgas.find(option => option.value === lga)}
-                                onChange={handleLGAChange}
-                                options={lgas}
-                                name="lga"
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                           
-                          </div>
-
-                            <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                              <Link
-                                style={{
-                                  backgroundColor: "#231F20",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                to="/ListClient"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
-                              >
-                                Cancel
-                              </Link>
-                              <button
-                                style={{
-                                  backgroundColor: "#FE5722",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                type="submit"
-                                className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                              >
-                                Submit
-                              </button>
-                            </div>
-                          </div>
-                          </form>
                         </div>
-                       
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Business Name
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="businessName"
+                            onChange={handleInputs}
+                            className="form-control rounded-1  "
+                            placeholder="Example John Doe"
+                          />
+                          {errors.businessName.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                          {errors.businessName.valid && (
+                            <div className="text-danger form-text">
+                              Name should contain only letters.
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Business Website
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1 "
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Example www.edufynd.com"
+                            name="website"
+                            onChange={handleInputs}
+                          />
+                          {errors.website.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                          {errors.website.valid && (
+                            <div className="text-danger form-text">
+                              Enter a valid Website URL.
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Business Mail ID
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1 "
+                            placeholder="Example john123@gmail.com"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="businessMailID"
+                            onChange={handleInputs}
+                          />
+                          {errors.businessMailID.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : errors.businessMailID.valid ? (
+                            <div className="text-danger form-text">
+                              Enter valid Email Id.
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Business Primary Number{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control rounded-1"
+                            placeholder="Example 123-456-7890 "
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="businessContactNo"
+                            onChange={handleInputs}
+                          />
+                          {errors.businessContactNo.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : errors.businessContactNo.valid ? (
+                            <span className="text-danger form-text profile_error">
+                              Enter valid mobile number.
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Business WhatsApp Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control rounded-1"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Example 123-456-7890"
+                            name="whatsAppNumber"
+                            onChange={handleInputs}
+                          />
+                          {errors.whatsAppNumber.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                          {errors.whatsAppNumber.valid && (
+                            <div className="text-danger form-text">
+                              Enter a valid WhatsApp Number.
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Staff Name<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1 "
+                            placeholder="Example Jane Doe"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="name"
+                            onChange={handleInputs}
+                          />
+                          {errors.name.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                          {errors.name.valid && (
+                            <div className="text-danger form-text">
+                              Name should contain only letters.
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Staff Email ID
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1 "
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Example janedoe123@gmail.com"
+                            name="emailID"
+                            onChange={handleInputs}
+                          />
+                          {errors.emailID.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : errors.emailID.valid ? (
+                            <div className="text-danger form-text">
+                              Enter valid Email Id.
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Staff Contact Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control rounded-1 "
+                            placeholder="Example 123-456-7890"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="contactNo"
+                            onChange={handleInputs}
+                          />
+                          {errors.contactNo.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : errors.contactNo.valid ? (
+                            <span className="text-danger form-text profile_error">
+                              Enter valid mobile number.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Address Line1
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Example 17/3A2, Gandhi St,"
+                            name="addressLine1"
+                            onChange={handleInputs}
+                          />
+                          {errors.addressLine1.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Address Line2
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1 "
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Example Alwartirunagar, Chennai "
+                            name="addressLine2"
+                            onChange={handleInputs}
+                          />
+                          {errors.addressLine2.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Pincode<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1 "
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Example 600087"
+                            name="addressLine3"
+                            onChange={handleInputs}
+                          />
+                          {errors.addressLine3.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : errors.addressLine3.valid ? (
+                            <span className="text-danger form-text profile_error">
+                              Enter valid Pincode.
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Country<span className="text-danger">*</span>
+                          </label>
+
+                          <Select
+                            placeholder="Select  Country"
+                            onChange={handleCountryChange}
+                            options={countries}
+                            name="country"
+                            styles={customStyles}
+                            value={countries.find(
+                              (option) => option.value === country
+                            )}
+                            className="submain-one-form-body-subsection-select "
+                          />
+                          {errors.country.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            State<span className="text-danger">*</span>
+                          </label>
+
+                          <Select
+                            placeholder="Select  State"
+                            onChange={handleStateChange}
+                            options={states}
+                            name="state"
+                            styles={customStyles}
+                            value={states.find(
+                              (option) => option.value === state
+                            )}
+                            className="submain-one-form-body-subsection-select"
+                          />
+
+                          {errors.state.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            City<span className="text-danger">*</span>
+                          </label>
+
+                          <Select
+                            placeholder="Select  City"
+                            value={lgas.find((option) => option.value === lga)}
+                            onChange={handleLGAChange}
+                            options={lgas}
+                            name="lga"
+                            styles={customStyles}
+                            className="submain-one-form-body-subsection-select"
+                          />
+                        </div>
+
+                        <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <Link
+                            style={{
+                              backgroundColor: "#231F20",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            to="/ListClient"
+                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
+                          >
+                            Cancel
+                          </Link>
+                          <button
+                            style={{
+                              backgroundColor: "#FE5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            type="submit"
+                            className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                          >
+                            Submit
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
-                
+                </div>
               </div>
             </div>
           </div>
         </div>
-      
+      </div>
     </>
   );
 }

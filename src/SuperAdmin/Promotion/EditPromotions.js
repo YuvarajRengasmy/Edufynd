@@ -266,6 +266,52 @@ export const AddPromotions = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
+                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                                Upload Image<span className="text-danger">*</span>
+                              </label>
+                            <img
+                                className="img-fluid  img-thumbnail mx-auto d-block rounded-pill"
+                                src={
+                                  notification?.uploadImage
+                                    ? notification?.uploadImage
+                                    : "https://via.placeholder.com/128"
+                                }
+                                alt="student-image"
+                                style={{ width: "8rem", height: "8rem" }}
+                              />
+                            <label
+                                htmlFor="fileInputImage"
+                                className="position-absolute fs-6  "
+                                style={{
+                                  cursor: "pointer",
+                                  bottom: "5%",
+                                  left: "52.5%",
+                                  transform: "translate(50%, 50%)",
+                                  color: "#0f2239",
+                                }}
+                              >
+                                <i className="fas fa-camera"></i>
+                              </label>
+                              <input
+                               name="uploadImage"
+                                id="fileInputImage"
+                                type="file"
+                                accept="image/*"
+                                className="form-control border-0 text-dark bg-transparent"
+                                style={{
+                                  display: "none",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                onChange={handleInputs}
+                              />
+                              {errors.uploadImage.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Type of Users{" "}
@@ -430,52 +476,7 @@ export const AddPromotions = () => {
                               ) : null}
                             </div>
 
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                                Uplaod Image<span className="text-danger">*</span>
-                              </label>
-                            <img
-                                className="img-fluid  img-thumbnail mx-auto d-block"
-                                src={
-                                  notification?.uploadImage
-                                    ? notification?.uploadImage
-                                    : "https://via.placeholder.com/128"
-                                }
-                                alt="student-image"
-                                style={{ width: "12rem", height: "6rem" }}
-                              />
-                            <label
-                                htmlFor="fileInputImage"
-                                className="position-absolute fs-6  "
-                                style={{
-                                  cursor: "pointer",
-                                  bottom: "5%",
-                                  left: "53.5%",
-                                  transform: "translate(25%, 25%)",
-                                  color: "#0f2239",
-                                }}
-                              >
-                                <i className="fas fa-camera"></i>
-                              </label>
-                              <input
-                               name="uploadImage"
-                                id="fileInputImage"
-                                type="file"
-                                accept="image/*"
-                                className="form-control border-0 text-dark bg-transparent"
-                                style={{
-                                  display: "none",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                onChange={handleInputs}
-                              />
-                              {errors.uploadImage.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
+                            
                           </div>
 
                           <div className="row gy-2 ">
