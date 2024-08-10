@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSingleCommission } from "../../api/commission";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../compoents/sidebar";
-
+import { Link } from "react-router-dom";
 export const ViewComission = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -105,7 +105,28 @@ export const ViewComission = () => {
                     </div>
                   </div>
                 ))}
+
+
+<nav aria-label="breadcrumb">
+  <ol className="breadcrumb float-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListCommission'>ListCommission</Link>
+    </li>
+   
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditCommission",
+         
+        }}>EditCommission</Link>
+      </li>
+  
+  </ol>
+</nav>
               </div>
+            
             </div>
           </div>
         </div>

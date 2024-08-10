@@ -668,13 +668,13 @@ useEffect(() => {
                                   S No
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
-                                  Program Code
+                                   Code
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
                                   University Name
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
-                                  Program Title
+                                 Title
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
                                   Application Fees
@@ -717,10 +717,19 @@ useEffect(() => {
                                       )}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {getDisplayText(
+                                    <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/ViewProgram",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          {getDisplayText(
                                         data?.programTitle,
                                         isExpanded
                                       )}
+                                        </Link>
+                                     
                                     </td>
                                     <td className="text-capitalize text-start">
                                       {data?.applicationFee}

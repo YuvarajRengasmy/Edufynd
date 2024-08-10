@@ -204,6 +204,66 @@ export const ViewApplication = () => {
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
+
+              <div className="card rounded-1 ">
+  <div className="card-body">
+    <div className="row">
+      <div className="col-4 border-end border-5 border-primary">
+        <p className="application-id text-secondary text-center fw-semibold mb-1">Application ID: 411519104020</p>
+        <h5 className="card-name fw-semibold text-center">Gopinath Velmurugan</h5>
+        <p className="card-text text-center fw-semibold mb-1">Student ID: #101</p>
+        <p className="card-text text-secondary text-center fw-semibold mb-3">Tamil Nadu, India</p>
+        <div className="text-center">
+          <button aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" className="btn btn-sm text-uppercase fw-semibold rounded-pill text-white px-4 py-1 position-relative" style={{ fontSize: '12px', backgroundColor: '#28A745', border: 'none', overflow: 'hidden' }}>
+            <div className="position-absolute top-50 start-50 translate-middle" style={{ width: '100%', height: '100%', backgroundColor: '#ffffff', opacity: 0.2 }}>
+              <div className="progress position-relative" style={{ height: '100%' }}>
+                <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: '75%', height: '100%' }}></div>
+              </div>
+            </div>
+            <span>View Profile</span>
+          </button>
+          <div className="text-center"><small>(75%) Completed</small></div>
+        </div>
+      </div>
+      <div className="col-8">
+        <h5 className="card-program mb-2 fw-semibold">Program Name - University Name</h5>
+        <div className="mb-3 d-flex justify-content-between">
+          <p className="card-text">University Name</p>
+          <div className="card p-2 rounded-1 border-primary border-2">University Name</div>
+        </div>
+        <div className="card bg-transparent rounded-2 mt-4">
+          <div className="card-body">
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex flex-column">
+                <p className="fw-semibold">Delivery Method</p>
+                <p className="fw-semibold">-</p>
+              </div>
+              <div className="d-flex flex-column">
+                <p className="fw-semibold">Intake</p>
+                <p className="fw-semibold">-</p>
+              </div>
+              <div className="d-flex flex-column">
+                <p className="fw-semibold">Levels</p>
+                <p className="fw-semibold">-</p>
+              </div>
+              <div className="d-flex flex-column">
+                <p className="fw-semibold">Tuition</p>
+                <p className="fw-semibold">-</p>
+              </div>
+              <div className="d-flex flex-column">
+                <p className="fw-semibold">Application Fee</p>
+                <p className="fw-semibold">-</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
                 <div className="card border-0">
                   <div className="card-header bg-primary text-white">
                     <h5 className="mb-0">Application Information</h5>
@@ -239,7 +299,7 @@ export const ViewApplication = () => {
                 </div>
                 <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
-                    <div className="d-flex flex-row flex-wrap justify-content-around align-items-center">
+                    <div className="d-flex  flex-wrap justify-content-around align-items-center">
                       {status.map((item, index) => (
                         <div
                           className="position-relative m-2"
@@ -440,10 +500,25 @@ export const ViewApplication = () => {
                 <div className="alert alert-primary mb-3">
                   <h6>Notes</h6>
                 </div>
-                <div className="card border-0 vh-100 overflow-auto">
+
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-4">
+
+
+                    </div>
+
+
+                    <div className="col-md-8">
+                    <div className="card border-0 vh-100 overflow-auto">
                   <div className="card-body ">
-                    <div className="row justify-content-end">
-                      <div className="col-sm-1 align-items-center justify-content-center">
+                    <div className="container">
+                      <div className="row">
+                       
+
+
+                        <div className="col">
+                        <div className=" align-items-center justify-content-center">
                         <div class="application-profile border-0 ">
                           <img
                             src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
@@ -459,7 +534,7 @@ export const ViewApplication = () => {
                         </div>
                       </div>
 
-                      <div className="col-sm-6">
+                      <div className="">
                         <div className="card border-0">
                           <div className="card-header text-bg-primary">
                             <h6 className="h6">
@@ -504,9 +579,17 @@ export const ViewApplication = () => {
                           </div>
                         </div>
                       </div>
+                        </div>
+                      </div>
+                    </div>
+                   
+                  </div>
+                </div>
                     </div>
                   </div>
                 </div>
+
+                
               </div>
             </div>
           </div>

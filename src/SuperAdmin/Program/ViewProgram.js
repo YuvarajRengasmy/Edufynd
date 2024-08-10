@@ -467,7 +467,7 @@ export const Course = () => {
                                                 className="col-sm-6 col-md-3 mb-3"
                                               >
                                                 <div
-                                                  className="card  border-0 border-start border-danger border-5"
+                                                  className="card  border-0 border-start border-warning bg-danger border-5"
                                                   style={{
                                                     width: "100%",
                                                     height: "auto",
@@ -479,7 +479,7 @@ export const Course = () => {
                                                         ? program.universityLogo
                                                         : "https://www.logodesignworks.com/wp-content/uploads/2022/04/international-university-logo-design-.jpg"
                                                     }
-                                                    className="card-img-top img-fluid rounded-pill mx-auto d-block mt-2"
+                                                    className="card-img-top img-fluid rounded-pill mx-auto d-block mt-2 img-thumbnail"
                                                     style={{
                                                       width: "5rem",
                                                       height: "5rem",
@@ -515,14 +515,17 @@ export const Course = () => {
                                                 key={index}
                                                 className="col-sm-6 col-md-4 mb-3"
                                               >
-                                                <div className="card border-0 rounded-3 shadow">
-                                                  <div className="card-header bg-primary">
+                                                <div className="conatiner">
+                                                <div className="card  rounded-1  ">
+                                                  <div className="card-body bg-primary  border-0 ">
                                                     <p className="text-center  text-uppercase fw-semibold">
                                                       {campus?.inTake}
                                                     </p>
                                                   </div>
                                                   
                                                 </div>
+                                                </div>
+                                           
                                               </div>
                                             )
                                           )}
@@ -547,14 +550,14 @@ export const Course = () => {
                                 </h5>
 
                                 <div
-                                  className="accordion accordion-flush"
+                                  className="accordion accordion-flush border-0"
                                   id="programIntakesAccordion"
                                   style={{ fontSize: "12px" }}
                                 >
                                   <div className="accordion-item">
                                     <h2 className="accordion-header">
                                       <button
-                                        className="accordion-button collapsed btn-sm"
+                                        className="btn border-0 collapsed btn-sm"
                                         type="button"
                                         data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseOpen"
@@ -594,7 +597,7 @@ export const Course = () => {
                                   <div className="accordion-item">
                                     <h2 className="accordion-header">
                                       <button
-                                        className="accordion-button collapsed btn-sm"
+                                        className="btn border-0 collapsed btn-sm"
                                         type="button"
                                         data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseClosed"
@@ -634,7 +637,7 @@ export const Course = () => {
                                   <div className="accordion-item">
                                     <h2 className="accordion-header">
                                       <button
-                                        className="accordion-button collapsed btn-sm"
+                                        className="btn border-0 collapsed btn-sm"
                                         type="button"
                                         data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseLikelyOpen"
@@ -870,10 +873,10 @@ export const Course = () => {
                                 {input?.map((data, index) => (
                                   <div key={index} className="col-md-4 mb-3">
                                     <div
-                                      className="card mb-3"
-                                      style={{ width: "100%", height: "auto" }}
+                                      className="card mb-3 rounded-1 bg-light"
+                                     
                                     >
-                                      <div className="row g-0 align-items-center justify-content-center">
+                                      <div className="row g-0 align-items-center ">
                                         <div className="col-sm-4">
                                           <img
                                             src={
@@ -881,27 +884,27 @@ export const Course = () => {
                                                 ? data?.universityLogo
                                                 : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
                                             }
-                                            className="img-fluid rounded-circle"
+                                            className="img-fluid rounded-circle mx-auto d-block img-thumbnail"
                                             alt="Course Image"
                                             style={{
-                                              width: "7rem",
-                                              height: "7rem",
+                                              width: "5.5rem",
+                                              height: "5.5rem",
                                             }}
                                           />
                                         </div>
                                         <div className="col-sm-8">
                                           <div className="card-body">
-                                            <h5 className="card-title">
-                                              {data?.universityName}
-                                            </h5>
-                                            <p className="card-text">
-                                              Course Name: {data?.programTitle}
+                                            <h6 className=" fw-bold mb-1">
+                                            <i class="fas fa-university "></i>&nbsp;&nbsp; {data?.universityName||"Not Available"}
+                                            </h6>
+                                            <p className="card-text mb-1">
+                                            <i class="fas fa-book "></i>&nbsp;&nbsp; {data?.programTitle||"Not Available"}
                                             </p>
                                             <p className="card-text">
-                                              Duration: {data?.duration}
+                                            <i class="fas fa-calendar-alt "></i>&nbsp;&nbsp; {data?.duration||"Not Available"}
                                             </p>
                                             <button
-                                              className="btn rounded-pill text-white fw-semibold btn-sm text-Capitalize px-4 py-2"
+                                              className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
                                               style={{
                                                 backgroundColor: "#fe5722",
                                                 fontSize: "12px",
@@ -916,7 +919,7 @@ export const Course = () => {
                                   </div>
                                 ))}
 
-<div className="float-right my-2 p-2 end">
+<div className="float-end my-2 p-2 end">
                             <Pagination
                               count={Math.ceil(pagination.count / pageSize)}
                               onChange={handlePageChange}
@@ -926,6 +929,24 @@ export const Course = () => {
                             />
                           </div>
                               </div>
+                              <nav aria-label="breadcrumb">
+  <ol className="breadcrumb float-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListProgram'>ListProgram</Link>
+    </li>
+   
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditProgram",
+         
+        }}>EditProgram</Link>
+      </li>
+  
+  </ol>
+</nav>
                             </div>
                           </div>
                         </div>

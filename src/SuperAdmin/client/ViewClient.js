@@ -101,6 +101,7 @@ const AddAgent = () => {
                     
                     <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                         <div className="content-header">
+                   
                             <div className="container-fluid">
                                 <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
                                     <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{ background: '#fe5722', color: '#fff' }}>
@@ -115,6 +116,24 @@ const AddAgent = () => {
                                             </tbody>
                                         </table>
                                     </div>
+                                    <nav aria-label="breadcrumb">
+  <ol className="breadcrumb float-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListClient'>ListClient</Link>
+    </li>
+   
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditClient",
+         
+        }}>EditClient</Link>
+      </li>
+  
+  </ol>
+</nav>
                                 </div>
                             </div>
                         </div>

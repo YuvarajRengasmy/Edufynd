@@ -594,7 +594,15 @@ export default function Masterproductlist() {
                                 </td>
 
                                 <td className="text-capitalize text-start">
-                                  {data.years?.map((year, yearIndex) => (
+                                <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/ViewCommission",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                     
+                                    >
+                                       {data.years?.map((year, yearIndex) => (
                                     <div key={yearIndex}>
                                       {year?.year.length > 0
                                         ? year?.year
@@ -618,6 +626,8 @@ export default function Masterproductlist() {
                                       ))} */}
                                     </div>
                                   ))}
+                                    </Link>
+                                
                                 </td>
                                 <td className="text-capitalize text-start">
                                   {data?.paymentType}

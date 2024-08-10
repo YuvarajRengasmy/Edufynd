@@ -307,7 +307,7 @@ export default function ListAgent() {
                     <thead className="table-light">
                       <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                         <th className="text-capitalize text-start sortable-handle"> S.No.</th>
-                        <th className="text-capitalize text-start sortable-handle"> Admin ID </th>
+                        <th className="text-capitalize text-start sortable-handle"> ID </th>
                         <th className="text-capitalize text-start sortable-handle"> Name </th>
                         <th className="text-capitalize text-start sortable-handle"> Email ID </th>
                         <th className="text-capitalize text-start sortable-handle"> Role </th>

@@ -297,7 +297,7 @@ export const ListTraining = () => {
                           <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
                             <th className="text-capitalize text-start sortable-handle">Date</th>
-                            <th className="text-capitalize text-start sortable-handle">Training Topic</th>
+                            <th className="text-capitalize text-start sortable-handle"> Topic</th>
                             <th className="text-capitalize text-start sortable-handle">Type Of User</th>
                             
                             <th className="text-capitalize text-start sortable-handle">Action </th>

@@ -724,8 +724,8 @@ const UserProfile = () => {
                                 </div>
                               </div>
 
-                              <div className="row g-3">
-                                <div className="col-md-10">
+                              <div className="row ">
+                                <div className="col-md-7">
                                   <form onSubmit={handleSearch}>
                                     <div class="input-group mb-3">
                                       <input
@@ -886,6 +886,24 @@ const UserProfile = () => {
                                     </div>
                                   </div>
                                 </div>
+
+                                <div className="col-md-3">
+                                  <Link to='/AddProgram'
+                                    type="button"
+                                   
+                                  
+                                    class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
+                                    style={{
+                                      backgroundColor: "#231f20",
+                                      color: "#fff",
+                                    }}
+                                  >
+                                    <i class="fa fa-plus-circle nav-icon text-white"></i>
+                                    &nbsp;&nbsp;Add Program
+                                  </Link>
+
+                                  
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -979,9 +997,30 @@ const UserProfile = () => {
                     </div>
                   </div>
                 </div>
+                <nav aria-label="breadcrumb">
+  <ol className="breadcrumb float-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListUniversity'>ListUniversity</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditUniversity",
+         
+        }}>EditUniversity</Link>
+      </li>
+  
+  </ol>
+</nav>
+
               </div>
             </div>
+            
           </div>
+        
         </div>
       </div>
     </>
