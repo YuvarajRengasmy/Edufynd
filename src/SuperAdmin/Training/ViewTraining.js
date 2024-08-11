@@ -30,74 +30,85 @@ export const ViewTraining = () => {
 
         <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header">
-            <div className="container-fluid">
-              <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
-                <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{ background: '#fe5722', color: '#fff' }}>
-                  <h5 className='text-center text-capitalize p-1'>View Training Details</h5>
-                </div>
+            <div className="container my-3">
+              <div className="card border-light shadow-sm p-4">
                 <div className="card-body">
-                  <table className='table table-hover table-bordered table-striped-columns mt-5' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                    <tbody>
-                      <tr>
-                        <th>Request Training</th>
-                        <td>{training?.requestTraining || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Training Topic</th>
-                        <td>{training?.trainingTopic || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Date</th>
-                        <td>{training?.date || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Time</th>
-                        <td>{training?.time || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Type of Users</th>
-                        <td>{training?.typeOfUser || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Attendees</th>
-                        <td>
-       {Array.isArray(training?.usersName) && training.usersName.length > 0
-                            ? training.usersName.map((attendee, index) => (
-                              <li key={index}>{attendee}</li>
-                            ))
-                            : "N/A"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Material</th>
-                        <td>{training?.material || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Name</th>
-                        <td>{training?.name || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Document</th>
-                        <td>
-                          {training?.uploadDocument ? (
-                            <a href={training.uploadDocument} download="Document.pdf" className="btn btn-sm btn-custom">
-                              <i className="fa fa-download" aria-hidden="true"></i> Download
-                            </a>
-                          ) : (
-                            "N/A"
-                          )}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Subject</th>
-                        <td>{training?.subject || "N/A"}</td>
-                      </tr>
-                      <tr>
-                        <th>Content</th>
-                        <td><RichTextEditor value={training?.content} readOnly /></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  
+                  <div className="d-flex align-items-center mb-4">
+                    <div className="bg-light rounded-circle p-3 mr-3 text-primary">
+                      <i className="fas fa-chalkboard-teacher fa-2x"></i>
+                    </div>
+                    <div>
+                      <h4 className="card-training mb-1">Training Topic: {training?.trainingTopic || "N/A"}</h4>
+                      <p className="text-muted mb-1">
+                        <i className="fas fa-calendar-day"></i>&nbsp;&nbsp; Date: {training?.date || "N/A"}
+                      </p>
+                      <p className="text-muted mb-1">
+                        <i className="fas fa-clock"></i>&nbsp;&nbsp; Time: {training?.time || "N/A"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-left border-primary pl-4 mb-4">
+                    <div className="mb-3">
+                      <h6 className="font-weight-bold text-primary">
+                        <i className="fas fa-hand-pointer"></i>&nbsp;&nbsp; Request Training
+                      </h6>
+                      <p className="mb-1">Requested by: {training?.requestTraining || "N/A"}</p>
+                    </div>
+                    <div>
+                      <h6 className="font-weight-bold text-primary">
+                        <i className="fas fa-info-circle"></i>&nbsp;&nbsp; Details
+                      </h6>
+                      <p className="mb-1">
+                        <i className="fas fa-tag"></i>&nbsp;&nbsp; Type of Users: {training?.typeOfUser || "N/A"}
+                      </p>
+                      <p className="mb-1">
+                        <i className="fas fa-users"></i>&nbsp;&nbsp; Attendees: 
+                        {Array.isArray(training?.usersName) && training.usersName.length > 0
+                          ? training.usersName.map((attendee, index) => (
+                            <span key={index}>{attendee}</span>
+                          ))
+                          : "N/A"}
+                      </p>
+                      <p className="mb-1">
+                        <i className="fas fa-file-alt"></i>&nbsp;&nbsp; Material: {training?.material || "N/A"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <h6 className="text-primary mb-2">Additional Information:</h6>
+                    <p className="mb-1">
+                      <span className="badge badge-primary">
+                        <i className="fas fa-user-tie"></i>
+                      </span>&nbsp;&nbsp; Name: {training?.name || "N/A"}
+                    </p>
+                    <p className="mb-1">
+                      <span className="badge badge-primary">
+                        <i className="fas fa-file-upload"></i>
+                      </span> &nbsp;&nbsp;Document: 
+                      {training?.uploadDocument ? (
+                        <a href={training.uploadDocument} download="Document.pdf" className="btn btn-sm btn-custom">
+                          <i className="fa fa-download" aria-hidden="true"></i> Download
+                        </a>
+                      ) : (
+                        "N/A"
+                      )}
+                    </p>
+                    <p className="mb-1">
+                      <span className="badge badge-primary">
+                        <i className="fas fa-book"></i>
+                      </span> &nbsp;&nbsp; Subject: {training?.subject || "N/A"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h6 className="text-primary mb-2">Content:</h6>
+                    <p className="card-text">
+                      <RichTextEditor value={training?.content} readOnly />
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
