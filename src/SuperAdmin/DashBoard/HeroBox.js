@@ -1,10 +1,8 @@
 
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-
 import { FaCalendarAlt } from "react-icons/fa";
-import "./HeroBox.css";
+
 import { BsThreeDots } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaMarker } from "react-icons/fa";
@@ -22,6 +20,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { FaCaretDown } from "react-icons/fa";
+import Sidebar from "../../compoents/sidebar";
 
 
 export const HeroContent = () => {
@@ -40,23 +39,21 @@ export const HeroContent = () => {
    
   ];
   return (
-    <div>
-      <div className="container">
-        <div className="row ">
+    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      
+       
      
-
-          <div className=" col-lg-12">
-            <div
-              className="  border-0 rounded-2 "
-              style={{ width: "100%" }}
-            >
-              <div className="">
+<Sidebar/>
+          <div className="content-wrapper" style={{fontSize:"12px"}}>
+            
+              <div className="container">
                 <div className="row">
-                <header className="card-title mt-1">
+                  
+                <div className="card-title mt-1">
   <div className="d-flex flex-row justify-content-between align-items-start">
     <div className="d-flex flex-column">
       <h2 className="fw-bold fs-5">Dashboard</h2>
-      <p className="text-secondary fs1">Sunday, 05 August 2024</p>
+      <p className="text-secondary fs-6">Sunday, 05 August 2024</p>
     </div>
     <div className="d-flex align-items-center">
     <button class="btn border-0 rounder-2 shadow text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{backgroundColor:'#fe5722'}}>Profile</button>
@@ -225,7 +222,7 @@ export const HeroContent = () => {
 </div>
     </div>
   </div>
-</header>
+</div>
 
                 </div>
                 <div className="card  border-0 rounded-0 shadow" style={{ width: "100%" }}>
@@ -488,14 +485,11 @@ export const HeroContent = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className=" col-lg-12">
-
             
           </div>
-        </div>
-      </div>
+         
+       
+     
     </div>
   );
 };

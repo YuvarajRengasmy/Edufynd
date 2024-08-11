@@ -1,5 +1,5 @@
 import React from 'react'
-import Sidebar from '../DashBoard/sidebar'
+import Sidebar from '../.././compoents/sidebar'
 export const ViewChat = () => {
   return (
     <div> 

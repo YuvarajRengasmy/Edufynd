@@ -685,7 +685,7 @@ export default function Masterproductlist() {
                                   Code
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
-                                  University Name
+                                 Name
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
                                   country
@@ -729,10 +729,19 @@ export default function Masterproductlist() {
                                       onMouseLeave={() => toggleRow(index)}
                                       title={data?.universityName}
                                     >
-                                      {getDisplayText(
+                                       <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/ViewUniversity",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                             {getDisplayText(
                                         data?.universityName,
                                         isExpanded
                                       )}
+                                          </Link>
+                                    
                                     </td>
                                     <td className="text-capitalize text-start">
                                       {data?.country}

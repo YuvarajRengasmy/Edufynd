@@ -513,9 +513,9 @@ export default function Masterproductlist() {
                             <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                               <th className="text-capitalize text-start sortable-handle">S No</th>
                               <th className="text-capitalize text-start sortable-handle">Date</th>
-                              <th className="text-capitalize text-start">Applicant Code</th>
+                              <th className="text-capitalize text-start"> Code</th>
 
-                              <th className="text-capitalize text-start sortable-handle">Applicant Name</th>
+                              <th className="text-capitalize text-start sortable-handle"> Name</th>
                               <th className="text-capitalize text-start sortable-handle">University Applied</th>
                               <th className="text-capitalize text-start sortable-handle">Course Applied</th>
                               <th className="text-capitalize text-start sortable-handle">Status</th>

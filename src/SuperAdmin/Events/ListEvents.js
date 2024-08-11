@@ -297,10 +297,10 @@ export const ListEvents = () => {
                         <thead className="table-light">
                           <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
-                            <th className="text-capitalize text-start sortable-handle">Date</th>
-                            <th className="text-capitalize text-start sortable-handle">Event Date</th>
+                            <th className="text-capitalize text-start sortable-handle">Created At</th>
+                            <th className="text-capitalize text-start sortable-handle"> Date</th>
 
-                            <th className="text-capitalize text-start sortable-handle">Event Topic</th>
+                            <th className="text-capitalize text-start sortable-handle"> Topic</th>
                             <th className="text-capitalize text-start sortable-handle">University</th>
                             <th className="text-capitalize text-start sortable-handle">Venue</th>
                             

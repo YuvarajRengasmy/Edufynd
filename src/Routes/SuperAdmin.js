@@ -25,7 +25,7 @@ import ViewAdmin from "../SuperAdmin/Admins/ViewAdmin";
 import CountryList from "../SuperAdmin/Admins/country";
 import AddProgram from "../SuperAdmin/Program/addProgram";
 import EditProgram from "../SuperAdmin/Program/editProgram";
-import DashboardSA from "../SuperAdmin/DashBoard/Home";
+import DashboardSA from "../SuperAdmin/DashBoard/HeroBox";
 // Client
 import AddClient from "../SuperAdmin/client/addclient";
 import ListClient from "../SuperAdmin/client/ListClient";

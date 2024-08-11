@@ -315,7 +315,7 @@ export const ListForex = () => {
                         <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                           <th className="text-capitalize text-start sortable-handle"> S.No.</th>
                           <th className="text-capitalize text-start sortable-handle"> Date </th>
-                          <th className="text-capitalize text-start sortable-handle">Forex ID </th>
+                          <th className="text-capitalize text-start sortable-handle"> ID </th>
                           <th className="text-capitalize text-start sortable-handle"> Student Name</th>
                           <th className="text-capitalize text-start sortable-handle"> Passport No </th>
                           <th className="text-capitalize text-start sortable-handle"> Source </th>

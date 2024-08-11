@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Edufynd from "../Assests/White Logo EduFynd.png";
 import "./Sidebar.css";
 import { useLocation } from "react-router-dom";
+import { Global } from "@emotion/react";
 
 
 const Sidebar = () => {
@@ -177,6 +178,7 @@ const Sidebar = () => {
         "/ViewClassSchedule",
       ],
       settings: [
+       
         "/GlobalSettings",
         "/CurrencySettings",
         "/Status",

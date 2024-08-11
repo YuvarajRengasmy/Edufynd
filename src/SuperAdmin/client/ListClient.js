@@ -555,9 +555,9 @@ const handleSearch = (event) => {
                           <thead class="table-light">
                             <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                               <th className="text-capitalize text-start sortable-handle">S No</th>
-                              <th className="text-capitalize text-start sortable-handle">Client Code</th>
-                              <th className="text-capitalize text-start sortable-handle">Type of Client</th>
-                              <th className="text-capitalize text-start sortable-handle">Client Name</th>
+                              <th className="text-capitalize text-start sortable-handle"> Code</th>
+                              <th className="text-capitalize text-start sortable-handle">Type </th>
+                              <th className="text-capitalize text-start sortable-handle"> Name</th>
                               <th className="text-capitalize text-start sortable-handle">Primary No</th>
                               <th className="text-capitalize text-start sortable-handle">Email ID</th>
                               <th className="text-capitalize text-start sortable-handle">Status</th>
@@ -571,7 +571,17 @@ const handleSearch = (event) => {
                                 <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
                                 <td className="text-capitalize text-start">{data?.clientID}</td>
                                 <td className="text-capitalize text-start">{data?.typeOfClient}</td>
-                                <td className="text-capitalize text-start">{data?.businessName}</td>
+                                <td className="text-capitalize text-start">  <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/ViewClient",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                     
+                                    >
+                                     
+
+                                     {data?.businessName} </Link></td>
                                 <td className="text-capitalize text-start">{data?.businessContactNo}</td>
                                 <td className=" text-start">{data?.businessMailID}</td>
                                 <td className="text-capitalize text-start">{data?.status}</td>
