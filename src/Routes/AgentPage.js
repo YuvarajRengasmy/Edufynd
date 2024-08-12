@@ -1,5 +1,5 @@
 import React from "react";
-import {  Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AgentHome from "../Agents/Agents/AgentHome";
 import Contact from "../Agents/About/contact";
 import About from "../Agents/About/about";
@@ -15,20 +15,20 @@ import AgentsViewUniversity from "../Agents/University/AgentsViewUniversity";
 function RegisterPage() {
   return (
     <div>
-     
-        <Routes>
-          <Route path="/AgentHome" element={<PrivateRoute><AgentHome /></PrivateRoute>} />
-          <Route path="/AgentContact" element={<PrivateRoute><Contact /></PrivateRoute>} />
-          <Route path="/AgentAbout" element={<PrivateRoute><About /></PrivateRoute>} />
-          <Route path="/AgentProgram" element={<PrivateRoute><AgentProgram /></PrivateRoute>} />
-          <Route path="/AgentProfile" element={<PrivateRoute><AgentProfile /></PrivateRoute>} />
-          <Route path="/Studentpage" element={<PrivateRoute><Studentpage /></PrivateRoute>} />
-          <Route path="/AddStudent" element={<PrivateRoute><AddStudent /></PrivateRoute>} />
-          <Route path="/ViewAgentStudent" element={<PrivateRoute><ViewStudent /></PrivateRoute>} />
-          <Route path="/EditAgentStudent" element={<PrivateRoute><EditAgentStudent /></PrivateRoute>} />
-          <Route path="/AgentViewUniversity" element={<AgentsViewUniversity/>}/>
-        </Routes>
-     
+
+      <Routes>
+        <Route path="/AgentHome" element={<PrivateRoute><AgentHome /></PrivateRoute>} />
+        <Route path="/AgentContact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+        <Route path="/AgentAbout" element={<PrivateRoute><About /></PrivateRoute>} />
+        <Route path="/AgentProgram" element={<PrivateRoute><AgentProgram /></PrivateRoute>} />
+        <Route path="/AgentProfile" element={<PrivateRoute><AgentProfile /></PrivateRoute>} />
+        <Route path="/Studentpage" element={<PrivateRoute><Studentpage /></PrivateRoute>} />
+        <Route path="/AddStudent" element={<PrivateRoute><AddStudent /></PrivateRoute>} />
+        <Route path="/ViewAgentStudent" element={<PrivateRoute><ViewStudent /></PrivateRoute>} />
+        <Route path="/EditAgentStudent" element={<PrivateRoute><EditAgentStudent /></PrivateRoute>} />
+        <Route path="/AgentViewUniversity" element={<AgentsViewUniversity />} />
+      </Routes>
+
     </div>
   );
 }

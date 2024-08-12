@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import {
+  isValidEmail,
+  isValidPassword,
+  isValidPhone,
+} from "../../Utils/Validation";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { getallStaff } from "../../api/staff";
 import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
-import{getallUniversity} from "../../api/university";
+import { getallUniversity } from "../../api/university";
 import { updatedEvent, getSingleEvent } from "../../api/Notification/event";
 
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Select from "react-select";
-import { University } from '../../api/endpoints';
-
+import { University } from "../../api/endpoints";
 
 export const EditEvents = () => {
-
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
@@ -30,7 +32,6 @@ export const EditEvents = () => {
     time: "",
     venue: "",
   };
-   
 
   const initialStateErrors = {
     typeOfUser: { required: false },
@@ -82,7 +83,7 @@ export const EditEvents = () => {
   const getAdminList = () => {
     getallAdmin()
       .then((res) => {
-        setAdmin(res?.data?.result );
+        setAdmin(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -146,7 +147,6 @@ export const EditEvents = () => {
     return error;
   };
 
-  
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -165,13 +165,18 @@ export const EditEvents = () => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
-    } else{
-      setnotification({ ...notification, [event?.target?.name]: event?.target?.value });
+    } else {
+      setnotification({
+        ...notification,
+        [event?.target?.name]: event?.target?.value,
+      });
     }
-    
+
     if (submitted) {
-      const newError = handleValidation({...notification,
-        [event.target.name]: event.target.value,});
+      const newError = handleValidation({
+        ...notification,
+        [event.target.name]: event.target.value,
+      });
       setErrors(newError);
     }
   };
@@ -180,7 +185,10 @@ export const EditEvents = () => {
     const values = selectedOptions
       ? selectedOptions.map((option) => option.value)
       : [];
-    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
+    setnotification((prevNotification) => ({
+      ...prevNotification,
+      [name]: values,
+    }));
   };
 
   const handleErrors = (obj) => {
@@ -194,10 +202,6 @@ export const EditEvents = () => {
     }
     return true;
   };
-
-  
-
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -230,7 +234,7 @@ export const EditEvents = () => {
     value: data.empName,
     label: data.empName,
   }));
- 
+
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
@@ -240,7 +244,7 @@ export const EditEvents = () => {
     value: data.agentName,
     label: data.agentName,
   }));
- 
+
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -256,104 +260,70 @@ export const EditEvents = () => {
       },
     }),
   };
- 
-
-
 
   return (
     <>
-    
-    <div>
-        <Sidebar />
+      <Sidebar />
 
-        <div
-          className="content-wrapper "
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-        >
-          <div className="content-header ">
-            <div className=" container-fluid ">
-              <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                      <div
-                        className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                        style={{ background: "#fe5722", color: "#fff" }}
-                      >
-                        <h5 className="text-center text-capitalize p-1">
-                          {" "}
-                          Add Events Details
-                        </h5>
-                      </div>
-                      <div className="card-body mt-5">
-                        <div className="row g-3">
+      <div
+        className="content-wrapper "
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      >
+        <div className="content-header ">
+          <div className=" container-fluid ">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-xl-12 ">
+                  <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div
+                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                      style={{ background: "#fe5722", color: "#fff" }}
+                    >
+                      <h5 className="text-center text-capitalize p-1">
+                        {" "}
+                        Add Events Details
+                      </h5>
+                    </div>
+                    <div className="card-body mt-5">
+                      <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Type of Users <span className="text-danger">*</span>
+                          </label>
+
+                          <select
+                            class="form-select form-select-lg"
+                            name="typeOfUser"
+                            onChange={handleInputs}
+                            aria-label="Default select example"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            value={notification.typeOfUser}
+                          >
+                            <option selected>Select User</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                            <option value="agent">Agent</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                          {errors.typeOfUser.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : null}
+                        </div>
+                        {notification.typeOfUser === "staff" ? (
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Type of Users{" "}
-                              <span className="text-danger">*</span>
+                              Admin List<span className="text-danger">*</span>
                             </label>
-
-                            <select
-                              class="form-select form-select-lg"
-                              name="typeOfUser"
-                              onChange={handleInputs}
-                              aria-label="Default select example"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              value={notification.typeOfUser}
-                            >
-                              <option selected>Select User</option>
-                              <option value="staff">Staff</option>
-                              <option value="student">Student</option>
-                              <option value="agent">Agent</option>
-                              <option value="admin">Admin</option>
-                            </select>
-                            {errors.typeOfUser.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-                          {notification.typeOfUser === "staff" ? (
-                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                             <label style={{ color: "#231F20" }}>
-                               Admin List<span className="text-danger">*</span>
-                             </label>
                             <Select
-                             isMulti
-                             placeholder="Select staff"
-                             onChange={handleSelectChange}
-                              options={staffOptions}
-                             name="userName"
-                             value={
-                              notification?.userName
-                                ? notification?.userName.map((inTake) => ({
-                                    value: inTake,
-                                    label: inTake,
-                                  }))
-                                : null
-                            }
-                             styles={customStyles}
-                             className="submain-one-form-body-subsection-select"
-                           />
-                             {errors.userName.required ? (
-                               <div className="text-danger form-text">
-                                 This field is required.
-                               </div>
-                             ) : null}
-                           </div>
-                          ) : notification.typeOfUser === "student" ? (
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Student List<span className="text-danger">*</span>
-                              </label>
-                             <Select
                               isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={studentOptions}
+                              placeholder="Select staff"
+                              onChange={handleSelectChange}
+                              options={staffOptions}
                               name="userName"
                               value={
                                 notification?.userName
@@ -366,50 +336,22 @@ export const EditEvents = () => {
                               styles={customStyles}
                               className="submain-one-form-body-subsection-select"
                             />
-                              {errors.userName.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                          ) :notification.typeOfUser === "agent" ? (
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Admin List<span className="text-danger">*</span>
-                            </label>
-                           <Select
-                            isMulti
-                            placeholder="Select Country"
-                             onChange={handleSelectChange}
-                             options={agentOptions}
-                            name="userName"
-                            value={
-                              notification?.userName
-                                ? notification?.userName.map((inTake) => ({
-                                    value: inTake,
-                                    label: inTake,
-                                  }))
-                                : null
-                            }
-                            styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
-                          />
                             {errors.userName.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
                             ) : null}
                           </div>
-                          ) : notification.typeOfUser === "admin" ? (
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
-                              </label>
-                             <Select
+                        ) : notification.typeOfUser === "student" ? (
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Student List<span className="text-danger">*</span>
+                            </label>
+                            <Select
                               isMulti
                               placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={adminOptions}
+                              onChange={handleSelectChange}
+                              options={studentOptions}
                               name="userName"
                               value={
                                 notification?.userName
@@ -422,46 +364,97 @@ export const EditEvents = () => {
                               styles={customStyles}
                               className="submain-one-form-body-subsection-select"
                             />
-                              {errors.userName.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
+                            {errors.userName.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                        ) : notification.typeOfUser === "agent" ? (
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Admin List<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              placeholder="Select Country"
+                              onChange={handleSelectChange}
+                              options={agentOptions}
+                              name="userName"
+                              value={
+                                notification?.userName
+                                  ? notification?.userName.map((inTake) => ({
+                                      value: inTake,
+                                      label: inTake,
+                                    }))
+                                  : null
+                              }
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
+                            {errors.userName.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                        ) : notification.typeOfUser === "admin" ? (
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Admin List<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              placeholder="Select Country"
+                              onChange={handleSelectChange}
+                              options={adminOptions}
+                              name="userName"
+                              value={
+                                notification?.userName
+                                  ? notification?.userName.map((inTake) => ({
+                                      value: inTake,
+                                      label: inTake,
+                                    }))
+                                  : null
+                              }
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
+                            {errors.userName.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                        ) : null}
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Event Topic<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control "
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            value={notification.eventTopic}
+                            placeholder="Enter  eventTopic"
+                            name="eventTopic"
+                          />
+                          {errors.eventTopic.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
                             </div>
                           ) : null}
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Event Topic<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                onChange={handleInputs}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                value={notification.eventTopic}
-                                placeholder="Enter  eventTopic"
-                                name="eventTopic"
-                               
-                              />
-                              {errors.eventTopic.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
+                        </div>
 
-                         
-                            
-                           
-                          
-                          <div className="row gy-2 ">
+                        <div className="row gy-2 ">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                             University<span className="text-danger">*</span>
-                              </label>
+                            <label style={{ color: "#231F20" }}>
+                              University<span className="text-danger">*</span>
+                            </label>
                             <select
                               class="form-select form-select-lg"
                               aria-label="Default select example"
@@ -474,11 +467,8 @@ export const EditEvents = () => {
                               value={notification.universityName}
                             >
                               <option value="">Select University</option>
-                              {university.map((uni,index) => (
-                                <option
-                                  key={index}
-                                  value={uni.universityName}
-                                >
+                              {university.map((uni, index) => (
+                                <option key={index} value={uni.universityName}>
                                   {uni.universityName}
                                 </option>
                               ))}
@@ -488,124 +478,114 @@ export const EditEvents = () => {
                                 This field is required.
                               </div>
                             ) : null}
-                              
-                            </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                             Venue<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                value={notification.venue}
-                                onChange={handleInputs}
-                                placeholder="Enter  Venue"
-                                name="venue"
-                              />
-                              {errors.venue.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            </div>
-                         
-                            <div className="row gy-2 ">
-                            
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                             Date<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Date"
-                                name="date"
-                                onChange={handleInputs}
-                                value={notification.date}
-                              />
-                              {errors.date.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                              
-                            </div>
-                          
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                            Time< span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="time"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                value={notification.time}
-                                placeholder="Enter  time"
-                                name="time"
-                                onChange={handleInputs}
-                              />
-                              {errors.time.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                              
-                            </div>
-                          
-                            </div>
-                          
-
-                         
-
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                            <Link
-                            to="/ListEvents"
-                              style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              type="reset"
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
-                            >
-                              Cancel
-                            </Link>
-                            <button
-                              style={{
-                                backgroundColor: "#FE5722",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
-                            >
-                              Submit
-                            </button>
                           </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Venue<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control "
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              value={notification.venue}
+                              onChange={handleInputs}
+                              placeholder="Enter  Venue"
+                              name="venue"
+                            />
+                            {errors.venue.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+
+                        <div className="row gy-2 ">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Date<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="date"
+                              className="form-control "
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              placeholder="Enter  Date"
+                              name="date"
+                              onChange={handleInputs}
+                              value={notification.date}
+                            />
+                            {errors.date.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Time<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="time"
+                              className="form-control "
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              value={notification.time}
+                              placeholder="Enter  time"
+                              name="time"
+                              onChange={handleInputs}
+                            />
+                            {errors.time.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+
+                        <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <Link
+                            to="/ListEvents"
+                            style={{
+                              backgroundColor: "#231F20",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            type="reset"
+                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                          >
+                            Cancel
+                          </Link>
+                          <button
+                            style={{
+                              backgroundColor: "#FE5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            type="submit"
+                            className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                          >
+                            Submit
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    
     </>
-  )
-}
-export default EditEvents
+  );
+};
+export default EditEvents;
