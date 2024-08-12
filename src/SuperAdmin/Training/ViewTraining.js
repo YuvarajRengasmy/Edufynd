@@ -3,7 +3,7 @@ import { getSingleTraining } from "../../api/Notification/traning";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
 import { useLocation } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 export const ViewTraining = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -30,6 +30,25 @@ export const ViewTraining = () => {
 
         <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header">
+
+          <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListTraining' className="text-decoration-none">ListTraining</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditTraining",
+          search: `?id=${training?._id}`,
+        }} className="text-decoration-none">EditTraining</Link>
+      </li>
+  
+  </ol>
+</nav>
             <div className="container my-3">
               <div className="card border-light shadow-sm p-4">
                 <div className="card-body">

@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidebar from "../../compoents/sidebar";
+import { Link } from 'react-router-dom';
 export const ViewTestimonials = () => {
   return (
     <>  
@@ -12,6 +13,24 @@ export const ViewTestimonials = () => {
    
     <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header ">
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListTestimonials' className="text-decoration-none">ListTestimonials</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditTestimonials",
+          
+        }} className="text-decoration-none">EditTestimonials</Link>
+      </li>
+  
+  </ol>
+</nav>
             <div className="container-fluid">
                 
                    

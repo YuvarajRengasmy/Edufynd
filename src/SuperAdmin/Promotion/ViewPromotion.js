@@ -35,6 +35,24 @@ export const ViewPromotion = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="content-header ">
+            <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListPromotions' className="text-decoration-none">ListPromotions</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditPromotions",
+          search: `?id=${notification?._id}`,
+        }} className="text-decoration-none">EditPromotions</Link>
+      </li>
+  
+  </ol>
+</nav>
             <div class="container mt-4">
    
     <div class="bg-primary text-white p-3 rounded mb-4 d-flex justify-content-between align-items-center">
@@ -83,72 +101,7 @@ export const ViewPromotion = () => {
     </div>
   </div>
               
-            <div class="container mt-4">
-  
-    <div class="promotion-header d-flex justify-content-between align-items-center">
-      <h1 class="display-4">Promotion Details</h1>
-      <a href="promotions.html" class="btn btn-secondary">Back to Promotions</a>
-    </div>
-    
-    <div class="row mt-4">
-      
-      <div class="col-lg-8">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h3 class="">Summer Sale</h3>
-            <p class="card-text">
-              <strong>Description:</strong> Enjoy discounts on all summer products.<br/>
-              <strong>Start Date:</strong> June 1, 2024<br/>
-              <strong>End Date:</strong> August 31, 2024<br/>
-              <strong>Status:</strong> Active
-            </p>
-            <div class="d-flex">
-              <button class="btn btn-warning me-2">Edit</button>
-              <button class="btn btn-danger">Delete</button>
-            </div>
-          </div>
-        </div>
-
-       
-        <div class="promotion-media mb-4">
-          <h5>Promotion Media</h5>
-          <div id="promotionCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="image1.jpg" class="d-block w-100" alt="Promotion Image 1"/>
-              </div>
-              <div class="carousel-item">
-                <img src="image2.jpg" class="d-block w-100" alt="Promotion Image 2"/>
-              </div>
-              
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#promotionCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#promotionCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      
-      <div class="col-lg-4">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="">Additional Information</h5>
-          </div>
-          <div class="card-body">
-            <p><strong>Target Audience:</strong> All summer product customers</p>
-            <p><strong>Promotion Code:</strong> SUMMER2024</p>
-            <p><strong>Terms & Conditions:</strong> Valid while stocks last.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          
 
 
    

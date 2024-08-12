@@ -156,7 +156,7 @@ export const EditBusiness = () => {
       updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudentForm");
+          navigate("/ListBusinessEnquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -539,7 +539,7 @@ export const EditBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        to="/ClientList"
+                        to="/ListBusinessEnquiry"
                         className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2  text-white m-2"
                       >
                         Cancel

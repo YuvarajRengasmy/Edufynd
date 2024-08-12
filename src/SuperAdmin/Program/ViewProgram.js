@@ -110,6 +110,13 @@ export const Course = () => {
                         style={{ position: "absolute", zIndex: 2 }}
                       >
                         <div className="border-0 rounded-0 bg-transparent text-center text-md-start">
+                          <Link 
+                          
+                          to={{
+                            pathname: "/ViewUniversity",
+                            search: `?id=${id}`,
+                          }}
+                          >
                           <img
                             src={
                               program?.universityLogo ||
@@ -119,6 +126,7 @@ export const Course = () => {
                             style={{ width: "9rem", height: "9rem" }}
                             alt="University Logo"
                           />
+                          </Link>
                           <div className="card-body">
                             <div className="py-3 my-2">
                               <h5 className="h4 fw-bolder text-white d-flex align-items-end gap-2 text-capitalize">

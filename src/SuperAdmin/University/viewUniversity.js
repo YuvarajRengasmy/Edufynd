@@ -696,7 +696,7 @@ const UserProfile = () => {
                                 <div className="accordion-item">
                                   <h2 className="accordion-header">
                                     <button
-                                      className="accordion-button collapsed btn-sm"
+                                      className="btn border-0 collapsed btn-sm"
                                       type="button"
                                       data-bs-toggle="collapse"
                                       data-bs-target="#flush-collapseOpen"
