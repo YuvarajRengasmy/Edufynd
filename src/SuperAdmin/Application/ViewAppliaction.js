@@ -300,7 +300,7 @@ export const ViewApplication = () => {
                   </div>
                 </div>
 
-                <div className="card border-0">
+                {/* <div className="card border-0">
                   <div className="card-header bg-primary text-white">
                     <h5 className="mb-0">Application Information</h5>
                   </div>
@@ -332,7 +332,7 @@ export const ViewApplication = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
                     <div className="d-flex  flex-wrap justify-content-around align-items-center">
@@ -539,12 +539,10 @@ export const ViewApplication = () => {
 
                 <div className="container">
                   <div className="row">
-                    <div className="col-md-4"></div>
-
-                    <div className="col-md-8">
-                      <div className="card border-0 vh-100 overflow-auto">
-                        <div className="card-body ">
-                          <div className="container">
+                    <div className="col-md-6  ">
+                      <div className="card rounded-1 border-0  vh-100 overflow-auto">
+                        <div className="card-body">
+                        <div className="container">
                             <div className="row">
                               <div className="col">
                                 <div className=" align-items-center justify-content-center">
@@ -566,7 +564,7 @@ export const ViewApplication = () => {
                                   </div>
                                 </div>
 
-                                <div className="">
+                             
                                   <div className="card border-0">
                                     <div className="card-header text-bg-primary">
                                       <h6 className="h6">
@@ -593,11 +591,11 @@ export const ViewApplication = () => {
                                                 item?.document ||
                                                 "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
                                               }
-                                              className="card-img-top rounded-circle border-0"
+                                              className="card-img-top rounded-circle border-0 img-thumbnail"
                                               alt="Profile"
                                               style={{
-                                                width: "12rem",
-                                                height: "7rem",
+                                                width: "8rem",
+                                                height: "8rem",
                                               }}
                                             />
                                             <div class="card-body">
@@ -613,7 +611,87 @@ export const ViewApplication = () => {
                                         ))}
                                     </div>
                                   </div>
+                               
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-6 ">
+                      <div className="card border-0 vh-100 rounded-1 overflow-auto">
+                        <div className="card-body ">
+                          <div className="container">
+                            <div className="row">
+                              <div className="col">
+                                <div className=" align-items-center justify-content-center">
+                                  <div class="application-profile border-0 ">
+                                    <img
+                                      src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
+                                      class="card-img-top rounded-circle border-0 "
+                                      alt="..."
+                                      style={{ width: "4rem", height: "4rem" }}
+                                    />
+                                    <div class="card-body">
+                                      <p
+                                        class="card-text"
+                                        style={{ fontSize: "10px" }}
+                                      >
+                                        {track?.name}
+                                      </p>
+                                    </div>
+                                  </div>
                                 </div>
+
+                             
+                                  <div className="card border-0">
+                                    <div className="card-header text-bg-primary">
+                                      <h6 className="h6">
+                                        Application Status -{track?.createdBy}
+                                        {track?.createdOn}
+                                      </h6>
+                                    </div>
+                                    <div className="card-body">
+                                      <h1>
+                                        <b>Application Process</b>
+                                      </h1>
+                                      {track?.status &&
+                                        track.status.map((item, index) => (
+                                          <div key={index}>
+                                            <h4>Status: {item?.newStatus}</h4>
+                                            <p>
+                                              <RichTextEditor
+                                                value={item?.commentBox}
+                                                readOnly
+                                              />{" "}
+                                            </p>
+                                            <img
+                                              src={
+                                                item?.document ||
+                                                "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
+                                              }
+                                              className="card-img-top rounded-circle border-0 img-thumbnail"
+                                              alt="Profile"
+                                              style={{
+                                                width: "8rem",
+                                                height: "8rem",
+                                              }}
+                                            />
+                                            <div class="card-body">
+                                              <p
+                                                class="card-text"
+                                                style={{ fontSize: "10px" }}
+                                              >
+                                                {item?.name}
+                                              </p>
+                                            </div>
+                                            <p>{item?.createdBy}</p>
+                                          </div>
+                                        ))}
+                                    </div>
+                                  </div>
+                               
                               </div>
                             </div>
                           </div>
