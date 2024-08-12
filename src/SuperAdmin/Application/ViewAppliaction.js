@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
+import { duration } from "@mui/material";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -17,12 +18,14 @@ export const ViewApplication = () => {
     newStatus: "",
     commentBox: "",
     document: "",
+    duration: "",
   };
 
   const initialStateErrors = {
     newStatus: { required: false },
     commentBox: { required: false },
     document: { required: false },
+    duration: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
@@ -105,6 +108,9 @@ export const ViewApplication = () => {
     if (!data.commentBox) {
       error.commentBox.required = true;
     }
+    if (!data.duration) {
+      error.duration.required = true;
+    }
     return error;
   };
   const convertToBase64 = (e, name) => {
@@ -143,6 +149,7 @@ export const ViewApplication = () => {
   const handleEditModule = (item) => {
     setTrack({
       newStatus: item.statusName,
+      duration: item.duration,
       commentBox: "",
       document: "", // Initialize commentBox as empty or with a value if needed
     });
@@ -447,6 +454,31 @@ export const ViewApplication = () => {
                                       />
                                       {submitted &&
                                         trackErrors.newStatus.required && (
+                                          <p className="text-danger">
+                                            Status is required
+                                          </p>
+                                        )}
+                                    </div>
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-tasks nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="text"
+                                        name="duration"
+                                        value={track.duration}
+                                        onChange={handleTrack}
+                                        className="form-control"
+                                        placeholder="Enter Status...."
+                                        aria-label="Status"
+                                        aria-describedby="basic-addon1"
+                                        style={{ fontSize: "12px" }}
+                                      />
+                                      {submitted &&
+                                        trackErrors.duration.required && (
                                           <p className="text-danger">
                                             Status is required
                                           </p>
