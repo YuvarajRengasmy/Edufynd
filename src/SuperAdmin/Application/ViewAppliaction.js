@@ -26,6 +26,8 @@ export const ViewApplication = () => {
   };
 
   const [track, setTrack] = useState(initialState);
+  const [tracks, setTracks] = useState([]);
+
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -50,7 +52,7 @@ export const ViewApplication = () => {
     getSingleApplication(id)
       .then((res) => {
         console.log("yuvi", res);
-        setTrack(res?.data?.result || []);
+        setTracks(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
@@ -209,10 +211,10 @@ export const ViewApplication = () => {
                     <div className="row">
                       <div className="col-4 border-end border-5 border-primary">
                         <p className="application-id text-secondary text-center fw-semibold mb-1">
-                          Application ID: 411519104020
+                          Application ID: {tracks?.applicationCode || "N/A"}
                         </p>
                         <h5 className="card-name fw-semibold text-center">
-                          Gopinath Velmurugan
+                         {tracks?.name}
                         </h5>
                         <p className="card-text text-center fw-semibold mb-1">
                           Student ID: #101
@@ -260,36 +262,37 @@ export const ViewApplication = () => {
                         </div>
                       </div>
                       <div className="col-8">
-                        <h5 className="card-program mb-2 fw-semibold">
-                          Program Name - University Name
+                        <h5 className="card-program mb-2 fw-light">
+                          Program Name -<span className="text-primary fw-bold">{tracks?.course}</span>
+                         
                         </h5>
                         <div className="mb-3 d-flex justify-content-between">
-                          <p className="card-text">University Name</p>
+                          <p className="card-text">{tracks?.universityName}</p>
                           <div className="card p-2 rounded-1 border-primary border-2">
-                            University Name
+                            <i className="fas fa-star"></i>
                           </div>
                         </div>
                         <div className="card bg-transparent rounded-2 mt-4">
                           <div className="card-body">
                             <div className="d-flex align-items-center justify-content-between">
                               <div className="d-flex flex-column">
-                                <p className="fw-semibold">Delivery Method</p>
+                                <p className="fw-semilight">Delivery Method</p>
                                 <p className="fw-semibold">-</p>
                               </div>
                               <div className="d-flex flex-column">
-                                <p className="fw-semibold">Intake</p>
+                                <p className="fw-semilight">Intake</p>
+                                <p className="fw-semibold">{tracks?.inTake}</p>
+                              </div>
+                              <div className="d-flex flex-column">
+                                <p className="fw-semilight">Levels</p>
                                 <p className="fw-semibold">-</p>
                               </div>
                               <div className="d-flex flex-column">
-                                <p className="fw-semibold">Levels</p>
-                                <p className="fw-semibold">-</p>
+                                <p className="fw-semilight">Tuition Fee</p>
+                                <p className="fw-semibold">{tracks?.courseFees}</p>
                               </div>
                               <div className="d-flex flex-column">
-                                <p className="fw-semibold">Tuition</p>
-                                <p className="fw-semibold">-</p>
-                              </div>
-                              <div className="d-flex flex-column">
-                                <p className="fw-semibold">Application Fee</p>
+                                <p className="fw-semilight">Application Fee</p>
                                 <p className="fw-semibold">-</p>
                               </div>
                             </div>
@@ -548,7 +551,7 @@ export const ViewApplication = () => {
                                 <div className=" align-items-center justify-content-center">
                                   <div class="application-profile border-0 ">
                                     <img
-                                      src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
+                                      src={tracks?.photo?tracks?.photo:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
                                       class="card-img-top rounded-circle border-0 "
                                       alt="..."
                                       style={{ width: "4rem", height: "4rem" }}
@@ -558,7 +561,7 @@ export const ViewApplication = () => {
                                         class="card-text"
                                         style={{ fontSize: "10px" }}
                                       >
-                                        {track?.name}
+                                        {tracks?.name}
                                       </p>
                                     </div>
                                   </div>
@@ -568,36 +571,27 @@ export const ViewApplication = () => {
                                   <div className="card border-0">
                                     <div className="card-header text-bg-primary">
                                       <h6 className="h6">
-                                        Application Status -{track?.createdBy}
-                                        {track?.createdOn}
+                                        Application Status -{tracks?.createdBy}
+                                        {tracks?.createdOn}
                                       </h6>
                                     </div>
                                     <div className="card-body">
                                       <h1>
                                         <b>Application Process</b>
                                       </h1>
-                                      {track?.status &&
-                                        track.status.map((item, index) => (
+                                      {tracks?.status &&
+                                        tracks.status.map((item, index) => (
                                           <div key={index}>
-                                            <h4>Status: {item?.newStatus}</h4>
-                                            <p>
-                                              <RichTextEditor
-                                                value={item?.commentBox}
-                                                readOnly
-                                              />{" "}
-                                            </p>
-                                            <img
-                                              src={
-                                                item?.document ||
-                                                "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                              }
-                                              className="card-img-top rounded-circle border-0 img-thumbnail"
-                                              alt="Profile"
-                                              style={{
-                                                width: "8rem",
-                                                height: "8rem",
-                                              }}
-                                            />
+                                            
+                                            <a href={item?.document?item?.document:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"} target="_blank" download>
+      <img
+        src={item?.document?item?.document:"-"}
+        className="card-img-top  border-0"
+        alt="..."
+        style={{ width: "7rem", height: "7rem" }}
+      />
+      <i className="fa fa-download p-5"></i>
+    </a>
                                             <div class="card-body">
                                               <p
                                                 class="card-text"
@@ -656,8 +650,8 @@ export const ViewApplication = () => {
                                       <h1>
                                         <b>Application Process</b>
                                       </h1>
-                                      {track?.status &&
-                                        track.status.map((item, index) => (
+                                      {tracks?.status &&
+                                        tracks.status.map((item, index) => (
                                           <div key={index}>
                                             <h4>Status: {item?.newStatus}</h4>
                                             <p>
@@ -666,18 +660,7 @@ export const ViewApplication = () => {
                                                 readOnly
                                               />{" "}
                                             </p>
-                                            <img
-                                              src={
-                                                item?.document ||
-                                                "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                              }
-                                              className="card-img-top rounded-circle border-0 img-thumbnail"
-                                              alt="Profile"
-                                              style={{
-                                                width: "8rem",
-                                                height: "8rem",
-                                              }}
-                                            />
+                                           
                                             <div class="card-body">
                                               <p
                                                 class="card-text"
