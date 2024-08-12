@@ -997,20 +997,21 @@ const UserProfile = () => {
                     </div>
                   </div>
                 </div>
+
                 <nav aria-label="breadcrumb">
   <ol className="breadcrumb float-end">
     <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self">Dashboard</Link>
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
     </li>
     <li className="breadcrumb-item">
-      <Link to='/ListUniversity'>ListUniversity</Link>
+      <Link to='/ListUniversity' className="text-decoration-none">ListUniversity</Link>
     </li>
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
           pathname: "/EditUniversity",
-         
-        }}>EditUniversity</Link>
+          search: `?id=${university?._id}`,
+        }} className="text-decoration-none">EditUniversity</Link>
       </li>
   
   </ol>

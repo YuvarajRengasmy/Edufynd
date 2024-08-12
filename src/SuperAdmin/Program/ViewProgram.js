@@ -63,613 +63,606 @@ export const Course = () => {
   };
   return (
     <>
-      
-        <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-         
-            <Sidebar />
-         
-          <div className="content-wrapper" >
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-xl-12">
-                  <div className="border-0 rounded-0 bg-transparent p-3">
-                    <div className="card border-0 rounded-0 mt-2">
-                      <div
-                        className="card rounded-0 border-0"
+      <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+        <Sidebar />
+
+        <div className="content-wrapper">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="border-0 rounded-0 bg-transparent p-3">
+                  <div className="card border-0 rounded-0 mt-2">
+                    <div
+                      className="card rounded-0 border-0"
+                      style={{
+                        position: "relative",
+                        overflow: "hidden",
+                        height: "70vh",
+                        maxWidth: "100%", // Ensure card doesn't overflow its container
+                      }}
+                    >
+                      <img
+                        src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg"
+                        className="card-img img-fluid rounded-0 border-0"
+                        alt="university_bg_image"
                         style={{
-                          position: "relative",
-                          overflow: "hidden",
-                          height: "70vh",
-                          maxWidth: "100%", // Ensure card doesn't overflow its container
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          mixBlendMode: "multiply",
                         }}
+                      />
+                      <div
+                        className="gradient-overlay"
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "200px",
+                          background:
+                            "linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))",
+                          zIndex: 1,
+                        }}
+                      ></div>
+                      <div
+                        className="card-img-overlay align-self-end d-flex flex-column justify-content-end p-3"
+                        style={{ position: "absolute", zIndex: 2 }}
                       >
-                        <img
-                          src="https://iproedu.in/wp-content/uploads/2020/12/Study-abroad-consultancy.jpg"
-                          className="card-img img-fluid rounded-0 border-0"
-                          alt="university_bg_image"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            mixBlendMode: "multiply",
-                          }}
-                        />
-                        <div
-                          className="gradient-overlay"
-                          style={{
-                            position: "absolute",
-                            bottom: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "200px",
-                            background:
-                              "linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))",
-                            zIndex: 1,
-                          }}
-                        ></div>
-                        <div
-                          className="card-img-overlay align-self-end d-flex flex-column justify-content-end p-3"
-                          style={{ position: "absolute", zIndex: 2 }}
-                        >
-                          <div className="border-0 rounded-0 bg-transparent text-center text-md-start">
-                            <img
-                              src={
-                                program?.universityLogo ||
-                                "https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"
-                              }
-                              className="img-fluid rounded-circle img-thumbnail"
-                              style={{ width: "9rem", height: "9rem" }}
-                              alt="University Logo"
-                            />
-                            <div className="card-body">
-                              <div className="py-3 my-2">
-                                <h5 className="h4 fw-bolder text-white d-flex align-items-end gap-2 text-capitalize">
-                                  {program?.programTitle}
-                                </h5>
-                              </div>
-                              <div className="d-flex flex-column flex-md-row justify-content-between align-items-start">
-                                <p
-                                  className="text-white fw-semibold mb-1"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  <span
-                                    style={{
-                                      color: "#fe5722",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    <i className="fa fa-university nav-icon"></i>
-                                  </span>{" "}
-                                  {program?.universityName || "Not Available"}
-                                </p>
-
-                                <p
-                                  className="text-white fw-semibold mb-1"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  <span
-                                    style={{
-                                      color: "#fe5722",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    <i className="fa fa-globe nav-icon"></i>
-                                  </span>{" "}
-                                  {program?.country || "Not Available"}
-                                </p>
-
-                                <p
-                                  className="text-white fw-semibold mb-1"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  <span
-                                    style={{
-                                      color: "#fe5722",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    <i className="fa fa-book nav-icon"></i>
-                                  </span>{" "}
-                                  {program?.courseType || "Not Available"}
-                                </p>
-
-                                <p
-                                  className="text-white mb-1 fw-semibold"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  <span
-                                    style={{
-                                      color: "#fe5722",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    <i className="fa fa-percentage nav-icon"></i>
-                                  </span>{" "}
-                                  {program?.campuses[0]?.courseFees}
-                                </p>
-
-                                <p
-                                  className="text-white mb-1 fw-semibold"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  <span
-                                    style={{
-                                      color: "#fe5722",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    <i className="fa fa-money-bill-wave nav-icon"></i>
-                                  </span>{" "}
-                                  {program?.finalValue ||
-                                    program?.applicationFee ||
-                                    "Not Available"}
-                                </p>
-
-                                <p
-                                  className="text-white mb-1 fw-semibold"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  <span
-                                    style={{
-                                      color: "#fe5722",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    <i className="fa fa-clock nav-icon"></i>
-                                  </span>{" "}
-                                  {program?.campuses?.[0]?.duration ||
-                                    "Not Available"}
-                                </p>
-
-                                <p
-                                  className="text-white mb-1 fw-semibold"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  <span
-                                    style={{
-                                      color: "#fe5722",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    <i className="fa fa-tags nav-icon"></i>
-                                  </span>{" "}
-                                  {program?.discountedValue || "Not Available"}
-                                 
-                                </p>
-                              </div>
-                              <p className="text-center  float-end text-md-start ">
-                                <button
-                                  className="btn btn-sm rounded-pill text-white text-Capitalize fw-semibold px-4 py-2"
-                                  data-bs-toggle="modal" data-bs-target="#SAProgramApply"
+                        <div className="border-0 rounded-0 bg-transparent text-center text-md-start">
+                          <img
+                            src={
+                              program?.universityLogo ||
+                              "https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"
+                            }
+                            className="img-fluid rounded-circle img-thumbnail"
+                            style={{ width: "9rem", height: "9rem" }}
+                            alt="University Logo"
+                          />
+                          <div className="card-body">
+                            <div className="py-3 my-2">
+                              <h5 className="h4 fw-bolder text-white d-flex align-items-end gap-2 text-capitalize">
+                                {program?.programTitle}
+                              </h5>
+                            </div>
+                            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start">
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
                                   style={{
-                                    backgroundColor: "#fe5722",
-                                    color: "#fff",
-                                    fontSize: "12px",
+                                    color: "#fe5722",
+                                    fontSize: "14px",
                                   }}
                                 >
-                                  <i className="fa fa-paper-plane nav-icon"></i>{" "}
-                                  Apply Now
-                                </button>
+                                  <i className="fa fa-university nav-icon"></i>
+                                </span>{" "}
+                                {program?.universityName || "Not Available"}
                               </p>
-                              
+
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{
+                                    color: "#fe5722",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  <i className="fa fa-globe nav-icon"></i>
+                                </span>{" "}
+                                {program?.country || "Not Available"}
+                              </p>
+
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{
+                                    color: "#fe5722",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  <i className="fa fa-book nav-icon"></i>
+                                </span>{" "}
+                                {program?.courseType || "Not Available"}
+                              </p>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{
+                                    color: "#fe5722",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  <i className="fa fa-percentage nav-icon"></i>
+                                </span>{" "}
+                                {program?.campuses[0]?.courseFees}
+                              </p>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{
+                                    color: "#fe5722",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  <i className="fa fa-money-bill-wave nav-icon"></i>
+                                </span>{" "}
+                                {program?.finalValue ||
+                                  program?.applicationFee ||
+                                  "Not Available"}
+                              </p>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{
+                                    color: "#fe5722",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  <i className="fa fa-clock nav-icon"></i>
+                                </span>{" "}
+                                {program?.campuses?.[0]?.duration ||
+                                  "Not Available"}
+                              </p>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{
+                                    color: "#fe5722",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  <i className="fa fa-tags nav-icon"></i>
+                                </span>{" "}
+                                {program?.discountedValue || "Not Available"}
+                              </p>
                             </div>
+                            <p className="text-center  float-end text-md-start ">
+                              <button
+                                className="btn btn-sm rounded-pill text-white text-Capitalize fw-semibold px-4 py-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#SAProgramApply"
+                                style={{
+                                  backgroundColor: "#fe5722",
+                                  color: "#fff",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <i className="fa fa-paper-plane nav-icon"></i>{" "}
+                                Apply Now
+                              </button>
+                            </p>
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      <div className="card-body bg-white rounded-bottom ">
-                        <div className="container">
-                          <div className="row ">
-                            <div className="col-md-8">
-                              <ul
-                                className="nav nav-pills fs-9"
-                                id="myTab"
-                                role="tablist"
-                              >
-                                <li className="nav-item" role="presentation">
-                                  <a
-                                    className="nav-link active text-Capitalize"
-                                    id="home-tab"
-                                    data-bs-toggle="tab"
-                                    href="#tab-home"
-                                    role="tab"
-                                    aria-controls="tab-home"
-                                    aria-selected="true"
-                                  >
-                                    Admission Requirement
-                                  </a>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                  <a
-                                    className="nav-link text-Capitalize"
-                                    id="profile-tab"
-                                    data-bs-toggle="tab"
-                                    href="#tab-profile"
-                                    role="tab"
-                                    aria-controls="tab-profile"
-                                    aria-selected="false"
-                                    tabIndex="-1"
-                                  >
-                                    Campus
-                                  </a>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                  <a
-                                    className="nav-link text-Capitalize"
-                                    id="contact-tab"
-                                    data-bs-toggle="tab"
-                                    href="#tab-contact"
-                                    role="tab"
-                                    aria-controls="tab-contact"
-                                    aria-selected="false"
-                                    tabIndex="-1"
-                                  >
-                                    Intake
-                                  </a>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                  <a
-                                    className="nav-link text-Capitalize"
-                                    id="elt-tab"
-                                    data-bs-toggle="tab"
-                                    href="#elt"
-                                    role="tab"
-                                    aria-controls="elt"
-                                    aria-selected="false"
-                                    tabIndex="-1"
-                                  >
-                                    ELT
-                                  </a>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                  <a
-                                    className="nav-link text-Capitalize"
-                                    id="acadmic-tab"
-                                    data-bs-toggle="tab"
-                                    href="#acadmic"
-                                    role="tab"
-                                    aria-controls="acadmic"
-                                    aria-selected="false"
-                                    tabIndex="-1"
-                                  >
-                                    Academic Requirements
-                                  </a>
-                                </li>
-                              </ul>
-
-                              <div
-                                className="tab-content mt-3"
-                                id="myTabContent"
-                                style={{
-                                  height: "350px",
-                                  overflowY: "auto",
-                                  scrollbarWidth: "none",
-                                }}
-                              >
-                                <div
-                                  className="tab-pane fade show active"
-                                  id="tab-home"
-                                  role="tabpanel"
-                                  aria-labelledby="home-tab"
+                    <div className="card-body bg-white rounded-bottom ">
+                      <div className="container">
+                        <div className="row ">
+                          <div className="col-md-8">
+                            <ul
+                              className="nav nav-pills fs-9"
+                              id="myTab"
+                              role="tablist"
+                            >
+                              <li className="nav-item" role="presentation">
+                                <a
+                                  className="nav-link active text-Capitalize"
+                                  id="home-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-home"
+                                  role="tab"
+                                  aria-controls="tab-home"
+                                  aria-selected="true"
                                 >
-                                  <p style={{ textAlign: "justify" }}>
+                                  Admission Requirement
+                                </a>
+                              </li>
+                              <li className="nav-item" role="presentation">
+                                <a
+                                  className="nav-link text-Capitalize"
+                                  id="profile-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-profile"
+                                  role="tab"
+                                  aria-controls="tab-profile"
+                                  aria-selected="false"
+                                  tabIndex="-1"
+                                >
+                                  Campus
+                                </a>
+                              </li>
+                              <li className="nav-item" role="presentation">
+                                <a
+                                  className="nav-link text-Capitalize"
+                                  id="contact-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-contact"
+                                  role="tab"
+                                  aria-controls="tab-contact"
+                                  aria-selected="false"
+                                  tabIndex="-1"
+                                >
+                                  Intake
+                                </a>
+                              </li>
+                              <li className="nav-item" role="presentation">
+                                <a
+                                  className="nav-link text-Capitalize"
+                                  id="elt-tab"
+                                  data-bs-toggle="tab"
+                                  href="#elt"
+                                  role="tab"
+                                  aria-controls="elt"
+                                  aria-selected="false"
+                                  tabIndex="-1"
+                                >
+                                  ELT
+                                </a>
+                              </li>
+                              <li className="nav-item" role="presentation">
+                                <a
+                                  className="nav-link text-Capitalize"
+                                  id="acadmic-tab"
+                                  data-bs-toggle="tab"
+                                  href="#acadmic"
+                                  role="tab"
+                                  aria-controls="acadmic"
+                                  aria-selected="false"
+                                  tabIndex="-1"
+                                >
+                                  Academic Requirements
+                                </a>
+                              </li>
+                            </ul>
+
+                            <div
+                              className="tab-content mt-3"
+                              id="myTabContent"
+                              style={{
+                                height: "350px",
+                                overflowY: "auto",
+                                scrollbarWidth: "none",
+                              }}
+                            >
+                              <div
+                                className="tab-pane fade show active"
+                                id="tab-home"
+                                role="tabpanel"
+                                aria-labelledby="home-tab"
+                              >
+                                <p style={{ textAlign: "justify" }}>
                                   <RichTextEditor
                                     value={program?.academicRequirement}
                                     readOnly
                                   />
-                                    
-                                  </p>
-                                </div>
-                                <div
-                                  className="tab-pane fade"
-                                  id="elt"
-                                  role="tabpanel"
-                                  aria-labelledby="elt-tab"
-                                >
-                                  <div className="container">
-                                    <div className="row">
-                                      <div className="col my-3">
-                                        <table className="table table-hover tabble-borderd table-primary table-responsive-sm">
-                                          <tbody>
-                                            <tr>
-                                              <td>University Interview</td>
-                                              <td>
-                                                {program?.universityInterview}
-                                              </td>
-                                              <td>
-                                                <a
-                                                  href="#"
-                                                  className="btn btn-link btn-sm"
-                                                  style={{
-                                                    color: "#fe5722",
-                                                    fontSize: "11px",
-                                                  }}
-                                                >
-                                                  Learn more
-                                                </a>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td>GRE/GMAT Requirement</td>
-                                              <td>
-                                                {program?.greGmatRequirement}{" "}
-                                                {program?.score}
-                                              </td>
-                                              <td>
-                                                <a
-                                                  href="#"
-                                                  className="btn btn-link btn-sm"
-                                                  style={{
-                                                    color: "#fe5722",
-                                                    fontSize: "11px",
-                                                  }}
-                                                >
-                                                  Learn more
-                                                </a>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td>English Language Test</td>
-                                              <td>
-                                                {program?.englishLanguageTest}
-                                              </td>
-                                              <td>
-                                                <a
-                                                  href="#"
-                                                  className="btn btn-link btn-sm"
-                                                  style={{
-                                                    color: "#fe5722",
-                                                    fontSize: "11px",
-                                                  }}
-                                                >
-                                                  Learn more
-                                                </a>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </div>
+                                </p>
+                              </div>
+                              <div
+                                className="tab-pane fade"
+                                id="elt"
+                                role="tabpanel"
+                                aria-labelledby="elt-tab"
+                              >
+                                <div className="container">
+                                  <div className="row">
+                                    <div className="col my-3">
+                                      <table className="table table-hover tabble-borderd table-primary table-responsive-sm">
+                                        <tbody>
+                                          <tr>
+                                            <td>University Interview</td>
+                                            <td>
+                                              {program?.universityInterview}
+                                            </td>
+                                            <td>
+                                              <a
+                                                href="#"
+                                                className="btn btn-link btn-sm"
+                                                style={{
+                                                  color: "#fe5722",
+                                                  fontSize: "11px",
+                                                }}
+                                              >
+                                                Learn more
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>GRE/GMAT Requirement</td>
+                                            <td>
+                                              {program?.greGmatRequirement}{" "}
+                                              {program?.score}
+                                            </td>
+                                            <td>
+                                              <a
+                                                href="#"
+                                                className="btn btn-link btn-sm"
+                                                style={{
+                                                  color: "#fe5722",
+                                                  fontSize: "11px",
+                                                }}
+                                              >
+                                                Learn more
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>English Language Test</td>
+                                            <td>
+                                              {program?.englishLanguageTest}
+                                            </td>
+                                            <td>
+                                              <a
+                                                href="#"
+                                                className="btn btn-link btn-sm"
+                                                style={{
+                                                  color: "#fe5722",
+                                                  fontSize: "11px",
+                                                }}
+                                              >
+                                                Learn more
+                                              </a>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
                                     </div>
                                   </div>
                                 </div>
-                                <div
-                                  className="tab-pane fade"
-                                  id="acadmic"
-                                  role="tabpanel"
-                                  aria-labelledby="acadmic-tab"
-                                >
-                                  <div className="form-floating">
-                                    <textarea
-                                      className="form-control"
-                                      id="floatingTextarea2"
-                                      placeholder="Leave a comment here"
-                                      style={{ height: "200px" }}
-                                    ></textarea>
-                                    <label htmlFor="floatingTextarea2">
-                                      Comments
-                                    </label>
-                                  </div>
+                              </div>
+                              <div
+                                className="tab-pane fade"
+                                id="acadmic"
+                                role="tabpanel"
+                                aria-labelledby="acadmic-tab"
+                              >
+                                <div className="form-floating">
+                                  <textarea
+                                    className="form-control"
+                                    id="floatingTextarea2"
+                                    placeholder="Leave a comment here"
+                                    style={{ height: "200px" }}
+                                  ></textarea>
+                                  <label htmlFor="floatingTextarea2">
+                                    Comments
+                                  </label>
                                 </div>
-                                <div
-                                  className="tab-pane fade"
-                                  id="tab-profile"
-                                  role="tabpanel"
-                                  aria-labelledby="profile-tab"
-                                >
-                                  <div className="row">
-                                    <div className="border-0 pt-3 px-4">
-                                      <div className="row">
-                                        {Array.isArray(program?.campuses) &&
-                                          program.campuses.map(
-                                            (campus, index) => (
+                              </div>
+                              <div
+                                className="tab-pane fade"
+                                id="tab-profile"
+                                role="tabpanel"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div className="row">
+                                  <div className="border-0 pt-3 px-4">
+                                    <div className="row">
+                                      {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (campus, index) => (
+                                            <div
+                                              key={index}
+                                              className="col-sm-6 col-md-3 mb-3"
+                                            >
                                               <div
-                                                key={index}
-                                                className="col-sm-6 col-md-3 mb-3"
+                                                className="card  border-0 border-start border-warning bg-danger border-5"
+                                                style={{
+                                                  width: "100%",
+                                                  height: "auto",
+                                                }}
                                               >
-                                                <div
-                                                  className="card  border-0 border-start border-warning bg-danger border-5"
+                                                <img
+                                                  src={
+                                                    program.universityLogo
+                                                      ? program.universityLogo
+                                                      : "https://www.logodesignworks.com/wp-content/uploads/2022/04/international-university-logo-design-.jpg"
+                                                  }
+                                                  className="card-img-top img-fluid rounded-pill mx-auto d-block mt-2 img-thumbnail"
                                                   style={{
-                                                    width: "100%",
-                                                    height: "auto",
+                                                    width: "5rem",
+                                                    height: "5rem",
                                                   }}
-                                                >
-                                                  <img
-                                                    src={
-                                                      program.universityLogo
-                                                        ? program.universityLogo
-                                                        : "https://www.logodesignworks.com/wp-content/uploads/2022/04/international-university-logo-design-.jpg"
-                                                    }
-                                                    className="card-img-top img-fluid rounded-pill mx-auto d-block mt-2 img-thumbnail"
-                                                    style={{
-                                                      width: "5rem",
-                                                      height: "5rem",
-                                                    }}
-                                                    alt="Campus"
-                                                  />
-                                                  <div className="card-body">
-                                                    <p className="card-text text-center">
-                                                      {campus.campus}
-                                                    </p>
-                                                  </div>
+                                                  alt="Campus"
+                                                />
+                                                <div className="card-body">
+                                                  <p className="card-text text-center">
+                                                    {campus.campus}
+                                                  </p>
                                                 </div>
                                               </div>
-                                            )
-                                          )}
-                                      </div>
+                                            </div>
+                                          )
+                                        )}
                                     </div>
                                   </div>
                                 </div>
-                                <div
-                                  className="tab-pane fade"
-                                  id="tab-contact"
-                                  role="tabpanel"
-                                  aria-labelledby="contact-tab"
-                                >
-                                  <div className="row">
-                                    <div className="border-0 pt-3 px-4">
-                                      <div className="row">
-                                        {Array.isArray(program?.campuses) &&
-                                          program.campuses.map(
-                                            (campus, index) => (
-                                              <div
-                                                key={index}
-                                                className="col-sm-6 col-md-4 mb-3"
-                                              >
-                                                <div className="conatiner">
+                              </div>
+                              <div
+                                className="tab-pane fade"
+                                id="tab-contact"
+                                role="tabpanel"
+                                aria-labelledby="contact-tab"
+                              >
+                                <div className="row">
+                                  <div className="border-0 pt-3 px-4">
+                                    <div className="row">
+                                      {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (campus, index) => (
+                                            <div
+                                              key={index}
+                                              className="col-sm-6 col-md-4 mb-3"
+                                            >
+                                              <div className="conatiner">
                                                 <div className="card  rounded-1  ">
                                                   <div className="card-body bg-primary  border-0 ">
                                                     <p className="text-center  text-uppercase fw-semibold">
                                                       {campus?.inTake}
                                                     </p>
                                                   </div>
-                                                  
                                                 </div>
-                                                </div>
-                                           
                                               </div>
-                                            )
-                                          )}
-                                      </div>
+                                            </div>
+                                          )
+                                        )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
+                          </div>
 
-                            <div className="col-md-4">
+                          <div className="col-md-4">
+                            <div
+                              className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
+                              role="alert"
+                            >
+                              Intakes
+                            </div>
+
+                            <div className="card card-body">
+                              <h5 className="text-capitalize text-center">
+                                Program Intakes
+                              </h5>
+
                               <div
-                                className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
-                                role="alert"
+                                className="accordion accordion-flush border-0"
+                                id="programIntakesAccordion"
+                                style={{ fontSize: "12px" }}
                               >
-                                Intakes
-                              </div>
-
-                              <div className="card card-body">
-                                <h5 className="text-capitalize text-center">
-                                  Program Intakes
-                                </h5>
-
-                                <div
-                                  className="accordion accordion-flush border-0"
-                                  id="programIntakesAccordion"
-                                  style={{ fontSize: "12px" }}
-                                >
-                                  <div className="accordion-item">
-                                    <h2 className="accordion-header">
-                                      <button
-                                        className="btn border-0 collapsed btn-sm"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseOpen"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseOpen"
-                                      >
-                                        Open
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseOpen"
-                                      className="accordion-collapse collapse"
-                                      data-bs-parent="#programIntakesAccordion"
+                                <div className="accordion-item">
+                                  <h2 className="accordion-header">
+                                    <button
+                                      className="btn border-0 collapsed btn-sm"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#flush-collapseOpen"
+                                      aria-expanded="false"
+                                      aria-controls="flush-collapseOpen"
                                     >
-                                      <div className="accordion-body">
-                                        <div className="row row-cols-2">
-                                          <div className="col">
-                                            <p className="fw-bold">Open Time</p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-normal">
-                                              27/07/2024
-                                            </p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-bold">Deadline</p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-normal">
-                                              27/07/2025
-                                            </p>
-                                          </div>
+                                      Open
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="flush-collapseOpen"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#programIntakesAccordion"
+                                  >
+                                    <div className="accordion-body">
+                                      <div className="row row-cols-2">
+                                        <div className="col">
+                                          <p className="fw-bold">Open Time</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2024
+                                          </p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-bold">Deadline</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2025
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="accordion-item">
-                                    <h2 className="accordion-header">
-                                      <button
-                                        className="btn border-0 collapsed btn-sm"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseClosed"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseClosed"
-                                      >
-                                        Closed
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseClosed"
-                                      className="accordion-collapse collapse"
-                                      data-bs-parent="#programIntakesAccordion"
+                                </div>
+                                <div className="accordion-item">
+                                  <h2 className="accordion-header">
+                                    <button
+                                      className="btn border-0 collapsed btn-sm"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#flush-collapseClosed"
+                                      aria-expanded="false"
+                                      aria-controls="flush-collapseClosed"
                                     >
-                                      <div className="accordion-body">
-                                        <div className="row row-cols-2">
-                                          <div className="col">
-                                            <p className="fw-bold">Open Time</p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-normal">
-                                              27/07/2024
-                                            </p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-bold">Deadline</p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-normal">
-                                              27/07/2025
-                                            </p>
-                                          </div>
+                                      Closed
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="flush-collapseClosed"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#programIntakesAccordion"
+                                  >
+                                    <div className="accordion-body">
+                                      <div className="row row-cols-2">
+                                        <div className="col">
+                                          <p className="fw-bold">Open Time</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2024
+                                          </p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-bold">Deadline</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2025
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="accordion-item">
-                                    <h2 className="accordion-header">
-                                      <button
-                                        className="btn border-0 collapsed btn-sm"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseLikelyOpen"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseLikelyOpen"
-                                      >
-                                        Likely Open
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseLikelyOpen"
-                                      className="accordion-collapse collapse"
-                                      data-bs-parent="#programIntakesAccordion"
+                                </div>
+                                <div className="accordion-item">
+                                  <h2 className="accordion-header">
+                                    <button
+                                      className="btn border-0 collapsed btn-sm"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#flush-collapseLikelyOpen"
+                                      aria-expanded="false"
+                                      aria-controls="flush-collapseLikelyOpen"
                                     >
-                                      <div className="accordion-body">
-                                        <div className="row row-cols-2">
-                                          <div className="col">
-                                            <p className="fw-bold">Open Time</p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-normal">
-                                              27/07/2024
-                                            </p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-bold">Deadline</p>
-                                          </div>
-                                          <div className="col">
-                                            <p className="fw-normal">
-                                              27/07/2025
-                                            </p>
-                                          </div>
+                                      Likely Open
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="flush-collapseLikelyOpen"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#programIntakesAccordion"
+                                  >
+                                    <div className="accordion-body">
+                                      <div className="row row-cols-2">
+                                        <div className="col">
+                                          <p className="fw-bold">Open Time</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2024
+                                          </p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-bold">Deadline</p>
+                                        </div>
+                                        <div className="col">
+                                          <p className="fw-normal">
+                                            27/07/2025
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
@@ -677,277 +670,282 @@ export const Course = () => {
                                 </div>
                               </div>
                             </div>
+                          </div>
 
-                            <div className="col-lg-12">
+                          <div className="col-lg-12">
+                            <div className="row g-3">
+                              <div className="d-flex flex-row align-items-start justify-content-between mb-3">
+                                <div
+                                  className=" text-decoration-underline text-Capitalize"
+                                  style={{ color: "#fe5722" }}
+                                >
+                                  Programs
+                                </div>
+                              </div>
+
                               <div className="row g-3">
-                                <div className="d-flex flex-row align-items-start justify-content-between mb-3">
-                                  <div
-                                    className=" text-decoration-underline text-Capitalize"
-                                    style={{ color: "#fe5722" }}
+                                <div className="col-md-10">
+                                  <div class="input-group mb-3">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="Search Program..."
+                                      aria-label="programsearch"
+                                      aria-describedby="programsearch"
+                                    />
+                                    <span
+                                      class="input-group-text bg-white border-start-0"
+                                      id="programsearch"
+                                    >
+                                      <i class="fa fa-search nav-icon text-dark"></i>
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="col-md-2">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasExample"
+                                    aria-controls="offcanvasExample"
+                                    class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
+                                    style={{
+                                      backgroundColor: "#231f20",
+                                      color: "#fff",
+                                    }}
                                   >
-                                    Programs
-                                  </div>
-                                </div>
+                                    <i class="fa fa-filter nav-icon text-white"></i>
+                                    &nbsp;&nbsp;Filter
+                                  </button>
 
-                                <div className="row g-3">
-                                  <div className="col-md-10">
-                                    <div class="input-group mb-3">
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Search Program..."
-                                        aria-label="programsearch"
-                                        aria-describedby="programsearch"
-                                      />
-                                      <span
-                                        class="input-group-text bg-white border-start-0"
-                                        id="programsearch"
+                                  <div
+                                    class="offcanvas offcanvas-end"
+                                    tabindex="-1"
+                                    id="offcanvasExample"
+                                    aria-labelledby="offcanvasExampleLabel"
+                                  >
+                                    <div class="offcanvas-header">
+                                      <h5
+                                        class="offcanvas-title"
+                                        id="offcanvasExampleLabel"
                                       >
-                                        <i class="fa fa-search nav-icon text-dark"></i>
-                                      </span>
+                                        Filter Program
+                                      </h5>
+                                      <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="offcanvas"
+                                        aria-label="Close"
+                                      ></button>
                                     </div>
-                                  </div>
-                                  <div className="col-md-2">
-                                    <button
-                                      type="button"
-                                      data-bs-toggle="offcanvas"
-                                      data-bs-target="#offcanvasExample"
-                                      aria-controls="offcanvasExample"
-                                      class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
-                                      style={{
-                                        backgroundColor: "#231f20",
-                                        color: "#fff",
-                                      }}
-                                    >
-                                      <i class="fa fa-filter nav-icon text-white"></i>
-                                      &nbsp;&nbsp;Filter
-                                    </button>
-
                                     <div
-                                      class="offcanvas offcanvas-end"
-                                      tabindex="-1"
-                                      id="offcanvasExample"
-                                      aria-labelledby="offcanvasExampleLabel"
+                                      class="offcanvas-body"
+                                      style={{ scrollbarWidth: "none" }}
                                     >
-                                      <div class="offcanvas-header">
-                                        <h5
-                                          class="offcanvas-title"
-                                          id="offcanvasExampleLabel"
-                                        >
-                                          Filter Program
-                                        </h5>
-                                        <button
-                                          type="button"
-                                          class="btn-close"
-                                          data-bs-dismiss="offcanvas"
-                                          aria-label="Close"
-                                        ></button>
-                                      </div>
-                                      <div
-                                        class="offcanvas-body"
-                                        style={{ scrollbarWidth: "none" }}
-                                      >
-                                        <form>
-                                          <div class="mb-3">
-                                            <label
-                                              for="country"
-                                              class="form-label"
-                                            >
-                                              Country
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="country"
-                                              placeholder="Example New York"
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                          <div class="mb-3">
-                                            <label
-                                              for="state"
-                                              class="form-label"
-                                            >
-                                              Province/State
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="state"
-                                              placeholder="Example Coventry"
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                          <div class="mb-3">
-                                            <label
-                                              for="university"
-                                              class="form-label"
-                                            >
-                                              University Name
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="university"
-                                              placeholder="Example Standford University "
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                          <div class="mb-3">
-                                            <label
-                                              for="fees"
-                                              class="form-label"
-                                            >
-                                              Fees
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="fees"
-                                              placeholder="Example 12500"
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                          <div class="mb-3">
-                                            <label
-                                              for="fieldofstudy"
-                                              class="form-label"
-                                            >
-                                              Field Of Study
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="fieldofstudy"
-                                              placeholder="Example Medicine"
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                          <div class="mb-3">
-                                            <label for="elt" class="form-label">
-                                              ELT
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="elt"
-                                              placeholder="Example Duo Lingo"
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                          <div class="mb-3">
-                                            <label
-                                              for="coursetype"
-                                              class="form-label"
-                                            >
-                                              Course Type
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="corsetype"
-                                              placeholder="Example Game Designer"
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                          <div class="mb-3">
-                                            <label
-                                              for="universityinterview"
-                                              class="form-label"
-                                            >
-                                              University Interview
-                                            </label>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              id="universityinterview"
-                                              placeholder="Example..."
-                                              style={{ fontSize: "12px" }}
-                                            />
-                                          </div>
-                                        </form>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                {input?.map((data, index) => (
-                                  <div key={index} className="col-md-4 mb-3">
-                                    <div
-                                      className="card mb-3 rounded-1 bg-light"
-                                     
-                                    >
-                                      <div className="row g-0 align-items-center ">
-                                        <div className="col-sm-4">
-                                          <img
-                                            src={
-                                              data?.universityLogo
-                                                ? data?.universityLogo
-                                                : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                                            }
-                                            className="img-fluid rounded-circle mx-auto d-block img-thumbnail"
-                                            alt="Course Image"
-                                            style={{
-                                              width: "5.5rem",
-                                              height: "5.5rem",
-                                            }}
+                                      <form>
+                                        <div class="mb-3">
+                                          <label
+                                            for="country"
+                                            class="form-label"
+                                          >
+                                            Country
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="country"
+                                            placeholder="Example New York"
+                                            style={{ fontSize: "12px" }}
                                           />
                                         </div>
-                                        <div className="col-sm-8">
-                                          <div className="card-body">
-                                            <h6 className=" fw-bold mb-1">
-                                            <i class="fas fa-university "></i>&nbsp;&nbsp; {data?.universityName||"Not Available"}
-                                            </h6>
-                                            <p className="card-text mb-1">
-                                            <i class="fas fa-book "></i>&nbsp;&nbsp; {data?.programTitle||"Not Available"}
-                                            </p>
-                                            <p className="card-text">
-                                            <i class="fas fa-calendar-alt "></i>&nbsp;&nbsp; {data?.duration||"Not Available"}
-                                            </p>
-                                            <button
-                                              className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
-                                              style={{
-                                                backgroundColor: "#fe5722",
-                                                fontSize: "12px",
-                                              }}
-                                            >
-                                              Apply Now
-                                            </button>
-                                          </div>
+                                        <div class="mb-3">
+                                          <label for="state" class="form-label">
+                                            Province/State
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="state"
+                                            placeholder="Example Coventry"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="university"
+                                            class="form-label"
+                                          >
+                                            University Name
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="university"
+                                            placeholder="Example Standford University "
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label for="fees" class="form-label">
+                                            Fees
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="fees"
+                                            placeholder="Example 12500"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="fieldofstudy"
+                                            class="form-label"
+                                          >
+                                            Field Of Study
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="fieldofstudy"
+                                            placeholder="Example Medicine"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label for="elt" class="form-label">
+                                            ELT
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="elt"
+                                            placeholder="Example Duo Lingo"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="coursetype"
+                                            class="form-label"
+                                          >
+                                            Course Type
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="corsetype"
+                                            placeholder="Example Game Designer"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="universityinterview"
+                                            class="form-label"
+                                          >
+                                            University Interview
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="universityinterview"
+                                            placeholder="Example..."
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {input?.map((data, index) => (
+                                <div key={index} className="col-md-4 mb-3">
+                                  <div className="card mb-3 rounded-1 bg-light">
+                                    <div className="row g-0 align-items-center ">
+                                      <div className="col-sm-4">
+                                        <img
+                                          src={
+                                            data?.universityLogo
+                                              ? data?.universityLogo
+                                              : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
+                                          }
+                                          className="img-fluid rounded-circle mx-auto d-block img-thumbnail"
+                                          alt="Course Image"
+                                          style={{
+                                            width: "5.5rem",
+                                            height: "5.5rem",
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="col-sm-8">
+                                        <div className="card-body">
+                                          <h6 className=" fw-bold mb-1">
+                                            <i class="fas fa-university "></i>
+                                            &nbsp;&nbsp;{" "}
+                                            {data?.universityName ||
+                                              "Not Available"}
+                                          </h6>
+                                          <p className="card-text mb-1">
+                                            <i class="fas fa-book "></i>
+                                            &nbsp;&nbsp;{" "}
+                                            {data?.programTitle ||
+                                              "Not Available"}
+                                          </p>
+                                          <p className="card-text">
+                                            <i class="fas fa-calendar-alt "></i>
+                                            &nbsp;&nbsp;{" "}
+                                            {data?.duration || "Not Available"}
+                                          </p>
+                                          <button
+                                            className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
+                                            style={{
+                                              backgroundColor: "#fe5722",
+                                              fontSize: "12px",
+                                            }}
+                                          >
+                                            Apply Now
+                                          </button>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                ))}
+                                </div>
+                              ))}
 
-<div className="float-end my-2 p-2 end">
-                            <Pagination
-                              count={Math.ceil(pagination.count / pageSize)}
-                              onChange={handlePageChange}
-                              variant="outlined"
-                              shape="rounded"
-                              color="primary"
-                            />
-                          </div>
+                              <div className="float-end my-2 p-2 end">
+                                <Pagination
+                                  count={Math.ceil(pagination.count / pageSize)}
+                                  onChange={handlePageChange}
+                                  variant="outlined"
+                                  shape="rounded"
+                                  color="primary"
+                                />
                               </div>
-                              <nav aria-label="breadcrumb">
-  <ol className="breadcrumb float-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListProgram'>ListProgram</Link>
-    </li>
-   
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditProgram",
-         
-        }}>EditProgram</Link>
-      </li>
-  
-  </ol>
-</nav>
                             </div>
+                            <nav aria-label="breadcrumb">
+                              <ol className="breadcrumb float-end">
+                                <li className="breadcrumb-item">
+                                  <Link to="/DashBoard" target="_self" className="text-decoration-none text-capitalize">
+                                    Dashboard
+                                  </Link>
+                                </li>
+                                <li className="breadcrumb-item">
+                                  <Link to="/Programs" className="text-decoration-none text-capitalize">ListProgram</Link>
+                                </li>
+
+                                <li className="breadcrumb-item">
+                                  <Link
+                                  className="text-decoration-none text-capitalize"
+                                    to={{
+                                      pathname: "/EditProgram",
+                                      search: `?id=${id}`,
+                                    }}
+                                  >
+                                    EditProgram
+                                  </Link>
+                                </li>
+                              </ol>
+                            </nav>
                           </div>
                         </div>
                       </div>
@@ -957,66 +955,139 @@ export const Course = () => {
               </div>
             </div>
           </div>
-
-          <div class="modal fade" id="SAProgramApply" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Apply Program</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-       <form>
-        <div className="row gy-3 gx-4 mb-3">
-
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label  class="form-label">Student Name</label>
-  <input type="text" name='text' class="form-control rounded-1"  placeholder="Example John Doe" style={{fontSize:'12px'}}/>
-</div>
-
-<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label  class="form-label">DOB</label>
-  <input type="date" name='text' class="form-control text-uppercase rounded-1"  placeholder="Example John Doe" style={{fontSize:'12px'}}/>
-</div>
-
-<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label  class="form-label">Passport No</label>
-  <input type="text" name='passportno' class="form-control rounded-1"  placeholder="Example ABC123EFG" style={{fontSize:'12px'}}/>
-</div>
-
-<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label  class="form-label">Country</label>
-  <input type="text" name='country' class="form-control rounded-1"  placeholder="Example United Kingdom" style={{fontSize:'12px'}}/>
-</div>
-
-<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label  class="form-label">Email</label>
-  <input type="text" name='email' class="form-control rounded-1"  placeholder="Example johndoe123@gmail.com" style={{fontSize:'12px'}}/>
-</div>
-
-<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label  class="form-label">Primary No</label>
-  <input type="number" name='primaryno' class="form-control rounded-1"  placeholder="Example 123-4567-890" style={{fontSize:'12px'}}/>
-</div>
-
-<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label  class="form-label">WhatsApp No</label>
-  <input type="number" name='whatsappno' class="form-control rounded-1"  placeholder="Example 123-4567-890" style={{fontSize:'12px'}}/>
-</div>
         </div>
-  
 
-       </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn  px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold " data-bs-dismiss="modal" style={{fontSize:'12px',backgroundColor:'#231f20',color:'#fff'}}>Close</button>
-        <button type="button" class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold " style={{fontSize:'12px',backgroundColor:'#fe5722',color:'#fff'}}>Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
+        <div
+          class="modal fade"
+          id="SAProgramApply"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Apply Program
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div className="row gy-3 gx-4 mb-3">
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">Student Name</label>
+                      <input
+                        type="text"
+                        name="text"
+                        class="form-control rounded-1"
+                        placeholder="Example John Doe"
+                        style={{ fontSize: "12px" }}
+                      />
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">DOB</label>
+                      <input
+                        type="date"
+                        name="text"
+                        class="form-control text-uppercase rounded-1"
+                        placeholder="Example John Doe"
+                        style={{ fontSize: "12px" }}
+                      />
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">Passport No</label>
+                      <input
+                        type="text"
+                        name="passportno"
+                        class="form-control rounded-1"
+                        placeholder="Example ABC123EFG"
+                        style={{ fontSize: "12px" }}
+                      />
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">Country</label>
+                      <input
+                        type="text"
+                        name="country"
+                        class="form-control rounded-1"
+                        placeholder="Example United Kingdom"
+                        style={{ fontSize: "12px" }}
+                      />
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">Email</label>
+                      <input
+                        type="text"
+                        name="email"
+                        class="form-control rounded-1"
+                        placeholder="Example johndoe123@gmail.com"
+                        style={{ fontSize: "12px" }}
+                      />
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">Primary No</label>
+                      <input
+                        type="number"
+                        name="primaryno"
+                        class="form-control rounded-1"
+                        placeholder="Example 123-4567-890"
+                        style={{ fontSize: "12px" }}
+                      />
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">WhatsApp No</label>
+                      <input
+                        type="number"
+                        name="whatsappno"
+                        class="form-control rounded-1"
+                        placeholder="Example 123-4567-890"
+                        style={{ fontSize: "12px" }}
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn  px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
+                  data-bs-dismiss="modal"
+                  style={{
+                    fontSize: "12px",
+                    backgroundColor: "#231f20",
+                    color: "#fff",
+                  }}
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
+                  style={{
+                    fontSize: "12px",
+                    backgroundColor: "#fe5722",
+                    color: "#fff",
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      
+      </div>
     </>
   );
 };

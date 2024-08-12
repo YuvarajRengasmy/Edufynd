@@ -148,18 +148,20 @@ const AddAgent = () => {
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb float-end">
                   <li className="breadcrumb-item">
-                    <Link to="/DashBoard" target="_self">
+                    <Link to="/DashBoard" target="_self" className="text-decoration-none">
                       Dashboard
                     </Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <Link to="/ListClient">ListClient</Link>
+                    <Link to="/ListClient" className="text-decoration-none">ListClient</Link>
                   </li>
 
                   <li className="breadcrumb-item">
                     <Link
+                    className="text-decoration-none"
                       to={{
                         pathname: "/EditClient",
+                        search: `?id=${id}`,
                       }}
                     >
                       EditClient
