@@ -279,6 +279,25 @@ function Profile() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header">
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb float-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListStudent' className="text-decoration-none">ListSudent</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditStudent",
+          search: `?id=${student?._id}`,
+        }} className="text-decoration-none">EditStudent</Link>
+      </li>
+  
+  </ol>
+</nav>
+      
           <div className="container-fluid">
             <h2 className="mb-4 text-center">Student Details</h2>
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Mastersidebar from "../../compoents/sidebar";
 import { useLocation } from "react-router-dom";
 import { getSingleStaff } from "../../api/staff";
-
+import { Link } from "react-router-dom";
 export const ViewStaff = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -34,6 +34,24 @@ export const ViewStaff = () => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
           <div className="content-header">
+          <nav aria-label="breadcrumb">
+  <ol className="breadcrumb float-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListStaff' className="text-decoration-none">ListStaff</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditStaff",
+          search: `?id=${staff?._id}`,
+        }} className="text-decoration-none">EditStaff</Link>
+      </li>
+  
+  </ol>
+</nav>
             <div className="container-fluid ">
             <h2 className="mb-4 text-center">Staff Details</h2>
               <div className="row">
