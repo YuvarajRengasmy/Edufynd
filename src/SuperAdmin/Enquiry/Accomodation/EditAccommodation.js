@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPhone } from '../../../Utils/Validation';
-import { toast } from 'react-toastify';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { getallUniversity } from '../../../api/university';
-import { getFilterCountry } from '../../../api/globalsettings';
-import Select from 'react-select';
-import Flags from 'react-world-flags';
-import { updateAccommodationEnquiry, getSingleAccommodationEnquiry } from '../../../api/Enquiry/accommodation';
-import Mastersidebar from '../../../compoents/sidebar';
+import React, { useEffect, useState } from "react";
+import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
+import { toast } from "react-toastify";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { getallUniversity } from "../../../api/university";
+import { getFilterCountry } from "../../../api/globalsettings";
+import Select from "react-select";
+import Flags from "react-world-flags";
+import {
+  updateAccommodationEnquiry,
+  getSingleAccommodationEnquiry,
+} from "../../../api/Enquiry/accommodation";
+import Mastersidebar from "../../../compoents/sidebar";
 export const EditAccommodation = () => {
-
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-
     source: "",
     studentName: "",
     locationWhereAccommodationIsRequired: "",
@@ -33,9 +34,7 @@ export const EditAccommodation = () => {
     holdingOfferFromTheUniversity: "",
 
     assignedTo: "",
-
-
-  }
+  };
   const initialStateErrors = {
     source: { required: false },
     studentName: { required: false },
@@ -54,29 +53,25 @@ export const EditAccommodation = () => {
     holdingOfferFromTheUniversity: { required: false },
 
     assignedTo: { required: false },
-
-  }
+  };
 
   const [countries, setCountries] = useState([]);
   const [pagination, setPagination] = useState({
     from: 0,
     to: 10,
     count: 0,
-  })
-  const [university, setUniversity] = useState()
-  const [accommodation, setAccommodation] = useState(initialState)
-  const [errors, setErrors] = useState(initialStateErrors)
+  });
+  const [university, setUniversity] = useState();
+  const [accommodation, setAccommodation] = useState(initialState);
+  const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllUniversityList();
-
-  }, [])
+  }, []);
 
   useEffect(() => {
-
     getAllCountryDetails();
   }, [pagination.from, pagination.to]);
 
@@ -100,11 +95,14 @@ export const EditAccommodation = () => {
   };
 
   const getAllUniversityList = () => {
-    getallUniversity().then(res => {
-      setUniversity(res?.data?.result)
-    }).catch(err => { console.log(err) })
-  }
-
+    getallUniversity()
+      .then((res) => {
+        setUniversity(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getAccommodationDetails();
@@ -155,8 +153,6 @@ export const EditAccommodation = () => {
       error.assignedTo.required = true;
     }
 
-
-
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
@@ -167,24 +163,23 @@ export const EditAccommodation = () => {
       error.whatsAppNumber.valid = true;
     }
 
-    return error
-  }
+    return error;
+  };
 
   const handleInputs = (event) => {
-
-    setAccommodation({ ...accommodation, [event?.target?.name]: event?.target?.value })
-
-
+    setAccommodation({
+      ...accommodation,
+      [event?.target?.name]: event?.target?.value,
+    });
 
     if (submitted) {
-      const newError = handleValidation({ ...accommodation, [event.target.name]: event.target.value })
-      setErrors(newError)
+      const newError = handleValidation({
+        ...accommodation,
+        [event.target.name]: event.target.value,
+      });
+      setErrors(newError);
     }
-  }
-
-
-
-
+  };
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -196,7 +191,7 @@ export const EditAccommodation = () => {
       }
     }
     return true;
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -217,22 +212,16 @@ export const EditAccommodation = () => {
     }
   };
 
-
-
   return (
     <>
-      
-        <div >
-       
-            <Mastersidebar />
-        
-          <div className='content-wrapper' style={{ fontSize: '13px' }}>
-            <div className='content-header'>
-              <form className="p-1" onSubmit={handleSubmit}>
+      <Mastersidebar />
 
-                <div className='container'>
-                <div className='row'>
-                  <div className='col-xl-12'>
+      <div className="content-wrapper" style={{ fontSize: "13px" }}>
+        <div className="content-header">
+          <form className="p-1" onSubmit={handleSubmit}>
+            <div className="container">
+              <div className="row">
+                <div className="col-xl-12">
                   <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                     <div
                       className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
@@ -243,11 +232,22 @@ export const EditAccommodation = () => {
                         Edit Accommodation Enquiry
                       </h6>
                     </div>
-                    <div className='card-body mt-5'>
-                      <div className='row g-3'>
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputsource">Source<span className="text-danger">*</span></label>
-                          <select className='form-select form-select-lg rounded-2' onChange={handleInputs} value={accommodation?.source} name='source' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >
+                    <div className="card-body mt-5">
+                      <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputsource">
+                            Source<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className="form-select form-select-lg rounded-2"
+                            onChange={handleInputs}
+                            value={accommodation?.source}
+                            name="source"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
                             <option value="">Select In Source</option>
                             <option value="Agent">Agent</option>
                             <option value="Student">Student</option>
@@ -259,59 +259,161 @@ export const EditAccommodation = () => {
                           ) : null}
                         </div>
 
-                        {accommodation.source === 'Agent' ? (
+                        {accommodation.source === "Agent" ? (
                           <>
-                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
-                              <label className="form-label" for="inputAgentName">Agent Name</label>
-                              <input className="form-control rounded-2" id="inputAgentName" value={accommodation?.agentName} onChange={handleInputs} type="text" name='agentName' placeholder='Enter Agent Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label
+                                className="form-label"
+                                for="inputAgentName"
+                              >
+                                Agent Name
+                              </label>
+                              <input
+                                className="form-control rounded-2"
+                                id="inputAgentName"
+                                value={accommodation?.agentName}
+                                onChange={handleInputs}
+                                type="text"
+                                name="agentName"
+                                placeholder="Enter Agent Name"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
                               {errors.agentName.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
                               ) : null}
                             </div>
-                            <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
-                              <label className="form-label" for="inputbusinessname">Business Name</label>
-                              <input className="form-control rounded-2" id="inputbusinessname" value={accommodation?.businessName} type="text" onChange={handleInputs} name='businessName' placeholder='Enter Business Name' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label
+                                className="form-label"
+                                for="inputbusinessname"
+                              >
+                                Business Name
+                              </label>
+                              <input
+                                className="form-control rounded-2"
+                                id="inputbusinessname"
+                                value={accommodation?.businessName}
+                                type="text"
+                                onChange={handleInputs}
+                                name="businessName"
+                                placeholder="Enter Business Name"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label className="form-label" for="inputEmail">Agent Email ID</label>
-                              <input className="form-control rounded-2" name="agentEmail" value={accommodation?.agentEmail} onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
+                              <label className="form-label" for="inputEmail">
+                                Agent Email ID
+                              </label>
+                              <input
+                                className="form-control rounded-2"
+                                name="agentEmail"
+                                value={accommodation?.agentEmail}
+                                onChange={handleInputs}
+                                id="inputEmail"
+                                type="text"
+                                placeholder="Enter Email ID"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label className="form-label" for="inputPrimaryNo">Primary Number</label>
-                              <input className="form-control rounded-2" name="agentPrimaryNumber" value={accommodation?.agentPrimaryNumber} onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
+                              <label
+                                className="form-label"
+                                for="inputPrimaryNo"
+                              >
+                                Primary Number
+                              </label>
+                              <input
+                                className="form-control rounded-2"
+                                name="agentPrimaryNumber"
+                                value={accommodation?.agentPrimaryNumber}
+                                onChange={handleInputs}
+                                id="inputPrimaryNo"
+                                type="text"
+                                placeholder="Enter Primary Number"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
                             </div>
-
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label className="form-label" for="inputWhatsAppNumber"> WhatsApp Number</label>
-                              <input className="form-control rounded-2" name="agentWhatsAppNumber" value={accommodation?.agentWhatsAppNumber} onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-
+                              <label
+                                className="form-label"
+                                for="inputWhatsAppNumber"
+                              >
+                                {" "}
+                                WhatsApp Number
+                              </label>
+                              <input
+                                className="form-control rounded-2"
+                                name="agentWhatsAppNumber"
+                                value={accommodation?.agentWhatsAppNumber}
+                                onChange={handleInputs}
+                                id="inputWhatsAppNumber"
+                                type="text"
+                                placeholder="Enter WhatsApp Number"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
                             </div>
-
-
-                         
-
                           </>
                         ) : null}
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputstudentname">Name of the Student<span className="text-danger">*</span></label>
-                          <input className="form-control rounded-2" value={accommodation?.studentName} name="studentName" onChange={handleInputs} id="inputstudentname" type="text" placeholder='Enter Name of the Student' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <label className="form-label" for="inputstudentname">
+                            Name of the Student
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            value={accommodation?.studentName}
+                            name="studentName"
+                            onChange={handleInputs}
+                            id="inputstudentname"
+                            type="text"
+                            placeholder="Enter Name of the Student"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
                           {errors.studentName.required ? (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
                           ) : null}
-
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputpassportno">Passport No<span className="text-danger">*</span></label>
-                          <input className="form-control rounded-2" value={accommodation?.passportNumber} id="inputpassportno" onChange={handleInputs} name='passportNumber' type="text" placeholder='Enter Passport No' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <label className="form-label" for="inputpassportno">
+                            Passport No<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            value={accommodation?.passportNumber}
+                            id="inputpassportno"
+                            onChange={handleInputs}
+                            name="passportNumber"
+                            type="text"
+                            placeholder="Enter Passport No"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
                           {errors.passportNumber.required ? (
                             <div className="text-danger form-text">
                               This field is required.
@@ -319,13 +421,38 @@ export const EditAccommodation = () => {
                           ) : null}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputpassportno">Expiry Date<span className="text-danger">*</span></label>
-                      <input className="form-control rounded-2" id="inputpassportno"  name='expirydate' type="date" placeholder='Enter Expiry Date' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                     
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputEmail">Email ID<span className="text-danger">*</span></label>
-                          <input className="form-control rounded-2" name="email" value={accommodation?.email} onChange={handleInputs} id="inputEmail" type="text" placeholder='Enter Email ID' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <label className="form-label" for="inputpassportno">
+                            Expiry Date<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            id="inputpassportno"
+                            name="expirydate"
+                            type="date"
+                            placeholder="Enter Expiry Date"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputEmail">
+                            Email ID<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            name="email"
+                            value={accommodation?.email}
+                            onChange={handleInputs}
+                            id="inputEmail"
+                            type="text"
+                            placeholder="Enter Email ID"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
                           {errors.email.required ? (
                             <div className="text-danger form-text">
                               This field is required.
@@ -337,10 +464,23 @@ export const EditAccommodation = () => {
                           ) : null}
                         </div>
 
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputPrimaryNo">Primary Number<span className="text-danger">*</span></label>
-                          <input className="form-control rounded-2" value={accommodation?.primaryNumber} name="primaryNumber" onChange={handleInputs} id="inputPrimaryNo" type="text" placeholder='Enter Primary Number' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <label className="form-label" for="inputPrimaryNo">
+                            Primary Number<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            value={accommodation?.primaryNumber}
+                            name="primaryNumber"
+                            onChange={handleInputs}
+                            id="inputPrimaryNo"
+                            type="text"
+                            placeholder="Enter Primary Number"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
                           {errors.primaryNumber.required ? (
                             <div className="text-danger form-text">
                               This field is required.
@@ -352,8 +492,26 @@ export const EditAccommodation = () => {
                           ) : null}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputWhatsAppNumber">WhatsApp Number<span className="text-danger">*</span></label>
-                          <input className="form-control rounded-2" name="whatsAppNumber" value={accommodation?.whatsAppNumber} onChange={handleInputs} id="inputWhatsAppNumber" type="text" placeholder="Enter WhatsApp Number" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <label
+                            className="form-label"
+                            for="inputWhatsAppNumber"
+                          >
+                            WhatsApp Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            name="whatsAppNumber"
+                            value={accommodation?.whatsAppNumber}
+                            onChange={handleInputs}
+                            id="inputWhatsAppNumber"
+                            type="text"
+                            placeholder="Enter WhatsApp Number"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
                           {errors.whatsAppNumber.required ? (
                             <div className="text-danger form-text">
                               This field is required.
@@ -365,51 +523,127 @@ export const EditAccommodation = () => {
                           ) : null}
                         </div>
 
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputuniversity">University Name<span className="text-danger">*</span> </label>
-                          <input className="form-control rounded-2" value={accommodation?.universityName} id="inputstudentid" name='universityName' onChange={handleInputs} type="text" placeholder="Enter Student ID" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                          <label className="form-label" for="inputuniversity">
+                            University Name
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            value={accommodation?.universityName}
+                            id="inputstudentid"
+                            name="universityName"
+                            onChange={handleInputs}
+                            type="text"
+                            placeholder="Enter Student ID"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
                           {errors.universityName.required ? (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
                           ) : null}
-
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputuniversity">Course<span className="text-danger">*</span> </label>
-                      <input className="form-control rounded-2" id="inputstudentid" name='course'  type="text" placeholder="Enter Course" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      
-
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputuniversity">Accommodation Type<span className="text-danger">*</span> </label>
-                      <input className="form-control rounded-2" id="inputstudentid" name='AccommodationType'  type="text" placeholder="Enter Accommodation Type" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      
-
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputuniversity">Country<span className="text-danger">*</span> </label>
-                      <input className="form-control rounded-2" id="inputstudentid" name='Country'  type="text" placeholder="EnterCountry" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      
-
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputuniversity">State<span className="text-danger">*</span> </label>
-                      <input className="form-control rounded-2" id="inputstudentid" name='State'  type="text" placeholder="Enter State" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      
-
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputuniversity">City<span className="text-danger">*</span> </label>
-                      <input className="form-control rounded-2" id="inputstudentid" name='City'  type="text" placeholder="Enter City" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      
-
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputassignedto">Assigned To <span className="text-danger">*</span></label>
-                          <select className='form-select form-select-lg rounded-2' onChange={handleInputs} value={accommodation?.assignedTo} name='assignedTo' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} id='inputassignedto'>
+                          <label className="form-label" for="inputuniversity">
+                            Course<span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            id="inputstudentid"
+                            name="course"
+                            type="text"
+                            placeholder="Enter Course"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputuniversity">
+                            Accommodation Type
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            id="inputstudentid"
+                            name="AccommodationType"
+                            type="text"
+                            placeholder="Enter Accommodation Type"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputuniversity">
+                            Country<span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            id="inputstudentid"
+                            name="Country"
+                            type="text"
+                            placeholder="EnterCountry"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputuniversity">
+                            State<span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            id="inputstudentid"
+                            name="State"
+                            type="text"
+                            placeholder="Enter State"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputuniversity">
+                            City<span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            id="inputstudentid"
+                            name="City"
+                            type="text"
+                            placeholder="Enter City"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputassignedto">
+                            Assigned To <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className="form-select form-select-lg rounded-2"
+                            onChange={handleInputs}
+                            value={accommodation?.assignedTo}
+                            name="assignedTo"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            id="inputassignedto"
+                          >
                             <option>Assigned To</option>
                             <option>Agent</option>
                             <option>Admin</option>
@@ -422,57 +656,79 @@ export const EditAccommodation = () => {
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputuniversity">Finalised By<span className="text-danger">*</span> </label>
-                      <input className="form-control rounded-2" id="inputstudentid" name='  Finalised By'  type="text" placeholder="Enter   Finalised By" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      
-
-                    </div>
+                          <label className="form-label" for="inputuniversity">
+                            Finalised By<span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control rounded-2"
+                            id="inputstudentid"
+                            name="  Finalised By"
+                            type="text"
+                            placeholder="Enter   Finalised By"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>Location<span className="text-danger">*</span></label>
+                          <label style={{ color: "#231F20" }}>
+                            Location<span className="text-danger">*</span>
+                          </label>
                           <select
                             className="form-select form-select-lg rounded-2"
                             name="locationWhereAccommodationIsRequired"
-                            value={accommodation?.locationWhereAccommodationIsRequired}
-                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                            value={
+                              accommodation?.locationWhereAccommodationIsRequired
+                            }
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
                             onChange={handleInputs}
                           >
-                            <option value="" disabled hidden>Select Country</option>
-                            {countries.map((country, index) =>
-                              Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
-
-                                <option key={`${index}-${countryIndex}`} value={countryName} >{countryName}</option>
-                              ))
+                            <option value="" disabled hidden>
+                              Select Country
+                            </option>
+                            {countries.map(
+                              (country, index) =>
+                                Array.isArray(country.country) &&
+                                country.country.map(
+                                  (countryName, countryIndex) => (
+                                    <option
+                                      key={`${index}-${countryIndex}`}
+                                      value={countryName}
+                                    >
+                                      {countryName}
+                                    </option>
+                                  )
+                                )
                             )}
                           </select>
-                          {errors.locationWhereAccommodationIsRequired.required && (
+                          {errors.locationWhereAccommodationIsRequired
+                            .required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
                           )}
                         </div>
 
-
-
-
-
-                    
-
-                   
-
-
-                     
-
-
-                     
-
-
-
-
-
-                       
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputpayment">Holding Offer From The University<span className="text-danger">*</span> </label>
-                          <select className='form-select form-select-lg rounded-2' onChange={handleInputs} value={accommodation?.holdingOfferFromTheUniversity} name='holdingOfferFromTheUniversity' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} id='inputpayment'>
+                          <label className="form-label" for="inputpayment">
+                            Holding Offer From The University
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <select
+                            className="form-select form-select-lg rounded-2"
+                            onChange={handleInputs}
+                            value={accommodation?.holdingOfferFromTheUniversity}
+                            name="holdingOfferFromTheUniversity"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            id="inputpayment"
+                          >
                             <option>Select Type</option>
                             <option value="No"> Yes</option>
 
@@ -483,61 +739,44 @@ export const EditAccommodation = () => {
                               This field is required.
                             </div>
                           ) : null}
-
                         </div>
-                    
 
-                       
-
-
-
-
-
-                        <div className='row g-2'>
+                        <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-
                               to="/ListForexForm"
-                              style={{ backgroundColor: '#231F20', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              style={{
+                                backgroundColor: "#231F20",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
                               className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                             >
                               Cancel
                             </Link>
                             <button
-
-                              style={{ backgroundColor: '#FE5722', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                              type="submit" className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
+                              style={{
+                                backgroundColor: "#FE5722",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              type="submit"
+                              className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                             >
                               Update
                             </button>
                           </div>
                         </div>
-
                       </div>
-
                     </div>
                   </div>
-                  </div>
                 </div>
-
-
-                 
-
-
-
-
-
-
-                </div>
-              </form>
+              </div>
             </div>
-
-          </div>
-
+          </form>
         </div>
-      
+      </div>
     </>
-
-  )
-}
+  );
+};
 export default EditAccommodation;

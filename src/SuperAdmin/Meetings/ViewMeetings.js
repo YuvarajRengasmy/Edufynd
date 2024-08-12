@@ -29,69 +29,56 @@ export const ViewMeetings = () => {
 
         <div
           className="content-wrapper "
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
         >
           <div className="content-header ">
-            <div className="container-fluid">
-              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                <div
-                  className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
-                  style={{ background: "#fe5722", color: "#fff" }}
-                >
-                  <h5 className="text-center text-capitalize p-1">
-                    View Meetings Details
-                  </h5>
-                </div>
-                <div className="card-body">
-                  <table
-                    className="table table-hover table-bordered table-striped-columns mt-5"
-                    style={{
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "14px",
-                    }}
-                  >
-                    <tbody>
-                      <tr>
-                        <th>Host</th>
-                        <td>{notification?.hostName}</td>
-                      </tr>
 
-                      <tr>
-                        <th>Attendees</th>
-                        {Array.isArray(notification?.attendees) &&
+          <div class="container ">
+     
+        <div class="card border-light rounded-1 shadow-sm p-4">
+            <div class="card-body">
+               
+                <div class="d-flex justify-content-between mb-4">
+                    <div>
+                        <h4 class="card-title mb-1">Subject: {notification?.subject}</h4>
+                        <p class="text-muted mb-1"><i class="fas fa-calendar-day"></i> Date: {notification?.date}</p>
+                        <p class="text-muted mb-0"><i class="fas fa-clock"></i> Time: {notification?.time}</p>
+                    </div>
+                 
+                    <div class="text-primary">
+                        <i class="fas fa-calendar-alt fa-2x">&nbsp;&nbsp; Meetings</i>
+                    </div>
+                </div>
+                
+              
+                <div class="d-flex mb-4">
+                    <div class="mr-4">
+                        <h6 class="text-primary mb-1">Host:</h6>
+                        <p class="mb-0"><i class="fas fa-user"></i> {notification?.hostName}</p>
+                    </div>
+                    <div>
+                        <h6 class="text-primary mb-1">Attendees:</h6>
+                        <p class="mb-0"><i class="fas fa-users"></i>  {Array.isArray(notification?.attendees) &&
                         notification.attendees.length > 0
                           ? notification.attendees.map((attendees, index) => (
                               <li key={index}>{attendees}</li>
                             ))
-                          : "N/A"}
-                      </tr>
-                      <tr>
-                        <th>Subject</th>
-                        <td>{notification?.subject}</td>
-                      </tr>
-                      <tr>
-                        <th>Content</th>
-                        <td>
-                          {" "}
-                          <RichTextEditor
+                          : "N/A"}</p>
+                    </div>
+                </div>
+
+              
+                <div>
+                    <h6 class="text-primary mb-2">Content:</h6>
+                    <p class="card-text"> <RichTextEditor
                             value={notification?.content}
                             readOnly
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Date</th>
-                        <td>{notification?.date}</td>
-                      </tr>
-                      <tr>
-                        <th>Time</th>
-                        <td>{notification?.time}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          /></p>
                 </div>
-              </div>
             </div>
+        </div>
+    </div>
+            
           </div>
         </div>
       </div>

@@ -18,21 +18,21 @@ import StudentDashBoard from "../Students/DashBoard/StudentDashBoard";
 function RegisterPage() {
   return (
     <div>
-      
-        <Routes>
-          <Route path="/Student" element={<PrivateRoute><Home /></PrivateRoute>} />
-          <Route path="/Profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-          <Route path="/Contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
-          <Route path="/About" element={<PrivateRoute><About /></PrivateRoute>} />
-          <Route path="/TrackApplication" element={<PrivateRoute><TrackApplication /></PrivateRoute>} />
-          <Route path="/Program" element={<PrivateRoute><ListProgram /></PrivateRoute>} />
-          <Route path="/ViewApplication" element={<PrivateRoute><ViewApplication /></PrivateRoute>} />
-          <Route path="/Faq" element={<PrivateRoute><Faq /></PrivateRoute>} />
-          <Route path="/ViewpageUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
-          <Route path="/ViewProgramUniversity" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
-          <Route path="/StudentDashboard" element={<PrivateRoute><StudentDashBoard/></PrivateRoute>}/>
-        </Routes>
-    
+
+      <Routes>
+        <Route path="/Student" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Route path="/Profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="/Contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+        <Route path="/About" element={<PrivateRoute><About /></PrivateRoute>} />
+        <Route path="/TrackApplication" element={<PrivateRoute><TrackApplication /></PrivateRoute>} />
+        <Route path="/Program" element={<PrivateRoute><ListProgram /></PrivateRoute>} />
+        <Route path="/ViewApplication" element={<PrivateRoute><ViewApplication /></PrivateRoute>} />
+        <Route path="/Faq" element={<PrivateRoute><Faq /></PrivateRoute>} />
+        <Route path="/ViewpageUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
+        <Route path="/ViewProgramUniversity" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
+        <Route path="/StudentDashboard" element={<PrivateRoute><StudentDashBoard /></PrivateRoute>} />
+      </Routes>
+
     </div>
   );
 }

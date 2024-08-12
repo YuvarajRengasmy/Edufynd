@@ -1,12 +1,11 @@
 import React from 'react'
 import Sidebar from '../../compoents/sidebar';
-import Select from 'react-select';
 import { Link } from "react-router-dom";
 export const AddApplication = () => {
   return (
     <>
         
-        <div >
+        
          
             <Sidebar />
           
@@ -758,7 +757,7 @@ export const AddApplication = () => {
               </div>
             </div>
           </div>
-        </div>
+       
      
       </>
   )

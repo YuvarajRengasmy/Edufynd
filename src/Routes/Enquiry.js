@@ -1,5 +1,5 @@
 import React from "react";
-import {  Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import StudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/StudentForm";
 import EditStudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/EditStudentForm";
@@ -34,38 +34,38 @@ import ListLoanEnquiry from "../SuperAdmin/Enquiry/Loans/listLoanEnquiry";
 function Enquiry() {
   return (
     <div>
-     
-        <Routes>
-          <Route path="/ViewStudentForm" element={<PrivateRoute><StudentForm /></PrivateRoute>} />
-          <Route path="/ListStudentForm" element={<PrivateRoute><ListStudentForm /></PrivateRoute>} />
-          <Route path="/EditStudentForm" element={<PrivateRoute><EditStudentForm /></PrivateRoute>} />
-          <Route path="/AddStudentForm" element={<PrivateRoute><AddStudentForm /></PrivateRoute>} />
-          <Route path="/AddAccommodation" element={<PrivateRoute><AddAccomodation /></PrivateRoute>} />
-          <Route path="/EditAccommodation" element={<PrivateRoute><EditAccomodation /></PrivateRoute>} />
-          <Route path="/ListAccommodation" element={<PrivateRoute><ListAccomodation /></PrivateRoute>} />
-          <Route path="/ViewAccommodation" element={<PrivateRoute><ViewAccomodation /></PrivateRoute>} />
-          <Route path="/AddBusinessEnquiry" element={<PrivateRoute><AddBusiness /></PrivateRoute>} />
-          <Route path="/EditBusinessEnquiry" element={<PrivateRoute><EditBusiness /></PrivateRoute>} />
-          <Route path="/ListBusinessEnquiry" element={<PrivateRoute><ListBusiness /></PrivateRoute>} />
-          <Route path="/ViewBusinessEnquiry" element={<PrivateRoute><ViewBusiness /></PrivateRoute>} />
-          <Route path="/AddFlightTicket" element={<PrivateRoute><AddFlightTicket /></PrivateRoute>} />
-          <Route path="/EditFlightTicket" element={<PrivateRoute><EditFlightTicket /></PrivateRoute>} />
-          <Route path="/ListFlightTicket" element={<PrivateRoute><ListFlightTicket /></PrivateRoute>} />
-          <Route path="/ViewFlightTicket" element={<PrivateRoute><ViewFlightTicket /></PrivateRoute>} />
-          <Route path="/AddForexForm" element={<PrivateRoute><AddForex /></PrivateRoute>} />
-          <Route path="/ViewForexForm" element={<PrivateRoute><ViewForex /></PrivateRoute>} />
-          <Route path="/EditForexForm" element={<PrivateRoute><EditForex /></PrivateRoute>} />
-          <Route path="/ListForexForm" element={<PrivateRoute><ListForex /></PrivateRoute>} />
-          <Route path="/AddGeneralEnquiry" element={<PrivateRoute><AddGeneralEnquiry /></PrivateRoute>} />
-          <Route path="/EditGeneralEnquiry" element={<PrivateRoute><EditGeneralEnquiry /></PrivateRoute>} />
-          <Route path="/ListGeneralEnquiry" element={<PrivateRoute><ListGeneralEnquiry /></PrivateRoute>} />
-          <Route path="/ViewGeneralEnquiry" element={<PrivateRoute><ViewGeneralEnquiry /></PrivateRoute>} />
-          <Route path="/ViewLoanEnquiry" element={<PrivateRoute><ViewLoanEnquiry /></PrivateRoute>} />
-          <Route path="/AddLoanEnquiry" element={<PrivateRoute><AddLoanEnquiry /></PrivateRoute>} />
-          <Route path="/EditLoanEnquiry" element={<PrivateRoute><EditLoanEnquiry /></PrivateRoute>} />
-          <Route path="/ListLoanEnquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
-        </Routes>
-      
+
+      <Routes>
+        <Route path="/ViewStudentForm" element={<PrivateRoute><StudentForm /></PrivateRoute>} />
+        <Route path="/ListStudentForm" element={<PrivateRoute><ListStudentForm /></PrivateRoute>} />
+        <Route path="/EditStudentForm" element={<PrivateRoute><EditStudentForm /></PrivateRoute>} />
+        <Route path="/AddStudentForm" element={<PrivateRoute><AddStudentForm /></PrivateRoute>} />
+        <Route path="/AddAccommodation" element={<PrivateRoute><AddAccomodation /></PrivateRoute>} />
+        <Route path="/EditAccommodation" element={<PrivateRoute><EditAccomodation /></PrivateRoute>} />
+        <Route path="/ListAccommodation" element={<PrivateRoute><ListAccomodation /></PrivateRoute>} />
+        <Route path="/ViewAccommodation" element={<PrivateRoute><ViewAccomodation /></PrivateRoute>} />
+        <Route path="/AddBusinessEnquiry" element={<PrivateRoute><AddBusiness /></PrivateRoute>} />
+        <Route path="/EditBusinessEnquiry" element={<PrivateRoute><EditBusiness /></PrivateRoute>} />
+        <Route path="/ListBusinessEnquiry" element={<PrivateRoute><ListBusiness /></PrivateRoute>} />
+        <Route path="/ViewBusinessEnquiry" element={<PrivateRoute><ViewBusiness /></PrivateRoute>} />
+        <Route path="/AddFlightTicket" element={<PrivateRoute><AddFlightTicket /></PrivateRoute>} />
+        <Route path="/EditFlightTicket" element={<PrivateRoute><EditFlightTicket /></PrivateRoute>} />
+        <Route path="/ListFlightTicket" element={<PrivateRoute><ListFlightTicket /></PrivateRoute>} />
+        <Route path="/ViewFlightTicket" element={<PrivateRoute><ViewFlightTicket /></PrivateRoute>} />
+        <Route path="/AddForexForm" element={<PrivateRoute><AddForex /></PrivateRoute>} />
+        <Route path="/ViewForexForm" element={<PrivateRoute><ViewForex /></PrivateRoute>} />
+        <Route path="/EditForexForm" element={<PrivateRoute><EditForex /></PrivateRoute>} />
+        <Route path="/ListForexForm" element={<PrivateRoute><ListForex /></PrivateRoute>} />
+        <Route path="/AddGeneralEnquiry" element={<PrivateRoute><AddGeneralEnquiry /></PrivateRoute>} />
+        <Route path="/EditGeneralEnquiry" element={<PrivateRoute><EditGeneralEnquiry /></PrivateRoute>} />
+        <Route path="/ListGeneralEnquiry" element={<PrivateRoute><ListGeneralEnquiry /></PrivateRoute>} />
+        <Route path="/ViewGeneralEnquiry" element={<PrivateRoute><ViewGeneralEnquiry /></PrivateRoute>} />
+        <Route path="/ViewLoanEnquiry" element={<PrivateRoute><ViewLoanEnquiry /></PrivateRoute>} />
+        <Route path="/AddLoanEnquiry" element={<PrivateRoute><AddLoanEnquiry /></PrivateRoute>} />
+        <Route path="/EditLoanEnquiry" element={<PrivateRoute><EditLoanEnquiry /></PrivateRoute>} />
+        <Route path="/ListLoanEnquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
+      </Routes>
+
     </div>
   );
 }

@@ -30,57 +30,42 @@ export const ViewNotifications = () => {
         <Sidebar />
 
         <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+
+          
+      
           <div className="content-header">
-            <div className="container-fluid">
-              <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
-                <div className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0" style={{ background: '#fe5722', color: '#fff' }}>
-                  <h5 className='text-center text-capitalize p-1'>View Notifications Details</h5>
+
+          <main class="container my-5">
+        
+       
+
+       
+        <div class="card  rounded-1 mb-3">
+            <div class="card-body d-flex align-items-center">
+                <div class="mr-3">
+                    <img src={notification?.uploadImage || "path/to/image.jpg"}  class="rounded-circle img-thumbnail" alt="User Image" style={{width:'6rem',height:'6rem'}}/>
                 </div>
-                <div className="card-body">
-                  <table className='table table-hover table-bordered table-striped-columns mt-5' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                    <tbody>
-                      <tr>
-                        <th>Type of User</th>
-                        <td>{notification?.typeOfUser}</td>
-                      </tr>
-                      <tr>
-                        <th>Username</th>
-                        <td>
-                          {Array.isArray(notification?.userName) && notification.userName.length > 0
-                            ? notification.userName.map((username, index) => (
-                              <li key={index}>{username}</li>
-                            ))
-                            : "N/A"
-                          }
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Content</th>
-                        <td>
-                          <RichTextEditor value={notification?.content} readOnly />
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Subject</th>
-                        <td>{notification?.subject}</td>
-                      </tr>
-                      <tr>
-                        <th>Image</th>
-                        <td>
-                          <img 
-                            src={notification?.uploadImage || "path/to/image.jpg"} 
-                            width="150" 
-                            height="150" 
-                            alt="Notification" 
-                            className="img-fluid" 
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div>
+                    <h6 class="mb-1"><i class="fas fa-user"></i> {Array.isArray(notification?.userName) && notification.userName.length > 0
+                          ? notification.userName.map((username, index) => (
+                            <span key={index}>{username}</span>
+                          ))
+                          : "N/A"
+                        }</h6>
+                    <p class="text-muted mb-1"><i class="fas fa-users"></i> Type of Users:  {notification?.typeOfUser}</p>
+                    <p class="text-muted mb-1"><i class="fas fa-book"></i> Subject: {notification?.subject}</p>
+                    <p class="mb-0"><RichTextEditor value={notification?.content} readOnly /></p>
                 </div>
-              </div>
             </div>
+        </div>
+    </main>
+
+        
+
+
+        
+
+          
           </div>
         </div>
       </div>

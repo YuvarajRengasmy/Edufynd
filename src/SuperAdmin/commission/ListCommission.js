@@ -294,246 +294,236 @@ export default function Masterproductlist() {
 
   return (
     <>
-      <div >
-        
-          <Mastersidebar />
-        
+      <Mastersidebar />
 
-        <div
-          className="content-wrapper"
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-        >
-         
-                <div className="content-header">
-                <div className="container">
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+      >
+        <div className="content-header">
+          <div className="container">
             <div className="row ">
               <div className="col-xl-12">
-                  <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
-                    <li className="flex-grow-1">
-                      <div
-                        className="input-group"
-                        style={{ maxWidth: "600px" }}
+                <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+                  <li className="flex-grow-1">
+                    <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <input
+                        type="search"
+                        placeholder="Search"
+                        aria-describedby="button-addon3"
+                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                        style={{
+                          borderColor: "#FE5722",
+                          paddingRight: "1.5rem",
+                          marginLeft: "0px",
+                          fontSize: "12px", // Keep the font size if it's correct
+                          height: "11px", // Set the height to 11px
+                          padding: "0px", // Adjust padding to fit the height
+                        }}
+                      />
+                      <span
+                        className="input-group-text bg-transparent border-0"
+                        id="button-addon3"
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          cursor: "pointer",
+                        }}
                       >
-                        <input
-                          type="search"
-                          placeholder="Search"
-                          aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                          style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
-                            fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px", // Adjust padding to fit the height
-                          }}
-                        />
-                        <span
-                          className="input-group-text bg-transparent border-0"
-                          id="button-addon3"
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <i
-                            className="fas fa-search"
-                            style={{ color: "black" }}
-                          ></i>
-                        </span>
-                      </div>
-                    </li>
-                    <li class="m-1">
-                      <div>
-                        <button
-                          className="btn btn-primary"
-                          style={{ fontSize: "11px" }}
-                          type="button"
-                          data-bs-toggle="offcanvas"
-                          data-bs-target="#offcanvasRight"
-                          aria-controls="offcanvasRight"
-                        >
-                          {" "}
-                          <FaFilter />
-                        </button>
-                        <div
-                          className="offcanvas offcanvas-end"
-                          tabIndex={-1}
-                          id="offcanvasRight"
-                          aria-labelledby="offcanvasRightLabel"
-                        >
-                          <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">Filter Client</h5>
-                            <button
-                              type="button"
-                              className="btn-close text-reset"
-                              data-bs-dismiss="offcanvas"
-                              aria-label="Close"
-                            />
-                          </div>
-                          <div className="offcanvas-body ">
-                            <form>
-                              <div className="from-group mb-3">
-                                <label className="form-label">
-                                  Client Name
-                                </label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="businessName"
-                                  placeholder="Search...Client Name"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                <label className="form-label">
-                                  Client Contact No{" "}
-                                </label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="businessContactNo"
-                                  placeholder="Search...Client Contact No"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
+                        <i
+                          className="fas fa-search"
+                          style={{ color: "black" }}
+                        ></i>
+                      </span>
+                    </div>
+                  </li>
+                  <li class="m-1">
+                    <div>
+                      <button
+                        className="btn btn-primary"
+                        style={{ fontSize: "11px" }}
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                      >
+                        {" "}
+                        <FaFilter />
+                      </button>
+                      <div
+                        className="offcanvas offcanvas-end"
+                        tabIndex={-1}
+                        id="offcanvasRight"
+                        aria-labelledby="offcanvasRightLabel"
+                      >
+                        <div className="offcanvas-header">
+                          <h5 id="offcanvasRightLabel">Filter Client</h5>
+                          <button
+                            type="button"
+                            className="btn-close text-reset"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                          />
+                        </div>
+                        <div className="offcanvas-body ">
+                          <form>
+                            <div className="from-group mb-3">
+                              <label className="form-label">Client Name</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="businessName"
+                                placeholder="Search...Client Name"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
+                              <label className="form-label">
+                                Client Contact No{" "}
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="businessContactNo"
+                                placeholder="Search...Client Contact No"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
 
-                                <label className="form-label">Status</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="status"
-                                  placeholder="Search...Status"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                <label className="form-label">Client Id</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="clientID"
-                                  placeholder="Search...Client Id"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                              </div>
-                              <div>
-                                <button
-                                  data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
-                                  style={{
-                                    backgroundColor: "#0f2239",
-                                    color: "#fff",
-                                    fontSize: "12px",
-                                  }}
-                                  // onClick={resetFilter}
-                                >
-                                  Reset
-                                </button>
-                                <button
-                                  data-bs-dismiss="offcanvas"
-                                  type="submit"
-                                  // onClick={filterProgramList}
-                                  className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
-                                  style={{
-                                    backgroundColor: "#fe5722",
-                                    color: "#fff",
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  Apply
-                                </button>
-                              </div>
-                            </form>
-                          </div>
+                              <label className="form-label">Status</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="status"
+                                placeholder="Search...Status"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
+                              <label className="form-label">Client Id</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="clientID"
+                                placeholder="Search...Client Id"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
+                            </div>
+                            <div>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
+                                style={{
+                                  backgroundColor: "#0f2239",
+                                  color: "#fff",
+                                  fontSize: "12px",
+                                }}
+                                // onClick={resetFilter}
+                              >
+                                Reset
+                              </button>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                type="submit"
+                                // onClick={filterProgramList}
+                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
+                                style={{
+                                  backgroundColor: "#fe5722",
+                                  color: "#fff",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                Apply
+                              </button>
+                            </div>
+                          </form>
                         </div>
                       </div>
-                    </li>
-                    <li class="m-1">
-                      <Link>
+                    </div>
+                  </li>
+                  <li class="m-1">
+                    <Link>
+                      <button
+                        style={{
+                          backgroundColor: "#E12929",
+                          fontSize: "11px",
+                        }}
+                        className="btn text-white "
+                      >
+                        <span>
+                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </Link>
+                  </li>
+                  <li class="m-1">
+                    <Link class="btn-filters">
+                      <span>
                         <button
                           style={{
-                            backgroundColor: "#E12929",
+                            backgroundColor: "#22A033",
                             fontSize: "11px",
                           }}
                           className="btn text-white "
                         >
-                          <span>
-                            <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                          </span>
+                          <i class="fa fa-file-excel" aria-hidden="true"></i>
                         </button>
-                      </Link>
-                    </li>
-                    <li class="m-1">
-                      <Link class="btn-filters">
-                        <span>
-                          <button
-                            style={{
-                              backgroundColor: "#22A033",
-                              fontSize: "11px",
-                            }}
-                            className="btn text-white "
-                          >
-                            <i class="fa fa-file-excel" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
+                      </span>
+                    </Link>
+                  </li>
 
-                    <li class="m-1">
-                      <Link class="btn-filters">
-                        <span>
-                          <button
-                            style={{
-                              backgroundColor: "#9265cc",
-                              fontSize: "11px",
-                            }}
-                            className="btn text-white "
-                          >
-                            <i class="fa fa fa-upload" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddCommission">
+                  <li class="m-1">
+                    <Link class="btn-filters">
+                      <span>
                         <button
-                          className="btn text-uppercase fw-semibold px-4 py-2 border-0 text-white  "
                           style={{
-                            backgroundColor: "#fe5722",
-                            fontSize: "12px",
+                            backgroundColor: "#9265cc",
+                            fontSize: "11px",
                           }}
+                          className="btn text-white "
                         >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          Add Commission
+                          <i class="fa fa fa-upload" aria-hidden="true"></i>
                         </button>
-                      </Link>
-                    </li>
-                  </ol>
-                </div>
+                      </span>
+                    </Link>
+                  </li>
+                  <li class="m-1">
+                    <Link class="btn btn-pix-primary" to="/AddCommission">
+                      <button
+                        className="btn text-uppercase fw-semibold px-4 py-2 border-0 text-white  "
+                        style={{
+                          backgroundColor: "#fe5722",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <i
+                          class="fa fa-plus-circle me-2"
+                          aria-hidden="true"
+                        ></i>{" "}
+                        Add Commission
+                      </button>
+                    </Link>
+                  </li>
+                </ol>
               </div>
             </div>
-           
           </div>
-          <div className="content-body">
-            <div className="container">
+        </div>
+        <div className="content-body">
+          <div className="container">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card rounded-0 border-0">
@@ -548,7 +538,6 @@ export default function Masterproductlist() {
                           <thead className="table-light">
                             <tr
                               style={{
-                               
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
@@ -594,30 +583,38 @@ export default function Masterproductlist() {
                                 </td>
 
                                 <td className="text-capitalize text-start">
-                                  {data.years?.map((year, yearIndex) => (
-                                    <div key={yearIndex}>
-                                      {year?.year.length > 0
-                                        ? year?.year
-                                        : "Not Available"}
-                                      __
-                                      {year?.courseTypes?.length > 0
-                                        ? year?.courseTypes[0]?.inTake
-                                        : "Not Available"}
-                                      __
-                                      {year?.courseTypes?.length > 0
-                                        ? year?.courseTypes[0]?.courseType
-                                        : "Not Available"}
+                                  <Link
+                                    className="dropdown-item"
+                                    to={{
+                                      pathname: "/ViewCommission",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    {data.years?.map((year, yearIndex) => (
+                                      <div key={yearIndex}>
+                                        {year?.year.length > 0
+                                          ? year?.year
+                                          : "Not Available"}
                                         __
                                         {year?.courseTypes?.length > 0
-                                        ? year?.courseTypes[0]?.value
-                                        : "Not Available"}
-                                      {/* {year.courseTypes?.map((courseType, courseIndex) => (
+                                          ? year?.courseTypes[0]?.inTake
+                                          : "Not Available"}
+                                        __
+                                        {year?.courseTypes?.length > 0
+                                          ? year?.courseTypes[0]?.courseType
+                                          : "Not Available"}
+                                        __
+                                        {year?.courseTypes?.length > 0
+                                          ? year?.courseTypes[0]?.value
+                                          : "Not Available"}
+                                        {/* {year.courseTypes?.map((courseType, courseIndex) => (
                                         <div key={courseIndex}>
                                           {courseType.inTake}: {courseType.value}
                                         </div>
                                       ))} */}
-                                    </div>
-                                  ))}
+                                      </div>
+                                    ))}
+                                  </Link>
                                 </td>
                                 <td className="text-capitalize text-start">
                                   {data?.paymentType}
@@ -676,92 +673,90 @@ export default function Masterproductlist() {
                 </div>
               </div>
             </div>
-            </div>
           </div>
-          
         </div>
-        <Dialog open={open}>
-          <DialogContent>
-            <div className="text-center m-4">
-              <h5 className="mb-4 text-capitalize" >
-                Are you sure you want to Delete <br /> the Selected Commission ?
-              </h5>
-              <button
-                type="button"
-                className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
-                onClick={deleteCommissionData}
-                style={{fontSize:'12px'}}
+      </div>
+      <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4 text-capitalize">
+              Are you sure you want to Delete <br /> the Selected Commission ?
+            </h5>
+            <button
+              type="button"
+              className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              onClick={deleteCommissionData}
+              style={{ fontSize: "12px" }}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-cancel btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase "
+              onClick={closePopup}
+              style={{ fontSize: "12px" }}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog fullWidth maxWidth="sm">
+        <DialogTitle>
+          Filter University
+          <IconButton className="float-right">
+            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+          </IconButton>
+        </DialogTitle>
+        <DialogContent></DialogContent>
+      </Dialog>
+      <Dialog fullWidth maxWidth="sm">
+        <DialogTitle>
+          Upload University List
+          <IconButton className="float-right">
+            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <form>
+            <div className="from-group mb-3">
+              <div className="mb-3">
+                <input
+                  type="file"
+                  name="file"
+                  className="form-control text-dark bg-transparent"
+                  style={{ fontSize: "14px" }}
+                />
+              </div>
+            </div>
+            <div>
+              <Link
+                to="/ListUniversity"
+                className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
+                style={{
+                  backgroundColor: "#0f2239",
+                  color: "#fff",
+                  fontSize: "12px",
+                }}
               >
-                Yes
-              </button>
+                Cancel
+              </Link>
               <button
-                type="button"
-                className="btn btn-cancel btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase "
-                onClick={closePopup}
-                style={{fontSize:'12px'}}
+                type="submit"
+                // onClick={handleFileUpload}
+                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
+                style={{
+                  backgroundColor: "#fe5722",
+                  color: "#fff",
+                  fontSize: "12px",
+                }}
               >
-                No
+                Apply
               </button>
             </div>
-          </DialogContent>
-        </Dialog>
-        <Dialog fullWidth maxWidth="sm">
-          <DialogTitle>
-            Filter University
-            <IconButton className="float-right">
-              <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-            </IconButton>
-          </DialogTitle>
-          <DialogContent></DialogContent>
-        </Dialog>
-        <Dialog fullWidth maxWidth="sm">
-          <DialogTitle>
-            Upload University List
-            <IconButton className="float-right">
-              <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <form>
-              <div className="from-group mb-3">
-                <div className="mb-3">
-                  <input
-                    type="file"
-                    name="file"
-                    className="form-control text-dark bg-transparent"
-                    style={{ fontSize: "14px" }}
-                  />
-                </div>
-              </div>
-              <div>
-                <Link
-                  to="/ListUniversity"
-                  className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
-                  style={{
-                    backgroundColor: "#0f2239",
-                    color: "#fff",
-                    fontSize: "12px",
-                  }}
-                >
-                  Cancel
-                </Link>
-                <button
-                  type="submit"
-                  // onClick={handleFileUpload}
-                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
-                  style={{
-                    backgroundColor: "#fe5722",
-                    color: "#fff",
-                    fontSize: "12px",
-                  }}
-                >
-                  Apply
-                </button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

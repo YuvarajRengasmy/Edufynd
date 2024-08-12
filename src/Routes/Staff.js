@@ -21,23 +21,23 @@ import StaffDashBoard from "../Staff/DashBoard/StaffDashBoard";
 export const Staff = () => {
   return (
     <div>
-     
-        <Routes>
-        <Route path='/StaffDashboard' element={<PrivateRoute><StaffDashBoard/></PrivateRoute>}/>
-        <Route path="/ListStaffUniversity" element={<PrivateRoute><ListStaffUniversity/></PrivateRoute>}/>
-        <Route path="/ViewStaffUniversity" element={<PrivateRoute><ViewStaffUniversity/></PrivateRoute>}/>
-        <Route path="/ViewProfile" element={<PrivateRoute><ViewStaffProfile/></PrivateRoute>}/>   
-        <Route path="/AddStaffApplication" element={<PrivateRoute><AddStaffApplication/></PrivateRoute>}/>
-        <Route path="/EditStaffApplication" element={<PrivateRoute><EditStaffApplication/></PrivateRoute>}/>
-        <Route path="/ListStaffApplication" element={<PrivateRoute><ListStaffApplication/></PrivateRoute>}/>
-        <Route path="/ViewStaffApplication" element={<PrivateRoute><ViewStaffApplication/></PrivateRoute>}/>
-        <Route path="/ListStaffProgram" element={<PrivateRoute><ListStaffProgram/></PrivateRoute>}/>
-        <Route path="/ViewStaffProgram" element={<PrivateRoute><ViewStaffProgram/></PrivateRoute>}/>
-        <Route path="/ListStaffNotifications" element={<PrivateRoute><ListStaffNotifications/></PrivateRoute>}/>
-        <Route path="/ViewStaffNotifications" element={<PrivateRoute><ViewStaffNotifications/></PrivateRoute>}/> 
-        <Route path="/chat" element={<PrivateRoute><ChatList/></PrivateRoute>}/>
-        </Routes>
-     
+
+      <Routes>
+        <Route path='/StaffDashboard' element={<PrivateRoute><StaffDashBoard /></PrivateRoute>} />
+        <Route path="/ListStaffUniversity" element={<PrivateRoute><ListStaffUniversity /></PrivateRoute>} />
+        <Route path="/ViewStaffUniversity" element={<PrivateRoute><ViewStaffUniversity /></PrivateRoute>} />
+        <Route path="/ViewProfile" element={<PrivateRoute><ViewStaffProfile /></PrivateRoute>} />
+        <Route path="/AddStaffApplication" element={<PrivateRoute><AddStaffApplication /></PrivateRoute>} />
+        <Route path="/EditStaffApplication" element={<PrivateRoute><EditStaffApplication /></PrivateRoute>} />
+        <Route path="/ListStaffApplication" element={<PrivateRoute><ListStaffApplication /></PrivateRoute>} />
+        <Route path="/ViewStaffApplication" element={<PrivateRoute><ViewStaffApplication /></PrivateRoute>} />
+        <Route path="/ListStaffProgram" element={<PrivateRoute><ListStaffProgram /></PrivateRoute>} />
+        <Route path="/ViewStaffProgram" element={<PrivateRoute><ViewStaffProgram /></PrivateRoute>} />
+        <Route path="/ListStaffNotifications" element={<PrivateRoute><ListStaffNotifications /></PrivateRoute>} />
+        <Route path="/ViewStaffNotifications" element={<PrivateRoute><ViewStaffNotifications /></PrivateRoute>} />
+        <Route path="/chat" element={<PrivateRoute><ChatList /></PrivateRoute>} />
+      </Routes>
+
     </div>
   );
 };

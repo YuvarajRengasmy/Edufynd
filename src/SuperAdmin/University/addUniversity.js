@@ -1004,8 +1004,7 @@ const App = () => {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                  
                                   zIndex:'0'
                                 }}
                               />
@@ -1031,8 +1030,7 @@ const App = () => {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                 
                                   zIndex:'0'
                                 }}
                               />

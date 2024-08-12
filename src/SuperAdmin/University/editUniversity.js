@@ -1049,8 +1049,7 @@ function Profile() {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                 
                                   zIndex:'0'
                                 }}
                               />
@@ -1076,8 +1075,7 @@ function Profile() {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                  
                                   zIndex:'0'
                                 }}
                               />
