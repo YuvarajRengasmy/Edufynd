@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSingleAgent } from "../../api/agent";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../compoents/sidebar";
-
+import { Link } from "react-router-dom";
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -32,7 +32,28 @@ function Profile() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header">
-          <div className="container-fluid">
+
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListAgent' className="text-decoration-none">ListAgent</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditAgent",
+          search: `?id=${ agent?._id}`,
+        }} className="text-decoration-none">EditAgent</Link>
+      </li>
+  
+  </ol>
+</nav>
+         
+        </div>
+        <div className="container-fluid">
             <div className="row">
               <div className="col-lg-4">
                 <div className="card border-0 text-center">
@@ -208,7 +229,6 @@ function Profile() {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );
