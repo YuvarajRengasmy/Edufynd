@@ -40,3 +40,13 @@ color: #fff !important;
 font-weight: bold !important;
 font-variant: small-caps !important;
 }
+
+input.form-control:focus, 
+textarea.form-control:focus, 
+select.form-select:focus, 
+input.form-check-input:focus, 
+input[type="range"]:focus {
+    outline: none;
+    box-shadow: none;
+}
+

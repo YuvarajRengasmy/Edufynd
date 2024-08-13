@@ -908,81 +908,78 @@ const UserProfile = () => {
                             </div>
                           </div>
                           <div className="row">
-                            {Array.isArray(program) && program.length > 0 ? (
-                              program.map((data, index) => (
-                                <div key={index} className="col-md-4">
-                                  <div
-                                    class="card border-0 "
-                                    style={{
-                                      backgroundColor: "rgba(0,0,0,0.5)",
-                                      height: "10rem",
-                                    }}
-                                  >
-                                    <img
-                                      src={
-                                        data?.universityLogo
-                                          ? data?.universityLogo
-                                          : "https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
-                                      }
-                                      class="card-img img-fluid"
-                                      alt="..."
-                                      style={{
-                                        mixBlendMode: "multiply",
-                                        height: "10rem",
-                                      }}
-                                    />
-                                    <div class="card-img-overlay  text-white">
-                                      <h6
-                                        className="university-name mb-2 lh-sm"
-                                        style={{
-                                          fontWeight: "bold",
-                                        }}
-                                      >
-                                        <i className="fa fa-book nav-icon text-white "></i>{" "}
-                                        {data?.programTitle || "Program Title"}
-                                      </h6>
-                                      <p
-                                        className="course-name mb-2 lh-sm"
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        <i className="fa fa-university nav-icon text-white "></i>{" "}
-                                        {data?.universityName ||
-                                          "University Name"}
-                                      </p>
-                                      <p
-                                        className="duration mb-2 lh-sm"
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
-                                        {data?.applicationFee || "Null"}
-                                      </p>
+  {Array.isArray(program) && program.length > 0 ? (
+    program.map((data, index) => (
+      <div key={index} className="col-12 col-sm-6 col-md-4 mb-3">
+        <div
+          className="card rounded-1"
+          style={{
+            backgroundColor: "rgba(0,0,0,0.6)",
+            height: "10rem",
+          }}
+        >
+          <img
+            src={
+              data?.universityLogo
+                ? data?.universityLogo
+                : "https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
+            }
+            className="card-img img-fluid"
+            alt="..."
+            style={{
+              mixBlendMode: "multiply",
+              height: "10rem",
+            }}
+          />
+          <div className="card-img-overlay d-flex flex-column justify-content-end text-white ">
+            <h6
+              className="mb-2 lh-sm text-truncate"
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              <i className="fa fa-book nav-icon text-white"></i>{" "}
+              {data?.programTitle || "Not Available"}
+            </h6>
+            <p
+              className="mb-1 lh-sm text-truncate"
+              style={{ fontSize: "12px" }}
+            >
+              <i className="fa fa-university nav-icon text-white"></i>{" "}
+              {data?.universityName || "Not Available"}
+            </p>
+            <p
+              className="mb-1 lh-sm text-truncate"
+              style={{ fontSize: "12px" }}
+            >
+              <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
+              {data?.applicationFee || "Not Available"}
+            </p>
+            <p
+              className="mb-2 lh-sm text-truncate"
+              style={{ fontSize: "12px" }}
+            >
+              <i className="fa fa-clock nav-icon text-white"></i>{" "}
+              {data?.courseType || "Not Available"}
+            </p>
+            <button
+              className="btn btn-sm rounded-pill text-white fw-semibold px-4"
+              style={{
+                backgroundColor: "#fe5722",
+                fontSize: "12px",
+              }}
+            >
+              <i className="fa fa-paper-plane nav-icon text-white"></i> Apply
+            </button>
+          </div>
+        </div>
+      </div>
+    ))
+  ) : (
+    <p>No programs available.</p>
+  )}
+</div>
 
-                                      <p
-                                        className="duration mb-2 lh-sm"
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        <i className="fa fa-clock nav-icon text-white"></i>{" "}
-                                        {data?.courseType || "Null"}
-                                      </p>
-
-                                      <button
-                                        className="btn btn-sm rounded-pill text-white fw-semibold px-4 "
-                                        style={{
-                                          backgroundColor: "#fe5722",
-                                          fontSize: "12px",
-                                        }}
-                                      >
-                                        <i className="fa fa-paper-plane nav-icon text-white "></i>{" "}
-                                        Apply
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))
-                            ) : (
-                              <p>No programs available.</p>
-                            )}
-                          </div>
                           <div className="float-right my-2">
                             <Pagination
                               count={Math.ceil(pagination.count / pageSize)}
