@@ -46,11 +46,12 @@ const initialStateErrors = {
   const id = new URLSearchParams(location.search).get("id");
   const [program, setProgram] = useState();
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(initialStateErrors);
   const pageSize = 5;
-  const [input, setInput] = useState();
-
   const [student, setStudent] = useState([]);
+  const [input, setInput] = useState([]);
+  const [inputs, setInputs] = useState(initialState);
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -140,43 +141,42 @@ const initialStateErrors = {
 
     return error;
 };
-  const handleInputs = (event) => {
-    const { name, value } = event.target;
+const handleInputs = (event) => {
+  const { name, value } = event.target;
 
-    setInput((prevProgram) => {
-      const updatedProgram = { ...prevProgram, [name]: value };
-      if (name === "name") {
-        const selectedStudent =student.find(
-       
-          (u) => u.name === value
-        );
-        if (selectedStudent) {
-          
-          return {
-            ...updatedProgram,
-            studentId: selectedStudent._id,
-           name: selectedStudent.name,
-            email: selectedStudent.email,
-            primaryNumber: selectedStudent.phone,
-            image: selectedStudent.image
-          };
-        }
+  setInputs((prevProgram) => {
+    const updatedProgram = { ...prevProgram, [name]: value };
+
+    if (name === "name") {
+      const selectedStudent = student.find((u) => u.name === value);
+      if (selectedStudent) {
+        return {
+          ...updatedProgram,
+          studentId: selectedStudent._id,
+          name: selectedStudent.name,
+          email: selectedStudent.email,
+          dob: selectedStudent.dob,
+          country: selectedStudent.country,
+          mobileno: selectedStudent.mobileno,
+          whatsappno: selectedStudent.whatsappno
+        };
       }
-
-      return updatedProgram;
-    });
-
-    if (submitted) {
-      const newError = handleValidation({ ...input, [name]: value });
-      setErrors(newError);
     }
-  };
+
+    return updatedProgram;
+  });
+
+  if (submitted) {
+    const newError = handleValidation({ ...inputs, [name]: value });
+    setErrors(newError);
+  }
+};
 
   return (
     <>
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <Sidebar />
- {/* <div className="content-wrapper">
+ <div className="content-wrapper">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
@@ -1065,7 +1065,7 @@ const initialStateErrors = {
               </div>
             </div>
           </div>
-        </div>  */}
+        </div> 
 
         <div
           class="modal fade"
@@ -1111,7 +1111,7 @@ const initialStateErrors = {
                       <input
                         type="date"
                         name="dob"
-                        value={student?.dob}
+                        value={inputs.dob || ''}
                         onChange={handleInputs}
                         class="form-control text-uppercase rounded-1"
                         placeholder="Example John Doe"
@@ -1124,7 +1124,7 @@ const initialStateErrors = {
                       <input
                         type="text"
                         name="studentId"
-                        value={student?.Id}
+                        value={inputs?.Id}
                         onChange={handleInputs}
                         class="form-control rounded-1"
                         placeholder="Example ABC123EFG"
@@ -1137,7 +1137,7 @@ const initialStateErrors = {
                       <input
                         type="text"
                         name="country"
-                        value={student?.country}
+                        value={inputs?.country}
                         onChange={handleInputs}
                         class="form-control rounded-1"
                         placeholder="Example United Kingdom"
@@ -1150,7 +1150,7 @@ const initialStateErrors = {
                       <input
                         type="text"
                         name="email"
-                        value={student?.email}
+                        value={inputs?.email}
                         onChange={handleInputs}
                         class="form-control rounded-1"
                         placeholder="Example johndoe123@gmail.com"
@@ -1162,8 +1162,8 @@ const initialStateErrors = {
                       <label class="form-label">Primary No</label>
                       <input
                         type="number"
-                        name="mobileno"
-                        value={student?.mobileno}
+                        name="primaryNumber"
+                        value={inputs?.primaryNumber}
                         onChange={handleInputs}
                         class="form-control rounded-1"
                         placeholder="Example 123-4567-890"
@@ -1175,7 +1175,9 @@ const initialStateErrors = {
                       <label class="form-label">WhatsApp No</label>
                       <input
                         type="number"
-                        name="whatsappno"
+                        name="whatsAppNumber"
+                        value={inputs?.whatsAppNumber}
+                        onChange={handleInputs}
                         class="form-control rounded-1"
                         placeholder="Example 123-4567-890"
                         style={{ fontSize: "12px" }}
