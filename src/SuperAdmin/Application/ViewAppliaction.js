@@ -2,11 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
-import { getAllStatus, getFilterStatus } from "../../api/status";
+
+import { getFilterStatus } from "../../api/status";
+import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
+import { duration } from "@mui/material";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -17,16 +20,19 @@ export const ViewApplication = () => {
     newStatus: "",
     commentBox: "",
     document: "",
+    duration: "",
   };
 
   const initialStateErrors = {
     newStatus: { required: false },
     commentBox: { required: false },
     document: { required: false },
+    duration: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
+  const [application, setApplication] = useState([]);
 
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
@@ -44,6 +50,7 @@ export const ViewApplication = () => {
     if (id) {
       getAllModuleDetails();
       getApplicationDetails();
+      getAllApplicationsModuleDetails();
       getAgentList();
     }
   }, [id]);
@@ -72,6 +79,23 @@ export const ViewApplication = () => {
       .catch((err) => console.log(err));
   };
 
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+        setStatus(res?.data?.result?.statusList || []);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.statusCount || 0,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllModuleDetails = () => {
     const data = {
       limit: 10,
@@ -79,7 +103,7 @@ export const ViewApplication = () => {
     };
     getFilterStatus(data)
       .then((res) => {
-        setStatus(res?.data?.result?.statusList || []);
+        setApplication(res?.data?.result?.statusList || []);
         setPagination({
           ...pagination,
           count: res?.data?.result?.statusCount || 0,
@@ -105,6 +129,8 @@ export const ViewApplication = () => {
     if (!data.commentBox) {
       error.commentBox.required = true;
     }
+  
+  
     return error;
   };
   const convertToBase64 = (e, name) => {
@@ -140,9 +166,12 @@ export const ViewApplication = () => {
     }
   };
 
+
+
   const handleEditModule = (item) => {
     setTrack({
       newStatus: item.statusName,
+      duration: item.duration,
       commentBox: "",
       document: "", // Initialize commentBox as empty or with a value if needed
     });
@@ -457,6 +486,31 @@ export const ViewApplication = () => {
                                         className="input-group-text"
                                         id="basic-addon1"
                                       >
+                                        <i className="fa fa-tasks nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="text"
+                                        name="duration"
+                                        value={track.duration}
+                                        onChange={handleTrack}
+                                        className="form-control"
+                                        placeholder="Enter Status...."
+                                        aria-label="Status"
+                                        aria-describedby="basic-addon1"
+                                        style={{ fontSize: "12px" }}
+                                      />
+                                      {submitted &&
+                                        trackErrors.duration.required && (
+                                          <p className="text-danger">
+                                            Status is required
+                                          </p>
+                                        )}
+                                    </div>
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
                                         <i className="fa fa-comments nav-icon text-dark"></i>
                                       </span>
                                       <RichTextEditor
@@ -530,7 +584,9 @@ export const ViewApplication = () => {
                               </div>
                             </div>
                           </div>
+                          
                         </div>
+                       
                       ))}
                     </div>
                   </div>
@@ -570,8 +626,40 @@ export const ViewApplication = () => {
                                   ></button>
                                 </div>
                                 <div className="modal-body">
-                                  <form >
+                                <form onSubmit={handleTrackSubmit}>
                                     <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-tasks nav-icon text-dark"></i>
+                                      </span>
+                                      <select
+                                        name="newStatus"
+                                        value={track.newStatus}
+                                        onChange={handleTrack}
+                                        className="form-select"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <option value="">Select Status</option>
+                                        {
+                                          application.map((status) => (
+                                            <option
+                                              key={status._id}
+                                              value={status.statusName}
+                                            >
+                                              {status.statusName}
+                                            </option>
+                                          ))}
+                                      </select>
+                                      {submitted &&
+                                        trackErrors.newStatus.required && (
+                                          <p className="text-danger">
+                                            Status is required
+                                          </p>
+                                        )}
+                                    </div>
+                                    <div className="input-group mb-3 visually-hidden">
                                       <span
                                         className="input-group-text"
                                         id="basic-addon1"
@@ -580,41 +668,35 @@ export const ViewApplication = () => {
                                       </span>
                                       <input
                                         type="text"
-                                        name="newStatus"
-                                       
+                                        name="duration"
+                                        value="0"
+                                        onChange={handleTrack}
                                         className="form-control"
                                         placeholder="Enter Status...."
                                         aria-label="Status"
                                         aria-describedby="basic-addon1"
                                         style={{ fontSize: "12px" }}
                                       />
-                                     
+                                    
                                     </div>
                                     <div className="input-group mb-3">
-                                     
-                                     <input
-                                       type="file"
-                                       className="form-control "
-                                       style={{
-                                         fontFamily: "Plus Jakarta Sans",
-                                         fontSize: "12px",
-                                       }}
-                                       placeholder="Enter  Image upload"
-                                       name="document"
-                                       onChange={handleTrack}
-                                     />
-                                   </div>
-                                    <div className="input-group mb-3">
-                                    
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-comments nav-icon text-dark"></i>
+                                      </span>
                                       <RichTextEditor
                                         placeholder="Start writing your content here..."
                                         name="commentBox"
-                                       
+                                        onChange={handleRichTextChange}
+                                        value={track.commentBox}
                                         type="text"
                                         style={{
                                           fontFamily: "Plus Jakarta Sans",
                                           fontSize: "12px",
-                                         
+                                          minHeight: "200px",
+                                          overflowY: "auto",
                                           zIndex: "0",
                                         }}
                                       />
@@ -625,7 +707,25 @@ export const ViewApplication = () => {
                                           </p>
                                         )}
                                     </div>
-                                  
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-file nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="file"
+                                        className="form-control "
+                                        style={{
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        placeholder="Enter  Image upload"
+                                        name="document"
+                                        onChange={handleTrack}
+                                      />
+                                    </div>
                                     <div className="modal-footer">
                                       <button
                                         type="button"
@@ -641,13 +741,14 @@ export const ViewApplication = () => {
                                       </button>
                                       <button
                                         type="submit"
+                                        data-bs-dismiss="modal"
                                         className="btn px-4 py-2 text-uppercase fw-semibold"
                                         style={{
                                           fontSize: "12px",
                                           backgroundColor: "#fe5722",
                                           color: "#fff",
                                         }}
-                                        data-bs-dismiss="modal"
+                                        // data-bs-dismiss="modal"
                                       >
                                         Submit
                                       </button>

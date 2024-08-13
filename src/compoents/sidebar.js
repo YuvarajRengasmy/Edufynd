@@ -1527,6 +1527,20 @@ const Sidebar = () => {
                               </Link>
                             </li>
                             <li className="nav-item">
+                              <Link to="/ApplicationStatus"
+                                
+                               
+                                className={`nav-link sidebar_link ${[
+                                  "/ApplicationStatus",
+                                ].includes(currentPath)
+                                  ? "active"
+                                  : ""
+                                  }`}
+                              >
+                                <i class="fa fa-book nav-icon"></i> ApplicationStatus
+                              </Link>
+                            </li>
+                            <li className="nav-item">
                               <Link to="#"
                                
                                
