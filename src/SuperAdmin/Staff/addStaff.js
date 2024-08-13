@@ -416,11 +416,11 @@ export const AddStaff = () => {
                             ))}
                           </select>
                              
-                              {errors.designation.required ? (
+                              {/* {errors.designation.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) : null} */}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
