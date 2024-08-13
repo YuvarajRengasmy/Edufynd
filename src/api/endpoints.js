@@ -25,7 +25,7 @@ export const Staff ="staff";
 export const Year ="year";
 export const DepartmentHead="departmentHead";
 export const Demo = "demo";
-
+export const ApplicationStatus= "applicationStatus";
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";
 export const Loan ="loan";

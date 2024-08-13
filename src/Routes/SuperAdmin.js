@@ -107,7 +107,7 @@ import ListChat from "../SuperAdmin/Chat/ListChat";
 import AddChat from "../SuperAdmin/Chat/AddChat";
 import EditChat from "../SuperAdmin/Chat/EditChat";
 import ViewChat from "../SuperAdmin/Chat/ViewChat";
-
+import StatusModule from "../SuperAdmin/Settings/University/ApplicationStatus";
 import ListBookings from "../SuperAdmin/ELT/Bookings/ListBookings";
 import AddBookings from "../SuperAdmin/ELT/Bookings/AddBookings";
 import EditBookings from "../SuperAdmin/ELT/Bookings/EditBookings";
@@ -212,7 +212,7 @@ function SuperAdmin() {
         <Route path="/Status" element={<PrivateRoute><Status /></PrivateRoute>} />
         <Route path="/Intake" element={<PrivateRoute><Intake /></PrivateRoute>} />
         <Route path="/YearSetting" element={<PrivateRoute><Year /></PrivateRoute>} />
-
+        <Route path="/ApplicationStatus" element={<PrivateRoute><StatusModule/></PrivateRoute>} />
 
         {/* DashBoard */}
         <Route path="/DashBoard" element={<PrivateRoute><DashboardSA /></PrivateRoute>} />
