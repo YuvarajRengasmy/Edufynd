@@ -3,7 +3,8 @@ import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
 
-import { getAllStatus, getFilterStatus } from "../../api/status";
+import { getFilterStatus } from "../../api/status";
+import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
@@ -31,6 +32,7 @@ export const ViewApplication = () => {
 
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
+  const [application, setApplication] = useState([]);
 
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
@@ -48,6 +50,7 @@ export const ViewApplication = () => {
     if (id) {
       getAllModuleDetails();
       getApplicationDetails();
+      getAllApplicationsModuleDetails();
       getAgentList();
     }
   }, [id]);
@@ -76,6 +79,23 @@ export const ViewApplication = () => {
       .catch((err) => console.log(err));
   };
 
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+        setStatus(res?.data?.result?.statusList || []);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.statusCount || 0,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllModuleDetails = () => {
     const data = {
       limit: 10,
@@ -83,7 +103,7 @@ export const ViewApplication = () => {
     };
     getFilterStatus(data)
       .then((res) => {
-        setStatus(res?.data?.result?.statusList || []);
+        setApplication(res?.data?.result?.statusList || []);
         setPagination({
           ...pagination,
           count: res?.data?.result?.statusCount || 0,
@@ -623,7 +643,7 @@ export const ViewApplication = () => {
                                       >
                                         <option value="">Select Status</option>
                                         {
-                                          status.map((status) => (
+                                          application.map((status) => (
                                             <option
                                               key={status._id}
                                               value={status.statusName}

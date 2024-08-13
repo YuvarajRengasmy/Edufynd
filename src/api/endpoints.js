@@ -25,13 +25,14 @@ export const Staff ="staff";
 export const Year ="year";
 export const DepartmentHead="departmentHead";
 export const Demo = "demo";
-
+export const ApplicationStatus= "applicationStatus";
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";
 export const Loan ="loan";
 export const Forex ="forex";
 export const Accommodation ="accommodation";
 export const Flight ="flight";
+export const GeneralEnquiry ="generalEnquiry";
 
 // Invoice
 export const SenderInvoice ="senderInvoice";

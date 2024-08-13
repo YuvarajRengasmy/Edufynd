@@ -12,7 +12,7 @@ export const getSingleStatus = (data) => {
     return API.get(`${Status}/getSingleStatus`, { params: { _id: data } })
 }
 export const getallStatus = () => {
-    return API.get(`${Status}/getAllStatus`)
+    return API.get(`${Status}`)
 }
 export const deleteStatus = (data) => {
     return API.delete(`${Status}`, { params: { _id: data } });
