@@ -251,7 +251,7 @@ const handleSubmit = (event) => {
                           
                           to={{
                             pathname: "/ViewUniversity",
-                            search: `?id=${id}`,
+                            search: `?id=${program?.universityId}`,
                           }}
                           >
                           <img
