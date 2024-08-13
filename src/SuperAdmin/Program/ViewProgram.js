@@ -50,7 +50,7 @@ const initialStateErrors = {
   const pageSize = 5;
   const [input, setInput] = useState();
 
-  const [student, setStudent] = useState();
+  const [student, setStudent] = useState([]);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -147,6 +147,7 @@ const initialStateErrors = {
       const updatedProgram = { ...prevProgram, [name]: value };
       if (name === "name") {
         const selectedStudent =student.find(
+       
           (u) => u.name === value
         );
         if (selectedStudent) {
@@ -154,10 +155,10 @@ const initialStateErrors = {
           return {
             ...updatedProgram,
             studentId: selectedStudent._id,
-            studentName: selectedStudent.name,
-            studentEmail: selectedStudent.email,
-            studentPhone: selectedStudent.phone,
-            studentImage: selectedStudent.image
+           name: selectedStudent.name,
+            email: selectedStudent.email,
+            primaryNumber: selectedStudent.phone,
+            image: selectedStudent.image
           };
         }
       }
@@ -175,7 +176,7 @@ const initialStateErrors = {
     <>
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <Sidebar />
- <div className="content-wrapper">
+ {/* <div className="content-wrapper">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
@@ -1064,7 +1065,7 @@ const initialStateErrors = {
               </div>
             </div>
           </div>
-        </div> 
+        </div>  */}
 
         <div
           class="modal fade"
