@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
+
 import { getAllStatus, getFilterStatus } from "../../api/status";
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
@@ -108,9 +109,8 @@ export const ViewApplication = () => {
     if (!data.commentBox) {
       error.commentBox.required = true;
     }
-    if (!data.duration) {
-      error.duration.required = true;
-    }
+  
+  
     return error;
   };
   const convertToBase64 = (e, name) => {
@@ -145,6 +145,8 @@ export const ViewApplication = () => {
       setTrackErrors(newError);
     }
   };
+
+
 
   const handleEditModule = (item) => {
     setTrack({
@@ -562,7 +564,9 @@ export const ViewApplication = () => {
                               </div>
                             </div>
                           </div>
+                          
                         </div>
+                       
                       ))}
                     </div>
                   </div>
@@ -602,8 +606,40 @@ export const ViewApplication = () => {
                                   ></button>
                                 </div>
                                 <div className="modal-body">
-                                  <form >
+                                <form onSubmit={handleTrackSubmit}>
                                     <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-tasks nav-icon text-dark"></i>
+                                      </span>
+                                      <select
+                                        name="newStatus"
+                                        value={track.newStatus}
+                                        onChange={handleTrack}
+                                        className="form-select"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <option value="">Select Status</option>
+                                        {
+                                          status.map((status) => (
+                                            <option
+                                              key={status._id}
+                                              value={status.statusName}
+                                            >
+                                              {status.statusName}
+                                            </option>
+                                          ))}
+                                      </select>
+                                      {submitted &&
+                                        trackErrors.newStatus.required && (
+                                          <p className="text-danger">
+                                            Status is required
+                                          </p>
+                                        )}
+                                    </div>
+                                    <div className="input-group mb-3 visually-hidden">
                                       <span
                                         className="input-group-text"
                                         id="basic-addon1"
@@ -612,41 +648,35 @@ export const ViewApplication = () => {
                                       </span>
                                       <input
                                         type="text"
-                                        name="newStatus"
-                                       
+                                        name="duration"
+                                        value="0"
+                                        onChange={handleTrack}
                                         className="form-control"
                                         placeholder="Enter Status...."
                                         aria-label="Status"
                                         aria-describedby="basic-addon1"
                                         style={{ fontSize: "12px" }}
                                       />
-                                     
+                                    
                                     </div>
                                     <div className="input-group mb-3">
-                                     
-                                     <input
-                                       type="file"
-                                       className="form-control "
-                                       style={{
-                                         fontFamily: "Plus Jakarta Sans",
-                                         fontSize: "12px",
-                                       }}
-                                       placeholder="Enter  Image upload"
-                                       name="document"
-                                       onChange={handleTrack}
-                                     />
-                                   </div>
-                                    <div className="input-group mb-3">
-                                    
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-comments nav-icon text-dark"></i>
+                                      </span>
                                       <RichTextEditor
                                         placeholder="Start writing your content here..."
                                         name="commentBox"
-                                       
+                                        onChange={handleRichTextChange}
+                                        value={track.commentBox}
                                         type="text"
                                         style={{
                                           fontFamily: "Plus Jakarta Sans",
                                           fontSize: "12px",
-                                         
+                                          minHeight: "200px",
+                                          overflowY: "auto",
                                           zIndex: "0",
                                         }}
                                       />
@@ -657,7 +687,25 @@ export const ViewApplication = () => {
                                           </p>
                                         )}
                                     </div>
-                                  
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-file nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="file"
+                                        className="form-control "
+                                        style={{
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        placeholder="Enter  Image upload"
+                                        name="document"
+                                        onChange={handleTrack}
+                                      />
+                                    </div>
                                     <div className="modal-footer">
                                       <button
                                         type="button"
@@ -673,13 +721,14 @@ export const ViewApplication = () => {
                                       </button>
                                       <button
                                         type="submit"
+                                        data-bs-dismiss="modal"
                                         className="btn px-4 py-2 text-uppercase fw-semibold"
                                         style={{
                                           fontSize: "12px",
                                           backgroundColor: "#fe5722",
                                           color: "#fff",
                                         }}
-                                        data-bs-dismiss="modal"
+                                        // data-bs-dismiss="modal"
                                       >
                                         Submit
                                       </button>
