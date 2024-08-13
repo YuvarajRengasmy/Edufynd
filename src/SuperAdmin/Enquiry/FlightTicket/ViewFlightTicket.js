@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSingleFlightEnquiry } from "../../../api/Enquiry/flight";
 import { useLocation } from "react-router-dom";
 import Mastersidebar from "../../../compoents/sidebar";
-
+import { Link } from "react-router-dom";
 export const ViewFlightTicket = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -29,6 +29,25 @@ export const ViewFlightTicket = () => {
 
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
+        
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListFlightTicket' className="text-decoration-none">ListFlightTicket</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditFlightTicket",
+          search: `?id=${flight?._id}`,
+        }} className="text-decoration-none">EditFlightTicket</Link>
+      </li>
+  
+  </ol>
+</nav>
           <div className="container-fluid">
             <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
               <div

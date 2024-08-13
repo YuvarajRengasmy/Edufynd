@@ -668,14 +668,15 @@ useEffect(() => {
                                   S No
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
+                                 Title
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
                                    Code
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
                                   University Name
                                 </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                 Title
-                                </th>
+                               
                                 <th className="text-capitalize text-start sortable-handle">
                                   Application Fees
                                 </th>
@@ -703,20 +704,6 @@ useEffect(() => {
                                       {pagination.from + index + 1}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {data?.programCode}
-                                    </td>
-                                    <td
-                                      className="text-capitalize text-start"
-                                      onMouseEnter={() => toggleRow(index)}
-                                      onMouseLeave={() => toggleRow(index)}
-                                      title={data?.universityName}
-                                    >
-                                      {getDisplayText(
-                                        data?.universityName,
-                                        isExpanded
-                                      )}
-                                    </td>
-                                    <td className="text-capitalize text-start">
                                     <Link
                                           className="dropdown-item"
                                           to={{
@@ -731,6 +718,21 @@ useEffect(() => {
                                         </Link>
                                      
                                     </td>
+                                    <td className="text-capitalize text-start">
+                                      {data?.programCode}
+                                    </td>
+                                    <td
+                                      className="text-capitalize text-start"
+                                      onMouseEnter={() => toggleRow(index)}
+                                      onMouseLeave={() => toggleRow(index)}
+                                      title={data?.universityName}
+                                    >
+                                      {getDisplayText(
+                                        data?.universityName,
+                                        isExpanded
+                                      )}
+                                    </td>
+                                   
                                     <td className="text-capitalize text-start">
                                       {data?.applicationFee}
                                     </td>

@@ -31,6 +31,25 @@ export const ViewEvents = () => {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header ">
+          
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListEvents' className="text-decoration-none">ListEvents</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditEvents",
+          search: `?id=${notification?._id}`,
+        }} className="text-decoration-none">EditEvents</Link>
+      </li>
+  
+  </ol>
+</nav>
           <div className="container-fluid">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
               <div

@@ -247,6 +247,13 @@ const handleSubmit = (event) => {
                         style={{ position: "absolute", zIndex: 2 }}
                       >
                         <div className="border-0 rounded-0 bg-transparent text-center text-md-start">
+                          <Link 
+                          
+                          to={{
+                            pathname: "/ViewUniversity",
+                            search: `?id=${id}`,
+                          }}
+                          >
                           <img
                             src={
                               program?.universityLogo ||
@@ -256,6 +263,7 @@ const handleSubmit = (event) => {
                             style={{ width: "9rem", height: "9rem" }}
                             alt="University Logo"
                           />
+                          </Link>
                           <div className="card-body">
                             <div className="py-3 my-2">
                               <h5 className="h4 fw-bolder text-white d-flex align-items-end gap-2 text-capitalize">
@@ -996,58 +1004,58 @@ const handleSubmit = (event) => {
                                 </div>
                               </div>
                               {input?.map((data, index) => (
-                                <div key={index} className="col-md-4 mb-3">
-                                  <div className="card mb-3 rounded-1 bg-light">
-                                    <div className="row g-0 align-items-center ">
-                                      <div className="col-sm-4">
-                                        <img
-                                          src={
-                                            data?.universityLogo
-                                              ? data?.universityLogo
-                                              : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                                          }
-                                          className="img-fluid rounded-circle mx-auto d-block img-thumbnail"
-                                          alt="Course Image"
-                                          style={{
-                                            width: "5.5rem",
-                                            height: "5.5rem",
-                                          }}
-                                        />
-                                      </div>
-                                      <div className="col-sm-8">
-                                        <div className="card-body">
-                                          <h6 className=" fw-bold mb-1">
-                                            <i class="fas fa-university "></i>
-                                            &nbsp;&nbsp;{" "}
-                                            {data?.universityName ||
-                                              "Not Available"}
-                                          </h6>
-                                          <p className="card-text mb-1">
-                                            <i class="fas fa-book "></i>
-                                            &nbsp;&nbsp;{" "}
-                                            {data?.programTitle ||
-                                              "Not Available"}
-                                          </p>
-                                          <p className="card-text">
-                                            <i class="fas fa-calendar-alt "></i>
-                                            &nbsp;&nbsp;{" "}
-                                            {data?.duration || "Not Available"}
-                                          </p>
-                                          <button
-                                            className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
-                                            style={{
-                                              backgroundColor: "#fe5722",
-                                              fontSize: "12px",
-                                            }}
-                                          >
-                                            Apply Now
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
+  <div key={index} className="col-12 col-sm-6 col-md-4 mb-3">
+    <div className="card mb-3 rounded-1 "style={{fontSize:'12px'}}>
+      <div className="row g-0 align-items-center">
+        <div className="col-sm-4 d-flex justify-content-center align-items-center">
+          <img
+            src={
+              data?.universityLogo
+                ? data?.universityLogo
+                : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
+            }
+            className="img-fluid rounded-circle img-thumbnail"
+            alt="Course Image"
+            style={{
+              width: "4rem",
+              height: "4rem",
+            }}
+          />
+        </div>
+        <div className="col-sm-8">
+          <div className="card-body p-2">
+            <h6 className="fw-bold mb-1 text-truncate">
+              <i className="fas fa-university"></i>
+              &nbsp;&nbsp;
+              {data?.universityName || "Not Available"}
+            </h6>
+            <p className="card-text mb-1 text-truncate">
+              <i className="fas fa-book"></i>
+              &nbsp;&nbsp;
+              {data?.programTitle || "Not Available"}
+            </p>
+            <p className="card-text text-truncate">
+              <i className="fas fa-calendar-alt"></i>
+              &nbsp;&nbsp;
+              {data?.duration || "Not Available"}
+            </p>
+            <button
+              className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
+              style={{
+                backgroundColor: "#fe5722",
+                fontSize: "12px",
+              }}
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+))}
+
+
 
                               <div className="float-end my-2 p-2 end">
                                 <Pagination

@@ -30,7 +30,28 @@ export const ViewBusiness = () => {
 
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
-          <div className="container-fluid">
+
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListBusinessEnquiry' className="text-decoration-none">ListBusinessEnquiry</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditBusinessEnquiry",
+          search: `?id=${student?._id}`,
+        }} className="text-decoration-none">EditBusinessEnquiry</Link>
+      </li>
+  
+  </ol>
+</nav>
+         
+        </div>
+        <div className="container-fluid">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
               <div
                 className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
@@ -100,7 +121,6 @@ export const ViewBusiness = () => {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );

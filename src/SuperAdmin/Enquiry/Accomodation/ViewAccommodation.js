@@ -3,6 +3,7 @@ import { getSingleAccommodationEnquiry } from "../../../api/Enquiry/accommodatio
 import { useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
 import Mastersidebar from "../../../compoents/sidebar";
+import { Link } from "react-router-dom";
 export const ViewAccommodation = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -28,8 +29,30 @@ export const ViewAccommodation = () => {
       <Mastersidebar />
 
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
+      
         <div className="content-header">
-          <div className="container">
+
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListAccommodation' className="text-decoration-none">ListAccommodation</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditAccommodation",
+          search: `?id=${ accommodation?._id}`,
+        }} className="text-decoration-none">EditAccommodation</Link>
+      </li>
+  
+  </ol>
+</nav>
+         
+        </div>
+        <div className="container">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -170,7 +193,6 @@ export const ViewAccommodation = () => {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );

@@ -16,7 +16,7 @@ import Sidebar from "../../compoents/sidebar";
 import "react-quill/dist/quill.snow.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { RichTextEditor } from "@mantine/rte";
-
+import { Link } from "react-router-dom";
 export const AddNotifications = () => {
   const initialState = {
     typeOfUser: "",
@@ -405,9 +405,43 @@ export const AddNotifications = () => {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                 
                                 }}
+                                controls={[
+                                  // Basic Text Formatting
+                                  ['bold', 'italic', 'underline', 'strike'],
+                          
+                                  // Headings
+                                  ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+                          
+                                  // Lists and Indentation
+                                  ['unorderedList', 'orderedList'],
+                                  ['indent', 'outdent'],
+                          
+                                  // Media & Embeds
+                                  ['link', 'image', 'video'],
+                                  ['blockquote', 'codeBlock'],
+                          
+                                  // Text Alignment
+                                  ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
+                          
+                                  // Subscript and Superscript
+                                  ['subscript', 'superscript'],
+                          
+                                  // Colors
+                                  ['color', 'backgroundColor'],
+                          
+                                  // Advanced Embeds (These might need custom implementation)
+                                  ['insertTable'],  // Note: You might need to manually handle this
+                                  ['customHTML'],   // Note: This requires custom implementation
+                          
+                                  // Utility Functions
+                                  ['clean'],
+                                  ['code', 'redo', 'undo'],
+                          
+                                  // Font Options
+                                  ['fontFamily', 'fontSize'],
+                                ]}
                               />
                               {errors.content.required && (
                                 <div className="text-danger form-text">
@@ -444,17 +478,18 @@ export const AddNotifications = () => {
                           </div>
 
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                            <button
+                            <Link
+                            to='/ListNotifications'
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              type="reset"
+                              
                               className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
-                            </button>
+                            </Link>
                             <button
                               style={{
                                 backgroundColor: "#FE5722",

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { getSingleNotifications } from "../../api/Notification/Notification";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
-
+import { Link } from "react-router-dom";
 export const ViewNotifications = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -34,13 +34,40 @@ export const ViewNotifications = () => {
           
       
           <div className="content-header">
+          <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListNotifications' className="text-decoration-none">ListNotifications</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditNotifications",
+          search: `?id=${notification?._id}`,
+        }} className="text-decoration-none">EditNotifications</Link>
+      </li>
+  
+  </ol>
+</nav>
 
-          <main class="container my-5">
+        
+
+        
+
+
+        
+
+          
+          </div>
+          <main class="container my-3">
         
        
 
        
-        <div class="card  rounded-1 mb-3">
+        <div class="card  rounded-1 mb-5">
             <div class="card-body d-flex align-items-center">
                 <div class="mr-3">
                     <img src={notification?.uploadImage || "path/to/image.jpg"}  class="rounded-circle img-thumbnail" alt="User Image" style={{width:'6rem',height:'6rem'}}/>
@@ -59,14 +86,6 @@ export const ViewNotifications = () => {
             </div>
         </div>
     </main>
-
-        
-
-
-        
-
-          
-          </div>
         </div>
       </div>
     </>

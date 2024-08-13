@@ -156,7 +156,7 @@ export const EditGeneralEnquiry = () => {
       updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudentForm");
+          navigate("/ListGeneralEnquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -539,7 +539,7 @@ export const EditGeneralEnquiry = () => {
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "14px",
                     }}
-                    to="/ClientList"
+                    to="/ListGeneralEnquiry"
                     className="btn btn-cancel border text-white w-10 m-2"
                   >
                     Cancel
