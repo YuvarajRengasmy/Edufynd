@@ -239,17 +239,15 @@ export const ViewApplication = () => {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-4 border-end border-5 border-primary">
-                        <p className="application-id text-secondary text-center fw-semibold mb-1">
-                          Application ID: {tracks?.applicationCode || "N/A"}
-                        </p>
+                      
                         <h5 className="card-name fw-semibold text-center">
                          {tracks?.name}
                         </h5>
                         <p className="card-text text-center fw-semibold mb-1">
-                          Student ID: #101
+                        {tracks?.email} {/* Student Code:{tracks?.studentCode || "N/A"} */}
                         </p>
                         <p className="card-text text-secondary text-center fw-semibold mb-3">
-                          Tamil Nadu, India
+                         {tracks?.studentCode || "N/A"} || {tracks?.country} 
                         </p>
                         <div className="text-center">
                           <button
@@ -292,7 +290,7 @@ export const ViewApplication = () => {
                       </div>
                       <div className="col-8">
                         <h5 className="card-program mb-2 fw-light">
-                          Program Name -<span className="text-primary fw-bold">{tracks?.course}</span>
+                       <span className="text-primary fw-bold">{tracks?.course}</span>
                          
                         </h5>
                         <div className="mb-3 d-flex justify-content-between">
@@ -305,66 +303,30 @@ export const ViewApplication = () => {
                           <div className="card-body">
                             <div className="d-flex align-items-center justify-content-between">
                               <div className="d-flex flex-column">
-                                <p className="fw-semilight">Delivery Method</p>
-                                <p className="fw-semibold">-</p>
+                                <p className="fw-semilight">Campus</p>
+                                <p className="fw-semibold">{tracks?.campus}</p>
                               </div>
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Intake</p>
                                 <p className="fw-semibold">{tracks?.inTake}</p>
                               </div>
-                              <div className="d-flex flex-column">
-                                <p className="fw-semilight">Levels</p>
-                                <p className="fw-semibold">-</p>
-                              </div>
+                             
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Tuition Fee</p>
                                 <p className="fw-semibold">{tracks?.courseFees}</p>
                               </div>
                               <div className="d-flex flex-column">
-                                <p className="fw-semilight">Application Fee</p>
-                                <p className="fw-semibold">-</p>
+                                <p className="fw-semilight">Application Code</p>
+                                <p className="fw-semibold">{tracks?.applicationCode}</p>
                               </div>
+                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* <div className="card border-0">
-                  <div className="card-header bg-primary text-white">
-                    <h5 className="mb-0">Application Information</h5>
-                  </div>
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <p>
-                          <i className="fas fa-user me-2"></i>
-                          <strong>Name</strong> {track.name}
-                        </p>
-                        <p>
-                          <i className="fas fa-envelope me-2"></i>
-                          <strong>Email</strong> {track.email}
-                        </p>
-                        <p>
-                          <i className="fas fa-mobile-alt me-2"></i>
-                          <strong>Contact Number</strong>
-                          {track.primaryNumber}
-                        </p>
-                        <p>
-                          <i className="fas fa-globe me-2"></i>
-                          <strong>Course Name</strong>
-                          {track.course}
-                        </p>
-                        <p>
-                          <i className="fas fa-flag me-2"></i>
-                          <strong>Intake</strong> {track.inTake}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
+                </div>              
                 <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
                     <div className="d-flex  flex-wrap justify-content-around align-items-center">
@@ -410,7 +372,7 @@ export const ViewApplication = () => {
                           </div>
                           <OverlayTrigger
                             placement="bottom"
-                            overlay={<Tooltip>{item.duration}</Tooltip>}
+                            overlay={<Tooltip>{item.duration} Days</Tooltip>}
                           >
                             <button
                               type="button"
@@ -591,6 +553,9 @@ export const ViewApplication = () => {
                     </div>
                   </div>
                 </div>
+
+
+
 
                 <div className="card card-body mb-3">
                   <h6 className="text-start">Notes</h6>

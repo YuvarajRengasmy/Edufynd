@@ -3,6 +3,7 @@ import Sortable from "sortablejs";
 import {
   getallGeneralEnquiry,
   getSingleGenaralEnquiry,
+  getFilterGeneralEnquiry,
   deleteGeneralEnquiry,
 } from "../../../api/Enquiry/GeneralEnquiry";
 import { Link } from "react-router-dom";
@@ -63,9 +64,13 @@ export const ListGeneralEnquiry = () => {
       limit: 10,
       page: pagination.from,
     };
-    getallGeneralEnquiry(data)
+    getFilterGeneralEnquiry(data)
       .then((res) => {
-        setStudent(res?.data?.result);
+        setStudent(res?.data?.result?.generalEnquiryList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.generalEnquiryCount,
+        });
       })
       .catch((err) => {
         console.log(err);

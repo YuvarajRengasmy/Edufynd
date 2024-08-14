@@ -1,195 +1,193 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
+import Sidebar from "../../compoents/sidebar";
 
-// Dummy function to mimic fetching students
-const getallStudent = async () => {
-  return {
-    data: {
-      result: [
-        { _id: '1', name: 'John Doe', email: 'john@example.com', phone: '1234567890', image: 'john.jpg', dob: '2000-01-01', country: 'USA', mobileno: '1234567890' },
-        // Add more students as needed
-      ]
-    }
-  };
+const statuses = [
+  { name: "Submitted", className: "btn-primary" },
+  { name: "Processed", className: "btn-success" },
+  { name: "Rejected", className: "btn-danger" },
+  { name: "Offered", className: "btn-info" },
+  { name: "Fees Paid", className: "btn-success" },
+  { name: "Enrolled", className: "btn-secondary" },
+];
+
+const statusIcons = {
+  Success: "fa-check",
+  Pending: "fa-hourglass-half",
+  Rejected: "fa-times",
+  Process: "fa-cogs",
 };
 
-const YourComponent = () => {
-  const [student, setStudent] = useState([]);
-  const [input, setInput] = useState({});
-  const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+const getStatusClassName = (status) => {
+  switch (status) {
+    case "Success":
+      return "btn-success";
+    case "Pending":
+      return "btn-warning";
+    case "Rejected":
+      return "btn-danger";
+    case "Process":
+      return "btn-info";
+    default:
+      return "";
+  }
+};
 
-  useEffect(() => {
-    getAllStudentDetails();
-  }, []);
+export const Application = () => {
+  const [currentStatusIndex, setCurrentStatusIndex] = useState(0);
+  const [isInputVisible, setIsInputVisible] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [submittedStatus, setSubmittedStatus] = useState(new Set());
 
-  const handleInputs = (event) => {
-    const { name, value } = event.target;
-
-    setInput((prevProgram) => {
-      const updatedProgram = { ...prevProgram, [name]: value };
-
-      if (name === "name") {
-        const selectedStudent = student.find((u) => u.name === value);
-        if (selectedStudent) {
-          return {
-            ...updatedProgram,
-            studentId: selectedStudent._id,
-            name: selectedStudent.name,
-            email: selectedStudent.email,
-            dob: selectedStudent.dob,
-            country: selectedStudent.country,
-            mobileno: selectedStudent.mobileno,
-            whatsappno: selectedStudent.whatsappno
-          };
-        }
-      }
-
-      return updatedProgram;
-    });
-
-    if (submitted) {
-      const newError = handleValidation({ ...input, [name]: value });
-      setErrors(newError);
+  const handleStatusClick = (index) => {
+    if (index === currentStatusIndex && !submittedStatus.has(index)) {
+      setIsInputVisible(true);
     }
   };
 
-  const getAllStudentDetails = () => {
-    getallStudent()
-      .then((res) => {
-        setStudent(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleSelectChange = (e) => {
+    setSelectedStatus(e.target.value);
   };
 
-  const handleValidation = (input) => {
-    // Your validation logic here
-    return {};
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (inputValue.trim() === "") {
+      alert("Please enter a value.");
+      return;
+    }
+    if (!selectedStatus) {
+      alert("Please select a status.");
+      return;
+    }
+    setSubmittedStatus((prev) => new Set(prev).add(currentStatusIndex));
+    setInputValue("");
+    setSelectedStatus("");
+    setIsInputVisible(false);
+    if (currentStatusIndex < statuses.length - 1) {
+      setCurrentStatusIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   return (
-    <div className="modal fade" id="SAProgramApply" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div className="modal-dialog modal-lg modal-fullscreen-sm-down">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">Apply Program</h1>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <div className="row gy-3 gx-4 mb-3">
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label">Student Name</label>
-                  <select
-                    className="form-select rounded-1"
-                    aria-label="Default select example"
-                    style={{ fontSize: "12px" }}
-                    onChange={handleInputs}
-                    name="name"
-                  >
-                    <option value="">Open this select menu</option>
-                    {student?.map((data, index) => (
-                      <option key={index} value={data.name}>{data.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label">DOB</label>
-                  <input
-                    type="date"
-                    name="dob"
-                    value={input.dob || ''}
-                    onChange={handleInputs}
-                    className="form-control text-uppercase rounded-1"
-                    style={{ fontSize: "12px" }}
-                  />
-                </div>
-
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                  <label className="form-label">Student Id</label>
-                  <input
-                    type="text"
-                    name="studentId"
-                    value={input.studentId || ''}
-                    onChange={handleInputs}
-                    className="form-control rounded-1"
-                    style={{ fontSize: "12px" }}
-                  />
-                </div>
-
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label">Country</label>
-                  <input
-                    type="text"
-                    name="country"
-                    value={input.country || ''}
-                    onChange={handleInputs}
-                    className="form-control rounded-1"
-                    style={{ fontSize: "12px" }}
-                  />
-                </div>
-
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label">Email</label>
-                  <input
-                    type="text"
-                    name="email"
-                    value={input.email || ''}
-                    onChange={handleInputs}
-                    className="form-control rounded-1"
-                    style={{ fontSize: "12px" }}
-                  />
-                </div>
-
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label">Primary No</label>
-                  <input
-                    type="number"
-                    name="mobileno"
-                    value={input.mobileno || ''}
-                    onChange={handleInputs}
-                    className="form-control rounded-1"
-                    style={{ fontSize: "12px" }}
-                  />
-                </div>
-
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label">WhatsApp No</label>
-                  <input
-                    type="number"
-                    name="whatsappno"
-                    value={input.whatsappno || ''}
-                    onChange={handleInputs}
-                    className="form-control rounded-1"
-                    style={{ fontSize: "12px" }}
-                  />
+    <>
+      <Sidebar />
+      <div className="content-wrapper">
+        <div className="content-header">
+          <div className="container">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card border-0 shadow-sm p-2">
+                  <div className="card-body">
+                    <div
+                      style={{
+                        overflowX: "auto",
+                        width: "100%",
+                        scrollbarWidth: "none",
+                      }}
+                    >
+                      <div className="position-relative my-4 mx-3">
+                        <div className="progress" style={{ height: "8px" }}>
+                          <div
+                            className="progress-bar progress-bar-striped progress-bar-animated"
+                            role="progressbar"
+                            aria-label="Progress"
+                            style={{
+                              width: `${
+                                ((currentStatusIndex + 1) / statuses.length) *
+                                100
+                              }%`,
+                              backgroundColor: "#fe5722",
+                            }}
+                            aria-valuenow={currentStatusIndex + 1}
+                            aria-valuemin="0"
+                            aria-valuemax={statuses.length}
+                          ></div>
+                        </div>
+                        {statuses.map((status, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            className={`position-absolute top-0 translate-middle btn btn-sm ${getStatusClassName(
+                              submittedStatus.has(index)
+                                ? selectedStatus
+                                : status.name
+                            )} rounded-pill`}
+                            style={{
+                              width: "2rem",
+                              height: "2rem",
+                              left: `${(index / (statuses.length - 1)) * 100}%`,
+                            }}
+                            disabled={
+                              index > currentStatusIndex ||
+                              submittedStatus.has(index)
+                            }
+                            onClick={() => handleStatusClick(index)}
+                          >
+                            <i
+                              className={`fa ${
+                                statusIcons[selectedStatus] ||
+                                "fa-" + statusIcons[status.name] ||
+                                "fa-circle"
+                              }`}
+                              aria-hidden="true"
+                            />
+                          </button>
+                        ))}
+                        <div className="d-flex flex-row align-items-center justify-content-around">
+                          {statuses.map((status, index) => (
+                            <div
+                              key={index}
+                              className="col-sm-2 fw-bold"
+                              style={{ fontSize: "12px" }}
+                            >
+                              {status.name}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    {isInputVisible && (
+                      <div className="mt-3">
+                        <select
+                          value={selectedStatus}
+                          onChange={handleSelectChange}
+                          className="form-select"
+                          aria-label="Select status"
+                        >
+                          <option value="">Select Status</option>
+                          {Object.keys(statusIcons).map((key) => (
+                            <option key={key} value={key}>
+                              {key}
+                            </option>
+                          ))}
+                        </select>
+                        <input
+                          type="text"
+                          value={inputValue}
+                          onChange={handleInputChange}
+                          className="form-control mt-2"
+                          placeholder="Enter details"
+                        />
+                        <button
+                          onClick={handleSubmit}
+                          className="btn btn-primary mt-2"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </form>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold"
-              data-bs-dismiss="modal"
-              style={{ fontSize: "12px", backgroundColor: "#231f20", color: "#fff" }}
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold"
-              style={{ fontSize: "12px", backgroundColor: "#fe5722", color: "#fff" }}
-            >
-              Submit
-            </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default YourComponent;
+export default Application;

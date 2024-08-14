@@ -19,7 +19,7 @@ export const Course = () => {
   const initialState = {
     name: "",
     primaryNumber: "",
-    citizenship:"",
+    country:"",
     studentCode: "",
     studentId:"",
     campus: "",
@@ -31,7 +31,7 @@ export const Course = () => {
 const initialStateErrors = {
     name: { required: false },
     primaryNumber: { required: false },
-    citizenship: { required: false },
+    country: { required: false },
     studentCode: { required: false },
     studentId: { required: false },
     campus: { required: false },
@@ -117,7 +117,7 @@ const initialStateErrors = {
     if (!data.name) error.name.required = true;
     if (!data.studentId) error.studentId.required = true;
     if (!data.primaryNumber) error.primaryNumber.required = true;
-    if (!data.citizenship) error.citizenship.required = true;
+    if (!data.country) error.country.required = true;
     if (!data.studentCode) error.studentCode.required = true;
 
     return error;
@@ -135,7 +135,7 @@ const handleInputs = (event) => {
           ...updatedProgram,
           studentId: selectedStudent._id,
           primaryNumber: selectedStudent.primaryNumber,
-          citizenship: selectedStudent.citizenship,
+          country: selectedStudent.citizenship,
           studentCode: selectedStudent.studentCode,
           email: selectedStudent.email,
         };
@@ -1149,15 +1149,15 @@ const handleSubmit = (event) => {
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">Country</label>
                       <input
-                        type="type"
-                        name="citizenship"
-                        value={inputs.citizenship || ''}
+                        type="text"
+                        name="country"
+                        value={inputs.country || ''}
                         onChange={handleInputs}
                         class="form-control text-uppercase rounded-1"
                         placeholder="Example John Doe"
                         style={{ fontSize: "12px" }}
                       />
-                      {errors.citizenship.required ? (
+                      {errors.country.required ? (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>

@@ -202,55 +202,36 @@ function Profile() {
       });
   };
 
- 
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
-
-    setInputs((prevInputs) => {
-      const updatedInputs = { ...prevInputs, [name]: value };
-
-      // if (name === "universityName") {
-      //   const selectedUniversity = program.find(
-      //     console.log("universityName", value),
-      //     (u) => u.universityName === value
-      //   );
-      //   if (selectedUniversity) {
-      //     const campus = selectedUniversity.campuses.map(
-      //       (campus) => campus.campus
-      //     );
-      //     const inTake = selectedUniversity.campuses.map(
-      //       (campus) => campus.inTake
-      //     );
-      //     const courseFees = selectedUniversity.campuses.flatMap(
-      //       (campus) => campus.courseFees
-      //     );
-
-      //     return {
-      //       ...updatedInputs,
-      //       universityId: selectedUniversity._id,
-      //       universityLogo: selectedUniversity.universityLogo,
-      //       inTake: inTake,
-      //       campus: campus,
-      //       courseFees: courseFees,
-      //       course: selectedUniversity.programTitle,
-      //       courseType: selectedUniversity.courseType,
-      //       country: selectedUniversity.country,
-      //       popularCategories: selectedUniversity.popularCategories,
-      //     };
-      //   }
-      // } else {
-      //   console.error("Program is not an array or is undefined.");
-      // }
-
-      return updatedInputs;
+  
+    setInputs((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+  
+      if (name === "universityName") {
+        const selectedUniversity = university.find((u) => u.universityName === value);
+        if (selectedUniversity) {
+          return {
+            ...updatedProgram,
+            course: selectedUniversity.programTitle,
+            
+          };
+        }
+      }
+  
+    
+  
+      return updatedProgram;
     });
-
+  
     if (submitted) {
       const newError = handleValidation({ ...inputs, [name]: value });
       setErrors(newError);
     }
   };
+
+ 
 
   const handleErrors = (error) => {
     let isValid = true;
@@ -458,8 +439,8 @@ function Profile() {
                                 fontSize: "14px",
                               }}
                               name="universityName"
-                              value={program.universityName}
-                              onChange={handleUniversityChange}
+                              value={inputs.universityName}
+                              onChange={handleInputs}
                             >
                               <option
                                 className=" font-weight-light"
@@ -500,7 +481,7 @@ function Profile() {
                                   className="form-select rounded-1 p-2"
                                   name="course"
                                   onChange={handleInputs}
-                                  value={student.course}
+                                  value={inputs.course}
                                 >
                                   <option>Select Campus</option>
 
