@@ -311,7 +311,7 @@ export default function Masterproductlist() {
                 type="search"
                 placeholder="Search....."
                 aria-describedby="button-addon3"
-                className="form-control border-0 rounded-4"
+                className="form-control border-1 border-dark rounded-4"
                 style={{ fontSize: '12px' }}
               />
               <span

@@ -351,7 +351,7 @@ export default function Masterproductlist() {
                         style={{ maxWidth: "600px" }}
                       >
                         <input
-                          className="form-control border-0  rounded-4"
+                          className="form-control border-1 border-dark rounded-4"
                           placeholder="Search....."
                           type="search"
                           aria-describedby="button-addon3"
@@ -403,7 +403,7 @@ export default function Masterproductlist() {
                     aria-labelledby="offcanvasRightLabel"
                   >
                     <div className="offcanvas-header">
-                      <h5 id="offcanvasRightLabel">Filter Client</h5>
+                      <h6 id="offcanvasRightLabel">Filter Client</h6>
                       <button
                         type="button"
                         className="btn-close"
@@ -570,7 +570,7 @@ export default function Masterproductlist() {
                   style={{ backgroundColor: "#00796B" }} // Tropical Teal
                 >
                   <div className="card-body">
-                    <h5 className="card-title">Active Clients</h5>
+                    <h6 className=""><i class="fas fa-user-check "></i>&nbsp;&nbsp;Active Clients</h6>
                     <p className="card-text">Total: 120</p>
                     <p className="card-text">
                       <i className="fas fa-users"></i> Actively Engaged
@@ -587,7 +587,7 @@ export default function Masterproductlist() {
                   style={{ backgroundColor: "#C62828" }} // Crimson Red
                 >
                   <div className="card-body">
-                    <h5 className="card-title">Inactive Clients</h5>
+                    <h6 className=""><i class="fas fa-user-times "></i>&nbsp;&nbsp;Inactive Clients</h6>
                     <p className="card-text">Total: 45</p>
                     <p className="card-text">
                       <i className="fas fa-user-slash"></i> Currently Inactive
@@ -604,7 +604,7 @@ export default function Masterproductlist() {
                   style={{ backgroundColor: "#0288D1" }} // Steel Blue
                 >
                   <div className="card-body">
-                    <h5 className="card-title">Invoices Raised</h5>
+                    <h6 className=""><i class="fas fa-file-invoice "></i>&nbsp;&nbsp;Invoices Raised</h6>
                     <p className="card-text">Total: 350</p>
                     <p className="card-text">
                       <i className="fas fa-file-invoice"></i> Pending Payments
@@ -621,7 +621,7 @@ export default function Masterproductlist() {
                   style={{ backgroundColor: "#1A237E" }} // Navy Blue
                 >
                   <div className="card-body">
-                    <h5 className="card-title">Invoices Paid</h5>
+                    <h6 className=""><i class="fas fa-money-check-alt "></i>&nbsp;&nbsp;Invoices Paid</h6>
                     <p className="card-text">Total: 290</p>
                     <p className="card-text">
                       <i className="fas fa-money-bill-wave"></i> Payments

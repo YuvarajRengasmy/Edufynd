@@ -470,7 +470,7 @@ const chartRef = useRef(null);
                   ref={search}
                   onChange={handleInputsearch}
                   aria-describedby="button-addon3"
-                  className="form-control border-0 rounded-4"
+                  className="form-control border-1 border-dark rounded-4"
                   style={{ fontSize: '12px' }}
                 />
                 <button
@@ -642,9 +642,9 @@ const chartRef = useRef(null);
         <div className="col-md-3 mb-3">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 text-white shadow-sm p-3" style={{ backgroundColor: "#00796B" }}> {/* Tropical Teal */}
-              <div className="row ">
+              <div className="row g-0">
                 <div className="col-7">
-                <h6 className="">Number of Universities</h6>
+                <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
                 <p className="card-text">Total: 50</p>
                 </div>
                 <div className="col-5">
@@ -662,7 +662,7 @@ const chartRef = useRef(null);
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Steel Blue */}
               <div className="card-body">
-                <h6 className="">Countries Listed</h6>
+                <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
                 <p className="card-text mb-1">Total: 20</p>
                 <p className="card-text mb-1">Country List</p>
@@ -676,7 +676,7 @@ const chartRef = useRef(null);
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#C62828" }}> {/* Crimson Red */}
               <div className="card-body">
-                <h6 className="">University Status</h6>
+                <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Status</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
                 <p className="card-text mb-1">Active: 30</p>
                 <p className="card-text mb-1">Inactive: 10</p>
@@ -691,7 +691,7 @@ const chartRef = useRef(null);
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
               <div className="card-body">
-                <h6 className="">Number of Applications</h6>
+                <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;No Of Applications</h6>
                 <p className="card-text">Total: 500</p>
               </div>
             </div>
@@ -793,9 +793,9 @@ const chartRef = useRef(null);
                         {getDisplayText(data?.popularCategories.join(", "), isExpanded)}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
-                        {data?.noofApplications}
+                        {data?.noofApplications||"Not Available"}
                       </td>
-                      <td>
+                      <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
                           <OverlayTrigger
                             placement="bottom"
