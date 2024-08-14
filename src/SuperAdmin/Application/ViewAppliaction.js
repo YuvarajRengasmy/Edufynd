@@ -21,6 +21,7 @@ export const ViewApplication = () => {
     commentBox: "",
     document: "",
     duration: "",
+    progress:"",
   };
 
   const initialStateErrors = {
@@ -28,6 +29,7 @@ export const ViewApplication = () => {
     commentBox: { required: false },
     document: { required: false },
     duration: { required: false },
+    progress: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
@@ -157,6 +159,7 @@ export const ViewApplication = () => {
         [name]: value,
       }));
     }
+ 
     if (submitted) {
       const newError = handleValidation({
         ...track,
@@ -203,6 +206,9 @@ export const ViewApplication = () => {
         const data = {
           _id: id,
           status: track,
+          progress: Math.min(100, track.progress + 80),
+         
+         
         };
         updateApplication(data)
           .then((res) => {
@@ -217,11 +223,11 @@ export const ViewApplication = () => {
     }
   };
 
-  const getProgress = (statusIndex) => {
-    const completedCount = status.slice(0, 2).length; // Assume first two statuses are completed
-    const totalCount = status.length;
-    const percentage = (completedCount / totalCount) * 100;
-    return percentage;
+  const getProgressColor = (progress) => {
+    if (progress === 0) return '#e0e0e0'; // Gray for 0 progress
+    if (progress < 50) return '#ff9800'; // Orange for <50%
+    if (progress < 100) return '#ffc107'; // Yellow for <100%
+    return '#4caf50'; // Green for 100%
   };
 
   return (
@@ -239,17 +245,15 @@ export const ViewApplication = () => {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-4 border-end border-5 border-primary">
-                        <p className="application-id text-secondary text-center fw-semibold mb-1">
-                          Application ID: {tracks?.applicationCode || "N/A"}
-                        </p>
+                      
                         <h5 className="card-name fw-semibold text-center">
                          {tracks?.name}
                         </h5>
                         <p className="card-text text-center fw-semibold mb-1">
-                          Student ID: #101
+                        {tracks?.email} {/* Student Code:{tracks?.studentCode || "N/A"} */}
                         </p>
                         <p className="card-text text-secondary text-center fw-semibold mb-3">
-                          Tamil Nadu, India
+                         {tracks?.studentCode || "N/A"} || {tracks?.country} 
                         </p>
                         <div className="text-center">
                           <button
@@ -292,7 +296,7 @@ export const ViewApplication = () => {
                       </div>
                       <div className="col-8">
                         <h5 className="card-program mb-2 fw-light">
-                          Program Name -<span className="text-primary fw-bold">{tracks?.course}</span>
+                       <span className="text-primary fw-bold">{tracks?.course}</span>
                          
                         </h5>
                         <div className="mb-3 d-flex justify-content-between">
@@ -305,66 +309,30 @@ export const ViewApplication = () => {
                           <div className="card-body">
                             <div className="d-flex align-items-center justify-content-between">
                               <div className="d-flex flex-column">
-                                <p className="fw-semilight">Delivery Method</p>
-                                <p className="fw-semibold">-</p>
+                                <p className="fw-semilight">Campus</p>
+                                <p className="fw-semibold">{tracks?.campus}</p>
                               </div>
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Intake</p>
                                 <p className="fw-semibold">{tracks?.inTake}</p>
                               </div>
-                              <div className="d-flex flex-column">
-                                <p className="fw-semilight">Levels</p>
-                                <p className="fw-semibold">-</p>
-                              </div>
+                             
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Tuition Fee</p>
                                 <p className="fw-semibold">{tracks?.courseFees}</p>
                               </div>
                               <div className="d-flex flex-column">
-                                <p className="fw-semilight">Application Fee</p>
-                                <p className="fw-semibold">-</p>
+                                <p className="fw-semilight">Application Code</p>
+                                <p className="fw-semibold">{tracks?.applicationCode}</p>
                               </div>
+                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* <div className="card border-0">
-                  <div className="card-header bg-primary text-white">
-                    <h5 className="mb-0">Application Information</h5>
-                  </div>
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <p>
-                          <i className="fas fa-user me-2"></i>
-                          <strong>Name</strong> {track.name}
-                        </p>
-                        <p>
-                          <i className="fas fa-envelope me-2"></i>
-                          <strong>Email</strong> {track.email}
-                        </p>
-                        <p>
-                          <i className="fas fa-mobile-alt me-2"></i>
-                          <strong>Contact Number</strong>
-                          {track.primaryNumber}
-                        </p>
-                        <p>
-                          <i className="fas fa-globe me-2"></i>
-                          <strong>Course Name</strong>
-                          {track.course}
-                        </p>
-                        <p>
-                          <i className="fas fa-flag me-2"></i>
-                          <strong>Intake</strong> {track.inTake}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
+                </div>              
                 <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
                     <div className="d-flex  flex-wrap justify-content-around align-items-center">
@@ -379,14 +347,17 @@ export const ViewApplication = () => {
                               className="progress"
                               role="progressbar"
                               aria-label="Progress"
-                              aria-valuenow={getProgress(index)}
+                              aria-valuenow={item.progress}
                               aria-valuemin="0"
                               aria-valuemax="100"
                               style={{ height: "7px" }}
                             >
                               <div
                                 className="progress-bar progress-bar-striped progress-bar-animated"
-                                style={{ width: `${getProgress(index)}%` }}
+                                style={{
+                                  width: `${item.progress}%`,
+                                  backgroundColor: getProgressColor(item.progress),
+                                }}
                               ></div>
                             </div>
                             <button
@@ -405,12 +376,15 @@ export const ViewApplication = () => {
                             ></button>
                             <div
                               className="progress-bar progress-bar-striped progress-bar-animated"
-                              style={{ width: `${getProgress(index)}%` }}
+                              style={{
+                                width: `${item.progress}%`,
+                                backgroundColor: getProgressColor(item.progress),
+                              }}
                             ></div>
                           </div>
                           <OverlayTrigger
                             placement="bottom"
-                            overlay={<Tooltip>{item.duration}</Tooltip>}
+                            overlay={<Tooltip>{item.duration} Days</Tooltip>}
                           >
                             <button
                               type="button"
@@ -534,6 +508,27 @@ export const ViewApplication = () => {
                                           </p>
                                         )}
                                     </div>
+
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-file nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="number"
+                                        className="form-control "
+                                        style={{
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        value={"80"}
+                                        placeholder="Enter  Image upload"
+                                        name="progress"
+                                        onChange={handleTrack}
+                                      />
+                                    </div>
                                     <div className="input-group mb-3">
                                       <span
                                         className="input-group-text"
@@ -591,6 +586,9 @@ export const ViewApplication = () => {
                     </div>
                   </div>
                 </div>
+
+
+
 
                 <div className="card card-body mb-3">
                   <h6 className="text-start">Notes</h6>

@@ -32,6 +32,7 @@ export const Loan ="loan";
 export const Forex ="forex";
 export const Accommodation ="accommodation";
 export const Flight ="flight";
+export const GeneralEnquiry ="generalEnquiry";
 
 // Invoice
 export const SenderInvoice ="senderInvoice";

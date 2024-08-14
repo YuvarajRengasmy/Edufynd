@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {
-  getallStudnetEnquiry,
-  getSingleStudnetEnquiry,
-  deleteStudnetEnquiry,
-} from "../../../api/Enquiry/student";
+  getallGeneralEnquiry,
+  getSingleGenaralEnquiry,
+  getFilterGeneralEnquiry,
+  deleteGeneralEnquiry,
+} from "../../../api/Enquiry/GeneralEnquiry";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -63,9 +64,13 @@ export const ListGeneralEnquiry = () => {
       limit: 10,
       page: pagination.from,
     };
-    getallStudnetEnquiry(data)
+    getFilterGeneralEnquiry(data)
       .then((res) => {
-        setStudent(res?.data?.result);
+        setStudent(res?.data?.result?.generalEnquiryList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.generalEnquiryCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -86,7 +91,7 @@ export const ListGeneralEnquiry = () => {
   };
 
   const deletStudentData = () => {
-    deleteStudnetEnquiry(deleteId)
+    deleteGeneralEnquiry(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();

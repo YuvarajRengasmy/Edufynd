@@ -1,56 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { getSingleProgram, getallProgram } from "../../api/Program";
+import {saveApplication} from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
-import { Link, useLocation } from "react-router-dom";
-import { isValidEmail, isValidPhone } from '../../Utils/Validation';
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import "./Course.css";
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
 import Sidebar from "../../compoents/sidebar";
 import Flags from "react-world-flags";
 import { Pagination } from "@mui/material";
+import { toast } from 'react-toastify';
 import { University } from "../../api/endpoints";
 import { RichTextEditor } from "@mantine/rte";
 
 export const Course = () => {
   const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-  
     name: "",
-    dob: "",
-    passportNo: "",
-    email: "",
     primaryNumber: "",
-    whatsAppNumber: "",
+    country:"",
+    studentCode: "",
+    studentId:"",
     campus: "",
     inTake: "",
-    universityName: "",
-    course: "",
-    courseFees:0
+    courseFees:"",
+    email:"",
 };
 
 const initialStateErrors = {
     name: { required: false },
-    dob: { required: false },
-    passportNo: { required: false },
-    email: { required: false, valid: false },
-    primaryNumber: { required: false, valid: false },
-    whatsAppNumber: { required: false, valid: false },
+    primaryNumber: { required: false },
+    country: { required: false },
+    studentCode: { required: false },
+    studentId: { required: false },
     campus: { required: false },
     inTake: { required: false },
-    universityName: { required: false },
-    course: { required: false },
-    courseFees: { required: false }
+    courseFees: { required: false },
+    email:{required:false},
 };
 
-  const id = new URLSearchParams(location.search).get("id");
+  
   const [program, setProgram] = useState();
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(initialStateErrors);
   const pageSize = 5;
-  const [input, setInput] = useState();
+  const navigate = useNavigate();
 
   const [student, setStudent] = useState([]);
+  const [input, setInput] = useState([]);
+  const [inputs, setInputs] = useState(initialState);
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -115,62 +115,95 @@ const initialStateErrors = {
     let error = { ...initialStateErrors };
 
     if (!data.name) error.name.required = true;
-    if (!data.dob) error.dob.required = true;
-    if (!data.passportNo) error.passportNo.required = true;
-    if (!data.email) {
-        error.email.required = true;
-    } else if (!isValidEmail(data.email)) {
-        error.email.valid = true;
-    }
-    if (!data.primaryNumber) {
-        error.primaryNumber.required = true;
-    } else if (!isValidPhone(data.primaryNumber)) {
-        error.primaryNumber.valid = true;
-    }
-    if (!data.whatsAppNumber) {
-        error.whatsAppNumber.required = true;
-    } else if (!isValidPhone(data.whatsAppNumber)) {
-        error.whatsAppNumber.valid = true;
-    }
+    if (!data.studentId) error.studentId.required = true;
+    if (!data.primaryNumber) error.primaryNumber.required = true;
+    if (!data.country) error.country.required = true;
+    if (!data.studentCode) error.studentCode.required = true;
     if (!data.campus) error.campus.required = true;
     if (!data.inTake) error.inTake.required = true;
-    if (!data.universityName) error.universityName.required = true;
-    if (!data.course) error.course.required = true;
-    // if (!data.courseFees) error.courseFees.required = true;
+    if (!data.courseFees) error.courseFees.required = true;
+  
 
     return error;
 };
-  const handleInputs = (event) => {
-    const { name, value } = event.target;
+const handleInputs = (event) => {
+  const { name, value } = event.target;
 
-    setInput((prevProgram) => {
-      const updatedProgram = { ...prevProgram, [name]: value };
-      if (name === "name") {
-        const selectedStudent =student.find(
-       
-          (u) => u.name === value
-        );
-        if (selectedStudent) {
-          
-          return {
-            ...updatedProgram,
-            studentId: selectedStudent._id,
-           name: selectedStudent.name,
-            email: selectedStudent.email,
-            primaryNumber: selectedStudent.phone,
-            image: selectedStudent.image
-          };
-        }
+  setInputs((prevProgram) => {
+    const updatedProgram = { ...prevProgram, [name]: value };
+
+    if (name === "name") {
+      const selectedStudent = student.find((u) => u.name === value);
+      if (selectedStudent) {
+        return {
+          ...updatedProgram,
+          studentId: selectedStudent._id,
+          primaryNumber: selectedStudent.primaryNumber,
+          country: selectedStudent.citizenship,
+          studentCode: selectedStudent.studentCode,
+          email: selectedStudent.email,
+        };
       }
-
-      return updatedProgram;
-    });
-
-    if (submitted) {
-      const newError = handleValidation({ ...input, [name]: value });
-      setErrors(newError);
     }
-  };
+
+    if (name === "campus") {
+      const selectedCampus = program.campuses.find((u) => u.campus === value);
+      if (selectedCampus) {
+        return {
+          ...updatedProgram,
+          courseFees: selectedCampus.courseFees,
+          inTake:selectedCampus.inTake,
+        
+        };
+      }
+    }
+
+    return updatedProgram;
+  });
+
+  if (submitted) {
+    const newError = handleValidation({ ...inputs, [name]: value });
+    setErrors(newError);
+  }
+};
+
+const handleErrors = (obj) => {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const prop = obj[key];
+      if (prop.required === true || prop.valid === true) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  const newError = handleValidation(inputs);
+  setErrors(newError);
+  setSubmitted(true);
+  if (handleErrors(newError)) {
+    const data = {
+      ...inputs,
+      course:program.programTitle,
+      universityName:program.universityName,
+    
+      // programId:program._id
+
+    };
+    saveApplication(data)
+      .then((res) => {
+        console.log(res);
+        toast.success(res?.data?.message);
+        navigate("/Programs");
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  }
+};
 
   return (
     <>
@@ -224,7 +257,7 @@ const initialStateErrors = {
                           
                           to={{
                             pathname: "/ViewUniversity",
-                            search: `?id=${id}`,
+                            search: `?id=${program?.universityId}`,
                           }}
                           >
                           <img
@@ -1096,7 +1129,7 @@ const initialStateErrors = {
                 ></button>
               </div>
               <div class="modal-body">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="row gy-3 gx-4 mb-3">
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">Student Name</label>
@@ -1112,32 +1145,11 @@ const initialStateErrors = {
                           <option id={index} value={data.name}>{data.name}</option>
                         ))}
                       </select>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">DOB</label>
-                      <input
-                        type="date"
-                        name="dob"
-                        value={student?.dob}
-                        onChange={handleInputs}
-                        class="form-control text-uppercase rounded-1"
-                        placeholder="Example John Doe"
-                        style={{ fontSize: "12px" }}
-                      />
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                      <label class="form-label">studnet Id</label>
-                      <input
-                        type="text"
-                        name="studentId"
-                        value={student?.Id}
-                        onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example ABC123EFG"
-                        style={{ fontSize: "12px" }}
-                      />
+                      {errors.name.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1145,54 +1157,160 @@ const initialStateErrors = {
                       <input
                         type="text"
                         name="country"
-                        value={student?.country}
+                        value={inputs.country || ''}
+                        onChange={handleInputs}
+                        class="form-control text-uppercase rounded-1"
+                        placeholder="Example John Doe"
+                        style={{ fontSize: "12px" }}
+                      />
+                      {errors.country.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
+                      <label class="form-label">Email</label>
+                      <input
+                        type="type"
+                        name="email"
+                        value={inputs.email || ''}
+                        onChange={handleInputs}
+                        class="form-control text-uppercase rounded-1"
+                        placeholder="Example John Doe"
+                        style={{ fontSize: "12px" }}
+                      />
+                      {errors.email.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none ">
+                      <label class="form-label">studnet Id</label>
+                      <input
+                        type="text"
+                        name="studentId"
+                        value={inputs?.studentId}
+                        onChange={handleInputs}
+                        class="form-control rounded-1"
+                        placeholder="Example ABC123EFG"
+                        style={{ fontSize: "12px" }}
+                      />
+                       {errors.studentId.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
+                      <label class="form-label">studnet Code</label>
+                      <input
+                        type="text"
+                        name="studentCode"
+                        value={inputs?.studentCode}
+                        onChange={handleInputs}
+                        class="form-control rounded-1"
+                        placeholder="Example ABC123EFG"
+                        style={{ fontSize: "12px" }}
+                      />
+                       {errors.studentCode.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">Mobile Number</label>
+                      <input
+                        type="text"
+                        name="primaryNumber"
+                        value={inputs?.primaryNumber}
                         onChange={handleInputs}
                         class="form-control rounded-1"
                         placeholder="Example United Kingdom"
                         style={{ fontSize: "12px" }}
                       />
+                    {errors.primaryNumber.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
-
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">Email</label>
-                      <input
-                        type="text"
-                        name="email"
-                        value={student?.email}
+                      <label class="form-label">campus</label>
+                     <select 
+                        class="form-select rounded-1"
+                        aria-label="Default select example"
+                        style={{ fontSize: "12px" }}
                         onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example johndoe123@gmail.com"
-                        style={{ fontSize: "12px" }}
-                      />
+                        name="campus"
+                      >
+                        <option selected>Open this select menu</option>
+                        {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (campus, index) => (
+                          <option id={index} value={campus.campus}>{campus.campus}</option>
+                        ))}
+                      </select>
+                      {errors.campus.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
-
+                   
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">Primary No</label>
-                      <input
-                        type="number"
-                        name="mobileno"
-                        value={student?.mobileno}
+                      <label class="form-label">InTake</label>
+                     <select
+                        class="form-select rounded-1"
+                        aria-label="Default select example"
+                        style={{ fontSize: "12px" }}
                         onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example 123-4567-890"
-                        style={{ fontSize: "12px" }}
-                      />
+                        value={inputs?.inTake}
+                        name="inTake"
+                      >
+                        <option selected>Open this select menu</option>
+                        {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (intake, index) => (
+                          <option id={index} value={intake.inTake}>{intake.inTake}</option>
+                        ))}
+                      </select>
+                      {errors.inTake.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">WhatsApp No</label>
-                      <input
-                        type="number"
-                        name="whatsappno"
-                        class="form-control rounded-1"
-                        placeholder="Example 123-4567-890"
+                      <label class="form-label">Course Fees</label>
+                     <select
+                        class="form-select rounded-1"
+                        aria-label="Default select example"
                         style={{ fontSize: "12px" }}
-                      />
+                        onChange={handleInputs}
+                        value={inputs?.courseFees}
+                        name="courseFees"
+                      >
+                        <option selected>Open this select menu</option>
+                        {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (intake, index) => (
+                          <option id={index} value={intake.courseFees}>{intake.courseFees}</option>
+                        ))}
+                      </select>
+                      {errors.courseFees.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
+                   
+                    <div class="modal-footer">
                 <button
                   type="button"
                   class="btn  px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
@@ -1206,7 +1324,7 @@ const initialStateErrors = {
                   Close
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
                   style={{
                     fontSize: "12px",
@@ -1217,6 +1335,11 @@ const initialStateErrors = {
                   Submit
                 </button>
               </div>
+                    
+                  </div>
+                </form>
+              </div>
+             
             </div>
           </div>
         </div>

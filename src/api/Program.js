@@ -38,8 +38,9 @@ export const getSingleProgram = (data) => {
     });
 };
 
-export const getProgramByUniversity = (name) => {
+export const getProgramByUniversity = (_id) => {
   return API.get(`${Program}/getProgramByUniversity`, {
-    params: { universityName: name }, 
+    params: { universityId:_id }, 
   });
 };
+
