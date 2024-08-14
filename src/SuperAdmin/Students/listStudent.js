@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent } from "../../api/student";
+import {  deleteStudent , getFilterStudentAdmin,getFilterStudent } from "../../api/student";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-import Masterheader from "../../compoents/header";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
+
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { formatDate } from "../../Utils/DateFormat";
 
 import { toast } from "react-toastify";
-import { getStudentId,getSuperAdminId } from "../../Utils/storage";
+import { getStudentId, } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
 
@@ -32,7 +32,7 @@ export default function Masterproductlist() {
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
-  const [filter, setFilter] = useState(false);
+  // const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
   const [pagination, setPagination] = useState({
@@ -43,9 +43,9 @@ export default function Masterproductlist() {
 
   const [student, setStudent] = useState();
 
-  useEffect(() => {
-    getAllStudentDetails();
-  }, [pagination.from, pagination.to]);
+  // useEffect(() => {
+  //   getAllStudentDetails();
+  // }, [pagination.from, pagination.to]);
 
   const getAllStudentDetails = () => {
     const data = {
@@ -97,16 +97,16 @@ export default function Masterproductlist() {
       });
   };
 
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+  // const openFilterPopup = () => {
+  //   setOpenFilter(true);
+  // };
 
   const closeFilterPopup = () => {
     setOpenFilter(false);
   };
   const filterStudentList = (event) => {
     event?.preventDefault();
-    setFilter(true);
+    // setFilter(true);
     const data = {
       universityName: inputs.universityName,
       programTitle: inputs.programTitle,
@@ -131,7 +131,7 @@ export default function Masterproductlist() {
   };
 
   const resetFilter = () => {
-    setFilter(false);
+    // setFilter(false);
     setInputs(initialStateInputs);
     getAllStudentDetails();
   };
@@ -515,10 +515,8 @@ export default function Masterproductlist() {
 
 
 
-
-
-    <div className="container-fluid mt-3 overflow-x-auto mb-3" style={{scrollbarWidth:'thin'}}>
-      <div className="d-flex ">
+<div className="container mt-3">
+      <div className="d-flex overflow-auto">
         {/* Application Submitted Card */}
         <div className="col-md-3 flex-shrink-0">
           <Link to="#" className="text-decoration-none">
@@ -601,10 +599,6 @@ export default function Masterproductlist() {
         </div>
       </div>
     </div>
-
-
-
-
         
         
             <div className="container">
