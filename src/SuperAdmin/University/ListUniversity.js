@@ -395,7 +395,7 @@ export default function Masterproductlist() {
           className="content-wrapper  "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-          <div className="content-header ">
+          <div className="content-header bg-white sticky-top">
             <div className="container">
               <div className="row">
                 <div className="col-xl-12">
@@ -658,7 +658,75 @@ export default function Masterproductlist() {
               </div>
             </div>
           </div>
-          <div className="content-body">
+
+
+          <div className="container my-3">
+  <div className="row">
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#00796B" }} // Tropical Teal
+        >
+          <div className="card-body">
+            <h5 className="card-title">Number of Universities</h5>
+            <p className="card-text">Total: 50</p>
+           
+          </div>
+        </div>
+      </Link>
+    </div>
+    
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#0288D1" }} // Steel Blue
+        >
+          <div className="card-body">
+            <h5 className="card-title">Countries Listed</h5>
+            <p className="card-text">Total: 20</p>
+           
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#C62828" }} // Crimson Red
+        >
+          <div className="card-body">
+            <h5 className="card-title">University Status</h5>
+            <p className="card-text mb-1">Active: 30</p>
+            <p className="card-text  mb-1">Inactive: 10</p>
+            
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#1A237E" }} // Navy Blue
+        >
+          <div className="card-body">
+            <h5 className="card-title">Number of Applications</h5>
+            <p className="card-text">Total: 500</p>
+          
+          </div>
+        </div>
+      </Link>
+    </div>
+  </div>
+</div>
+
+
+          <div className="content-body  my-3">
             <div className="container">
               <div className="row">
                 <div className="col-xl-12">

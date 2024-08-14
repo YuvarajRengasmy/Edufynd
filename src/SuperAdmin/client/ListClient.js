@@ -338,241 +338,291 @@ export default function Masterproductlist() {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-12">
-                <ol className="breadcrumb d-flex flex-row align-items-center justify-content-end">
-                  <li className="flex-grow-1">
-                    <form onSubmit={handleSearch}>
-                      <div
-                        className="input-group"
-                        style={{ maxWidth: "600px" }}
-                      >
-                        <input
-                          type="search"
-                          placeholder="Search..."
-                          aria-describedby="button-addon3"
-                          ref={search}
-                          onChange={handleInputsearch}
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                          style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
-                            fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px", // Adjust padding to fit the height
-                          }}
-                        />
-
-                        <button
-                          className="input-group-text bg-transparent border-0"
-                          id="button-addon3"
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <i
-                            className="fas fa-search"
-                            style={{ color: "black" }}
-                          ></i>
-                        </button>
-                      </div>
-                    </form>
-                  </li>
-
-                  <li class="m-1">
-                    <div>
-                      <button
-                        className="btn btn-primary"
-                        style={{ fontSize: "11px" }}
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                      >
-                        {" "}
-                        <FaFilter />
-                      </button>
-                      <div
-                        className="offcanvas offcanvas-end"
-                        tabIndex={-1}
-                        id="offcanvasRight"
-                        aria-labelledby="offcanvasRightLabel"
-                      >
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Client</h5>
-                          <button
-                            type="button"
-                            className="btn-close text-reset"
-                            data-bs-dismiss="offcanvas"
-                            aria-label="Close"
-                          />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Client Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessName"
-                                onChange={handleInputs}
-                                placeholder="Search...Client Name"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                              <label className="form-label">
-                                Client Contact No{" "}
-                              </label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessContactNo"
-                                onChange={handleInputs}
-                                placeholder="Search...Client Contact No"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-
-                              <label className="form-label">Status</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                                onChange={handleInputs}
-                                placeholder="Search...Status"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                              <label className="form-label">Client Id</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="clientID"
-                                onChange={handleInputs}
-                                placeholder="Search...Client Id"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                            </div>
-                            <div>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white float-right bg"
-                                style={{
-                                  backgroundColor: "#0f2239",
-                                  color: "#fff",
-                                  fontSize: "12px",
-                                }}
-                                // onClick={resetFilter}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2  text-white float-right mx-2"
-                                style={{
-                                  backgroundColor: "#fe5722",
-                                  color: "#fff",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={pdfDownload}>
-                      <button
-                        style={{ backgroundColor: "#E12929", fontSize: "11px" }}
-                        className="btn text-white "
-                      >
-                        <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={exportCsv} class="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#22A033",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li class="m-1">
-                    <Link onClick={openImportPopup} class="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#9265cc",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link
-                      class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white"
-                      to="/AddClient"
-                    >
-                      <button
-                        className="btn  border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
-                        style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
-                      >
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>{" "}
-                        &nbsp;&nbsp; Add Client
-                      </button>
-                    </Link>
-                  </li>
-                </ol>
+     <div className="content-header bg-white sticky-top">
+  <div className="container">
+    <div className="row">
+      <div className="col-xl-12">
+        <ul className="d-flex align-items-center justify-content-end gap-2 mb-0 list-unstyled">
+          {/* Search Form */}
+          <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  className="form-control border border-end-0"
+                  placeholder="Search....."
+                  type="search"
+                  aria-describedby="button-addon3"
+                  ref={search}
+                  onChange={handleInputsearch}
+                  style={{ fontSize: "12px" }}
+                />
+                <span
+                  className="input-group-text bg-white border border-start-0"
+                  id="button-addon3"
+                >
+                  <i className="fas fa-search"></i>
+                </span>
               </div>
+            </form>
+          </li>
+
+          {/* Filter Button */}
+          <li className="m-1">
+            <button
+              className="btn border-0 rounded-1"
+              style={{
+                fontSize: "12px",
+                backgroundColor: "#007BFF", // Primary color
+                color: "#fff",
+              }}
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight"
+            >
+              <FaFilter />
+            </button>
+          </li>
+
+          {/* Offcanvas Filter */}
+          <div
+            className="offcanvas offcanvas-end"
+            tabIndex={-1}
+            id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel"
+          >
+            <div className="offcanvas-header">
+              <h5 id="offcanvasRightLabel">Filter Client</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              />
+            </div>
+            <div className="offcanvas-body">
+              <form>
+                <div className=" row gy-3 mb-3">
+                  <div className="input-group">
+                    <span className="input-group-text ">
+                      <i className="fas fa-user"></i>
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="businessName"
+                      onChange={handleInputs}
+                      placeholder="Search...Client Name"
+                      style={{ fontSize: "12px" }}
+                    />
+                  </div>
+                  <div className="input-group ">
+                    <span className="input-group-text">
+                      <i className="fas fa-phone"></i>
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="businessContactNo"
+                      onChange={handleInputs}
+                      placeholder="Search...Client Contact No"
+                      style={{ fontSize: "12px" }}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fas fa-tag"></i>
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="status"
+                      onChange={handleInputs}
+                      placeholder="Search...Status"
+                      style={{ fontSize: "12px" }}
+                    />
+                  </div>
+                  <div className="input-group ">
+                    <span className="input-group-text">
+                      <i className="fas fa-id-card"></i>
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="clientID"
+                      onChange={handleInputs}
+                      placeholder="Search...Client Id"
+                      style={{ fontSize: "12px" }}
+                    />
+                  </div>
+                </div>
+                <div className="d-flex justify-content-end gap-3">
+                  <button
+                  
+                    className="btn text-capitalize rounded-1 border-0 fw-semibold"
+                    style={{
+                      backgroundColor: "#0f2239", // Dark color for reset
+                      color: "#fff",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Reset
+                  </button>
+                  <button
+                    data-bs-dismiss="offcanvas"
+                    type="submit"
+                    className="btn text-capitalize rounded-1 border-0 fw-semibold"
+                    style={{
+                      backgroundColor: "#fe5722", // Primary color for apply
+                      color: "#fff",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Apply
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
+
+          {/* Export PDF Button */}
+          <li className="m-1">
+            <Link onClick={pdfDownload}>
+              <button
+                className="btn text-white border-0 rounded-1"
+                style={{
+                  backgroundColor: "#E12929", // Red for PDF
+                  fontSize: "12px",
+                }}
+              >
+                <i className="fa fa-file-pdf" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+
+          {/* Export CSV Button */}
+          <li className="m-1">
+            <Link onClick={exportCsv}>
+              <button
+                className="btn text-white border-0 rounded-1"
+                style={{
+                  backgroundColor: "#22A033", // Green for CSV
+                  fontSize: "12px",
+                }}
+              >
+                <i className="fa fa-file-excel" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+
+          {/* Import Button */}
+          <li className="m-1">
+            <Link onClick={openImportPopup}>
+              <button
+                className="btn text-white border-0 rounded-1"
+                style={{
+                  backgroundColor: "#7627ef", // Purple for import
+                  fontSize: "12px",
+                }}
+              >
+                <i className="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+
+          {/* Add Client Button */}
+          <li className="m-1">
+            <Link to="/AddClient">
+              <button
+                className="btn text-white border-0 rounded-1"
+                style={{
+                  backgroundColor: "#231f20", // Dark color for add client
+                  fontSize: "12px",
+                }}
+              >
+                <i className="fa fa-plus-circle" aria-hidden="true"></i>
+                &nbsp;&nbsp; Add Client
+              </button>
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+        <div className="container my-3">
+  <div className="row">
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none  link-opacity-50-hover">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#00796B" }} // Tropical Teal
+        >
+          <div className="card-body">
+            <h5 className="card-title">Active Clients</h5>
+            <p className="card-text">Total: 120</p>
+            <p className="card-text"><i className="fas fa-users"></i> Actively Engaged</p>
+          </div>
         </div>
+      </Link>
+    </div>
+    
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#C62828" }} // Crimson Red
+        >
+          <div className="card-body">
+            <h5 className="card-title">Inactive Clients</h5>
+            <p className="card-text">Total: 45</p>
+            <p className="card-text"><i className="fas fa-user-slash"></i> Currently Inactive</p>
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#0288D1" }} // Steel Blue
+        >
+          <div className="card-body">
+            <h5 className="card-title">Invoices Raised</h5>
+            <p className="card-text">Total: 350</p>
+            <p className="card-text"><i className="fas fa-file-invoice"></i> Pending Payments</p>
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#1A237E" }} // Navy Blue
+        >
+          <div className="card-body">
+            <h5 className="card-title">Invoices Paid</h5>
+            <p className="card-text">Total: 290</p>
+            <p className="card-text"><i className="fas fa-money-bill-wave"></i> Payments Received</p>
+          </div>
+        </div>
+      </Link>
+    </div>
+  </div>
+</div>
+
 
         <div className="content-body">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card  border-0 rounded-0">
+                <div className="card  border-0 rounded-1">
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -581,7 +631,7 @@ export default function Masterproductlist() {
                           style={{ color: "#9265cc", fontSize: "12px" }}
                           ref={tableRef}
                         >
-                          <thead class="table-light">
+                          <thead className="table-light">
                             <tr
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
