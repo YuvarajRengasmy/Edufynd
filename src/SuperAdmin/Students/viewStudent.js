@@ -192,7 +192,10 @@ function Profile() {
 
     getProgramByUniversity(selectedUniversity)
       .then((res) => {
-        setPrograms(res?.data?.result || []);
+        console.log("yui",
+
+        );
+        setPrograms(res?.data.data.universityDetails.programDetails || []);
       })
       .catch((err) => {
         console.error(`Error fetching programs for ${selectedUniversity}:`, err);
@@ -203,9 +206,24 @@ function Profile() {
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
-
-    setInputs((prevInputs) => ({ ...prevInputs, [name]: value }));
-
+    setInputs((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+  
+      if (name === "course") {
+        const selectedProgram = programs.find((u) => u.course === value);
+        if (selectedProgram) {
+          return {
+            ...updatedProgram,
+            studentId: selectedProgram._id,
+            courseType: selectedProgram.courseType,
+            country: selectedProgram.citizenship,
+            studentCode: selectedProgram.studentCode,
+            email: selectedProgram.email,
+          };
+        }
+      }
+      return updatedProgram;
+    });
     if (submitted) {
       const newError = handleValidation({ ...inputs, [name]: value });
       setErrors(newError);
@@ -463,7 +481,7 @@ function Profile() {
                                   value={inputs.course}
                                 >
                                   <option>Select Campus</option>
-                                {programs.programDetails.map((program) => (
+                                {programs.map((program) => (
                                   <option
                                     key={program._id}
                                     value={program.programTitle}
@@ -660,7 +678,7 @@ function Profile() {
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Course Type"
                                   name="courseType"
-                                  value={universities?.courseType}
+                                  value={inputs?.courseType}
                                   onChange={handleInputs}
                                   style={{
                                     backgroundColor: "#fff",
