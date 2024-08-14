@@ -515,8 +515,8 @@ export default function Masterproductlist() {
 
 
 
-<div className="container mt-3">
-      <div className="d-flex overflow-auto">
+<div className="container mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
+      <div className="d-flex ">
         {/* Application Submitted Card */}
         <div className="col-md-3 flex-shrink-0">
           <Link to="#" className="text-decoration-none">
