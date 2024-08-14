@@ -2,9 +2,11 @@ import API from "./api"
 import { Application} from "./endpoints"
 
 export const saveApplication = (data) => {
-    return API.put(`${Application}`, data)
+    return API.post(`${Application}`, data)
 }
-
+export const courseApply = (data) => {
+  return API.post(`${Application}/courseApply`, data)
+}
 export const getallApplication = () => {
     return API.get(`${Application}/`)
 }
@@ -21,3 +23,4 @@ export const getSingleApplication = (data) => {
   export const trackApplication = (data) => {
     return API.put(`${Application}/track`, data);
   };
+  

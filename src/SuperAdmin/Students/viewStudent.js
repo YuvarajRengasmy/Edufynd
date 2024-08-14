@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { Program } from "../../api/endpoints";
 
 function Profile() {
   const location = useLocation();
@@ -167,7 +168,7 @@ function Profile() {
   };
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
-    setProgram({ ...program, country: selectedCountry });
+    setInputs({ ...inputs, country: selectedCountry });
 
     getUniversitiesByCountry(selectedCountry)
       .then((res) => {
@@ -178,74 +179,51 @@ function Profile() {
           `Error fetching universities for ${selectedCountry}:`,
           err
         );
-        setUniversities([]);
+       
       });
+
 
    
   };
+ 
   const handleUniversityChange = (event) => {
     const selectedUniversity = event.target.value;
-    setStudent({ ...student, universityName: selectedUniversity });
+    setInputs((prevInputs) => ({ ...prevInputs, universityId: selectedUniversity }));
 
-    // Replace this with how you get intake value
     getProgramByUniversity(selectedUniversity)
       .then((res) => {
-        console.log("res", res);
-        setPrograms(res?.data?.result || []);
+        console.log("yui",
+
+        );
+        setPrograms(res?.data.data.universityDetails.programDetails || []);
       })
       .catch((err) => {
-        console.error(
-          `Error fetching universities for ${selectedUniversity} :`,
-          err
-        );
-        setPrograms([]);
+        console.error(`Error fetching programs for ${selectedUniversity}:`, err);
+     
       });
   };
-
  
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
-
-    setInputs((prevInputs) => {
-      const updatedInputs = { ...prevInputs, [name]: value };
-
-      // if (name === "universityName") {
-      //   const selectedUniversity = program.find(
-      //     console.log("universityName", value),
-      //     (u) => u.universityName === value
-      //   );
-      //   if (selectedUniversity) {
-      //     const campus = selectedUniversity.campuses.map(
-      //       (campus) => campus.campus
-      //     );
-      //     const inTake = selectedUniversity.campuses.map(
-      //       (campus) => campus.inTake
-      //     );
-      //     const courseFees = selectedUniversity.campuses.flatMap(
-      //       (campus) => campus.courseFees
-      //     );
-
-      //     return {
-      //       ...updatedInputs,
-      //       universityId: selectedUniversity._id,
-      //       universityLogo: selectedUniversity.universityLogo,
-      //       inTake: inTake,
-      //       campus: campus,
-      //       courseFees: courseFees,
-      //       course: selectedUniversity.programTitle,
-      //       courseType: selectedUniversity.courseType,
-      //       country: selectedUniversity.country,
-      //       popularCategories: selectedUniversity.popularCategories,
-      //     };
-      //   }
-      // } else {
-      //   console.error("Program is not an array or is undefined.");
-      // }
-
-      return updatedInputs;
+    setInputs((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+  
+      if (name === "course") {
+        const selectedProgram = programs.find((u) => u.course === value);
+        if (selectedProgram) {
+          return {
+            ...updatedProgram,
+            studentId: selectedProgram._id,
+            courseType: selectedProgram.courseType,
+            country: selectedProgram.citizenship,
+            studentCode: selectedProgram.studentCode,
+            email: selectedProgram.email,
+          };
+        }
+      }
+      return updatedProgram;
     });
-
     if (submitted) {
       const newError = handleValidation({ ...inputs, [name]: value });
       setErrors(newError);
@@ -384,7 +362,7 @@ function Profile() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "14px",
                               }}
-                              value={program.country}
+                              value={inputs.country}
                               onChange={handleCountryChange}
                             >
                               <option
@@ -425,7 +403,7 @@ function Profile() {
                                   className="form-select rounded-1 p-2"
                                   name="inTake"
                                   onChange={handleInputs}
-                                  value={student.inTake}
+                                  value={inputs.inTake}
                                 >
                                   <option>Select InTake</option>
                                   {inTake.map((data) => (
@@ -458,7 +436,7 @@ function Profile() {
                                 fontSize: "14px",
                               }}
                               name="universityName"
-                              value={program.universityName}
+                              value={inputs._id}
                               onChange={handleUniversityChange}
                             >
                               <option
@@ -474,7 +452,7 @@ function Profile() {
                               {universities.map((uni) => (
                                 <option
                                   key={uni._id}
-                                  value={uni.universityName}
+                                  value={uni._id}
                                 >
                                   {uni.universityName}
                                 </option>
@@ -500,13 +478,17 @@ function Profile() {
                                   className="form-select rounded-1 p-2"
                                   name="course"
                                   onChange={handleInputs}
-                                  value={student.course}
+                                  value={inputs.course}
                                 >
                                   <option>Select Campus</option>
-
-                                  {Array.isArray(program) && program.map(program => (
-            <option key={program.id} value={program.programTitle}>{program.programTitle}</option>
-          ))}
+                                {programs.map((program) => (
+                                  <option
+                                    key={program._id}
+                                    value={program.programTitle}
+                                  >
+                                    {program.programTitle}
+                                  </option>
+                                ))}
                                 </select>
                                 {errors.course.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -696,7 +678,7 @@ function Profile() {
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Course Type"
                                   name="courseType"
-                                  value={universities?.courseType}
+                                  value={inputs?.courseType}
                                   onChange={handleInputs}
                                   style={{
                                     backgroundColor: "#fff",

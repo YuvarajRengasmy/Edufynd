@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { getSingleMeeting } from "../../api/Notification/meeting";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
+import { Link } from "react-router-dom";
 export const ViewMeetings = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -32,6 +33,24 @@ export const ViewMeetings = () => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
         >
           <div className="content-header ">
+          <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListMeetings' className="text-decoration-none">ListMeetings</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditMeetings",
+          search: `?id=${notification?._id}`,
+        }} className="text-decoration-none">EditMeetings</Link>
+      </li>
+  
+  </ol>
+</nav>
 
           <div class="container ">
      
@@ -61,7 +80,7 @@ export const ViewMeetings = () => {
                         <p class="mb-0"><i class="fas fa-users"></i>  {Array.isArray(notification?.attendees) &&
                         notification.attendees.length > 0
                           ? notification.attendees.map((attendees, index) => (
-                              <li key={index}>{attendees}</li>
+                              <span key={index}>{attendees}</span>
                             ))
                           : "N/A"}</p>
                     </div>

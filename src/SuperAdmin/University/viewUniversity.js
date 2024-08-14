@@ -149,7 +149,7 @@ const UserProfile = () => {
     setOpenFilter(false);
   };
   const resetFilter = () => {
-     setFilter(false);
+    setFilter(false);
     // setInputs(initialStateInputs);
     getAllProgram();
   };
@@ -223,7 +223,11 @@ const UserProfile = () => {
                       }}
                     >
                       <img
-                        src={university?.banner?university?.banner:"https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"}
+                        src={
+                          university?.banner
+                            ? university?.banner
+                            : "https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
+                        }
                         className="card-img img-fluid rounded-0 border-0"
                         alt="university_bg_image"
                         style={{
@@ -686,31 +690,29 @@ const UserProfile = () => {
                                 Program Intakes
                               </h5>
                               {Array.isArray(university?.inTake) &&
-                                        university.inTake.map(
-                                          (inTake, index) => (
-                              <div key={index}
-                                className="accordion accordion-flush"
-                                id="programIntakesAccordion"
-                                style={{ fontSize: "12px" }}
-                              >
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="accordion-button collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseOpen"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseOpen"
-                                    >
-                                     {inTake}
-                                    </button>
-                                  </h2>
-                                 
-                                </div>
-                              
-                              </div>
-                                          ))}
+                                university.inTake.map((inTake, index) => (
+                                  <div
+                                    key={index}
+                                    className="accordion accordion-flush"
+                                    id="programIntakesAccordion"
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    <div className="accordion-item">
+                                      <h2 className="accordion-header">
+                                        <button
+                                          className="btn border-0 collapsed btn-sm"
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target="#flush-collapseOpen"
+                                          aria-expanded="false"
+                                          aria-controls="flush-collapseOpen"
+                                        >
+                                          {inTake}
+                                        </button>
+                                      </h2>
+                                    </div>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                           <div className="col-lg-12">
@@ -881,17 +883,15 @@ const UserProfile = () => {
                                         >
                                           Reset
                                         </button>
-                                       
                                       </form>
                                     </div>
                                   </div>
                                 </div>
 
                                 <div className="col-md-3">
-                                  <Link to='/AddProgram'
+                                  <Link
+                                    to="/AddProgram"
                                     type="button"
-                                   
-                                  
                                     class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
                                     style={{
                                       backgroundColor: "#231f20",
@@ -901,8 +901,6 @@ const UserProfile = () => {
                                     <i class="fa fa-plus-circle nav-icon text-white"></i>
                                     &nbsp;&nbsp;Add Program
                                   </Link>
-
-                                  
                                 </div>
                               </div>
                             </div>
@@ -910,11 +908,14 @@ const UserProfile = () => {
                           <div className="row">
                             {Array.isArray(program) && program.length > 0 ? (
                               program.map((data, index) => (
-                                <div key={index} className="col-md-4">
+                                <div
+                                  key={index}
+                                  className="col-12 col-sm-6 col-md-4 mb-3"
+                                >
                                   <div
-                                    class="card border-0 "
+                                    className="card rounded-1"
                                     style={{
-                                      backgroundColor: "rgba(0,0,0,0.5)",
+                                      backgroundColor: "rgba(0,0,0,0.6)",
                                       height: "10rem",
                                     }}
                                   >
@@ -924,55 +925,54 @@ const UserProfile = () => {
                                           ? data?.universityLogo
                                           : "https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
                                       }
-                                      class="card-img img-fluid"
+                                      className="card-img img-fluid"
                                       alt="..."
                                       style={{
                                         mixBlendMode: "multiply",
                                         height: "10rem",
                                       }}
                                     />
-                                    <div class="card-img-overlay  text-white">
+                                    <div className="card-img-overlay d-flex flex-column justify-content-end text-white ">
                                       <h6
-                                        className="university-name mb-2 lh-sm"
+                                        className="mb-2 lh-sm text-truncate"
                                         style={{
                                           fontWeight: "bold",
                                         }}
                                       >
-                                        <i className="fa fa-book nav-icon text-white "></i>{" "}
-                                        {data?.programTitle || "Program Title"}
+                                        <i className="fa fa-book nav-icon text-white"></i>{" "}
+                                        {data?.programTitle || "Not Available"}
                                       </h6>
                                       <p
-                                        className="course-name mb-2 lh-sm"
+                                        className="mb-1 lh-sm text-truncate"
                                         style={{ fontSize: "12px" }}
                                       >
-                                        <i className="fa fa-university nav-icon text-white "></i>{" "}
+                                        <i className="fa fa-university nav-icon text-white"></i>{" "}
                                         {data?.universityName ||
-                                          "University Name"}
+                                          "Not Available"}
                                       </p>
                                       <p
-                                        className="duration mb-2 lh-sm"
+                                        className="mb-1 lh-sm text-truncate"
                                         style={{ fontSize: "12px" }}
                                       >
                                         <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
-                                        {data?.applicationFee || "Null"}
+                                        {data?.applicationFee ||
+                                          "Not Available"}
                                       </p>
-
                                       <p
-                                        className="duration mb-2 lh-sm"
+                                        className="mb-2 lh-sm text-truncate"
                                         style={{ fontSize: "12px" }}
                                       >
                                         <i className="fa fa-clock nav-icon text-white"></i>{" "}
-                                        {data?.courseType || "Null"}
+                                        {data?.courseType || "Not Available"}
                                       </p>
-
                                       <button
-                                        className="btn btn-sm rounded-pill text-white fw-semibold px-4 "
+                                        className="btn btn-sm rounded-pill text-white fw-semibold px-4"
                                         style={{
                                           backgroundColor: "#fe5722",
                                           fontSize: "12px",
                                         }}
                                       >
-                                        <i className="fa fa-paper-plane nav-icon text-white "></i>{" "}
+                                        <i className="fa fa-paper-plane nav-icon text-white"></i>{" "}
                                         Apply
                                       </button>
                                     </div>
@@ -983,6 +983,7 @@ const UserProfile = () => {
                               <p>No programs available.</p>
                             )}
                           </div>
+
                           <div className="float-right my-2">
                             <Pagination
                               count={Math.ceil(pagination.count / pageSize)}
@@ -999,29 +1000,41 @@ const UserProfile = () => {
                 </div>
 
                 <nav aria-label="breadcrumb">
-  <ol className="breadcrumb float-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListUniversity' className="text-decoration-none">ListUniversity</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditUniversity",
-          search: `?id=${university?._id}`,
-        }} className="text-decoration-none">EditUniversity</Link>
-      </li>
-  
-  </ol>
-</nav>
-
+                  <ol className="breadcrumb float-end">
+                    <li className="breadcrumb-item">
+                      <Link
+                        to="/DashBoard"
+                        target="_self"
+                        className="text-decoration-none"
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link
+                        to="/ListUniversity"
+                        className="text-decoration-none"
+                      >
+                        ListUniversity
+                      </Link>
+                    </li>
+                    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+                    <li className="breadcrumb-item">
+                      <Link
+                        to={{
+                          pathname: "/EditUniversity",
+                          search: `?id=${university?._id}`,
+                        }}
+                        className="text-decoration-none"
+                      >
+                        EditUniversity
+                      </Link>
+                    </li>
+                  </ol>
+                </nav>
               </div>
             </div>
-            
           </div>
-        
         </div>
       </div>
     </>

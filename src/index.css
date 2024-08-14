@@ -1,8 +1,9 @@
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   
+  background-color: #f4f6f9 !important;
 }
 
 
@@ -24,7 +25,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 /* Hide the spin buttons in Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+  -moz-appearance: textfield !important;
 }
 
 .nav-pills .nav-link{
@@ -40,3 +41,13 @@ color: #fff !important;
 font-weight: bold !important;
 font-variant: small-caps !important;
 }
+
+input.form-control:focus, 
+textarea.form-control:focus, 
+select.form-select:focus, 
+input.form-check-input:focus, 
+input[type="range"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+

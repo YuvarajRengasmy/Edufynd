@@ -1,53 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { getSingleProgram, getallProgram } from "../../api/Program";
+import {saveApplication} from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
-import { Link, useLocation } from "react-router-dom";
-import { isValidEmail, isValidPhone } from '../../Utils/Validation';
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import "./Course.css";
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
 import Sidebar from "../../compoents/sidebar";
 import Flags from "react-world-flags";
 import { Pagination } from "@mui/material";
+import { toast } from 'react-toastify';
 import { University } from "../../api/endpoints";
 import { RichTextEditor } from "@mantine/rte";
 
 export const Course = () => {
   const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-  
     name: "",
-    dob: "",
-    passportNo: "",
-    email: "",
     primaryNumber: "",
-    whatsAppNumber: "",
+    country:"",
+    studentCode: "",
+    studentId:"",
     campus: "",
     inTake: "",
-    universityName: "",
-    course: "",
-    courseFees:0
+    courseFees:"",
+    email:"",
 };
 
 const initialStateErrors = {
     name: { required: false },
-    dob: { required: false },
-    passportNo: { required: false },
-    email: { required: false, valid: false },
-    primaryNumber: { required: false, valid: false },
-    whatsAppNumber: { required: false, valid: false },
+    primaryNumber: { required: false },
+    country: { required: false },
+    studentCode: { required: false },
+    studentId: { required: false },
     campus: { required: false },
     inTake: { required: false },
-    universityName: { required: false },
-    course: { required: false },
-    courseFees: { required: false }
+    courseFees: { required: false },
+    email:{required:false},
 };
 
-  const id = new URLSearchParams(location.search).get("id");
+  
   const [program, setProgram] = useState();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
   const pageSize = 5;
+  const navigate = useNavigate();
+
   const [student, setStudent] = useState([]);
   const [input, setInput] = useState([]);
   const [inputs, setInputs] = useState(initialState);
@@ -116,28 +115,10 @@ const initialStateErrors = {
     let error = { ...initialStateErrors };
 
     if (!data.name) error.name.required = true;
-    if (!data.dob) error.dob.required = true;
-    if (!data.passportNo) error.passportNo.required = true;
-    if (!data.email) {
-        error.email.required = true;
-    } else if (!isValidEmail(data.email)) {
-        error.email.valid = true;
-    }
-    if (!data.primaryNumber) {
-        error.primaryNumber.required = true;
-    } else if (!isValidPhone(data.primaryNumber)) {
-        error.primaryNumber.valid = true;
-    }
-    if (!data.whatsAppNumber) {
-        error.whatsAppNumber.required = true;
-    } else if (!isValidPhone(data.whatsAppNumber)) {
-        error.whatsAppNumber.valid = true;
-    }
-    if (!data.campus) error.campus.required = true;
-    if (!data.inTake) error.inTake.required = true;
-    if (!data.universityName) error.universityName.required = true;
-    if (!data.course) error.course.required = true;
-    // if (!data.courseFees) error.courseFees.required = true;
+    if (!data.studentId) error.studentId.required = true;
+    if (!data.primaryNumber) error.primaryNumber.required = true;
+    if (!data.country) error.country.required = true;
+    if (!data.studentCode) error.studentCode.required = true;
 
     return error;
 };
@@ -153,12 +134,22 @@ const handleInputs = (event) => {
         return {
           ...updatedProgram,
           studentId: selectedStudent._id,
-          name: selectedStudent.name,
+          primaryNumber: selectedStudent.primaryNumber,
+          country: selectedStudent.citizenship,
+          studentCode: selectedStudent.studentCode,
           email: selectedStudent.email,
-          dob: selectedStudent.dob,
-          country: selectedStudent.country,
-          mobileno: selectedStudent.mobileno,
-          whatsappno: selectedStudent.whatsappno
+        };
+      }
+    }
+
+    if (name === "campus") {
+      const selectedCampus = program.campuses.find((u) => u.campus === value);
+      if (selectedCampus) {
+        return {
+          ...updatedProgram,
+          courseFees: selectedCampus.courseFees,
+          inTake:selectedCampus.inTake,
+        
         };
       }
     }
@@ -169,6 +160,42 @@ const handleInputs = (event) => {
   if (submitted) {
     const newError = handleValidation({ ...inputs, [name]: value });
     setErrors(newError);
+  }
+};
+
+const handleErrors = (obj) => {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const prop = obj[key];
+      if (prop.required === true || prop.valid === true) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  setSubmitted(true);
+  if (handleErrors(errors)) {
+    const data = {
+      ...inputs,
+      course:program.programTitle,
+      universityName:program.universityName,
+    
+      // programId:program._id
+
+    };
+    saveApplication(data)
+      .then((res) => {
+        console.log(res);
+        toast.success(res?.data?.message);
+        navigate("/Programs");
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
   }
 };
 
@@ -220,6 +247,13 @@ const handleInputs = (event) => {
                         style={{ position: "absolute", zIndex: 2 }}
                       >
                         <div className="border-0 rounded-0 bg-transparent text-center text-md-start">
+                          <Link 
+                          
+                          to={{
+                            pathname: "/ViewUniversity",
+                            search: `?id=${program?.universityId}`,
+                          }}
+                          >
                           <img
                             src={
                               program?.universityLogo ||
@@ -229,6 +263,7 @@ const handleInputs = (event) => {
                             style={{ width: "9rem", height: "9rem" }}
                             alt="University Logo"
                           />
+                          </Link>
                           <div className="card-body">
                             <div className="py-3 my-2">
                               <h5 className="h4 fw-bolder text-white d-flex align-items-end gap-2 text-capitalize">
@@ -969,58 +1004,58 @@ const handleInputs = (event) => {
                                 </div>
                               </div>
                               {input?.map((data, index) => (
-                                <div key={index} className="col-md-4 mb-3">
-                                  <div className="card mb-3 rounded-1 bg-light">
-                                    <div className="row g-0 align-items-center ">
-                                      <div className="col-sm-4">
-                                        <img
-                                          src={
-                                            data?.universityLogo
-                                              ? data?.universityLogo
-                                              : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-                                          }
-                                          className="img-fluid rounded-circle mx-auto d-block img-thumbnail"
-                                          alt="Course Image"
-                                          style={{
-                                            width: "5.5rem",
-                                            height: "5.5rem",
-                                          }}
-                                        />
-                                      </div>
-                                      <div className="col-sm-8">
-                                        <div className="card-body">
-                                          <h6 className=" fw-bold mb-1">
-                                            <i class="fas fa-university "></i>
-                                            &nbsp;&nbsp;{" "}
-                                            {data?.universityName ||
-                                              "Not Available"}
-                                          </h6>
-                                          <p className="card-text mb-1">
-                                            <i class="fas fa-book "></i>
-                                            &nbsp;&nbsp;{" "}
-                                            {data?.programTitle ||
-                                              "Not Available"}
-                                          </p>
-                                          <p className="card-text">
-                                            <i class="fas fa-calendar-alt "></i>
-                                            &nbsp;&nbsp;{" "}
-                                            {data?.duration || "Not Available"}
-                                          </p>
-                                          <button
-                                            className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
-                                            style={{
-                                              backgroundColor: "#fe5722",
-                                              fontSize: "12px",
-                                            }}
-                                          >
-                                            Apply Now
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
+  <div key={index} className="col-12 col-sm-6 col-md-4 mb-3">
+    <div className="card mb-3 rounded-1 "style={{fontSize:'12px'}}>
+      <div className="row g-0 align-items-center">
+        <div className="col-sm-4 d-flex justify-content-center align-items-center">
+          <img
+            src={
+              data?.universityLogo
+                ? data?.universityLogo
+                : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
+            }
+            className="img-fluid rounded-circle img-thumbnail"
+            alt="Course Image"
+            style={{
+              width: "4rem",
+              height: "4rem",
+            }}
+          />
+        </div>
+        <div className="col-sm-8">
+          <div className="card-body p-2">
+            <h6 className="fw-bold mb-1 text-truncate">
+              <i className="fas fa-university"></i>
+              &nbsp;&nbsp;
+              {data?.universityName || "Not Available"}
+            </h6>
+            <p className="card-text mb-1 text-truncate">
+              <i className="fas fa-book"></i>
+              &nbsp;&nbsp;
+              {data?.programTitle || "Not Available"}
+            </p>
+            <p className="card-text text-truncate">
+              <i className="fas fa-calendar-alt"></i>
+              &nbsp;&nbsp;
+              {data?.duration || "Not Available"}
+            </p>
+            <button
+              className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
+              style={{
+                backgroundColor: "#fe5722",
+                fontSize: "12px",
+              }}
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+))}
+
+
 
                               <div className="float-end my-2 p-2 end">
                                 <Pagination
@@ -1088,7 +1123,7 @@ const handleInputs = (event) => {
                 ></button>
               </div>
               <div class="modal-body">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="row gy-3 gx-4 mb-3">
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">Student Name</label>
@@ -1104,32 +1139,11 @@ const handleInputs = (event) => {
                           <option id={index} value={data.name}>{data.name}</option>
                         ))}
                       </select>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">DOB</label>
-                      <input
-                        type="date"
-                        name="dob"
-                        value={inputs.dob || ''}
-                        onChange={handleInputs}
-                        class="form-control text-uppercase rounded-1"
-                        placeholder="Example John Doe"
-                        style={{ fontSize: "12px" }}
-                      />
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                      <label class="form-label">studnet Id</label>
-                      <input
-                        type="text"
-                        name="studentId"
-                        value={inputs?.Id}
-                        onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example ABC123EFG"
-                        style={{ fontSize: "12px" }}
-                      />
+                      {errors.name.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1137,56 +1151,145 @@ const handleInputs = (event) => {
                       <input
                         type="text"
                         name="country"
-                        value={inputs?.country}
+                        value={inputs.country || ''}
+                        onChange={handleInputs}
+                        class="form-control text-uppercase rounded-1"
+                        placeholder="Example John Doe"
+                        style={{ fontSize: "12px" }}
+                      />
+                      {errors.country.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
+                      <label class="form-label">Email</label>
+                      <input
+                        type="type"
+                        name="email"
+                        value={inputs.email || ''}
+                        onChange={handleInputs}
+                        class="form-control text-uppercase rounded-1"
+                        placeholder="Example John Doe"
+                        style={{ fontSize: "12px" }}
+                      />
+                      {errors.email.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none ">
+                      <label class="form-label">studnet Id</label>
+                      <input
+                        type="text"
+                        name="studentId"
+                        value={inputs?.studentId}
+                        onChange={handleInputs}
+                        class="form-control rounded-1"
+                        placeholder="Example ABC123EFG"
+                        style={{ fontSize: "12px" }}
+                      />
+                       {errors.studentId.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
+                      <label class="form-label">studnet Code</label>
+                      <input
+                        type="text"
+                        name="studentCode"
+                        value={inputs?.studentCode}
+                        onChange={handleInputs}
+                        class="form-control rounded-1"
+                        placeholder="Example ABC123EFG"
+                        style={{ fontSize: "12px" }}
+                      />
+                       {errors.studentCode.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">Mobile Number</label>
+                      <input
+                        type="text"
+                        name="primaryNumber"
+                        value={inputs?.primaryNumber}
                         onChange={handleInputs}
                         class="form-control rounded-1"
                         placeholder="Example United Kingdom"
                         style={{ fontSize: "12px" }}
                       />
+                    {errors.primaryNumber.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">campus</label>
+                     <select 
+                        class="form-select rounded-1"
+                        aria-label="Default select example"
+                        style={{ fontSize: "12px" }}
+                        onChange={handleInputs}
+                        name="campus"
+                      >
+                        <option selected>Open this select menu</option>
+                        {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (campus, index) => (
+                          <option id={index} value={campus.campus}>{campus.campus}</option>
+                        ))}
+                      </select>
+                    </div>
+                   
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label class="form-label">InTake</label>
+                     <select
+                        class="form-select rounded-1"
+                        aria-label="Default select example"
+                        style={{ fontSize: "12px" }}
+                        onChange={handleInputs}
+                        value={inputs?.inTake}
+                        name="inTake"
+                      >
+                        <option selected>Open this select menu</option>
+                        {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (intake, index) => (
+                          <option id={index} value={intake.inTake}>{intake.inTake}</option>
+                        ))}
+                      </select>
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">Email</label>
-                      <input
-                        type="text"
-                        name="email"
-                        value={inputs?.email}
-                        onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example johndoe123@gmail.com"
+                      <label class="form-label">Course Fees</label>
+                     <select
+                        class="form-select rounded-1"
+                        aria-label="Default select example"
                         style={{ fontSize: "12px" }}
-                      />
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">Primary No</label>
-                      <input
-                        type="number"
-                        name="primaryNumber"
-                        value={inputs?.primaryNumber}
                         onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example 123-4567-890"
-                        style={{ fontSize: "12px" }}
-                      />
+                        value={inputs?.courseFees}
+                        name="courseFees"
+                      >
+                        <option selected>Open this select menu</option>
+                        {Array.isArray(program?.campuses) &&
+                                        program.campuses.map(
+                                          (intake, index) => (
+                          <option id={index} value={intake.courseFees}>{intake.courseFees}</option>
+                        ))}
+                      </select>
                     </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">WhatsApp No</label>
-                      <input
-                        type="number"
-                        name="whatsAppNumber"
-                        value={inputs?.whatsAppNumber}
-                        onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example 123-4567-890"
-                        style={{ fontSize: "12px" }}
-                      />
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
+                   
+                    <div class="modal-footer">
                 <button
                   type="button"
                   class="btn  px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
@@ -1200,7 +1303,7 @@ const handleInputs = (event) => {
                   Close
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
                   style={{
                     fontSize: "12px",
@@ -1211,6 +1314,11 @@ const handleInputs = (event) => {
                   Submit
                 </button>
               </div>
+                    
+                  </div>
+                </form>
+              </div>
+             
             </div>
           </div>
         </div>
