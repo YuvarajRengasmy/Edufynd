@@ -28,7 +28,7 @@ function Profile() {
     whatsAppNumber: "",
     inTake: "",
     universityName: "",
-    course: "",
+    programTitle: "",
     campus: "",
     courseFees: "",
     courseType: "",
@@ -43,7 +43,7 @@ function Profile() {
     whatsAppNumber: { required: false },
     inTake: { required: false },
     universityName: { required: false },
-    course: { required: false },
+    programTitle: { required: false },
     campus: { required: false },
     courseFees: { required: false },
     courseType: { required: false },
@@ -109,8 +109,8 @@ function Profile() {
   const getAllProgramList = () => {
     getallProgram()
       .then((res) => {
-        
-        setProgram(res?.data?.result);
+        console.log("getAllProgramList", res?.data?.result);
+        setProgram(res?.data?.result?.programList || []);
       })
       .catch((err) => {
         console.log(err);
@@ -146,8 +146,8 @@ function Profile() {
     if (!data.universityName) {
       error.universityName.required = true;
     }
-    if (!data.course) {
-      error.course.required = true;
+    if (!data.programTitle) {
+      error.programTitle.required = true;
     }
     if (!data.campus) {
       error.campus.required = true;
@@ -192,10 +192,10 @@ function Profile() {
 
     getProgramByUniversity(selectedUniversity)
       .then((res) => {
-        console.log("yui",
+        console.log("yui" ,res?.data?.data?.universityDetails?.programDetails
 
         );
-        setPrograms(res?.data.data.universityDetails.programDetails || []);
+        setPrograms(res?.data?.data?.universityDetails?.programDetails || []);
       })
       .catch((err) => {
         console.error(`Error fetching programs for ${selectedUniversity}:`, err);
@@ -209,26 +209,30 @@ function Profile() {
     setInputs((prevProgram) => {
       const updatedProgram = { ...prevProgram, [name]: value };
   
-      if (name === "course") {
-        const selectedProgram = programs.find((u) => u.course === value);
+      // Check if the changed field is the programTitle
+      if (name === "programTitle") {
+        const selectedProgram = program.find((u) => u.programTitle === value); // Ensure programs is correctly referenced
+  
         if (selectedProgram) {
+          const campuses = selectedProgram.campuses.map((campus) => campus.campus);
+
           return {
             ...updatedProgram,
-            studentId: selectedProgram._id,
+            campus: campuses,
             courseType: selectedProgram.courseType,
-            country: selectedProgram.citizenship,
-            studentCode: selectedProgram.studentCode,
-            email: selectedProgram.email,
           };
         }
       }
       return updatedProgram;
     });
+  
+    // Validate the updated inputs
     if (submitted) {
       const newError = handleValidation({ ...inputs, [name]: value });
       setErrors(newError);
     }
   };
+  
 
   const handleErrors = (error) => {
     let isValid = true;
@@ -247,6 +251,10 @@ function Profile() {
       setIsEditing(true);
     }
   };
+
+  const campusOptions = program?.campus
+    ? program.campus.map((campus) => ({ value: campus, label: campus }))
+    : [];
 
   return (
     <>
@@ -390,41 +398,7 @@ function Profile() {
                               </span>
                             ) : null}
                           </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  InTake<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  className="form-select rounded-1 p-2"
-                                  name="inTake"
-                                  onChange={handleInputs}
-                                  value={inputs.inTake}
-                                >
-                                  <option>Select InTake</option>
-                                  {inTake.map((data) => (
-                                    <option
-                                      key={data._id}
-                                      value={`${
-                                        data.intakeName
-                                      } -  ${formatYear(data?.startDate)}`}
-                                    >
-                                      {`${data.intakeName} - ${formatYear(
-                                        data?.startDate
-                                      )}`}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.inTake.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
+                            
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               University<span className="text-danger">*</span>
@@ -476,9 +450,9 @@ function Profile() {
                                     fontSize: "12px",
                                   }}
                                   className="form-select rounded-1 p-2"
-                                  name="course"
+                                  name="programTitle"
                                   onChange={handleInputs}
-                                  value={inputs.course}
+                                  value={inputs.programTitle}
                                 >
                                   <option>Select Campus</option>
                                 {programs.map((program) => (
@@ -490,7 +464,7 @@ function Profile() {
                                   </option>
                                 ))}
                                 </select>
-                                {errors.course.required ? (
+                                {errors.programTitle.required ? (
                                   <span className="text-danger form-text profile_error">
                                     This field is required.
                                   </span>
@@ -508,14 +482,16 @@ function Profile() {
                                   }}
                                   className="form-select rounded-1 p-2"
                                   name="campus"
-                                  value={student.campus}
+                                  value={inputs.campus}
                                   onChange={handleInputs}
                                 >
                                   <option>Select Campus</option>
-
-                                  {universities.map((uni) => (
-                                    <option key={uni._id} value={uni.campus}>
-                                      {uni.campus}
+                                  {program.campuses && program.campuses.map((campus) => (
+                                    <option
+                                      key={campus._id}
+                                      value={campus.campus}
+                                    >
+                                      {campus.campus}
                                     </option>
                                   ))}
                                 </select>
@@ -526,6 +502,37 @@ function Profile() {
                                 ) : null}
                               </div>
 
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  InTake<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  className="form-select rounded-1 p-2"
+                                  name="inTake"
+                                  onChange={handleInputs}
+                                  value={inputs.inTake}
+                                >
+                                  <option>Select InTake</option>
+                                {program.campuses && program.campuses.map((intake) => (
+                                  <option
+                                    key={intake._id}
+                                    value={intake.inTake}
+                                  >
+                                    {intake.inTake}
+                                  </option>
+                                ))}
+                                </select>
+                                {errors.inTake.required ? (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+                              </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
                                   Student Name
@@ -701,7 +708,7 @@ function Profile() {
                                   type="text"
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Course Fees"
-                                  value={student.courseFees}
+                                  value={inputs?.courseFees}
                                   name="courseFees"
                                   style={{
                                     backgroundColor: "#fff",

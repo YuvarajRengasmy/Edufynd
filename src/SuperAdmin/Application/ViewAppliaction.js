@@ -21,6 +21,7 @@ export const ViewApplication = () => {
     commentBox: "",
     document: "",
     duration: "",
+    progress:"",
   };
 
   const initialStateErrors = {
@@ -28,6 +29,7 @@ export const ViewApplication = () => {
     commentBox: { required: false },
     document: { required: false },
     duration: { required: false },
+    progress: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
@@ -157,6 +159,7 @@ export const ViewApplication = () => {
         [name]: value,
       }));
     }
+ 
     if (submitted) {
       const newError = handleValidation({
         ...track,
@@ -203,6 +206,9 @@ export const ViewApplication = () => {
         const data = {
           _id: id,
           status: track,
+          progress: Math.min(100, track.progress + 80),
+         
+         
         };
         updateApplication(data)
           .then((res) => {
@@ -217,11 +223,11 @@ export const ViewApplication = () => {
     }
   };
 
-  const getProgress = (statusIndex) => {
-    const completedCount = status.slice(0, 2).length; // Assume first two statuses are completed
-    const totalCount = status.length;
-    const percentage = (completedCount / totalCount) * 100;
-    return percentage;
+  const getProgressColor = (progress) => {
+    if (progress === 0) return '#e0e0e0'; // Gray for 0 progress
+    if (progress < 50) return '#ff9800'; // Orange for <50%
+    if (progress < 100) return '#ffc107'; // Yellow for <100%
+    return '#4caf50'; // Green for 100%
   };
 
   return (
@@ -341,14 +347,17 @@ export const ViewApplication = () => {
                               className="progress"
                               role="progressbar"
                               aria-label="Progress"
-                              aria-valuenow={getProgress(index)}
+                              aria-valuenow={item.progress}
                               aria-valuemin="0"
                               aria-valuemax="100"
                               style={{ height: "7px" }}
                             >
                               <div
                                 className="progress-bar progress-bar-striped progress-bar-animated"
-                                style={{ width: `${getProgress(index)}%` }}
+                                style={{
+                                  width: `${item.progress}%`,
+                                  backgroundColor: getProgressColor(item.progress),
+                                }}
                               ></div>
                             </div>
                             <button
@@ -367,7 +376,10 @@ export const ViewApplication = () => {
                             ></button>
                             <div
                               className="progress-bar progress-bar-striped progress-bar-animated"
-                              style={{ width: `${getProgress(index)}%` }}
+                              style={{
+                                width: `${item.progress}%`,
+                                backgroundColor: getProgressColor(item.progress),
+                              }}
                             ></div>
                           </div>
                           <OverlayTrigger
@@ -495,6 +507,27 @@ export const ViewApplication = () => {
                                             Comment is required
                                           </p>
                                         )}
+                                    </div>
+
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-file nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="number"
+                                        className="form-control "
+                                        style={{
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        value={"80"}
+                                        placeholder="Enter  Image upload"
+                                        name="progress"
+                                        onChange={handleTrack}
+                                      />
                                     </div>
                                     <div className="input-group mb-3">
                                       <span
