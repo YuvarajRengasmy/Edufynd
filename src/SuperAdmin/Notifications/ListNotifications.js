@@ -282,6 +282,74 @@ export const ListNotifications = () => {
          
         
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: New Notifications */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-bell" style={{ color: '#ffffff' }}></i> New Notifications
+              </h6>
+              <p className="card-text">New notifications received.</p>
+              <p className="card-text">Total: 20</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Alerts */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#F44336" }} // Red
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-exclamation-circle" style={{ color: '#ffffff' }}></i> Alerts
+              </h6>
+              <p className="card-text">Critical alerts issued.</p>
+              <p className="card-text">Total: 5</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: System Updates */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-sync" style={{ color: '#ffffff' }}></i> System Updates
+              </h6>
+              <p className="card-text">Recent system updates.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Messages */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFC107" }} // Amber
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-envelope" style={{ color: '#ffffff' }}></i> Messages
+              </h6>
+              <p className="card-text">New messages in the inbox.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">

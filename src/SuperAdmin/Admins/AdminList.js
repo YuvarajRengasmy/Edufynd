@@ -342,7 +342,73 @@ export default function ListAgent() {
         </div>
 
 
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Active Users */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#9C27B0" }} // Purple
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Active Users
+              </h6>
+              <p className="card-text">Users currently active.</p>
+              <p className="card-text">Total: 150</p>
+            </div>
+          </div>
+        </div>
 
+        {/* Card 2: Pending Requests */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF5722" }} // Deep Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Pending Requests
+              </h6>
+              <p className="card-text">Requests awaiting approval.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Banned Users */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFEB3B" }} // Yellow
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-ban" style={{ color: '#ffffff' }}></i> Banned Users
+              </h6>
+              <p className="card-text">Users who are banned.</p>
+              <p className="card-text">Total: 5</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: System Logs */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> System Logs
+              </h6>
+              <p className="card-text">Logs of system activities.</p>
+              <p className="card-text">Total: 35</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
         <div className="content-body">
           <div className="container">

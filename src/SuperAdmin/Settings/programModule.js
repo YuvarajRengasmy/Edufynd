@@ -262,16 +262,15 @@ export default function GlobalSettings() {
 
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-        <div className='container-fluid'>
-          <nav className='navbar navbar-vertical navbar-expand-lg'>
+     
+         
             <Mastersidebar />
-          </nav>
+        
           <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
-            <div className="content-header">
+            <div className="content-header bg-light shadow-sm sticky-top">
               <div className="container-fluid">
                 <div className="row ">
-                  <div>
+                  <div className='col-xl-12'>
                     <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                       <li className="flex-grow-1">
                         <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -506,8 +505,7 @@ export default function GlobalSettings() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+      
     </div>
   );
 }

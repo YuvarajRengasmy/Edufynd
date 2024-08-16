@@ -232,6 +232,77 @@ export const ListIncomeReport = () => {
         
         
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Total Income */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#673AB7" }} // Deep Purple
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-cash-register" style={{ color: '#ffffff' }}></i> Total Income
+                </h6>
+                <p className="card-text">Total: $25,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Income This Month */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FF9800" }} // Orange
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Income This Month
+                </h6>
+                <p className="card-text">Total: $6,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Income Last Month */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Income Last Month
+                </h6>
+                <p className="card-text">Total: $5,500</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Projected Income */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#009688" }} // Teal
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-chart-line" style={{ color: '#ffffff' }}></i> Projected Income
+                </h6>
+                <p className="card-text">Projected: $30,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">

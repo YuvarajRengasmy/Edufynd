@@ -232,6 +232,78 @@ export const ListQuotations = () => {
          
           
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Total Quotations Raised */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#3F51B5" }} // Indigo
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Total Quotations Raised
+                </h6>
+                <p className="card-text">Total: 150</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Pending Quotations */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FFC107" }} // Amber
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Pending Quotations
+                </h6>
+                <p className="card-text">Total: 45</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Approved Quotations */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Approved Quotations
+                </h6>
+                <p className="card-text">Total: 85</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Rejected Quotations */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#F44336" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-times-circle" style={{ color: '#ffffff' }}></i> Rejected Quotations
+                </h6>
+                <p className="card-text">Total: 20</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">

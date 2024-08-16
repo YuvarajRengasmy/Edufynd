@@ -252,6 +252,73 @@ export const ListBlog = () => {
             </div>
           </div>
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Recent Blogs */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#3F51B5" }} // Indigo
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-pencil-alt" style={{ color: '#ffffff' }}></i> Recent Blogs
+              </h6>
+              <p className="card-text">Latest blog posts.</p>
+              <p className="card-text">Total: 10</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Popular Blogs */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFC107" }} // Amber
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-star" style={{ color: '#ffffff' }}></i> Popular Blogs
+              </h6>
+              <p className="card-text">Most read and liked blogs.</p>
+              <p className="card-text">Total: 15</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Draft Blogs */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#00BCD4" }} // Cyan
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Draft Blogs
+              </h6>
+              <p className="card-text">Blogs that are in draft stage.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Archived Blogs */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#607D8B" }} // Blue Grey
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-archive" style={{ color: '#ffffff' }}></i> Archived Blogs
+              </h6>
+              <p className="card-text">Archived or old blog posts.</p>
+              <p className="card-text">Total: 25</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">

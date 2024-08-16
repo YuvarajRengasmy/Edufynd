@@ -217,6 +217,81 @@ export const ListCampaign = () => {
 
          
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Active Campaigns */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FF5722" }} // Deep Orange
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-bullhorn" style={{ color: '#ffffff' }}></i> Active Campaigns
+                </h6>
+                <p className="card-text">Ongoing campaigns currently active.</p>
+                <p className="card-text">Total: 12</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Completed Campaigns */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Completed Campaigns
+                </h6>
+                <p className="card-text">Campaigns that have concluded.</p>
+                <p className="card-text">Total: 30</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Upcoming Campaigns */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#2196F3" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Campaigns
+                </h6>
+                <p className="card-text">Campaigns scheduled to start soon.</p>
+                <p className="card-text">Total: 8</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Campaign Performance */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#9C27B0" }} // Purple
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-chart-line" style={{ color: '#ffffff' }}></i> Campaign Performance
+                </h6>
+                <p className="card-text">Metrics and performance data for campaigns.</p>
+                <p className="card-text">Total: 150,000 impressions</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         
         <div className="content-body">
             <div className="container">

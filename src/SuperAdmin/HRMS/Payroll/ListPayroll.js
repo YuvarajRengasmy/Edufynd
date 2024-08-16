@@ -232,6 +232,78 @@ export const ListPayroll = () => {
         
           
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Total Payroll */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#3F51B5" }} // Indigo
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-wallet" style={{ color: '#ffffff' }}></i> Total Payroll
+                </h6>
+                <p className="card-text">$150,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Pending Payments */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FF5722" }} // Deep Orange
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-credit-card" style={{ color: '#ffffff' }}></i> Pending Payments
+                </h6>
+                <p className="card-text">$20,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Paid Payroll */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-money-check-alt" style={{ color: '#ffffff' }}></i> Paid Payroll
+                </h6>
+                <p className="card-text">$130,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Payroll This Month */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#009688" }} // Teal
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Payroll This Month
+                </h6>
+                <p className="card-text">$50,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">

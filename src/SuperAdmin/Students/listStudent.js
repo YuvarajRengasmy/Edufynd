@@ -518,6 +518,7 @@ export default function Masterproductlist() {
 <div className="container mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
       <div className="d-flex ">
         {/* Application Submitted Card */}
+       
         <div className="col-md-3 flex-shrink-0">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
@@ -604,7 +605,7 @@ export default function Masterproductlist() {
             <div className="container">
             <div className="row">
               <div className="col-xl-12">
-       
+     
        <div className="card  rounded-1 shadow-sm border-0">
          <div className="card-body">
            <div className="card-table">

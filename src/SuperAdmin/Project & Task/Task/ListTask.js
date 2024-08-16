@@ -232,6 +232,82 @@ export const ListTask = () => {
        
         
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Pending Tasks */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#F57F17" }} // Dark Yellow
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-tasks" style={{ color: '#ffffff' }}></i> Pending Tasks
+                </h6>
+                <p className="card-text">Tasks that are yet to be completed.</p>
+                <p className="card-text">Total: 45</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: In Progress Tasks */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#0288D1" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-spinner" style={{ color: '#ffffff' }}></i> In Progress Tasks
+                </h6>
+                <p className="card-text">Tasks currently being worked on.</p>
+                <p className="card-text">Total: 20</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Completed Tasks */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Completed Tasks
+                </h6>
+                <p className="card-text">Tasks that have been completed.</p>
+                <p className="card-text">Total: 75</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Overdue Tasks */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#D32F2F" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-exclamation-circle" style={{ color: '#ffffff' }}></i> Overdue Tasks
+                </h6>
+                <p className="card-text">Tasks that are past their deadline.</p>
+                <p className="card-text">Total: 10</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">

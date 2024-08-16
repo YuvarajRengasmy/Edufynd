@@ -316,6 +316,77 @@ export const Listinvoice = () => {
      
     
     </div>
+    <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Total Invoices Raised */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#2196F3" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-file-invoice" style={{ color: '#ffffff' }}></i> Total Invoices Raised
+                </h6>
+                <p className="card-text">Total: 500</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Unpaid Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FF5722" }} // Deep Orange
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-dollar-sign" style={{ color: '#ffffff' }}></i> Unpaid Invoices
+                </h6>
+                <p className="card-text">Total: 120</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Paid Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Paid Invoices
+                </h6>
+                <p className="card-text">Total: 380</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Overdue Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#F44336" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-exclamation-circle" style={{ color: '#ffffff' }}></i> Overdue Invoices
+                </h6>
+                <p className="card-text">Total: 45</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
     <div className="content-body">
             <div className="container">
             <div className="row">

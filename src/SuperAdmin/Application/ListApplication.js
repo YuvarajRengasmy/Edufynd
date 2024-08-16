@@ -553,7 +553,90 @@ export default function Masterproductlist() {
       </div>
     </div>
 
+    <div className="container mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
+      <div className="d-flex ">
+        {/* Application Submitted Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-paper-plane"></i>&nbsp;&nbsp;Application Submitted</h6>
+                <p className="card-text">45</p>
+              </div>
+            </div>
+          </Link>
+        </div>
 
+        {/* Offered and Rejected Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#2196F3', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6 className="mb-1">Status</h6>
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column">
+                    <h6><i className="fas fa-thumbs-up"></i>&nbsp;&nbsp;Offered</h6>
+                    <p className="card-text">30</p>
+                  </div>
+                  <div className="d-flex flex-column">
+                    <h6><i className="fas fa-thumbs-down"></i>&nbsp;&nbsp;Rejected</h6>
+                    <p className="card-text">15</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Deposit Paid Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FFC107', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-money-bill-wave"></i>&nbsp;&nbsp;Deposit Paid</h6>
+                <p className="card-text">20</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Travel Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FF5722', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-plane"></i>&nbsp;&nbsp;Travel</h6>
+                <p className="card-text">10</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Enrolled Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#009688', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-user-check"></i>&nbsp;&nbsp;Enrolled</h6>
+                <p className="card-text">25</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Invoices Raised Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3F51B5', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;Invoices Raised</h6>
+                <p className="card-text">8</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
        
           <div className="container">
             <div className="row">

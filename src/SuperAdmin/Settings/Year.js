@@ -244,18 +244,17 @@ const handleSubmit = (event) => {
 
   return (
     <div>
-    <div style={{fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-      <div className='container-fluid'>
-        <nav className='navbar navbar-vertical navbar-expang-lg'>
+    
+        
         <Mastersidebar />
-        </nav>
+       
        
       
       <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"}}>
-        <div className="content-header">
+        <div className="content-header bg-light shadow-sm sticky-top">
           <div className="container-fluid">
             <div className="row ">
-              <div>
+              <div className='col-xl-12'>
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -490,8 +489,7 @@ const handleSubmit = (event) => {
           </div>
         </div>
       </div>
-    </div>
-    </div>
+   
     </div>
   );
 }

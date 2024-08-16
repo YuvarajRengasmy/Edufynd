@@ -105,7 +105,7 @@ function ListStaff() {
          
             <Mastersidebar />
         
-        <div className='content-wrapper ' style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}>
+        <div className='content-wrapper ' style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <div className='content-header'>
           <div className="container ">
           
@@ -293,7 +293,51 @@ function ListStaff() {
 </div>
           </div>
          
-        
+          <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Active Logins - Daily */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#43A047" }} // Leaf Green
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-sign-in-alt" style={{ color: '#ffffff' }}></i> Active Logins - Daily
+                </h6>
+                <p className="card-text">Total: 150</p>
+                <p className="card-text">
+                  <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Logins Today
+                </p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Total Staff - Active Overall */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#D32F2F" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Total Staff - Active Overall
+                </h6>
+                <p className="card-text">Total: 350</p>
+                <p className="card-text">
+                  <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Active Staff
+                </p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+     
+      </div>
+    </div>
           
             <div className="container">
             <div className="row">

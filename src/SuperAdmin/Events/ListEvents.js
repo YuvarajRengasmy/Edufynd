@@ -320,6 +320,73 @@ export const ListEvents = () => {
             </div>
           </div>
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Upcoming Events */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#00BCD4" }} // Cyan
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Events
+              </h6>
+              <p className="card-text">Events scheduled to happen soon.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Past Events */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF9800" }} // Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Past Events
+              </h6>
+              <p className="card-text">Events that have already occurred.</p>
+              <p className="card-text">Total: 22</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Scheduled Events */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Scheduled Events
+              </h6>
+              <p className="card-text">Events that are planned and scheduled.</p>
+              <p className="card-text">Total: 15</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Event Feedback */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#9C27B0" }} // Purple
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-comments" style={{ color: '#ffffff' }}></i> Event Feedback
+              </h6>
+              <p className="card-text">Feedback and reviews for events.</p>
+              <p className="card-text">Total: 10</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
         <div className="content-body">
           <div className="container">

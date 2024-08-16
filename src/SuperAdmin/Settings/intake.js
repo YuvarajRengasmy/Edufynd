@@ -256,19 +256,14 @@ const handleSubmit = (event) => {
 
   return (
     <div>
-    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-      <div className='container-fluid'>
-        <nav className='navbar navbar-vertical navbar-expang-lg'>
+   
+      
         <Mastersidebar />
-        </nav>
        
       
       <div className="content-wrapper" style={{fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
       
-          <div className="container">
-            <div className="row ">
-              <div className='col-xl-12'>
-              <div className="content-header">
+      <div className="content-header bg-light shadow-sm sticky-top">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -413,11 +408,11 @@ const handleSubmit = (event) => {
                   </li>
                 </ol>
               </div>
-            </div>
-          </div>
-          <div className="row ">
-        <div className="col-xl-12">
-        <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+          <div className="container">
+            <div className="row ">
+            <div className='col-md-8'></div>
+              <div className='col-md-8'>
+              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
             <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
             <h6 className='text-center text-capitalize p-1'> List Intake</h6>
             </div>
@@ -477,8 +472,9 @@ const handleSubmit = (event) => {
             </div>
           
           </div>
-        </div>
-        </div>
+            </div>
+          </div>
+        
         </div>
        
        
@@ -560,8 +556,7 @@ const handleSubmit = (event) => {
           </div>
         </div>
       </div>
-    </div>
-    </div>
+   
     </div>
   );
 }
