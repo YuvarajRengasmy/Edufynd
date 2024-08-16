@@ -376,8 +376,45 @@ const handleSubmit = (event) => {
             </div>
           </div>
         </div>
+
+
+
         <div className="container-fluid mt-3">
-        <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+
+          <div className='row'>
+            <div className='col-md-4'>
+            <div className="card border-0 rounded-1 shadow-sm" ref={modalRef}>
+            <div className="card-header bg-white border-0">
+              <h5 className="card-title fw-semibold" >{isEdit ? "Edit Year" : "Add Year"}</h5>
+            
+            </div>
+            <div className="card-body">
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="mb-3">
+                  <label htmlFor="intakeName" className="form-label">Year</label>
+                  <input
+                type="text"
+                className="form-control"
+                id="intakeName"
+                name="year"
+                value={inputs.year}
+                onChange={handleInputs}
+                pattern="\d{4}"
+                placeholder="YYYY"
+            />
+                  {submitted && errors.year.required && (
+                    <span className="text-danger">Year is required</span>
+                  )}
+                </div>
+               
+                <button type="submit" className="btn btn-primary float-end">{isEdit ? "Update" : "Save"}</button>
+              </form>
+            </div>
+          </div>
+            </div>
+            <div className='col-md-8'>
+
+            <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
             <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
             <h6 className='text-center text-capitalize p-1'> List Year</h6>
             </div>
@@ -435,6 +472,9 @@ const handleSubmit = (event) => {
                 />
               </div>
           </div>
+            </div>
+          </div>
+        
         </div>
         <Dialog open={open} onClose={closePopup}>
           <DialogTitle>Confirm Delete</DialogTitle>

@@ -112,7 +112,7 @@ export const ListForex = () => {
       <Mastersidebar />
 
       <div className="content-wrapper">
-        <div className="content-header">
+        <div className="content-header  bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">

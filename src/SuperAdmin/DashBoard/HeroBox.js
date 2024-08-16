@@ -1,12 +1,12 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaCalendarAlt } from "react-icons/fa";
+
 
 import { BsThreeDots } from "react-icons/bs";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { FaMarker } from "react-icons/fa";
+
+
 import { PieChart, Pie } from "recharts";
-import { GoDotFill } from "react-icons/go";
+
 import {
   XAxis,
   YAxis,
@@ -18,29 +18,54 @@ import {
 } from "recharts";
 import { FaCaretDown } from "react-icons/fa";
 import Sidebar from "../../compoents/sidebar";
-
+import { FaUserAlt, FaChartLine, FaDollarSign, FaFileInvoiceDollar } from 'react-icons/fa';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 export const HeroContent = () => {
-  const data = [
-    { name: "A", pv: 4000 },
-    { name: " B", pv: 3000 },
-    { name: " C", pv: 2000 },
-    { name: " D", pv: 2780 },
-    { name: " E", pv: 1890 },
-  ];
+ 
 
-  const data1 = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-  ];
+
+  const salesData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    datasets: [
+      {
+        label: 'Sales',
+        data: [12000, 19000, 3000, 5000, 20000, 30000],
+        fill: false,
+        backgroundColor: '#231f20',
+        borderColor: '#231f20',
+      },
+    ],
+  };
+
+  const clientGrowthData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    datasets: [
+      {
+        label: 'Clients',
+        data: [20, 45, 28, 80, 99, 43],
+        fill: false,
+        backgroundColor: '#231f20',
+        borderColor: '#231f20',
+      },
+    ],
+  };
   return (
     <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
       <Sidebar />
       <div className="content-wrapper" style={{ fontSize: "12px" }}>
-        <div className="container">
-          <div className="row">
-            <div className="card-title mt-1">
-              <div className="d-flex flex-row justify-content-between align-items-start">
+
+      <div className="container-fluid mt-4" >
+     
+     
+
+      <div className="row">
+      
+      
+
+      
+        <main role="main" className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+        <div className="d-flex flex-row justify-content-between align-items-start">
                 <div className="d-flex flex-column">
                   <h2 className="fw-bold fs-5">Dashboard</h2>
                   <p className="text-secondary fs-6">Sunday, 05 August 2024</p>
@@ -252,195 +277,117 @@ export const HeroContent = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            className="card  border-0 rounded-0 shadow"
-            style={{ width: "100%" }}
-          >
-            <div className="row g-0">
-              <div className="col-lg-4">
-                <img
-                  src="https://t4.ftcdn.net/jpg/05/25/50/67/360_F_525506740_fmR5uWnmtIDi2MLmLFQ0X6drPS2k7gf8.jpg"
-                  alt="Profile"
-                  className="img-fluid "
-                  style={{ width: "100%" }}
-                />
-              </div>
-              <div className="col-lg-8">
+       
+
+          {/* Top Cards Row */}
+          <div className="row">
+            <div className="col-lg-3 col-md-6">
+              <div className="card text-white bg-primary mb-4">
                 <div className="card-body">
-                  <h2
-                    className="card-title fs-5 mt-1 px-4 fw-semibold "
-                    style={{ color: "#fe5722" }}
-                  >
-                    <span className="text-dark">Hello,</span> James Lee
-                  </h2>
-                  <p className="card-text text-muted mt-1 lh-base px-3 t fs1 fw-light">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Expedita ducimus quo earum rem culpa corrupti soluta,
-                    possimus orporis. Lorem ipsum Lorem ipsum dolor, sit amet
-                    consectetur adipisicing elit. Nulla, quae?
-                  </p>
+                  <h5 className="card-title"><FaUserAlt /> Total Clients</h5>
+                  <h2 className="card-text">1,250</h2>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="row ">
-            <div className="col-lg-6 mt-1">
-              <div className="card rounded-2 border-0 shadow">
+            <div className="col-lg-3 col-md-6">
+              <div className="card text-white bg-success mb-4">
                 <div className="card-body">
-                  <h2 className="card-title fs-5 fw-semibold">Activity</h2>
-                  <div className="d-flex justify-content-end align-items-center">
-                    <div className="dropdown">
-                      <button
-                        className="btn  rounded-2 border-0 fs1 text-white"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        style={{ backgroundColor: "#fe5722" }}
-                      >
-                        Daily{" "}
-                        <span>
-                          <FaCaretDown />
-                        </span>
-                      </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <a className="dropdown-item " href="#">
-                            Daily
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item " href="#">
-                            Weekly
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item " href="#">
-                            Monthly
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item " href="#">
-                            Yearly
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="charts mt-3">
-                    <div style={{ width: "100%", height: "190px" }}>
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart
-                          data={data}
-                          syncId="anyId"
-                          margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Area
-                            type="monotone"
-                            dataKey="pv"
-                            stroke="#fe5722"
-                            fill="transparent"
-                          />
-                        </AreaChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
+                  <h5 className="card-title"><FaChartLine /> New Leads</h5>
+                  <h2 className="card-text">300</h2>
                 </div>
               </div>
             </div>
-
-            <div className="col-lg-3 mt-1">
-              <div className="">
-                <div className="card border-0 rounded-2 shadow">
-                  <div className="card-body">
-                    <div className="card-title fw-semibold">Progress</div>
-                    <div className="charts">
-                      <ResponsiveContainer width="100%" height={195}>
-                        <PieChart>
-                          <Pie
-                            dataKey="value"
-                            data={data1}
-                            fill="skyblue"
-                            label
-                          />
-                        </PieChart>
-                      </ResponsiveContainer>
-                    </div>
-                    <div className="card-text text-muted text-center fs1 pt-4">
-                      This Week
-                    </div>
-                  </div>
+            <div className="col-lg-3 col-md-6">
+              <div className="card text-white bg-warning mb-4">
+                <div className="card-body">
+                  <h5 className="card-title"><FaDollarSign /> Sales</h5>
+                  <h2 className="card-text">$75,000</h2>
                 </div>
               </div>
             </div>
-            <div className="col-lg-3 mt-1">
-              <div className="my-2 ">
-                <div className="card rounded-2 border-0 px-3 py-2 shadow">
-                  <div className="row g-0">
-                    <div className="col-lg-6">
-                      <div className="d-flex justify-content-center align-items-center h-100">
-                        <div className="px-2 py-3">
-                          <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                            alt="image"
-                            className="rounded-circle border-0 "
-                            width={"60px"}
-                            height={"60px"}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className="card-body d-flex justify-content-center align-items-center h-100">
-                        <div className="card-title text-center mt-2">
-                          <div className="d-flex flex-column align-items-center">
-                            <div className="fs-6">Team</div>
-                            <div className="fs-5 color1 fw-bold">5</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            <div className="col-lg-3 col-md-6">
+              <div className="card text-white bg-danger mb-4">
+                <div className="card-body">
+                  <h5 className="card-title"><FaFileInvoiceDollar /> Pending Invoices</h5>
+                  <h2 className="card-text">$12,000</h2>
                 </div>
               </div>
-              <div className="my-2">
-                <div className="card rounded-2 shadow border-0 px-3 py-2">
-                  <div className="row g-0">
-                    <div className="col-lg-6">
-                      <div className="d-flex justify-content-center align-items-center h-100">
-                        <div className="px-2 py-3">
-                          <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                            alt="image"
-                            className="rounded-circle"
-                            width={"60px"}
-                            height={"60px"}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className="card-body d-flex justify-content-center align-items-center h-100">
-                        <div className="card-title text-center mt-2">
-                          <div className="d-flex flex-column align-items-center">
-                            <div className="fs-6">Team</div>
-                            <div className="fs-5 color1 fw-bold">5</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+            </div>
+          </div>
+
+          {/* Charts Row */}
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="card mb-4">
+                <div className="card-header">Sales Overview</div>
+                <div className="card-body">
+                  <Line data={salesData} />
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="card mb-4">
+                <div className="card-header">Client Growth</div>
+                <div className="card-body">
+                  <Line data={clientGrowthData} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Table Row */}
+          <div className="row">
+            <div className="col">
+              <div className="card mb-4">
+                <div className="card-header">Recent Transactions</div>
+                <div className="card-body">
+                  <div className="table-responsive">
+                    <table className="table table-hover table-responsive-sm">
+                      <thead className="bg-light">
+                        <tr>
+                          <th>#</th>
+                          <th>Date</th>
+                          <th>Client</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>2024-08-15</td>
+                          <td>ABC Corp</td>
+                          <td>$5,000</td>
+                          <td><span className="badge badge-success">Paid</span></td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>2024-08-14</td>
+                          <td>XYZ Ltd</td>
+                          <td>$3,200</td>
+                          <td><span className="badge badge-warning">Pending</span></td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>2024-08-13</td>
+                          <td>Acme Inc</td>
+                          <td>$1,500</td>
+                          <td><span className="badge badge-danger">Overdue</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+        </main>
+      </div>
+    </div>
+    
+        <div className="container">
+        
           <div className="row">
             <div className="my-2">
               <div className="d-flex flex-row justify-content-between px-2">

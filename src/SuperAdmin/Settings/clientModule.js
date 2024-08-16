@@ -400,9 +400,42 @@ export default function GlobalSettings() {
               </div>
             </div>
             <div className="container-fluid mt-3">
-              <div className="card">
-                <div className="card-header d-flex align-items-center" style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                  <h3 className="card-title flex-grow-1">TypeOfClient</h3>
+
+              <div className='row'>
+              <div className='col-md-4'>
+              <div className="card rounded-1 border-0 shadow-sm">
+                  <div className="card-header bg-white border-0">
+                    <h5 className="card-title fw-semibold text-capitalize" >{isEditing ? "Edit typeOfClient" : "Add typeOfClient"}</h5>
+                    
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-3">
+                        <label htmlFor="typeOfClient" className="form-label">typeOfClient</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="typeOfClient"
+                          name="typeOfClient"
+                          value={inputs.typeOfClient}
+                          onChange={handleInputs}
+                        />
+                        {submitted && errors.typeOfClient.required && (
+                          <div className="text-danger">TypeOfClient is required</div>
+                        )}
+                      </div>
+                      <div className="text-end">
+                        <button type="submit" className="btn btn-primary float-end" >{isEditing ? "Update" : "Add"}</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+              </div>
+              <div className='col-md-8'>
+              <div className="card rounded-1 border-0 shadow-sm">
+                <div className="card-header bg-white border-0" style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+                  <h3 className="card-title fw-semibold">Type Of Client</h3>
                 </div>
                 <div className="card-body">
                   <table className="table table-hover text-nowrap">
@@ -460,6 +493,13 @@ export default function GlobalSettings() {
                   </div>
                 </div>
               </div>
+
+
+              </div>
+
+              </div>
+              
+             
             </div>
             <Dialog open={open} onClose={closePopup}>
               <DialogTitle>Confirm Delete</DialogTitle>
