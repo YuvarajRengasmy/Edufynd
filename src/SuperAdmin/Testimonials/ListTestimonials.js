@@ -336,12 +336,12 @@ export const ListTestimonials = () => {
                         <tbody>
                         {notification?.map((item, index) => (
                             <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start">{formatDate(item?.createdOn ? item?.createdOn : item?.modifiedOn ? item?.modifiedOn : "-")}</td>
-                              <td className="text-capitalize text-start">{item?.courseOrUniversityName}</td>
-                              <td className="text-capitalize text-start">{item.typeOfUser}</td>
+                              <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start text-truncate">{formatDate(item?.createdOn ? item?.createdOn : item?.modifiedOn ? item?.modifiedOn : "-")  || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate" >{item?.courseOrUniversityName || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate">{item.typeOfUser || "Not Available"}</td>
                              
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

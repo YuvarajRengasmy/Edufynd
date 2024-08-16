@@ -343,14 +343,14 @@ export const Listinvoice = () => {
                       {invoice && invoice.length > 0 ? (
                                 invoice.map((data, index) => (
                         <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}  >
-                          <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                          <td className="text-capitalize text-start">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")}</td>
-                          <td className="text-capitalize text-start">{data?.senderInvoiceNumber}</td>
-                          <td className="text-capitalize text-start">{data?.businessName}</td>
+                          <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.senderInvoiceNumber  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.businessName  || "Not Available"}</td>
                          
-                          <td className="text-capitalize text-start">{data?.universityName}</td>
-                          <td className="text-capitalize text-start">
-                                  <div className="d-flex flex-row ">
+                          <td className="text-capitalize text-start text-truncate">{data?.universityName  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex  ">
                                     <Link
                                       className="dropdown-item"
                                       to={{

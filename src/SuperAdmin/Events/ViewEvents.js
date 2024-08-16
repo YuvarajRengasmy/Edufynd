@@ -71,7 +71,7 @@ export const ViewEvents = () => {
                   <tbody>
                     <tr>
                       <th>Type of User</th>
-                      <td>{notification?.typeOfUser}</td>
+                      <td>{notification?.typeOfUser   || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Username</th>
@@ -80,27 +80,27 @@ export const ViewEvents = () => {
                         ? notification.userName.map((username, index) => (
                             <li key={index}>{username}</li>
                           ))
-                        : "N/A"}
+                        : "N/A"  || "Not Available"}
                     </tr>
                     <tr>
                       <th>Event Topic</th>
-                      <td>{notification?.eventTopic}</td>
+                      <td>{notification?.eventTopic  || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>University</th>
-                      <td>{notification?.universityName}</td>
+                      <td>{notification?.universityName  || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Date</th>
-                      <td>{notification?.date}</td>
+                      <td>{notification?.date  || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Time</th>
-                      <td>{notification?.time}</td>
+                      <td>{notification?.time  || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Venue</th>
-                      <td>{notification?.venue}</td>
+                      <td>{notification?.venue  || "Not Available"}</td>
                     </tr>
                   </tbody>
                 </table>

@@ -423,42 +423,42 @@ export const ListFlightTicket = () => {
                                     fontSize: "11px",
                                   }}
                                 >
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {formatDate(
                                       data?.createdOn
                                         ? data?.createdOn
                                         : data?.modifiedOn
                                         ? data?.modifiedOn
                                         : "-"
-                                    )}
+                                        || "Not Available")}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.flightID}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.flightID || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.studentName}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.studentName || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.passportNo}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.passportNo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {formatDate(
                                       data?.dateOfTravel
                                         ? data?.dateOfTravel
                                         : "-"
-                                    )}
+                                        || "Not Available")}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.from}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.from || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.to}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.to || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start"></td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate"></td>
+                                  <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link
                                         className="dropdown-item"

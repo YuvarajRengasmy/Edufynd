@@ -294,12 +294,12 @@ function ListStaff() {
           </div>
          
         
-          <div className="content-body">
+          
             <div className="container">
             <div className="row">
           <div className="col-xl-12">
           <div className="col-md-12">
-            <div className="card rounded-0 mt-2 border-0">
+            <div className="card rounded-1 shadow-sm mt-2 border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
@@ -322,17 +322,17 @@ function ListStaff() {
                       <tbody>
                       {staff?.map((data, index) => (
                         <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }} >
-                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                          <td className="text-capitalize text-start">{data?.employeeID}</td>
-                          <td className="text-capitalize text-start">{formatDate(data?.doj)}</td>
-                          <td className="text-capitalize text-start">{data?.empName}</td>
-                          <td className="text-capitalize text-start">{data?.designation}</td>
-                          <td className="text-capitalize text-start">{data?.reportingManager}</td>
-                          <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                           <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.employeeID  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{formatDate(data?.doj)  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.empName  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.designation  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.reportingManager  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.mobileNumber  || "Not Available"}</td>
                           
-                          <td className="text-capitalize text-start">{data?.status}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.status  || "Not Available"}</td>
                           
-                          <td>
+                          <td  className="text-capitalize text-start text-truncate">
                           <div className="d-flex">
                                 <Link
                                   className="dropdown-item"
@@ -391,7 +391,7 @@ function ListStaff() {
           </div>
         </div>
             </div>
-          </div>
+          
         
                 
         

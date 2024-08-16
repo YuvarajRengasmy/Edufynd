@@ -413,37 +413,37 @@ export const ListForex = () => {
                                     fontSize: "11px",
                                   }}
                                 >
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {formatDate(
                                       data?.createdOn
                                         ? data?.createdOn
                                         : data?.modifiedOn
                                         ? data?.modifiedOn
                                         : "-"
-                                    )}
+                                        || "Not Available"  )}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.forexID}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.forexID || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.studentName}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.studentName || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.passportNo}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.passportNo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.source}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.source || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.assignedTo}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.assignedTo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.status}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.status || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link
                                         className="dropdown-item"

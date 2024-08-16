@@ -308,17 +308,17 @@ export const ListMeetings = () => {
                       <tbody>
                       {notification?.map((data, index) => (
                           <tr key={index}  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                            <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
-                           <td className="text-capitalize text-start">{formatDate(data?.date ? data?.date: "-")}</td>
-                            <td className="text-capitalize text-start">{data?.time}</td>
-                            <th className="text-capitalize text-start ">{data?.hostName}</th>
+                            <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                            <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")  || "Not Available"}</td>
+                           <td className="text-capitalize text-start text-truncate">{formatDate(data?.date ? data?.date: "-")  || "Not Available"}</td>
+                            <td className="text-capitalize text-start text-truncate">{data?.time  || "Not Available"}</td>
+                            <th className="text-capitalize text-start text-truncate">{data?.hostName  || "Not Available"}</th>
 
-                            <td className="text-capitalize text-start">{data?.subject}</td>
+                            <td className="text-capitalize text-start text-truncate">{data?.subject  || "Not Available"}</td>
                            
                           
                           
-                            <td>
+                            <td className="text-capitalize text-start text-truncate">
                             <div className="d-flex">
                                       <Link
                                         className="dropdown-item"

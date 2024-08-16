@@ -422,10 +422,10 @@ export const ListLoanEnquiry = () => {
                                     fontSize: "11px",
                                   }}
                                 >
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {formatDate(
                                       data?.createdOn
                                         ? data?.createdOn
@@ -434,28 +434,28 @@ export const ListLoanEnquiry = () => {
                                         : "-"
                                     )}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.studentName}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.passportNumber}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.primaryNumber}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.email}
-                                  </td>
-                                  <td className="text-capitalize text-start">
+                                  </td> 
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.platform}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.source}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.assignedTo}
                                   </td>
-                                  <td>
+                                  <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link
                                         className="dropdown-item"

@@ -307,13 +307,13 @@ export const ListTraining = () => {
                         <tbody>
                         {notification?.map((data, index) => (
                             <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
-                              <td className="text-capitalize text-start">{data?.trainingTopic}</td>
+                              <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start text-truncate" >{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-") || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate">{data?.trainingTopic || "Not Available"}</td>
                              
-                              <td className="text-capitalize text-start">{data?.typeOfUser}</td>
+                              <td className="text-capitalize text-start text-truncate">{data?.typeOfUser || "Not Available"}</td>
                             
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

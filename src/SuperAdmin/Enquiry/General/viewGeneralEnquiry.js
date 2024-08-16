@@ -69,51 +69,51 @@ export const ViewGeneralEnquiry = () => {
                   <tbody>
                     <tr>
                       <td className="fw-bold">Student Name </td>
-                      <td>{student?.name}</td>
+                      <td>{student?.name || "Not Available" }</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Date Of Birth </td>
-                      <td>{formatDate(student?.createdOn)}</td>
+                      <td>{formatDate(student?.createdOn) || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Passport No </td>
-                      <td>{student?.passportNo}</td>
+                      <td>{student?.passportNo || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Contact Number </td>
-                      <td>{student?.primaryNumber}</td>
+                      <td>{student?.primaryNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email ID </td>
-                      <td>{student?.email}</td>
+                      <td>{student?.email || "Not Available"}</td>
                     </tr>{" "}
                     <tr>
                       <td className="fw-bold">CGPA / Year passed </td>
                       <td>
-                        {student?.cgpa}/{student?.yearPassed}
+                        {student?.cgpa || "Not Available"}/{student?.yearPassed || "Not Available"}
                       </td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Desired Country </td>
-                      <td>{student?.desiredCountry}</td>
+                      <td>{student?.desiredCountry || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Desired Course </td>
-                      <td>{student?.desiredCourse}</td>
+                      <td>{student?.desiredCourse || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">
                         Do you need support for loan?{" "}
                       </td>
-                      <td>{student?.doYouNeedSupportForLoan}</td>
+                      <td>{student?.doYouNeedSupportForLoan || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Qualification </td>
-                      <td>{student?.qualification}</td>
+                      <td>{student?.qualification || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Whatsapp Number </td>
-                      <td>{student?.whatsAppNumber}</td>
+                      <td>{student?.whatsAppNumber || "Not Available"}</td>
                     </tr>
                   </tbody>
                 </table>

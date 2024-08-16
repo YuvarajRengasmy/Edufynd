@@ -377,33 +377,33 @@ export const ListEvents = () => {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {formatDate(
                                     data?.createdOn
                                       ? data?.createdOn
                                       : data?.modifiedOn
                                       ? data?.modifiedOn
                                       : "-"
-                                  )}
+                                     )  || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {formatDate(data?.date ? data?.date : "-")}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {formatDate(data?.date ? data?.date : "-")  || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.eventTopic}
-                                </td>
-
-                                <td className="text-capitalize text-start">
-                                  {data?.universityName}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.venue}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.eventTopic  || "Not Available"}
                                 </td>
 
-                                <td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.universityName  || "Not Available"} 
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.venue  || "Not Available"}
+                                </td>
+
+                                <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"

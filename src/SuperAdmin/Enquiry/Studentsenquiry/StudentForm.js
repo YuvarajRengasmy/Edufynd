@@ -69,31 +69,31 @@ export const StudentForm = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-id-badge"></i> Student Name:
                       </div>
-                      <div class="col-6">{student?.name}</div>
+                      <div class="col-6">{student?.name || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-genderless"></i> Gender:
                       </div>
-                      <div class="col-6"> {student?.gender}</div>
+                      <div class="col-6"> {student?.gender || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-calendar-alt"></i> Date of Birth:
                       </div>
-                      <div class="col-6"> {formatDate(student?.dob)}</div>
+                      <div class="col-6"> {formatDate(student?.dob) || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-globe"></i> Citizenship:
                       </div>
-                      <div class="col-6">{student?.citizenShip}</div>
+                      <div class="col-6">{student?.citizenShip || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-passport"></i> Passport No:
                       </div>
-                      <div class="col-6">{student?.passportNo}</div>
+                      <div class="col-6">{student?.passportNo || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
@@ -101,7 +101,7 @@ export const StudentForm = () => {
                       </div>
                       <div class="col-6">
                         {" "}
-                        {formatDate(student?.expiryDate)}
+                        {formatDate(student?.expiryDate) || "Not Available"}
                       </div>
                     </div>
                   </div>
@@ -116,19 +116,19 @@ export const StudentForm = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-envelope"></i> Email ID:
                       </div>
-                      <div class="col-6">{student?.email}</div>
+                      <div class="col-6">{student?.email || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-phone-alt"></i> Primary Number:
                       </div>
-                      <div class="col-6">{student?.primaryNumber}</div>
+                      <div class="col-6">{student?.primaryNumber || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fab fa-whatsapp "></i> WhatsApp Number:
                       </div>
-                      <div class="col-6">{student?.whatsAppNumber}</div>
+                      <div class="col-6">{student?.whatsAppNumber || "Not Available"}</div>
                     </div>
                   </div>
                 </div>
@@ -161,19 +161,19 @@ export const StudentForm = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i> Qualification:
                       </div>
-                      <div class="col-6">{student?.qualification}</div>
+                      <div class="col-6">{student?.qualification || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-calendar-check"></i> Passed Year:
                       </div>
-                      <div class="col-6">{student?.yearPassed}</div>
+                      <div class="col-6">{student?.yearPassed || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-percent"></i> CGPA:
                       </div>
-                      <div class="col-6">{student?.cgpa}</div>
+                      <div class="col-6">{student?.cgpa || "Not Available"}</div>
                     </div>
                   </div>
                 </div>
@@ -187,33 +187,33 @@ export const StudentForm = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-globe-americas"></i> Desired Country:
                       </div>
-                      <div class="col-6">{student?.desiredCountry}</div>
+                      <div class="col-6">{student?.desiredCountry || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-university"></i> Desired University:
                       </div>
-                      <div class="col-6">{student?.desiredUniversity}</div>
+                      <div class="col-6">{student?.desiredUniversity || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-book"></i> Desired Course:
                       </div>
-                      <div class="col-6"> {student?.desiredCourse}</div>
+                      <div class="col-6"> {student?.desiredCourse || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-question-circle"></i> Do You Hold Any
                         Other Offer?:
                       </div>
-                      <div class="col-6">{student?.doYouHoldAnyOtherOffer}</div>
+                      <div class="col-6">{student?.doYouHoldAnyOtherOffer || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-globe"></i> Country:
                       </div>
                       <div class="col-6">
-                        {student?.country ? student?.country : "N/A"}
+                        {student?.country ? student?.country : "N/A" || "Not Available"}
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -221,7 +221,7 @@ export const StudentForm = () => {
                         <i class="fas fa-university"></i> University:
                       </div>
                       <div class="col-6">
-                        {student?.university ? student?.university : "N/A"}
+                        {student?.university ? student?.university : "N/A" || "Not Available"} 
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -230,7 +230,7 @@ export const StudentForm = () => {
                       </div>
                       <div class="col-6">
                         {" "}
-                        {student?.program ? student?.program : "N/A"}
+                        {student?.program ? student?.program : "N/A" || "Not Available"}
                       </div>
                     </div>
                   </div>
@@ -247,7 +247,7 @@ export const StudentForm = () => {
                       </div>
                       <div class="col-6">
                         {" "}
-                        {student?.refereeName ? student?.refereeName : "N/A"}
+                        {student?.refereeName ? student?.refereeName : "N/A" || "Not Available"}
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -258,7 +258,7 @@ export const StudentForm = () => {
                         {" "}
                         {student?.refereeContactNo
                           ? student?.refereeContactNo
-                          : "N/A"}
+                          : "N/A" || "Not Available"}
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -267,7 +267,7 @@ export const StudentForm = () => {
                         Support:
                       </div>
                       <div class="col-6">
-                        {student?.doYouNeedSupportForLoan}
+                        {student?.doYouNeedSupportForLoan || "Not Available"}
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -275,13 +275,13 @@ export const StudentForm = () => {
                         <i class="fas fa-chalkboard-teacher"></i> Register for
                         IELTS Class:
                       </div>
-                      <div class="col-6"> {student?.registerForIELTSClass}</div>
+                      <div class="col-6"> {student?.registerForIELTSClass || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-user"></i> Assigned To:
                       </div>
-                      <div class="col-6"> {student?.assignedTo}</div>
+                      <div class="col-6"> {student?.assignedTo || "Not Available"}</div>
                     </div>
                   </div>
                 </div>

@@ -70,22 +70,22 @@ const AddAgent = () => {
 
       setClient(clientData);
       setRows([
-        { id: 1, label: "Client ID", value: clientData?.clientID },
-        { id: 2, label: "Type of client", value: clientData?.typeOfClient },
-        { id: 3, label: "Business Name", value: clientData?.businessName },
-        { id: 4, label: "Business Mail ID", value: clientData?.businessMailID },
+        { id: 1, label: "Client ID", value: clientData?.clientID || "Not Available" },
+        { id: 2, label: "Type of client", value: clientData?.typeOfClient || "Not Available" },
+        { id: 3, label: "Business Name", value: clientData?.businessName || "Not Available" },
+        { id: 4, label: "Business Mail ID", value: clientData?.businessMailID || "Not Available" },
         {
           id: 5,
           label: "Business Contact No",
-          value: clientData?.businessContactNo,
+          value: clientData?.businessContactNo || "Not Available"
         },
-        { id: 6, label: "Website", value: clientData?.website },
-        { id: 7, label: "Staff Name", value: clientData?.name },
-        { id: 8, label: "Staff Contact No", value: clientData?.contactNo },
-        { id: 9, label: "Staff Email ID", value: clientData?.emailID },
-        { id: 10, label: "Address", value: clientData?.addressLine1 },
-        { id: 11, label: "GSTN", value: clientData?.gstn },
-        { id: 12, label: "Status", value: clientData?.staffStatus },
+        { id: 6, label: "Website", value: clientData?.website || "Not Available" },
+        { id: 7, label: "Staff Name", value: clientData?.name || "Not Available" },
+        { id: 8, label: "Staff Contact No", value: clientData?.contactNo || "Not Available" },
+        { id: 9, label: "Staff Email ID", value: clientData?.emailID  || "Not Available"},
+        { id: 10, label: "Address", value: clientData?.addressLine1 || "Not Available" },
+        { id: 11, label: "GSTN", value: clientData?.gstn || "Not Available" },
+        { id: 12, label: "Status", value: clientData?.staffStatus || "Not Available" },
       ]);
     } catch (err) {
       console.error(err);

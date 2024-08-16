@@ -67,10 +67,10 @@ function Profile() {
                     style={{ width: "8rem", height: "8rem" }}
                   />
                   <div className="card-body">
-                    <h3 className="agent-name">{agent?.agentName}</h3>
-                    <p className="card-text">{agent?.source}</p>
+                    <h3 className="agent-name">{agent?.agentName || "Not Available"}</h3>
+                    <p className="card-text">{agent?.source || "Not Available"}</p>
                     <button className="btn btn-primary btn-sm">
-                      <i className="fas fa-envelope"></i> {agent?.email}
+                      <i className="fas fa-envelope"></i> {agent?.email || "Not Available"}
                     </button>
                   </div>
                 </div>
@@ -81,28 +81,28 @@ function Profile() {
                   <div className="card-body">
                     <ul className="list-group">
                       <li className="list-group-item">
-                        <strong>Account Name:</strong> {agent?.accountName}
+                        <strong>Account Name:</strong> {agent?.accountName || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Bank Name:</strong> {agent?.bankName}
+                        <strong>Bank Name:</strong> {agent?.bankName || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Account Number:</strong> {agent?.accountNumber}
+                        <strong>Account Number:</strong> {agent?.accountNumber || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Branch:</strong> {agent?.branch}
+                        <strong>Branch:</strong> {agent?.branch || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>IFSC:</strong> {agent?.ifsc}
+                        <strong>IFSC:</strong> {agent?.ifsc || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Account Type:</strong> {agent?.accountType}
+                        <strong>Account Type:</strong> {agent?.accountType || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Swift:</strong> {agent?.swift}
+                        <strong>Swift:</strong> {agent?.swift || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Commission:</strong> {agent?.agentsCommission}
+                        <strong>Commission:</strong> {agent?.agentsCommission || "Not Available"}
                       </li>
                     </ul>
                   </div>
@@ -118,75 +118,75 @@ function Profile() {
                       <div className="col-md-6">
                         <ul className="list-group">
                           <li className="list-group-item">
-                            <strong>Agent Code:</strong> {agent?.agentCode}
+                            <strong>Agent Code:</strong> {agent?.agentCode || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>Agent Name:</strong> {agent?.agentName}
+                            <strong>Agent Name:</strong> {agent?.agentName || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Business Name:</strong>{" "}
-                            {agent?.businessName}
+                            {agent?.businessName || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>Email:</strong> {agent?.email}
+                            <strong>Email:</strong> {agent?.email || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Mobile Number:</strong>{" "}
-                            {agent?.mobileNumber}
+                            {agent?.mobileNumber || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>WhatsApp Number:</strong>{" "}
-                            {agent?.whatsAppNumber}
+                            {agent?.whatsAppNumber || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Address Line 1:</strong>{" "}
-                            {agent?.addressLine1}
+                            {agent?.addressLine1 || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Address Line 2:</strong>{" "}
-                            {agent?.addressLine2}
+                            {agent?.addressLine2 || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Address Line 3:</strong>{" "}
-                            {agent?.addressLine3}
+                            {agent?.addressLine3 || "Not Available"}
                           </li>
                         </ul>
                       </div>
                       <div className="col-md-6">
                         <ul className="list-group">
                           <li className="list-group-item">
-                            <strong>Country:</strong> {agent?.country}
+                            <strong>Country:</strong> {agent?.country || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>State:</strong> {agent?.state}
+                            <strong>State:</strong> {agent?.state || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>City:</strong> {agent?.city}
+                            <strong>City:</strong> {agent?.city || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>PIN:</strong> {agent?.pin}
+                            <strong>PIN:</strong> {agent?.pin || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Business Website:</strong>{" "}
-                            {agent?.businessWebsite}
+                            {agent?.businessWebsite || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>GSTN:</strong> {agent?.gstn}
+                            <strong>GSTN:</strong> {agent?.gstn || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>PAN (Individual):</strong>{" "}
-                            {agent?.panNumberIndividual}
+                            {agent?.panNumberIndividual || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>PAN (Company):</strong>{" "}
-                            {agent?.panNumberCompany}
+                            {agent?.panNumberCompany || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>Staff Name:</strong> {agent?.staffName}
+                            <strong>Staff Name:</strong> {agent?.staffName || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Staff Contact No:</strong>{" "}
-                            {agent?.staffContactNo}
+                            {agent?.staffContactNo || "Not Available"}
                           </li>
                         </ul>
                       </div>
@@ -203,11 +203,11 @@ function Profile() {
                         <ul className="list-group">
                           <li className="list-group-item">
                             <strong>Registration No:</strong>{" "}
-                            {agent?.registrationNo}
+                            {agent?.registrationNo || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Business Type:</strong>{" "}
-                            {agent?.businessType}
+                            {agent?.businessType || "Not Available"}
                           </li>
                         </ul>
                       </div>
@@ -215,11 +215,11 @@ function Profile() {
                         <ul className="list-group">
                           <li className="list-group-item">
                             <strong>Require Visa Filing Support:</strong>{" "}
-                            {agent?.requireVisaFilingSupport ? "Yes" : "No"}
+                            {agent?.requireVisaFilingSupport ? "Yes" : "No" || "Not Available"}
                           </li>
                           <li className="list-group-item">
                             <strong>Visa Commission:</strong>{" "}
-                            {agent?.visaCommission}
+                            {agent?.visaCommission || "Not Available"}
                           </li>
                         </ul>
                       </div>

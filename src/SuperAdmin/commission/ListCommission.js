@@ -501,10 +501,10 @@ export default function Masterproductlist() {
                         {pagination.from + index + 1}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
-                        {data?.universityName}
+                        {data?.universityName || "Not Available"}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
-                        {data?.country}
+                        {data?.country || "Not Available"}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
                         <Link
@@ -525,7 +525,7 @@ export default function Masterproductlist() {
                         </Link>
                       </td>
                       <td className="text-capitalize text-start text-truncate">
-                        {data?.paymentType}
+                        {data?.paymentType || "Not Available"}
                       </td>
                       <td>
                         <div className="d-flex">

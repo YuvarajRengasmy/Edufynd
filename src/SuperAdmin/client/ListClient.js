@@ -671,10 +671,10 @@ export default function Masterproductlist() {
                               {pagination.from + index + 1}
                             </td>
                             <td className="text-capitalize text-start">
-                              {data?.clientID}
+                              {data?.clientID || "Not Available"}
                             </td>
                             <td className="text-capitalize text-start">
-                              {data?.typeOfClient}
+                              {data?.typeOfClient || "Not Available"}
                             </td>
                             <td className="text-capitalize text-start">
                               <Link
@@ -684,17 +684,17 @@ export default function Masterproductlist() {
                                   search: `?id=${data?._id}`,
                                 }}
                               >
-                                {data?.businessName}
+                                {data?.businessName || "Not Available"}
                               </Link>
                             </td>
                             <td className="text-capitalize text-start">
-                              {data?.businessContactNo}
+                              {data?.businessContactNo || "Not Available"}
                             </td>
                             <td className="text-start">
-                              {data?.businessMailID}
+                              {data?.businessMailID || "Not Available"}
                             </td>
                             <td className="text-capitalize text-start">
-                              {data?.status}
+                              {data?.status || "Not Available"}
                             </td>
                             <td>
                               <div className="d-flex justify-content-center">

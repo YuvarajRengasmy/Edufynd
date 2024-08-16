@@ -75,13 +75,13 @@ export const ViewNotifications = () => {
                 <div>
                     <h6 class="mb-1"><i class="fas fa-user"></i> {Array.isArray(notification?.userName) && notification.userName.length > 0
                           ? notification.userName.map((username, index) => (
-                            <span key={index}>{username}</span>
+                            <span key={index}>{username }</span>
                           ))
                           : "N/A"
                         }</h6>
-                    <p class="text-muted mb-1"><i class="fas fa-users"></i> Type of Users:  {notification?.typeOfUser}</p>
-                    <p class="text-muted mb-1"><i class="fas fa-book"></i> Subject: {notification?.subject}</p>
-                    <p class="mb-0"><RichTextEditor value={notification?.content} readOnly /></p>
+                    <p class="text-muted mb-1"><i class="fas fa-users"></i> Type of Users:  {notification?.typeOfUser  || "Not Available"} </p>
+                    <p class="text-muted mb-1"><i class="fas fa-book"></i> Subject: {notification?.subject  || "Not Available"}</p>
+                    <p class="mb-0"><RichTextEditor value={notification?.content  || "Not Available"} readOnly /></p>
                 </div>
             </div>
         </div>

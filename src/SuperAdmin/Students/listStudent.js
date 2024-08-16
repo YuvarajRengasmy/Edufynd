@@ -629,13 +629,13 @@ export default function Masterproductlist() {
                    {student?.map((data, index) => (
                      <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                        <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
-                       <td className="text-capitalize text-start text-truncate">{data?.name?data?.name: data?.superAdminId?.studentName}</td>
-                       <td className="text-capitalize text-start text-truncate">{data?.studentCode}</td>
+                       <td className="text-capitalize text-start text-truncate">{data?.name?data?.name: data?.superAdminId?.studentName  || "Not Available"}</td>
+                       <td className="text-capitalize text-start text-truncate">{data?.studentCode  || "Not Available"}</td>
                       
                        <td className=" text-start text-truncate">{data?.email}</td>
-                       <td className="text-capitalize text-start text-truncate">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null}</td>
+                       <td className="text-capitalize text-start text-truncate">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null  || "Not Available"}</td>
                        <td className="text-capitalize text-start text-truncate">{data?.status}</td>
-                       <td className="text-capitalize text-start text-truncate" >{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)}</td>
+                       <td className="text-capitalize text-start text-truncate" >{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)  || "Not Available"}</td>
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
                            <Link

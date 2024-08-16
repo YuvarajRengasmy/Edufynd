@@ -617,35 +617,35 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
 
-                                <td className="text-capitalize text-start">
-                                  {data?.agentName}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentName || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.agentCode}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentCode || "Not Available"}
                                 </td>
 
-                                <td className=" text-start">{data?.email}</td>
-                                <td className="text-capitalize text-start">
-                                  {data?.mobileNumber}
+                                <td className=" text-start text-truncate">{data?.email}</td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.mobileNumber || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.status}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.status || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {formatDate(
                                     data?.modifiedOn
                                       ? data?.modifiedOn
                                       : data?.createdOn
                                       ? data?.createdOn
                                       : null
-                                  )}
+                                      || "Not Available" )}
                                 </td>
 
-                                <td>
+                                <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"

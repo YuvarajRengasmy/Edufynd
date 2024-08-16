@@ -433,34 +433,34 @@ export const ListBusiness = () => {
                                     fontSize: "11px",
                                   }}
                                 >
-                                  <td className="text-capitalize text-start ">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {formatDate(data?.createdOn)}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {formatDate(data?.createdOn) || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.studentCode}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.studentCode || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.name}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.name || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.primaryNumber}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.primaryNumber || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.email}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.email || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.desiredCountry}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.desiredCountry || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.source}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.source || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.assignedTo}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.assignedTo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link
                                         className="dropdown-item"

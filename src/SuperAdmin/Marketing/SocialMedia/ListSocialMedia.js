@@ -241,13 +241,13 @@ export const ListSocialMedia = () => {
                         <tbody>
                           
                             <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                              
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                             
-                              <td>
+                              <td  className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"
