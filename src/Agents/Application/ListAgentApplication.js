@@ -20,7 +20,7 @@ import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 
-export const ListAgentApplication = () => {
+ const ListAgentApplication = () => {
   const initialState = {
     typeOfClient: "",
     businessName: "",

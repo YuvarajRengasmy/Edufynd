@@ -12,7 +12,7 @@ import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
 import { duration } from "@mui/material";
 
-export const ViewAgentApplication = () => {
+const ViewAgentApplication = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const modalRef = useRef(null);
@@ -911,4 +911,4 @@ export const ViewAgentApplication = () => {
   );
 };
 
-export default ViewAgentApplication;
+export default ViewAgentApplication
