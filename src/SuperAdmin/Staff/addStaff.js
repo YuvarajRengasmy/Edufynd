@@ -410,8 +410,8 @@ export const AddStaff = () => {
                           >
                             <option value="">Select Department Head</option>
                             {department.map((data, index) => (
-                              <option key={index} value={data?.departmentHead}>
-                                {data?.departmentHead}
+                              <option key={index} value={data?.department}>
+                                {data?.department}
                               </option>
                             ))}
                           </select>

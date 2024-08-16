@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import {  deleteStudent , getFilterStudentAdmin,getFilterStudent } from "../../api/student";
+import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent } from "../../api/student";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
 
@@ -56,7 +56,7 @@ export default function Masterproductlist() {
     
 
     };
-    getFilterStudentAdmin(data)
+    getallStudent(data)
     
     .then((res) => {
       const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
