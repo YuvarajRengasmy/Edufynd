@@ -1,31 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-
-import { BsThreeDots } from "react-icons/bs";
-
-
-import { PieChart, Pie } from "recharts";
-
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  AreaChart,
-  Area,
-  ResponsiveContainer,
-} from "recharts";
-import { FaCaretDown } from "react-icons/fa";
+import { Bar, Line, Pie } from "react-chartjs-2"; //
 import Sidebar from "../../compoents/sidebar";
-import { FaUserAlt, FaChartLine, FaDollarSign, FaFileInvoiceDollar } from 'react-icons/fa';
-import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import { FaUser, FaEnvelope, FaPhone, FaDollarSign,FaUserAlt,  FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram,  FaBell,  FaChartLine } from "react-icons/fa";
+
 export const HeroContent = () => {
  
-
-
-  const salesData = {
+const salesData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
     datasets: [
       {
@@ -50,231 +32,172 @@ export const HeroContent = () => {
       },
     ],
   };
+  const barData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Client Growth",
+        backgroundColor: "rgba(75,192,192,1)",
+        borderColor: "rgba(0,0,0,1)",
+        borderWidth: 2,
+        data: [65, 59, 80, 81, 56, 55]
+      }
+    ]
+  };
+
+  const lineData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Finance Overview",
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "#FF6384",
+        borderColor: "#FF6384",
+        borderCapStyle: "butt",
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: "miter",
+        pointBorderColor: "#FF6384",
+        pointBackgroundColor: "#FF6384",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "#FF6384",
+        pointHoverBorderColor: "#FF6384",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [65, 59, 80, 81, 56, 55]
+      }
+    ]
+  };
+
   return (
-    <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+    <div >
       <Sidebar />
-      <div className="content-wrapper" style={{ fontSize: "12px" }}>
-
+      <div className="content-wrapper" style={{  fontFamily: "Plus Jakarta Sans",fontSize: "12px" }}>
       <div className="container-fluid mt-4" >
-     
-     
-
       <div className="row">
-      
-      
-
-      
-        <main role="main" className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+      <main role="main" className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
         <div className="d-flex flex-row justify-content-between align-items-start">
                 <div className="d-flex flex-column">
                   <h2 className="fw-bold fs-5">Dashboard</h2>
                   <p className="text-secondary fs-6">Sunday, 05 August 2024</p>
                 </div>
                 <div className="d-flex align-items-center">
-                  <button
-                    class="btn border-0 rounder-2 shadow text-white"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight"
-                    aria-controls="offcanvasRight"
-                    style={{ backgroundColor: "#fe5722" }}
-                  >
-                    Profile
-                  </button>
+                <button
+        className="btn btn-primary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasProfile"
+        aria-controls="offcanvasProfile"
+      >
+        Open Profile
+      </button>
 
-                  <div
-                    class="offcanvas offcanvas-end"
-                    tabindex="-1"
-                    id="offcanvasRight"
-                    aria-labelledby="offcanvasRightLabel"
-                  >
-                    <div class="offcanvas-header">
-                      <button
-                        type="button"
-                        class="btn-close "
-                        data-bs-dismiss="offcanvas"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div class="offcanvas-body">
-                      <div className="container-fluid">
-                        <div className="d-flex flex-row justify-content-between align-items-start">
-                          <div className="d-flex flex-column ">
-                            <h2 className="fs-5 ">My Profile</h2>
-                            <p className="fs-6">
-                              <span className="color1">70%</span> Progress
-                            </p>
-                          </div>
-                          <div className="dropdown mt-3">
-                            <button
-                              className="btn border-0"
-                              type="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                              style={{ color: "#fe5722" }}
-                            >
-                              <BsThreeDots />
-                            </button>
-                            <ul className="dropdown-menu">
-                              <li>
-                                <a href="#" className="dropdown-item">
-                                  Profile
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#" className="dropdown-item">
-                                  About
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#" className="dropdown-item">
-                                  Contact
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+      <div
+        className="offcanvas offcanvas-end"
+        tabIndex="-1"
+        id="offcanvasProfile"
+        aria-labelledby="offcanvasProfileLabel"
+      >
+        <div className="offcanvas-header">
+          <h6 className="offcanvas-title" id="offcanvasProfileLabel">
+            <FaUser /> John Doe's Profile
+          </h6>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="offcanvas-body">
+          {/* Profile Information */}
+          <div className="card mb-4 text-center">
+            <div className="card-body">
+              <img
+                src="https://via.placeholder.com/100"
+                alt="User Avatar"
+                className="rounded-circle mb-3"
+              />
+              <h6 className="">John Doe</h6>
+              <p className="text-muted">Senior CRM Manager</p>
+              <p className="mb-1"><FaEnvelope /> john.doe@example.com</p>
+              <p><FaPhone /> +123 456 7890</p>
+              <div className="d-flex justify-content-around mt-3">
+                <button className="btn btn-outline-primary"><FaEdit /> Edit Profile</button>
+                <button className="btn btn-outline-secondary"><FaCog /> Settings</button>
+                <button className="btn btn-outline-danger"><FaSignOutAlt /> Logout</button>
+              </div>
+            </div>
+          </div>
 
-                        <div className="  text-center  border-0 rounded-0   p-2">
-                          <div className="">
-                            <img
-                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                              alt="img"
-                              className="rounded-circle  border border-top-0  border-start-0  border-3 p-1  border-danger"
-                              style={{ width: "100px", height: "100px" }}
-                            />
-                          </div>
-                          <div className="d-flex flex-column">
-                            <div className="fs-5 fw-semibold">James Lee</div>
-                            <div className="text-muted fs-6">
-                              jameslee1@gmail.com
-                            </div>
-                          </div>
-                        </div>
-                        <div class="container mt-2">
-                          <div class="row">
-                            <div class="col">
-                              <div class="d-flex justify-content-between align-items-start">
-                                <p class="fs-6">Today</p>
-                                <button class="btn btn-sm border-0">
-                                  View All
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+          {/* CRM Sections Overview */}
+          <h6 className="mb-3">CRM Modules Overview</h6>
+          <div className="row g-3">
+            <div className="col-6">
+              <div className="card">
+                <div className="card-body text-center">
+                  <FaChartPie  className="mb-2" />
+                  <h6>Dashboard</h6>
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="card">
+                <div className="card-body text-center">
+                  <FaUniversity  className="mb-2" />
+                  <h6>Universities</h6>
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="card">
+                <div className="card-body text-center">
+                  <FaUsers  className="mb-2" />
+                  <h6>Clients</h6>
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="card">
+                <div className="card-body text-center">
+                  <FaFileInvoiceDollar  className="mb-2" />
+                  <h6>Commissions</h6>
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="card">
+                <div className="card-body text-center">
+                  <FaProjectDiagram  className="mb-2" />
+                  <h6>Projects & Tasks</h6>
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="card">
+                <div className="card-body text-center">
+                  <FaBell  className="mb-2" />
+                  <h6>Notifications</h6>
+                </div>
+              </div>
+            </div>
+            {/* Add more cards as needed */}
+          </div>
 
-                        <div class="container-fluid py-1">
-                          <div class="row">
-                            <div class="col">
-                              <div class="d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-center py-1">
-                                  <div class="text-center">
-                                    <span class="bg-primary p-2 rounded-circle fs-6 text-white">
-                                      <i class="bi bi-pencil"></i>
-                                    </span>
-                                  </div>
-                                  <div class="d-flex flex-column align-items-center">
-                                    <div>Eli Jang</div>
-                                    <div class="fs1">Create a new project</div>
-                                  </div>
-                                  <div>
-                                    <span class="fs-5">
-                                      <i class="bi bi-arrow-right"></i>
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center py-1">
-                                  <div class="text-center">
-                                    <span class="bg-primary p-2 rounded-circle fs-6 text-white">
-                                      <i class="bi bi-pencil"></i>
-                                    </span>
-                                  </div>
-                                  <div class="d-flex flex-column align-items-center">
-                                    <div>Eli Jang</div>
-                                    <div class="fs1">Create a new project</div>
-                                  </div>
-                                  <div>
-                                    <span class="fs-5">
-                                      <i class="bi bi-arrow-right"></i>
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center py-1">
-                                  <div class="text-center">
-                                    <span class="bg-primary p-2 rounded-circle fs-6 text-white">
-                                      <i class="bi bi-pencil"></i>
-                                    </span>
-                                  </div>
-                                  <div class="d-flex flex-column align-items-center">
-                                    <div>Eli Jang</div>
-                                    <div class="fs1">Create a new project</div>
-                                  </div>
-                                  <div>
-                                    <span class="fs-5">
-                                      <i class="bi bi-arrow-right"></i>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="container mt-2">
-                          <div class="row">
-                            <div class="col">
-                              <div class="d-flex justify-content-between align-items-start">
-                                <p class="fs-6">Team</p>
-                                <button class="btn btn-sm border-0">
-                                  View All
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="container py-1">
-                          <div class="row">
-                            <div class="col">
-                              <div class="card border-0 bg-light py-1">
-                                <div class="d-flex justify-content-around align-items-center py-1">
-                                  <div class="text-center">
-                                    <img
-                                      src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg"
-                                      alt="Eli Jang"
-                                      class="rounded-circle"
-                                      width="50px"
-                                    />
-                                  </div>
-                                  <div class="">Eli Jang</div>
-                                  <div class="">
-                                    <span class="text-success">
-                                      <i class="bi bi-dot"></i>
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class="d-flex justify-content-around align-items-center py-1">
-                                  <div class="text-center">
-                                    <img
-                                      src="https://pm1.aminoapps.com/7629/29d6afe7e852a049ad1700a7330a8c4c22f616adr1-2048-2048v2_hq.jpg"
-                                      alt="Eli Jang"
-                                      class="rounded-circle"
-                                      width="50px"
-                                    />
-                                  </div>
-                                  <div class="">Eli Jang</div>
-                                  <div class="">
-                                    <span class="text-danger">
-                                      <i class="bi bi-dot"></i>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+          {/* Performance Chart Example */}
+          <h6 className="mt-4 mb-3">Performance Overview</h6>
+          <div className="card">
+            <div className="card-body">
+              {/* Dummy chart - replace with actual chart component */}
+              <FaChartLine size={100} className="text-muted d-block mx-auto" />
+              <p className="text-center mt-2">Chart Placeholder</p>
+            </div>
+          </div>
+        </div>
+      </div>
                 </div>
               </div>
        
@@ -284,7 +207,7 @@ export const HeroContent = () => {
             <div className="col-lg-3 col-md-6">
               <div className="card text-white bg-primary mb-4">
                 <div className="card-body">
-                  <h5 className="card-title"><FaUserAlt /> Total Clients</h5>
+                  <h6 className=""><FaUserAlt /> Total Clients</h6>
                   <h2 className="card-text">1,250</h2>
                 </div>
               </div>
@@ -292,7 +215,7 @@ export const HeroContent = () => {
             <div className="col-lg-3 col-md-6">
               <div className="card text-white bg-success mb-4">
                 <div className="card-body">
-                  <h5 className="card-title"><FaChartLine /> New Leads</h5>
+                  <h6 className=""><FaChartLine /> New Leads</h6>
                   <h2 className="card-text">300</h2>
                 </div>
               </div>
@@ -300,7 +223,7 @@ export const HeroContent = () => {
             <div className="col-lg-3 col-md-6">
               <div className="card text-white bg-warning mb-4">
                 <div className="card-body">
-                  <h5 className="card-title"><FaDollarSign /> Sales</h5>
+                  <h6 className=""><FaDollarSign /> Sales</h6>
                   <h2 className="card-text">$75,000</h2>
                 </div>
               </div>
@@ -308,8 +231,43 @@ export const HeroContent = () => {
             <div className="col-lg-3 col-md-6">
               <div className="card text-white bg-danger mb-4">
                 <div className="card-body">
-                  <h5 className="card-title"><FaFileInvoiceDollar /> Pending Invoices</h5>
+                  <h6 className=""><FaFileInvoiceDollar /> Pending Invoices</h6>
                   <h2 className="card-text">$12,000</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            {/* Cards Section */}
+            <div className="col-md-3">
+              <div className="card text-white bg-primary mb-3">
+                <div className="card-body">
+                  <h6 className=""><FaUser /> Total Clients</h6>
+                  <p className="card-text">1,200</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card text-white bg-secondary mb-3">
+                <div className="card-body">
+                  <h6 className=""><FaUniversity /> Total Universities</h6>
+                  <p className="card-text">150</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card text-white bg-success mb-3">
+                <div className="card-body">
+                  <h6 className=""><FaChartPie /> Total Commissions</h6>
+                  <p className="card-text">$50,000</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card text-white bg-danger mb-3">
+                <div className="card-body">
+                  <h6 className=""><FaUsers /> Active Users</h6>
+                  <p className="card-text">3,500</p>
                 </div>
               </div>
             </div>
@@ -330,6 +288,28 @@ export const HeroContent = () => {
                 <div className="card-header">Client Growth</div>
                 <div className="card-body">
                   <Line data={clientGrowthData} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="card mb-4">
+                <div className="card-header">
+                  Client Growth
+                </div>
+                <div className="card-body">
+                  <Bar data={barData} />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card mb-4">
+                <div className="card-header">
+                  Finance Overview
+                </div>
+                <div className="card-body">
+                  <Line data={lineData} />
                 </div>
               </div>
             </div>
@@ -381,129 +361,98 @@ export const HeroContent = () => {
               </div>
             </div>
           </div>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="card mb-4">
+                <div className="card-header">
+                  Recent Applications
+                </div>
+                <div className="card-body">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Application ID</th>
+                        <th>Client</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>AP-01</td>
+                        <td>John Doe</td>
+                        <td>Pending</td>
+                      </tr>
+                      {/* More rows as needed */}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-6">
+              <div className="card mb-4">
+                <div className="card-header">
+                  Recent Invoices
+                </div>
+                <div className="card-body">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Invoice ID</th>
+                        <th>Client</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>INV-01</td>
+                        <td>Jane Smith</td>
+                        <td>$1,000</td>
+                      </tr>
+                      {/* More rows as needed */}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="card mb-4">
+                <div className="card-header">
+                  Upcoming Meetings
+                </div>
+                <div className="card-body">
+                  <ul className="list-group">
+                    <li className="list-group-item">Meeting with Client A</li>
+                    <li className="list-group-item">Team Stand-up</li>
+                    {/* More list items as needed */}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-6">
+              <div className="card mb-4">
+                <div className="card-header">
+                  Recent Notifications
+                </div>
+                <div className="card-body">
+                  <ul className="list-group">
+                    <li className="list-group-item">New application received</li>
+                    <li className="list-group-item">Invoice paid</li>
+                    {/* More list items as needed */}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </main>
       </div>
     </div>
     
-        <div className="container">
-        
-          <div className="row">
-            <div className="my-2">
-              <div className="d-flex flex-row justify-content-between px-2">
-                <div className="mt-1 fw-semibold">Project</div>
-                <div className="d-flex flex-row justify-content-end">
-                  <a href="#" className="btn btn-sm me-1">
-                    2 Design
-                  </a>
-                  <a href="#" className="btn btn-sm  me-1">
-                    3 Mockup
-                  </a>
-                  <a href="#" className="btn btn-sm">
-                    2 Layout
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 mt-1">
-              <div className="card border-0 rounded-2 shadow">
-                <div className="row g-0">
-                  <div className="col-lg-4 d-flex justify-content-center align-items-center">
-                    <div className="px-3 pt-2">
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                        alt="image"
-                        className="img-fluid rounded-3"
-                        width="100px"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-lg-8">
-                    <div className="card-body py-2">
-                      <div className="d-flex flex-column align-items-center justify-content-start">
-                        <div className="fs-6">Baseline Project</div>
-                        <div className="text-muted fs-6">of user</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-body py-2">
-                  <div className="t lh-sm fs1">
-                    Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit
-                    amet consectetur, adipisicing
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 mt-1">
-              <div className="card border-0 rounded-2 shadow">
-                <div className="row g-0">
-                  <div className="col-lg-4 d-flex justify-content-center align-items-center">
-                    <div className="px-3 pt-2">
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                        alt="image"
-                        className="img-fluid rounded-3"
-                        width="100px"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-lg-8">
-                    <div className="card-body py-2">
-                      <div className="d-flex flex-column align-items-center justify-content-start">
-                        <div className="fs-6">Baseline Project</div>
-                        <div className="text-muted fs-6">of user</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-body py-2">
-                  <div className="t lh-sm fs1">
-                    Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit
-                    amet consectetur, adipisicing
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 mt-1">
-              <div className="card border-0 rounded-2 shadow">
-                <div className="row g-0">
-                  <div className="col-lg-4 d-flex justify-content-center align-items-center">
-                    <div className="px-3 pt-2">
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                        alt="image"
-                        className="img-fluid rounded-3"
-                        width="100px"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-lg-8">
-                    <div className="card-body py-2">
-                      <div className="d-flex flex-column align-items-center justify-content-start">
-                        <div className="fs-6">Baseline Project</div>
-                        <div className="text-muted fs-6">of user</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-body py-2">
-                  <div className="t lh-sm fs1">
-                    Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit
-                    amet consectetur, adipisicing
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      
       </div>
     </div>
   );
