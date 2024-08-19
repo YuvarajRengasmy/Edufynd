@@ -3,7 +3,7 @@
 
 /* Sidebar Background */
 .sidebar {
-  background-color: #231f20; /* Dark background */
+  background-color: #7627ef; /* Dark background */
   padding: 10px; /* Padding for a more spacious layout */
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -43,7 +43,7 @@
 /* Active styles */
 .sidebar_link.active {
   color: #FFFFFF !important; /* White text for active link */
-  background-color: #BDC3C7 !important; /* Light gray background for active link */
+  background-color: #231f20 !important; /* Light gray background for active link */
 }
 
 .sidebar_link.active .nav-icon {
