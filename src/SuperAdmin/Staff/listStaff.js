@@ -374,7 +374,7 @@ function ListStaff() {
                           <td className="text-capitalize text-start text-truncate">{data?.reportingManager  || "Not Available"}</td>
                           <td className="text-capitalize text-start text-truncate">{data?.mobileNumber  || "Not Available"}</td>
                           
-                          <td className="text-capitalize text-start text-truncate">{data?.status  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.active  || "Not Available"}</td>
                           
                           <td  className="text-capitalize text-start text-truncate">
                           <div className="d-flex">
