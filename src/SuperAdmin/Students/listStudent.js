@@ -43,9 +43,9 @@ export default function Masterproductlist() {
 
   const [student, setStudent] = useState();
 
-  // useEffect(() => {
-  //   getAllStudentDetails();
-  // }, [pagination.from, pagination.to]);
+  useEffect(() => {
+    getAllStudentDetails();
+  }, [pagination.from, pagination.to]);
 
   const getAllStudentDetails = () => {
     const data = {
@@ -56,7 +56,7 @@ export default function Masterproductlist() {
     
 
     };
-    getallStudent(data)
+    getFilterStudentAdmin(data)
     
     .then((res) => {
       const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
