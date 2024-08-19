@@ -309,19 +309,17 @@ import Select from 'react-select';
 
   return (
     <div>
-    <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className=" container-fluid">
-        <nav className='navbar navbar-vertical navbar-expand-lg'> 
+   
+      
            <Mastersidebar />
-           </nav>
+          
       
      
       <div className="content-wrapper " style={{ fontSize: '14px' }}>
-       
-          <div className="container">
-            <div className="row ">
-              <div className='col-xl-12' >
-              <div className="content-header">
+
+
+
+      <div className="content-header bg-light shadow-sm sticky-top">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -423,8 +421,8 @@ import Select from 'react-select';
                   
                   <li className="m-2">
                   <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight2" aria-controls="offcanvasRight"><MdOutlineAdd /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight2" aria-labelledby="offcanvasRightLabel">
+                      {/* <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight2" aria-controls="offcanvasRight"><MdOutlineAdd /></button> */}
+                      {/* <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight2" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
                           <h5 id="offcanvasRightLabel1">Add Country</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
@@ -469,67 +467,119 @@ import Select from 'react-select';
                             </div>
                           </form>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </li>
                 </ol>
               </div>
+
+
+          <div className="container mt-4">
+            <div className="row ">
+              <div className='col-md-4' >
+              <div className="card  border- rounded-1 shadow-sm" >
+                        <div className="card-header bg-white border-0">
+                          <h5 className='card-title fw-semibold'>Add Country</h5>
+                         
+                        </div>
+                        <div className="card-body ">
+                          <form onSubmit={handleSubmit}>
+                            <div className="from-group mb-3">
+                              <label className="form-label">Country</label>
+                              <br />
+                              <Select
+            type="text"
+            placeholder="Select a country"
+            id="name"
+            isMulti
+            name='country'
+            onChange={handleSelectChange}
+            style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+             options={countryOptions}
+            
+          />
+                             
+                            </div>
+                            <div>
+                              <button
+                              
+                             
+                                className="btn btn-cancel border-0  fw-semibold rounded-1 text-white float-right bg"
+                                style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                               
+                              >
+                               Cancel
+                              </button>
+                              <button
+                              
+                                type="submit"
+                                className="btn btn-save  border-0  fw-semibold rounded-1 text-white float-right mx-2"
+                              
+                                style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
             </div>
-          </div>
-          <div className="row">
-              <div className="col-md-12">
+            <div className='col-md-8' >
+           
                 
-              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-            <h6 className='text-center text-capitalize p-1'> List Country</h6>
-            </div>
-            <div className="card-body mt-5">
-
-                      
-                       
-
-
-      <ul className="list-group list-group-flush  ">
-                      {countries.map((country, index) =>
-          Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
-  
-      <li className="list-group-item list-group-item-action d-flex justify-content-between align-items-start" key={`${index}-${countryIndex}`}>
-        <div className="ms-2 me-auto">
-          <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{countryName}</div>
-        </div>
-        <div className="d-flex gap-2">
-         
-          <button
-            className="dropdown-item"
-            onClick={() => openPopup(countryName)}
-          >
-            <i className="far fa-trash-alt text-danger me-1"></i>
-          </button>
-        </div>
-      </li>
-     ))
-  )}
-         </ul> 
-
-                     
-                    
-
-
-
-                    </div>
-                  </div>
-                  <div className="float-right my-2">
-                    <Pagination
-                      count={Math.ceil(pagination.count / pageSize)}
-                      onChange={handlePageChange}
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                    />
-                  </div>
-               
+                <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
+              <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+              <h6 className='text-center text-capitalize p-1'> List Country</h6>
               </div>
-            </div>
+              <div className="card-body mt-5">
+  
+                        
+                         
+  
+  
+        <ul className="list-group list-group-flush  ">
+                        {countries.map((country, index) =>
+            Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
+    
+        <li className="list-group-item list-group-item-action d-flex justify-content-between align-items-start" key={`${index}-${countryIndex}`}>
+          <div className="ms-2 me-auto">
+            <div style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>{countryName}</div>
+          </div>
+          <div className="d-flex gap-2">
+           
+            <button
+              className="dropdown-item"
+              onClick={() => openPopup(countryName)}
+            >
+              <i className="far fa-trash-alt text-danger me-1"></i>
+            </button>
+          </div>
+        </li>
+       ))
+    )}
+           </ul> 
+  
+                       
+                      
+  
+  
+  
+                      </div>
+                    </div>
+                    <div className="float-right my-2">
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
+                 
+              
+             </div>
+          </div>
+         
         </div>
         <div >
           
@@ -596,8 +646,8 @@ import Select from 'react-select';
 </Dialog>
 
 
-</div>
-    </div>
+
+  
     </div>
   );
 }

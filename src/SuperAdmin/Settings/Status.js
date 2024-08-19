@@ -267,17 +267,12 @@ export default function GlobalSettings() {
 
   return (
     <div>
-      <div style={{  fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div className='container-fluid'>
-          <nav className='navbar navbar-vertical navbar-expand-lg'>
+    
+          
             <Mastersidebar />
-          </nav>
+        
           <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"  }}>
-           
-              <div className="container-fluid">
-                <div className="row ">
-                  <div className='col-xl-12'>
-                  <div className="content-header">
+          <div className="content-header bg-light shadow-sm sticky-top ">
                     <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                       <li className="flex-grow-1">
                         <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -410,11 +405,56 @@ export default function GlobalSettings() {
                       </li>
                     </ol>
                   </div>
-                </div>
-              </div>
+              <div className="container-fluid mt-4">
+           
               <div className="row ">
-            <div className="col-xl-12">
-            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+              <div className="col-md-4">
+
+              <div className="card rounded-1 border-0 shadow-sm">
+                  <div className="card-header bg-white border-0">
+                    <h5 className="card-title" >{isEditing ? "Edit Status Type" : "Add Status Type"}</h5>
+                   
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-3">
+                        <label htmlFor="statusName" className="form-label">Status Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="statusName"
+                          name="statusName"
+                          value={inputs.statusName}
+                          onChange={handleInputs}
+                        />
+                        {submitted && errors.statusName.required && (
+                          <div className="text-danger">status is required</div>
+                        )}
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="duration" className="form-label">Duration</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="duration"
+                          name="duration"
+                          value={inputs.duration}
+                          onChange={handleInputs}
+                        />
+                        {submitted && errors.duration.required && (
+                          <div className="text-danger">duration is required</div>
+                        )}
+                      </div>
+                      <div className="text-end">
+                        <button type="submit" className="btn btn-primary">{isEditing ? "Update" : "Add"}</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+              </div>
+            <div className="col-md-8">
+            <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
             <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
             <h6 className='text-center text-capitalize p-1'> List Status</h6>
             </div>
@@ -546,8 +586,7 @@ export default function GlobalSettings() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+       
     </div>
   );
 }

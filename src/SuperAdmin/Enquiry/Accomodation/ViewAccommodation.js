@@ -76,39 +76,39 @@ export const ViewAccommodation = () => {
                       <tbody>
                         <tr>
                           <td className="fw-bold">Source: Student/Agent </td>
-                          <td>{accommodation?.source}</td>
+                          <td>{accommodation?.source || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Agent ID </td>
-                          <td>{accommodation?.agentId}</td>
+                          <td>{accommodation?.agentId || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Agent Name </td>
-                          <td>{accommodation?.agentName}</td>
+                          <td>{accommodation?.agentName || "Not Available"}</td>
                         </tr>{" "}
                         <tr>
                           <td className="fw-bold">AgentBusiness Name </td>
-                          <td>{accommodation?.businessName}</td>
+                          <td>{accommodation?.businessName || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Agent Primary Number</td>
-                          <td>{accommodation?.agentPrimaryNumber}</td>
+                          <td>{accommodation?.agentPrimaryNumber || "Not Available"}</td>
                         </tr>{" "}
                         <tr>
                           <td className="fw-bold">Agent WhatsApp Number </td>
-                          <td>{accommodation?.agentWhatsAppNumber}</td>
+                          <td>{accommodation?.agentWhatsAppNumber || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Agent Email ID </td>
-                          <td>{accommodation?.agentEmail}</td>
+                          <td>{accommodation?.agentEmail || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Name of the Student </td>
-                          <td>{accommodation?.studentName}</td>
+                          <td>{accommodation?.studentName || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Passport Number </td>
-                          <td>{accommodation?.passportNumber}</td>
+                          <td>{accommodation?.passportNumber || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Expiry Date </td>
@@ -116,19 +116,19 @@ export const ViewAccommodation = () => {
                         </tr>
                         <tr>
                           <td className="fw-bold">Student Email ID </td>
-                          <td>{accommodation?.email}</td>
+                          <td>{accommodation?.email || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Student Primary Number </td>
-                          <td>{accommodation?.primaryNumber}</td>
+                          <td>{accommodation?.primaryNumber || "Not Available"}</td>
                         </tr>{" "}
                         <tr>
                           <td className="fw-bold">Student WhatsApp number </td>
-                          <td>{accommodation?.whatsAppNumber}</td>
+                          <td>{accommodation?.whatsAppNumber || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">University Name </td>
-                          <td>{accommodation?.universityName}</td>
+                          <td>{accommodation?.universityName || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Course</td>
@@ -158,7 +158,7 @@ export const ViewAccommodation = () => {
                           <td className="fw-bold">
                             Assigned To (List Staff) Multiple Assign
                           </td>
-                          <td>{accommodation?.assignedTo}</td>
+                          <td>{accommodation?.assignedTo || "Not Available"}</td>
                         </tr>
                         <tr>
                           <td className="fw-bold">Finalised By</td>
@@ -173,7 +173,7 @@ export const ViewAccommodation = () => {
                             Holding Offer from the University (Yes/No){" "}
                           </td>
                           <td>
-                            {accommodation?.holdingOfferFromTheUniversity}
+                            {accommodation?.holdingOfferFromTheUniversity || "Not Available"}
                           </td>
                         </tr>
                         <tr>
@@ -182,7 +182,7 @@ export const ViewAccommodation = () => {
                           </td>
                           <td>
                             {
-                              accommodation?.locationWhereAccommodationIsRequired
+                              accommodation?.locationWhereAccommodationIsRequired || "Not Available"
                             }
                           </td>
                         </tr>

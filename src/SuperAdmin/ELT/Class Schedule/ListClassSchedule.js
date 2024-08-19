@@ -54,7 +54,7 @@ export const ListClassSchedule = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header  bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row ">
               <div className="col-xl-12">
@@ -270,6 +270,73 @@ export const ListClassSchedule = () => {
             </div>
           </div>
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Upcoming Classes */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#3F51B5" }} // Indigo
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Classes
+              </h6>
+              <p className="card-text">Classes scheduled for the upcoming days.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Today’s Classes */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#009688" }} // Teal
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-week" style={{ color: '#ffffff' }}></i> Today’s Classes
+              </h6>
+              <p className="card-text">Classes scheduled for today.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Classes This Week */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFC107" }} // Amber
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-week" style={{ color: '#ffffff' }}></i> Classes This Week
+              </h6>
+              <p className="card-text">Classes scheduled for the current week.</p>
+              <p className="card-text">Total: 30</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Completed Classes */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Completed Classes
+              </h6>
+              <p className="card-text">Classes that have been completed.</p>
+              <p className="card-text">Total: 40</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">
@@ -319,14 +386,14 @@ export const ListClassSchedule = () => {
                                 fontSize: "11px",
                               }}
                             >
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
 
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
 
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

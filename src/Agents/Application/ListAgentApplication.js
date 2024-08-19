@@ -1,6 +1,7 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallAdmin, deleteAdmin } from "../../api/admin";
+import { getallApplication, deleteApplication } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -8,13 +9,45 @@ import {
   DialogTitle,
   IconButton,
   Pagination,
+  radioClasses,
 } from "@mui/material";
-import Header from "../../compoents/header";
-import Sidebar from "../../compoents/sidebar";
-import { toast } from "react-toastify";
 
+import { getMonthYear } from "../../Utils/DateFormat";
+
+import Mastersidebar from "../../compoents/sidebar";
+import { ExportCsvService } from "../../Utils/Excel";
+import { templatePdf } from "../../Utils/PdfMake";
+import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-export default function ListAgent() {
+
+ const ListAgentApplication = () => {
+  const initialState = {
+    typeOfClient: "",
+    businessName: "",
+    businessMailID: "",
+    businessContactNo: "",
+    website: "",
+    addressLine1: "", // Street Address, City, State, Postal Code, Country
+    addressLine2: "",
+    addressLine3: "",
+    name: "",
+    contactNo: "",
+    emailID: "",
+    gstn: "",
+    status: "",
+  };
+
+  const [application, setApplication] = useState([]);
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const [file, setFile] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [inputs, setInputs] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [filter, setFilter] = useState(false);
+  const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -22,31 +55,25 @@ export default function ListAgent() {
     to: pageSize,
   });
 
-  const [admin, setAdmin] = useState();
-  const [open, setOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState();
-
   useEffect(() => {
-    getAllAdminDetails();
-  }, [pagination.from, pagination.to]);
+    getApplicationList();
+  }, []);
 
-  const getAllAdminDetails = () => {
-    const data = {
-      limit: 10,
-      page: pagination.from,
-    };
-
-    getallAdmin(data)
+  const getApplicationList = () => {
+    getallApplication()
       .then((res) => {
-        console.log("yuvi", res);
-        setAdmin(res?.data?.result);
-        setPagination({ ...pagination, count: res?.data?.result?.adminCount });
+        const value = res?.data?.result;
+        setApplication(value);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -55,13 +82,179 @@ export default function ListAgent() {
   const closePopup = () => {
     setOpen(false);
   };
-
-  const deleteAdminData = () => {
-    deleteAdmin(deleteId)
+  const deleteApplicationData = () => {
+    deleteApplication(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();
-        getAllAdminDetails();
+        getApplicationList();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openFilterPopup = () => {
+    setOpenFilter(true);
+  };
+
+  const closeFilterPopup = () => {
+    setOpenFilter(false);
+  };
+
+  const handleInputs = (event) => {
+    setApplication({ ...application, [event.target.name]: event.target.value });
+  };
+  const openImportPopup = () => {
+    setOpenImport(true);
+  };
+
+  const closeImportPopup = () => {
+    setOpenImport(false);
+  };
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const pdfDownload = (event) => {
+    event?.preventDefault();
+
+    getallApplication(application)
+      .then((res) => {
+        var result = res?.data?.result;
+        var tablebody = [];
+        tablebody.push([
+          {
+            text: "S.NO",
+            fontSize: 11,
+            alignment: "center",
+            margin: [5, 5],
+            bold: true,
+          },
+          {
+            text: "ClientId",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "BusinessName",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "BusinessMailID",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "BusinessContactNo",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Status",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+        ]);
+        result.forEach((element, index) => {
+          tablebody.push([
+            {
+              text: index + 1,
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+              border: [true, false, true, true],
+            },
+            {
+              text: element?.clientID ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.businessName ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+
+            {
+              text: element?.businessMailID ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.businessContactNo ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.status ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+          ]);
+        });
+        templatePdf("clientList", tablebody, "landscape");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const exportCsv = (event) => {
+    event?.preventDefault();
+
+    getallApplication(application)
+      .then((res) => {
+        var result = res?.data?.result;
+        let list = [];
+        result?.forEach((res) => {
+          list.push({
+            clientID: res?.clientID ?? "-",
+            businessName: res?.businessName ?? "-",
+            businessMailID: res?.businessMailID ?? "-",
+            businessContactNo: res?.businessContactNo ?? "-",
+            status: res?.status ?? "-",
+          });
+        });
+        let header1 = [
+          "clientID",
+          "businessName",
+          "businessMailID",
+          "businessContactNo",
+          "status",
+        ];
+        let header2 = [
+          "Client Id",
+          "Business Name",
+          "Business MailID",
+          "Business ContactNo",
+          "Status",
+        ];
+        ExportCsvService.downloadCsv(
+          list,
+          "clientList",
+          "Client List",
+
+          header1,
+          header2
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -97,28 +290,31 @@ export default function ListAgent() {
 
   return (
     <>
-      <Sidebar />
+      <Mastersidebar />
 
       <div
-        className="content-wrapper "
+        className="content-wrapper  "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header bg-light shadow-sm sticky-top">
+        <div className="content-header">
           <div className="container">
-            <div className="row">
+            <div className="row ">
               <div className="col-xl-12">
-                <ol className=" d-flex justify-content-end align-items-center mb-0 list-unstyled">
+                <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
-                        placeholder="Search...."
+                        placeholder="Search"
                         aria-describedby="button-addon3"
-                        className="form-control border-1  rounded-4 "
+                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
                         style={{
-                         
+                          borderColor: "#FE5722",
+                          paddingRight: "1.5rem",
+                          marginLeft: "0px",
                           fontSize: "12px", // Keep the font size if it's correct
-                          
+                          height: "11px", // Set the height to 11px
+                          padding: "0px", // Adjust padding to fit the height
                         }}
                       />
                       <span
@@ -140,16 +336,11 @@ export default function ListAgent() {
                     </div>
                   </li>
                   <li class="m-1">
-                    <div
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    >
+                    <div>
                       <button
                         className="btn btn-primary"
+                        style={{ fontSize: "11px" }}
                         type="button"
-                        style={{ fontSize: "12px" }}
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight"
@@ -164,7 +355,7 @@ export default function ListAgent() {
                         aria-labelledby="offcanvasRightLabel"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Admin</h5>
+                          <h5 id="offcanvasRightLabel">Filter Application</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -175,94 +366,85 @@ export default function ListAgent() {
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">Admin Id</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="universityName"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Admin Id"
-                              />
-                              <label className="form-label">E-Mail</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="state"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...E-Mail"
-                              />
-                              <label className="form-label">Role</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="averageFees"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Role"
-                              />
                               <label className="form-label">
-                                Contact Number
+                                Applicant Code
                               </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="country"
+                                name="businessName"
+                                onChange={handleInputs}
+                                placeholder="Search...Applicant Code"
                                 style={{
-                                  backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Search...Contact Number"
                               />
-
-                              <label className="form-label">Name</label>
+                              <label className="form-label">
+                                University Applied{" "}
+                              </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="popularCategories"
+                                name="businessContactNo"
+                                onChange={handleInputs}
+                                placeholder="Search...University Applied"
                                 style={{
-                                  backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Search...Name"
+                              />
+
+                              <label className="form-label">
+                                Course Applied
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="status"
+                                onChange={handleInputs}
+                                placeholder="Search...Course Applied"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
+                              <label className="form-label">Status</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="clientID"
+                                onChange={handleInputs}
+                                placeholder="Search...Status"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
                               />
                             </div>
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
+                                className="btn btn-cancel border-0 px-4 py-2 rounded-pill fw-semibold text-uppercase text-white float-right bg"
                                 style={{
                                   backgroundColor: "#0f2239",
-                                  fontFamily: "Plus Jakarta Sans",
                                   fontSize: "14px",
                                 }}
+                                // onClick={resetFilter}
                               >
                                 Reset
                               </button>
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
-                                className="btn btn-save border-0  fw-semibold   text-white float-right mx-2"
+                                // onClick={filterProgramList}
+                                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
-                                  fontFamily: "Plus Jakarta Sans",
                                   fontSize: "14px",
                                 }}
                               >
@@ -274,8 +456,8 @@ export default function ListAgent() {
                       </div>
                     </div>
                   </li>
-                  <li class="m-2">
-                    <Link>
+                  <li class="m-1">
+                    <Link onClick={pdfDownload}>
                       <button
                         style={{ backgroundColor: "#E12929", fontSize: "11px" }}
                         className="btn text-white "
@@ -287,12 +469,12 @@ export default function ListAgent() {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn-filters">
+                    <Link onClick={exportCsv} class="btn-filters">
                       <span>
                         <button
                           style={{
                             backgroundColor: "#22A033",
-                            fontSize: "12px",
+                            fontSize: "11px",
                           }}
                           className="btn text-white "
                         >
@@ -303,12 +485,12 @@ export default function ListAgent() {
                   </li>
 
                   <li class="m-1">
-                    <Link class="btn-filters">
+                    <Link onClick={openImportPopup} class="btn-filters">
                       <span>
                         <button
                           style={{
                             backgroundColor: "#9265cc",
-                            fontSize: "12px",
+                            fontSize: "11px",
                           }}
                           className="btn text-white "
                         >
@@ -318,11 +500,11 @@ export default function ListAgent() {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddAdmin">
+                    <Link class="btn btn-pix-primary" to="/AddApplication">
                       <button
-                        className="btn btn-outline   fw-semibold  border-0 text-white  "
+                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
-                          backgroundColor: "#231f20",
+                          backgroundColor: "#fe5722",
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
@@ -330,8 +512,8 @@ export default function ListAgent() {
                         <i
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
-                        ></i>{" "}
-                        Add Admin
+                        ></i>
+                        Add Application
                       </button>
                     </Link>
                   </li>
@@ -340,87 +522,16 @@ export default function ListAgent() {
             </div>
           </div>
         </div>
-
-
-        <div className="container mt-3">
-      <div className="row">
-        {/* Card 1: Active Users */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#9C27B0" }} // Purple
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Active Users
-              </h6>
-              <p className="card-text">Users currently active.</p>
-              <p className="card-text">Total: 150</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 2: Pending Requests */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#FF5722" }} // Deep Orange
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Pending Requests
-              </h6>
-              <p className="card-text">Requests awaiting approval.</p>
-              <p className="card-text">Total: 12</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 3: Banned Users */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#FFEB3B" }} // Yellow
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-ban" style={{ color: '#ffffff' }}></i> Banned Users
-              </h6>
-              <p className="card-text">Users who are banned.</p>
-              <p className="card-text">Total: 5</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 4: System Logs */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#2196F3" }} // Blue
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> System Logs
-              </h6>
-              <p className="card-text">Logs of system activities.</p>
-              <p className="card-text">Total: 35</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
         <div className="content-body">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card  border-0 rounded-1 shadow-sm">
+                <div className="card rounded-0 border-0">
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
                         <table
-                          className="table table-hover card-table dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "13px" }}
+                          className=" table table-hover card-table dataTable table-responsive-sm text-center"
                           ref={tableRef}
                         >
                           <thead className="table-light">
@@ -431,37 +542,36 @@ export default function ListAgent() {
                               }}
                             >
                               <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                S.No.
+                                S No
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                ID{" "}
+                                Date
                               </th>
+                              <th className="text-capitalize text-start">
+                                {" "}
+                                Code
+                              </th>
+
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
-                                Name{" "}
+                                Name
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Email ID{" "}
+                                University Applied
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Role{" "}
+                                Course Applied
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Contact number{" "}
+                                Status
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Action{" "}
+                                Action
                               </th>
                             </tr>
                           </thead>
                           <tbody>
-                            {admin?.map((data, index) => (
+                            {application?.map((data, index) => (
                               <tr
                                 key={index}
                                 style={{
@@ -469,30 +579,33 @@ export default function ListAgent() {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start text-truncate ">
-                                  #{pagination.from + index + 1}
+                                <td className="text-capitalize text-start">
+                                  {pagination.from + index + 1}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.adminCode || "Not Available"}
+                                <td className="text-capitalize text-start">
+                                  {getMonthYear(data?.createdOn)}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.name || "Not Available"}
+                                <td className="text-capitalize text-start">
+                                  {data?.applicationCode}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate ">
-                                  {data?.email || "Not Available"}
+
+                                <td className="text-capitalize text-start">
+                                  {data?.name}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.role || "Not Available"}
+                                <td className="text-capitalize text-start">
+                                  {data?.universityName}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.mobileNumber || "Not Available"}
+                                <td className="text-capitalize text-start">
+                                  {data?.course}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate">
+                                <td></td>
+
+                                <td>
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewAdmin",
+                                        pathname: "/ViewAgentApplication",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
@@ -501,7 +614,7 @@ export default function ListAgent() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditAdmin",
+                                        pathname: "/EditApplication",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
@@ -519,22 +632,14 @@ export default function ListAgent() {
                                 </td>
                               </tr>
                             ))}
-                            {admin?.length === 0 ? (
-                              <tr>
-                                <td
-                                  className="form-text text-danger"
-                                  colSpan="9"
-                                >
-                                  No data
-                                </td>
-                              </tr>
-                            ) : null}
                           </tbody>
                         </table>
                       </div>
                     </div>
                     <div className="float-right my-2">
                       <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
                         variant="outlined"
                         shape="rounded"
                         color="primary"
@@ -547,26 +652,23 @@ export default function ListAgent() {
           </div>
         </div>
       </div>
-
-
-      
       <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4 text-capitalize">
-              Are you sure you want to Delete <br /> the selected Admin?
+              Are you sure you want to Delete <br /> the selected Application ?
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-danger  text-white   fw-semibold  mx-3"
-              onClick={deleteAdminData}
+              className="btn btn-save btn-success border-0 text-white px-4 py-2 rounded-pill fw-semibold text-uppercase mx-3"
+              onClick={deleteApplicationData}
               style={{ fontSize: "12px" }}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel btn-success text-white   fw-semibold  "
+              className="btn btn-cancel btn-danger border-0 text-white px-4 py-2 rounded-pill fw-semibold text-uppercase "
               onClick={closePopup}
               style={{ fontSize: "12px" }}
             >
@@ -575,37 +677,47 @@ export default function ListAgent() {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog fullWidth maxWidth="sm">
+      <Dialog open={openFilter} fullWidth maxWidth="sm">
         <DialogTitle>
-          Filter Products
-          <IconButton className="float-right">
+          Filter University
+          <IconButton className="float-right" onClick={closeFilterPopup}>
+            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
+          </IconButton>
+        </DialogTitle>
+        <DialogContent></DialogContent>
+      </Dialog>
+      <Dialog open={openImport} fullWidth maxWidth="sm">
+        <DialogTitle>
+          Upload University List
+          <IconButton className="float-right" onClick={closeImportPopup}>
             <i className="fa fa-times fa-xs" aria-hidden="true"></i>
           </IconButton>
         </DialogTitle>
         <DialogContent>
           <form>
             <div className="from-group mb-3">
-              <label className="form-label">Search By Selling</label>
-              <br />
-              <input
-                type="text"
-                className="form-control"
-                name="selling"
-                placeholder="search..."
-              />
+              <div className="mb-3">
+                <input
+                  type="file"
+                  name="file"
+                  className="form-control  text-dark bg-transparent"
+                  onChange={handleFileChange}
+                />
+              </div>
             </div>
             <div>
-              <button
-                type="button"
-                className="btn btn-cancel border text-white float-right bg"
-                style={{ backgroundColor: "#9265cc" }}
+              <Link
+                to="/ListUniversity"
+                className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
+                style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
               >
-                Reset
-              </button>
+                Cancel
+              </Link>
               <button
                 type="submit"
-                className="btn btn-save border text-white float-right mx-2"
-                style={{ backgroundColor: "#9265cc" }}
+                // onClick={handleFileUpload}
+                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
+                style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
               >
                 Apply
               </button>
@@ -616,3 +728,4 @@ export default function ListAgent() {
     </>
   );
 }
+export default ListAgentApplication

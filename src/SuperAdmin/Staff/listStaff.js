@@ -105,8 +105,8 @@ function ListStaff() {
          
             <Mastersidebar />
         
-        <div className='content-wrapper ' style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}>
-        <div className='content-header'>
+        <div className='content-wrapper ' style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+        <div className='content-header bg-light shadow-sm sticky-top'>
           <div className="container ">
           
 <div className="row">
@@ -293,13 +293,57 @@ function ListStaff() {
 </div>
           </div>
          
-        
-          <div className="content-body">
+          <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Active Logins - Daily */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#43A047" }} // Leaf Green
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-sign-in-alt" style={{ color: '#ffffff' }}></i> Active Logins - Daily
+                </h6>
+                <p className="card-text">Total: 150</p>
+                <p className="card-text">
+                  <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Logins Today
+                </p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Total Staff - Active Overall */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#D32F2F" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Total Staff - Active Overall
+                </h6>
+                <p className="card-text">Total: 350</p>
+                <p className="card-text">
+                  <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Active Staff
+                </p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+     
+      </div>
+    </div>
+          
             <div className="container">
             <div className="row">
           <div className="col-xl-12">
           <div className="col-md-12">
-            <div className="card rounded-0 mt-2 border-0">
+            <div className="card rounded-1 shadow-sm mt-2 border-0">
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
@@ -322,17 +366,17 @@ function ListStaff() {
                       <tbody>
                       {staff?.map((data, index) => (
                         <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }} >
-                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                          <td className="text-capitalize text-start">{data?.employeeID}</td>
-                          <td className="text-capitalize text-start">{formatDate(data?.doj)}</td>
-                          <td className="text-capitalize text-start">{data?.empName}</td>
-                          <td className="text-capitalize text-start">{data?.designation}</td>
-                          <td className="text-capitalize text-start">{data?.reportingManager}</td>
-                          <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                           <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.employeeID  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{formatDate(data?.doj)  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.empName  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.designation  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.reportingManager  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.mobileNumber  || "Not Available"}</td>
                           
-                          <td className="text-capitalize text-start">{data?.status}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.status  || "Not Available"}</td>
                           
-                          <td>
+                          <td  className="text-capitalize text-start text-truncate">
                           <div className="d-flex">
                                 <Link
                                   className="dropdown-item"
@@ -391,7 +435,7 @@ function ListStaff() {
           </div>
         </div>
             </div>
-          </div>
+          
         
                 
         

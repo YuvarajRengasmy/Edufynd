@@ -48,7 +48,7 @@ export const ListSocialMedia = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header  bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -217,6 +217,82 @@ export const ListSocialMedia = () => {
           
         
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Total Followers */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#1DA1F2" }} // Twitter Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fab fa-twitter" style={{ color: '#ffffff' }}></i> Total Followers
+                </h6>
+                <p className="card-text">Followers across all platforms.</p>
+                <p className="card-text">Total: 50,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Engagement Rate */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#3B5998" }} // Facebook Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fab fa-facebook-f" style={{ color: '#ffffff' }}></i> Engagement Rate
+                </h6>
+                <p className="card-text">Overall engagement on posts.</p>
+                <p className="card-text">Rate: 4.5%</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Campaign Reach */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#E1306C" }} // Instagram Pink
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fab fa-instagram" style={{ color: '#ffffff' }}></i> Campaign Reach
+                </h6>
+                <p className="card-text">Reach of recent campaigns.</p>
+                <p className="card-text">Reach: 100,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Ads Performance */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FF0000" }} // YouTube Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fab fa-youtube" style={{ color: '#ffffff' }}></i> Ads Performance
+                </h6>
+                <p className="card-text">Performance of ad campaigns.</p>
+                <p className="card-text">Conversions: 2,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -241,13 +317,13 @@ export const ListSocialMedia = () => {
                         <tbody>
                           
                             <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                              
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                             
-                              <td>
+                              <td  className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

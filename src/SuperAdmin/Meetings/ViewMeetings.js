@@ -59,9 +59,9 @@ export const ViewMeetings = () => {
                
                 <div class="d-flex justify-content-between mb-4">
                     <div>
-                        <h4 class="card-title mb-1">Subject: {notification?.subject}</h4>
-                        <p class="text-muted mb-1"><i class="fas fa-calendar-day"></i> Date: {notification?.date}</p>
-                        <p class="text-muted mb-0"><i class="fas fa-clock"></i> Time: {notification?.time}</p>
+                        <h4 class="card-title mb-1">Subject: {notification?.subject  || "Not Available"}</h4>
+                        <p class="text-muted mb-1"><i class="fas fa-calendar-day"></i> Date: {notification?.date  || "Not Available"}</p>
+                        <p class="text-muted mb-0"><i class="fas fa-clock"></i> Time: {notification?.time  || "Not Available"}</p>
                     </div>
                  
                     <div class="text-primary">
@@ -73,7 +73,7 @@ export const ViewMeetings = () => {
                 <div class="d-flex mb-4">
                     <div class="mr-4">
                         <h6 class="text-primary mb-1">Host:</h6>
-                        <p class="mb-0"><i class="fas fa-user"></i> {notification?.hostName}</p>
+                        <p class="mb-0"><i class="fas fa-user"></i> {notification?.hostName  || "Not Available"}</p>
                     </div>
                     <div>
                         <h6 class="text-primary mb-1">Attendees:</h6>
@@ -90,7 +90,7 @@ export const ViewMeetings = () => {
                 <div>
                     <h6 class="text-primary mb-2">Content:</h6>
                     <p class="card-text"> <RichTextEditor
-                            value={notification?.content}
+                            value={notification?.content  || "Not Available"}
                             readOnly
                           /></p>
                 </div>

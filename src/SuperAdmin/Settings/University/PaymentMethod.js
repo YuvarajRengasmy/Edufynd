@@ -281,7 +281,7 @@ export default function GlobalSettings() {
     <div>
       <div className="col-md-12">
         <div className="">
-          <div className="card rounded-0 border-0 shadow-sm">
+          <div className="card rounded-1 border-0 shadow-sm">
             <div className="card-body">
 
               <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">

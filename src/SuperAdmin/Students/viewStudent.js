@@ -259,17 +259,17 @@ saveApplication(inputs)
               </div>
 
               <div className="col-md-4">
-                <h3 className="mb-2">{student?.name}</h3>
+                <h3 className="mb-2">{student?.name  || "Not Available"}</h3>
                 <p className="text-muted mb-2">
-                  Student Code: {student?.studentCode}
+                  Student Code: {student?.studentCode  || "Not Available"}
                 </p>
                 <p className="text-muted mb-2">
                   <i className="fas fa-envelope me-2"></i>
-                  {student?.email}
+                  {student?.email  || "Not Available"}
                 </p>
                 <p className="text-muted mb-2">
                   <i className="fas fa-phone-alt me-2"></i>
-                  {student?.primaryNumber}
+                  {student?.primaryNumber  || "Not Available"}
                 </p>
               </div>
               <div className="col-md-4">
@@ -1001,26 +1001,26 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>Source:</strong> {student?.source}
+                      <strong>Source:</strong> {student?.source  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Date of Birth:</strong> {student?.dob}
+                      <strong>Date of Birth:</strong> {student?.dob  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Passport:</strong> {student?.passportNo}
+                      <strong>Passport:</strong> {student?.passportNo  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Expiry Date:</strong> {student?.expiryDate}
+                      <strong>Expiry Date:</strong> {student?.expiryDate  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Citizenship:</strong> {student?.citizenship}
+                      <strong>Citizenship:</strong> {student?.citizenship  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Gender:</strong> {student?.gender}
+                      <strong>Gender:</strong> {student?.gender || "Not Available"}
                     </li>
                     <li className="list-group-item">
                       <strong>WhatsApp Number:</strong>{" "}
-                      {student?.whatsAppNumber}
+                      {student?.whatsAppNumber  || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1037,22 +1037,22 @@ saveApplication(inputs)
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
                       <strong>Highest Qualification:</strong>{" "}
-                      {student?.highestQualification}
+                      {student?.highestQualification || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Degree Name:</strong> {student?.degreeName}
+                      <strong>Degree Name:</strong> {student?.degreeName || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Institution:</strong> {student?.institution}
+                      <strong>Institution:</strong> {student?.institution || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Percentage:</strong> {student?.percentage}
+                      <strong>Percentage:</strong> {student?.percentage || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Academic Year:</strong> {student?.academicYear}
+                      <strong>Academic Year:</strong> {student?.academicYear || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Year Passed:</strong> {student?.yearPassed}
+                      <strong>Year Passed:</strong> {student?.yearPassed || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1069,7 +1069,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.englishTestType}
+                      {student?.englishTestType || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1083,7 +1083,7 @@ saveApplication(inputs)
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">{student?.testScore}</li>
+                    <li className="list-group-item">{student?.testScore || "Not Available"}</li>
                   </ul>
                 </div>
               </div>
@@ -1096,7 +1096,7 @@ saveApplication(inputs)
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">{student?.dateOfTest}</li>
+                    <li className="list-group-item">{student?.dateOfTest || "Not Available"}</li>
                   </ul>
                 </div>
               </div>
@@ -1112,7 +1112,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.desiredCountry}
+                      {student?.desiredCountry || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1128,7 +1128,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.desiredUniversity}
+                      {student?.desiredUniversity || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1143,7 +1143,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.desiredCourse}
+                      {student?.desiredCourse || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1160,7 +1160,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.workExperience}
+                      {student?.workExperience || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1175,7 +1175,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.anyVisaRejections}
+                      {student?.anyVisaRejections || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1191,7 +1191,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.travelHistory}
+                      {student?.travelHistory || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1207,7 +1207,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.additionalInfo}
+                      {student?.additionalInfo || "Not Available"}
                     </li>
                   </ul>
                 </div>

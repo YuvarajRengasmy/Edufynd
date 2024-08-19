@@ -69,32 +69,32 @@ const ViewInvoice = () => {
                                 <div className="row g-3">
                                     <div className="col-sm-6">
                                         <div className="d-flex flex-column align-items-center justify-content-start">
-                                            <p className="card-clientname">Invoice Number: {invoice?.senderInvoiceNumber}</p>
-                                            <p className="card-clientname">Client Name: {invoice?.businessName}</p>
-                                            <p className="card-Businessname">University Name: {invoice?.universityName}</p>
+                                            <p className="card-clientname">Invoice Number: {invoice?.senderInvoiceNumber   || "Not Available"}</p>
+                                            <p className="card-clientname">Client Name: {invoice?.businessName  || "Not Available"}</p>
+                                            <p className="card-Businessname">University Name: {invoice?.universityName  || "Not Available"}</p>
                                         </div>
                                     </div>
                                     <div className="col-sm-6">
                                         <div className="d-flex flex-column align-items-center justify-content-start">
-                                            <p className="card-Agentname">Application ID: {invoice?.applicationID}</p>
-                                            <p className="card-Businessname">Payment Mode: {invoice?.paymentMethod}</p>
-                                            <p className="card-Address">Fixed/Percentage: {invoice?.fixedAmount}</p>
+                                            <p className="card-Agentname">Application ID: {invoice?.applicationID  || "Not Available"}</p>
+                                            <p className="card-Businessname">Payment Mode: {invoice?.paymentMethod  || "Not Available"}</p>
+                                            <p className="card-Address">Fixed/Percentage: {invoice?.fixedAmount  || "Not Available"}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <hr />
                                 <div className="row g-3">
                                     <div className="col-sm-3">
-                                        <p className="amount">Application ID: {invoice?.applicationID}</p>
+                                        <p className="amount">Application ID: {invoice?.applicationID  || "Not Available"}</p>
                                     </div>
                                     <div className="col-sm-3">
-                                        <p className="Demand">Course Fees: {invoice?.courseFeesAmount}</p>
+                                        <p className="Demand">Course Fees: {invoice?.courseFeesAmount  || "Not Available"}</p>
                                     </div>
                                     <div className="col-sm-3">
-                                        <p className="Demand">Commission: {invoice?.fixedAmount}</p>
+                                        <p className="Demand">Commission: {invoice?.fixedAmount  || "Not Available"}</p>
                                     </div>
                                     <div className="col-sm-3">
-                                        <p className="Demand">Total Amount: {invoice?.currency} {invoice?.fixedAmount}</p>
+                                        <p className="Demand">Total Amount: {invoice?.currency  || "Not Available"} {invoice?.fixedAmount  || "Not Available"}</p>
                                     </div>
                                 </div>
                                 <hr />

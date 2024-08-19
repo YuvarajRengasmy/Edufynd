@@ -692,20 +692,20 @@ useEffect(() => {
                           search: `?id=${data?._id}`,
                         }}
                       >
-                        {getDisplayText(data?.programTitle, isExpanded)}
+                        {getDisplayText(data?.programTitle, isExpanded)  || "Not Available"}
                       </Link>
                     </td>
                     <td className="text-capitalize text-start text-truncate">
-                      {data?.programCode}
+                      {data?.programCode  || "Not Available"}
                     </td>
                     <td
                       className="text-capitalize text-start text-truncate"
-                      title={data?.universityName}
+                      title={data?.universityName  || "Not Available"}
                     >
                       {getDisplayText(data?.universityName, isExpanded)}
                     </td>
                     <td className="text-capitalize text-start text-truncate">
-                      {data?.applicationFee}
+                      {data?.applicationFee  || "Not Available"}
                     </td>
                     <td className="text-capitalize text-start text-truncate">
                       {data?.campuses?.length > 0

@@ -340,7 +340,7 @@ export default function Masterproductlist() {
         className="content-wrapper "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row ">
               <div className="col-xl-12">
@@ -559,6 +559,99 @@ export default function Masterproductlist() {
             </div>
           </div>
         </div>
+
+
+
+
+
+        <div className="container mt-3 overflow-x-auto">
+      <div className="row">
+        {/* Card 1: Total Agents */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#388E3C" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-friends" style={{ color: '#ffffff' }}></i> Total Agents
+                </h6>
+                <p className="card-text">Total: 200</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Status - Active */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#1E88E5" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Status - Active
+                </h6>
+                <p className="card-text">Total: 150</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Status - Inactive */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#D32F2F" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Status - Inactive
+                </h6>
+                <p className="card-text">Total: 30</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Pending Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FBC02D" }} // Yellow
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-file-invoice" style={{ color: '#ffffff' }}></i> Pending Invoices
+                </h6>
+                <p className="card-text">Total: 50</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 5: Paid Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Light Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-money-check-alt" style={{ color: '#ffffff' }}></i> Paid Invoices
+                </h6>
+                <p className="card-text">Total: 120</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">
@@ -617,35 +710,35 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
 
-                                <td className="text-capitalize text-start">
-                                  {data?.agentName}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentName || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.agentCode}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentCode || "Not Available"}
                                 </td>
 
-                                <td className=" text-start">{data?.email}</td>
-                                <td className="text-capitalize text-start">
-                                  {data?.mobileNumber}
+                                <td className=" text-start text-truncate">{data?.email}</td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.mobileNumber || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.status}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.status || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {formatDate(
                                     data?.modifiedOn
                                       ? data?.modifiedOn
                                       : data?.createdOn
                                       ? data?.createdOn
                                       : null
-                                  )}
+                                      || "Not Available" )}
                                 </td>
 
-                                <td>
+                                <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"

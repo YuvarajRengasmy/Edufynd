@@ -54,7 +54,7 @@ export const ListPolicies = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header  bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -231,6 +231,77 @@ export const ListPolicies = () => {
          
          
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Leave Policies */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#673AB7" }} // Deep Purple
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Leave Policies
+                </h6>
+                <p className="card-text">Review the leave policies here.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Attendance Policies */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FF5722" }} // Deep Orange
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Attendance Policies
+                </h6>
+                <p className="card-text">Guidelines for attendance management.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Payroll Policies */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#009688" }} // Teal
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-dollar-sign" style={{ color: '#ffffff' }}></i> Payroll Policies
+                </h6>
+                <p className="card-text">Details on payroll procedures.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: General HR Policies */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#2196F3" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-briefcase" style={{ color: '#ffffff' }}></i> General HR Policies
+                </h6>
+                <p className="card-text">Overview of HR policies.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -256,14 +327,14 @@ export const ListPolicies = () => {
                         <tbody>
                           
                             <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                             
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

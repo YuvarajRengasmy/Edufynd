@@ -116,7 +116,7 @@ export const ListAccommodation = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header  bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
@@ -352,6 +352,78 @@ export const ListAccommodation = () => {
           </div>
         </div>
 
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Lead Converted */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#1976D2" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Lead Converted
+                </h6>
+                <p className="card-text">Total: 75</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Drop/Withdraw */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#E64A19" }} // Deep Orange
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Drop/Withdraw
+                </h6>
+                <p className="card-text">Total: 20</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Delayed Followups */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FBC02D" }} // Yellow
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Delayed Followups
+                </h6>
+                <p className="card-text">Total: 45</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Documents Received */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#388E3C" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Documents Received
+                </h6>
+                <p className="card-text">Total: 90</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">
@@ -420,37 +492,37 @@ export const ListAccommodation = () => {
                                     fontSize: "11px",
                                   }}
                                 >
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}{" "}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {formatDate(
                                       data?.createdOn
                                         ? data?.createdOn
                                         : data?.modifiedOn
                                         ? data?.modifiedOn
                                         : "-"
-                                    )}
+                                        || "Not Available" )}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.studentName}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.studentName || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.passportNumber}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.passportNumber || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.source}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.source || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.assignedTo}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.assignedTo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.assignedPartner}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.assignedPartner || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
-                                    {data?.status}
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.status || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start">
+                                  <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link
                                         className="dropdown-item"

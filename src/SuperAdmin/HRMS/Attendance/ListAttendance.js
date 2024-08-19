@@ -54,7 +54,7 @@ export const ListAttendance = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header  bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -231,6 +231,77 @@ export const ListAttendance = () => {
         
          
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Total Attendance */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#1976D2" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Total Attendance
+                </h6>
+                <p className="card-text">Total: 1,200</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Present Today */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Present Today
+                </h6>
+                <p className="card-text">Total: 150</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Absent Today */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#F44336" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-times-circle" style={{ color: '#ffffff' }}></i> Absent Today
+                </h6>
+                <p className="card-text">Total: 30</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Attendance This Month */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#009688" }} // Teal
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-month" style={{ color: '#ffffff' }}></i> Attendance This Month
+                </h6>
+                <p className="card-text">Total: 3,000</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -256,14 +327,14 @@ export const ListAttendance = () => {
                         <tbody>
                           
                             <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                             
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

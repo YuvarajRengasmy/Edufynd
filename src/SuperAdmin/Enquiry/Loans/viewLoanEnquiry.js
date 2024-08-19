@@ -70,65 +70,65 @@ export const ViewLoanEnquiry = () => {
                   <tbody>
                     <tr>
                       <td className="fw-bold">Student Name</td>
-                      <td>{loan?.studentName}</td>
+                      <td>{loan?.studentName || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Primary Number</td>
-                      <td>{loan?.primaryNumber}</td>
+                      <td>{loan?.primaryNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">WhatsApp Number</td>
-                      <td>{loan?.whatsAppNumber}</td>
+                      <td>{loan?.whatsAppNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email ID</td>
-                      <td>{loan?.email}</td>
+                      <td>{loan?.email || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">
                         Do you have a valid offer from any university?
                       </td>
-                      <td>{loan?.doYouHaveAValidOfferFromAnyUniversity}</td>
+                      <td>{loan?.doYouHaveAValidOfferFromAnyUniversity || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Loan Amount Required</td>
-                      <td>{loan?.loanAmountRequired}</td>
+                      <td>{loan?.loanAmountRequired || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">What is your monthly income?</td>
-                      <td>{loan?.whatIsYourMonthlyIncome}</td>
+                      <td>{loan?.whatIsYourMonthlyIncome || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Passport Number</td>
-                      <td>{loan?.passportNumber}</td>
+                      <td>{loan?.passportNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">
                         Did you apply for loan elsewhere?
                       </td>
-                      <td>{loan?.didYouApplyForLoanElsewhere}</td>
+                      <td>{loan?.didYouApplyForLoanElsewhere || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Co-applicant Name</td>
-                      <td>{loan?.coApplicantName}</td>
+                      <td>{loan?.coApplicantName || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Co-applicant Age</td>
-                      <td>{loan?.age}</td>
+                      <td>{loan?.age || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Co-applicant Status</td>
-                      <td>{loan?.employmentStatus}</td>
+                      <td>{loan?.employmentStatus || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Co-applicant Income</td>
-                      <td>{loan?.incomeDetails}</td>
+                      <td>{loan?.incomeDetails || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">
                         Will you submit your collateral if required?
                       </td>
-                      <td>{loan?.willyouSubmitYourCollateral}</td>
+                      <td>{loan?.willyouSubmitYourCollateral || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Passport Document</td>

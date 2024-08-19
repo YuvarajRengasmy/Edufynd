@@ -51,6 +51,74 @@ export const ListEmail = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
+
+<div className="container mt-3">
+      <div className="row">
+        {/* Card 1: New Emails */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#3F51B5" }} // Indigo
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-envelope-open" style={{ color: '#ffffff' }}></i> New Emails
+              </h6>
+              <p className="card-text">Emails received recently.</p>
+              <p className="card-text">Total: 30</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Sent Emails */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#009688" }} // Teal
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-paper-plane" style={{ color: '#ffffff' }}></i> Sent Emails
+              </h6>
+              <p className="card-text">Emails sent this month.</p>
+              <p className="card-text">Total: 50</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Drafts */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFEB3B" }} // Yellow
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Drafts
+              </h6>
+              <p className="card-text">Draft emails awaiting sending.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Deleted Emails */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#607D8B" }} // Blue Grey
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-trash" style={{ color: '#ffffff' }}></i> Deleted Emails
+              </h6>
+              <p className="card-text">Emails that have been deleted.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   <div className="container-fluid">
             <div className="row no-gutters">
                 {/* Sidebar */}

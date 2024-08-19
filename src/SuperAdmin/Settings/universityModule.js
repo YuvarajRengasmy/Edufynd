@@ -10,14 +10,13 @@ export const UniversityModule = () => {
 
     return (
         <div>
-            <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-    <div className="container-fluid">
-        <nav className='navbar navbar-vertical navbar-expand-lg'>
+      
+       
             <Mastersidebar />
-        </nav>
+       
         <div className="content-wrapper">
-            <div className="content-header">
-                <div className="container-fluid">
+            <div className="content-header bg-light shadow-sm sticky-top"></div>
+                <div className="container-fluid mt-4">
                     <div className="row ">
                         <div className='col-lg-6'>
                             <PopularCatageries />
@@ -47,10 +46,9 @@ export const UniversityModule = () => {
                 </div>
             </div>
         </div>
-    </div>
-</div>
+  
 
-        </div>
+        
     );
 }
 export default UniversityModule;

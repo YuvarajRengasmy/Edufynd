@@ -295,237 +295,353 @@ export default function Masterproductlist() {
         className="content-wrapper  "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
-          <div className="container">
-            <div className="row ">
-              <div className="col-xl-12">
-                <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                        style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
-                          fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li class="m-1">
-                    <div>
-                      <button
-                        className="btn btn-primary"
-                        style={{ fontSize: "11px" }}
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                      >
-                        {" "}
-                        <FaFilter />
-                      </button>
-                      <div
-                        className="offcanvas offcanvas-end"
-                        tabIndex={-1}
-                        id="offcanvasRight"
-                        aria-labelledby="offcanvasRightLabel"
-                      >
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Application</h5>
-                          <button
-                            type="button"
-                            className="btn-close text-reset"
-                            data-bs-dismiss="offcanvas"
-                            aria-label="Close"
-                          />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">
-                                Applicant Code
-                              </label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessName"
-                                onChange={handleInputs}
-                                placeholder="Search...Applicant Code"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                              <label className="form-label">
-                                University Applied{" "}
-                              </label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessContactNo"
-                                onChange={handleInputs}
-                                placeholder="Search...University Applied"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-
-                              <label className="form-label">
-                                Course Applied
-                              </label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                                onChange={handleInputs}
-                                placeholder="Search...Course Applied"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                              <label className="form-label">Status</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="clientID"
-                                onChange={handleInputs}
-                                placeholder="Search...Status"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                            </div>
-                            <div>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 px-4 py-2 rounded-pill fw-semibold text-uppercase text-white float-right bg"
-                                style={{
-                                  backgroundColor: "#0f2239",
-                                  fontSize: "14px",
-                                }}
-                                // onClick={resetFilter}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                // onClick={filterProgramList}
-                                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
-                                style={{
-                                  backgroundColor: "#fe5722",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={pdfDownload}>
-                      <button
-                        style={{ backgroundColor: "#E12929", fontSize: "11px" }}
-                        className="btn text-white "
-                      >
-                        <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={exportCsv} class="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#22A033",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li class="m-1">
-                    <Link onClick={openImportPopup} class="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#9265cc",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddApplication">
-                      <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                        style={{
-                          backgroundColor: "#fe5722",
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                      >
-                        <i
-                          class="fa fa-plus-circle me-2"
-                          aria-hidden="true"
-                        ></i>
-                        Add Application
-                      </button>
-                    </Link>
-                  </li>
-                </ol>
+       <div className="content-header bg-light shadow-sm sticky-top">
+  <div className="container">
+    <div className="row">
+      <div className="col-xl-12">
+        <ol className="d-flex justify-content-between align-items-center mb-0 list-unstyled">
+          <li className="flex-grow-1">
+            <div className="input-group" style={{ maxWidth: "600px" }}>
+              <input
+                type="search"
+                placeholder="Search"
+                aria-describedby="button-addon3"
+                className="form-control border-1 ps-1 rounded-4"
+                style={{ fontSize: "12px" }}
+              />
+              <span
+                className="input-group-text bg-transparent border-0"
+                id="button-addon3"
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer",
+                }}
+              >
+                <i className="fas fa-search" style={{ color: "black" }}></i>
+              </span>
+            </div>
+          </li>
+          <li className="m-1">
+            <button
+              className="btn btn-primary"
+              style={{ fontSize: "12px" }}
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight"
+            >
+              <FaFilter />
+            </button>
+            <div
+              className="offcanvas offcanvas-end"
+              tabIndex={-1}
+              id="offcanvasRight"
+              aria-labelledby="offcanvasRightLabel"
+            >
+              <div className="offcanvas-header">
+                <h5 id="offcanvasRightLabel">Filter Application</h5>
+                <button
+                  type="button"
+                  className="btn-close text-reset"
+                  data-bs-dismiss="offcanvas"
+                  aria-label="Close"
+                />
+              </div>
+              <div className="offcanvas-body">
+                <form>
+                  <div className="form-group mb-3">
+                    <label className="form-label">Applicant Code</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="businessName"
+                      onChange={handleInputs}
+                      placeholder="Search...Applicant Code"
+                      style={{ fontSize: "12px" }}
+                    />
+                    <label className="form-label mt-3">University Applied</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="businessContactNo"
+                      onChange={handleInputs}
+                      placeholder="Search...University Applied"
+                      style={{ fontSize: "12px" }}
+                    />
+                    <label className="form-label mt-3">Course Applied</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="status"
+                      onChange={handleInputs}
+                      placeholder="Search...Course Applied"
+                      style={{ fontSize: "12px" }}
+                    />
+                    <label className="form-label mt-3">Status</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="clientID"
+                      onChange={handleInputs}
+                      placeholder="Search...Status"
+                      style={{ fontSize: "12px" }}
+                    />
+                  </div>
+                  <div className="d-flex justify-content-end">
+                    <button
+                      data-bs-dismiss="offcanvas"
+                      className="btn btn-cancel border-0 fw-semibold text-white"
+                      style={{
+                        backgroundColor: "#0f2239",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Reset
+                    </button>
+                    <button
+                      data-bs-dismiss="offcanvas"
+                      type="submit"
+                      className="btn btn-save border-0 fw-semibold text-white ms-2"
+                      style={{
+                        backgroundColor: "#fe5722",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-          </div>
+          </li>
+          <li className="m-1">
+            <Link onClick={pdfDownload}>
+              <button
+                style={{ backgroundColor: "#E12929", fontSize: "12px" }}
+                className="btn text-white"
+              >
+                <i className="fa fa-file-pdf" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="m-1">
+            <Link onClick={exportCsv}>
+              <button
+                style={{ backgroundColor: "#22A033", fontSize: "12px" }}
+                className="btn text-white"
+              >
+                <i className="fa fa-file-excel" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="m-1">
+            <Link onClick={openImportPopup}>
+              <button
+                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
+                className="btn text-white"
+              >
+                <i className="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="m-1">
+            <Link to="/AddApplication">
+              <button
+                className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
+                style={{
+                  backgroundColor: "#231f20",
+                  fontSize: "12px",
+                }}
+              >
+                <i className="fa fa-plus-circle me-2" aria-hidden="true"></i>
+                Add Application
+              </button>
+            </Link>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <div className="container mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
+      <div className="d-flex ">
+        {/* Application Submitted Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-paper-plane"></i>&nbsp;&nbsp;Application Submitted</h6>
+                <p className="card-text">45</p>
+              </div>
+            </div>
+          </Link>
         </div>
-        <div className="content-body">
+
+        {/* Offered and Rejected Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#2196F3', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6 className="mb-1">Status</h6>
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column">
+                    <h6><i className="fas fa-thumbs-up"></i>&nbsp;&nbsp;Offered</h6>
+                    <p className="card-text">30</p>
+                  </div>
+                  <div className="d-flex flex-column">
+                    <h6><i className="fas fa-thumbs-down"></i>&nbsp;&nbsp;Rejected</h6>
+                    <p className="card-text">15</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Deposit Paid Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FFC107', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-money-bill-wave"></i>&nbsp;&nbsp;Deposit Paid</h6>
+                <p className="card-text">20</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Travel Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FF5722', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-plane"></i>&nbsp;&nbsp;Travel</h6>
+                <p className="card-text">10</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Enrolled Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#009688', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-user-check"></i>&nbsp;&nbsp;Enrolled</h6>
+                <p className="card-text">25</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Invoices Raised Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3F51B5', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;Invoices Raised</h6>
+                <p className="card-text">8</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
+
+    <div className="container mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
+      <div className="d-flex ">
+        {/* Application Submitted Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-paper-plane"></i>&nbsp;&nbsp;Application Submitted</h6>
+                <p className="card-text">45</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Offered and Rejected Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#2196F3', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6 className="mb-1">Status</h6>
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column">
+                    <h6><i className="fas fa-thumbs-up"></i>&nbsp;&nbsp;Offered</h6>
+                    <p className="card-text">30</p>
+                  </div>
+                  <div className="d-flex flex-column">
+                    <h6><i className="fas fa-thumbs-down"></i>&nbsp;&nbsp;Rejected</h6>
+                    <p className="card-text">15</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Deposit Paid Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FFC107', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-money-bill-wave"></i>&nbsp;&nbsp;Deposit Paid</h6>
+                <p className="card-text">20</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Travel Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FF5722', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-plane"></i>&nbsp;&nbsp;Travel</h6>
+                <p className="card-text">10</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Enrolled Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#009688', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-user-check"></i>&nbsp;&nbsp;Enrolled</h6>
+                <p className="card-text">25</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Invoices Raised Card */}
+        <div className="col-md-3 flex-shrink-0">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3F51B5', color: '#fff' }}>
+              <div className="card-body text-center">
+                <h6><i className="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;Invoices Raised</h6>
+                <p className="card-text">8</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
+       
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-0 border-0">
+                <div className="card rounded-1 shadow-sm border-0">
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -578,28 +694,28 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {getMonthYear(data?.createdOn)}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {getMonthYear(data?.createdOn) || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.applicationCode}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.applicationCode || "Not Available"}
                                 </td>
 
-                                <td className="text-capitalize text-start">
-                                  {data?.name}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.name || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.universityName}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.universityName || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.course}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.course || "Not Available"}
                                 </td>
-                                <td></td>
+                                <td className="text-capitalize text-start text-truncate"></td>
 
-                                <td>
+                                <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
@@ -649,7 +765,7 @@ export default function Masterproductlist() {
               </div>
             </div>
           </div>
-        </div>
+       
       </div>
       <Dialog open={open}>
         <DialogContent>
@@ -659,7 +775,7 @@ export default function Masterproductlist() {
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-success border-0 text-white px-4 py-2 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-save btn-success border-0 text-white   fw-semibold  mx-3"
               onClick={deleteApplicationData}
               style={{ fontSize: "12px" }}
             >
@@ -667,7 +783,7 @@ export default function Masterproductlist() {
             </button>
             <button
               type="button"
-              className="btn btn-cancel btn-danger border-0 text-white px-4 py-2 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-cancel btn-danger border-0 text-white   fw-semibold  "
               onClick={closePopup}
               style={{ fontSize: "12px" }}
             >
@@ -707,7 +823,7 @@ export default function Masterproductlist() {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
+                className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
               >
                 Cancel
@@ -715,7 +831,7 @@ export default function Masterproductlist() {
               <button
                 type="submit"
                 // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
+                className="btn btn-save border-0  fw-semibold   text-white float-right mx-2"
                 style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
               >
                 Apply

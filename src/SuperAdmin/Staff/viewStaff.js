@@ -69,13 +69,13 @@ export const ViewStaff = () => {
                         style={{ width: "150px", height: "150px" }}
                       />
                       <h5 className="staff-name">{staff?.empName}</h5>
-                      <p className="card-text text-muted">{staff?.designation}</p>
+                      <p className="card-text text-muted">{staff?.designation  || "Not Available"}</p>
                       <div className="d-flex justify-content-center">
                         <a href="#" className="btn btn-primary btn-sm me-2">
-                          <i className="fas fa-envelope"></i> Email {staff?.email}
+                          <i className="fas fa-envelope"></i> Email {staff?.email  || "Not Available"}
                         </a>
                         <a href="#" className="btn btn-secondary btn-sm">
-                          <i className="fas fa-phone-alt"></i> Call {staff?.mobileNumber}
+                          <i className="fas fa-phone-alt"></i> Call {staff?.mobileNumber  || "Not Available"}
                         </a>
                       </div>
                     </div>
@@ -92,53 +92,53 @@ export const ViewStaff = () => {
                         <div className="col-md-6">
                           <p>
                             <i className="fas fa-birthday-cake me-2"></i>
-                            <strong>DOB:</strong> {staff?.dob}
+                            <strong>DOB:</strong> {staff?.dob  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-calendar-day me-2"></i>
-                            <strong>DOJ:</strong> {staff?.doj}
+                            <strong>DOJ:</strong> {staff?.doj  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-user-tie me-2"></i>
-                            <strong>Reporting Manager:</strong> {staff?.reportingManager}
+                            <strong>Reporting Manager:</strong> {staff?.reportingManager  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-clock me-2"></i>
-                            <strong>Shift Timing:</strong> {staff?.shiftTiming}
+                            <strong>Shift Timing:</strong> {staff?.shiftTiming  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-envelope me-2"></i>
-                            <strong>Official Mail:</strong> {staff?.email}
+                            <strong>Official Mail:</strong> {staff?.email  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-mobile-alt me-2"></i>
-                            <strong>Personal Contact No:</strong> {staff?.mobileNumber}
+                            <strong>Personal Contact No:</strong> {staff?.mobileNumber  || "Not Available"}
                           </p>
                         </div>
                         <div className="col-md-6">
                           <p>
                             <i className="fas fa-home me-2"></i>
-                            <strong>Address:</strong> {staff?.address}
+                            <strong>Address:</strong> {staff?.address  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-phone-alt me-2"></i>
-                            <strong>Emergency Contact:</strong> {staff?.emergencyContact}
+                            <strong>Emergency Contact:</strong> {staff?.emergencyContact  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-id-card me-2"></i>
-                            <strong>ID Card:</strong> {staff?.idCard}
+                            <strong>ID Card:</strong> {staff?.idCard  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-user-check me-2"></i>
-                            <strong>Status:</strong>  {staff?.activeInactive}
+                            <strong>Status:</strong>  {staff?.activeInactive  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-briefcase me-2"></i>
-                            <strong>Job Description:</strong> {staff?.jobDescription}
+                            <strong>Job Description:</strong> {staff?.jobDescription  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-calendar-check me-2"></i>
-                            <strong>Eligibility for Casual Leave:</strong> {staff?.areTheyEligibleForCasualLeave}
+                            <strong>Eligibility for Casual Leave:</strong> {staff?.areTheyEligibleForCasualLeave  || "Not Available"}
                           </p>
                         </div>
                       </div>
@@ -154,29 +154,29 @@ export const ViewStaff = () => {
                         <div className="col-md-6">
                           <p>
                             <i className="fas fa-laptop me-2"></i>
-                            <strong>Company Assets:</strong> {staff?.companyAssets}
+                            <strong>Company Assets:</strong> {staff?.companyAssets  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-mobile-alt me-2"></i>
-                            <strong>Mobile Brand Name:</strong> {staff?.brandName}
+                            <strong>Mobile Brand Name:</strong> {staff?.brandName  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-barcode me-2"></i>
-                            <strong>IMEI:</strong> {staff?.imei}
+                            <strong>IMEI:</strong> {staff?.imei  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-phone me-2"></i>
-                            <strong>Phone Number:</strong> {staff?.phoneNumber}
+                            <strong>Phone Number:</strong> {staff?.phoneNumber  || "Not Available"}
                           </p>
                         </div>
                         <div className="col-md-6">
                           <p>
                             <i className="fas fa-laptop me-2"></i>
-                            <strong>Laptop Brand Name:</strong> {staff?.brand}
+                            <strong>Laptop Brand Name:</strong> {staff?.brand  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-cogs me-2"></i>
-                            <strong>Model:</strong> {staff?.modelName}
+                            <strong>Model:</strong> {staff?.modelName  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-network-wired me-2"></i>
@@ -184,11 +184,11 @@ export const ViewStaff = () => {
                           </p>
                           <p>
                             <i className="fas fa-user me-2"></i>
-                            <strong>Username:</strong> {staff?.userName}
+                            <strong>Username:</strong> {staff?.userName  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-key me-2"></i>
-                            <strong>Password:</strong> {staff?.loginPassword}
+                            <strong>Password:</strong> {staff?.loginPassword  || "Not Available"}
                           </p>
                         </div>
                       </div>

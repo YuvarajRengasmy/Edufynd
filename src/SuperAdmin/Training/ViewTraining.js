@@ -58,12 +58,12 @@ export const ViewTraining = () => {
                       <i className="fas fa-chalkboard-teacher fa-2x"></i>
                     </div>
                     <div>
-                      <h4 className="card-training mb-1">Training Topic: {training?.trainingTopic || "N/A"}</h4>
+                      <h4 className="card-training mb-1">Training Topic: {training?.trainingTopic  || "Not Available"}</h4>
                       <p className="text-muted mb-1">
-                        <i className="fas fa-calendar-day"></i>&nbsp;&nbsp; Date: {training?.date || "N/A"}
+                        <i className="fas fa-calendar-day"></i>&nbsp;&nbsp; Date: {training?.date  || "Not Available"}
                       </p>
                       <p className="text-muted mb-1">
-                        <i className="fas fa-clock"></i>&nbsp;&nbsp; Time: {training?.time || "N/A"}
+                        <i className="fas fa-clock"></i>&nbsp;&nbsp; Time: {training?.time  || "Not Available"}
                       </p>
                     </div>
                   </div>
@@ -73,14 +73,14 @@ export const ViewTraining = () => {
                       <h6 className="font-weight-bold text-primary">
                         <i className="fas fa-hand-pointer"></i>&nbsp;&nbsp; Request Training
                       </h6>
-                      <p className="mb-1">Requested by: {training?.requestTraining || "N/A"}</p>
+                      <p className="mb-1">Requested by: {training?.requestTraining  || "Not Available"}</p>
                     </div>
                     <div>
                       <h6 className="font-weight-bold text-primary">
                         <i className="fas fa-info-circle"></i>&nbsp;&nbsp; Details
                       </h6>
                       <p className="mb-1">
-                        <i className="fas fa-tag"></i>&nbsp;&nbsp; Type of Users: {training?.typeOfUser || "N/A"}
+                        <i className="fas fa-tag"></i>&nbsp;&nbsp; Type of Users: {training?.typeOfUser  || "Not Available"}
                       </p>
                       <p className="mb-1">
                         <i className="fas fa-users"></i>&nbsp;&nbsp; Attendees: 
@@ -91,7 +91,7 @@ export const ViewTraining = () => {
                           : "N/A"}
                       </p>
                       <p className="mb-1">
-                        <i className="fas fa-file-alt"></i>&nbsp;&nbsp; Material: {training?.material || "N/A"}
+                        <i className="fas fa-file-alt"></i>&nbsp;&nbsp; Material: {training?.material  || "Not Available"}
                       </p>
                     </div>
                   </div>
@@ -101,7 +101,7 @@ export const ViewTraining = () => {
                     <p className="mb-1">
                       <span className="badge badge-primary">
                         <i className="fas fa-user-tie"></i>
-                      </span>&nbsp;&nbsp; Name: {training?.name || "N/A"}
+                      </span>&nbsp;&nbsp; Name: {training?.name  || "Not Available"}
                     </p>
                     <p className="mb-1">
                       <span className="badge badge-primary">
@@ -118,14 +118,14 @@ export const ViewTraining = () => {
                     <p className="mb-1">
                       <span className="badge badge-primary">
                         <i className="fas fa-book"></i>
-                      </span> &nbsp;&nbsp; Subject: {training?.subject || "N/A"}
+                      </span> &nbsp;&nbsp; Subject: {training?.subject  || "Not Available"}
                     </p>
                   </div>
 
                   <div>
                     <h6 className="text-primary mb-2">Content:</h6>
                     <p className="card-text">
-                      <RichTextEditor value={training?.content} readOnly />
+                      <RichTextEditor value={training?.content  || "Not Available"} readOnly />
                     </p>
                   </div>
                 </div>
