@@ -927,6 +927,14 @@ export const ViewApplication = () => {
                           Sincerely,
                           {track?.name}<br />
                         Edufynd
+                        <div className="d-flex flex-column align-items-end justify-content-end">
+                          <p className="mb-1"><b>Duration</b>- 24hrs</p>
+                          <p className="mb-1"><b>Delayed</b>- 0hrs</p>
+                        </div>
+                      </div>
+                      <div className="card-footer bg-white border-0">
+                     
+
                       </div>
                     </div>
                   </div>
