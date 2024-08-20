@@ -2,11 +2,7 @@ import axios from 'axios';
 import { clearStorage } from '../Utils/storage';
 
 
-<<<<<<< HEAD
 const API = axios.create ({ baseURL: 'http://localhost:4409/api/' });
-=======
-   const API = axios.create ({ baseURL: 'http://localhost:4409/api/' });
->>>>>>> origin/Yuvaraj
 // const API = axios.create ({ baseURL: 'https://api.edufynd.in/api/' });
 
 API.interceptors.request.use(request => {
