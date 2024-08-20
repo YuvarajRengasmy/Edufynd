@@ -403,6 +403,7 @@ export const ViewApplication = () => {
                               {item.statusName}
                             </button>
                           </OverlayTrigger>
+                          <h5 className="text-center mt-2">{item.duration}||{item.delay}</h5>
 
                           <div
                             className="modal fade"
