@@ -403,7 +403,7 @@ export const ViewApplication = () => {
                               {item.statusName}
                             </button>
                           </OverlayTrigger>
-                          <h5 className="text-center mt-2"><i className="fas fa-clock text-primary fw-light fs-2">{item.duration}</i>||<i className="fas fa-stopwatch">{item.delay}</i></h5>
+                          <h5 className="text-center mt-2"><i className="fas fa-clock text-primary fw-light fs-5">{item.duration}</i>||<i className="fas fa-stopwatch">{item.delay}</i></h5>
 
                           <div
                             className="modal fade"
