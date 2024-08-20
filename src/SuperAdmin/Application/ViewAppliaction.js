@@ -347,15 +347,15 @@ export const ViewApplication = () => {
 
       <div class="position-relative m-4">
         <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style={{height:"2px"}}>
-            <div class="progress-bar bg-primary" style={{width: "50%"}}></div>
+            <div class="progress-bar " style={{width: "50%"}}></div>
         </div>
         
-        <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem"}}>1</button>
-        <button type="button" class="position-absolute top-0 start-20 translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem"}}>2</button>
-        <button type="button" class="position-absolute top-0 start-40 translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem"}}>3</button>
-        <button type="button" class="position-absolute top-0 start-60 translate-middle btn btn-sm btn-secondary rounded-pill" style={{width:" 2rem", height: "2rem"}}>4</button>
-        <button type="button" class="position-absolute top-0 start-80 translate-middle btn btn-sm btn-secondary rounded-pill" style={{width:" 2rem", height: "2rem"}}>5</button>
-        <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill" style={{width:" 2rem", height: "2rem"}}>6</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'0'}}>1</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'20%'}}>2</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'40%'}}>3</button>
+        <button type="button" class="position-absolute translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'60%'}}>4</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'80%'}}>5</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'100%'}}>6</button>
     </div>
 
     <div class="d-flex justify-content-between">
