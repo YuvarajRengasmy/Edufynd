@@ -909,11 +909,16 @@ export const ViewApplication = () => {
                 <div class="d-flex justify-content-end mb-4">
                   <div class="col-8">
                     <div class="card">
-                      <div class="card-header">
+                      <div class="card-header text-bg-danger">
                         <p class="mb-0">Application Decision: Rejected</p>
-                        <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+                        <div className="d-flex gap-2">
+                        September 28th 2023, 15:38
+
+                        <button class="btn btn-sm text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i class="fa fa-reply" aria-hidden="true"></i>
                         </button>
+                        </div>
+                      
                       </div>
                       <div class="card-body">
                         Hi Fynd,<br /><br />
