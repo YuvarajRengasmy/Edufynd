@@ -820,7 +820,7 @@ export const ViewApplication = () => {
           <p>
             Application Status - {tracks?.createdBy} {tracks?.createdOn}
           </p>
-          <p><b>Application Process</b></p>
+         
           {tracks?.status && (
             <div>
               {tracks.status.map((item, index) => (
@@ -829,14 +829,14 @@ export const ViewApplication = () => {
                   target="_blank"
                   download
                   key={index}
-                  class="d-flex align-items-center justify-content-between mb-2 text-decoration-none"
+                  class="d-flex gap-2 align-items-center mb-2 text-decoration-none"
                 >
                   <div class="me-2">
                     <img
                       src={item?.document || "-"}
                       class="card-img-top border-0 me-2"
                       alt="Document"
-                      style={{ width: "5rem", height: "5rem" }}
+                      style={{ width: "3rem", height: "3em" }}
                     />
                     <p class="card-text mb-0" style={{ fontSize: "12px" }}>
                       {item?.name}
@@ -854,7 +854,7 @@ export const ViewApplication = () => {
     
     <div class="col-md-9 col-sm-8">
       <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-        <div class="card-header bg-white">
+        <div class="card-header bg-white sticky-top">
           <h6 class="card-title">Application Track</h6>
         </div>
         
@@ -910,23 +910,44 @@ export const ViewApplication = () => {
               {tracks?.status &&
                                         tracks.status.map((item, index) => (
                 <div key={index} class="d-flex justify-content-end mb-4">
-                
+                  <div  class="profile-content">
+                  <img
+            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+            class="card-img-top rounded-circle border-0"
+            alt="Profile"
+            style={{ width: "4rem", height: "4rem" }}
+          />
+                  </div>
+               
                   <div  class="col-8">
                     <div class="card">
-                      <div class="card-header">
+                      <div class="card-header text-bg-danger">
+                      
                         <p class="mb-0">Application Decision:{item?.newStatus}</p>
-                        <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+                        <div className="d-flex gap-2">
+                        <p class="mb-0">September 28th 2023, 15:38</p>
+                        <button class="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i class="fa fa-reply" aria-hidden="true"></i>
                         </button>
+                        </div>
+                       
                       </div>
                       <div class="card-body">
                       <RichTextEditor
                                                 value={item?.commentBox}
                                                 readOnly
                                               /> <br/><br/>
-                          Sincerely,
-                          {track?.name}<br />
+                          Sincerely,<br/>
+                          {item?.createdBy}<br />
                         Edufynd
+                        <div className="d-flex flex-column align-items-end justify-content-end">
+                          <p className="mb-1"><b>Duration</b>- {item?.duration}Days</p>
+                          <p className="mb-1"><b>Delayed</b>- {item?.delay}Days</p>
+                        </div>
+                      </div>
+                      <div className="card-footer bg-white border-0">
+                     
+
                       </div>
                     </div>
                   </div>
@@ -947,149 +968,7 @@ export const ViewApplication = () => {
 
              
 
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-6  ">
-                      <div className="card rounded-1 border-0  vh-100 min-vh-100 overflow-auto">
-                        <div className="card-body">
-                        <div className="container">
-                            <div className="row">
-                              <div className="col">
-                                <div className=" align-items-center justify-content-center">
-                                  <div className="application-profile border-0 ">
-                                    <img
-                                      src={tracks?.photo?tracks?.photo:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-                                      className="card-img-top rounded-circle border-0 "
-                                      alt="..."
-                                      style={{ width: "4rem", height: "4rem" }}
-                                    />
-                                    <div className="card-body">
-                                      <p
-                                        className="card-text"
-                                        style={{ fontSize: "10px" }}
-                                      >
-                                        {tracks?.name}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-
-                             
-                                  <div className="card border-0">
-                                    <div className="card-header text-bg-primary">
-                                      <h6 className="h6">
-                                        Application Status -{tracks?.createdBy}
-                                        {tracks?.createdOn}
-                                      </h6>
-                                    </div>
-                                    <div className="card-body">
-                                      <h1>
-                                        <b>Application Process</b>
-                                      </h1>
-                                      {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                                          <div key={index}>
-                                            
-                                            <a href={item?.document?item?.document:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"} target="_blank" download>
-      <img
-        src={item?.document?item?.document:"-"}
-        className="card-img-top  border-0"
-        alt="..."
-        style={{ width: "7rem", height: "7rem" }}
-      />
-      <i className="fa fa-download p-5"></i>
-    </a>
-                                            <div className="card-body">
-                                              <p
-                                                className="card-text"
-                                                style={{ fontSize: "10px" }}
-                                              >
-                                                {item?.name}
-                                              </p>
-                                            </div>
-                                            <p>{item?.createdBy}</p>
-                                          </div>
-                                        ))}
-                                    </div>
-                                  </div>
-                               
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-6 ">
-                      <div className="card border-0 vh-100 rounded-1 overflow-auto">
-                        <div className="card-body ">
-                          <div className="container">
-                            <div className="row">
-                              <div className="col">
-                                <div className=" align-items-center justify-content-center">
-                                  <div className="application-profile border-0 ">
-                                    <img
-                                      src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                      className="card-img-top rounded-circle border-0 "
-                                      alt="..."
-                                      style={{ width: "4rem", height: "4rem" }}
-                                    />
-                                    <div className="card-body">
-                                      <p
-                                        className="card-text"
-                                        style={{ fontSize: "10px" }}
-                                      >
-                                        {track?.name}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-
-                             
-                                  <div className="card border-0">
-                                    <div className="card-header text-bg-primary">
-                                      <h6 className="h6">
-                                        Application Status -{track?.createdBy}
-                                        {track?.createdOn}
-                                      </h6>
-                                    </div>
-                                    <div className="card-body">
-                                      <h1>
-                                        <b>Application Process</b>
-                                      </h1>
-                                      {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                                          <div key={index}>
-                                            <h4>Status: {item?.newStatus}</h4>
-                                            <p>
-                                              <RichTextEditor
-                                                value={item?.commentBox}
-                                                readOnly
-                                              />{" "}
-                                            </p>
-                                           
-                                            <div className="card-body">
-                                              <p
-                                                className="card-text"
-                                                style={{ fontSize: "10px" }}
-                                              >
-                                                {item?.name}
-                                              </p>
-                                            </div>
-                                            <p>{item?.createdBy}</p>
-                                          </div>
-                                        ))}
-                                    </div>
-                                  </div>
-                               
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
               </div>
             </div>
           </div>
