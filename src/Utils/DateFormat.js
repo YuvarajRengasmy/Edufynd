@@ -11,6 +11,12 @@ export const getMonthYear = (data) => {
   return `${month} ${year}`;
 };
 
+export const getYear = (data) => {
+  const date = new Date(data);
+  // const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+  return `${year}`;
+};
 export const timeCal = (date1) => {
   var date2 = new Date().getTime();
   date1 = new Date(date1).getTime();

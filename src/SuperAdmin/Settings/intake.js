@@ -436,12 +436,14 @@ const handleSubmit = (event) => {
                 <div className="mb-3">
                   <label htmlFor="startDate" className="form-label">Start Date</label>
                   <input
-                    type="date"
+                    type="text"
                     className="form-control"
                     id="startDate"
                     name="startDate"
                     value={inputs.startDate}
                     onChange={handleInputs}
+                    pattern="\d{4}"
+                    placeholder="YYYY"
                   />
                   {submitted && errors.startDate.required && (
                     <span className="text-danger">Start Date is required</span>
@@ -450,12 +452,14 @@ const handleSubmit = (event) => {
                 <div className="mb-3">
                   <label htmlFor="endDate" className="form-label">End Date</label>
                   <input
-                    type="date"
+                    type="text"
                     className="form-control"
                     id="endDate"
                     name="endDate"
                     value={inputs.endDate}
                     onChange={handleInputs}
+                    pattern="\d{4}"
+                    placeholder="YYYY"
                   />
                   {submitted && errors.endDate.required && (
                     <span className="text-danger">End Date is required</span>
@@ -581,12 +585,14 @@ const handleSubmit = (event) => {
                 <div className="mb-3">
                   <label htmlFor="startDate" className="form-label">Start Date</label>
                   <input
-                    type="date"
+                    type="text"
                     className="form-control"
                     id="startDate"
                     name="startDate"
                     value={inputs.startDate}
                     onChange={handleInputs}
+                    pattern="\d{4}"
+                placeholder="YYYY"
                   />
                   {submitted && errors.startDate.required && (
                     <span className="text-danger">Start Date is required</span>
@@ -595,12 +601,14 @@ const handleSubmit = (event) => {
                 <div className="mb-3">
                   <label htmlFor="endDate" className="form-label">End Date</label>
                   <input
-                    type="date"
+                    type="text"
                     className="form-control"
                     id="endDate"
                     name="endDate"
                     value={inputs.endDate}
                     onChange={handleInputs}
+                    pattern="\d{4}"
+                    placeholder="YYYY"
                   />
                   {submitted && errors.endDate.required && (
                     <span className="text-danger">End Date is required</span>
