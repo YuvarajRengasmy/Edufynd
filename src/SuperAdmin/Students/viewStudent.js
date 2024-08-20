@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
+import Sortable from 'sortablejs';
 import { getSingleStudent } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
 import { getallProgram, getProgramByUniversity, getProgramByCountry } from "../../api/Program";
 import { getUniversitiesByCountry } from "../../api/university";
 import { getallUniversity } from "../../api/university";
-import { saveApplication } from "../../api/applicatin";
+import { saveApplication,getStudentApplication } from "../../api/applicatin";
 import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
 import { toast } from "react-toastify";
+import { getMonthYear } from "../../Utils/DateFormat";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -58,8 +61,18 @@ function Profile() {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [inTake, setInTake] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
   const [submitted, setSubmitted] = useState(false);
   const [student, setStudent] = useState({});
+  const [students, setStudents] = useState({});
+
 const navigate = useNavigate();
   useEffect(() => {
     getStudentDetails();
@@ -128,7 +141,33 @@ const navigate = useNavigate();
         console.log(err);
       });
   };
+  useEffect(() => {
+    getStudentApplicationDetails();
+  }, [pagination.from]);
 
+  const getStudentApplicationDetails = () => {
+    const data = {
+      limit: pageSize,
+      page: pagination.from,
+      studentId: id,
+    };
+    getStudentApplication(data)
+      .then((res) => {
+        console.log("API", res); // Debugging API response
+        if (res?.data?.result && Array.isArray(res.data.result)) {
+          setStudents(res.data.result);
+          setPagination({
+            ...pagination,
+            count: res?.data?.result?.length,
+          });
+        } else {
+          console.warn("Unexpected response structure:", res);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching programs:", err);
+      });
+  };
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
     for (let key in data) {
@@ -212,7 +251,45 @@ saveApplication(inputs)
       });
   }
 };
+const handlePageChange = (event, page) => {
+  const from = (page - 1) * pageSize;
+  const to = (page - 1) * pageSize + pageSize;
+  setPagination({ ...pagination, from: from, to: to });
+};
+const openPopup = (data) => {
+  setOpen(true);
+  setDeleteId(data);
+};
 
+const closePopup = () => {
+  setOpen(false);
+};
+const tableRef = useRef(null);
+
+useEffect(() => {
+  const table = tableRef.current;
+
+  // Apply SortableJS to the table headers
+  const sortable = new Sortable(table.querySelector('thead tr'), {
+    animation: 150,
+    swapThreshold: 0.5,
+    handle: '.sortable-handle',
+    onEnd: (evt) => {
+      const oldIndex = evt.oldIndex;
+      const newIndex = evt.newIndex;
+
+      // Move the columns in the tbody
+      table.querySelectorAll('tbody tr').forEach((row) => {
+        const cells = Array.from(row.children);
+        row.insertBefore(cells[oldIndex], cells[newIndex]);
+      });
+    }
+  });
+
+  return () => {
+    sortable.destroy();
+  };
+}, []);
   return (
     <>
       <Sidebar />
@@ -1160,7 +1237,7 @@ saveApplication(inputs)
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.workExperience || "Not Available"}
+                    {student?.duration || "Not Available"} || {student?.lastDesignation || "Not Available"} ||  {student?.lastEmployeer || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -1213,6 +1290,133 @@ saveApplication(inputs)
                 </div>
               </div>
             </div>
+
+            <div className="card  rounded-1 shadow-sm border-0">
+         <div className="card-body">
+           <div className="card-table">
+             <div className="table-responsive">
+
+               <table className=" table table-hover card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
+                 <thead className="table-light">
+                 <tr
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                              <th className="text-capitalize text-start sortable-handle">
+                                S No
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Date
+                              </th>
+                              <th className="text-capitalize text-start">
+                                {" "}
+                                Code
+                              </th>
+
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Name
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                University Applied
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Course Applied
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Status
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Action
+                              </th>
+                            </tr>
+                 </thead>
+                 <tbody>
+                 {Array.isArray(students) && students.length > 0 ? (
+                   students.map((data, index) => (
+                    <tr
+                                key={index}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                <td className="text-capitalize text-start text-truncate">
+                                  {pagination.from + index + 1}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {getMonthYear(data?.createdOn) || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.applicationCode || "Not Available"}
+                                </td>
+
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.name || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.universityName || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.course || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate"></td>
+
+                                <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/ApplicationView",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/EditApplication",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                   ))
+                
+                ) : (
+                  <p>No programs available.</p>
+                )}
+
+                 </tbody>
+               </table>
+             </div>
+           </div>
+           <div className="float-right my-2">
+             <Pagination
+               count={Math.ceil(pagination.count / pageSize)}
+               onChange={handlePageChange}
+               variant="outlined"
+               shape="rounded"
+               color="primary"
+             />
+           </div>
+         </div>
+       </div>
           </div>
         </div>
       </div>

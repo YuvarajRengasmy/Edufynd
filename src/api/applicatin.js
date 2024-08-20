@@ -23,4 +23,7 @@ export const getSingleApplication = (data) => {
   export const trackApplication = (data) => {
     return API.put(`${Application}/track`, data);
   };
-  
+
+  export const getStudentApplication = (data) => {
+    return API.get(`${Application}/getStudentApplication`, { params: {studentId: data } });
+  };

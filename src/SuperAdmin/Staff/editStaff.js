@@ -25,6 +25,7 @@ export const AddStaff = () => {
     empName: "",
     dob: "",
     designation: "",
+    role: "",
     doj: "",
     reportingManager: "",
     shiftTiming: "",
@@ -42,7 +43,7 @@ export const AddStaff = () => {
     state: "",
     city: "",
     idCard: "",
-    status: "",
+    active: "",
     privileges: "",
     companyAssests: "",
     mobileName: "",
@@ -61,6 +62,7 @@ export const AddStaff = () => {
     empName: { required: false },
     dob: { required: false }, // (Date of Birth)
     designation: { required: false },
+    role: { required: false },
     doj: { required: false }, // (Date of Joining)
     reportingManager: { required: false },
     shiftTiming: { required: false }, // (Attendance to be calculated based on this)
@@ -78,7 +80,7 @@ export const AddStaff = () => {
     state: { required: false },
     city: { required: false },
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
-    status: { required: false },
+    active: { required: false },
     privileges: { required: false },
     companyAssests: { required: false },
     mobileName: { required: false },
@@ -149,6 +151,9 @@ export const AddStaff = () => {
     if (data.designation === "") {
       error.designation.required = true;
     }
+    if (data.role === "") {
+      error.role.required = true;
+    }
 
     if (data.reportingManager === "") {
       error.reportingManager = true;
@@ -187,8 +192,8 @@ export const AddStaff = () => {
       error.idCard.required = true;
     }
 
-    if (data.status === "") {
-      error.status.required = true;
+    if (data.active === "") {
+      error.active.required = true;
     }
     if (data.privileges === "") {
       error.privileges.required = true;
@@ -436,6 +441,31 @@ export const AddStaff = () => {
                             ))}
                                </select>
                               {errors.designation.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Role
+                                <span className="text-danger">*</span>
+                              </label>
+
+                              <input
+                                type="text"
+                                value={staff?.role}
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-control text-uppercase rounded-2"
+                                placeholder="Enter  Role "
+                                name="role"
+                                onChange={handleInputs}
+                              />
+                              {errors.role.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
@@ -855,8 +885,8 @@ export const AddStaff = () => {
                               <select
                                 className="form-select form-select-lg rounded-2"
                                 onChange={handleInputs}
-                                name="status"
-                                value={staff?.status}
+                                name="active"
+                                value={staff?.active}
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -867,7 +897,7 @@ export const AddStaff = () => {
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
                               </select>
-                              {errors.status.required ? (
+                              {errors.active.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
