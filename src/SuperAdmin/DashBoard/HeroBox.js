@@ -78,7 +78,7 @@ export const HeroContent = () => {
   return (
     <div >
       <Sidebar />
-      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px" }}>
         <div className="container-fluid mt-4" >
           <div className="row">
             <main role="main" className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
@@ -137,7 +137,7 @@ export const HeroContent = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <ul className="nav nav-pills nav-justified mb-4 fs-9" style={{ fontSize: '10px' }}>
+      <ul className="nav nav-pills nav-justified mb-4 fs-9 " style={{ fontSize: '10px' }}>
         <li className="nav-item">
           <a className="nav-link active" href="#dashboard" data-bs-toggle="tab" style={{ backgroundColor: '#e9ecef' }}><FaChartPie /> Dashboard</a>
         </li>
@@ -171,7 +171,7 @@ export const HeroContent = () => {
         <div className="tab-pane fade show active" id="dashboard">
           <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Dashboard Overview</h6>
           <div className="row g-3">
-            <div className="col-md-6 col-lg-4">
+            <div className="col-6">
               <div className="card text-center" style={{ borderColor: '#007bff', fontSize: '12px' }}>
                 <div className="card-body">
                   <FaChartLine size={30} className="mb-2" style={{ color: '#007bff' }} />
@@ -183,7 +183,7 @@ export const HeroContent = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 col-lg-4">
+            <div className="col-6">
               <div className="card text-center" style={{ borderColor: '#28a745', fontSize: '12px' }}>
                 <div className="card-body">
                   <FaComments size={30} className="mb-2" style={{ color: '#28a745' }} />
