@@ -11,6 +11,8 @@ import ViewStudent from "../Agents/Student/ViewStudent";
 import EditAgentStudent from "../Agents/Student/EditStudent";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import AgentsViewUniversity from "../Agents/University/AgentsViewUniversity";
+import ListAgentApplication from "../Agents/Application/ListAgentApplication";
+import ViewAgentApplication from "../Agents/Application/ViewAgentApplication";
 
 function RegisterPage() {
   return (
@@ -26,7 +28,10 @@ function RegisterPage() {
         <Route path="/AddStudent" element={<PrivateRoute><AddStudent /></PrivateRoute>} />
         <Route path="/ViewAgentStudent" element={<PrivateRoute><ViewStudent /></PrivateRoute>} />
         <Route path="/EditAgentStudent" element={<PrivateRoute><EditAgentStudent /></PrivateRoute>} />
-        <Route path="/AgentViewUniversity" element={<AgentsViewUniversity />} />
+        <Route path="/AgentViewUniversity" element={<PrivateRoute><AgentsViewUniversity /></PrivateRoute>} />
+        <Route Path='/ListApplicationAgent' element={<PrivateRoute><ListAgentApplication/></PrivateRoute>}/>
+        <Route Path='/ViewAgentApplication' element={<PrivateRoute><ViewAgentApplication/></PrivateRoute>}/>
+
       </Routes>
 
     </div>

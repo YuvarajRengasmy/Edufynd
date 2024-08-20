@@ -293,19 +293,15 @@ export default function GlobalSettings() {
 
   return (
     <div>
-    <div style={{fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-      <div className='container-fluid'>
-        <nav className='navbar navbar-vertical navbar-expang-lg'>
+    
+      
         <Mastersidebar />
-        </nav>
+      
        
       
       <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"  }}>
         
-          <div className="container-fluid">
-            <div className="row ">
-              <div className='col-xl-12'>
-              <div className="content-header">
+      <div className="content-header bg-light shadow-sm sticky-top">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -435,7 +431,7 @@ export default function GlobalSettings() {
                     </button>
                   </li>
                   <li className="me-2">
-                    <button
+                    {/* <button
                       className="btn btn-sm text-uppercase fw-semibold text-white px-4 py-2 "
                       style={{
                         backgroundColor: "#fe5722",
@@ -450,15 +446,79 @@ export default function GlobalSettings() {
                       onClick={() => { handleAddModule() }}
                     >
                      <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;  Add Currency
-                    </button>
+                    </button> */}
                   </li>
                 </ol>
               </div>
-            </div>
-          </div>
+          <div className="container-fluid mt-4">
           <div className="row">
-        <div className="col-xl-12">
-        <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+          <div className="col-md-4">
+          <div className="card rounded-1 border-0 shadow-sm " ref={modalRef}>
+          <div className="card-header bg-white border-0">
+              <h5 className="card-title fw-semibold " >{isEdit ? "Edit Currency" : "Add Currency"}</h5>
+            
+            </div>
+            <div className="card-body">
+              <form onSubmit={handleSubmit} noValidate>
+              <div className="mb-3">
+
+<label style={{ color: "#231F20" }}>
+  {" "}
+Country Name<span className="text-danger">*</span>
+</label>
+<select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='country'>
+  <option value={""}  >Select Country</option>
+  {country.map((country, index) =>
+          Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
+  
+    
+       <option key={`${index}-${countryIndex}`} value={countryName}> {countryName}</option>
+     ))
+  )}
+</select>
+{errors.country.required ? (
+  <div className="text-danger form-text">
+    This field is required.
+  </div>
+) : null}
+</div>
+                <div className="mb-3">
+                  <label htmlFor="text" className="form-label">Flag</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="flag"
+                    name="flag"
+                    value={inputs.flag}
+                    onChange={handleInputs}
+                  />
+                 
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="currency" className="form-label">End Date</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="currency"
+                    name="currency"
+                    value={inputs.currency}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.currency.required && (
+                    <span className="text-danger">currency is required</span>
+                  )}
+                </div>
+                <button type="submit" className="btn btn-primary float-end">{isEdit ? "Update" : "Save"}</button>
+              </form>
+            </div>
+         
+            
+            
+          
+        </div>
+            </div>
+        <div className="col-md-8">
+        <div className="card  border-0 rounded-1  shadow-sm p-3 position-relative">
             <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
             <h6 className='text-center text-capitalize p-1'> Currency Details</h6>
             </div>
@@ -519,6 +579,7 @@ export default function GlobalSettings() {
         </div>
          
         </div>
+         
         </div>
         
         <Dialog open={open} onClose={closePopup}>
@@ -544,7 +605,7 @@ export default function GlobalSettings() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="modal fade" id="addPopularModal5" tabIndex="-1" aria-labelledby="addModalLabelCurrency" aria-hidden="true" ref={modalRef}>
+      {/* <div className="modal fade" id="addPopularModal5" tabIndex="-1" aria-labelledby="addModalLabelCurrency" aria-hidden="true" ref={modalRef}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -606,9 +667,9 @@ Country Name<span className="text-danger">*</span>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    </div>
+      </div> */}
+   
+   
     </div>
   );
 }

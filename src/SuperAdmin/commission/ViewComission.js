@@ -48,11 +48,11 @@ export const ViewComission = () => {
                   <div className="card-body">
                     <ul className="list-group list-group-flush">
                       <li className="list-group-item">
-                        <strong>Country:</strong> {commission?.country}
+                        <strong>Country:</strong> {commission?.country || "Not Available"}
                       </li>
                       <li className="list-group-item">
                         <strong>University:</strong>{" "}
-                        {commission?.universityName}
+                        {commission?.universityName || "Not Available"}
                       </li>
                     </ul>
                   </div>
@@ -68,16 +68,16 @@ export const ViewComission = () => {
                     <ul className="list-group list-group-flush">
                       <li className="list-group-item">
                         <strong>Payment Method:</strong>{" "}
-                        {commission?.paymentMethod}
+                        {commission?.paymentMethod || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Eligibility:</strong> {commission?.eligibility}
+                        <strong>Eligibility:</strong> {commission?.eligibility || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Tax:</strong> {commission?.tax}
+                        <strong>Tax:</strong> {commission?.tax || "Not Available"}
                       </li>
                       <li className="list-group-item">
-                        <strong>Payment Type:</strong> {commission?.paymentType}
+                        <strong>Payment Type:</strong> {commission?.paymentType || "Not Available"}
                       </li>
                     </ul>
                   </div>
@@ -88,20 +88,20 @@ export const ViewComission = () => {
                 <div className="col-md-6" key={yearIndex}>
                   <div className="card border-0">
                     <div className="card-header bg-primary text-white">
-                      Year {year.year}
+                      Year {year.year || "Not Available"}
                     </div>
                     {year.courseTypes?.map((courseType, courseIndex) => (
                       <div key={courseIndex} className="card-body">
                         <ul className="list-group list-group-flush">
                           <li className="list-group-item">
                             <strong>Course Type:</strong>{" "}
-                            {courseType.courseType}
+                            {courseType.courseType || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>Intake:</strong> {courseType.inTake}
+                            <strong>Intake:</strong> {courseType.inTake || "Not Available"}
                           </li>
                           <li className="list-group-item">
-                            <strong>Commission:</strong> {courseType.value}
+                            <strong>Commission:</strong> {courseType.value || "Not Available"}
                           </li>
                         </ul>
                       </div>

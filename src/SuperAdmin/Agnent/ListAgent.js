@@ -340,7 +340,7 @@ export default function Masterproductlist() {
         className="content-wrapper "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row ">
               <div className="col-xl-12">
@@ -349,16 +349,13 @@ export default function Masterproductlist() {
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search....."
                         aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                        className="form-control border-1  rounded-4 "
                         style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
+                        
                           fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
+                         
                         }}
                       />
                       <span
@@ -468,7 +465,7 @@ export default function Masterproductlist() {
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
+                                className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right bg"
                                 onClick={resetFilter}
                                 style={{
                                   backgroundColor: "#0f2239",
@@ -482,7 +479,7 @@ export default function Masterproductlist() {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 onClick={filterAgentList}
-                                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
+                                className="btn btn-save border-0 rounded-1 fw-semibold text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
                                   fontFamily: "Plus Jakarta Sans",
@@ -543,7 +540,7 @@ export default function Masterproductlist() {
                   <li class="m-0">
                     <Link class="btn btn-pix-primary" to="/AddAgent">
                       <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                        className="btn btn-outline  fw-semibold border-0 rounded-1 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
                       >
                         <i
@@ -559,6 +556,99 @@ export default function Masterproductlist() {
             </div>
           </div>
         </div>
+
+
+
+
+
+        <div className="container mt-3 overflow-x-auto">
+      <div className="row">
+        {/* Card 1: Total Agents */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#388E3C" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-friends" style={{ color: '#ffffff' }}></i> Total Agents
+                </h6>
+                <p className="card-text">Total: 200</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Status - Active */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#1E88E5" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Status - Active
+                </h6>
+                <p className="card-text">Total: 150</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Status - Inactive */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#D32F2F" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Status - Inactive
+                </h6>
+                <p className="card-text">Total: 30</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Pending Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FBC02D" }} // Yellow
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-file-invoice" style={{ color: '#ffffff' }}></i> Pending Invoices
+                </h6>
+                <p className="card-text">Total: 50</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 5: Paid Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Light Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-money-check-alt" style={{ color: '#ffffff' }}></i> Paid Invoices
+                </h6>
+                <p className="card-text">Total: 120</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">
@@ -617,35 +707,35 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
 
-                                <td className="text-capitalize text-start">
-                                  {data?.agentName}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentName || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.agentCode}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentCode || "Not Available"}
                                 </td>
 
-                                <td className=" text-start">{data?.email}</td>
-                                <td className="text-capitalize text-start">
-                                  {data?.mobileNumber}
+                                <td className=" text-start text-truncate">{data?.email}</td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.mobileNumber || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.status}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.status || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {formatDate(
                                     data?.modifiedOn
                                       ? data?.modifiedOn
                                       : data?.createdOn
                                       ? data?.createdOn
                                       : null
-                                  )}
+                                      || "Not Available" )}
                                 </td>
 
-                                <td>
+                                <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
@@ -706,14 +796,14 @@ export default function Masterproductlist() {
             <button
               type="button"
               style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
-              className="btn btn-success rounded-pill border-0 px-4 py-2 text-white fw-semibold text-uppercase mx-3"
+              className="btn btn-success  border-0 text-white fw-semibold mx-3"
               onClick={deleteAgentData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-danger border-0 rounded-pill text-white fw-semibold text-uppercase px-4 py-2 "
+              className="btn btn-danger border-0  text-white fw-semibold "
               onClick={closePopup}
               style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
             >
@@ -753,7 +843,7 @@ export default function Masterproductlist() {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
+                className="btn btn-cancel border-0 fw-semibold  text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
               >
                 Cancel
@@ -761,7 +851,7 @@ export default function Masterproductlist() {
               <button
                 type="submit"
                 onClick={handleFileUpload}
-                className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right mx-2"
+                className="btn btn-save border-0 fw-semibold  text-white float-right mx-2"
                 style={{ backgroundColor: "#fe5722", fontSize: "14px" }}
               >
                 Apply

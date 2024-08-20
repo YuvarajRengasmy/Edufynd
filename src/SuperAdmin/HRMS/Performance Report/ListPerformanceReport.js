@@ -54,7 +54,7 @@ export const ListPeformanceReport = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header  bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -232,6 +232,77 @@ export const ListPeformanceReport = () => {
          
          
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Monthly Performance */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#3F51B5" }} // Indigo
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-month" style={{ color: '#ffffff' }}></i> Monthly Performance
+                </h6>
+                <p className="card-text">Current month's performance data.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Quarterly Performance */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-quarter" style={{ color: '#ffffff' }}></i> Quarterly Performance
+                </h6>
+                <p className="card-text">Performance for the current quarter.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Annual Performance */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FFC107" }} // Amber
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-year" style={{ color: '#ffffff' }}></i> Annual Performance
+                </h6>
+                <p className="card-text">Yearly performance overview.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: Weekly Performance */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#F44336" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-calendar-week" style={{ color: '#ffffff' }}></i> Weekly Performance
+                </h6>
+                <p className="card-text">Performance details for the week.</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -257,14 +328,14 @@ export const ListPeformanceReport = () => {
                         <tbody>
                           
                             <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                             
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

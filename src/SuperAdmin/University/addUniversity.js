@@ -16,6 +16,7 @@ import { getallOfferTatModule } from "../../api/universityModule/offerTat";
 import { getallInstitutionModule } from "../../api/universityModule/institutation";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
+import {getYear} from '../../Utils/DateFormat';
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
@@ -415,19 +416,14 @@ const App = () => {
     label: data.courseType,
   }));
 
-  // const intakeOptions = inTake.map((data) => ({
+  const intakeOptions = inTake.map((data) => ({
     
-  //   value: `${data.intakeName} - ${data.startDate}`,
-  //   label: `${data.intakeName} - ${data.startDate}`,
-  // }));
+    value: `${data.intakeName} - ${data.startDate}`,
+    label: `${data.intakeName} - ${data.startDate}`,
+  }));
 
-  const intakeOptions = inTake.map((data) => {
-    const year = new Date(data.startDate).getFullYear();
-    return {
-      value: `${data.intakeName} - ${year}`,
-      label: `${data.intakeName} - ${year}`,
-    };
-  });
+ 
+  
   
   const customStyles = {
     control: (provided) => ({

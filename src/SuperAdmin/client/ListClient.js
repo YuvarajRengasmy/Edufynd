@@ -338,30 +338,31 @@ export default function Masterproductlist() {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-     <div className="content-header bg-white sticky-top">
+       <div className="content-header bg-light shadow-sm sticky-top">
   <div className="container">
     <div className="row">
-      <div className="col-xl-12">
-        <ul className="d-flex align-items-center justify-content-end gap-2 mb-0 list-unstyled">
+      <div className="col-12">
+        <ul className="d-flex align-items-center justify-content-end mb-0 list-unstyled">
           {/* Search Form */}
           <li className="flex-grow-1">
             <form onSubmit={handleSearch}>
               <div className="input-group" style={{ maxWidth: "600px" }}>
                 <input
-                  className="form-control border border-end-0"
-                  placeholder="Search....."
+                  className="form-control border-1 border-dark rounded-4"
+                  placeholder="Search..."
                   type="search"
                   aria-describedby="button-addon3"
                   ref={search}
                   onChange={handleInputsearch}
-                  style={{ fontSize: "12px" }}
                 />
-                <span
-                  className="input-group-text bg-white border border-start-0"
+                <button
+                  className="input-group-text bg-transparent border-0"
                   id="button-addon3"
+                  type="submit"
+                  style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}
                 >
-                  <i className="fas fa-search"></i>
-                </span>
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
               </div>
             </form>
           </li>
@@ -370,11 +371,7 @@ export default function Masterproductlist() {
           <li className="m-1">
             <button
               className="btn border-0 rounded-1"
-              style={{
-                fontSize: "12px",
-                backgroundColor: "#007BFF", // Primary color
-                color: "#fff",
-              }}
+              style={{ backgroundColor: "#007BFF", color: "#fff" }} // Primary color
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasRight"
@@ -392,7 +389,7 @@ export default function Masterproductlist() {
             aria-labelledby="offcanvasRightLabel"
           >
             <div className="offcanvas-header">
-              <h5 id="offcanvasRightLabel">Filter Client</h5>
+              <h6 id="offcanvasRightLabel">Filter Client</h6>
               <button
                 type="button"
                 className="btn-close"
@@ -402,9 +399,9 @@ export default function Masterproductlist() {
             </div>
             <div className="offcanvas-body">
               <form>
-                <div className=" row gy-3 mb-3">
+                <div className="row gy-3 mb-3">
                   <div className="input-group">
-                    <span className="input-group-text ">
+                    <span className="input-group-text">
                       <i className="fas fa-user"></i>
                     </span>
                     <input
@@ -412,11 +409,10 @@ export default function Masterproductlist() {
                       className="form-control"
                       name="businessName"
                       onChange={handleInputs}
-                      placeholder="Search...Client Name"
-                      style={{ fontSize: "12px" }}
+                      placeholder="Search... Client Name"
                     />
                   </div>
-                  <div className="input-group ">
+                  <div className="input-group">
                     <span className="input-group-text">
                       <i className="fas fa-phone"></i>
                     </span>
@@ -425,8 +421,7 @@ export default function Masterproductlist() {
                       className="form-control"
                       name="businessContactNo"
                       onChange={handleInputs}
-                      placeholder="Search...Client Contact No"
-                      style={{ fontSize: "12px" }}
+                      placeholder="Search... Client Contact No"
                     />
                   </div>
                   <div className="input-group">
@@ -438,11 +433,10 @@ export default function Masterproductlist() {
                       className="form-control"
                       name="status"
                       onChange={handleInputs}
-                      placeholder="Search...Status"
-                      style={{ fontSize: "12px" }}
+                      placeholder="Search... Status"
                     />
                   </div>
-                  <div className="input-group ">
+                  <div className="input-group">
                     <span className="input-group-text">
                       <i className="fas fa-id-card"></i>
                     </span>
@@ -451,32 +445,22 @@ export default function Masterproductlist() {
                       className="form-control"
                       name="clientID"
                       onChange={handleInputs}
-                      placeholder="Search...Client Id"
-                      style={{ fontSize: "12px" }}
+                      placeholder="Search... Client ID"
                     />
                   </div>
                 </div>
                 <div className="d-flex justify-content-end gap-3">
                   <button
-                  
-                    className="btn text-capitalize rounded-1 border-0 fw-semibold"
-                    style={{
-                      backgroundColor: "#0f2239", // Dark color for reset
-                      color: "#fff",
-                      fontSize: "14px",
-                    }}
+                    className="btn text-uppercase rounded-1 border-0 fw-semibold"
+                    style={{ backgroundColor: "#0f2239", color: "#fff" }} // Dark color for reset
                   >
-                    Reset
+                    Cancel
                   </button>
                   <button
                     data-bs-dismiss="offcanvas"
                     type="submit"
-                    className="btn text-capitalize rounded-1 border-0 fw-semibold"
-                    style={{
-                      backgroundColor: "#fe5722", // Primary color for apply
-                      color: "#fff",
-                      fontSize: "14px",
-                    }}
+                    className="btn text-uppercase rounded-1 border-0 fw-semibold"
+                    style={{ backgroundColor: "#fe5722", color: "#fff" }} // Primary color for apply
                   >
                     Apply
                   </button>
@@ -490,10 +474,7 @@ export default function Masterproductlist() {
             <Link onClick={pdfDownload}>
               <button
                 className="btn text-white border-0 rounded-1"
-                style={{
-                  backgroundColor: "#E12929", // Red for PDF
-                  fontSize: "12px",
-                }}
+                style={{ backgroundColor: "#E12929" }} // Red for PDF
               >
                 <i className="fa fa-file-pdf" aria-hidden="true"></i>
               </button>
@@ -505,10 +486,7 @@ export default function Masterproductlist() {
             <Link onClick={exportCsv}>
               <button
                 className="btn text-white border-0 rounded-1"
-                style={{
-                  backgroundColor: "#22A033", // Green for CSV
-                  fontSize: "12px",
-                }}
+                style={{ backgroundColor: "#22A033", fontSize: "12px" }} // Green for CSV
               >
                 <i className="fa fa-file-excel" aria-hidden="true"></i>
               </button>
@@ -520,10 +498,7 @@ export default function Masterproductlist() {
             <Link onClick={openImportPopup}>
               <button
                 className="btn text-white border-0 rounded-1"
-                style={{
-                  backgroundColor: "#7627ef", // Purple for import
-                  fontSize: "12px",
-                }}
+                style={{ backgroundColor: "#7627ef", fontSize: "12px" }} // Purple for import
               >
                 <i className="fa fa-upload" aria-hidden="true"></i>
               </button>
@@ -534,11 +509,8 @@ export default function Masterproductlist() {
           <li className="m-1">
             <Link to="/AddClient">
               <button
-                className="btn text-white border-0 rounded-1"
-                style={{
-                  backgroundColor: "#231f20", // Dark color for add client
-                  fontSize: "12px",
-                }}
+                className="btn text-white border-0 fw-semibold rounded-1"
+                style={{ backgroundColor: "#231f20", fontSize: "12px" }} // Dark color for add client
               >
                 <i className="fa fa-plus-circle" aria-hidden="true"></i>
                 &nbsp;&nbsp; Add Client
@@ -552,34 +524,37 @@ export default function Masterproductlist() {
 </div>
 
 
-
-        <div className="container my-3">
+<div className="container mt-3">
   <div className="row">
     <div className="col-md-3 col-sm-6 mb-3">
-      <Link to="#" className="text-decoration-none  link-opacity-50-hover">
+      <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-1 border-0 text-white shadow-sm"
+          className="card rounded-3 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#00796B" }} // Tropical Teal
         >
           <div className="card-body">
-            <h5 className="card-title">Active Clients</h5>
+            <h6 className="card-title"><i className="fas fa-user-check"></i> Active Clients</h6>
             <p className="card-text">Total: 120</p>
-            <p className="card-text"><i className="fas fa-users"></i> Actively Engaged</p>
+            <p className="card-text">
+              <i className="fas fa-users"></i> Actively Engaged
+            </p>
           </div>
         </div>
       </Link>
     </div>
-    
+
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-1 border-0 text-white shadow-sm"
+          className="card rounded-3 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#C62828" }} // Crimson Red
         >
           <div className="card-body">
-            <h5 className="card-title">Inactive Clients</h5>
+            <h6 className="card-title"><i className="fas fa-user-times"></i> Inactive Clients</h6>
             <p className="card-text">Total: 45</p>
-            <p className="card-text"><i className="fas fa-user-slash"></i> Currently Inactive</p>
+            <p className="card-text">
+              <i className="fas fa-user-slash"></i> Currently Inactive
+            </p>
           </div>
         </div>
       </Link>
@@ -588,13 +563,15 @@ export default function Masterproductlist() {
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-1 border-0 text-white shadow-sm"
+          className="card rounded-3 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#0288D1" }} // Steel Blue
         >
           <div className="card-body">
-            <h5 className="card-title">Invoices Raised</h5>
+            <h6 className="card-title"><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
             <p className="card-text">Total: 350</p>
-            <p className="card-text"><i className="fas fa-file-invoice"></i> Pending Payments</p>
+            <p className="card-text">
+              <i className="fas fa-file-invoice"></i> Pending Payments
+            </p>
           </div>
         </div>
       </Link>
@@ -603,13 +580,15 @@ export default function Masterproductlist() {
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-1 border-0 text-white shadow-sm"
+          className="card rounded-3 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#1A237E" }} // Navy Blue
         >
           <div className="card-body">
-            <h5 className="card-title">Invoices Paid</h5>
+            <h6 className="card-title"><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
             <p className="card-text">Total: 290</p>
-            <p className="card-text"><i className="fas fa-money-bill-wave"></i> Payments Received</p>
+            <p className="card-text">
+              <i className="fas fa-money-bill-wave"></i> Payments Received
+            </p>
           </div>
         </div>
       </Link>
@@ -618,160 +597,131 @@ export default function Masterproductlist() {
 </div>
 
 
-        <div className="content-body">
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card  border-0 rounded-1">
-                  <div className="card-body">
-                    <div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className=" table   card-table table-hover  dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "12px" }}
-                          ref={tableRef}
+<div className="container mt-3">
+  <div className="row">
+    <div className="col-xl-12">
+      <div className="card border-0 rounded-1 shadow-sm">
+        <div className="card-body">
+          <div className="table-responsive">
+            <table
+              className="table table-hover text-center"
+              style={{ color: "#9265cc" }} // Existing color code
+              ref={tableRef}
+            >
+              <thead
+                className="table-light"
+                style={{ fontSize: "12px" }}
+              >
+                <tr>
+                  <th className="text-capitalize text-start">S No</th>
+                  <th className="text-capitalize text-start">Code</th>
+                  <th className="text-capitalize text-start">Type</th>
+                  <th className="text-capitalize text-start">Name</th>
+                  <th className="text-capitalize text-start">Primary No</th>
+                  <th className="text-capitalize text-start">Email ID</th>
+                  <th className="text-capitalize text-start">Status</th>
+                  <th className="text-capitalize text-start">Action</th>
+                </tr>
+              </thead>
+              <tbody style={{ fontSize: "12px" }}>
+                {client?.map((data, index) => (
+                  <tr key={index} className="align-middle">
+                    <td className="text-capitalize text-start">
+                      {pagination.from + index + 1}
+                    </td>
+                    <td className="text-capitalize text-start">
+                      {data?.clientID || "Not Available"}
+                    </td>
+                    <td className="text-capitalize text-start">
+                      {data?.typeOfClient || "Not Available"}
+                    </td>
+                    <td className="text-capitalize text-start">
+                      <Link
+                        className="text-decoration-none text-dark"
+                        to={{
+                          pathname: "/ViewClient",
+                          search: `?id=${data?._id}`,
+                        }}
+                      >
+                        {data?.businessName || "Not Available"}
+                      </Link>
+                    </td>
+                    <td className="text-capitalize text-start">
+                      {data?.businessContactNo || "Not Available"}
+                    </td>
+                    <td className="text-start">
+                      {data?.businessMailID || "Not Available"}
+                    </td>
+                    <td className="text-capitalize text-start">
+                      {data?.status || "Not Available"}
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-center">
+                        <Link
+                          className="text-decoration-none me-2"
+                          to={{
+                            pathname: "/ViewClient",
+                            search: `?id=${data?._id}`,
+                          }}
+                          data-bs-toggle="tooltip"
+                          title="View"
                         >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Code
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Type{" "}
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Name
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Primary No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Email ID
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Status
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {client?.map((data, index) => (
-                              <tr
-                                key={index}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                              >
-                                <td className="text-capitalize text-start">
-                                  {pagination.from + index + 1}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.clientID}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.typeOfClient}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {" "}
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/ViewClient",
-                                      search: `?id=${data?._id}`,
-                                    }}
-                                  >
-                                    {data?.businessName}{" "}
-                                  </Link>
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.businessContactNo}
-                                </td>
-                                <td className=" text-start">
-                                  {data?.businessMailID}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.status}
-                                </td>
-                                <td>
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/ViewClient",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="View"
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditClient",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Edit"
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Delete"
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                          <i className="far fa-eye text-primary fa-lg"></i>
+                        </Link>
+                        <Link
+                          className="text-decoration-none me-2"
+                          to={{
+                            pathname: "/EditClient",
+                            search: `?id=${data?._id}`,
+                          }}
+                          data-bs-toggle="tooltip"
+                          title="Edit"
+                        >
+                          <i className="far fa-edit text-warning fa-lg"></i>
+                        </Link>
+                        <Link
+                          className="text-decoration-none"
+                          onClick={() => {
+                            openPopup(data?._id);
+                          }}
+                          data-bs-toggle="tooltip"
+                          title="Delete"
+                        >
+                          <i className="far fa-trash-alt text-danger fa-lg"></i>
+                        </Link>
                       </div>
-                    </div>
-                    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
+        <div className="d-flex justify-content-end p-3">
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
       </div>
       <Dialog open={open}>
         <DialogContent>
           <div className="text-center p-4">
-            <h5 className="mb-4 text-capitalize">
-              Are you sure you want to Delete <br /> the selected Client ?
-            </h5>
+            <h6 className="mb-4 text-capitalize">
+              Are you sure you want to delete the selected client?
+            </h6>
             <button
               type="button"
-              className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
               onClick={deleteClientData}
               style={{ fontSize: "12px" }}
             >
@@ -779,7 +729,7 @@ export default function Masterproductlist() {
             </button>
             <button
               type="button"
-              className="btn btn-cancel  btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase border-0 "
+              className="btn btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase"
               onClick={closePopup}
               style={{ fontSize: "12px" }}
             >
@@ -788,6 +738,7 @@ export default function Masterproductlist() {
           </div>
         </DialogContent>
       </Dialog>
+
       <Dialog open={openFilter} fullWidth maxWidth="sm">
         <DialogTitle>
           Filter University
@@ -806,23 +757,20 @@ export default function Masterproductlist() {
         </DialogTitle>
         <DialogContent>
           <form>
-            <div className="from-group mb-3">
-              <div className="mb-3">
-                <input
-                  type="file"
-                  name="file"
-                  className="form-control text-dark bg-transparent"
-                  onChange={handleFileChange}
-                  style={{ fontSize: "14px" }}
-                />
-              </div>
+            <div className="form-group mb-3">
+              <input
+                type="file"
+                name="file"
+                className="form-control rounded-1"
+                onChange={handleFileChange}
+              />
             </div>
-            <div>
+            <div className="d-flex justify-content-end">
               <Link
-                to="/client"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-4 py-2 fw-semibold text-white float-right bg"
+                to="/ListClient"
+                className="btn btn-cancel border-0 rounded-1 text-uppercase  fw-semibold text-white"
                 style={{
-                  backgroundColor: "#0f2239",
+                  backgroundColor: "#231f20",
                   color: "#fff",
                   fontSize: "12px",
                 }}
@@ -831,8 +779,7 @@ export default function Masterproductlist() {
               </Link>
               <button
                 type="submit"
-                // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
+                className="btn btn-save border-0 rounded-1 text-uppercase  fw-semibold text-white mx-2"
                 style={{
                   backgroundColor: "#fe5722",
                   color: "#fff",

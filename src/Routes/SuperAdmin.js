@@ -87,27 +87,52 @@ import ViewEvents from "../SuperAdmin/Events/ViewEvents";
 import ViewMeetings from "../SuperAdmin/Meetings/ViewMeetings";
 import ViewPromotion from "../SuperAdmin/Promotion/ViewPromotion";
 import ViewTestimonials from "../SuperAdmin/Testimonials/ViewTestimonials";
+
 import AddSocialMedia from "../SuperAdmin/Marketing/SocialMedia/AddSocialMedia";
 import EditSocialMedia from "../SuperAdmin/Marketing/SocialMedia/EditSocialMedia";
 import ListSocialMedia from "../SuperAdmin/Marketing/SocialMedia/ListSocialMedia";
 import ViewSocialMedia from "../SuperAdmin/Marketing/SocialMedia/ViewSocialMedia";
+
+import AddFacebook from "../SuperAdmin/Marketing/SocialMedia/Facebook/AddFaceBook";
+import EditFacebook from "../SuperAdmin/Marketing/SocialMedia/Facebook/EditFaceBook";
+import ListFacebook from "../SuperAdmin/Marketing/SocialMedia/Facebook/ListFacebook";
+import ViewFacebook from "../SuperAdmin/Marketing/SocialMedia/Facebook/ViewFaceBook";
+
+import AddLinkedIn from "../SuperAdmin/Marketing/SocialMedia/Linkedin/AddLinkedin";
+import EditLinkedIn from "../SuperAdmin/Marketing/SocialMedia/Linkedin/EditLinkedin";
+import ListLinkedIn from "../SuperAdmin/Marketing/SocialMedia/Linkedin/ListLinkedin";
+import ViewLinkedIn from "../SuperAdmin/Marketing/SocialMedia/Linkedin/ViewLinkedin";
+
+import AddInstagram from "../SuperAdmin/Marketing/SocialMedia/Instagram/AddInstagram";
+import EditInstagram from "../SuperAdmin/Marketing/SocialMedia/Instagram/EditInstagram";
+import ListInstagram from "../SuperAdmin/Marketing/SocialMedia/Instagram/ListInstagram";
+import ViewInstagram from "../SuperAdmin/Marketing/SocialMedia/Instagram/ViewInstagram";
+
+
 import ListCampaign from "../SuperAdmin/Marketing/Campaign/ListCampaign";
 import AddCampaign from "../SuperAdmin/Marketing/Campaign/AddCampaign";
 import EditCampaign from "../SuperAdmin/Marketing/Campaign/EditCampaign";
 import ViewCampaign from "../SuperAdmin/Marketing/Campaign/ViewCampaign";
+
 import ListDailyTask from "../SuperAdmin/Marketing/DailyTask/ListDailyTask";
 import EditDailyTask from "../SuperAdmin/Marketing/DailyTask/EditDailyTask";
 import AddDailyTask from "../SuperAdmin/Marketing/DailyTask/AddDailyTask";
 import ViewDailyTask from "../SuperAdmin/Marketing/DailyTask/ViewDailyTask";
+
+
 import ListBlog from "../SuperAdmin/Blog/ListBlog";
 import AddBlog from "../SuperAdmin/Blog/AddBlog";
 import ViewBlog from "../SuperAdmin/Blog/ViewBlog";
 import EditBlog from "../SuperAdmin/Blog/EditBlog";
+
+
 import ListChat from "../SuperAdmin/Chat/ListChat";
 import AddChat from "../SuperAdmin/Chat/AddChat";
 import EditChat from "../SuperAdmin/Chat/EditChat";
 import ViewChat from "../SuperAdmin/Chat/ViewChat";
 import StatusModule from "../SuperAdmin/Settings/University/ApplicationStatus";
+
+
 import ListBookings from "../SuperAdmin/ELT/Bookings/ListBookings";
 import AddBookings from "../SuperAdmin/ELT/Bookings/AddBookings";
 import EditBookings from "../SuperAdmin/ELT/Bookings/EditBookings";
@@ -200,8 +225,8 @@ function SuperAdmin() {
       <Routes>
         <Route path="/Demo" element={<PrivateRoute><Country /></PrivateRoute>} />
         <Route path="/ApplyJob" element={<PrivateRoute><ApplyJob /></PrivateRoute>} />
-        <Route path="/Just" element={<Just />} />
-        <Route path="/Search" element={<GlobalSearch />} />
+        <Route path="/Just" element={<PrivateRoute><Just /></PrivateRoute>} />
+        <Route path="/Search" element={<PrivateRoute><GlobalSearch /></PrivateRoute>} />
         {/* Settings */}
         <Route path="/CountryList" element={<PrivateRoute><CountryList /></PrivateRoute>} />
         <Route path="/GlobalSettings" element={<PrivateRoute><GlobalSettings /></PrivateRoute>} />
@@ -305,6 +330,8 @@ function SuperAdmin() {
         <Route path="/EditSocialMedia" element={<PrivateRoute><EditSocialMedia /></PrivateRoute>} />
         <Route path="/ListSocialMedia" element={<PrivateRoute><ListSocialMedia /></PrivateRoute>} />
         <Route path="/ViewSocialMedia" element={<PrivateRoute><ViewSocialMedia /></PrivateRoute>} />
+
+       
 
         {/* Campaign */}
         <Route path="/ListCampaign" element={<PrivateRoute><ListCampaign /></PrivateRoute>} />
@@ -452,6 +479,28 @@ function SuperAdmin() {
         <Route path="/AddTask" element={<PrivateRoute><AddTask /></PrivateRoute>} />
         <Route path="/EditTask" element={<PrivateRoute><EditTask /></PrivateRoute>} />
         <Route path="/ViewTask" element={<PrivateRoute><ViewTask /></PrivateRoute>} />
+
+
+        {/* facebook */}
+
+        <Route path="/ListFacebook" element={<PrivateRoute><ListFacebook/></PrivateRoute>}/>
+        <Route path="/AddFacebook" element={<PrivateRoute><AddFacebook/></PrivateRoute>}/>
+        <Route path="/EditFacebook" element={<PrivateRoute><EditFacebook/></PrivateRoute>}/>
+        <Route path="/ViewFacebook" element={<PrivateRoute><ViewFacebook/></PrivateRoute>}/>
+
+        {/* LinkedIn */}
+
+        <Route path="/ListLinkedIn" element={<PrivateRoute><ListLinkedIn/></PrivateRoute>}/>
+        <Route path="/AddLinkedIn" element={<PrivateRoute><AddLinkedIn/></PrivateRoute>}/>
+        <Route path="/EditLinkedIn" element={<PrivateRoute><EditLinkedIn/></PrivateRoute>}/>
+        <Route path="/ViewLinkedIn" element={<PrivateRoute><ViewLinkedIn/></PrivateRoute>}/>
+
+      {/* Instagram */}
+        <Route path="/ListInstagram" element={<PrivateRoute><ListInstagram/></PrivateRoute>}/>
+        <Route path="/AddInstagram" element={<PrivateRoute><AddInstagram/></PrivateRoute>}/>
+        <Route path="/EditInstagram" element={<PrivateRoute><EditInstagram/></PrivateRoute>}/>
+        <Route path="/ViewInstagram" element={<PrivateRoute><ViewInstagram/></PrivateRoute>}/>
+
       </Routes>
 
     </div>

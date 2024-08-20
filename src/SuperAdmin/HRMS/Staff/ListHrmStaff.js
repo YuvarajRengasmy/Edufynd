@@ -54,7 +54,7 @@ export const ListHrmStaff = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header  bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -232,6 +232,78 @@ export const ListHrmStaff = () => {
          
          
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Total Staff */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#3F51B5" }} // Indigo
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Total Staff
+                </h6>
+                <p className="card-text">Total: 250</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 2: Active Staff */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Green
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Active Staff
+                </h6>
+                <p className="card-text">Total: 200</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 3: Inactive Staff */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FF5722" }} // Deep Orange
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Inactive Staff
+                </h6>
+                <p className="card-text">Total: 30</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Card 4: New Hires This Month */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-3 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#009688" }} // Teal
+            >
+              <div className="card-body">
+                <h6 className="card-title">
+                  <i className="fas fa-user-plus" style={{ color: '#ffffff' }}></i> New Hires This Month
+                </h6>
+                <p className="card-text">Total: 15</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -257,14 +329,14 @@ export const ListHrmStaff = () => {
                         <tbody>
                           
                             <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                             
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

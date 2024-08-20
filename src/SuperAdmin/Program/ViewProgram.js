@@ -119,6 +119,10 @@ const initialStateErrors = {
     if (!data.primaryNumber) error.primaryNumber.required = true;
     if (!data.country) error.country.required = true;
     if (!data.studentCode) error.studentCode.required = true;
+    if (!data.campus) error.campus.required = true;
+    if (!data.inTake) error.inTake.required = true;
+    if (!data.courseFees) error.courseFees.required = true;
+  
 
     return error;
 };
@@ -177,8 +181,10 @@ const handleErrors = (obj) => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
+  const newError = handleValidation(inputs);
+  setErrors(newError);
   setSubmitted(true);
-  if (handleErrors(errors)) {
+  if (handleErrors(newError)) {
     const data = {
       ...inputs,
       course:program.programTitle,
@@ -267,7 +273,7 @@ const handleSubmit = (event) => {
                           <div className="card-body">
                             <div className="py-3 my-2">
                               <h5 className="h4 fw-bolder text-white d-flex align-items-end gap-2 text-capitalize">
-                                {program?.programTitle}
+                                {program?.programTitle  || "Not Available"}
                               </h5>
                             </div>
                             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start">
@@ -328,7 +334,7 @@ const handleSubmit = (event) => {
                                 >
                                   <i className="fa fa-percentage nav-icon"></i>
                                 </span>{" "}
-                                {program?.campuses[0]?.courseFees}
+                                {program?.campuses[0]?.courseFees  || "Not Available"}
                               </p>
 
                               <p
@@ -496,7 +502,7 @@ const handleSubmit = (event) => {
                               >
                                 <p style={{ textAlign: "justify" }}>
                                   <RichTextEditor
-                                    value={program?.academicRequirement}
+                                    value={program?.academicRequirement  || "Not Available"}
                                     readOnly
                                   />
                                 </p>
@@ -515,7 +521,7 @@ const handleSubmit = (event) => {
                                           <tr>
                                             <td>University Interview</td>
                                             <td>
-                                              {program?.universityInterview}
+                                              {program?.universityInterview  || "Not Available"}
                                             </td>
                                             <td>
                                               <a
@@ -533,8 +539,8 @@ const handleSubmit = (event) => {
                                           <tr>
                                             <td>GRE/GMAT Requirement</td>
                                             <td>
-                                              {program?.greGmatRequirement}{" "}
-                                              {program?.score}
+                                              {program?.greGmatRequirement  || "Not Available"}
+                                              {program?.score  || "Not Available"}
                                             </td>
                                             <td>
                                               <a
@@ -552,7 +558,7 @@ const handleSubmit = (event) => {
                                           <tr>
                                             <td>English Language Test</td>
                                             <td>
-                                              {program?.englishLanguageTest}
+                                              {program?.englishLanguageTest  || "Not Available"}
                                             </td>
                                             <td>
                                               <a
@@ -629,7 +635,7 @@ const handleSubmit = (event) => {
                                                 />
                                                 <div className="card-body">
                                                   <p className="card-text text-center">
-                                                    {campus.campus}
+                                                    {campus.campus  || "Not Available"}
                                                   </p>
                                                 </div>
                                               </div>
@@ -660,7 +666,7 @@ const handleSubmit = (event) => {
                                                 <div className="card  rounded-1  ">
                                                   <div className="card-body bg-primary  border-0 ">
                                                     <p className="text-center  text-uppercase fw-semibold">
-                                                      {campus?.inTake}
+                                                      {campus?.inTake  || "Not Available"}
                                                     </p>
                                                   </div>
                                                 </div>
@@ -1249,6 +1255,11 @@ const handleSubmit = (event) => {
                           <option id={index} value={campus.campus}>{campus.campus}</option>
                         ))}
                       </select>
+                      {errors.campus.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
                    
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1268,6 +1279,11 @@ const handleSubmit = (event) => {
                           <option id={index} value={intake.inTake}>{intake.inTake}</option>
                         ))}
                       </select>
+                      {errors.inTake.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1287,6 +1303,11 @@ const handleSubmit = (event) => {
                           <option id={index} value={intake.courseFees}>{intake.courseFees}</option>
                         ))}
                       </select>
+                      {errors.courseFees.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : null}
                     </div>
                    
                     <div class="modal-footer">

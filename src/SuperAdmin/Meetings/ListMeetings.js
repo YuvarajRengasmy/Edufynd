@@ -112,7 +112,7 @@ export const ListMeetings = () => {
 
 
     <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-    <div className="content-header">
+    <div className="content-header  bg-light shadow-sm sticky-top">
       <div className="container">
         
           <div className="row ">
@@ -281,6 +281,74 @@ export const ListMeetings = () => {
        
       
       </div>
+      <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Upcoming Meetings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF5722" }} // Deep Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Upcoming Meetings
+              </h6>
+              <p className="card-text">Total meetings scheduled.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Completed Meetings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Completed Meetings
+              </h6>
+              <p className="card-text">Meetings completed this month.</p>
+              <p className="card-text">Total: 20</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Meetings in Progress */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-spinner" style={{ color: '#ffffff' }}></i> Meetings in Progress
+              </h6>
+              <p className="card-text">Ongoing meetings.</p>
+              <p className="card-text">Total: 5</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Rescheduled Meetings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#9C27B0" }} // Purple
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Rescheduled Meetings
+              </h6>
+              <p className="card-text">Meetings that were rescheduled.</p>
+              <p className="card-text">Total: 7</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
       <div className="content-body">
           <div className="container">
           <div className="row">
@@ -308,17 +376,17 @@ export const ListMeetings = () => {
                       <tbody>
                       {notification?.map((data, index) => (
                           <tr key={index}  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                            <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
-                           <td className="text-capitalize text-start">{formatDate(data?.date ? data?.date: "-")}</td>
-                            <td className="text-capitalize text-start">{data?.time}</td>
-                            <th className="text-capitalize text-start ">{data?.hostName}</th>
+                            <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                            <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")  || "Not Available"}</td>
+                           <td className="text-capitalize text-start text-truncate">{formatDate(data?.date ? data?.date: "-")  || "Not Available"}</td>
+                            <td className="text-capitalize text-start text-truncate">{data?.time  || "Not Available"}</td>
+                            <th className="text-capitalize text-start text-truncate">{data?.hostName  || "Not Available"}</th>
 
-                            <td className="text-capitalize text-start">{data?.subject}</td>
+                            <td className="text-capitalize text-start text-truncate">{data?.subject  || "Not Available"}</td>
                            
                           
                           
-                            <td>
+                            <td className="text-capitalize text-start text-truncate">
                             <div className="d-flex">
                                       <Link
                                         className="dropdown-item"

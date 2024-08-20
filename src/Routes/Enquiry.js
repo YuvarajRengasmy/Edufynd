@@ -32,6 +32,7 @@ import EditLoanEnquiry from "../SuperAdmin/Enquiry/Loans/editLoanEnquiry";
 import ListLoanEnquiry from "../SuperAdmin/Enquiry/Loans/listLoanEnquiry";
 
 function Enquiry() {
+  
   return (
     <div>
 

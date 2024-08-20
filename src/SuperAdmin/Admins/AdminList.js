@@ -103,25 +103,22 @@ export default function ListAgent() {
         className="content-wrapper "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
+                <ol className=" d-flex justify-content-end align-items-center mb-0 list-unstyled">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search...."
                         aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
+                        className="form-control border-1  rounded-4 "
                         style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
+                         
                           fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
+                          
                         }}
                       />
                       <span
@@ -146,13 +143,13 @@ export default function ListAgent() {
                     <div
                       style={{
                         fontFamily: "Plus Jakarta Sans",
-                        fontSize: "14px",
+                        fontSize: "12px",
                       }}
                     >
                       <button
                         className="btn btn-primary"
                         type="button"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "12px" }}
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight"
@@ -250,7 +247,7 @@ export default function ListAgent() {
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2 rounded-pill text-white float-right bg"
+                                className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
                                 style={{
                                   backgroundColor: "#0f2239",
                                   fontFamily: "Plus Jakarta Sans",
@@ -262,7 +259,7 @@ export default function ListAgent() {
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
-                                className="btn btn-save border-0 text-uppercase fw-semibold px-4 py-2 rounded-pill text-white float-right mx-2"
+                                className="btn btn-save border-0  fw-semibold   text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
                                   fontFamily: "Plus Jakarta Sans",
@@ -295,7 +292,7 @@ export default function ListAgent() {
                         <button
                           style={{
                             backgroundColor: "#22A033",
-                            fontSize: "11px",
+                            fontSize: "12px",
                           }}
                           className="btn text-white "
                         >
@@ -311,7 +308,7 @@ export default function ListAgent() {
                         <button
                           style={{
                             backgroundColor: "#9265cc",
-                            fontSize: "11px",
+                            fontSize: "12px",
                           }}
                           className="btn text-white "
                         >
@@ -323,11 +320,11 @@ export default function ListAgent() {
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/AddAdmin">
                       <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                        className="btn btn-outline   fw-semibold  border-0 text-white  "
                         style={{
-                          backgroundColor: "#fe5722",
+                          backgroundColor: "#231f20",
                           fontFamily: "Plus Jakarta Sans",
-                          fontSize: "11px",
+                          fontSize: "12px",
                         }}
                       >
                         <i
@@ -343,11 +340,81 @@ export default function ListAgent() {
             </div>
           </div>
         </div>
+
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Active Users */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#9C27B0" }} // Purple
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Active Users
+              </h6>
+              <p className="card-text">Users currently active.</p>
+              <p className="card-text">Total: 150</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Pending Requests */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF5722" }} // Deep Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Pending Requests
+              </h6>
+              <p className="card-text">Requests awaiting approval.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Banned Users */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFEB3B" }} // Yellow
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-ban" style={{ color: '#ffffff' }}></i> Banned Users
+              </h6>
+              <p className="card-text">Users who are banned.</p>
+              <p className="card-text">Total: 5</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: System Logs */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> System Logs
+              </h6>
+              <p className="card-text">Logs of system activities.</p>
+              <p className="card-text">Total: 35</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
         <div className="content-body">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card  border-0 rounded-0">
+                <div className="card  border-0 rounded-1 shadow-sm">
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -402,25 +469,25 @@ export default function ListAgent() {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start ">
+                                <td className="text-capitalize text-start text-truncate ">
                                   #{pagination.from + index + 1}
                                 </td>
-                                <td className="text-capitalize text-start ">
-                                  {data?.adminCode}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.adminCode || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start ">
-                                  {data?.name}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.name || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start ">
-                                  {data?.email}
+                                <td className="text-capitalize text-start text-truncate ">
+                                  {data?.email || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start ">
-                                  {data?.role}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.role || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start ">
-                                  {data?.mobileNumber}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.mobileNumber || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start ">
+                                <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"
@@ -480,6 +547,9 @@ export default function ListAgent() {
           </div>
         </div>
       </div>
+
+
+      
       <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
@@ -488,7 +558,7 @@ export default function ListAgent() {
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-danger  text-white px-4 py-2 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-save btn-danger  text-white   fw-semibold  mx-3"
               onClick={deleteAdminData}
               style={{ fontSize: "12px" }}
             >
@@ -496,7 +566,7 @@ export default function ListAgent() {
             </button>
             <button
               type="button"
-              className="btn btn-cancel btn-success text-white px-4 py-2 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-cancel btn-success text-white   fw-semibold  "
               onClick={closePopup}
               style={{ fontSize: "12px" }}
             >

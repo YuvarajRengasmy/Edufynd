@@ -118,7 +118,7 @@ export const ListEvents = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header  bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row ">
               <div className="col-xl-12">
@@ -320,6 +320,73 @@ export const ListEvents = () => {
             </div>
           </div>
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: Upcoming Events */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#00BCD4" }} // Cyan
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Events
+              </h6>
+              <p className="card-text">Events scheduled to happen soon.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Past Events */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF9800" }} // Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Past Events
+              </h6>
+              <p className="card-text">Events that have already occurred.</p>
+              <p className="card-text">Total: 22</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Scheduled Events */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Scheduled Events
+              </h6>
+              <p className="card-text">Events that are planned and scheduled.</p>
+              <p className="card-text">Total: 15</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Event Feedback */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#9C27B0" }} // Purple
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-comments" style={{ color: '#ffffff' }}></i> Event Feedback
+              </h6>
+              <p className="card-text">Feedback and reviews for events.</p>
+              <p className="card-text">Total: 10</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
         <div className="content-body">
           <div className="container">
@@ -377,33 +444,33 @@ export const ListEvents = () => {
                                   fontSize: "11px",
                                 }}
                               >
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
-                                <td className="text-capitalize text-start">
+                                <td className="text-capitalize text-start text-truncate">
                                   {formatDate(
                                     data?.createdOn
                                       ? data?.createdOn
                                       : data?.modifiedOn
                                       ? data?.modifiedOn
                                       : "-"
-                                  )}
+                                     )  || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {formatDate(data?.date ? data?.date : "-")}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {formatDate(data?.date ? data?.date : "-")  || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.eventTopic}
-                                </td>
-
-                                <td className="text-capitalize text-start">
-                                  {data?.universityName}
-                                </td>
-                                <td className="text-capitalize text-start">
-                                  {data?.venue}
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.eventTopic  || "Not Available"}
                                 </td>
 
-                                <td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.universityName  || "Not Available"} 
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.venue  || "Not Available"}
+                                </td>
+
+                                <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
                                       className="dropdown-item"

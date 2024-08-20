@@ -114,7 +114,7 @@ export const ListNotifications = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -282,6 +282,74 @@ export const ListNotifications = () => {
          
         
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: New Notifications */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-bell" style={{ color: '#ffffff' }}></i> New Notifications
+              </h6>
+              <p className="card-text">New notifications received.</p>
+              <p className="card-text">Total: 20</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Alerts */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#F44336" }} // Red
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-exclamation-circle" style={{ color: '#ffffff' }}></i> Alerts
+              </h6>
+              <p className="card-text">Critical alerts issued.</p>
+              <p className="card-text">Total: 5</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: System Updates */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-sync" style={{ color: '#ffffff' }}></i> System Updates
+              </h6>
+              <p className="card-text">Recent system updates.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Messages */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFC107" }} // Amber
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-envelope" style={{ color: '#ffffff' }}></i> Messages
+              </h6>
+              <p className="card-text">New messages in the inbox.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -307,15 +375,15 @@ export const ListNotifications = () => {
                         <tbody>
                         {notification?.map((data, index) => (
                             <tr key={index}  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
-                              <th className="text-capitalize text-start ">{data?.typeOfUser}</th>
+                              <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")  || "Not Available"}</td>
+                              <th className="text-capitalize text-start  text-truncate">{data?.typeOfUser  || "Not Available"}</th>
 
-                              <td className="text-capitalize text-start">{data?.subject}</td>
+                              <td className="text-capitalize text-start text-truncate">{data?.subject  || "Not Available"}</td>
                              
                             
                             
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                               <div className="d-flex">
                                         <Link
                                           className="dropdown-item"

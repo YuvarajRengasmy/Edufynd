@@ -51,7 +51,7 @@ export const ListBookings = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header  bg-light shadow-sm sticky-top">
           <div className="container">
             <div className="row ">
               <div className="col-xl-12">
@@ -267,6 +267,73 @@ export const ListBookings = () => {
             </div>
           </div>
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: New Bookings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-plus" style={{ color: '#ffffff' }}></i> New Bookings
+              </h6>
+              <p className="card-text">New bookings received.</p>
+              <p className="card-text">Total: 25</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Upcoming Bookings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Upcoming Bookings
+              </h6>
+              <p className="card-text">Bookings scheduled in the near future.</p>
+              <p className="card-text">Total: 18</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Cancelled Bookings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#F44336" }} // Red
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-times" style={{ color: '#ffffff' }}></i> Cancelled Bookings
+              </h6>
+              <p className="card-text">Bookings that were cancelled.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Completed Bookings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFC107" }} // Amber
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Completed Bookings
+              </h6>
+              <p className="card-text">Bookings that have been completed.</p>
+              <p className="card-text">Total: 30</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">
@@ -316,14 +383,14 @@ export const ListBookings = () => {
                                 fontSize: "11px",
                               }}
                             >
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
 
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
-                              <td className="text-capitalize text-start"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
 
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

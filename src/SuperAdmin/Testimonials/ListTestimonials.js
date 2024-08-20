@@ -143,7 +143,7 @@ export const ListTestimonials = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -312,6 +312,73 @@ export const ListTestimonials = () => {
         
          
         </div>
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: New Testimonials */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#009688" }} // Teal
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> New Testimonials
+              </h6>
+              <p className="card-text">Recent testimonials received.</p>
+              <p className="card-text">Total: 5</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Verified Testimonials */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-thumbs-up" style={{ color: '#ffffff' }}></i> Verified Testimonials
+              </h6>
+              <p className="card-text">Testimonials verified and approved.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Pending Reviews */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF9800" }} // Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Pending Reviews
+              </h6>
+              <p className="card-text">Testimonials pending review.</p>
+              <p className="card-text">Total: 7</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Archived Testimonials */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#795548" }} // Brown
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-archive" style={{ color: '#ffffff' }}></i> Archived Testimonials
+              </h6>
+              <p className="card-text">Old or archived testimonials.</p>
+              <p className="card-text">Total: 10</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -336,12 +403,12 @@ export const ListTestimonials = () => {
                         <tbody>
                         {notification?.map((item, index) => (
                             <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start">{formatDate(item?.createdOn ? item?.createdOn : item?.modifiedOn ? item?.modifiedOn : "-")}</td>
-                              <td className="text-capitalize text-start">{item?.courseOrUniversityName}</td>
-                              <td className="text-capitalize text-start">{item.typeOfUser}</td>
+                              <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start text-truncate">{formatDate(item?.createdOn ? item?.createdOn : item?.modifiedOn ? item?.modifiedOn : "-")  || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate" >{item?.courseOrUniversityName || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate">{item.typeOfUser || "Not Available"}</td>
                              
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

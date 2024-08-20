@@ -1,34 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { getSingleStudent } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
 import { getallProgram, getProgramByUniversity, getProgramByCountry } from "../../api/Program";
 import { getUniversitiesByCountry } from "../../api/university";
 import { getallUniversity } from "../../api/university";
-
+import { saveApplication } from "../../api/applicatin";
 import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
 import { toast } from "react-toastify";
+import { getMonthYear } from "../../Utils/DateFormat";
+import { getallApplication, deleteApplication,getStudentApplication } from "../../api/applicatin";
+
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { Program } from "../../api/endpoints";
 
 function Profile() {
+ 
   const location = useLocation();
-  const id = new URLSearchParams(location.search).get("id");
+  const studentId = new URLSearchParams(location.search).get("id");
 
   const initialStateInputs = {
     name: "",
     dob: "",
     passportNo: "",
+    studentId: "",
     country: "",
     email: "",
     primaryNumber: "",
     whatsAppNumber: "",
     inTake: "",
     universityName: "",
-    course: "",
+    programTitle: "",
     campus: "",
     courseFees: "",
     courseType: "",
@@ -37,13 +43,14 @@ function Profile() {
     name: { required: false },
     dob: { required: false },
     passportNo: { required: false },
+    // studentId: { required: false },
     country: { required: false },
     email: { required: false },
     primaryNumber: { required: false },
     whatsAppNumber: { required: false },
     inTake: { required: false },
     universityName: { required: false },
-    course: { required: false },
+    programTitle: { required: false },
     campus: { required: false },
     courseFees: { required: false },
     courseType: { required: false },
@@ -52,17 +59,47 @@ function Profile() {
   const [inputs, setInputs] = useState(initialStateInputs);
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
-  const [program, setProgram] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [universities, setUniversities] = useState([]);
-  const [university, setUniversity] = useState([]);
-
-  const navigate = useNavigate();
+  const [selectedProgram, setSelectedProgram] = useState(null);
   const [inTake, setInTake] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
   const [submitted, setSubmitted] = useState(false);
   const [student, setStudent] = useState({});
+  const [application, setApplication] = useState([]);
 
+  useEffect(() => {
+    getApplicationList();
+  }, [ pagination.from, pagination.to]);
+
+  const getApplicationList = () => {
+ 
+    getStudentApplication(studentId)
+    .then((res) => {
+      console.log("API Response:", res); // Debugging API response
+      if (res?.data?.result && Array.isArray(res.data.result)) {
+        setApplication(res.data.result);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.length,
+        });
+      } else {
+        console.warn("Unexpected response structure:", res);
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching programs:", err);
+    });
+  };
+const navigate = useNavigate();
   useEffect(() => {
     getStudentDetails();
     getAllCurrencyDetails();
@@ -70,24 +107,28 @@ function Profile() {
     getAllUniversity();
     getAllIntakeDetails();
   }, []);
-  const getAllUniversity = () => {
-    getallUniversity()
-      .then((res) => {
-        setUniversity(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   const getStudentDetails = () => {
-    getSingleStudent(id)
+    getSingleStudent(studentId)
       .then((res) => {
-        setStudent(res?.data?.result);
+        const result = res?.data?.result;
+        setStudent(result);
+        setInputs((prev) => ({
+          ...prev,
+          name: result?.name,
+          dob: result?.dob,
+          passportNo: result?.passportNo,
+          studentId: result?._id,
+          email: result?.email,
+          primaryNumber: result?.primaryNumber,
+          whatsAppNumber: result?.whatsAppNumber
+      }));
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   const getAllIntakeDetails = () => {
     getallIntake()
       .then((res) => {
@@ -97,75 +138,54 @@ function Profile() {
         console.log(err);
       });
   };
+
   const getAllCurrencyDetails = () => {
     getallCurrency()
       .then((res) => {
-        setCountries(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllProgramList = () => {
-    getallProgram()
-      .then((res) => {
-        
-        setProgram(res?.data?.result);
+        setCountries(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const getAllProgramList = () => {
+    getallProgram()
+      .then((res) => {
+        setPrograms(res?.data?.result?.programList || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAllUniversity = () => {
+    getallUniversity()
+      .then((res) => {
+        setUniversities(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+ 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
-    if (!data.country) {
-      error.country.required = true;
-    }
-    if (!data.name) {
-      error.name.required = true;
-    }
-    if (!data.dob) {
-      error.dob.required = true;
-    }
-    if (!data.passportNo) {
-      error.passportNo.required = true;
-    }
-    if (!data.email) {
-      error.email.required = true;
-    }
-    if (!data.primaryNumber) {
-      error.primaryNumber.required = true;
-    }
-    if (!data.whatsAppNumber) {
-      error.whatsAppNumber.required = true;
-    }
-    if (!data.inTake) {
-      error.inTake.required = true;
-    }
-    if (!data.universityName) {
-      error.universityName.required = true;
-    }
-    if (!data.course) {
-      error.course.required = true;
-    }
-    if (!data.campus) {
-      error.campus.required = true;
-    }
-    if (!data.courseFees) {
-      error.courseFees.required = true;
-    }
-    if (!data.courseType) {
-      error.courseType.required = true;
+    for (let key in data) {
+      if (!data[key]) {
+        error[key].required = true;
+      }
     }
     setErrors(error);
   };
+
   const handleAddModule = () => {
     setInputs(initialStateInputs);
     setIsEditing(false);
     setSubmitted(false);
     setErrors(initialStateErrors);
   };
+
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setInputs({ ...inputs, country: selectedCountry });
@@ -175,55 +195,39 @@ function Profile() {
         setUniversities(res?.data?.result || []);
       })
       .catch((err) => {
-        console.error(
-          `Error fetching universities for ${selectedCountry}:`,
-          err
-        );
-       
+        console.error(`Error fetching universities for ${selectedCountry}:`, err);
       });
-
-
-   
   };
- 
+
   const handleUniversityChange = (event) => {
     const selectedUniversity = event.target.value;
-    setInputs((prevInputs) => ({ ...prevInputs, universityId: selectedUniversity }));
+    setInputs({ ...inputs, universityName: selectedUniversity });
 
     getProgramByUniversity(selectedUniversity)
       .then((res) => {
-        console.log("yui",
-
-        );
-        setPrograms(res?.data.data.universityDetails.programDetails || []);
+        setPrograms(res?.data?.data?.universityDetails?.programDetails || []);
       })
       .catch((err) => {
         console.error(`Error fetching programs for ${selectedUniversity}:`, err);
-     
       });
   };
- 
+
+  const handleProgramChange = (event) => {
+    const selectedProgramTitle = event.target.value;
+    const program = programs.find((prog) => prog.programTitle === selectedProgramTitle);
+    setSelectedProgram(program || null);
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      programTitle: selectedProgramTitle,
+      campus: program ? program.campuses.map((campus) => campus.campus) : [],
+      courseType: program ? program.courseType : "",
+    }));
+  };
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
-    setInputs((prevProgram) => {
-      const updatedProgram = { ...prevProgram, [name]: value };
-  
-      if (name === "course") {
-        const selectedProgram = programs.find((u) => u.course === value);
-        if (selectedProgram) {
-          return {
-            ...updatedProgram,
-            studentId: selectedProgram._id,
-            courseType: selectedProgram.courseType,
-            country: selectedProgram.citizenship,
-            studentCode: selectedProgram.studentCode,
-            email: selectedProgram.email,
-          };
-        }
-      }
-      return updatedProgram;
-    });
+    setInputs((prevInputs) => ({ ...prevInputs, [name]: value }));
+
     if (submitted) {
       const newError = handleValidation({ ...inputs, [name]: value });
       setErrors(newError);
@@ -231,22 +235,38 @@ function Profile() {
   };
 
   const handleErrors = (error) => {
-    let isValid = true;
-    Object.keys(error).forEach((key) => {
-      if (error[key].required) {
-        isValid = false;
-      }
-    });
-    return isValid;
+    return !Object.keys(error).some((key) => error[key].required);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSubmitted(true);
-    if (handleErrors(errors)) {
-      setIsEditing(true);
-    }
-  };
+const handleSubmit = (event) => {
+  event.preventDefault();
+  setSubmitted(true);
+  if (handleErrors(errors)) {
+        saveApplication(inputs)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        getStudentDetails();
+
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  }
+};
+const handlePageChange = (event, page) => {
+  const from = (page - 1) * pageSize;
+  const to = (page - 1) * pageSize + pageSize;
+  setPagination({ ...pagination, from: from, to: to });
+};
+const openPopup = (data) => {
+  setOpen(true);
+  setDeleteId(data);
+};
+
+const closePopup = () => {
+  setOpen(false);
+};
+const tableRef = useRef(null);
 
   return (
     <>
@@ -269,7 +289,7 @@ function Profile() {
       <li  className="breadcrumb-item">
         <Link to={{
           pathname: "/EditStudent",
-          search: `?id=${student?._id}`,
+          search: `?studentId=${student?._id}`,
         }} className="text-decoration-none">EditStudent</Link>
       </li>
   
@@ -294,17 +314,17 @@ function Profile() {
               </div>
 
               <div className="col-md-4">
-                <h3 className="mb-2">{student?.name}</h3>
+                <h3 className="mb-2">{student?.name  || "Not Available"}</h3>
                 <p className="text-muted mb-2">
-                  Student Code: {student?.studentCode}
+                  Student Code: {student?.studentCode  || "Not Available"}
                 </p>
                 <p className="text-muted mb-2">
                   <i className="fas fa-envelope me-2"></i>
-                  {student?.email}
+                  {student?.email  || "Not Available"}
                 </p>
                 <p className="text-muted mb-2">
                   <i className="fas fa-phone-alt me-2"></i>
-                  {student?.primaryNumber}
+                  {student?.primaryNumber  || "Not Available"}
                 </p>
               </div>
               <div className="col-md-4">
@@ -337,7 +357,7 @@ function Profile() {
                   <div class="modal-dialog modal-fullscreen">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        <h1 class="modal-title fs-5" studentId="exampleModalLabel">
                           Course Apply
                         </h1>
                         <button
@@ -347,186 +367,132 @@ function Profile() {
                           aria-label="Close"
                         ></button>
                       </div>
-                      <form>
-                        <div class="modal-body">
+              
+                       <form onSubmit={handleSubmit}>
+                        <div className="modal-body">
                           <div className="container">
                             <div className="row g-4">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Country<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select font-weight-light"
-                              name="country"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={inputs.country}
-                              onChange={handleCountryChange}
-                            >
-                              <option
-                                className=" font-weight-light"
-                                value=""
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Select Country
-                              </option>
-                              {countries.map((country) => (
-                                <option
-                                  key={country._id}
-                                  value={country.country}
-                                >
-                                  {country.country}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.country.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
-                                  InTake<span className="text-danger">*</span>
+                                  Country<span className="text-danger">*</span>
                                 </label>
                                 <select
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  className="form-select rounded-1 p-2"
-                                  name="inTake"
-                                  onChange={handleInputs}
-                                  value={inputs.inTake}
+                                  className="form-select font-weight-light"
+                                  name="country"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  value={inputs.country}
+                                  onChange={handleCountryChange}
                                 >
-                                  <option>Select InTake</option>
-                                  {inTake.map((data) => (
-                                    <option
-                                      key={data._id}
-                                      value={`${
-                                        data.intakeName
-                                      } -  ${formatYear(data?.startDate)}`}
-                                    >
-                                      {`${data.intakeName} - ${formatYear(
-                                        data?.startDate
-                                      )}`}
+                                  <option value="">Select Country</option>
+                                  {countries.map((country) => (
+                                    <option key={country._id} value={country.country}>
+                                      {country.country}
                                     </option>
                                   ))}
                                 </select>
-                                {errors.inTake.required ? (
+                                {errors.country.required && (
                                   <span className="text-danger form-text profile_error">
                                     This field is required.
                                   </span>
-                                ) : null}
+                                )}
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              University<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select font-weight-light"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              name="universityName"
-                              value={inputs._id}
-                              onChange={handleUniversityChange}
-                            >
-                              <option
-                                className=" font-weight-light"
-                                value=""
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Select University
-                              </option>
-                              {universities.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni._id}
-                                >
-                                  {uni.universityName}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.universityName.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
-                                 Program Name
-                                  <span className="text-danger">*</span>
+                                  University<span className="text-danger">*</span>
                                 </label>
                                 <select
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  className="form-select rounded-1 p-2"
-                                  name="course"
-                                  onChange={handleInputs}
-                                  value={inputs.course}
+                                  className="form-select font-weight-light"
+                                  name="universityName"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  value={inputs.universityName}
+                                  onChange={handleUniversityChange}
                                 >
-                                  <option>Select Campus</option>
-                                {programs.map((program) => (
-                                  <option
-                                    key={program._id}
-                                    value={program.programTitle}
-                                  >
-                                    {program.programTitle}
-                                  </option>
-                                ))}
+                                  <option value="">Select University</option>
+                                  {universities.map((uni) => (
+                                    <option key={uni._id} value={uni.universityName}>
+                                      {uni.universityName}
+                                    </option>
+                                  ))}
                                 </select>
-                                {errors.course.required ? (
+                                {errors.universityName.required && (
                                   <span className="text-danger form-text profile_error">
                                     This field is required.
                                   </span>
-                                ) : null}
+                                )}
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Program<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  className="form-select font-weight-light"
+                                  name="programTitle"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  value={inputs.programTitle}
+                                  onChange={handleProgramChange}
+                                >
+                                  <option value="">Select Program</option>
+                                  {programs.map((program) => (
+                                    <option key={program._id} value={program.programTitle}>
+                                      {program.programTitle}
+                                    </option>
+                                  ))}
+                                </select>
+                                {errors.programTitle.required && (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                )}
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   Campus<span className="text-danger">*</span>
                                 </label>
                                 <select
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  className="form-select rounded-1 p-2"
+                                  className="form-select font-weight-light"
                                   name="campus"
-                                  value={student.campus}
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  value={inputs.campus}
                                   onChange={handleInputs}
                                 >
-                                  <option>Select Campus</option>
-
-                                  {universities.map((uni) => (
-                                    <option key={uni._id} value={uni.campus}>
-                                      {uni.campus}
+                                  <option value="">Select Campus</option>
+                                  {selectedProgram?.campuses?.map((campus) => (
+                                    <option key={campus.campus} value={campus.campus}>
+                                      {campus.campus}
                                     </option>
                                   ))}
                                 </select>
-                                {errors.campus.required ? (
+                                {errors.campus.required && (
                                   <span className="text-danger form-text profile_error">
                                     This field is required.
                                   </span>
-                                ) : null}
+                                )}
                               </div>
-
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Intake<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  className="form-select font-weight-light"
+                                  name="inTake"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  value={inputs.inTake}
+                                  onChange={handleInputs}
+                                >
+                                  <option value="">Select Intake</option>
+                                  {selectedProgram?.campuses?.map((campus) => (
+                                    <option key={campus.campus} value={campus.inTake}>
+                                      {campus.inTake}
+                                    </option>
+                                  ))}
+                                </select>
+                                {errors.inTake.required && (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                )}
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
                                 <label style={{ color: "#231F20" }}>
                                   Student Name
                                   <span className="text-danger">*</span>
@@ -549,6 +515,26 @@ function Profile() {
                                     This field is required.
                                   </span>
                                 ) : null}
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  ">
+                                <label style={{ color: "#231F20" }}>
+                                  Student Id
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  value={student?._id}
+                                  className="form-control rounded-1 p-2"
+                                  placeholder="Enter Student Id"
+                                  onChange={handleInputs}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  name="studentId"
+                                />
+                               
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
@@ -692,51 +678,21 @@ function Profile() {
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Course Fees
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Course Fees"
-                                  value={student.courseFees}
-                                  name="courseFees"
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.courseFees.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
+                              {/* Add additional fields here */}
                             </div>
                           </div>
                         </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-secondary text-white px-4 py-2 text-uppercase fw-semibold"
-                            style={{ fontSize: "12px" }}
+                        <div className="modal-footer">
+                          <Link
+                          
+                          
+                            className="btn btn-secondary"
                             data-bs-dismiss="modal"
                           >
                             Close
-                          </button>
-                          <button
-                            type="submit"
-                            className="btn text-white px-4 py-2 text-uppercase fw-semibold"
-                            style={{
-                              backgroundColor: "#fe5722",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Submit
+                          </Link>
+                          <button type="submit" data-bs-dismiss="modal" className="btn" style={{ backgroundColor: "#fe5722", color: "#fff" }}>
+                           Submit
                           </button>
                         </div>
                       </form>
@@ -757,26 +713,26 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>Source:</strong> {student?.source}
+                      <strong>Source:</strong> {student?.source  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Date of Birth:</strong> {student?.dob}
+                      <strong>Date of Birth:</strong> {student?.dob  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Passport:</strong> {student?.passportNo}
+                      <strong>Passport:</strong> {student?.passportNo  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Expiry Date:</strong> {student?.expiryDate}
+                      <strong>Expiry Date:</strong> {student?.expiryDate  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Citizenship:</strong> {student?.citizenship}
+                      <strong>Citizenship:</strong> {student?.citizenship  || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Gender:</strong> {student?.gender}
+                      <strong>Gender:</strong> {student?.gender || "Not Available"}
                     </li>
                     <li className="list-group-item">
                       <strong>WhatsApp Number:</strong>{" "}
-                      {student?.whatsAppNumber}
+                      {student?.whatsAppNumber  || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -793,22 +749,22 @@ function Profile() {
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
                       <strong>Highest Qualification:</strong>{" "}
-                      {student?.highestQualification}
+                      {student?.highestQualification || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Degree Name:</strong> {student?.degreeName}
+                      <strong>Degree Name:</strong> {student?.degreeName || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Institution:</strong> {student?.institution}
+                      <strong>Institution:</strong> {student?.institution || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Percentage:</strong> {student?.percentage}
+                      <strong>Percentage:</strong> {student?.percentage || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Academic Year:</strong> {student?.academicYear}
+                      <strong>Academic Year:</strong> {student?.academicYear || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Year Passed:</strong> {student?.yearPassed}
+                      <strong>Year Passed:</strong> {student?.yearPassed || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -825,7 +781,7 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.englishTestType}
+                      {student?.englishTestType || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -839,7 +795,7 @@ function Profile() {
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">{student?.testScore}</li>
+                    <li className="list-group-item">{student?.testScore || "Not Available"}</li>
                   </ul>
                 </div>
               </div>
@@ -852,7 +808,7 @@ function Profile() {
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">{student?.dateOfTest}</li>
+                    <li className="list-group-item">{student?.dateOfTest || "Not Available"}</li>
                   </ul>
                 </div>
               </div>
@@ -868,7 +824,7 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.desiredCountry}
+                      {student?.desiredCountry || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -884,7 +840,7 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.desiredUniversity}
+                      {student?.desiredUniversity || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -899,7 +855,7 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.desiredCourse}
+                      {student?.desiredCourse || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -916,7 +872,7 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.workExperience}
+                    {student?.duration || "Not Available"} || {student?.lastDesignation || "Not Available"} ||  {student?.lastEmployeer || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -931,7 +887,7 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.anyVisaRejections}
+                      {student?.anyVisaRejections || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -947,7 +903,7 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.travelHistory}
+                      {student?.travelHistory || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -963,12 +919,140 @@ function Profile() {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.additionalInfo}
+                      {student?.additionalInfo || "Not Available"}
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
+            <div className="container">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card rounded-1 shadow-sm border-0">
+                  <div className="card-body">
+                    <div className="card-table">
+                      <div className="table-responsive">
+                        <table
+                          className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                          ref={tableRef}
+                        >
+                          <thead className="table-light">
+                            <tr
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                              <th className="text-capitalize text-start sortable-handle">
+                                S No
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Date
+                              </th>
+                              <th className="text-capitalize text-start">
+                                {" "}
+                                Code
+                              </th>
+
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Name
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                University Applied
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Course Applied
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Status
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {application?.map((data, index) => (
+                              <tr
+                                key={index}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                <td className="text-capitalize text-start text-truncate">
+                                  {pagination.from + index + 1}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {getMonthYear(data?.createdOn) || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.applicationCode || "Not Available"}
+                                </td>
+
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.name || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.universityName || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.course || data?.programTitle || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate"></td>
+
+                                <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/ApplicationView",
+                                        search: `?studentId=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/EditApplication",
+                                        search: `?studentId=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div className="float-right my-2">
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           </div>
         </div>
       </div>

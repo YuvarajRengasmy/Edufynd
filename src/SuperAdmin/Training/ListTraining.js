@@ -114,7 +114,7 @@ export const ListTraining = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header">
+      <div className="content-header bg-light shadow-sm sticky-top">
         <div className="container">
           
             <div className="row ">
@@ -283,6 +283,74 @@ export const ListTraining = () => {
        
         
         </div>
+
+        <div className="container mt-3">
+      <div className="row">
+        {/* Card 1: New Materials */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF9800" }} // Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-newspaper" style={{ color: '#ffffff' }}></i> New Materials
+              </h6>
+              <p className="card-text">Recently added training materials.</p>
+              <p className="card-text">Total: 15</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Completed Trainings */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#4CAF50" }} // Green
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-trophy" style={{ color: '#ffffff' }}></i> Completed Trainings
+              </h6>
+              <p className="card-text">Trainings that have been completed.</p>
+              <p className="card-text">Total: 30</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Pending Reviews */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Pending Reviews
+              </h6>
+              <p className="card-text">Materials pending review.</p>
+              <p className="card-text">Total: 8</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Reviewed Materials */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-3 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#F44336" }} // Red
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Reviewed Materials
+              </h6>
+              <p className="card-text">Materials that have been reviewed.</p>
+              <p className="card-text">Total: 20</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div className="content-body">
             <div className="container">
             <div className="row">
@@ -307,13 +375,13 @@ export const ListTraining = () => {
                         <tbody>
                         {notification?.map((data, index) => (
                             <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                              <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")}</td>
-                              <td className="text-capitalize text-start">{data?.trainingTopic}</td>
+                              <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start text-truncate" >{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-") || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate">{data?.trainingTopic || "Not Available"}</td>
                              
-                              <td className="text-capitalize text-start">{data?.typeOfUser}</td>
+                              <td className="text-capitalize text-start text-truncate">{data?.typeOfUser || "Not Available"}</td>
                             
-                              <td>
+                              <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
                                   <Link
                                     className="dropdown-item"

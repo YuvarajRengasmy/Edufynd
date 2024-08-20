@@ -30,6 +30,13 @@ const HoverBar = () => {
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="/ListApplicationAgent" style={{ fontSize: "14px", fontWeight: "bold" }}>
+            <i className="fas fa-edit"></i>
+            <span>Application</span>
+          </Link>
+          
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" to="/AgentAbout" style={{ fontSize: "14px", fontWeight: "bold" }}>
             <i className="fas fa-info-circle"></i>
             <span>About</span>
@@ -85,6 +92,7 @@ const HoverBar = () => {
           </Link>
           
         </li>
+     
         <li className="nav-item">
                   <a href="/"
                     className="nav-link sidebar_link"
