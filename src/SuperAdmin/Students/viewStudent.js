@@ -205,6 +205,7 @@ const navigate = useNavigate();
 
     getProgramByUniversity(selectedUniversity)
       .then((res) => {
+        console.log(res?.data?.result);
         setPrograms(res?.data?.data?.universityDetails?.programDetails || []);
       })
       .catch((err) => {

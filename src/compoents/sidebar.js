@@ -265,7 +265,7 @@ const Sidebar = () => {
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
-          fontSize:'12px',
+          fontSize:'16px',
           fontWeight:'bold',
           fontFamily: "Plus Jakarta Sans",
         fontVariant: "all-small-caps"

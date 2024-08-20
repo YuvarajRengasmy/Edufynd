@@ -237,11 +237,14 @@ export const ViewApplication = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
-          <div className="container">
+      
+        <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-1 ">
+              <div className="container">
+            <div className="row">
+              <div className="col">
+              <div className="card rounded-1 ">
                   <div className="card-body">
                     <div className="row">
                       <div className="col-4 border-end border-5 border-primary">
@@ -332,8 +335,15 @@ export const ViewApplication = () => {
                       </div>
                     </div>
                   </div>
-                </div>              
-                <div className="card border-0 shadow-sm p-2">
+                </div>
+                </div>
+                </div>
+              </div>
+               
+                <div className="container">
+  <div className="row">
+    <div className="col">
+    <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
                     <div className="d-flex  flex-wrap justify-content-around align-items-center">
                       {status.map((item, index) => (
@@ -363,8 +373,8 @@ export const ViewApplication = () => {
                             <button
                               type="button"
                               className="position-absolute text-bold top-0 translate-middle btn btn-sm btn-primary rounded-pill"
-                              data-bs-toggle="modal"
-                              data-bs-target={`#modal-${index}`}
+                              data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}
                               style={{
                                 width: "3rem",
                                 height: "3rem",
@@ -481,12 +491,7 @@ export const ViewApplication = () => {
                                         )}
                                     </div>
                                     <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-comments nav-icon text-dark"></i>
-                                      </span>
+                                    
                                       <RichTextEditor
                                         placeholder="Start writing your content here..."
                                         name="commentBox"
@@ -496,8 +501,7 @@ export const ViewApplication = () => {
                                         style={{
                                           fontFamily: "Plus Jakarta Sans",
                                           fontSize: "12px",
-                                          minHeight: "200px",
-                                          overflowY: "auto",
+                                        
                                           zIndex: "0",
                                         }}
                                       />
@@ -552,7 +556,7 @@ export const ViewApplication = () => {
                                       <button
                                         type="button"
                                         className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        data-bs-dismiss="modal"
+                                        data-bs-bs-dismiss="modal"
                                         style={{
                                           fontSize: "12px",
                                           backgroundColor: "#231f20",
@@ -586,11 +590,16 @@ export const ViewApplication = () => {
                     </div>
                   </div>
                 </div>
+      </div>
+      </div></div>              
+               
 
 
 
-
-                <div className="card card-body mb-3">
+<div className="container">
+  <div className="row">
+    <div className="col">
+    <div className="card card-body mb-3">
                   <h6 className="text-start">Notes</h6>
                   <div className="text-end">
                     <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"   data-bs-toggle="modal"
@@ -678,12 +687,7 @@ export const ViewApplication = () => {
                                     
                                     </div>
                                     <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-comments nav-icon text-dark"></i>
-                                      </span>
+                                     
                                       <RichTextEditor
                                         placeholder="Start writing your content here..."
                                         name="commentBox"
@@ -693,8 +697,7 @@ export const ViewApplication = () => {
                                         style={{
                                           fontFamily: "Plus Jakarta Sans",
                                           fontSize: "12px",
-                                          minHeight: "200px",
-                                          overflowY: "auto",
+                                         
                                           zIndex: "0",
                                         }}
                                       />
@@ -746,7 +749,7 @@ export const ViewApplication = () => {
                                           backgroundColor: "#fe5722",
                                           color: "#fff",
                                         }}
-                                        // data-bs-dismiss="modal"
+                                        // data-bs-bs-dismiss="modal"
                                       >
                                         Submit
                                       </button>
@@ -757,26 +760,212 @@ export const ViewApplication = () => {
                             </div>
                           </div>
                 </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid my-2">
+  <div class="row flex-nowrap">
+   
+    <div class="col-md-3 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
+      <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+        <div class="card-header bg-white border-0">
+         
+          <div className="text-center">
+                          <button
+                            aria-valuenow="75"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            className="btn btn-sm text-capitalize fw-semibold rounded-pill text-white  position-relative"
+                            style={{
+                              fontSize: "10px",
+                              backgroundColor: "#7627ef",
+                              border: "none",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div
+                              className="position-absolute top-50 start-50 translate-middle"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#ffffff",
+                                opacity: 0.2,
+                              }}
+                            >
+                              <div
+                                className="progress position-relative"
+                                style={{ height: "100%" }}
+                              >
+                                <div
+                                  className="progress-bar progress-bar-striped progress-bar-animated"
+                                  style={{ width: "75%", height: "100%" }}
+                                ></div>
+                              </div>
+                            </div>
+                            <span>Document</span>
+                          </button>
+                          <div className="text-center">
+                            <small>(75%) Completed</small>
+                          </div>
+                        </div>
+        </div>
+        <div class="card-body p-4">
+          <img
+            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+            class="card-img-top rounded-circle border-0"
+            alt="Profile"
+            style={{ width: "3rem", height: "3rem" }}
+          />
+          <p>
+            Application Status - {tracks?.createdBy} {tracks?.createdOn}
+          </p>
+          <p><b>Application Process</b></p>
+          {tracks?.status && (
+            <div>
+              {tracks.status.map((item, index) => (
+                <a
+                  href={item?.document || "#"}
+                  target="_blank"
+                  download
+                  key={index}
+                  class="d-flex align-items-center justify-content-between mb-2 text-decoration-none"
+                >
+                  <div class="me-2">
+                    <img
+                      src={item?.document || "-"}
+                      class="card-img-top border-0 me-2"
+                      alt="Document"
+                      style={{ width: "5rem", height: "5rem" }}
+                    />
+                    <p class="card-text mb-0" style={{ fontSize: "12px" }}>
+                      {item?.name}
+                    </p>
+                  </div>
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="col-md-9 col-sm-8">
+      <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+        <div class="card-header bg-white">
+          <h6 class="card-title">Application Track</h6>
+        </div>
+        
+      
+        <div class="collapse" id="taggingSection">
+        <div className="btn btns-m border-0 rounded-1 btn-danger float-end m-2"  data-bs-toggle="collapse" data-bs-target="#taggingSection"><i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide</div>
+          <div class="card-body p-4 border rounded-1">
+           
+            <form>
+              <div class="form-group mb-3">
+                <label for="tagPerson">Tag Person</label>
+                <input
+                  type="text"
+                  class="form-control rounded-1 text-muted"
+                  id="tagPerson"
+                  placeholder="Enter person's name"
+                  style={{ fontSize: "12px" }}
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label for="subject">Subject</label>
+                <RichTextEditor
+                  placeholder="Start writing your content here..."
+                  name="content"
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: "12px"
+                  }}
+                  controls={[
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+                    ['unorderedList', 'orderedList'],
+                    ['indent', 'outdent'],
+                    ['link', 'image', 'video'],
+                    ['blockquote', 'codeBlock'],
+                    ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
+                    ['subscript', 'superscript'],
+                    ['color', 'backgroundColor']
+                  ]}
+                />
+              </div>
+              <button type="submit" class="btn btn-primary float-end border-0 rounded-1 ">Send</button>
+            </form>
+          </div>
+        </div>
+        
+       
+        <div class="card-body p-4">
+          <div class="chat-messages">
+            <div class="container">
+
+              <div class="row">
+              {tracks?.status &&
+                                        tracks.status.map((item, index) => (
+                <div key={index} class="d-flex justify-content-end mb-4">
+                
+                  <div  class="col-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <p class="mb-0">Application Decision:{item?.newStatus}</p>
+                        <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+                        <i class="fa fa-reply" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div class="card-body">
+                      <RichTextEditor
+                                                value={item?.commentBox}
+                                                readOnly
+                                              /> <br/><br/>
+                          Sincerely,
+                          {track?.name}<br />
+                        Edufynd
+                      </div>
+                    </div>
+                  </div>
+               
+                </div>
+                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+       
+       
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+             
 
                 <div className="container">
                   <div className="row">
                     <div className="col-md-6  ">
-                      <div className="card rounded-1 border-0  vh-100 overflow-auto">
+                      <div className="card rounded-1 border-0  vh-100 min-vh-100 overflow-auto">
                         <div className="card-body">
                         <div className="container">
                             <div className="row">
                               <div className="col">
                                 <div className=" align-items-center justify-content-center">
-                                  <div class="application-profile border-0 ">
+                                  <div className="application-profile border-0 ">
                                     <img
                                       src={tracks?.photo?tracks?.photo:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-                                      class="card-img-top rounded-circle border-0 "
+                                      className="card-img-top rounded-circle border-0 "
                                       alt="..."
                                       style={{ width: "4rem", height: "4rem" }}
                                     />
-                                    <div class="card-body">
+                                    <div className="card-body">
                                       <p
-                                        class="card-text"
+                                        className="card-text"
                                         style={{ fontSize: "10px" }}
                                       >
                                         {tracks?.name}
@@ -810,9 +999,9 @@ export const ViewApplication = () => {
       />
       <i className="fa fa-download p-5"></i>
     </a>
-                                            <div class="card-body">
+                                            <div className="card-body">
                                               <p
-                                                class="card-text"
+                                                className="card-text"
                                                 style={{ fontSize: "10px" }}
                                               >
                                                 {item?.name}
@@ -838,16 +1027,16 @@ export const ViewApplication = () => {
                             <div className="row">
                               <div className="col">
                                 <div className=" align-items-center justify-content-center">
-                                  <div class="application-profile border-0 ">
+                                  <div className="application-profile border-0 ">
                                     <img
                                       src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                      class="card-img-top rounded-circle border-0 "
+                                      className="card-img-top rounded-circle border-0 "
                                       alt="..."
                                       style={{ width: "4rem", height: "4rem" }}
                                     />
-                                    <div class="card-body">
+                                    <div className="card-body">
                                       <p
-                                        class="card-text"
+                                        className="card-text"
                                         style={{ fontSize: "10px" }}
                                       >
                                         {track?.name}
@@ -879,9 +1068,9 @@ export const ViewApplication = () => {
                                               />{" "}
                                             </p>
                                            
-                                            <div class="card-body">
+                                            <div className="card-body">
                                               <p
-                                                class="card-text"
+                                                className="card-text"
                                                 style={{ fontSize: "10px" }}
                                               >
                                                 {item?.name}
@@ -904,7 +1093,6 @@ export const ViewApplication = () => {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );
