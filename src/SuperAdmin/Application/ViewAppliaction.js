@@ -399,8 +399,8 @@ export const ViewApplication = () => {
                             <button
                               type="button"
                               className="position-absolute text-bold  top-0 translate-middle btn btn-sm btn-primary rounded-pill"
-                              data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}
+                              data-bs-toggle="modal"
+                              data-bs-target={`#modal-${index}`}
                               style={{
                                 width: "3rem",
                                 height: "3rem",
@@ -433,7 +433,7 @@ export const ViewApplication = () => {
                                   <button
                                     type="button"
                                     className="btn-close"
-                                    data-bs-bs-dismiss="modal"
+                                    data-bs-dismiss="modal"
                                     aria-label="Close"
                                     ref={modalRef}
                                   ></button>
@@ -573,7 +573,7 @@ export const ViewApplication = () => {
                                           backgroundColor: "#fe5722",
                                           color: "#fff",
                                         }}
-                                        data-bs-bs-dismiss="modal"
+                                        data-bs-dismiss="modal"
                                       >
                                         Submit
                                       </button>
@@ -602,8 +602,8 @@ export const ViewApplication = () => {
     <div className="card card-body mb-3">
                   <h6 className="text-start">Notes</h6>
                   <div className="text-end">
-                    <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"   data-bs-bs-toggle="modal"
-                              data-bs-bs-target="#StatusModal"
+                    <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"   data-bs-toggle="modal"
+                              data-bs-target="#StatusModal"
                              
                               style={{fontSize:'12px'}}>Add Status</button>
                   </div>
@@ -627,7 +627,7 @@ export const ViewApplication = () => {
                                   <button
                                     type="button"
                                     className="btn-close"
-                                    data-bs-bs-dismiss="modal"
+                                    data-bs-dismiss="modal"
                                     aria-label="Close"
                                    
                                   ></button>
@@ -731,7 +731,7 @@ export const ViewApplication = () => {
                                       <button
                                         type="button"
                                         className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        data-bs-bs-dismiss="modal"
+                                        data-bs-dismiss="modal"
                                         style={{
                                           fontSize: "12px",
                                           backgroundColor: "#231f20",
@@ -742,7 +742,7 @@ export const ViewApplication = () => {
                                       </button>
                                       <button
                                         type="submit"
-                                        data-bs-bs-dismiss="modal"
+                                        data-bs-dismiss="modal"
                                         className="btn px-4 py-2 text-uppercase fw-semibold"
                                         style={{
                                           fontSize: "12px",
