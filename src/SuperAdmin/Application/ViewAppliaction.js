@@ -924,8 +924,8 @@ export const ViewApplication = () => {
                                                 value={item?.commentBox}
                                                 readOnly
                                               /> <br/><br/>
-                          Sincerely,
-                          {track?.name}<br />
+                          Sincerely,<br/>
+                          {item?.createdBy}<br />
                         Edufynd
                       </div>
                     </div>
@@ -947,149 +947,7 @@ export const ViewApplication = () => {
 
              
 
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-6  ">
-                      <div className="card rounded-1 border-0  vh-100 min-vh-100 overflow-auto">
-                        <div className="card-body">
-                        <div className="container">
-                            <div className="row">
-                              <div className="col">
-                                <div className=" align-items-center justify-content-center">
-                                  <div className="application-profile border-0 ">
-                                    <img
-                                      src={tracks?.photo?tracks?.photo:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-                                      className="card-img-top rounded-circle border-0 "
-                                      alt="..."
-                                      style={{ width: "4rem", height: "4rem" }}
-                                    />
-                                    <div className="card-body">
-                                      <p
-                                        className="card-text"
-                                        style={{ fontSize: "10px" }}
-                                      >
-                                        {tracks?.name}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-
-                             
-                                  <div className="card border-0">
-                                    <div className="card-header text-bg-primary">
-                                      <h6 className="h6">
-                                        Application Status -{tracks?.createdBy}
-                                        {tracks?.createdOn}
-                                      </h6>
-                                    </div>
-                                    <div className="card-body">
-                                      <h1>
-                                        <b>Application Process</b>
-                                      </h1>
-                                      {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                                          <div key={index}>
-                                            
-                                            <a href={item?.document?item?.document:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"} target="_blank" download>
-      <img
-        src={item?.document?item?.document:"-"}
-        className="card-img-top  border-0"
-        alt="..."
-        style={{ width: "7rem", height: "7rem" }}
-      />
-      <i className="fa fa-download p-5"></i>
-    </a>
-                                            <div className="card-body">
-                                              <p
-                                                className="card-text"
-                                                style={{ fontSize: "10px" }}
-                                              >
-                                                {item?.name}
-                                              </p>
-                                            </div>
-                                            <p>{item?.createdBy}</p>
-                                          </div>
-                                        ))}
-                                    </div>
-                                  </div>
-                               
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-6 ">
-                      <div className="card border-0 vh-100 rounded-1 overflow-auto">
-                        <div className="card-body ">
-                          <div className="container">
-                            <div className="row">
-                              <div className="col">
-                                <div className=" align-items-center justify-content-center">
-                                  <div className="application-profile border-0 ">
-                                    <img
-                                      src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                      className="card-img-top rounded-circle border-0 "
-                                      alt="..."
-                                      style={{ width: "4rem", height: "4rem" }}
-                                    />
-                                    <div className="card-body">
-                                      <p
-                                        className="card-text"
-                                        style={{ fontSize: "10px" }}
-                                      >
-                                        {track?.name}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-
-                             
-                                  <div className="card border-0">
-                                    <div className="card-header text-bg-primary">
-                                      <h6 className="h6">
-                                        Application Status -{track?.createdBy}
-                                        {track?.createdOn}
-                                      </h6>
-                                    </div>
-                                    <div className="card-body">
-                                      <h1>
-                                        <b>Application Process</b>
-                                      </h1>
-                                      {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                                          <div key={index}>
-                                            <h4>Status: {item?.newStatus}</h4>
-                                            <p>
-                                              <RichTextEditor
-                                                value={item?.commentBox}
-                                                readOnly
-                                              />{" "}
-                                            </p>
-                                           
-                                            <div className="card-body">
-                                              <p
-                                                className="card-text"
-                                                style={{ fontSize: "10px" }}
-                                              >
-                                                {item?.name}
-                                              </p>
-                                            </div>
-                                            <p>{item?.createdBy}</p>
-                                          </div>
-                                        ))}
-                                    </div>
-                                  </div>
-                               
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
               </div>
             </div>
           </div>
