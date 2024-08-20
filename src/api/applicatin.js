@@ -25,5 +25,5 @@ export const getSingleApplication = (data) => {
   };
 
   export const getStudentApplication = (data) => {
-    return API.get(`${Application}/getStudentApplication`, { params: {studentId: data } });
+    return API.get(`${Application}/getStudentApplication`, { params: {studentId: data} });
   };
