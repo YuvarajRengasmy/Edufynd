@@ -158,43 +158,43 @@ const Register = () => {
 
   return (
     <>
-      <div style={{ backgroundColor: '#f5f5f5', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+      <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
         <div className="container-fluid">
-          <div className="row justify-content-center align-items-center">
-            <div className="col-xl-4 col-lg-4 col-md-7 align-self-center">
-              <div className="card my-1 border-0 ">
-                <div className='card-body p-4'>
+          <div className="row justify-content-center align-items-center min-vh-100">
+            <div className="col-xl-4 col-lg-4 col-md-7">
+              <div className="card rounded-1 shadow-sm border-0 ">
+                <div className='card-body'>
                   <div className="text-center">
                     <h1 className="h3 fw-bold" style={{ color: '#E91E63' }}>Start Your Journey!</h1>
                   </div>
-                  <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white nav-tab mt-2 text-uppercase fw-bold rounded-2 mx-auto my-3' style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '10px' }}>
+                  <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white nav-tab mt-2  fw-semibold rounded-2 mx-auto my-3' style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '10px' }}>
                     <button
-                      className={`btn border-0 text-white fw-bold text-uppercase px-3 py-2 ${type === 'student' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
+                      className={`btn rounded-1 border-0 border-0 text-white fw-semibold   ${type === 'student' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button" aria-selected="true"
                       role='tab' onClick={() => handleSinUpType('student')}
                       style={{ fontSize: '10px' }} >
-                      <i className="fa fa-user-graduate nav-icon text-white"></i> Student
+                      <i className="fa fa-user-graduate  text-white"></i> Student
                     </button>
                     <button
-                      className={`btn border-0 px-3 py-2 text-white text-uppercase fw-bold ${type === 'superAdmin' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
+                      className={`btn rounded-1 border-0 border-0  text-white  fw-semibold ${type === 'superAdmin' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button"
                       aria-selected="false"
                       role='tab' onClick={() => handleSinUpType('superAdmin')}
                       style={{ fontSize: '10px' }}>
-                      <i className="fa fa-user-shield nav-icon text-white"></i> SAdmin
+                      <i className="fa fa-user-shield  text-white"></i> SAdmin
                     </button>
                     <button
-                      className={`btn border-0 text-white px-3 py-2 text-white text-uppercase fw-bold ${type === 'agent' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
+                      className={`btn rounded-1 border-0 border-0 text-white  text-white  fw-semibold ${type === 'agent' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button"
                       aria-selected="false"
                       role='tab' onClick={() => handleSinUpType('agent')}
                       style={{ fontSize: '10px' }}>
-                      <i className="fa fa-user-secret nav-icon text-white"></i> Agent
+                      <i className="fa fa-user-secret  text-white"></i> Agent
                     </button>
                   </div>
                   <form onSubmit={handleSubmit}>
                     <div className="input-group mb-3">
-                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-user nav-icon"></i></span>
+                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-user "></i></span>
                       <input type="text" name="name" onChange={handleInputs} className="form-control form-control-user" id="exampleFirstName" placeholder="UserName..." style={{ fontSize: '12px' }} />
                      
                     </div>
@@ -204,7 +204,7 @@ const Register = () => {
                         </div>
                       ) : null}
                     <div className="input-group mb-3">
-                      <span className="input-group-text" id="basic-addon1"><i class="fa fa-phone-alt nav-icon"></i></span>
+                      <span className="input-group-text" id="basic-addon1"><i class="fa fa-phone-alt "></i></span>
                       <input type="text" name="mobileNumber" onChange={handleInputs} className="form-control form-control-user" id="exampleLastName" placeholder="Contact No..." style={{ fontSize: '12px' }} />
                      
                     </div>
@@ -217,7 +217,7 @@ const Register = () => {
                           </span> : null
                       }
                     <div className="input-group mb-3">
-                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-envelope nav-icon"></i></span>
+                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-envelope "></i></span>
                       <input type="email" name="email" onChange={handleInputs} className="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address..." style={{ fontSize: '12px' }} />
                       
                     </div>
@@ -231,7 +231,7 @@ const Register = () => {
                         </div>
                       ) : null}
                     <div className="input-group mb-3">
-                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-lock nav-icon"></i></span>
+                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-lock "></i></span>
                       <input
                         type={showPassword ? 'text' : 'password'}
                         name="password"
@@ -243,7 +243,7 @@ const Register = () => {
                       />
                       <button
                         type="button"
-                        className="btn btn-transprent border-0"
+                        className="btn rounded-1 border-0 btn-transprent border-0"
                         onClick={handleTogglePassword}
                         style={{
                           position: 'absolute',
@@ -272,7 +272,7 @@ const Register = () => {
                         </div>
                       ) : null}
                     <div className="input-group mb-3">
-                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-shield-alt nav-icon"></i></span>
+                      <span className="input-group-text" id="basic-addon1"><i className="fa fa-shield-alt "></i></span>
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
                         name="confirmPassword"
@@ -284,7 +284,7 @@ const Register = () => {
                       />
                       <button
                         type="button"
-                        className="btn btn-transprent border-0"
+                        className="btn rounded-1 border-0 btn-transprent border-0"
                         onClick={handleToggleConfirmPassword}
                         style={{
                           position: 'absolute',
@@ -313,7 +313,7 @@ const Register = () => {
                         </div>
                       ) : null}
                     <div className='d-flex justify-content-center'>
-                      <button type="submit" className="btn btn-sm w-75 px-4 py-2 text-uppercase fw-semibold" style={{ backgroundColor: '#fe5722', color: '#fff', fontSize: '10px' }}><i className="fa fa-user-plus nav-icon text-white"></i> Sign Up</button>
+                      <button type="submit" className="btn rounded-1 border-0  w-75  fw-semibold" style={{ backgroundColor: '#fe5722', color: '#fff', fontSize: '10px' }}><i className="fa fa-user-plus  text-white"></i> Sign Up</button>
                     </div>
                     <div className="alternative-login d-flex flex-row align-items-center justify-content-center" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
                       <hr className="border-0 border-top border-dark" style={{ margin: '0 1rem', flexGrow: '1', borderTop: '1px solid #ccc' }} />
@@ -321,16 +321,16 @@ const Register = () => {
                       <hr className="border-0 border-top border-dark" style={{ margin: '0 1rem', flexGrow: '1', borderTop: '1px solid #ccc' }} />
                     </div>
                     <div className='d-flex justify-content-center'>
-                      <Link to='/' className="btn btn-google btn-user btn-block btn-sm border-0 fw-bold text-uppercase px-4 py-2 w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
+                      <Link to='/' className="btn rounded-1 border-0 btn-google btn-user btn-block  border-0 fw-semibold  w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
                         <i className="fab fa-google fa-fw" /> Login with Google
                       </Link>
                     </div>
                     <div className='row g-3 my-2 text-center'>
                       <div className="col-md-6 col-sm-12">
-                        <Link to='/ForgotPassword' className="btn btn-sm border-0 text-uppercase fw-bold px-4 py-2" style={{ backgroundColor: '#f0f0f0', color: '#231f20', fontSize: '9px' }} ><i className="fa fa-key nav-icon "></i> Forgot Password</Link>
+                        <Link to='/ForgotPassword' className="btn rounded-1 border-0  border-0  fw-semibold px-4 " style={{ backgroundColor: '#f0f0f0', color: '#231f20', fontSize: '9px' }} ><i className="fa fa-key  "></i> Forgot Password</Link>
                       </div>
                       <div className="col-md-6 col-sm-12">
-                        <Link to='/' className="btn btn-sm px-4 text-uppercase fw-bold py-2" style={{ backgroundColor: '#008080', color: '#fff', fontSize: '9px' }} > <i className="fa fa-user-circle nav-icon text-white"></i> Member Login</Link>
+                        <Link to='/' className="btn rounded-1 border-0  px-4  fw-semibold " style={{ backgroundColor: '#008080', color: '#fff', fontSize: '9px' }} > <i className="fa fa-user-circle  text-white"></i> Member Login</Link>
                       </div>
                     </div>
                   </form>

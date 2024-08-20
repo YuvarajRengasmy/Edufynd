@@ -3,7 +3,7 @@
 
 /* Sidebar Background */
 .sidebar {
-  background-color: #231f20; /* Dark background */
+  background-color: #7627ef; /* Dark background */
   padding: 10px; /* Padding for a more spacious layout */
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -37,13 +37,13 @@
 .sidebar_link:hover {
   color: #FFFFFF !important; /* White text on hover */
   background-color: #2C3E50 !important; /* Slightly lighter dark gray background on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow on hover */
 }
 
 /* Active styles */
 .sidebar_link.active {
   color: #FFFFFF !important; /* White text for active link */
-  background-color: #BDC3C7 !important; /* Light gray background for active link */
+  background-color: #231f20 !important; /* Light gray background for active link */
 }
 
 .sidebar_link.active .nav-icon {

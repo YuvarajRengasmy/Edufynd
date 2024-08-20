@@ -3,11 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar, Line, Pie } from "react-chartjs-2"; //
 import Sidebar from "../../compoents/sidebar";
 import 'chart.js/auto';
-import { FaUser, FaEnvelope, FaPhone, FaDollarSign,FaUserAlt,  FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram,  FaBell,  FaChartLine } from "react-icons/fa";
+import {
+  FaTrash,FaListAlt, FaChartBar,FaUser, FaFileAlt, FaSuitcase, FaRegChartBar, FaCalendarAlt, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaCommentsDollar, FaFileInvoice, FaBuilding, FaShieldAlt, FaGlobe, FaCogs, FaTrophy, FaEnvelopeOpenText, FaExclamationCircle,
+  FaMoneyBillWave, FaCheckCircle, FaComments, FaEnvelope, FaPhone, FaDollarSign, FaUserAlt, FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram, FaBell, FaChartLine,FaUserCog,FaBullhorn
+} from "react-icons/fa";
 
 export const HeroContent = () => {
- 
-const salesData = {
+
+  const salesData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
     datasets: [
       {
@@ -75,384 +78,681 @@ const salesData = {
   return (
     <div >
       <Sidebar />
-      <div className="content-wrapper" style={{  fontFamily: "Plus Jakarta Sans",fontSize: "12px" }}>
-      <div className="container-fluid mt-4" >
-      <div className="row">
-      <main role="main" className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
-        <div className="d-flex flex-row justify-content-between align-items-start">
-                <div className="d-flex flex-column">
-                  <h2 className="fw-bold fs-5">Dashboard</h2>
-                  <p className="text-secondary fs-6">Sunday, 05 August 2024</p>
-                </div>
-                <div className="d-flex align-items-center">
-                <button
-        className="btn btn-primary"
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+        <div className="container-fluid mt-4" >
+          <div className="row">
+            <main role="main" className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+            <div className="container mt-2">
+  <div className="d-flex justify-content-between align-items-start mb-4">
+    <div>
+      <h1 className="fw-bold" style={{ color: '#0056b3', fontSize: '24px' }}>Dashboard</h1>
+      <p className="text-secondary" style={{ fontSize: '12px' }}>Sunday, 05 August 2024</p>
+    </div>
+    <button
+      className="btn"
+      style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasProfile"
+      aria-controls="offcanvasProfile"
+    >
+      Open Profile
+    </button>
+  </div>
+
+  <div
+    className="offcanvas offcanvas-end"
+    tabIndex="-1"
+    id="offcanvasProfile"
+    aria-labelledby="offcanvasProfileLabel"
+  >
+    <div className="offcanvas-header" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '14px' }}>
+      <h5 className="offcanvas-title" id="offcanvasProfileLabel">
+        <FaUser /> John Doe's Profile
+      </h5>
+      <button
         type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasProfile"
-        aria-controls="offcanvasProfile"
-      >
-        Open Profile
-      </button>
-
-      <div
-        className="offcanvas offcanvas-end"
-        tabIndex="-1"
-        id="offcanvasProfile"
-        aria-labelledby="offcanvasProfileLabel"
-      >
-        <div className="offcanvas-header">
-          <h6 className="offcanvas-title" id="offcanvasProfileLabel">
-            <FaUser /> John Doe's Profile
-          </h6>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div className="offcanvas-body">
-          {/* Profile Information */}
-          <div className="card mb-4 text-center">
-            <div className="card-body">
-              <img
-                src="https://via.placeholder.com/100"
-                alt="User Avatar"
-                className="rounded-circle mb-3"
-              />
-              <h6 className="">John Doe</h6>
-              <p className="text-muted">Senior CRM Manager</p>
-              <p className="mb-1"><FaEnvelope /> john.doe@example.com</p>
-              <p><FaPhone /> +123 456 7890</p>
-              <div className="d-flex justify-content-around mt-3">
-                <button className="btn btn-outline-primary"><FaEdit /> Edit Profile</button>
-                <button className="btn btn-outline-secondary"><FaCog /> Settings</button>
-                <button className="btn btn-outline-danger"><FaSignOutAlt /> Logout</button>
-              </div>
-            </div>
-          </div>
-
-          {/* CRM Sections Overview */}
-          <h6 className="mb-3">CRM Modules Overview</h6>
-          <div className="row g-3">
-            <div className="col-6">
-              <div className="card">
-                <div className="card-body text-center">
-                  <FaChartPie  className="mb-2" />
-                  <h6>Dashboard</h6>
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="card">
-                <div className="card-body text-center">
-                  <FaUniversity  className="mb-2" />
-                  <h6>Universities</h6>
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="card">
-                <div className="card-body text-center">
-                  <FaUsers  className="mb-2" />
-                  <h6>Clients</h6>
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="card">
-                <div className="card-body text-center">
-                  <FaFileInvoiceDollar  className="mb-2" />
-                  <h6>Commissions</h6>
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="card">
-                <div className="card-body text-center">
-                  <FaProjectDiagram  className="mb-2" />
-                  <h6>Projects & Tasks</h6>
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="card">
-                <div className="card-body text-center">
-                  <FaBell  className="mb-2" />
-                  <h6>Notifications</h6>
-                </div>
-              </div>
-            </div>
-            {/* Add more cards as needed */}
-          </div>
-
-          {/* Performance Chart Example */}
-          <h6 className="mt-4 mb-3">Performance Overview</h6>
-          <div className="card">
-            <div className="card-body">
-              {/* Dummy chart - replace with actual chart component */}
-              <FaChartLine size={100} className="text-muted d-block mx-auto" />
-              <p className="text-center mt-2">Chart Placeholder</p>
-            </div>
-          </div>
+        className="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div className="offcanvas-body" style={{ fontSize: '12px' }}>
+      {/* Profile Information */}
+      <div className="text-center mb-4">
+        <img
+          src="https://via.placeholder.com/100"
+          alt="User Avatar"
+          className="rounded-circle mb-3"
+        />
+        <h5 style={{ color: '#0056b3', fontSize: '16px' }}>John Doe</h5>
+        <p className="text-muted" style={{ fontSize: '12px' }}>Senior CRM Manager</p>
+        <p className="mb-1" style={{ color: '#007bff', fontSize: '12px' }}><FaEnvelope /> john.doe@example.com</p>
+        <p style={{ color: '#007bff', fontSize: '12px' }}><FaPhone /> +123 456 7890</p>
+        <div className="d-flex justify-content-around mt-3">
+          <button className="btn btn-outline-primary" style={{ fontSize: '12px' }}><FaEdit /> Edit</button>
+          <button className="btn btn-outline-secondary" style={{ fontSize: '12px' }}><FaCog /> Settings</button>
+          <button className="btn btn-outline-danger" style={{ fontSize: '12px' }}><FaSignOutAlt /> Logout</button>
         </div>
       </div>
-                </div>
-              </div>
-       
 
-          {/* Top Cards Row */}
-          <div className="row">
-            <div className="col-lg-3 col-md-6">
-              <div className="card text-white bg-primary mb-4">
-                <div className="card-body">
-                  <h6 className=""><FaUserAlt /> Total Clients</h6>
-                  <h2 className="card-text">1,250</h2>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="card text-white bg-success mb-4">
-                <div className="card-body">
-                  <h6 className=""><FaChartLine /> New Leads</h6>
-                  <h2 className="card-text">300</h2>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="card text-white bg-warning mb-4">
-                <div className="card-body">
-                  <h6 className=""><FaDollarSign /> Sales</h6>
-                  <h2 className="card-text">$75,000</h2>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <div className="card text-white bg-danger mb-4">
-                <div className="card-body">
-                  <h6 className=""><FaFileInvoiceDollar /> Pending Invoices</h6>
-                  <h2 className="card-text">$12,000</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            {/* Cards Section */}
-            <div className="col-md-3">
-              <div className="card text-white bg-primary mb-3">
-                <div className="card-body">
-                  <h6 className=""><FaUser /> Total Clients</h6>
-                  <p className="card-text">1,200</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card text-white bg-secondary mb-3">
-                <div className="card-body">
-                  <h6 className=""><FaUniversity /> Total Universities</h6>
-                  <p className="card-text">150</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card text-white bg-success mb-3">
-                <div className="card-body">
-                  <h6 className=""><FaChartPie /> Total Commissions</h6>
-                  <p className="card-text">$50,000</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card text-white bg-danger mb-3">
-                <div className="card-body">
-                  <h6 className=""><FaUsers /> Active Users</h6>
-                  <p className="card-text">3,500</p>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Navigation Tabs */}
+      <ul className="nav nav-pills nav-justified mb-4 fs-9" style={{ fontSize: '10px' }}>
+        <li className="nav-item">
+          <a className="nav-link active" href="#dashboard" data-bs-toggle="tab" style={{ backgroundColor: '#e9ecef' }}><FaChartPie /> Dashboard</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#clients" data-bs-toggle="tab"><FaUsers /> Clients</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#commissions" data-bs-toggle="tab"><FaFileInvoiceDollar /> Commissions</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#projects" data-bs-toggle="tab"><FaProjectDiagram /> Projects</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#hrms" data-bs-toggle="tab"><FaSuitcase /> HRMS</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#finance" data-bs-toggle="tab"><FaDollarSign /> Finance</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#marketing" data-bs-toggle="tab"><FaGlobe /> Marketing</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#reports" data-bs-toggle="tab"><FaRegChartBar /> Reports</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#settings" data-bs-toggle="tab"><FaCogs /> Settings</a>
+        </li>
+      </ul>
 
-          {/* Charts Row */}
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="card mb-4">
-                <div className="card-header">Sales Overview</div>
+      <div className="tab-content">
+        <div className="tab-pane fade show active" id="dashboard">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Dashboard Overview</h6>
+          <div className="row g-3">
+            <div className="col-md-6 col-lg-4">
+              <div className="card text-center" style={{ borderColor: '#007bff', fontSize: '12px' }}>
                 <div className="card-body">
-                  <Line data={salesData} />
+                  <FaChartLine size={30} className="mb-2" style={{ color: '#007bff' }} />
+                  <h6>Performance</h6>
+                  <p className="text-muted small">80% Achieved</p>
+                  <div className="progress">
+                    <div className="progress-bar bg-success" role="progressbar" style={{ width: '80%' }} aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-lg-6">
-              <div className="card mb-4">
-                <div className="card-header">Client Growth</div>
+            <div className="col-md-6 col-lg-4">
+              <div className="card text-center" style={{ borderColor: '#28a745', fontSize: '12px' }}>
                 <div className="card-body">
-                  <Line data={clientGrowthData} />
+                  <FaComments size={30} className="mb-2" style={{ color: '#28a745' }} />
+                  <h6>Feedback</h6>
+                  <p className="text-muted small">23 New Comments</p>
+                  <span className="badge bg-primary"><FaCheckCircle /> Resolved</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-12">
+              <div className="card" style={{ fontSize: '12px' }}>
+                <div className="card-body">
+                  <FaBell size={30} className="mb-2" style={{ color: '#dc3545' }} />
+                  <h6 style={{ color: '#0056b3', fontSize: '14px' }}>Notifications</h6>
+                  <p className="text-muted small">5 New Alerts</p>
+                  <ul className="list-group">
+                    <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
+                      Meeting with Client X
+                      <span className="badge bg-warning rounded-pill">1 hr</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
+                      Payment Due: Invoice #1234
+                      <span className="badge bg-danger rounded-pill">2 days</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
+                      Project Deadline: Y
+                      <span className="badge bg-primary rounded-pill">5 days</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="card mb-4">
-                <div className="card-header">
-                  Client Growth
-                </div>
-                <div className="card-body">
-                  <Bar data={barData} />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="card mb-4">
-                <div className="card-header">
-                  Finance Overview
-                </div>
-                <div className="card-body">
-                  <Line data={lineData} />
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
 
-          {/* Table Row */}
-          <div className="row">
-            <div className="col">
-              <div className="card mb-4">
-                <div className="card-header">Recent Transactions</div>
-                <div className="card-body">
-                  <div className="table-responsive">
-                    <table className="table table-hover table-responsive-sm">
-                      <thead className="bg-light">
-                        <tr>
-                          <th>#</th>
-                          <th>Date</th>
-                          <th>Client</th>
-                          <th>Amount</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>2024-08-15</td>
-                          <td>ABC Corp</td>
-                          <td>$5,000</td>
-                          <td><span className="badge badge-success">Paid</span></td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>2024-08-14</td>
-                          <td>XYZ Ltd</td>
-                          <td>$3,200</td>
-                          <td><span className="badge badge-warning">Pending</span></td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>2024-08-13</td>
-                          <td>Acme Inc</td>
-                          <td>$1,500</td>
-                          <td><span className="badge badge-danger">Overdue</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
+        {/* Client Tab */}
+        <div className="tab-pane fade" id="clients">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Clients Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaUsers /> Active Clients
+            </div>
+            <div className="card-body">
+              <ul className="list-group">
+                <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
+                  Client A
+                  <span className="badge bg-success rounded-pill">Active</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
+                  Client B
+                  <span className="badge bg-warning rounded-pill">Pending</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
+                  Client C
+                  <span className="badge bg-danger rounded-pill">Inactive</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Commissions Tab */}
+        <div className="tab-pane fade" id="commissions">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Commissions Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaFileInvoiceDollar /> Recent Commissions
+            </div>
+            <div className="card-body">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">001</th>
+                    <td>Client A</td>
+                    <td>$500</td>
+                    <td>01 Aug 2024</td>
+                    <td><span className="badge bg-success" style={{ fontSize: '12px' }}>Completed</span></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">002</th>
+                    <td>Client B</td>
+                    <td>$300</td>
+                    <td>02 Aug 2024</td>
+                    <td><span className="badge bg-warning" style={{ fontSize: '12px' }}>Pending</span></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">003</th>
+                    <td>Client C</td>
+                    <td>$450</td>
+                    <td>03 Aug 2024</td>
+                    <td><span className="badge bg-danger" style={{ fontSize: '12px' }}>Cancelled</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Projects Tab */}
+        <div className="tab-pane fade" id="projects">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Projects Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaProjectDiagram /> Current Projects
+            </div>
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="card mb-3" style={{ borderColor: '#007bff', fontSize: '12px' }}>
+                    <div className="card-body">
+                      <h6 className="" style={{ color: '#0056b3', fontSize: '14px' }}>Project A</h6>
+                      <p className="card-text text-muted">Details about Project A...</p>
+                      <a href="#" className="btn" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}>View Details</a>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="card mb-3" style={{ borderColor: '#007bff', fontSize: '12px' }}>
+                    <div className="card-body">
+                      <h6 className="" style={{ color: '#0056b3', fontSize: '14px' }}>Project B</h6>
+                      <p className="card-text text-muted">Details about Project B...</p>
+                      <a href="#" className="btn" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}>View Details</a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="card mb-4">
-                <div className="card-header">
-                  Recent Applications
-                </div>
-                <div className="card-body">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Application ID</th>
-                        <th>Client</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>AP-01</td>
-                        <td>John Doe</td>
-                        <td>Pending</td>
-                      </tr>
-                      {/* More rows as needed */}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+        </div>
 
-            <div className="col-md-6">
-              <div className="card mb-4">
-                <div className="card-header">
-                  Recent Invoices
-                </div>
-                <div className="card-body">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Invoice ID</th>
-                        <th>Client</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>INV-01</td>
-                        <td>Jane Smith</td>
-                        <td>$1,000</td>
-                      </tr>
-                      {/* More rows as needed */}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+        {/* HRMS Tab */}
+        <div className="tab-pane fade" id="hrms">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>HRMS Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaSuitcase /> HRMS Dashboard
+            </div>
+            <div className="card-body">
+              <p className="text-muted">Manage Staff, Attendance, Payroll, and more.</p>
+              <a href="#" className="btn" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}>Go to HRMS</a>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="card mb-4">
-                <div className="card-header">
-                  Upcoming Meetings
-                </div>
-                <div className="card-body">
-                  <ul className="list-group">
-                    <li className="list-group-item">Meeting with Client A</li>
-                    <li className="list-group-item">Team Stand-up</li>
-                    {/* More list items as needed */}
-                  </ul>
-                </div>
-              </div>
-            </div>
+        </div>
 
-            <div className="col-md-6">
-              <div className="card mb-4">
-                <div className="card-header">
-                  Recent Notifications
-                </div>
-                <div className="card-body">
-                  <ul className="list-group">
-                    <li className="list-group-item">New application received</li>
-                    <li className="list-group-item">Invoice paid</li>
-                    {/* More list items as needed */}
-                  </ul>
-                </div>
-              </div>
+        {/* Finance Tab */}
+        <div className="tab-pane fade" id="finance">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Finance Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaDollarSign /> Finance Dashboard
+            </div>
+            <div className="card-body">
+              <p className="text-muted">Track income, expenses, and financial reports.</p>
+              <a href="#" className="btn" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}>Go to Finance</a>
             </div>
           </div>
+        </div>
 
-        </main>
+        {/* Marketing Tab */}
+        <div className="tab-pane fade" id="marketing">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Marketing Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaGlobe /> Marketing Dashboard
+            </div>
+            <div className="card-body">
+              <p className="text-muted">Manage campaigns, promotions, and events.</p>
+              <a href="#" className="btn" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}>Go to Marketing</a>
+            </div>
+          </div>
+        </div>
+
+        {/* Reports Tab */}
+        <div className="tab-pane fade" id="reports">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Reports Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaRegChartBar /> Reports Dashboard
+            </div>
+            <div className="card-body">
+              <p className="text-muted">View and generate various reports.</p>
+              <a href="#" className="btn" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}>Go to Reports</a>
+            </div>
+          </div>
+        </div>
+
+        {/* Settings Tab */}
+        <div className="tab-pane fade" id="settings">
+          <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Settings Overview</h6>
+          <div className="card" style={{ fontSize: '12px' }}>
+            <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
+              <FaCogs /> Settings Dashboard
+            </div>
+            <div className="card-body">
+              <p className="text-muted">Manage global and module-specific settings.</p>
+              <a href="#" className="btn" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}>Go to Settings</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    
-      
+  </div>
+</div>
+
+
+
+
+
+              {/* Top Cards Row */}
+              <div className="container">
+      <div className="row">
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-primary">
+            <div className="card-body">
+              <h6><FaUserAlt /> Total Clients & Students</h6>
+              <p className="card-text">Clients: 1,200 | Students: 500</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-secondary">
+            <div className="card-body">
+              <h6><FaUniversity /> Total Universities & Agents</h6>
+              <p className="card-text">Universities: 150 | Agents: 75</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-success">
+            <div className="card-body">
+              <h6><FaChartLine /> Total Commissions & Sales</h6>
+              <p className="card-text">Commissions: $50,000 | Sales: $75,000</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-warning">
+            <div className="card-body">
+              <h6><FaDollarSign /> Finance & Expenses</h6>
+              <p className="card-text">Income: $100,000 | Expenses: $20,000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-info">
+            <div className="card-body">
+              <h6><FaFileInvoiceDollar /> Applications & Invoices</h6>
+              <p className="card-text">Applications: 120 | Invoices: $12,000</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-dark">
+            <div className="card-body">
+              <h6><FaUserCog /> HRMS & Payroll</h6>
+              <p className="card-text">Staff: 150 | Payroll: $30,000</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-danger">
+            <div className="card-body">
+              <h6><FaBullhorn /> Marketing & Promotions</h6>
+              <p className="card-text">Campaigns: 10 | Promotions: 25</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 col-md-6 mb-4">
+          <div className="card text-white rounded-1 border-0 shadow-sm bg-secondary">
+            <div className="card-body">
+              <h6><FaCog /> Reports & Settings</h6>
+              <p className="card-text">Reports: 5 | Settings: 12</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+              {/* Charts Row */}
+              <div className="container mt-4">
+      <div className="row">
+        {/* Sales Overview Card */}
+        <div className="col-lg-6 mb-4">
+          <div className="card rounded-1 border-0 shadow-sm">
+            <div className="card-header bg-primary text-white d-flex align-items-center">
+              <FaChartLine className="me-2" /> Sales Overview
+            </div>
+            <div className="card-body">
+              <Line data={salesData} />
+            </div>
+          </div>
+        </div>
+
+        {/* Client Growth Card */}
+        <div className="col-lg-6 mb-4">
+          <div className="card rounded-1 border-0 shadow-sm">
+            <div className="card-header bg-success text-white d-flex align-items-center">
+              <FaUserAlt className="me-2" /> Client Growth
+            </div>
+            <div className="card-body">
+              <Line data={clientGrowthData} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row">
+        {/* Client Growth Bar Chart Card */}
+        <div className="col-md-6 mb-4">
+          <div className="card rounded-1 border-0 shadow-sm">
+            <div className="card-header bg-warning text-white d-flex align-items-center">
+              <FaChartBar className="me-2" /> Client Growth (Bar)
+            </div>
+            <div className="card-body">
+              <Bar data={barData} />
+            </div>
+          </div>
+        </div>
+
+        {/* Finance Overview Card */}
+        <div className="col-md-6 mb-4">
+          <div className="card rounded-1 border-0 shadow-sm">
+            <div className="card-header bg-info text-white d-flex align-items-center">
+              <FaMoneyBillWave className="me-2" /> Finance Overview
+            </div>
+            <div className="card-body">
+              <Line data={lineData} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+              {/* Table Row */}
+              <div className="container mt-4">
+      <div className="row">
+        {/* Recent Transactions Card */}
+        <div className="col-lg-12 mb-4">
+          <div className="card  rounded-1 border-0 shadow-sm">
+            <div className="card-header" style={{ backgroundColor: '#4a90e2', color: '#fff' }}>
+              <FaListAlt className="me-2" /> Recent Transactions
+            </div>
+            <div className="card-body">
+              <div className="table-responsive">
+                <table className="table table-hover">
+                  <thead style={{ backgroundColor: '#f0f2f5' }}>
+                    <tr>
+                      <th>
+                      
+                      </th>
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Client</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>1</td>
+                      <td>2024-08-15</td>
+                      <td>ABC Corp</td>
+                      <td>$5,000</td>
+                      <td><span className="badge" style={{ backgroundColor: '#7ed321', color: '#fff' }}>Paid</span></td>
+                      <td>
+                        <button className="btn btn-outline-primary btn-sm me-2">
+                          <FaEdit />
+                        </button>
+                        <button className="btn btn-outline-danger btn-sm">
+                          <FaTrash />
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>2</td>
+                      <td>2024-08-14</td>
+                      <td>XYZ Ltd</td>
+                      <td>$3,200</td>
+                      <td><span className="badge" style={{ backgroundColor: '#f5a623', color: '#fff' }}>Pending</span></td>
+                      <td>
+                        <button className="btn btn-outline-primary btn-sm me-2">
+                          <FaEdit />
+                        </button>
+                        <button className="btn btn-outline-danger btn-sm">
+                          <FaTrash />
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>3</td>
+                      <td>2024-08-13</td>
+                      <td>Acme Inc</td>
+                      <td>$1,500</td>
+                      <td><span className="badge" style={{ backgroundColor: '#d0021b', color: '#fff' }}>Overdue</span></td>
+                      <td>
+                        <button className="btn btn-outline-primary btn-sm me-2">
+                          <FaEdit />
+                        </button>
+                        <button className="btn btn-outline-danger btn-sm">
+                          <FaTrash />
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row">
+        {/* Recent Applications Card */}
+        <div className="col-md-6 mb-4">
+          <div className="card rounded-1 border-0 shadow-sm">
+            <div className="card-header" style={{ backgroundColor: '#7ed321', color: '#fff' }}>
+              <FaCalendarAlt className="me-2" /> Recent Applications
+            </div>
+            <div className="card-body">
+              <table className="table">
+                <thead style={{ backgroundColor: '#f0f2f5' }}>
+                  <tr>
+                    <th>#</th>
+                    <th>Application ID</th>
+                    <th>Client</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>AP-01</td>
+                    <td>John Doe</td>
+                    <td>Pending</td>
+                    <td>
+                      <button className="btn btn-outline-primary btn-sm me-2">
+                        <FaEdit />
+                      </button>
+                      <button className="btn btn-outline-danger btn-sm">
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                  {/* More rows as needed */}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Invoices Card */}
+        <div className="col-md-6 mb-4">
+          <div className="card  rounded-1 border-0 shadow-sm">
+            <div className="card-header" style={{ backgroundColor: '#f5a623', color: '#fff' }}>
+              <FaFileInvoice className="me-2" /> Recent Invoices
+            </div>
+            <div className="card-body">
+              <table className="table">
+                <thead style={{ backgroundColor: '#f0f2f5' }}>
+                  <tr>
+                    <th>#</th>
+                    <th>Invoice ID</th>
+                    <th>Client</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>INV-01</td>
+                    <td>Jane Smith</td>
+                    <td>$1,000</td>
+                    <td>
+                      <button className="btn btn-outline-primary btn-sm me-2">
+                        <FaEdit />
+                      </button>
+                      <button className="btn btn-outline-danger btn-sm">
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                  {/* More rows as needed */}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row">
+        {/* Upcoming Meetings Card */}
+        <div className="col-md-6 mb-4">
+          <div className="card  rounded-1 border-0 shadow-sm">
+            <div className="card-header" style={{ backgroundColor: '#4a90e2', color: '#fff' }}>
+              <FaCalendarAlt className="me-2" /> Upcoming Meetings
+            </div>
+            <div className="card-body">
+              <ul className="list-group">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  Meeting with Client A
+                  <span className="badge rounded-pill" style={{ backgroundColor: '#4a90e2', color: '#fff' }}>Today</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  Team Stand-up
+                  <span className="badge rounded-pill" style={{ backgroundColor: '#4a90e2', color: '#fff' }}>Tomorrow</span>
+                </li>
+                {/* More list items as needed */}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Notifications Card */}
+        <div className="col-md-6 mb-4">
+          <div className="card  rounded-1 border-0 shadow-sm">
+            <div className="card-header" style={{ backgroundColor: '#7ed321', color: '#fff' }}>
+              <FaBell className="me-2" /> Recent Notifications
+            </div>
+            <div className="card-body">
+              <ul className="list-group">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  New application received
+                  <span className="badge rounded-pill" style={{ backgroundColor: '#7ed321', color: '#fff' }}>New</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  Invoice paid
+                  <span className="badge rounded-pill" style={{ backgroundColor: '#7ed321', color: '#fff' }}>Updated</span>
+                </li>
+                {/* More list items as needed */}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+            </main>
+          </div>
+        </div>
+
+
       </div>
     </div>
   );

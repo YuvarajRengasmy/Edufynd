@@ -349,16 +349,13 @@ export default function Masterproductlist() {
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search....."
                         aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                        className="form-control border-1  rounded-4 "
                         style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
+                        
                           fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
+                         
                         }}
                       />
                       <span
@@ -468,7 +465,7 @@ export default function Masterproductlist() {
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
+                                className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right bg"
                                 onClick={resetFilter}
                                 style={{
                                   backgroundColor: "#0f2239",
@@ -482,7 +479,7 @@ export default function Masterproductlist() {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 onClick={filterAgentList}
-                                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
+                                className="btn btn-save border-0 rounded-1 fw-semibold text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
                                   fontFamily: "Plus Jakarta Sans",
@@ -543,7 +540,7 @@ export default function Masterproductlist() {
                   <li class="m-0">
                     <Link class="btn btn-pix-primary" to="/AddAgent">
                       <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                        className="btn btn-outline  fw-semibold border-0 rounded-1 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
                       >
                         <i
@@ -799,14 +796,14 @@ export default function Masterproductlist() {
             <button
               type="button"
               style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
-              className="btn btn-success rounded-pill border-0 px-4 py-2 text-white fw-semibold text-uppercase mx-3"
+              className="btn btn-success  border-0 text-white fw-semibold mx-3"
               onClick={deleteAgentData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-danger border-0 rounded-pill text-white fw-semibold text-uppercase px-4 py-2 "
+              className="btn btn-danger border-0  text-white fw-semibold "
               onClick={closePopup}
               style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
             >
@@ -846,7 +843,7 @@ export default function Masterproductlist() {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
+                className="btn btn-cancel border-0 fw-semibold  text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
               >
                 Cancel
@@ -854,7 +851,7 @@ export default function Masterproductlist() {
               <button
                 type="submit"
                 onClick={handleFileUpload}
-                className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right mx-2"
+                className="btn btn-save border-0 fw-semibold  text-white float-right mx-2"
                 style={{ backgroundColor: "#fe5722", fontSize: "14px" }}
               >
                 Apply

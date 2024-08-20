@@ -107,191 +107,147 @@ function ListStaff() {
         
         <div className='content-wrapper ' style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <div className='content-header bg-light shadow-sm sticky-top'>
-          <div className="container ">
-          
-<div className="row">
-  <div className='col-xl-12'  >
-                  <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                    
-                    <li className="flex-grow-1">
-                      <div className="input-group" style={{ maxWidth: "600px" }}>
-                        <input
-                          type="search"
-                          placeholder="Search"
-                          aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
-                          style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
-                            fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px" // Adjust padding to fit the height
-                          }}
-                        />
-                        <span
-                          className="input-group-text bg-transparent border-0"
-                          id="button-addon3"
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer"
-                          }}
-                        >
-                          <i className="fas fa-search" style={{ color: "black" }}></i>
-                        </span>
-                      </div>
-                    </li>
-                    <li class="m-1">
-                    
-
-
-                      <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                        <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                        <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                          <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">Filter Staff</h5>
-                            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
-                          </div>
-                          <div className="offcanvas-body ">
-                            <form>
-                              <div className="from-group mb-3">
-                                <label className="form-label">Employee ID</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="universityName"
-                                
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Employee ID"
-                                />
-                                <label className="form-label">DOJ</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="state"
-                                
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...DOJ"
-                                />
-                                <label className="form-label">Designation</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="averageFees"
-                                
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Designation"
-                                />
-                                <label className="form-label">Reporting Manager</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="country"
-                                 
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Reporting Manager"
-                                />
-
-                                <label className="form-label">Status</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="popularCategories"
-                               
-                                  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  placeholder="Search...Status"
-                                />
-                              </div>
-                              <div>
-                                <button
-
-                                  data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right bg"
-                                  style={{ backgroundColor: "#0f2239", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                                 
-                                >
-                                  Reset
-                                </button>
-                                <button
-                                  data-bs-dismiss="offcanvas"
-                                  type="submit"
-                                 
-                                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
-                                  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
-                                >
-                                  Apply
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-
-
-                    </li>
-                    <li class="m-2">
-                      <Link >
-                        <button style={{ backgroundColor: "#E12929", fontSize: '11px' }} className="btn text-white ">
-                          <span>
-                            <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                          </span>
-                        </button>
-                      </Link>
-                    </li>
-                    <li class="m-1">
-                      <Link class="btn-filters">
-                        <span>
-                          <button style={{ backgroundColor: "#22A033",fontSize: '11px'  }} className="btn text-white ">
-                            <i class="fa fa-file-excel" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
-
-                    <li class="m-1">
-                      <Link class="btn-filters">
-                        <span>
-                          <button
-                            style={{ backgroundColor: "#9265cc",fontSize: '11px'  }}
-                            className="btn text-white "
-                          >
-                            <i class="fa fa fa-upload" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddStaff">
-                        <button
-                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-
-                          style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                        >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>
-                          Add Staff
-                        </button>
-                      </Link>
-                    </li>
-
-                  </ol>
-
-
+  <div className="container">
+    <div className="row">
+      <div className='col-xl-12'>
+        <ol className="list-unstyled mb-0 d-flex justify-content-end align-items-center w-100">
+          <li className="flex-grow-1 me-2">
+            <div className="input-group" style={{ maxWidth: "600px" }}>
+              <input
+                type="search"
+                placeholder="Search...."
+                aria-describedby="button-addon3"
+                className="form-control border-1 rounded-4"
+                style={{ fontSize: "12px" }}
+              />
+              <span
+                className="input-group-text bg-transparent border-0"
+                id="button-addon3"
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer"
+                }}
+              >
+                <i className="fas fa-search" style={{ color: "black" }}></i>
+              </span>
+            </div>
+          </li>
+          <li className="ms-2">
+            <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+              <button className="btn btn-primary" type="button" style={{ fontSize: '11px' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                <FaFilter />
+              </button>
+              <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div className="offcanvas-header">
+                  <h5 id="offcanvasRightLabel">Filter Staff</h5>
+                  <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
                 </div>
+                <div className="offcanvas-body">
+                  <form>
+                    <div className="mb-3">
+                      <label className="form-label">Employee ID</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="employeeID"
+                        style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        placeholder="Search...Employee ID"
+                      />
+                      <label className="form-label mt-3">DOJ</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="doj"
+                        style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        placeholder="Search...DOJ"
+                      />
+                      <label className="form-label mt-3">Designation</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="designation"
+                        style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        placeholder="Search...Designation"
+                      />
+                      <label className="form-label mt-3">Reporting Manager</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="reportingManager"
+                        style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        placeholder="Search...Reporting Manager"
+                      />
+                      <label className="form-label mt-3">Status</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="status"
+                        style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                        placeholder="Search...Status"
+                      />
+                    </div>
+                    <div className="d-flex justify-content-end">
+                      <button
+                        data-bs-dismiss="offcanvas"
+                        className="btn btn-cancel border-0 rounded-pill fw-semibold text-white me-2"
+                        style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                      >
+                        Reset
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-save border-0 rounded-pill fw-semibold text-white"
+                        style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </form>
                 </div>
-
+              </div>
+            </div>
+          </li>
+          <li className="ms-2">
+            <Link>
+              <button style={{ backgroundColor: "#E12929", fontSize: '12px' }} className="btn text-white rounded-1 border-0">
+                <i className="fa fa-file-pdf" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="ms-2">
+            <Link className="btn-filters">
+              <button style={{ backgroundColor: "#22A033", fontSize: '12px' }} className="btn text-white rounded-1 border-0">
+                <i className="fa fa-file-excel" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="ms-2">
+            <Link className="btn-filters">
+              <button style={{ backgroundColor: "#7627ef", fontSize: '12px' }} className="btn text-white rounded-1 border-0">
+                <i className="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="ms-2">
+            <Link className="btn btn-pix-primary" to="/AddStaff">
+              <button
+                className="btn btn-outline fw-semibold border-0 rounded-1 text-white"
+                style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+              >
+                <i className="fa fa-plus-circle me-2" aria-hidden="true"></i>
+                Add Staff
+              </button>
+            </Link>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
 </div>
-          </div>
+
          
           <div className="container mt-3">
       <div className="row">
@@ -451,7 +407,7 @@ function ListStaff() {
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-danger fw-semibold text-uppercase rounded-pill px-4 py-2 mx-3"
+              className="btn btn-save btn-danger fw-semibold  rounded-pill  mx-3"
               onClick={deleteStaffData}
               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
             >
@@ -459,7 +415,7 @@ function ListStaff() {
             </button>
             <button
               type="button"
-              className="btn btn-cancel btn-success fw-semibold text-uppercase rounded-pill px-4 py-2 "
+              className="btn btn-cancel btn-success fw-semibold  rounded-pill  "
               onClick={closePopup}
               style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
             >
