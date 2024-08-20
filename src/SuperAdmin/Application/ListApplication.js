@@ -489,7 +489,7 @@ export default function Masterproductlist() {
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#2196F3', color: '#fff' }}>
               <div className="card-body text-center">
-                <h6 className="mb-1">Status</h6>
+            
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="d-flex flex-column">
                     <h6><i className="fas fa-thumbs-up"></i>&nbsp;&nbsp;Offered</h6>

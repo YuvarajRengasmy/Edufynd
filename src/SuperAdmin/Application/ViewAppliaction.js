@@ -2,13 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
-import { getFilterStatus } from "../../api/status";
-import { getFilterApplicationStatus } from "../../api/universityModule/ApplicationStatus";
-import { toast } from "react-toastify";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { RichTextEditor } from "@mantine/rte";
-export const ViewApplication = () => {
 
+import { getFilterStatus } from "../../api/status";
+import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
+import { toast } from "react-toastify";
+import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
+import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { RichTextEditor } from "@mantine/rte";
+import { duration } from "@mui/material";
+
+export const ViewApplication = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const modalRef = useRef(null);
@@ -18,7 +21,7 @@ export const ViewApplication = () => {
     commentBox: "",
     document: "",
     duration: "",
-    progress: "",
+    progress:"",
   };
 
   const initialStateErrors = {
@@ -128,7 +131,8 @@ export const ViewApplication = () => {
     if (!data.commentBox) {
       error.commentBox.required = true;
     }
-
+  
+  
     return error;
   };
   const convertToBase64 = (e, name) => {
@@ -155,7 +159,7 @@ export const ViewApplication = () => {
         [name]: value,
       }));
     }
-
+ 
     if (submitted) {
       const newError = handleValidation({
         ...track,
@@ -164,6 +168,8 @@ export const ViewApplication = () => {
       setTrackErrors(newError);
     }
   };
+
+
 
   const handleEditModule = (item) => {
     setTrack({
@@ -201,6 +207,8 @@ export const ViewApplication = () => {
           _id: id,
           status: track,
           progress: Math.min(100, track.progress + 80),
+         
+         
         };
         updateApplication(data)
           .then((res) => {
@@ -216,10 +224,10 @@ export const ViewApplication = () => {
   };
 
   const getProgressColor = (progress) => {
-    if (progress === 0) return "#e0e0e0"; // Gray for 0 progress
-    if (progress < 50) return "#ff9800"; // Orange for <50%
-    if (progress < 100) return "#ffc107"; // Yellow for <100%
-    return "#4caf50"; // Green for 100%
+    if (progress === 0) return '#e0e0e0'; // Gray for 0 progress
+    if (progress < 50) return '#ff9800'; // Orange for <50%
+    if (progress < 100) return '#ffc107'; // Yellow for <100%
+    return '#4caf50'; // Green for 100%
   };
 
   return (
@@ -229,23 +237,26 @@ export const ViewApplication = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
-          <div className="container">
+      
+        <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-1 ">
+              <div className="container">
+            <div className="row">
+              <div className="col">
+              <div className="card rounded-1 ">
                   <div className="card-body">
                     <div className="row">
                       <div className="col-4 border-end border-5 border-primary">
+                      
                         <h5 className="card-name fw-semibold text-center">
-                          {tracks?.name}
+                         {tracks?.name}
                         </h5>
                         <p className="card-text text-center fw-semibold mb-1">
-                          {tracks?.email}{" "}
-                          {/* Student Code:{tracks?.studentCode || "N/A"} */}
+                        {tracks?.email} {/* Student Code:{tracks?.studentCode || "N/A"} */}
                         </p>
                         <p className="card-text text-secondary text-center fw-semibold mb-3">
-                          {tracks?.studentCode || "N/A"} || {tracks?.country}
+                         {tracks?.studentCode || "N/A"} || {tracks?.country} 
                         </p>
                         <div className="text-center">
                           <button
@@ -288,9 +299,8 @@ export const ViewApplication = () => {
                       </div>
                       <div className="col-8">
                         <h5 className="card-program mb-2 fw-light">
-                          <span className="text-primary fw-bold">
-                            {tracks?.course}
-                          </span>
+                       <span className="text-primary fw-bold">{tracks?.course}</span>
+                         
                         </h5>
                         <div className="mb-3 d-flex justify-content-between">
                           <p className="card-text">{tracks?.universityName}</p>
@@ -309,19 +319,16 @@ export const ViewApplication = () => {
                                 <p className="fw-semilight">Intake</p>
                                 <p className="fw-semibold">{tracks?.inTake}</p>
                               </div>
-
+                             
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Tuition Fee</p>
-                                <p className="fw-semibold">
-                                  {tracks?.courseFees}
-                                </p>
+                                <p className="fw-semibold">{tracks?.courseFees}</p>
                               </div>
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Application Code</p>
-                                <p className="fw-semibold">
-                                  {tracks?.applicationCode}
-                                </p>
+                                <p className="fw-semibold">{tracks?.applicationCode}</p>
                               </div>
+                              
                             </div>
                           </div>
                         </div>
@@ -329,7 +336,14 @@ export const ViewApplication = () => {
                     </div>
                   </div>
                 </div>
-                <div className="card border-0 shadow-sm p-2">
+                </div>
+                </div>
+              </div>
+               
+                <div className="container">
+  <div className="row">
+    <div className="col">
+    <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
                     <div className="d-flex  flex-wrap justify-content-around align-items-center">
                       {status.map((item, index) => (
@@ -352,17 +366,15 @@ export const ViewApplication = () => {
                                 className="progress-bar progress-bar-striped progress-bar-animated"
                                 style={{
                                   width: `${item.progress}%`,
-                                  backgroundColor: getProgressColor(
-                                    item.progress
-                                  ),
+                                  backgroundColor: getProgressColor(item.progress),
                                 }}
                               ></div>
                             </div>
                             <button
                               type="button"
                               className="position-absolute text-bold top-0 translate-middle btn btn-sm btn-primary rounded-pill"
-                              data-bs-toggle="modal"
-                              data-bs-target={`#modal-${index}`}
+                              data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}
                               style={{
                                 width: "3rem",
                                 height: "3rem",
@@ -376,9 +388,7 @@ export const ViewApplication = () => {
                               className="progress-bar progress-bar-striped progress-bar-animated"
                               style={{
                                 width: `${item.progress}%`,
-                                backgroundColor: getProgressColor(
-                                  item.progress
-                                ),
+                                backgroundColor: getProgressColor(item.progress),
                               }}
                             ></div>
                           </div>
@@ -389,8 +399,8 @@ export const ViewApplication = () => {
                             <button
                               type="button"
                               className="position-absolute text-bold  top-0 translate-middle btn btn-sm btn-primary rounded-pill"
-                              data-bs-toggle="modal"
-                              data-bs-target={`#modal-${index}`}
+                              data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}
                               style={{
                                 width: "3rem",
                                 height: "3rem",
@@ -403,12 +413,6 @@ export const ViewApplication = () => {
                               {item.statusName}
                             </button>
                           </OverlayTrigger>
-                          <h5 className="text-center mt-2">
-                            <i className="fas fa-clock text-primary fw-light fs-5">
-                              {item.duration}
-                            </i>
-                            ||<i className="fas fa-stopwatch">{item.delay}</i>
-                          </h5>
 
                           <div
                             className="modal fade"
@@ -429,7 +433,7 @@ export const ViewApplication = () => {
                                   <button
                                     type="button"
                                     className="btn-close"
-                                    data-bs-dismiss="modal"
+                                    data-bs-bs-dismiss="modal"
                                     aria-label="Close"
                                     ref={modalRef}
                                   ></button>
@@ -487,12 +491,7 @@ export const ViewApplication = () => {
                                         )}
                                     </div>
                                     <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-comments nav-icon text-dark"></i>
-                                      </span>
+                                    
                                       <RichTextEditor
                                         placeholder="Start writing your content here..."
                                         name="commentBox"
@@ -502,8 +501,7 @@ export const ViewApplication = () => {
                                         style={{
                                           fontFamily: "Plus Jakarta Sans",
                                           fontSize: "12px",
-                                          minHeight: "200px",
-                                          overflowY: "auto",
+                                        
                                           zIndex: "0",
                                         }}
                                       />
@@ -558,7 +556,7 @@ export const ViewApplication = () => {
                                       <button
                                         type="button"
                                         className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        data-bs-dismiss="modal"
+                                        data-bs-bs-dismiss="modal"
                                         style={{
                                           fontSize: "12px",
                                           backgroundColor: "#231f20",
@@ -575,7 +573,7 @@ export const ViewApplication = () => {
                                           backgroundColor: "#fe5722",
                                           color: "#fff",
                                         }}
-                                        data-bs-dismiss="modal"
+                                        data-bs-bs-dismiss="modal"
                                       >
                                         Submit
                                       </button>
@@ -585,201 +583,384 @@ export const ViewApplication = () => {
                               </div>
                             </div>
                           </div>
+                          
                         </div>
+                       
                       ))}
                     </div>
                   </div>
                 </div>
-                <div className="card card-body mb-3">
+      </div>
+      </div></div>              
+               
+
+
+
+<div className="container">
+  <div className="row">
+    <div className="col">
+    <div className="card card-body mb-3">
                   <h6 className="text-start">Notes</h6>
                   <div className="text-end">
-                    <button
-                      className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
-                      data-bs-toggle="modal"
-                      data-bs-target="#StatusModal"
-                      style={{ fontSize: "12px" }}
-                    >
-                      Add Status
-                    </button>
+                    <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"   data-bs-bs-toggle="modal"
+                              data-bs-bs-target="#StatusModal"
+                             
+                              style={{fontSize:'12px'}}>Add Status</button>
                   </div>
 
                   <div
-                    className="modal fade"
-                    id="StatusModal"
-                    tabIndex="-1"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h1
-                            className="modal-title fs-5"
-                            id="staticBackdropLabel"
+                            className="modal fade"
+                            id="StatusModal"
+                            tabIndex="-1"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true"
                           >
-                            Application Status
-                          </h1>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          <form onSubmit={handleTrackSubmit}>
-                            <div className="input-group mb-3">
-                              <span
-                                className="input-group-text"
-                                id="basic-addon1"
-                              >
-                                <i className="fa fa-tasks nav-icon text-dark"></i>
-                              </span>
-                              <select
-                                name="newStatus"
-                                value={track.newStatus}
-                                onChange={handleTrack}
-                                className="form-select"
-                                style={{ fontSize: "12px" }}
-                              >
-                                <option value="">Select Status</option>
-                                {application.map((status) => (
-                                  <option
-                                    key={status._id}
-                                    value={status.statusName}
+                            <div className="modal-dialog modal-dialog-centered">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h1
+                                    className="modal-title fs-5"
+                                    id="staticBackdropLabel"
                                   >
-                                    {status.statusName}
-                                  </option>
-                                ))}
-                              </select>
-                              {submitted && trackErrors.newStatus.required && (
-                                <p className="text-danger">
-                                  Status is required
-                                </p>
-                              )}
+                                    Application Status
+                                  </h1>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-bs-dismiss="modal"
+                                    aria-label="Close"
+                                   
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                <form onSubmit={handleTrackSubmit}>
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-tasks nav-icon text-dark"></i>
+                                      </span>
+                                      <select
+                                        name="newStatus"
+                                        value={track.newStatus}
+                                        onChange={handleTrack}
+                                        className="form-select"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <option value="">Select Status</option>
+                                        {
+                                          application.map((status) => (
+                                            <option
+                                              key={status._id}
+                                              value={status.statusName}
+                                            >
+                                              {status.statusName}
+                                            </option>
+                                          ))}
+                                      </select>
+                                      {submitted &&
+                                        trackErrors.newStatus.required && (
+                                          <p className="text-danger">
+                                            Status is required
+                                          </p>
+                                        )}
+                                    </div>
+                                    <div className="input-group mb-3 visually-hidden">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-tasks nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="text"
+                                        name="duration"
+                                        value="0"
+                                        onChange={handleTrack}
+                                        className="form-control"
+                                        placeholder="Enter Status...."
+                                        aria-label="Status"
+                                        aria-describedby="basic-addon1"
+                                        style={{ fontSize: "12px" }}
+                                      />
+                                    
+                                    </div>
+                                    <div className="input-group mb-3">
+                                     
+                                      <RichTextEditor
+                                        placeholder="Start writing your content here..."
+                                        name="commentBox"
+                                        onChange={handleRichTextChange}
+                                        value={track.commentBox}
+                                        type="text"
+                                        style={{
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                         
+                                          zIndex: "0",
+                                        }}
+                                      />
+                                      {submitted &&
+                                        trackErrors.commentBox.required && (
+                                          <p className="text-danger">
+                                            Comment is required
+                                          </p>
+                                        )}
+                                    </div>
+                                    <div className="input-group mb-3">
+                                      <span
+                                        className="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        <i className="fa fa-file nav-icon text-dark"></i>
+                                      </span>
+                                      <input
+                                        type="file"
+                                        className="form-control "
+                                        style={{
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        placeholder="Enter  Image upload"
+                                        name="document"
+                                        onChange={handleTrack}
+                                      />
+                                    </div>
+                                    <div className="modal-footer">
+                                      <button
+                                        type="button"
+                                        className="btn px-4 py-2 text-uppercase fw-semibold"
+                                        data-bs-bs-dismiss="modal"
+                                        style={{
+                                          fontSize: "12px",
+                                          backgroundColor: "#231f20",
+                                          color: "#fff",
+                                        }}
+                                      >
+                                        Close
+                                      </button>
+                                      <button
+                                        type="submit"
+                                        data-bs-bs-dismiss="modal"
+                                        className="btn px-4 py-2 text-uppercase fw-semibold"
+                                        style={{
+                                          fontSize: "12px",
+                                          backgroundColor: "#fe5722",
+                                          color: "#fff",
+                                        }}
+                                        // data-bs-bs-dismiss="modal"
+                                      >
+                                        Submit
+                                      </button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
                             </div>
-                            <div className="input-group mb-3 visually-hidden">
-                              <span
-                                className="input-group-text"
-                                id="basic-addon1"
+                          </div>
+                </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid my-2">
+  <div class="row flex-nowrap">
+   
+    <div class="col-md-3 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
+      <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+        <div class="card-header bg-white border-0">
+         
+          <div className="text-center">
+                          <button
+                            aria-valuenow="75"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            className="btn btn-sm text-capitalize fw-semibold rounded-pill text-white  position-relative"
+                            style={{
+                              fontSize: "10px",
+                              backgroundColor: "#7627ef",
+                              border: "none",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div
+                              className="position-absolute top-50 start-50 translate-middle"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#ffffff",
+                                opacity: 0.2,
+                              }}
+                            >
+                              <div
+                                className="progress position-relative"
+                                style={{ height: "100%" }}
                               >
-                                <i className="fa fa-tasks nav-icon text-dark"></i>
-                              </span>
-                              <input
-                                type="text"
-                                name="duration"
-                                value="0"
-                                onChange={handleTrack}
-                                className="form-control"
-                                placeholder="Enter Status...."
-                                aria-label="Status"
-                                aria-describedby="basic-addon1"
-                                style={{ fontSize: "12px" }}
-                              />
+                                <div
+                                  className="progress-bar progress-bar-striped progress-bar-animated"
+                                  style={{ width: "75%", height: "100%" }}
+                                ></div>
+                              </div>
                             </div>
-                            <div className="input-group mb-3">
-                              <span
-                                className="input-group-text"
-                                id="basic-addon1"
-                              >
-                                <i className="fa fa-comments nav-icon text-dark"></i>
-                              </span>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="commentBox"
-                                onChange={handleRichTextChange}
-                                value={track.commentBox}
-                                type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
-                                  zIndex: "0",
-                                }}
-                              />
-                              {submitted && trackErrors.commentBox.required && (
-                                <p className="text-danger">
-                                  Comment is required
-                                </p>
-                              )}
-                            </div>
-                            <div className="input-group mb-3">
-                              <span
-                                className="input-group-text"
-                                id="basic-addon1"
-                              >
-                                <i className="fa fa-file nav-icon text-dark"></i>
-                              </span>
-                              <input
-                                type="file"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Image upload"
-                                name="document"
-                                onChange={handleTrack}
-                              />
-                            </div>
-                            <div className="modal-footer">
-                              <button
-                                type="button"
-                                className="btn px-4 py-2 text-uppercase fw-semibold"
-                                data-bs-dismiss="modal"
-                                style={{
-                                  fontSize: "12px",
-                                  backgroundColor: "#231f20",
-                                  color: "#fff",
-                                }}
-                              >
-                                Close
-                              </button>
-                              <button
-                                type="submit"
-                                data-bs-dismiss="modal"
-                                className="btn px-4 py-2 text-uppercase fw-semibold"
-                                style={{
-                                  fontSize: "12px",
-                                  backgroundColor: "#fe5722",
-                                  color: "#fff",
-                                }}
-                                // data-bs-dismiss="modal"
-                              >
-                                Submit
-                              </button>
-                            </div>
-                          </form>
+                            <span>Document</span>
+                          </button>
+                          <div className="text-center">
+                            <small>(75%) Completed</small>
+                          </div>
                         </div>
+        </div>
+        <div class="card-body p-4">
+          <img
+            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+            class="card-img-top rounded-circle border-0"
+            alt="Profile"
+            style={{ width: "3rem", height: "3rem" }}
+          />
+          <p>
+            Application Status - {tracks?.createdBy} {tracks?.createdOn}
+          </p>
+          <p><b>Application Process</b></p>
+          {tracks?.status && (
+            <div>
+              {tracks.status.map((item, index) => (
+                <a
+                  href={item?.document || "#"}
+                  target="_blank"
+                  download
+                  key={index}
+                  class="d-flex align-items-center justify-content-between mb-2 text-decoration-none"
+                >
+                  <div class="me-2">
+                    <img
+                      src={item?.document || "-"}
+                      class="card-img-top border-0 me-2"
+                      alt="Document"
+                      style={{ width: "5rem", height: "5rem" }}
+                    />
+                    <p class="card-text mb-0" style={{ fontSize: "12px" }}>
+                      {item?.name}
+                    </p>
+                  </div>
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="col-md-9 col-sm-8">
+      <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+        <div class="card-header bg-white">
+          <h6 class="card-title">Application Track</h6>
+        </div>
+        
+      
+        <div class="collapse" id="taggingSection">
+        <div className="btn btns-m border-0 rounded-1 btn-danger float-end m-2"  data-bs-toggle="collapse" data-bs-target="#taggingSection"><i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide</div>
+          <div class="card-body p-4 border rounded-1">
+           
+            <form>
+              <div class="form-group mb-3">
+                <label for="tagPerson">Tag Person</label>
+                <input
+                  type="text"
+                  class="form-control rounded-1 text-muted"
+                  id="tagPerson"
+                  placeholder="Enter person's name"
+                  style={{ fontSize: "12px" }}
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label for="subject">Subject</label>
+                <RichTextEditor
+                  placeholder="Start writing your content here..."
+                  name="content"
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: "12px"
+                  }}
+                  controls={[
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+                    ['unorderedList', 'orderedList'],
+                    ['indent', 'outdent'],
+                    ['link', 'image', 'video'],
+                    ['blockquote', 'codeBlock'],
+                    ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
+                    ['subscript', 'superscript'],
+                    ['color', 'backgroundColor']
+                  ]}
+                />
+              </div>
+              <button type="submit" class="btn btn-primary float-end border-0 rounded-1 ">Send</button>
+            </form>
+          </div>
+        </div>
+        
+       
+        <div class="card-body p-4">
+          <div class="chat-messages">
+            <div class="container">
+              <div class="row">
+                <div class="d-flex justify-content-end mb-4">
+                  <div class="col-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <p class="mb-0">Application Decision: Rejected</p>
+                        <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+                        <i class="fa fa-reply" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div class="card-body">
+                        Hi Fynd,<br /><br />
+                        Thank you for your application to University of Roehampton.<br /><br />
+                        We are very sorry to inform you that University of Roehampton was unable to offer you admission to the Master of Science - Global Business Management program. You can find a copy of this admission decision on the Student Records tab.<br /><br />
+                        We invite you to submit another application on the ApplyBoard dashboard. Please reach out to your recruitment representative if you require assistance selecting a suitable program for your student.<br /><br />
+                        If you have any questions or concerns about this admission decision, please leave us a Note on this application and we will gladly provide guidance.<br /><br />
+                        Sincerely,<br />
+                        TP Kanishka<br />
+                        ApplyBoard
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+       
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+             
 
                 <div className="container">
                   <div className="row">
                     <div className="col-md-6  ">
-                      <div className="card rounded-1 border-0  vh-100 overflow-auto">
+                      <div className="card rounded-1 border-0  vh-100 min-vh-100 overflow-auto">
                         <div className="card-body">
-                          <div className="container">
+                        <div className="container">
                             <div className="row">
                               <div className="col">
                                 <div className=" align-items-center justify-content-center">
-                                  <div class="application-profile border-0 ">
+                                  <div className="application-profile border-0 ">
                                     <img
-                                      src={
-                                        tracks?.photo
-                                          ? tracks?.photo
-                                          : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                      }
-                                      class="card-img-top rounded-circle border-0 "
+                                      src={tracks?.photo?tracks?.photo:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                      className="card-img-top rounded-circle border-0 "
                                       alt="..."
                                       style={{ width: "4rem", height: "4rem" }}
                                     />
-                                    <div class="card-body">
+                                    <div className="card-body">
                                       <p
-                                        class="card-text"
+                                        className="card-text"
                                         style={{ fontSize: "10px" }}
                                       >
                                         {tracks?.name}
@@ -788,57 +969,45 @@ export const ViewApplication = () => {
                                   </div>
                                 </div>
 
-                                <div className="card border-0">
-                                  <div className="card-header text-bg-primary">
-                                    <h6 className="h6">
-                                      Application Status -{tracks?.createdBy}
-                                      {tracks?.createdOn}
-                                    </h6>
-                                  </div>
-                                  <div className="card-body">
-                                    <h1>
-                                      <b>Application Process</b>
-                                    </h1>
-                                    {tracks?.status &&
-                                      tracks.status.map((item, index) => (
-                                        <div key={index}>
-                                          <a
-                                            href={
-                                              item?.document
-                                                ? item?.document
-                                                : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                            }
-                                            target="_blank"
-                                            download
-                                          >
-                                            <img
-                                              src={
-                                                item?.document
-                                                  ? item?.document
-                                                  : "-"
-                                              }
-                                              className="card-img-top  border-0"
-                                              alt="..."
-                                              style={{
-                                                width: "7rem",
-                                                height: "7rem",
-                                              }}
-                                            />
-                                            <i className="fa fa-download p-5"></i>
-                                          </a>
-                                          <div class="card-body">
-                                            <p
-                                              class="card-text"
-                                              style={{ fontSize: "10px" }}
-                                            >
-                                              {item?.name}
-                                            </p>
+                             
+                                  <div className="card border-0">
+                                    <div className="card-header text-bg-primary">
+                                      <h6 className="h6">
+                                        Application Status -{tracks?.createdBy}
+                                        {tracks?.createdOn}
+                                      </h6>
+                                    </div>
+                                    <div className="card-body">
+                                      <h1>
+                                        <b>Application Process</b>
+                                      </h1>
+                                      {tracks?.status &&
+                                        tracks.status.map((item, index) => (
+                                          <div key={index}>
+                                            
+                                            <a href={item?.document?item?.document:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"} target="_blank" download>
+      <img
+        src={item?.document?item?.document:"-"}
+        className="card-img-top  border-0"
+        alt="..."
+        style={{ width: "7rem", height: "7rem" }}
+      />
+      <i className="fa fa-download p-5"></i>
+    </a>
+                                            <div className="card-body">
+                                              <p
+                                                className="card-text"
+                                                style={{ fontSize: "10px" }}
+                                              >
+                                                {item?.name}
+                                              </p>
+                                            </div>
+                                            <p>{item?.createdBy}</p>
                                           </div>
-                                          <p>{item?.createdBy}</p>
-                                        </div>
-                                      ))}
+                                        ))}
+                                    </div>
                                   </div>
-                                </div>
+                               
                               </div>
                             </div>
                           </div>
@@ -853,16 +1022,16 @@ export const ViewApplication = () => {
                             <div className="row">
                               <div className="col">
                                 <div className=" align-items-center justify-content-center">
-                                  <div class="application-profile border-0 ">
+                                  <div className="application-profile border-0 ">
                                     <img
                                       src="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                      class="card-img-top rounded-circle border-0 "
+                                      className="card-img-top rounded-circle border-0 "
                                       alt="..."
                                       style={{ width: "4rem", height: "4rem" }}
                                     />
-                                    <div class="card-body">
+                                    <div className="card-body">
                                       <p
-                                        class="card-text"
+                                        className="card-text"
                                         style={{ fontSize: "10px" }}
                                       >
                                         {track?.name}
@@ -871,41 +1040,43 @@ export const ViewApplication = () => {
                                   </div>
                                 </div>
 
-                                <div className="card border-0">
-                                  <div className="card-header text-bg-primary">
-                                    <h6 className="h6">
-                                      Application Status -{track?.createdBy}
-                                      {track?.createdOn}
-                                    </h6>
-                                  </div>
-                                  <div className="card-body">
-                                    <h1>
-                                      <b>Application Process</b>
-                                    </h1>
-                                    {tracks?.status &&
-                                      tracks.status.map((item, index) => (
-                                        <div key={index}>
-                                          <h4>Status: {item?.newStatus}</h4>
-                                          <p>
-                                            <RichTextEditor
-                                              value={item?.commentBox}
-                                              readOnly
-                                            />{" "}
-                                          </p>
-
-                                          <div class="card-body">
-                                            <p
-                                              class="card-text"
-                                              style={{ fontSize: "10px" }}
-                                            >
-                                              {item?.name}
+                             
+                                  <div className="card border-0">
+                                    <div className="card-header text-bg-primary">
+                                      <h6 className="h6">
+                                        Application Status -{track?.createdBy}
+                                        {track?.createdOn}
+                                      </h6>
+                                    </div>
+                                    <div className="card-body">
+                                      <h1>
+                                        <b>Application Process</b>
+                                      </h1>
+                                      {tracks?.status &&
+                                        tracks.status.map((item, index) => (
+                                          <div key={index}>
+                                            <h4>Status: {item?.newStatus}</h4>
+                                            <p>
+                                              <RichTextEditor
+                                                value={item?.commentBox}
+                                                readOnly
+                                              />{" "}
                                             </p>
+                                           
+                                            <div className="card-body">
+                                              <p
+                                                className="card-text"
+                                                style={{ fontSize: "10px" }}
+                                              >
+                                                {item?.name}
+                                              </p>
+                                            </div>
+                                            <p>{item?.createdBy}</p>
                                           </div>
-                                          <p>{item?.createdBy}</p>
-                                        </div>
-                                      ))}
+                                        ))}
+                                    </div>
                                   </div>
-                                </div>
+                               
                               </div>
                             </div>
                           </div>
@@ -917,7 +1088,6 @@ export const ViewApplication = () => {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );
