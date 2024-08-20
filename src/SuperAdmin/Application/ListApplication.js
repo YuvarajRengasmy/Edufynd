@@ -628,7 +628,7 @@ export default function Masterproductlist() {
                                   {data?.universityName || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">
-                                  {data?.course || "Not Available"}
+                                  {data?.course || data?.programTitle ||"Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate"></td>
 

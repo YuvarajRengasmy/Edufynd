@@ -905,34 +905,34 @@ export const ViewApplication = () => {
         <div class="card-body p-4">
           <div class="chat-messages">
             <div class="container">
-              <div class="row">
-                <div class="d-flex justify-content-end mb-4">
-                  <div class="col-8">
-                    <div class="card">
-                      <div class="card-header text-bg-danger">
-                        <p class="mb-0">Application Decision: Rejected</p>
-                        <div className="d-flex gap-2">
-                        September 28th 2023, 15:38
 
-                        <button class="btn btn-sm text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+              <div class="row">
+              {tracks?.status &&
+                                        tracks.status.map((item, index) => (
+                <div key={index} class="d-flex justify-content-end mb-4">
+                
+                  <div  class="col-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <p class="mb-0">Application Decision:{item?.newStatus}</p>
+                        <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i class="fa fa-reply" aria-hidden="true"></i>
                         </button>
-                        </div>
-                      
                       </div>
                       <div class="card-body">
-                        Hi Fynd,<br /><br />
-                        Thank you for your application to University of Roehampton.<br /><br />
-                        We are very sorry to inform you that University of Roehampton was unable to offer you admission to the Master of Science - Global Business Management program. You can find a copy of this admission decision on the Student Records tab.<br /><br />
-                        We invite you to submit another application on the ApplyBoard dashboard. Please reach out to your recruitment representative if you require assistance selecting a suitable program for your student.<br /><br />
-                        If you have any questions or concerns about this admission decision, please leave us a Note on this application and we will gladly provide guidance.<br /><br />
-                        Sincerely,<br />
-                        TP Kanishka<br />
-                        ApplyBoard
+                      <RichTextEditor
+                                                value={item?.commentBox}
+                                                readOnly
+                                              /> <br/><br/>
+                          Sincerely,
+                          {track?.name}<br />
+                        Edufynd
                       </div>
                     </div>
                   </div>
+               
                 </div>
+                 ))}
               </div>
             </div>
           </div>

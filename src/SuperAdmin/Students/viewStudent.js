@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
-import Sortable from 'sortablejs';
 import { getSingleStudent } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
 import { getallProgram, getProgramByUniversity, getProgramByCountry } from "../../api/Program";
 import { getUniversitiesByCountry } from "../../api/university";
 import { getallUniversity } from "../../api/university";
-import { saveApplication,getStudentApplication } from "../../api/applicatin";
+import { saveApplication } from "../../api/applicatin";
 import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
 import { toast } from "react-toastify";
 import { getMonthYear } from "../../Utils/DateFormat";
+import { getallApplication, deleteApplication,getStudentApplication } from "../../api/applicatin";
+
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
@@ -20,12 +21,13 @@ import { Program } from "../../api/endpoints";
 function Profile() {
  
   const location = useLocation();
-  const id = new URLSearchParams(location.search).get("id");
+  const studentId = new URLSearchParams(location.search).get("id");
 
   const initialStateInputs = {
     name: "",
     dob: "",
     passportNo: "",
+    studentId: "",
     country: "",
     email: "",
     primaryNumber: "",
@@ -41,6 +43,7 @@ function Profile() {
     name: { required: false },
     dob: { required: false },
     passportNo: { required: false },
+    // studentId: { required: false },
     country: { required: false },
     email: { required: false },
     primaryNumber: { required: false },
@@ -71,8 +74,31 @@ function Profile() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [student, setStudent] = useState({});
-  const [students, setStudents] = useState({});
+  const [application, setApplication] = useState([]);
 
+  useEffect(() => {
+    getApplicationList();
+  }, [ pagination.from, pagination.to]);
+
+  const getApplicationList = () => {
+ 
+    getStudentApplication(studentId)
+    .then((res) => {
+      console.log("API Response:", res); // Debugging API response
+      if (res?.data?.result && Array.isArray(res.data.result)) {
+        setApplication(res.data.result);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.length,
+        });
+      } else {
+        console.warn("Unexpected response structure:", res);
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching programs:", err);
+    });
+  };
 const navigate = useNavigate();
   useEffect(() => {
     getStudentDetails();
@@ -83,7 +109,7 @@ const navigate = useNavigate();
   }, []);
 
   const getStudentDetails = () => {
-    getSingleStudent(id)
+    getSingleStudent(studentId)
       .then((res) => {
         const result = res?.data?.result;
         setStudent(result);
@@ -92,6 +118,7 @@ const navigate = useNavigate();
           name: result?.name,
           dob: result?.dob,
           passportNo: result?.passportNo,
+          studentId: result?._id,
           email: result?.email,
           primaryNumber: result?.primaryNumber,
           whatsAppNumber: result?.whatsAppNumber
@@ -141,33 +168,7 @@ const navigate = useNavigate();
         console.log(err);
       });
   };
-  useEffect(() => {
-    getStudentApplicationDetails();
-  }, [pagination.from]);
-
-  const getStudentApplicationDetails = () => {
-    const data = {
-      limit: pageSize,
-      page: pagination.from,
-      studentId: id,
-    };
-    getStudentApplication(data)
-      .then((res) => {
-        console.log("API", res); // Debugging API response
-        if (res?.data?.result && Array.isArray(res.data.result)) {
-          setStudents(res.data.result);
-          setPagination({
-            ...pagination,
-            count: res?.data?.result?.length,
-          });
-        } else {
-          console.warn("Unexpected response structure:", res);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching programs:", err);
-      });
-  };
+ 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
     for (let key in data) {
@@ -204,6 +205,7 @@ const navigate = useNavigate();
 
     getProgramByUniversity(selectedUniversity)
       .then((res) => {
+        console.log(res?.data?.result);
         setPrograms(res?.data?.data?.universityDetails?.programDetails || []);
       })
       .catch((err) => {
@@ -241,10 +243,11 @@ const handleSubmit = (event) => {
   event.preventDefault();
   setSubmitted(true);
   if (handleErrors(errors)) {
-saveApplication(inputs)
+        saveApplication(inputs)
       .then((res) => {
         toast.success(res?.data?.message);
-        navigate("/ListStudent");
+        getStudentDetails();
+
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
@@ -266,30 +269,6 @@ const closePopup = () => {
 };
 const tableRef = useRef(null);
 
-useEffect(() => {
-  const table = tableRef.current;
-
-  // Apply SortableJS to the table headers
-  const sortable = new Sortable(table.querySelector('thead tr'), {
-    animation: 150,
-    swapThreshold: 0.5,
-    handle: '.sortable-handle',
-    onEnd: (evt) => {
-      const oldIndex = evt.oldIndex;
-      const newIndex = evt.newIndex;
-
-      // Move the columns in the tbody
-      table.querySelectorAll('tbody tr').forEach((row) => {
-        const cells = Array.from(row.children);
-        row.insertBefore(cells[oldIndex], cells[newIndex]);
-      });
-    }
-  });
-
-  return () => {
-    sortable.destroy();
-  };
-}, []);
   return (
     <>
       <Sidebar />
@@ -311,7 +290,7 @@ useEffect(() => {
       <li  className="breadcrumb-item">
         <Link to={{
           pathname: "/EditStudent",
-          search: `?id=${student?._id}`,
+          search: `?studentId=${student?._id}`,
         }} className="text-decoration-none">EditStudent</Link>
       </li>
   
@@ -379,7 +358,7 @@ useEffect(() => {
                   <div class="modal-dialog modal-fullscreen">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        <h1 class="modal-title fs-5" studentId="exampleModalLabel">
                           Course Apply
                         </h1>
                         <button
@@ -389,371 +368,7 @@ useEffect(() => {
                           aria-label="Close"
                         ></button>
                       </div>
-                      {/* <form>
-                        <div class="modal-body">
-                          <div className="container">
-                            <div className="row g-4">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Country<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select font-weight-light"
-                              name="country"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={inputs.country}
-                              onChange={handleCountryChange}
-                            >
-                              <option
-                                className=" font-weight-light"
-                                value=""
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Select Country
-                              </option>
-                              {countries.map((country) => (
-                                <option
-                                  key={country._id}
-                                  value={country.country}
-                                >
-                                  {country.country}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.country.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Intake<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select font-weight-light"
-                              name="country"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              
-                              onChange={handleInputs}
-                            >
-                              <option
-                                className=" font-weight-light"
-                                value=""
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Select Intake
-                              </option>
-                              {inTake.map((country) => (
-                                <option
-                                  key={country._id}
-                                  value={country.intakeName}
-                                >
-                                  {country.intakeName}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.country.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-                            
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              University<span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className="form-select font-weight-light"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              name="universityName"
-                              value={inputs._id}
-                              onChange={handleUniversityChange}
-                            >
-                              <option
-                                className=" font-weight-light"
-                                value=""
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Select University
-                              </option>
-                              {universities.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni._id}
-                                >
-                                  {uni.universityName}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.universityName.required ? (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Program<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select font-weight-light"
-                                  name="programTitle"
-                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-                                  value={inputs.programTitle}
-                                  onChange={handleProgramChange}
-                                >
-                                  <option value="">Select Program</option>
-                                  {programs.map((program) => (
-                                    <option key={program._id} value={program.programTitle}>
-                                      {program.programTitle}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.programTitle.required && (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                )}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Campus<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select font-weight-light"
-                                  name="campus"
-                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-                                  value={inputs.campus}
-                                  onChange={handleInputs}
-                                >
-                                  <option value="">Select Campus</option>
-                                  {selectedProgram?.campuses?.map((campus) => (
-                                    <option key={campus.campus} value={campus.campus}>
-                                      {campus.campus}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.campus.required && (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                )}
-                              </div>
-
-                           
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  Student Name
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  value={student.name}
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Name"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  name="name"
-                                />
-                                {errors.name.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  DOB<span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter DOB"
-                                  value={student.dob?.slice(0, 10)}
-                                  onChange={handleInputs}
-                                  name="dob"
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.dob.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  Passport No
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Passport No"
-                                  value={student.passportNo}
-                                  onChange={handleInputs}
-                                  name="passportNo"
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.passportNo.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  Email<span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Email"
-                                  name="email"
-                                  value={student.email}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.email.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  Primary Number
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Primary Number"
-                                  name="primaryNumber"
-                                  value={student.primaryNumber}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.primaryNumber.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  WhatsApp Number
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter WhatsApp Number"
-                                  name="whatsAppNumber"
-                                  value={student.whatsAppNumber}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.whatsAppNumber.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Course Type
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Course Type"
-                                  name="courseType"
-                                  value={inputs?.courseType}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.courseType.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                            
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="submit"
-                            class="btn btn-secondary text-white px-4 py-2 text-uppercase fw-semibold"
-                            style={{ fontSize: "12px" }}
-                            data-bs-dismiss="modal"
-                          >
-                            Close
-                          </button>
-                          <button
-                            type="submit"
-                            className="btn text-white px-4 py-2 text-uppercase fw-semibold"
-                            style={{
-                              backgroundColor: "#fe5722",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </form> */}
+              
                        <form onSubmit={handleSubmit}>
                         <div className="modal-body">
                           <div className="container">
@@ -878,7 +493,7 @@ useEffect(() => {
                                   </span>
                                 )}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
                                 <label style={{ color: "#231F20" }}>
                                   Student Name
                                   <span className="text-danger">*</span>
@@ -901,6 +516,26 @@ useEffect(() => {
                                     This field is required.
                                   </span>
                                 ) : null}
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  ">
+                                <label style={{ color: "#231F20" }}>
+                                  Student Id
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  value={student?._id}
+                                  className="form-control rounded-1 p-2"
+                                  placeholder="Enter Student Id"
+                                  onChange={handleInputs}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  name="studentId"
+                                />
+                               
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
@@ -1049,14 +684,15 @@ useEffect(() => {
                           </div>
                         </div>
                         <div className="modal-footer">
-                          <button
-                            type="button"
+                          <Link
+                          
+                          
                             className="btn btn-secondary"
                             data-bs-dismiss="modal"
                           >
                             Close
-                          </button>
-                          <button type="submit" className="btn" style={{ backgroundColor: "#fe5722", color: "#fff" }}>
+                          </Link>
+                          <button type="submit" data-bs-dismiss="modal" className="btn" style={{ backgroundColor: "#fe5722", color: "#fff" }}>
                            Submit
                           </button>
                         </div>
@@ -1290,16 +926,19 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-
-            <div className="card  rounded-1 shadow-sm border-0">
-         <div className="card-body">
-           <div className="card-table">
-             <div className="table-responsive">
-
-               <table className=" table table-hover card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
-              ref={tableRef}>
-                 <thead className="table-light">
-                 <tr
+            <div className="container">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card rounded-1 shadow-sm border-0">
+                  <div className="card-body">
+                    <div className="card-table">
+                      <div className="table-responsive">
+                        <table
+                          className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                          ref={tableRef}
+                        >
+                          <thead className="table-light">
+                            <tr
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -1333,11 +972,10 @@ useEffect(() => {
                                 Action
                               </th>
                             </tr>
-                 </thead>
-                 <tbody>
-                 {Array.isArray(students) && students.length > 0 ? (
-                   students.map((data, index) => (
-                    <tr
+                          </thead>
+                          <tbody>
+                            {application?.map((data, index) => (
+                              <tr
                                 key={index}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -1361,7 +999,7 @@ useEffect(() => {
                                   {data?.universityName || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">
-                                  {data?.course || "Not Available"}
+                                  {data?.course || data?.programTitle || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate"></td>
 
@@ -1371,7 +1009,7 @@ useEffect(() => {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/ApplicationView",
-                                        search: `?id=${data?._id}`,
+                                        search: `?studentId=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
@@ -1380,7 +1018,7 @@ useEffect(() => {
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/EditApplication",
-                                        search: `?id=${data?._id}`,
+                                        search: `?studentId=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
@@ -1396,27 +1034,26 @@ useEffect(() => {
                                   </div>
                                 </td>
                               </tr>
-                   ))
-                
-                ) : (
-                  <p>No programs available.</p>
-                )}
-
-                 </tbody>
-               </table>
-             </div>
-           </div>
-           <div className="float-right my-2">
-             <Pagination
-               count={Math.ceil(pagination.count / pageSize)}
-               onChange={handlePageChange}
-               variant="outlined"
-               shape="rounded"
-               color="primary"
-             />
-           </div>
-         </div>
-       </div>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div className="float-right my-2">
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           </div>
         </div>
       </div>
