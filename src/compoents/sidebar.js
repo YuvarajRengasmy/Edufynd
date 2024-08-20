@@ -248,7 +248,7 @@ const Sidebar = () => {
   
     if (activeRef) {
       setTimeout(() => {
-        activeRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        activeRef.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100); // Adjust delay as necessary
     }
   }, [currentPath]);
@@ -303,6 +303,7 @@ const Sidebar = () => {
     ref={el => (sidebarRefs.current['/DashBoard'] = el)}
     className={`nav-link sidebar_link ${activeLink === "/DashBoard" ? "active" : ""}`}
     onClick={() => handleSetActiveLink("/DashBoard")}
+      data-path="/DashBoard"
   >
     <i className="fa fa-tachometer-alt nav-icon"></i>
     Dashboard
@@ -319,6 +320,7 @@ const Sidebar = () => {
         : ""
     }`}
     onClick={() => handleSetActiveLink("/ListClient")}
+     data-path="/ListClient"
   >
     <i className="fa fa-user nav-icon"></i>
     Client
@@ -335,6 +337,7 @@ const Sidebar = () => {
         : ""
     }`}
     onClick={() => handleSetActiveLink("/ListUniversity")}
+     data-path="/ListUniversity"
   >
     <i className="fa fa-graduation-cap nav-icon"></i>
     University
@@ -351,6 +354,7 @@ const Sidebar = () => {
         : ""
     }`}
     onClick={() => handleSetActiveLink("/ListCommission")}
+     data-path="/ListCommission"
   >
     <i className="fa fa-dollar-sign nav-icon"></i>
     Commission
@@ -367,6 +371,7 @@ const Sidebar = () => {
         : ""
     }`}
     onClick={() => handleSetActiveLink("/Programs")}
+     data-path="/Programs"
   >
     <i className="fa fa-cogs nav-icon"></i>
     Program
@@ -411,6 +416,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListStudent")}
+           data-path="/ListStudent"
         >
           <i className="fa fa-user-graduate nav-icon"></i> Students
         </Link>
@@ -425,6 +431,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListStaff")}
+           data-path="/ListStaff"
         >
           <i className="fa fa-user-tie nav-icon"></i> Staffs
         </Link>
@@ -439,6 +446,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListAgent")}
+           data-path="/ListAgent"
         >
           <i className="fa fa-user-secret nav-icon"></i> Agents
         </Link>
@@ -460,6 +468,7 @@ const Sidebar = () => {
         : ""
     }`}
     onClick={() => handleSetActiveLink("/ListApplication")}
+     data-path="/ListApplication"
   >
     <i className="fa fa-archive nav-icon"></i> Application
   </Link>
@@ -502,6 +511,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListStudentForm")}
+           data-path="/ListStudentForm"
         >
           <i className="fa fa-user-graduate nav-icon"></i> Student
         </Link>
@@ -516,6 +526,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListForexForm")}
+           data-path="/ListForexForm"
         >
           <i className="fa fa-money-bill-wave nav-icon"></i> FOREX
         </Link>
@@ -530,6 +541,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListAccommodation")}
+           data-path="/ListAccommodation"
         >
           <i className="fa fa-bed nav-icon"></i> Accommodation
         </Link>
@@ -544,6 +556,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListFlightTicket")}
+           data-path="/ListFlightTicket"
         >
           <i className="fa fa-plane nav-icon"></i> Flight
         </Link>
@@ -558,6 +571,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListLoanEnquiry")}
+           data-path="/ListLoanEnquiry"
         >
           <i className="fa fa-credit-card nav-icon"></i> Loan
         </Link>
@@ -572,6 +586,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListBusinessEnquiry")}
+           data-path="/ListBusinessEnquiry"
         >
           <i className="fa fa-briefcase nav-icon"></i> Business Enquiry
         </Link>
@@ -586,6 +601,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListGeneralEnquiry")}
+           data-path="/ListGeneralEnquiry"
         >
           <i className="fa fa-info-circle nav-icon"></i> General Enquiry
         </Link>
@@ -631,6 +647,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListIncome")}
+           data-path="/ListIncome"
         >
           <i className="fa fa-arrow-up nav-icon"></i> Income
         </Link>
@@ -645,6 +662,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListExpenses")}
+           data-path="/ListExpenses"
         >
           <i className="fa fa-arrow-down nav-icon"></i> Expense
         </Link>
@@ -659,6 +677,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListRaiseQuotations")}
+           data-path="/ListRaiseQuotations"
         >
           <i className="fa fa-file-invoice nav-icon"></i> Raise Quotations
         </Link>
@@ -673,6 +692,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListInvoice")}
+           data-path="/ListInvoice"
         >
           <i className="fa fa-file-invoice-dollar nav-icon"></i> Raise Invoice
         </Link>
@@ -687,6 +707,7 @@ const Sidebar = () => {
               : ""
           }`}
           onClick={() => handleSetActiveLink("/ListIncomeReport")}
+           data-path="/ListIncomeReport"
         >
           <i className="fa fa-chart-line nav-icon"></i> Income Report
         </Link>
@@ -791,6 +812,7 @@ const Sidebar = () => {
                     : ""
                 }`}
                 ref={el => (sidebarRefs.current['/ListFacebook'] = el)}
+                  data-path="/ListFacebook"
               >
                 <i className="fa fa-user-graduate nav-icon"></i> Facebook
               </Link>
@@ -804,6 +826,7 @@ const Sidebar = () => {
                     : ""
                 }`}
                 ref={el => (sidebarRefs.current['/ListInstagram'] = el)}
+                  data-path="/ListInstagram"
               >
                 <i className="fa fa-user-tie nav-icon"></i> Instagram
               </Link>
@@ -817,6 +840,7 @@ const Sidebar = () => {
                     : ""
                 }`}
                 ref={el => (sidebarRefs.current['/ListLinkedIn'] = el)}
+                  data-path="/ListLinkedIn"
               >
                 <i className="fa fa-user-secret nav-icon"></i> LinkedIn
               </Link>
@@ -833,6 +857,7 @@ const Sidebar = () => {
               : ""
           }`}
           ref={el => (sidebarRefs.current['/ListCampaign'] = el)}
+            data-path="/ListCampaign"
         >
           <i className="fa fa-bullhorn nav-icon"></i> Campaigns
         </Link>
@@ -846,6 +871,7 @@ const Sidebar = () => {
               : ""
           }`}
           ref={el => (sidebarRefs.current['/ListDailyTask'] = el)}
+           data-path="/ListDailyTask"
         >
           <i className="fa fa-tasks nav-icon"></i> Daily Task
         </Link>
@@ -863,6 +889,7 @@ const Sidebar = () => {
         : ""
     }`}
     ref={el => (sidebarRefs.current['/ListNotifications'] = el)}
+     data-path="/ListNotifications"
   >
     <i className="fa fa-bell nav-icon"></i> Notifications
   </Link>
@@ -955,6 +982,7 @@ const Sidebar = () => {
       "/ViewEvents",
     ].includes(currentPath) ? "active" : ""}`}
      data-path="/ListEvents"
+     ref={el => (sidebarRefs.current['/ListEvents'] = el)}
   >
     <i className="fa fa-calendar nav-icon"></i>
     Events
@@ -969,7 +997,8 @@ const Sidebar = () => {
       "/EditBlog",
       "/ViewBlog",
     ].includes(currentPath) ? "active" : ""}`}
-     data-path="/ListBlogs"
+     data-path="/ListBlog"
+     ref={el => (sidebarRefs.current['/ListBlog'] = el)}
   >
     <i className="fa fa-blog nav-icon"></i> Blogs
   </Link>
@@ -984,6 +1013,7 @@ const Sidebar = () => {
       "/ViewTestimonials",
     ].includes(currentPath) ? "active" : ""}`}
      data-path="/ListTestimonials"
+     ref={el => (sidebarRefs.current['/ListTestimonials'] = el)}
   >
     <i className="fa fa-quote-right nav-icon"></i> Testimonials
   </Link>
@@ -997,7 +1027,8 @@ const Sidebar = () => {
       "/EditAdmin",
       "/ViewAdmin",
     ].includes(currentPath) ? "active" : ""}`}
-     data-path="/AdminList"
+    data-path="/AdminList"
+    ref={el => (sidebarRefs.current['/AdminList'] = el)}
   >
     <i className="fa fa-user-shield nav-icon"></i>
     Admin
@@ -1040,6 +1071,8 @@ const Sidebar = () => {
             "/EditBookings",
             "/ViewBookings",
           ].includes(currentPath) ? "active" : ""}`}
+          data-path="/ListBookings"
+          ref={el => (sidebarRefs.current['/ListBookings'] = el)}
         >
           <i className="fa fa-calendar-check nav-icon"></i> Booking
         </Link>
@@ -1052,6 +1085,8 @@ const Sidebar = () => {
             "/EditClassSchedule",
             "/ViewClassSchedule",
           ].includes(currentPath) ? "active" : ""}`}
+          data-path="/ListClassSchedule"
+          ref={el => (sidebarRefs.current['/ListClassSchedule'] = el)}
         >
           <i className="fa fa-calendar nav-icon"></i> Class Schedule
         </Link>
@@ -1134,6 +1169,8 @@ const Sidebar = () => {
                   "/EditGlobalEmail",
                   "/ViewGlobalEmail",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ListGlobalEmail"
+                ref={el => (sidebarRefs.current['/ListGlobalEmail'] = el)}
               >
                 <i className="fa fa-envelope nav-icon"></i> Email
               </Link>
@@ -1144,6 +1181,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/GlobalSettings",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/GlobalSettings"
+                ref={el => (sidebarRefs.current['/GlobalSettings'] = el)}
               >
                 <i className="fa fa-globe nav-icon"></i> Country
               </Link>
@@ -1154,6 +1193,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/CurrencySettings",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/CurrencySettings"
+                ref={el => (sidebarRefs.current['/CurrencySettings'] = el)}
               >
                 <i className="fa fa-money-bill-wave nav-icon"></i> Currency
               </Link>
@@ -1164,6 +1205,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/Status",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/Status"
+                ref={el => (sidebarRefs.current['/Status'] = el)}
               >
                 <i className="fa fa-clipboard-list nav-icon"></i> Status
               </Link>
@@ -1174,6 +1217,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/Intake",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/Intake"
+                ref={el => (sidebarRefs.current['/Intake'] = el)}
               >
                 <i className="fa fa-calendar-alt nav-icon"></i> Intake
               </Link>
@@ -1184,6 +1229,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/YearSetting",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/YearSetting"
+                ref={el => (sidebarRefs.current['/YearSetting'] = el)}
               >
                 <i className="fa fa-calendar nav-icon"></i> Year
               </Link>
@@ -1197,6 +1244,8 @@ const Sidebar = () => {
                   "/EditGlobalPrivileges",
                   "/ViewGlobalPrivileges",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ListGlobalPrivileges"
+                ref={el => (sidebarRefs.current['/ListGlobalPrivileges'] = el)}
               >
                 <i className="fa fa-lock nav-icon"></i> Privileges
               </Link>
@@ -1210,6 +1259,8 @@ const Sidebar = () => {
                   "/EditGlobalDashBoard",
                   "/ViewGlobalDashBoard",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ListGlobalDashBoard"
+                ref={el => (sidebarRefs.current['/ListGlobalDashBoard'] = el)}
               >
                 <i className="fa fa-tachometer-alt nav-icon"></i> Dashboard
               </Link>
@@ -1258,6 +1309,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/UniversitySettings",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/UniversitySettings"
+                ref={el => (sidebarRefs.current['/UniversitySettings'] = el)}
               >
                 <i className="fa fa-university nav-icon"></i> University
               </Link>
@@ -1268,6 +1321,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/CourseType",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/CourseType"
+                ref={el => (sidebarRefs.current['/CourseType'] = el)}
               >
                 <i className="fa fa-book nav-icon"></i> Course Type
               </Link>
@@ -1278,6 +1333,8 @@ const Sidebar = () => {
                 className={`nav-link sidebar_link ${[
                   "/ApplicationStatus",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ApplicationStatus"
+                ref={el => (sidebarRefs.current['/ApplicationStatus'] = el)}
               >
                 <i className="fa fa-book nav-icon"></i> Application Status
               </Link>
@@ -1291,29 +1348,21 @@ const Sidebar = () => {
                   "/EditModuleEmail",
                   "/ViewModuleEmail",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ListModuleEmail"
+                ref={el => (sidebarRefs.current['/ListModuleEmail'] = el)}
               >
                 <i className="fa fa-envelope nav-icon"></i> Email
               </Link>
             </li>
-            <li className="nav-item">
-              <Link 
-                to="#" 
-                className={`nav-link sidebar_link ${[
-                  "/ListModuleIntake",
-                  "/AddModuleIntake",
-                  "/EditModuleIntake",
-                  "/ViewModuleIntake",
-                ].includes(currentPath) ? "active" : ""}`}
-              >
-                <i className="fa fa-calendar-alt nav-icon"></i> Intake
-              </Link>
-            </li>
+           
             <li className="nav-item">
               <Link 
                 to="/ClientModule" 
                 className={`nav-link sidebar_link ${[
                   "/ClientModule",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ClientModule"
+                ref={el => (sidebarRefs.current['/ClientModule'] = el)}
               >
                 <i className="fa fa-user nav-icon"></i> Client
               </Link>
@@ -1327,6 +1376,8 @@ const Sidebar = () => {
                   "/EditCustomModule",
                   "/ViewCustomModule",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ListCustomModule"
+                ref={el => (sidebarRefs.current['/ListCustomModule'] = el)}
               >
                 <i className="fa fa-cogs nav-icon"></i> Custom Module
               </Link>
@@ -1378,6 +1429,8 @@ const Sidebar = () => {
                   "/EditGlobalPrivileges",
                   "/ViewGlobalPrivileges",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ListGlobalPrivileges"
+                ref={el => (sidebarRefs.current['/ListGlobalPrivileges'] = el)}
               >
                 <i className="fa fa-lock nav-icon"></i> Global Privileges
               </Link>
@@ -1391,6 +1444,8 @@ const Sidebar = () => {
                   "/EditModulePrivileges",
                   "/ViewModulePrivileges",
                 ].includes(currentPath) ? "active" : ""}`}
+                data-path="/ListModulePrivileges"
+                ref={el => (sidebarRefs.current['/ListModulePrivileges'] = el)}
               >
                 <i className="fa fa-lock nav-icon"></i> Module Privileges
               </Link>
@@ -1444,6 +1499,8 @@ const Sidebar = () => {
               ? "active"
               : ""
           }`}
+          data-path="/ListGlobalPrivileges"
+          ref={el => (sidebarRefs.current['/ListGlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-tie nav-icon"></i> Employee
         </Link>
@@ -1461,6 +1518,8 @@ const Sidebar = () => {
               ? "active"
               : ""
           }`}
+          data-path="/ListGlobalPrivileges"
+          ref={el => (sidebarRefs.current['/ListGlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-secret nav-icon"></i> Agent
         </Link>
@@ -1478,6 +1537,8 @@ const Sidebar = () => {
               ? "active"
               : ""
           }`}
+          data-path="/ListGlobalPrivileges"
+          ref={el => (sidebarRefs.current['/ListGlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-graduate nav-icon"></i> Students
         </Link>
@@ -1495,6 +1556,8 @@ const Sidebar = () => {
               ? "active"
               : ""
           }`}
+          data-path="/ListGlobalPrivileges"
+          ref={el => (sidebarRefs.current['/ListGlobalPrivileges'] = el)}
         >
           <i className="fa fa-sitemap nav-icon"></i> Branch
         </Link>
@@ -1512,6 +1575,8 @@ const Sidebar = () => {
               ? "active"
               : ""
           }`}
+          data-path="/ListGlobalPrivileges"
+          ref={el => (sidebarRefs.current['/ListGlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-shield nav-icon"></i> Admin
         </Link>

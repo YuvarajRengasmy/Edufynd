@@ -75,25 +75,25 @@ const handleSubmit = (event) => {
 
   return (
     <>
-      <div style={{ backgroundColor: '#f5f5f5', fontFamily: 'Plus Jakarta Sans', fontSize: '14px'}}>
+      <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px'}}>
         <div className="container-fluid">
-          <div className="row justify-content-center align-items-center">
-            <div className="col-xl-4 col-lg-4 col-md-7 align-self-center">
-              <div className="card border-0 my-5">
-                <div className="card-body p-5">
+          <div className="row justify-content-center align-items-center min-vh-100">
+            <div className="col-xl-4 col-lg-4 col-md-7 ">
+              <div className="card border-0 rounded-1 shadow-sm p-4">
+                <div className="card-body ">
                 
                  
                   
                    
                      
                         <div className="text-center">
-                          <h1 className="h4 fw-bold mb-2 " style={{color:'#8E24AA'}} >Forgot Your Password?</h1>
+                          <h1 className="h4 fw-semibold mb-2 " style={{color:'#8E24AA'}} >Forgot Your Password?</h1>
                           <p className="mb-4 text-capitalize" style={{textAlign:'justify'}}>We get it, stuff happens. Just enter your email address below
                             and we'll send you a link to reset your password!</p>
                         </div>
                         <form onSubmit={handleSubmit}>
                         <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope nav-icon"></i></span>
+                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope "></i></span>
                             <input type="text" className="form-control " name="email" onChange={handleInputs} id="exampleInputEmail" aria-describedby="emailHelp" placeholder=" Email Address..." style={{fontSize:'12px'}} />
                             {errors.email.required ? (
                                 <span className="text-danger form-text">
@@ -106,17 +106,17 @@ const handleSubmit = (event) => {
                             ) : null}
                          
                           </div>
-                          <button type="submit" className="btn btn-sm border-0 text-uppercase fw-bold px-4 py-2 btn-user btn-block" style={{color:'#fff',backgroundColor:'#231f20',fontSize:'12px'}}>
-                          <i class="fa fa-sync-alt nav-icon text-white"></i> Send Reset email
+                          <button type="submit" className="btn btn-sm border-0  fw-semibold px-4 py-2 btn-user btn-block" style={{color:'#fff',backgroundColor:'#231f20',fontSize:'12px'}}>
+                          <i class="fa fa-sync-alt  text-white"></i> Send Reset email
                           </button>
                        
                         <hr />
                         <div className='row g-3 my-2 text-center '>
                         <div className="text-center">
-                          <Link to="/Register" className="small text-decoration-none" ><i class="fa fa-user-circle nav-icon"></i> Member Login!</Link>
+                          <Link to="/Register" className="small text-decoration-none" ><i class="fa fa-user-circle "></i> Member Login!</Link>
                         </div>
                         <div className="text-center">
-                          <Link to="/" className="small text-decoration-none"><i class="fa fa-sign-in-alt nav-icon"></i> Returning User? Log In!</Link>
+                          <Link to="/" className="small text-decoration-none"><i class="fa fa-sign-in-alt "></i> Returning User? Log In!</Link>
                         </div>
                         </div>
                         </form>

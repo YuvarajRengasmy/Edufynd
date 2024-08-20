@@ -132,18 +132,18 @@ const Login = () => {
   }
 
   return (
-    <div style={{ backgroundColor: '#f5f5f5', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="container-fluid p-4">
-        <div className="row  justify-content-center align-items-center">
-          <div className="col-xl-4 col-lg-4 col-md-7 align-self-center">
-            <div className="card border-0 my-5">
-              <div className="card-body p-4">
+    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
+      <div className="container-fluid ">
+        <div className="row  justify-content-center align-items-center min-vh-100">
+          <div className="col-xl-4 col-lg-5 col-md-7 ">
+            <div className="card border-0 rounded-1 shadow-sm p-4">
+              <div className="card-body ">
                 <div className="text-center my-2">
                   <h1 className="h3 fw-bold" style={{ color: '#E91E63' }}>Member Login!</h1>
                 </div>
                 <form className="user" onSubmit={handleSubmit}>
                   <div className="input-group mb-3">
-                    <span className="input-group-text" id="basic-addon1"><i className="fa fa-user nav-icon"></i></span>
+                    <span className="input-group-text" id="basic-addon1"><i className="fa fa-user "></i></span>
                     <input
                       type="email"
                       name="email"
@@ -165,7 +165,7 @@ const Login = () => {
                     </div>
                   ) : null}
                   <div className="input-group mb-3">
-                    <span className="input-group-text " id="basic-addon1"><i className="fa fa-lock nav-icon "></i></span>
+                    <span className="input-group-text " id="basic-addon1"><i className="fa fa-lock  "></i></span>
                     <input
                       type={passwordVisible ? 'text' : 'password'}
                       name="password"
@@ -211,7 +211,7 @@ const Login = () => {
                     </div>
                   </div>
                   <div className='d-flex justify-content-center'>
-                    <button type="submit" className="w-75 btn btn-sm border-0 fw-bold text-uppercase px-4 py-2" style={{ backgroundColor: '#fe5722', color: '#fff', fontSize: '10px' }}><i className="fa fa-sign-in-alt nav-icon text-white"></i>Login</button>
+                    <button type="submit" className="w-75 btn  rounded-1  border-0 fw-semibold  " style={{ backgroundColor: '#fe5722', color: '#fff', fontSize: '10px' }}><i className="fa fa-sign-in-alt  text-white"></i>&nbsp;Login</button>
                   </div>
                   <div className="alternative-login d-flex flex-row align-items-center justify-content-center" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
                     <hr className="border-0 border-top border-dark" style={{ margin: '0 1rem', flexGrow: '1', borderTop: '1px solid #ccc' }} />
@@ -219,16 +219,16 @@ const Login = () => {
                     <hr className="border-0 border-top border-dark" style={{ margin: '0 1rem', flexGrow: '1', borderTop: '1px solid #ccc' }} />
                   </div>
                   <div className='d-flex justify-content-center'>
-                    <Link to='/' className="btn btn-google btn-user btn-block btn-sm border-0 fw-bold text-uppercase px-4 py-2 w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
-                      <i className="fab fa-google fa-fw" /> Login with Google
+                    <Link to='/' className="btn btn-google btn-user btn-block rounded-1  border-0 fw-semibold   w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
+                      <i className="fab fa-google fa-fw" /> &nbsp;Login with Google
                     </Link>
                   </div>
                   <div className="row g-3 text-center my-2">
                     <div className="col-md-6 col-sm-12">
-                      <Link to='/ForgotPassword'  className="btn btn-sm border-0 text-uppercase fw-bold px-4 py-2" style={{ backgroundColor: '#f0f0f0', color: '#231f20', fontSize: '9px' }}><i className="fa fa-key nav-icon"></i>Forgot Password</Link>
+                      <Link to='/ForgotPassword'  className="btn  border-0 rounded-1   fw-semibold " style={{ backgroundColor: '#f0f0f0', color: '#231f20',  }}><i className="fa fa-key "></i>&nbsp;Forgot Password</Link>
                     </div>
                     <div className="col-md-6 col-sm-12">
-                      <Link to='/Register'  className="btn btn-sm px-4 text-uppercase fw-bold py-2" style={{ backgroundColor: '#34A853', color: '#fff', fontSize: '9px' }}><i className="fa fa-plus-circle nav-icon text-white"></i>Create Account!</Link>
+                      <Link to='/Register'  className="btn  px-4  fw-semibold rounded-1  " style={{ backgroundColor: '#34A853', color: '#fff' }}><i className="fa fa-plus-circle  text-white"></i>&nbsp;Create User!</Link>
                     </div>
                   </div>
                 </form>
