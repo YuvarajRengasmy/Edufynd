@@ -820,7 +820,7 @@ export const ViewApplication = () => {
           <p>
             Application Status - {tracks?.createdBy} {tracks?.createdOn}
           </p>
-          <p><b>Application Process</b></p>
+         
           {tracks?.status && (
             <div>
               {tracks.status.map((item, index) => (
@@ -829,14 +829,14 @@ export const ViewApplication = () => {
                   target="_blank"
                   download
                   key={index}
-                  class="d-flex align-items-center justify-content-between mb-2 text-decoration-none"
+                  class="d-flex gap-2 align-items-center mb-2 text-decoration-none"
                 >
                   <div class="me-2">
                     <img
                       src={item?.document || "-"}
                       class="card-img-top border-0 me-2"
                       alt="Document"
-                      style={{ width: "5rem", height: "5rem" }}
+                      style={{ width: "3rem", height: "3em" }}
                     />
                     <p class="card-text mb-0" style={{ fontSize: "12px" }}>
                       {item?.name}
@@ -854,7 +854,7 @@ export const ViewApplication = () => {
     
     <div class="col-md-9 col-sm-8">
       <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-        <div class="card-header bg-white">
+        <div class="card-header bg-white sticky-top">
           <h6 class="card-title">Application Track</h6>
         </div>
         
@@ -910,14 +910,27 @@ export const ViewApplication = () => {
               {tracks?.status &&
                                         tracks.status.map((item, index) => (
                 <div key={index} class="d-flex justify-content-end mb-4">
-                
+                  <div  class="profile-content">
+                  <img
+            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+            class="card-img-top rounded-circle border-0"
+            alt="Profile"
+            style={{ width: "4rem", height: "4rem" }}
+          />
+                  </div>
+               
                   <div  class="col-8">
                     <div class="card">
-                      <div class="card-header">
+                      <div class="card-header text-bg-danger">
+                      
                         <p class="mb-0">Application Decision:{item?.newStatus}</p>
-                        <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+                        <div className="d-flex gap-2">
+                        <p class="mb-0">September 28th 2023, 15:38</p>
+                        <button class="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i class="fa fa-reply" aria-hidden="true"></i>
                         </button>
+                        </div>
+                       
                       </div>
                       <div class="card-body">
                       <RichTextEditor
@@ -927,6 +940,14 @@ export const ViewApplication = () => {
                           Sincerely,<br/>
                           {item?.createdBy}<br />
                         Edufynd
+                        <div className="d-flex flex-column align-items-end justify-content-end">
+                          <p className="mb-1"><b>Duration</b>- 24hrs</p>
+                          <p className="mb-1"><b>Delayed</b>- 0hrs</p>
+                        </div>
+                      </div>
+                      <div className="card-footer bg-white border-0">
+                     
+
                       </div>
                     </div>
                   </div>

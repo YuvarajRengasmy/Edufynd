@@ -78,14 +78,14 @@ export const HeroContent = () => {
   return (
     <div >
       <Sidebar />
-      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px" }}>
-        <div className="container-fluid mt-4" >
+      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+        <div className="container  " >
           <div className="row">
-            <main role="main" className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
-            <div className="container mt-2">
-  <div className="d-flex justify-content-between align-items-start mb-4">
+            <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+            <div className="container ">
+  <div className="d-flex justify-content-between align-items-center ">
     <div>
-      <h1 className="fw-bold" style={{ color: '#0056b3', fontSize: '24px' }}>Dashboard</h1>
+      <h1 className="fw-bold mb-1" style={{ color: '#0056b3', fontSize: '24px' }}>Dashboard</h1>
       <p className="text-secondary" style={{ fontSize: '12px' }}>Sunday, 05 August 2024</p>
     </div>
     <button
@@ -96,7 +96,7 @@ export const HeroContent = () => {
       data-bs-target="#offcanvasProfile"
       aria-controls="offcanvasProfile"
     >
-      Open Profile
+      Profile
     </button>
   </div>
 
@@ -119,7 +119,7 @@ export const HeroContent = () => {
     </div>
     <div className="offcanvas-body" style={{ fontSize: '12px' }}>
       {/* Profile Information */}
-      <div className="text-center mb-4">
+      <div className="text-center ">
         <img
           src="https://via.placeholder.com/100"
           alt="User Avatar"
@@ -137,7 +137,7 @@ export const HeroContent = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <ul className="nav nav-pills nav-justified mb-4 fs-9 " style={{ fontSize: '10px' }}>
+      <ul className="nav nav-pills nav-justified  fs-9 " style={{ fontSize: '10px' }}>
         <li className="nav-item">
           <a className="nav-link active" href="#dashboard" data-bs-toggle="tab" style={{ backgroundColor: '#e9ecef' }}><FaChartPie /> Dashboard</a>
         </li>
@@ -404,7 +404,7 @@ export const HeroContent = () => {
               {/* Top Cards Row */}
               <div className="container">
       <div className="row">
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-primary">
             <div className="card-body">
               <h6><FaUserAlt /> Total Clients & Students</h6>
@@ -412,7 +412,7 @@ export const HeroContent = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-secondary">
             <div className="card-body">
               <h6><FaUniversity /> Total Universities & Agents</h6>
@@ -420,7 +420,7 @@ export const HeroContent = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-success">
             <div className="card-body">
               <h6><FaChartLine /> Total Commissions & Sales</h6>
@@ -428,7 +428,7 @@ export const HeroContent = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-warning">
             <div className="card-body">
               <h6><FaDollarSign /> Finance & Expenses</h6>
@@ -438,7 +438,7 @@ export const HeroContent = () => {
         </div>
       </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-info">
             <div className="card-body">
               <h6><FaFileInvoiceDollar /> Applications & Invoices</h6>
@@ -446,7 +446,7 @@ export const HeroContent = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-dark">
             <div className="card-body">
               <h6><FaUserCog /> HRMS & Payroll</h6>
@@ -454,7 +454,7 @@ export const HeroContent = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-danger">
             <div className="card-body">
               <h6><FaBullhorn /> Marketing & Promotions</h6>
@@ -462,7 +462,7 @@ export const HeroContent = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3 col-md-6 mb-4">
+        <div className="col-lg-3 col-md-6 ">
           <div className="card text-white rounded-1 border-0 shadow-sm bg-secondary">
             <div className="card-body">
               <h6><FaCog /> Reports & Settings</h6>
@@ -475,10 +475,10 @@ export const HeroContent = () => {
 
 
               {/* Charts Row */}
-              <div className="container mt-4">
+              <div className="container ">
       <div className="row">
         {/* Sales Overview Card */}
-        <div className="col-lg-6 mb-4">
+        <div className="col-lg-6 ">
           <div className="card rounded-1 border-0 shadow-sm">
             <div className="card-header bg-primary text-white d-flex align-items-center">
               <FaChartLine className="me-2" /> Sales Overview
@@ -490,7 +490,7 @@ export const HeroContent = () => {
         </div>
 
         {/* Client Growth Card */}
-        <div className="col-lg-6 mb-4">
+        <div className="col-lg-6 ">
           <div className="card rounded-1 border-0 shadow-sm">
             <div className="card-header bg-success text-white d-flex align-items-center">
               <FaUserAlt className="me-2" /> Client Growth
@@ -504,7 +504,7 @@ export const HeroContent = () => {
 
       <div className="row">
         {/* Client Growth Bar Chart Card */}
-        <div className="col-md-6 mb-4">
+        <div className="col-md-6 ">
           <div className="card rounded-1 border-0 shadow-sm">
             <div className="card-header bg-warning text-white d-flex align-items-center">
               <FaChartBar className="me-2" /> Client Growth (Bar)
@@ -516,7 +516,7 @@ export const HeroContent = () => {
         </div>
 
         {/* Finance Overview Card */}
-        <div className="col-md-6 mb-4">
+        <div className="col-md-6 ">
           <div className="card rounded-1 border-0 shadow-sm">
             <div className="card-header bg-info text-white d-flex align-items-center">
               <FaMoneyBillWave className="me-2" /> Finance Overview
@@ -530,10 +530,10 @@ export const HeroContent = () => {
     </div>
 
               {/* Table Row */}
-              <div className="container mt-4">
+              <div className="container ">
       <div className="row">
         {/* Recent Transactions Card */}
-        <div className="col-lg-12 mb-4">
+        <div className="col-lg-12 ">
           <div className="card  rounded-1 border-0 shadow-sm">
             <div className="card-header" style={{ backgroundColor: '#4a90e2', color: '#fff' }}>
               <FaListAlt className="me-2" /> Recent Transactions
@@ -619,7 +619,7 @@ export const HeroContent = () => {
 
       <div className="row">
         {/* Recent Applications Card */}
-        <div className="col-md-6 mb-4">
+        <div className="col-md-6 ">
           <div className="card rounded-1 border-0 shadow-sm">
             <div className="card-header" style={{ backgroundColor: '#7ed321', color: '#fff' }}>
               <FaCalendarAlt className="me-2" /> Recent Applications
@@ -660,7 +660,7 @@ export const HeroContent = () => {
         </div>
 
         {/* Recent Invoices Card */}
-        <div className="col-md-6 mb-4">
+        <div className="col-md-6 ">
           <div className="card  rounded-1 border-0 shadow-sm">
             <div className="card-header" style={{ backgroundColor: '#f5a623', color: '#fff' }}>
               <FaFileInvoice className="me-2" /> Recent Invoices
@@ -703,7 +703,7 @@ export const HeroContent = () => {
 
       <div className="row">
         {/* Upcoming Meetings Card */}
-        <div className="col-md-6 mb-4">
+        <div className="col-md-6 ">
           <div className="card  rounded-1 border-0 shadow-sm">
             <div className="card-header" style={{ backgroundColor: '#4a90e2', color: '#fff' }}>
               <FaCalendarAlt className="me-2" /> Upcoming Meetings
@@ -725,7 +725,7 @@ export const HeroContent = () => {
         </div>
 
         {/* Recent Notifications Card */}
-        <div className="col-md-6 mb-4">
+        <div className="col-md-6 ">
           <div className="card  rounded-1 border-0 shadow-sm">
             <div className="card-header" style={{ backgroundColor: '#7ed321', color: '#fff' }}>
               <FaBell className="me-2" /> Recent Notifications
@@ -748,7 +748,7 @@ export const HeroContent = () => {
       </div>
     </div>
 
-            </main>
+            </div>
           </div>
         </div>
 
