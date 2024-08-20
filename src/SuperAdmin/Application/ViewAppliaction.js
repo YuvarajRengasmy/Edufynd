@@ -2,16 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
-
 import { getFilterStatus } from "../../api/status";
-import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
+import { getFilterApplicationStatus } from "../../api/universityModule/ApplicationStatus";
 import { toast } from "react-toastify";
-import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
-import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
-import { duration } from "@mui/material";
-
 export const ViewApplication = () => {
+
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const modalRef = useRef(null);
@@ -21,7 +18,7 @@ export const ViewApplication = () => {
     commentBox: "",
     document: "",
     duration: "",
-    progress:"",
+    progress: "",
   };
 
   const initialStateErrors = {
@@ -131,8 +128,7 @@ export const ViewApplication = () => {
     if (!data.commentBox) {
       error.commentBox.required = true;
     }
-  
-  
+
     return error;
   };
   const convertToBase64 = (e, name) => {
@@ -159,7 +155,7 @@ export const ViewApplication = () => {
         [name]: value,
       }));
     }
- 
+
     if (submitted) {
       const newError = handleValidation({
         ...track,
@@ -168,8 +164,6 @@ export const ViewApplication = () => {
       setTrackErrors(newError);
     }
   };
-
-
 
   const handleEditModule = (item) => {
     setTrack({
@@ -207,8 +201,6 @@ export const ViewApplication = () => {
           _id: id,
           status: track,
           progress: Math.min(100, track.progress + 80),
-         
-         
         };
         updateApplication(data)
           .then((res) => {
@@ -224,10 +216,10 @@ export const ViewApplication = () => {
   };
 
   const getProgressColor = (progress) => {
-    if (progress === 0) return '#e0e0e0'; // Gray for 0 progress
-    if (progress < 50) return '#ff9800'; // Orange for <50%
-    if (progress < 100) return '#ffc107'; // Yellow for <100%
-    return '#4caf50'; // Green for 100%
+    if (progress === 0) return "#e0e0e0"; // Gray for 0 progress
+    if (progress < 50) return "#ff9800"; // Orange for <50%
+    if (progress < 100) return "#ffc107"; // Yellow for <100%
+    return "#4caf50"; // Green for 100%
   };
 
   return (
@@ -245,15 +237,15 @@ export const ViewApplication = () => {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-4 border-end border-5 border-primary">
-                      
                         <h5 className="card-name fw-semibold text-center">
-                         {tracks?.name}
+                          {tracks?.name}
                         </h5>
                         <p className="card-text text-center fw-semibold mb-1">
-                        {tracks?.email} {/* Student Code:{tracks?.studentCode || "N/A"} */}
+                          {tracks?.email}{" "}
+                          {/* Student Code:{tracks?.studentCode || "N/A"} */}
                         </p>
                         <p className="card-text text-secondary text-center fw-semibold mb-3">
-                         {tracks?.studentCode || "N/A"} || {tracks?.country} 
+                          {tracks?.studentCode || "N/A"} || {tracks?.country}
                         </p>
                         <div className="text-center">
                           <button
@@ -296,8 +288,9 @@ export const ViewApplication = () => {
                       </div>
                       <div className="col-8">
                         <h5 className="card-program mb-2 fw-light">
-                       <span className="text-primary fw-bold">{tracks?.course}</span>
-                         
+                          <span className="text-primary fw-bold">
+                            {tracks?.course}
+                          </span>
                         </h5>
                         <div className="mb-3 d-flex justify-content-between">
                           <p className="card-text">{tracks?.universityName}</p>
@@ -316,23 +309,26 @@ export const ViewApplication = () => {
                                 <p className="fw-semilight">Intake</p>
                                 <p className="fw-semibold">{tracks?.inTake}</p>
                               </div>
-                             
+
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Tuition Fee</p>
-                                <p className="fw-semibold">{tracks?.courseFees}</p>
+                                <p className="fw-semibold">
+                                  {tracks?.courseFees}
+                                </p>
                               </div>
                               <div className="d-flex flex-column">
                                 <p className="fw-semilight">Application Code</p>
-                                <p className="fw-semibold">{tracks?.applicationCode}</p>
+                                <p className="fw-semibold">
+                                  {tracks?.applicationCode}
+                                </p>
                               </div>
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>              
+                </div>
                 <div className="card border-0 shadow-sm p-2">
                   <div className="card-body">
                     <div className="d-flex  flex-wrap justify-content-around align-items-center">
@@ -356,7 +352,9 @@ export const ViewApplication = () => {
                                 className="progress-bar progress-bar-striped progress-bar-animated"
                                 style={{
                                   width: `${item.progress}%`,
-                                  backgroundColor: getProgressColor(item.progress),
+                                  backgroundColor: getProgressColor(
+                                    item.progress
+                                  ),
                                 }}
                               ></div>
                             </div>
@@ -378,7 +376,9 @@ export const ViewApplication = () => {
                               className="progress-bar progress-bar-striped progress-bar-animated"
                               style={{
                                 width: `${item.progress}%`,
-                                backgroundColor: getProgressColor(item.progress),
+                                backgroundColor: getProgressColor(
+                                  item.progress
+                                ),
                               }}
                             ></div>
                           </div>
@@ -403,7 +403,12 @@ export const ViewApplication = () => {
                               {item.statusName}
                             </button>
                           </OverlayTrigger>
-                          <h5 className="text-center mt-2"><i className="fas fa-clock text-primary fw-light fs-5">{item.duration}</i>||<i className="fas fa-stopwatch">{item.delay}</i></h5>
+                          <h5 className="text-center mt-2">
+                            <i className="fas fa-clock text-primary fw-light fs-5">
+                              {item.duration}
+                            </i>
+                            ||<i className="fas fa-stopwatch">{item.delay}</i>
+                          </h5>
 
                           <div
                             className="modal fade"
@@ -580,183 +585,176 @@ export const ViewApplication = () => {
                               </div>
                             </div>
                           </div>
-                          
                         </div>
-                       
                       ))}
                     </div>
                   </div>
                 </div>
-
-
-
-
                 <div className="card card-body mb-3">
                   <h6 className="text-start">Notes</h6>
                   <div className="text-end">
-                    <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"   data-bs-toggle="modal"
-                              data-bs-target="#StatusModal"
-                             
-                              style={{fontSize:'12px'}}>Add Status</button>
+                    <button
+                      className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
+                      data-bs-toggle="modal"
+                      data-bs-target="#StatusModal"
+                      style={{ fontSize: "12px" }}
+                    >
+                      Add Status
+                    </button>
                   </div>
 
                   <div
-                            className="modal fade"
-                            id="StatusModal"
-                            tabIndex="-1"
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
+                    className="modal fade"
+                    id="StatusModal"
+                    tabIndex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div className="modal-dialog modal-dialog-centered">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h1
+                            className="modal-title fs-5"
+                            id="staticBackdropLabel"
                           >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h1
-                                    className="modal-title fs-5"
-                                    id="staticBackdropLabel"
+                            Application Status
+                          </h1>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div className="modal-body">
+                          <form onSubmit={handleTrackSubmit}>
+                            <div className="input-group mb-3">
+                              <span
+                                className="input-group-text"
+                                id="basic-addon1"
+                              >
+                                <i className="fa fa-tasks nav-icon text-dark"></i>
+                              </span>
+                              <select
+                                name="newStatus"
+                                value={track.newStatus}
+                                onChange={handleTrack}
+                                className="form-select"
+                                style={{ fontSize: "12px" }}
+                              >
+                                <option value="">Select Status</option>
+                                {application.map((status) => (
+                                  <option
+                                    key={status._id}
+                                    value={status.statusName}
                                   >
-                                    Application Status
-                                  </h1>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                   
-                                  ></button>
-                                </div>
-                                <div className="modal-body">
-                                <form onSubmit={handleTrackSubmit}>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <select
-                                        name="newStatus"
-                                        value={track.newStatus}
-                                        onChange={handleTrack}
-                                        className="form-select"
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        <option value="">Select Status</option>
-                                        {
-                                          application.map((status) => (
-                                            <option
-                                              key={status._id}
-                                              value={status.statusName}
-                                            >
-                                              {status.statusName}
-                                            </option>
-                                          ))}
-                                      </select>
-                                      {submitted &&
-                                        trackErrors.newStatus.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3 visually-hidden">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="text"
-                                        name="duration"
-                                        value="0"
-                                        onChange={handleTrack}
-                                        className="form-control"
-                                        placeholder="Enter Status...."
-                                        aria-label="Status"
-                                        aria-describedby="basic-addon1"
-                                        style={{ fontSize: "12px" }}
-                                      />
-                                    
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-comments nav-icon text-dark"></i>
-                                      </span>
-                                      <RichTextEditor
-                                        placeholder="Start writing your content here..."
-                                        name="commentBox"
-                                        onChange={handleRichTextChange}
-                                        value={track.commentBox}
-                                        type="text"
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                          minHeight: "200px",
-                                          overflowY: "auto",
-                                          zIndex: "0",
-                                        }}
-                                      />
-                                      {submitted &&
-                                        trackErrors.commentBox.required && (
-                                          <p className="text-danger">
-                                            Comment is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-file nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="file"
-                                        className="form-control "
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                        placeholder="Enter  Image upload"
-                                        name="document"
-                                        onChange={handleTrack}
-                                      />
-                                    </div>
-                                    <div className="modal-footer">
-                                      <button
-                                        type="button"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        data-bs-dismiss="modal"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#231f20",
-                                          color: "#fff",
-                                        }}
-                                      >
-                                        Close
-                                      </button>
-                                      <button
-                                        type="submit"
-                                        data-bs-dismiss="modal"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#fe5722",
-                                          color: "#fff",
-                                        }}
-                                        // data-bs-dismiss="modal"
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
+                                    {status.statusName}
+                                  </option>
+                                ))}
+                              </select>
+                              {submitted && trackErrors.newStatus.required && (
+                                <p className="text-danger">
+                                  Status is required
+                                </p>
+                              )}
                             </div>
-                          </div>
+                            <div className="input-group mb-3 visually-hidden">
+                              <span
+                                className="input-group-text"
+                                id="basic-addon1"
+                              >
+                                <i className="fa fa-tasks nav-icon text-dark"></i>
+                              </span>
+                              <input
+                                type="text"
+                                name="duration"
+                                value="0"
+                                onChange={handleTrack}
+                                className="form-control"
+                                placeholder="Enter Status...."
+                                aria-label="Status"
+                                aria-describedby="basic-addon1"
+                                style={{ fontSize: "12px" }}
+                              />
+                            </div>
+                            <div className="input-group mb-3">
+                              <span
+                                className="input-group-text"
+                                id="basic-addon1"
+                              >
+                                <i className="fa fa-comments nav-icon text-dark"></i>
+                              </span>
+                              <RichTextEditor
+                                placeholder="Start writing your content here..."
+                                name="commentBox"
+                                onChange={handleRichTextChange}
+                                value={track.commentBox}
+                                type="text"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  minHeight: "200px",
+                                  overflowY: "auto",
+                                  zIndex: "0",
+                                }}
+                              />
+                              {submitted && trackErrors.commentBox.required && (
+                                <p className="text-danger">
+                                  Comment is required
+                                </p>
+                              )}
+                            </div>
+                            <div className="input-group mb-3">
+                              <span
+                                className="input-group-text"
+                                id="basic-addon1"
+                              >
+                                <i className="fa fa-file nav-icon text-dark"></i>
+                              </span>
+                              <input
+                                type="file"
+                                className="form-control "
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Enter  Image upload"
+                                name="document"
+                                onChange={handleTrack}
+                              />
+                            </div>
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn px-4 py-2 text-uppercase fw-semibold"
+                                data-bs-dismiss="modal"
+                                style={{
+                                  fontSize: "12px",
+                                  backgroundColor: "#231f20",
+                                  color: "#fff",
+                                }}
+                              >
+                                Close
+                              </button>
+                              <button
+                                type="submit"
+                                data-bs-dismiss="modal"
+                                className="btn px-4 py-2 text-uppercase fw-semibold"
+                                style={{
+                                  fontSize: "12px",
+                                  backgroundColor: "#fe5722",
+                                  color: "#fff",
+                                }}
+                                // data-bs-dismiss="modal"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="container">
@@ -764,13 +762,17 @@ export const ViewApplication = () => {
                     <div className="col-md-6  ">
                       <div className="card rounded-1 border-0  vh-100 overflow-auto">
                         <div className="card-body">
-                        <div className="container">
+                          <div className="container">
                             <div className="row">
                               <div className="col">
                                 <div className=" align-items-center justify-content-center">
                                   <div class="application-profile border-0 ">
                                     <img
-                                      src={tracks?.photo?tracks?.photo:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                      src={
+                                        tracks?.photo
+                                          ? tracks?.photo
+                                          : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
+                                      }
                                       class="card-img-top rounded-circle border-0 "
                                       alt="..."
                                       style={{ width: "4rem", height: "4rem" }}
@@ -786,45 +788,57 @@ export const ViewApplication = () => {
                                   </div>
                                 </div>
 
-                             
-                                  <div className="card border-0">
-                                    <div className="card-header text-bg-primary">
-                                      <h6 className="h6">
-                                        Application Status -{tracks?.createdBy}
-                                        {tracks?.createdOn}
-                                      </h6>
-                                    </div>
-                                    <div className="card-body">
-                                      <h1>
-                                        <b>Application Process</b>
-                                      </h1>
-                                      {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                                          <div key={index}>
-                                            
-                                            <a href={item?.document?item?.document:"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"} target="_blank" download>
-      <img
-        src={item?.document?item?.document:"-"}
-        className="card-img-top  border-0"
-        alt="..."
-        style={{ width: "7rem", height: "7rem" }}
-      />
-      <i className="fa fa-download p-5"></i>
-    </a>
-                                            <div class="card-body">
-                                              <p
-                                                class="card-text"
-                                                style={{ fontSize: "10px" }}
-                                              >
-                                                {item?.name}
-                                              </p>
-                                            </div>
-                                            <p>{item?.createdBy}</p>
-                                          </div>
-                                        ))}
-                                    </div>
+                                <div className="card border-0">
+                                  <div className="card-header text-bg-primary">
+                                    <h6 className="h6">
+                                      Application Status -{tracks?.createdBy}
+                                      {tracks?.createdOn}
+                                    </h6>
                                   </div>
-                               
+                                  <div className="card-body">
+                                    <h1>
+                                      <b>Application Process</b>
+                                    </h1>
+                                    {tracks?.status &&
+                                      tracks.status.map((item, index) => (
+                                        <div key={index}>
+                                          <a
+                                            href={
+                                              item?.document
+                                                ? item?.document
+                                                : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
+                                            }
+                                            target="_blank"
+                                            download
+                                          >
+                                            <img
+                                              src={
+                                                item?.document
+                                                  ? item?.document
+                                                  : "-"
+                                              }
+                                              className="card-img-top  border-0"
+                                              alt="..."
+                                              style={{
+                                                width: "7rem",
+                                                height: "7rem",
+                                              }}
+                                            />
+                                            <i className="fa fa-download p-5"></i>
+                                          </a>
+                                          <div class="card-body">
+                                            <p
+                                              class="card-text"
+                                              style={{ fontSize: "10px" }}
+                                            >
+                                              {item?.name}
+                                            </p>
+                                          </div>
+                                          <p>{item?.createdBy}</p>
+                                        </div>
+                                      ))}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -857,43 +871,41 @@ export const ViewApplication = () => {
                                   </div>
                                 </div>
 
-                             
-                                  <div className="card border-0">
-                                    <div className="card-header text-bg-primary">
-                                      <h6 className="h6">
-                                        Application Status -{track?.createdBy}
-                                        {track?.createdOn}
-                                      </h6>
-                                    </div>
-                                    <div className="card-body">
-                                      <h1>
-                                        <b>Application Process</b>
-                                      </h1>
-                                      {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                                          <div key={index}>
-                                            <h4>Status: {item?.newStatus}</h4>
-                                            <p>
-                                              <RichTextEditor
-                                                value={item?.commentBox}
-                                                readOnly
-                                              />{" "}
-                                            </p>
-                                           
-                                            <div class="card-body">
-                                              <p
-                                                class="card-text"
-                                                style={{ fontSize: "10px" }}
-                                              >
-                                                {item?.name}
-                                              </p>
-                                            </div>
-                                            <p>{item?.createdBy}</p>
-                                          </div>
-                                        ))}
-                                    </div>
+                                <div className="card border-0">
+                                  <div className="card-header text-bg-primary">
+                                    <h6 className="h6">
+                                      Application Status -{track?.createdBy}
+                                      {track?.createdOn}
+                                    </h6>
                                   </div>
-                               
+                                  <div className="card-body">
+                                    <h1>
+                                      <b>Application Process</b>
+                                    </h1>
+                                    {tracks?.status &&
+                                      tracks.status.map((item, index) => (
+                                        <div key={index}>
+                                          <h4>Status: {item?.newStatus}</h4>
+                                          <p>
+                                            <RichTextEditor
+                                              value={item?.commentBox}
+                                              readOnly
+                                            />{" "}
+                                          </p>
+
+                                          <div class="card-body">
+                                            <p
+                                              class="card-text"
+                                              style={{ fontSize: "10px" }}
+                                            >
+                                              {item?.name}
+                                            </p>
+                                          </div>
+                                          <p>{item?.createdBy}</p>
+                                        </div>
+                                      ))}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
