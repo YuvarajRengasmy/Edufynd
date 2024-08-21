@@ -318,7 +318,7 @@ export default function ListAgent() {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddAdmin">
+                    <Link class="btn btn-pix-primary" to="/add_admin">
                       <button
                         className="btn btn-outline   fw-semibold  border-0 text-white  "
                         style={{
@@ -492,7 +492,7 @@ export default function ListAgent() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewAdmin",
+                                        pathname: "/view_admin",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
@@ -501,7 +501,7 @@ export default function ListAgent() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditAdmin",
+                                        pathname: "/edit_admin",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >

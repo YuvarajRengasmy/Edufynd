@@ -302,7 +302,7 @@ export const ListEvents = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddEvents">
+                    <Link class="btn btn-pix-primary" to="/add_events">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -475,7 +475,7 @@ export const ListEvents = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewEvents",
+                                        pathname: "/view_events",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -486,7 +486,7 @@ export const ListEvents = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditEvents",
+                                        pathname: "/edit_events",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"

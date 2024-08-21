@@ -538,7 +538,7 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddAgent">
+                    <Link class="btn btn-pix-primary" to="/add_agent">
                       <button
                         className="btn btn-outline  fw-semibold border-0 rounded-1 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -740,7 +740,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewAgent",
+                                        pathname: "/view_agent",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
@@ -749,7 +749,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditAgent",
+                                        pathname: "/edit_agent",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >

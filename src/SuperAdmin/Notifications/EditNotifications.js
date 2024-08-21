@@ -198,7 +198,7 @@ export const EditNotifications = () => {
       updatedNotifications(updateNotifications)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListNotifications");
+          navigate("/list_notifications");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

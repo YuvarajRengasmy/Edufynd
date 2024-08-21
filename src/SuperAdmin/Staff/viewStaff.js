@@ -40,12 +40,12 @@ export const ViewStaff = () => {
       <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
     </li>
     <li className="breadcrumb-item">
-      <Link to='/ListStaff' className="text-decoration-none">ListStaff</Link>
+      <Link to='/list_staff' className="text-decoration-none">ListStaff</Link>
     </li>
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
-          pathname: "/EditStaff",
+          pathname: "/edit_staff",
           search: `?id=${staff?._id}`,
         }} className="text-decoration-none">EditStaff</Link>
       </li>

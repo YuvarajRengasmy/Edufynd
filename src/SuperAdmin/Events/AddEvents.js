@@ -207,7 +207,7 @@ export const AddEvents = () => {
       saveEvent(updateNotifications)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListEvents");
+          navigate("/list_events");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -508,7 +508,7 @@ export const AddEvents = () => {
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link
-                            to="/ListEvents"
+                            to="/list_events"
                             style={{
                               backgroundColor: "#231F20",
                               fontFamily: "Plus Jakarta Sans",

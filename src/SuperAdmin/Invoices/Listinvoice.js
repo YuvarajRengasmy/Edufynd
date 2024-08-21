@@ -275,7 +275,7 @@ export const Listinvoice = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AddSenderInvoice">
+                      <Link class="btn btn-pix-primary" to="/add_sender_invoice">
                         <button
                           className="btn text-uppercase px-4 py-2 fw-semibold border-0 text-white  "
 
@@ -290,7 +290,7 @@ export const Listinvoice = () => {
                       </Link>
                     </li>
                     <li class="">
-                      <Link class="btn btn-pix-primary" to="/AddRecieverInvoice">
+                      <Link class="btn btn-pix-primary" to="/add_reciever_invoice">
                         <button
                           className="btn text-uppercase px-4 py-2 fw-semibold border-0 text-white  "
 
@@ -425,7 +425,7 @@ export const Listinvoice = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/SenderViewInvoice",
+                                        pathname: "/view_invoice",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
@@ -434,7 +434,7 @@ export const Listinvoice = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditInvoice",
+                                        pathname: "/edit_invoice",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >

@@ -16,13 +16,13 @@ export const AddBlog = () => {
             <form>
               <div className="row">
                 <div className="col-lg-8 ">
-                  <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                  <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                     <div
                       className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                       style={{ background: "#fe5722", color: "#fff" }}
                     >
                       <h5 className="text-center text-capitalize p-1">
-                        {" "}
+                        
                         Add Blog Details
                       </h5>
                     </div>
@@ -31,7 +31,7 @@ export const AddBlog = () => {
                         <label htmlFor="title">Title</label>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control rounded-1 text-muted"
                           id="title"
                           placeholder="Title"
                           style={{
@@ -45,7 +45,7 @@ export const AddBlog = () => {
 
                       <div className="form-group">
                         <label htmlFor="slug">
-                          Slug{" "}
+                          Slug
                           <small>
                             (If you leave it blank, it will be generated
                             automatically.)
@@ -53,7 +53,7 @@ export const AddBlog = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control rounded-1 text-muted"
                           id="slug"
                           placeholder="Slug"
                           style={{
@@ -69,7 +69,7 @@ export const AddBlog = () => {
                           Summary & Description (Meta Tag)
                         </label>
                         <textarea
-                          className="form-control"
+                          className="form-control rounded-1 text-muted"
                           id="summary"
                           placeholder="Summary & Description (Meta Tag)"
                           style={{
@@ -84,7 +84,7 @@ export const AddBlog = () => {
                         <label htmlFor="keywords">Keywords (Meta Tag)</label>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control rounded-1 text-muted"
                           id="keywords"
                           placeholder="Keywords (Meta Tag)"
                           style={{
@@ -95,130 +95,19 @@ export const AddBlog = () => {
                         />
                       </div>
 
-                      <div className="form-group">
-                        <label>Visibility</label>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="visibility"
-                            id="show"
-                            value="1"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          />
-                          <label className="form-check-label" htmlFor="show">
-                            Show
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="show"
-                            id="hide"
-                            value="0"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          />
-                          <label className="form-check-label" htmlFor="hide">
-                            Hide
-                          </label>
-                        </div>
-                      </div>
+                      
 
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="featured"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          name="addtofeatured"
-                        />
-                        <label className="form-check-label" htmlFor="featured">
-                          Add to Featured
-                        </label>
-                      </div>
+                     
 
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="breaking"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          name="addtobreaking"
-                        />
-                        <label className="form-check-label" htmlFor="breaking">
-                          Add to Breaking
-                        </label>
-                      </div>
 
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="slider"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          name="addtoslider"
-                        />
-                        <label className="form-check-label" htmlFor="slider">
-                          Add to Slider
-                        </label>
-                      </div>
 
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="recommended"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          name="addtorecommended"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="recommended"
-                        >
-                          Add to Recommended
-                        </label>
-                      </div>
-
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="needAuth"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          name="showonlytoregisteredusers"
-                        />
-                        <label className="form-check-label" htmlFor="needAuth">
-                          Show Only to Registered Users
-                        </label>
-                      </div>
+                      
 
                       <div className="form-group">
                         <label htmlFor="tags">Tags</label>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control rounded-1 text-muted"
                           id="tags"
                           placeholder="Tags"
                           style={{
@@ -236,7 +125,7 @@ export const AddBlog = () => {
                         <label htmlFor="optionalUrl">Optional URL</label>
                         <input
                           type="url"
-                          className="form-control"
+                          className="form-control rounded-1 text-muted"
                           id="optionalUrl"
                           placeholder="Optional URL"
                           style={{
@@ -251,375 +140,41 @@ export const AddBlog = () => {
                         Content
                       </label>
                       <div id="main_editor">
-                        <div className="row">
-                          <div className="col-sm-12 editor-buttons">
-                            <button
-                              type="button"
-                              className="btn btn-sm text-uppercase fw-semibold px-3 py-2"
-                              data-bs-toggle="modal"
-                              data-bs-target="#BlogModel"
-                              data-image-type="editor"
-                              style={{
-                                fontSize: "10px",
-                                backgroundColor: "#231f20",
-                                color: "#fff",
-                              }}
-                            >
-                              <i className="fa fa-image"></i>
-                              &nbsp;&nbsp;&nbsp;Add Image
-                            </button>
-                            <div
-                              class="modal fade"
-                              id="BlogModel"
-                              tabindex="-1"
-                              aria-labelledby="exampleModalLabel"
-                              aria-hidden="true"
-                            >
-                              <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                  <div class="modal-header moader-header-xl">
-                                    <div className="d-flex flex-row justify-content-between align-items-center gap-5">
-                                      <h1
-                                        class=" fw-semibold text-uppercase "
-                                        id="exampleModalLabel"
-                                        style={{ fontSize: "18px" }}
-                                      >
-                                        Images
-                                      </h1>
-                                      <input
-                                        type="email"
-                                        class="form-control rounded-3"
-                                        id="floatingInput"
-                                        placeholder="Search"
-                                        style={{
-                                          fontSize: "12px",
-                                          width: "500px",
-                                        }}
-                                      />
-
-                                      <button
-                                        type="button"
-                                        class="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                        style={{ fontSize: "12px" }}
-                                      ></button>
-                                    </div>
-                                  </div>
-                                  <div class="modal-body">
-                                    <div className="row">
-                                      <div className="col-sm-3 border-end">
-                                        <label>Upload Images</label>
-                                        <input
-                                          type="file"
-                                          class="form-control"
-                                          placeholder="Username"
-                                          aria-label="Username"
-                                          aria-describedby="basic-addon1"
-                                        />
-                                      </div>
-
-                                      <div className="col-sm-9 ">
-                                        <div
-                                          className="container-fluid"
-                                          style={{
-                                            height: "340px",
-                                            overflow: "auto",
-                                          }}
-                                        >
-                                          <div className="row">
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-2">
-                                              <div className="card border-0 shadow-sm">
-                                                <img
-                                                  src="https://placehold.co/80x80"
-                                                  className="card-img-top img-fluid"
-                                                  alt="images1"
-                                                />
-                                                <div className="card-body">
-                                                  <p
-                                                    className=" text-center"
-                                                    style={{ fontSize: "12px" }}
-                                                  >
-                                                    Image Name
-                                                  </p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button
-                                      type="button"
-                                      class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
-                                      data-bs-dismiss="modal"
-                                      style={{
-                                        fontSize: "12px",
-                                        backgroundColor: "#231f20",
-                                        color: "#fff",
-                                      }}
-                                    >
-                                      Close
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br />
+                       
+                      
                         <div className="form-group">
-                          <Editor
-                            apiKey="zsaa70k6kdt6bw9gg6ff5qwe2jd1pl3l0cul48u6w5nwrb3q" // Replace with your TinyMCE API key
-                            init={{
-                              height: 500,
-                              menubar: false,
-                              plugins: [
-                                "advlist autolink lists link image charmap print preview anchor",
-                                "searchreplace visualblocks code fullscreen",
-                                "insertdatetime media table paste code help wordcount",
-                              ],
-                              toolbar:
-                                "undo redo | formatselect | bold italic backcolor | \
-                                    alignleft aligncenter alignright alignjustify | \
-                                    bullist numlist outdent indent | removeformat | help",
-                            }}
-                          />
+                        <Editor
+            apiKey="zsaa70k6kdt6bw9gg6ff5qwe2jd1pl3l0cul48u6w5nwrb3q"  
+            init={{
+                height: 500,
+                menubar: true,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount',
+                    'emoticons imagetools autosave save directionality',
+                    'advcode codesample hr nonbreaking',
+                    'pagebreak toc textpattern'
+                ],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                          alignleft aligncenter alignright alignjustify | \
+                          bullist numlist outdent indent | removeformat | help | \
+                          insertfile image media link codesample emoticons | \
+                          code fullscreen preview save print'
+            }}
+        />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-4">
-                  <div className="card card-body  border-0 rounded-0 shadow-sm p-3 ">
+                  <div className="card card-body  border-0 rounded-1 shadow-sm p-3 ">
                     <div className="container">
-                      {/* Image Section */}
-                      <div className="box">
-                        <div className="box-header with-border">
-                          <div className="left">
+                   
+                    
+                     
+                         
                             <h6 className="box-title">Image</h6>
                             <small
                               className="small-title"
@@ -627,8 +182,8 @@ export const AddBlog = () => {
                             >
                               Main post image
                             </small>
-                          </div>
-                        </div>
+                         
+                       
                         <div
                           className="box-body"
                           style={{
@@ -643,21 +198,7 @@ export const AddBlog = () => {
                                   id="post_select_image_container"
                                   className="post-select-image-container"
                                 >
-                                  <button
-                                    className="btn btn-sm px-3 py-2 fw-semibold text-uppercase"
-                                    style={{
-                                      backgroundColor: "#231f20",
-                                      color: "#fff",
-                                      fontSize: "10px",
-                                    }}
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#BlogModel"
-                                    data-image-type="additional"
-                                  >
-                                    {" "}
-                                    <i className="fa fa-image"></i>
-                                    &nbsp;&nbsp;&nbsp;Select Image
-                                  </button>
+                                 
                                 </div>
                                 <input
                                   type="hidden"
@@ -668,12 +209,12 @@ export const AddBlog = () => {
                             </div>
                             <div className="row m-b-5">
                               <div className="col-sm-12">
-                                <label>or&nbsp;Add Image Url</label>
+                                <label>Add Image </label>
                               </div>
                               <div className="col-sm-12 m-b-5">
                                 <input
-                                  type="text"
-                                  className="form-control"
+                                  type="file"
+                                  className="form-control rounded-1 text-muted"
                                   name="image_url"
                                   id="video_thumbnail_url"
                                   placeholder="Add Image Url"
@@ -691,7 +232,7 @@ export const AddBlog = () => {
                                 </label>
                                 <input
                                   type="text"
-                                  className="form-control"
+                                  className="form-control rounded-1 text-muted"
                                   name="image_description"
                                   placeholder="Image Description"
                                   value=""
@@ -704,12 +245,12 @@ export const AddBlog = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                     
                     </div>
                   </div>
 
                   {/* Additional Images Section */}
-                  <div className="card card-body  border-0 rounded-0 shadow-sm p-3 ">
+                  <div className="card card-body  border-0 rounded-1 shadow-sm p-3 ">
                     <div className="box">
                       <div className="box-header with-border">
                         <div className="left">
@@ -751,7 +292,7 @@ export const AddBlog = () => {
                   </div>
 
                   {/* Files Section */}
-                  <div className="card card-body  border-0 rounded-0 shadow-sm p-3 ">
+                  <div className="card card-body  border-0 rounded-1 shadow-sm p-3 ">
                     <div className="box">
                       <div className="box-header with-border">
                         <div className="left">
@@ -796,7 +337,7 @@ export const AddBlog = () => {
                   </div>
 
                   {/* Category Section */}
-                  <div className="card card-body  border-0 rounded-0 shadow-sm p-3 ">
+                  <div className="card card-body  border-0 rounded-1 shadow-sm p-3 ">
                     <div className="box">
                       <div className="box-header with-border">
                         <div className="left">
@@ -875,7 +416,7 @@ export const AddBlog = () => {
                   </div>
 
                   {/* Publish Section */}
-                  <div className="card card-body  border-0 rounded-0 shadow-sm p-3 ">
+                  <div className="card card-body  border-0 rounded- shadow-sm p-3 ">
                     <div className="box">
                       <div className="box-header with-border">
                         <div className="left">
@@ -914,7 +455,7 @@ export const AddBlog = () => {
                               >
                                 <input
                                   type="text"
-                                  className="form-control"
+                                  className="form-control rounded-1 text-muted"
                                   name="date_published"
                                   id="input_date_published"
                                   placeholder="Date Published"
