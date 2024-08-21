@@ -340,7 +340,7 @@ export const ViewApplication = () => {
                 </div>
                 </div>
               </div>
-              <div className="container">
+              {/* <div className="container">
   <div className="row">
     <div className="col">
     <div className="card border-0 rounded-1 shadow-sm p-4">
@@ -374,7 +374,7 @@ export const ViewApplication = () => {
       </div>
       </div>
       </div>
-              
+               */}
                
                 <div className="container">
   <div className="row">
