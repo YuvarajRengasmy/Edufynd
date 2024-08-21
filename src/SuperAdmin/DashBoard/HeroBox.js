@@ -7,8 +7,14 @@ import {
   FaTrash,FaListAlt, FaChartBar,FaUser, FaFileAlt, FaSuitcase, FaRegChartBar, FaCalendarAlt, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaCommentsDollar, FaFileInvoice, FaBuilding, FaShieldAlt, FaGlobe, FaCogs, FaTrophy, FaEnvelopeOpenText, FaExclamationCircle,
   FaMoneyBillWave, FaCheckCircle, FaComments, FaEnvelope, FaPhone, FaDollarSign, FaUserAlt, FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram, FaBell, FaChartLine,FaUserCog,FaBullhorn
 } from "react-icons/fa";
-
+import DynamicChart from '../Settings/GlobalSetting/Dashboard/DynamicChart'; 
 export const HeroContent = () => {
+  const userPrivileges = {
+    canViewBarChart: true,
+    canViewLineChart: false,
+    canViewPieChart: true,
+  };
+
 
   const salesData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -484,7 +490,7 @@ export const HeroContent = () => {
               <FaChartLine className="me-2" /> Sales Overview
             </div>
             <div className="card-body">
-              <Line data={salesData} />
+            {userPrivileges.canViewBarChart && <DynamicChart chartType="bar" />}
             </div>
           </div>
         </div>
@@ -496,7 +502,7 @@ export const HeroContent = () => {
               <FaUserAlt className="me-2" /> Client Growth
             </div>
             <div className="card-body">
-              <Line data={clientGrowthData} />
+            {userPrivileges.canViewPieChart && <DynamicChart chartType="pie" />}
             </div>
           </div>
         </div>

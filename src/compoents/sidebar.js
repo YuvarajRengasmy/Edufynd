@@ -1252,15 +1252,13 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link 
-                to="#" 
+                to="/GlobalSettingsDashboard" 
                 className={`nav-link sidebar_link ${[
-                  "/ListGlobalDashBoard",
-                  "/AddGlobalDashBoard",
-                  "/EditGlobalDashBoard",
-                  "/ViewGlobalDashBoard",
+                  "/GlobalSettingsDashboard",
+                 
                 ].includes(currentPath) ? "active" : ""}`}
-                data-path="/ListGlobalDashBoard"
-                ref={el => (sidebarRefs.current['/ListGlobalDashBoard'] = el)}
+                data-path="/GlobalSettingsDashboard"
+                ref={el => (sidebarRefs.current['/GlobalSettingsDashboard'] = el)}
               >
                 <i className="fa fa-tachometer-alt nav-icon"></i> Dashboard
               </Link>

@@ -218,6 +218,9 @@ import ViewTask from "../SuperAdmin/Project & Task/Task/ViewTask";
 
 import GlobalSearch from "../SuperAdmin/Search/GlobalSearch";
 
+import GlobalSettingsDashboard from '../SuperAdmin/Settings/GlobalSetting/Dashboard/Chartmanager'
+import GlobalSettingsDashboar from '../SuperAdmin/Settings/GlobalSetting/Dashboard/DynamicChart'
+import GlobalSettingsDashboa from '../SuperAdmin/Settings/GlobalSetting/Dashboard/privilages'
 function SuperAdmin() {
   return (
     <div>
@@ -501,6 +504,10 @@ function SuperAdmin() {
         <Route path="/EditInstagram" element={<PrivateRoute><EditInstagram/></PrivateRoute>}/>
         <Route path="/ViewInstagram" element={<PrivateRoute><ViewInstagram/></PrivateRoute>}/>
 
+
+ <Route path="/GlobalSettingsDashboard" element={<PrivateRoute><GlobalSettingsDashboard/></PrivateRoute>}/>
+ <Route path="/GlobalSettingsDashboar" element={<PrivateRoute><GlobalSettingsDashboar/></PrivateRoute>}/>
+ <Route path="/GlobalSettingsDashboa" element={<PrivateRoute><GlobalSettingsDashboa/></PrivateRoute>}/>
       </Routes>
 
     </div>

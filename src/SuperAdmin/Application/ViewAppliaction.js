@@ -339,40 +339,43 @@ export const ViewApplication = () => {
                 </div>
                 </div>
               </div>
-              <div className="container">
+
+              
+           <div className="container ">
   <div className="row">
     <div className="col">
-    <div className="card border-0 rounded-1 shadow-sm p-4">
-      <div className="card-body">
-
-      <div class="position-relative m-4">
-        <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style={{height:"2px"}}>
-            <div class="progress-bar " style={{width: "50%"}}></div>
+      <div className="card border-0 rounded-1 shadow-sm p-4">
+        <div className="card-body">
+          {/* Progress Bar Container */}
+          <div className="position-relative">
+            <div className="progress" role="progressbar" aria-label="Progress" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} style={{height: 8}}>
+              <div className="progress-bar bg-danger progress-bar-striped progress-bar-animated" style={{width: '50%'}} />
+            </div>
+            {/* Buttons for each stage */}
+            <div className="d-flex justify-content-between position-absolute w-100 top-50 translate-middle-y">
+              <button type="button" className="btn btn-sm btn-primary rounded-pill" style={{width: '2rem', height: '2rem'}}>1</button>
+              <button type="button" className="btn btn-sm btn-primary rounded-pill" style={{width: '2rem', height: '2rem'}}>2</button>
+              <button type="button" className="btn btn-sm btn-primary rounded-pill" style={{width: '2rem', height: '2rem'}}>3</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill" style={{width: '2rem', height: '2rem'}}>4</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill" style={{width: '2rem', height: '2rem'}}>5</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill" style={{width: '2rem', height: '2rem'}}>6</button>
+            </div>
+          </div>
+          {/* Labels below the progress bar */}
+          <div className="d-flex justify-content-between mt-3">
+            <span>Submitted</span>
+            <span>Offer</span>
+            <span>Deposit</span>
+            <span>Approval</span>
+            <span>Enrollment</span>
+            <span>Completed</span>
+          </div>
         </div>
-        
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'0'}}>1</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'20%'}}>2</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'40%'}}>3</button>
-        <button type="button" class="position-absolute translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'60%'}}>4</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'80%'}}>5</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'100%'}}>6</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <div class="d-flex justify-content-between">
-        <span>Submitted</span>
-        <span>Offer</span>
-        <span>Deposit</span>
-        <span>Approval</span>
-        <span>Enrollment</span>
-        <span>Completed</span>
-    </div>
-      </div>
-
-    
-      </div>
-      </div>
-      </div>
-      </div>
               
                
                 <div className="container">
