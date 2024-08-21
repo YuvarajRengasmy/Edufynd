@@ -349,7 +349,7 @@ export const ListBusiness = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddBusinessEnquiry">
+                    <Link class="btn btn-pix-primary" to="/add_business_enquiry">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -537,7 +537,7 @@ export const ListBusiness = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewBusinessEnquiry",
+                                          pathname: "/view_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -548,7 +548,7 @@ export const ListBusiness = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditBusinessEnquiry",
+                                          pathname: "/edit_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"

@@ -507,7 +507,7 @@ export default function Masterproductlist() {
 
           {/* Add Client Button */}
           <li className="m-1">
-            <Link to="/AddClient">
+            <Link to="/add_client">
               <button
                 className="btn text-white border-0 fw-semibold rounded-1"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }} // Dark color for add client
@@ -639,7 +639,7 @@ export default function Masterproductlist() {
                       <Link
                         className="text-decoration-none text-dark"
                         to={{
-                          pathname: "/ViewClient",
+                          pathname: "/view_client",
                           search: `?id=${data?._id}`,
                         }}
                       >
@@ -660,7 +660,7 @@ export default function Masterproductlist() {
                         <Link
                           className="text-decoration-none me-2"
                           to={{
-                            pathname: "/ViewClient",
+                            pathname: "/view_client",
                             search: `?id=${data?._id}`,
                           }}
                           data-bs-toggle="tooltip"
@@ -671,7 +671,7 @@ export default function Masterproductlist() {
                         <Link
                           className="text-decoration-none me-2"
                           to={{
-                            pathname: "/EditClient",
+                            pathname: "/edit_client",
                             search: `?id=${data?._id}`,
                           }}
                           data-bs-toggle="tooltip"
