@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+  </head>
+  <body>
+    <button type="button" id="renderBtn">
+      Pay Now
+    </button>
+  </body>
+  <script>
+      const cashfree = Cashfree({
+        mode: "sandbox" //or production,
+      });
+      document.getElementById("renderBtn").addEventListener("click", () => {
+        cashfree.checkout({
+          paymentSessionId: "session_g_ZdmO8EvJUsvAJxCkZ5J-GRaR1rkQOTyZxN3NIOvc-_fkQQQZPJ3txrwpJdvGigkZ_UBrzP8jLtmTz12oDO5fz-r2cbclIibY2opZ3KfDBe"
+        });
+      });
+  </script>
+</html>
