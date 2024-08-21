@@ -266,7 +266,7 @@ export const AddStaff = () => {
       saveStaff(staff)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStaff");
+          navigate("/list_staff");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1118,7 +1118,7 @@ export const AddStaff = () => {
                             <div className="row g-2">
                               <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                 <Link
-                                  to=""
+                                  to="/list_staff"
                                   style={{
                                     backgroundColor: "#231F20",
                                     fontFamily: "Plus Jakarta Sans",

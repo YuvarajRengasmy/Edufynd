@@ -285,7 +285,7 @@ function EditAgent() {
       updateAgent(agent)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListAgent");
+          navigate("/list_agent");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1037,7 +1037,7 @@ function EditAgent() {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          to="/ListAgent"
+                          to="/list_agent"
                           className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                         >
                           Cancel

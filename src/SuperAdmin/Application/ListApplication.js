@@ -448,7 +448,7 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
-            <Link to="/AddApplication">
+            <Link to="/add_application">
               <button
                 className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
                 style={{
@@ -637,7 +637,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ApplicationView",
+                                        pathname: "/view_application",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
@@ -646,7 +646,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/EditApplication",
+                                        pathname: "/edit_application",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >

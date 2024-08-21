@@ -430,7 +430,7 @@ function Profile() {
       updateUniversity(updatedUniversity)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListUniversity");
+          navigate("/list_university");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1090,7 +1090,7 @@ function Profile() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              to="/ListUniversity"
+                              to="/list_university"
                               className="btn btn-cancel border-0 px-4 py-2 text-uppercase fw-semibold text-white  m-1"
                             >
                               Cancel

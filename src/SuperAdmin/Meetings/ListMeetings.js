@@ -257,7 +257,7 @@ export const ListMeetings = () => {
                   </Link>
                 </li>
                 <li class="m-1">
-                  <Link class="btn btn-pix-primary" to="/AddMeetings">
+                  <Link class="btn btn-pix-primary" to="/add_meetings">
                     <button
                       className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                       style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -391,7 +391,7 @@ export const ListMeetings = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewMeetings",
+                                          pathname: "/view_meetings",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -400,7 +400,7 @@ export const ListMeetings = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditMeetings",
+                                          pathname: "/editt_meetings",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

@@ -113,7 +113,7 @@ function AddAgent() {
             };
             saveToken(data);
             if (isAuthenticated()) {
-              navigate("/AdminList");
+              navigate("/list_admin");
             }
             toast.success(res?.data?.message);
           })
@@ -328,7 +328,7 @@ function AddAgent() {
                               backgroundColor: "#0f2239",
                               fontSize: "12px",
                             }}
-                            to="/AdminList"
+                            to="/list_admin"
                             className="btn btn-cancel px-4 py-2 fw-semibold text-uppercase d-inline border-0 text-white  m-1"
                           >
                             Cancel

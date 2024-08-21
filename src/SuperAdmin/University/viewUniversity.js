@@ -1012,7 +1012,7 @@ const UserProfile = () => {
                     </li>
                     <li className="breadcrumb-item">
                       <Link
-                        to="/ListUniversity"
+                        to="/list_university"
                         className="text-decoration-none"
                       >
                         ListUniversity
@@ -1022,7 +1022,7 @@ const UserProfile = () => {
                     <li className="breadcrumb-item">
                       <Link
                         to={{
-                          pathname: "/EditUniversity",
+                          pathname: "/edit_university",
                           search: `?id=${university?._id}`,
                         }}
                         className="text-decoration-none"

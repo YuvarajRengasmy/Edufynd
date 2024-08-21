@@ -258,7 +258,7 @@ export const ListTraining = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddTraining">
+                    <Link class="btn btn-pix-primary" to="/add_training">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -386,7 +386,7 @@ export const ListTraining = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewTraining",
+                                      pathname: "/view_training",
                                       search: `?id=${data?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
@@ -398,7 +398,7 @@ export const ListTraining = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditTraining",
+                                      pathname: "/edit_training",
                                       search: `?id=${data?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"

@@ -191,7 +191,7 @@ export const AddPromotions = () => {
       updatedPromotion(updateNotifications)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListPromotions");
+          navigate("/list_promotions");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -513,7 +513,7 @@ export const AddPromotions = () => {
 
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                            to="/ListPromotions"
+                            to="/list_promotions"
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",

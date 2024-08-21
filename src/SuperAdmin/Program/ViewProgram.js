@@ -1081,14 +1081,14 @@ const handleSubmit = (event) => {
                                   </Link>
                                 </li>
                                 <li className="breadcrumb-item">
-                                  <Link to="/Programs" className="text-decoration-none text-capitalize">ListProgram</Link>
+                                  <Link to="/list_program" className="text-decoration-none text-capitalize">ListProgram</Link>
                                 </li>
 
                                 <li className="breadcrumb-item">
                                   <Link
                                   className="text-decoration-none text-capitalize"
                                     to={{
-                                      pathname: "/EditProgram",
+                                      pathname: "/edit_program",
                                       search: `?id=${id}`,
                                     }}
                                   >

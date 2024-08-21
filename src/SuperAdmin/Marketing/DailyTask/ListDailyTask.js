@@ -193,7 +193,7 @@ export const ListDailyTask = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddDailyTask">
+                    <Link class="btn btn-pix-primary" to="/add_daily_task">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -328,7 +328,7 @@ export const ListDailyTask = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewDailyTask",
+                                      pathname: "/view_daily_task",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -340,7 +340,7 @@ export const ListDailyTask = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditDailyTask",
+                                      pathname: "/edit_daily_task",
                                       
                                     }}
                                     data-bs-toggle="tooltip"

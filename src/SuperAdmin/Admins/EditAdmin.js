@@ -122,7 +122,7 @@ function EditAdmin() {
       updateAdmin(admin)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/AdminList");
+          navigate("/list_admin");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -335,7 +335,7 @@ function EditAdmin() {
                     <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
                         style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
-                        to="/AdminList"
+                        to="/list_admin"
                         className="btn btn-cancel px-4 py-2 fw-semibold text-uppercase d-inline border-0 text-white  m-1"
                       >
                         Cancel

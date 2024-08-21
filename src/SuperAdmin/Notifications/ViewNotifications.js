@@ -37,15 +37,15 @@ export const ViewNotifications = () => {
           <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+      <Link to='/dashboard' target="_self" className="text-decoration-none">Dashboard</Link>
     </li>
     <li className="breadcrumb-item">
-      <Link to='/ListNotifications' className="text-decoration-none">ListNotifications</Link>
+      <Link to='/list_notifications' className="text-decoration-none">ListNotifications</Link>
     </li>
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
-          pathname: "/EditNotifications",
+          pathname: "/edit_notifications",
           search: `?id=${notification?._id}`,
         }} className="text-decoration-none">EditNotifications</Link>
       </li>

@@ -620,7 +620,7 @@ const chartRef = useRef(null);
             </Link>
           </li>
           <li className="m-1">
-            <Link to="/AddUniversity">
+            <Link to="/add_university">
               <button
                 className="btn border-0 fw-semibold text-white"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -804,7 +804,7 @@ const chartRef = useRef(null);
                             <Link
                               className="dropdown-item"
                               to={{
-                                pathname: "/ViewUniversity",
+                                pathname: "/view_university",
                                 search: `?id=${data?._id}`,
                               }}
                             >
@@ -819,7 +819,7 @@ const chartRef = useRef(null);
                             <Link
                               className="dropdown-item"
                               to={{
-                                pathname: "/EditUniversity",
+                                pathname: "/edit_university",
                                 search: `?id=${data?._id}`,
                               }}
                             >

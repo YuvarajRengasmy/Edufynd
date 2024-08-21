@@ -498,7 +498,7 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-0">
-            <Link className="btn btn-pix-primary border-0 rounded-1" to="/AddStudentSA">
+            <Link className="btn btn-pix-primary border-0 rounded-1" to="/add_student">
               <button
                 className="btn fw-semibold rounded-1 border-0 text-white"
                 style={{ backgroundColor: "#231f20", fontSize: '12px' }}
@@ -642,7 +642,7 @@ export default function Masterproductlist() {
                            <Link
                              className="dropdown-item"
                              to={{
-                               pathname: "/ViewStudent",
+                               pathname: "/view_student",
                                search: `?id=${data?._id}`,
                              }}
                            >
@@ -652,7 +652,7 @@ export default function Masterproductlist() {
                            <Link
                              className="dropdown-item"
                              to={{
-                               pathname: "/EditStudent",
+                               pathname: "/edit_student",
                                search: `?id=${data?._id}`,
                              }}
                            >
