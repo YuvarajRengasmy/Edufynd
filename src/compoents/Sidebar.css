@@ -86,3 +86,13 @@
   -webkit-transition: height 0.3s ease !important;
   transition: height 0.3s ease !important;
 }
+@media not all and (min-resolution:.001dpcm) { @supports (-webkit-appearance:none) {
+  /* Safari-specific CSS */
+  .sidebar_link {
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}}

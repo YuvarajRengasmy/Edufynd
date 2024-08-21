@@ -383,13 +383,21 @@ const Sidebar = () => {
     aria-expanded={isOpen.users}
     aria-controls="collapse3"
     style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("users")}
   >
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div   style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}>
       <i className="fa fa-users nav-icon"></i>
       Users
     </div>
@@ -408,7 +416,7 @@ const Sidebar = () => {
           to="/list_student"
           ref={el => (sidebarRefs.current['/list_student'] = el)}
           className={`nav-link sidebar_link ${
-            ["/list__student", "/add_student", "/view_student", "/edit_student"].includes(currentPath)
+            ["/list_student", "/add_student", "/view_student", "/edit_student"].includes(currentPath)
               ? "active"
               : ""
           }`}
@@ -478,10 +486,12 @@ const Sidebar = () => {
     data-bs-toggle="collapse"
     aria-expanded={isOpen.enquiry}
     aria-controls="collapse1"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("enquiry")}
   >
@@ -614,10 +624,12 @@ const Sidebar = () => {
     data-bs-toggle="collapse"
     aria-expanded={isOpen.finance}
     aria-controls="collapse2"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("finance")}
   >
@@ -721,7 +733,13 @@ const Sidebar = () => {
     data-bs-toggle="collapse"
     aria-expanded={isOpen.Projects}
     aria-controls="collapse12"
-    style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+  style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
     onClick={() => toggleDropdown("Projects")}
     ref={el => (sidebarRefs.current['/Projects'] = el)}
   >
@@ -771,7 +789,13 @@ const Sidebar = () => {
     data-bs-toggle="collapse"
     aria-expanded={isOpen.Marketing}
     aria-controls="collapse17"
-    style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+  style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
     onClick={() => toggleDropdown("Marketing")}
     ref={el => (sidebarRefs.current['/Marketing'] = el)}
   >
@@ -789,11 +813,23 @@ const Sidebar = () => {
           data-bs-toggle="collapse"
           aria-expanded={isOpen.Socialmedia}
           aria-controls="collapse30"
-          style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
           onClick={() => toggleDropdown("Socialmedia")}
           ref={el => (sidebarRefs.current['/Socialmedia'] = el)}
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}>
             <i className="fa fa-users nav-icon"></i> Social Media
           </div>
           <i className={`fa fa-angle-right ${isOpen.Socialmedia ? "rotate-icon" : ""}`} aria-hidden="true" />
@@ -1038,10 +1074,12 @@ const Sidebar = () => {
     data-bs-toggle="collapse"
     aria-expanded={isOpen.elt}
     aria-controls="collapse4"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("elt")}
   >
@@ -1100,16 +1138,24 @@ const Sidebar = () => {
     data-bs-toggle="collapse"
     aria-expanded={isOpen.settings}
     aria-controls="collapse6"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("settings")}
     role="button"
     aria-label="Settings"
   >
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}>
       <i className="fa fa-cog fa-spin nav-icon"></i>
       Settings
     </div>
@@ -1131,11 +1177,13 @@ const Sidebar = () => {
           data-bs-toggle="collapse"
           aria-expanded={isOpen.globalSettings}
           aria-controls="collapse7"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+        style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
           onClick={() => toggleDropdown("globalSettings")}
           role="button"
           aria-label="Global Settings"
@@ -1272,11 +1320,13 @@ const Sidebar = () => {
           data-bs-toggle="collapse"
           aria-expanded={isOpen.modules}
           aria-controls="collapse8"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+        style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
           onClick={() => toggleDropdown("modules")}
           role="button"
           aria-label="Module"
@@ -1389,11 +1439,13 @@ const Sidebar = () => {
           data-bs-toggle="collapse"
           aria-expanded={isOpen.privileges}
           aria-controls="collapse9"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+        style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
           onClick={() => toggleDropdown("privileges")}
           role="button"
           aria-label="Privileges"
@@ -1460,14 +1512,22 @@ const Sidebar = () => {
     data-bs-toggle="collapse"
     aria-expanded={isOpen.Reports}
     aria-controls="collapse4"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("Reports")}
   >
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}>
       <i className="fa fa-file-alt nav-icon"></i>
       Reports
     </div>
