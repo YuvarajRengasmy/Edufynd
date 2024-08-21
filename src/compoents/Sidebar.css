@@ -87,33 +87,54 @@
 
 /* Sidebar when collapsed */
 .main-sidebar.collapsed {
-  width: 80px; /* Width when collapsed to show only icons */
+  width: 80px !important; /* Width when collapsed to show only icons */
 }
 
 .main-sidebar.collapsed .nav-link {
-  padding-left: 0; /* Adjust padding for collapsed state */
+  padding-left: 0 !important; /* Adjust padding for collapsed state */
 }
 
 .main-sidebar.collapsed .nav-link .nav-text {
-  display: none; /* Hide text when collapsed */
+  display: none !important; /* Hide text when collapsed */
 }
 
 .main-sidebar .nav-link {
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .main-sidebar .nav-link .nav-text {
-  margin-left: 10px; /* Space between icon and text */
+  margin-left: 10px !important; /* Space between icon and text */
 }
 
+.main-sidebar.collapsed .rotate-icon {
+  display: none !important; /* Hide icon in collapsed state */
+}
 /* Toggle button for collapsing the sidebar */
 .sidebar-toggle {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
+  position: absolute !important;
+  top: 0px !important;
+  right: 0px !important;
+  cursor: pointer !important;
 }
+
+
+
+/* Older browsers fallback */
+.sidebar_link {
+  display: block !important; /* Basic fallback for very old browsers */
+  text-align: left !important;
+}
+.content-wrapper {
+  margin-left: 250px !important; /* Default margin when sidebar is expanded */
+  transition: margin-left 0.3s ease !important;
+}
+
+.main-sidebar.collapsed ~ .content-wrapper {
+  margin-left: 80px !important; /* Adjust margin when sidebar is collapsed */
+}
+
+
 
 /* Safari-specific adjustments */
 @media not all and (min-resolution:.001dpcm) { 
@@ -126,18 +147,4 @@
       justify-content: space-between !important;
     }
   }
-}
-
-/* Older browsers fallback */
-.sidebar_link {
-  display: block; /* Basic fallback for very old browsers */
-  text-align: left;
-}
-.content-wrapper {
-  margin-left: 250px !important; /* Default margin when sidebar is expanded */
-  transition: margin-left 0.3s ease !important;
-}
-
-.main-sidebar.collapsed ~ .content-wrapper {
-  margin-left: 80px !important; /* Adjust margin when sidebar is collapsed */
 }
