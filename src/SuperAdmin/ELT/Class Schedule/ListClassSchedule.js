@@ -252,7 +252,7 @@ export const ListClassSchedule = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddClassSchedule">
+                    <Link class="btn btn-pix-primary" to="/add_class_schedule">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -398,7 +398,7 @@ export const ListClassSchedule = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewClassSchedule",
+                                      pathname: "/view_class_schedule",
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="View"
@@ -408,7 +408,7 @@ export const ListClassSchedule = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditClassSchedule",
+                                      pathname: "/edit_class_schedule",
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="Edit"

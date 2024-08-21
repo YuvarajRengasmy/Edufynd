@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Bar, Line, Pie } from "react-chartjs-2"; //
+import { Bar, Line, Pie,Doughnut,Radar } from "react-chartjs-2"; //
 import Sidebar from "../../compoents/sidebar";
 import 'chart.js/auto';
 import {
@@ -486,7 +486,7 @@ export const HeroContent = () => {
               <FaChartLine className="me-2" /> Sales Overview
             </div>
             <div className="card-body">
-          
+            <Line data={salesData} />
             </div>
           </div>
         </div>
@@ -498,7 +498,7 @@ export const HeroContent = () => {
               <FaUserAlt className="me-2" /> Client Growth
             </div>
             <div className="card-body">
-            
+            <Line data={clientGrowthData} />
             </div>
           </div>
         </div>

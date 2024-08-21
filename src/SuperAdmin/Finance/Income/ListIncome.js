@@ -208,7 +208,7 @@ export const ListIncome = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddIncome">
+                    <Link class="btn btn-pix-primary" to="/add_income">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -342,7 +342,7 @@ export const ListIncome = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewIncome",
+                                      pathname: "/view_income",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -354,7 +354,7 @@ export const ListIncome = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditIncome",
+                                      pathname: "/edit_income",
                                       
                                     }}
                                     data-bs-toggle="tooltip"

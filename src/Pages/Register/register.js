@@ -167,29 +167,29 @@ const Register = () => {
                   <div className="text-center">
                     <h1 className="h3 fw-bold" style={{ color: '#E91E63' }}>Start Your Journey!</h1>
                   </div>
-                  <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white nav-tab mt-2  fw-semibold rounded-2 mx-auto my-3' style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '10px' }}>
+                  <div className='navbar-brand d-flex justify-content-center align-items-center gap-3 border-0 p-1 text-white nav-tab mt-2 w-75  fw-semibold rounded-2 mx-auto my-3' style={{ backgroundColor: '#7627ef', color: '#fff', fontSize: '10px' }}>
                     <button
                       className={`btn rounded-1 border-0 border-0 text-white fw-semibold   ${type === 'student' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button" aria-selected="true"
                       role='tab' onClick={() => handleSinUpType('student')}
                       style={{ fontSize: '10px' }} >
-                      <i className="fa fa-user-graduate  text-white"></i> Student
+                      <i className="fa fa-user-graduate  text-white"></i>&nbsp; Student
                     </button>
-                    <button
+                    {/* <button
                       className={`btn rounded-1 border-0 border-0  text-white  fw-semibold ${type === 'superAdmin' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button"
                       aria-selected="false"
                       role='tab' onClick={() => handleSinUpType('superAdmin')}
                       style={{ fontSize: '10px' }}>
                       <i className="fa fa-user-shield  text-white"></i> SAdmin
-                    </button>
+                    </button> */}
                     <button
                       className={`btn rounded-1 border-0 border-0 text-white  text-white  fw-semibold ${type === 'agent' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button"
                       aria-selected="false"
                       role='tab' onClick={() => handleSinUpType('agent')}
                       style={{ fontSize: '10px' }}>
-                      <i className="fa fa-user-secret  text-white"></i> Agent
+                      <i className="fa fa-user-secret  text-white"></i>&nbsp;Partner
                     </button>
                   </div>
                   <form onSubmit={handleSubmit}>
