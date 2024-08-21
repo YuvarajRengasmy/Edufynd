@@ -340,6 +340,41 @@ export const ViewApplication = () => {
                 </div>
                 </div>
               </div>
+              <div className="container">
+  <div className="row">
+    <div className="col">
+    <div className="card border-0 rounded-1 shadow-sm p-4">
+      <div className="card-body">
+
+      <div class="position-relative m-4">
+        <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style={{height:"2px"}}>
+            <div class="progress-bar " style={{width: "50%"}}></div>
+        </div>
+        
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'0'}}>1</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'20%'}}>2</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'40%'}}>3</button>
+        <button type="button" class="position-absolute translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'60%'}}>4</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'80%'}}>5</button>
+        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'100%'}}>6</button>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <span>Submitted</span>
+        <span>Offer</span>
+        <span>Deposit</span>
+        <span>Approval</span>
+        <span>Enrollment</span>
+        <span>Completed</span>
+    </div>
+      </div>
+
+    
+      </div>
+      </div>
+      </div>
+      </div>
+              
                
                 <div className="container">
   <div className="row">
@@ -765,12 +800,12 @@ export const ViewApplication = () => {
   </div>
 </div>
 
-<div class="container-fluid my-2">
-  <div class="row flex-nowrap">
+<div className="container-fluid my-2">
+  <div className="row flex-nowrap">
    
-    <div class="col-md-3 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
-      <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-        <div class="card-header bg-white border-0">
+    <div className="col-md-3 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
+      <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+        <div className="card-header bg-white border-0">
          
           <div className="text-center">
                           <button
@@ -811,10 +846,10 @@ export const ViewApplication = () => {
                           </div>
                         </div>
         </div>
-        <div class="card-body p-4">
+        <div className="card-body p-4">
           <img
             src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-            class="card-img-top rounded-circle border-0"
+            className="card-img-top rounded-circle border-0"
             alt="Profile"
             style={{ width: "3rem", height: "3rem" }}
           />
@@ -830,20 +865,20 @@ export const ViewApplication = () => {
                   target="_blank"
                   download
                   key={index}
-                  class="d-flex gap-2 align-items-center mb-2 text-decoration-none"
+                  className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
                 >
-                  <div class="me-2">
+                  <div className="me-2">
                     <img
                       src={item?.document || "-"}
-                      class="card-img-top border-0 me-2"
+                      className="card-img-top border-0 me-2"
                       alt="Document"
                       style={{ width: "3rem", height: "3em" }}
                     />
-                    <p class="card-text mb-0" style={{ fontSize: "12px" }}>
+                    <p className="card-text mb-0" style={{ fontSize: "12px" }}>
                       {item?.name}
                     </p>
                   </div>
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  <i className="fa fa-eye" aria-hidden="true"></i>
                 </a>
               ))}
             </div>
@@ -853,29 +888,29 @@ export const ViewApplication = () => {
     </div>
     
     
-    <div class="col-md-9 col-sm-8">
-      <div class="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-        <div class="card-header bg-white sticky-top">
-          <h6 class="card-title">Application Track</h6>
+    <div className="col-md-9 col-sm-8">
+      <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+        <div className="card-header bg-white sticky-top">
+          <h6 className="card-title">Application Track</h6>
         </div>
         
       
-        <div class="collapse" id="taggingSection">
-        <div className="btn btns-m border-0 rounded-1 btn-danger float-end m-2"  data-bs-toggle="collapse" data-bs-target="#taggingSection"><i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide</div>
-          <div class="card-body p-4 border rounded-1">
+        <div className="collapse" id="taggingSection">
+        <div className="btn btns-m border-0 rounded-1 btn-danger float-end m-2"  data-bs-toggle="collapse" data-bs-target="#taggingSection"><i className="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide</div>
+          <div className="card-body p-4 border rounded-1">
            
             <form>
-              <div class="form-group mb-3">
+              <div className="form-group mb-3">
                 <label for="tagPerson">Tag Person</label>
                 <input
                   type="text"
-                  class="form-control rounded-1 text-muted"
+                  className="form-control rounded-1 text-muted"
                   id="tagPerson"
                   placeholder="Enter person's name"
                   style={{ fontSize: "12px" }}
                 />
               </div>
-              <div class="form-group mb-3">
+              <div className="form-group mb-3">
                 <label for="subject">Subject</label>
                 <RichTextEditor
                   placeholder="Start writing your content here..."
@@ -897,43 +932,43 @@ export const ViewApplication = () => {
                   ]}
                 />
               </div>
-              <button type="submit" class="btn btn-primary float-end border-0 rounded-1 ">Send</button>
+              <button type="submit" className="btn btn-primary float-end border-0 rounded-1 ">Send</button>
             </form>
           </div>
         </div>
         
        
-        <div class="card-body p-4">
-          <div class="chat-messages">
-            <div class="container">
+        <div className="card-body p-4">
+          <div className="chat-messages">
+            <div className="container">
 
-              <div class="row">
+              <div className="row">
               {tracks?.status &&
                                         tracks.status.map((item, index) => (
-                <div key={index} class="d-flex justify-content-end mb-4">
-                  <div  class="profile-content">
+                <div key={index} className="d-flex justify-content-end mb-4">
+                  <div  className="profile-content">
                   <img
             src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-            class="card-img-top rounded-circle border-0"
+            className="card-img-top rounded-circle border-0"
             alt="Profile"
             style={{ width: "4rem", height: "4rem" }}
           />
                   </div>
                
-                  <div  class="col-8">
-                    <div class="card">
-                      <div class="card-header text-bg-danger">
+                  <div  className="col-8">
+                    <div className="card">
+                      <div className="card-header text-bg-danger">
                       
-                        <p class="mb-0">Application Decision:{item?.newStatus}</p>
+                        <p className="mb-0">Application Decision:{item?.newStatus}</p>
                         <div className="d-flex gap-2">
-                        <p class="mb-0">{formatDate(item?.createdOn)}</p>
-                        <button class="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
-                        <i class="fa fa-reply" aria-hidden="true"></i>
+                        <p className="mb-0">September 28th 2023, 15:38</p>
+                        <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+                        <i className="fa fa-reply" aria-hidden="true"></i>
                         </button>
                         </div>
                        
                       </div>
-                      <div class="card-body">
+                      <div className="card-body">
                       <RichTextEditor
                                                 value={item?.commentBox}
                                                 readOnly
