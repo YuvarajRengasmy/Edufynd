@@ -80,7 +80,7 @@ export const HeroContent = () => {
   return (
     <div >
       <Sidebar />
-      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+      <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
         <div className="container  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">

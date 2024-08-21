@@ -4,7 +4,8 @@ import { clearStorage } from "../Utils/storage";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
-import Edufynd from "../Assests/White Logo EduFynd.png";
+import Edufynd from "../Assests/EduFynd.png";
+
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const Sidebar = () => {
     users: false,
     socialmedia: false,
   });
+  const [isCollapsed, setIsCollapsed] = useState(false); // New state for collapsing
 
   const sidebarRefs = useRef({});
 
@@ -34,7 +36,11 @@ const Sidebar = () => {
   };
 
   const toggleDropdown = (key) => {
-    setIsOpen(prevState => ({ ...prevState, [key]: !prevState[key] }));
+    setIsOpen((prevState) => ({ ...prevState, [key]: !prevState[key] }));
+  };
+
+  const handleSidebarToggle = () => {
+    setIsCollapsed((prev) => !prev);
   };
 
   const logout = () => {
@@ -184,7 +190,6 @@ const Sidebar = () => {
           "/application_status",
           "/course_type",
         ],
-       
       },
       Reports: [
         "/EmployeeReports",
@@ -220,14 +225,13 @@ const Sidebar = () => {
         "/application_status",
         "/course_type",
       ],
-     
     };
 
     const checkNestedPaths = (paths, currentPath) => {
       if (Array.isArray(paths)) {
-        return paths.some(path => currentPath.includes(path));
+        return paths.some((path) => currentPath.includes(path));
       }
-      return Object.keys(paths).some(key => checkNestedPaths(paths[key], currentPath));
+      return Object.keys(paths).some((key) => checkNestedPaths(paths[key], currentPath));
     };
 
     const newIsOpen = Object.keys(dropdownPaths).reduce((acc, key) => {
@@ -235,58 +239,60 @@ const Sidebar = () => {
       return acc;
     }, {});
 
-    setIsOpen(prevState => ({ ...prevState, ...newIsOpen }));
+    setIsOpen((prevState) => ({ ...prevState, ...newIsOpen }));
   }, [currentPath]);
 
   useEffect(() => {
-    const activeRef = Object.values(sidebarRefs.current).find(ref => 
+    const activeRef = Object.values(sidebarRefs.current).find((ref) =>
       ref && currentPath.includes(ref.dataset.path)
     );
-  
+
     if (activeRef) {
       setTimeout(() => {
-        activeRef.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        activeRef.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100); // Adjust delay as necessary
     }
   }, [currentPath]);
-  
   
 
   return (
     <>
       <aside
-        className="main-sidebar elevation-10 d-none text-bg-white   d-lg-block"
+        className={`main-sidebar elevation-10  text-bg-white  ${isCollapsed ? "collapsed" : ""}`}
         style={{
           position: "fixed",
-          width: "250px",
+          width: isCollapsed ? "80px" : "250px",
           height: "100%",
           overflowY: "auto",
           scrollbarWidth: "none",
-          fontSize:'16px',
-          fontWeight:'bold',
+          fontSize: "0.85rem",
+          fontWeight: "bold",
           fontFamily: "Plus Jakarta Sans",
-        fontVariant: "all-small-caps"
-
+          fontVariant: "all-small-caps",
         }}
       >
         <div className="  shadow-none   ">
+       
           <div className="sidebar">
+
             <div className="user-panel  d-flex">
               <div className="info  ">
-                <Link to="/dashboard"
-                 
-                 
-                  className="brand-text font-weight-light text-decoration-none"
-                >
-                  <img
-                    src={Edufynd}
-                    alt="logo"
-                    className="img-fluid "
-                    style={{ width: "100%" }}
-                  />
-                </Link>
+              <Link
+                to="/dashboard"
+                className="brand-text font-weight-light text-decoration-none"
+              >
+                <img
+                  src={Edufynd}
+                  alt="logo"
+                  className="img-fluid"
+                  style={{ width: "100%" }}
+                />
+              </Link>
               </div>
             </div>
+            <button onClick={handleSidebarToggle} className= "btn btn-link sidebar-toggle  ">
+            <i className={`fa ${isCollapsed ? "fa-arrow-right" : "fa-arrow-left"}`}></i>
+          </button>
             <nav>
               <ul
                 className="nav  nav-sidebar flex-column "
@@ -303,7 +309,7 @@ const Sidebar = () => {
       data-path="/dashboard"
   >
     <i className="fa fa-tachometer-alt nav-icon"></i>
-    Dashboard
+    {!isCollapsed && "Dashboard"}
   </Link>
 </li>
 
@@ -320,7 +326,8 @@ const Sidebar = () => {
      data-path="/list_client"
   >
     <i className="fa fa-user nav-icon"></i>
-    Client
+   
+    {!isCollapsed && " Client"}
   </Link>
 </li>
 
@@ -337,7 +344,8 @@ const Sidebar = () => {
      data-path="/list_university"
   >
     <i className="fa fa-graduation-cap nav-icon"></i>
-    University
+    
+    {!isCollapsed && "University"}
   </Link>
 </li>
 
@@ -354,7 +362,8 @@ const Sidebar = () => {
      data-path="/list_commission"
   >
     <i className="fa fa-dollar-sign nav-icon"></i>
-    Commission
+    
+    {!isCollapsed && "Commission"}
   </Link>
 </li>
 
@@ -371,7 +380,8 @@ const Sidebar = () => {
      data-path="/list_Program"
   >
     <i className="fa fa-cogs nav-icon"></i>
-    Program
+   
+    {!isCollapsed && "Program"}
   </Link>
 </li>
 
@@ -399,7 +409,8 @@ const Sidebar = () => {
       justifyContent: "space-between"  // Space between elements
     }}>
       <i className="fa fa-users nav-icon"></i>
-      Users
+      
+      {!isCollapsed && "Users"}
     </div>
     <i
       className={`fa fa-angle-right ${isOpen.users ? "rotate-icon" : ""}`}
@@ -423,7 +434,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_student")}
            data-path="/list_student"
         >
-          <i className="fa fa-user-graduate nav-icon"></i> Students
+          <i className="fa fa-user-graduate nav-icon"></i>
+          {!isCollapsed && " Students"} 
         </Link>
       </li>
       <li className="nav-item">
@@ -438,7 +450,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_staff")}
            data-path="/list_staff"
         >
-          <i className="fa fa-user-tie nav-icon"></i> Staffs
+          <i className="fa fa-user-tie nav-icon"></i> 
+          {!isCollapsed && " Staffs"}
         </Link>
       </li>
       <li className="nav-item">
@@ -453,7 +466,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_agent")}
            data-path="/list_agent"
         >
-          <i className="fa fa-user-secret nav-icon"></i> Agents
+          <i className="fa fa-user-secret nav-icon"></i> 
+          {!isCollapsed && " Agents"}
         </Link>
       </li>
     </ul>
@@ -475,7 +489,8 @@ const Sidebar = () => {
     onClick={() => handleSetActiveLink("/list_application")}
      data-path="/list_application"
   >
-    <i className="fa fa-archive nav-icon"></i> Application
+    <i className="fa fa-archive nav-icon"></i> 
+    {!isCollapsed && " Application"}
   </Link>
 </li>
 
@@ -496,7 +511,8 @@ const Sidebar = () => {
     onClick={() => toggleDropdown("enquiry")}
   >
     <div>
-      <i className="fa fa-question-circle nav-icon"></i> Enquiry
+      <i className="fa fa-question-circle nav-icon"></i> 
+      {!isCollapsed && " Enquiry"}
     </div>
     <i
       className={`fa fa-angle-right ${isOpen.enquiry ? "rotate-icon" : ""}`}
@@ -520,7 +536,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_enquiry_student")}
            data-path="/list_enquiry_student"
         >
-          <i className="fa fa-user-graduate nav-icon"></i> Student
+          <i className="fa fa-user-graduate nav-icon"></i> 
+          {!isCollapsed && " Student"}
         </Link>
       </li>
       <li className="nav-item">
@@ -535,7 +552,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_forex_form")}
            data-path="/list_forex_form"
         >
-          <i className="fa fa-money-bill-wave nav-icon"></i> FOREX
+          <i className="fa fa-money-bill-wave nav-icon"></i> 
+          {!isCollapsed && " FOREX"}
         </Link>
       </li>
       <li className="nav-item">
@@ -550,7 +568,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_accommodation")}
            data-path="/list_accommodation"
         >
-          <i className="fa fa-bed nav-icon"></i> Accommodation
+          <i className="fa fa-bed nav-icon"></i> 
+          {!isCollapsed && " Accommodation"}
         </Link>
       </li>
       <li className="nav-item">
@@ -565,7 +584,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_flight_ticket")}
            data-path="/list_flight_ticket"
         >
-          <i className="fa fa-plane nav-icon"></i> Flight
+          <i className="fa fa-plane nav-icon"></i> 
+          {!isCollapsed && " Flight"}
         </Link>
       </li>
       <li className="nav-item">
@@ -580,7 +600,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_loan_enquiry")}
            data-path="/list_loan_enquiry"
         >
-          <i className="fa fa-credit-card nav-icon"></i> Loan
+          <i className="fa fa-credit-card nav-icon"></i> 
+          {!isCollapsed && " Loan"}
         </Link>
       </li>
       <li className="nav-item">
@@ -595,7 +616,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_business_enquiry")}
            data-path="/list_business_enquiry"
         >
-          <i className="fa fa-briefcase nav-icon"></i> Business Enquiry
+          <i className="fa fa-briefcase nav-icon"></i>
+          {!isCollapsed && "  Business Enquiry"}
         </Link>
       </li>
       <li className="nav-item">
@@ -610,7 +632,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_general_enquiry")}
            data-path="/list_general_enquiry"
         >
-          <i className="fa fa-info-circle nav-icon"></i> General Enquiry
+          <i className="fa fa-info-circle nav-icon"></i> 
+          {!isCollapsed && "General Enquiry"}
         </Link>
       </li>
     </ul>
@@ -634,7 +657,8 @@ const Sidebar = () => {
     onClick={() => toggleDropdown("finance")}
   >
     <div>
-      <i className="fa fa-wallet nav-icon"></i> Finance
+      <i className="fa fa-wallet nav-icon"></i> 
+      {!isCollapsed && "Finance"}
     </div>
     <i
       className={`fa fa-angle-right ${isOpen.finance ? "rotate-icon" : ""}`}
@@ -658,7 +682,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_income")}
            data-path="/list_income"
         >
-          <i className="fa fa-arrow-up nav-icon"></i> Income
+          <i className="fa fa-arrow-up nav-icon"></i> 
+          {!isCollapsed && " Income"}
         </Link>
       </li>
       <li className="nav-item">
@@ -673,7 +698,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_expenses")}
            data-path="/list_expenses"
         >
-          <i className="fa fa-arrow-down nav-icon"></i> Expense
+          <i className="fa fa-arrow-down nav-icon"></i> 
+          {!isCollapsed && " Expense"}
         </Link>
       </li>
       <li className="nav-item">
@@ -688,7 +714,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_raisequotations")}
            data-path="/list_raisequotations"
         >
-          <i className="fa fa-file-invoice nav-icon"></i> Raise Quotations
+          <i className="fa fa-file-invoice nav-icon"></i> 
+          {!isCollapsed && " Raise Quotations"}
         </Link>
       </li>
       <li className="nav-item">
@@ -703,7 +730,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_invoice")}
            data-path="/list_invoice"
         >
-          <i className="fa fa-file-invoice-dollar nav-icon"></i> Raise Invoice
+          <i className="fa fa-file-invoice-dollar nav-icon"></i> 
+          {!isCollapsed && " Raise Invoice"}
         </Link>
       </li>
       <li className="nav-item">
@@ -718,7 +746,8 @@ const Sidebar = () => {
           onClick={() => handleSetActiveLink("/list_income_report")}
            data-path="/list_income_report"
         >
-          <i className="fa fa-chart-line nav-icon"></i> Income Report
+          <i className="fa fa-chart-line nav-icon"></i> 
+          {!isCollapsed && " Income Report"}
         </Link>
       </li>
     </ul>
@@ -744,7 +773,8 @@ const Sidebar = () => {
     ref={el => (sidebarRefs.current['/Projects'] = el)}
   >
     <div>
-      <i className="fa fa-project-diagram nav-icon"></i> Project & Task
+      <i className="fa fa-project-diagram nav-icon"></i> 
+      {!isCollapsed && " Project & Task"}
     </div>
     <i className={`fa fa-angle-right ${isOpen.Projects ? "rotate-icon" : ""}`} aria-hidden="true" />
   </Link>
@@ -761,7 +791,8 @@ const Sidebar = () => {
           ref={el => (sidebarRefs.current['/list_project'] = el)}
            data-path="/list_project"
         >
-          <i className="fa fa-briefcase nav-icon"></i> Project
+          <i className="fa fa-briefcase nav-icon"></i>
+          {!isCollapsed && "  Project"}
         </Link>
       </li>
       <li className="nav-item">
@@ -775,7 +806,8 @@ const Sidebar = () => {
           ref={el => (sidebarRefs.current['/list_task'] = el)}
            data-path="/list_task"
         >
-          <i className="fa fa-tasks nav-icon"></i> Task
+          <i className="fa fa-tasks nav-icon"></i> 
+          {!isCollapsed && " Task"}
         </Link>
       </li>
     </ul>
@@ -800,7 +832,8 @@ const Sidebar = () => {
     ref={el => (sidebarRefs.current['/Marketing'] = el)}
   >
     <div>
-      <i className="fa fa-bullhorn nav-icon"></i> Marketing
+      <i className="fa fa-bullhorn nav-icon"></i> 
+      {!isCollapsed && " Marketing"}
     </div>
     <i className={`fa fa-angle-right ${isOpen.Marketing ? "rotate-icon" : ""}`} aria-hidden="true" />
   </Link>
@@ -830,7 +863,8 @@ const Sidebar = () => {
       alignItems: "center",            // Vertical alignment
       justifyContent: "space-between"  // Space between elements
     }}>
-            <i className="fa fa-users nav-icon"></i> Social Media
+            <i className="fa fa-users nav-icon"></i>
+            {!isCollapsed && "  Social Media"}
           </div>
           <i className={`fa fa-angle-right ${isOpen.Socialmedia ? "rotate-icon" : ""}`} aria-hidden="true" />
         </Link>
@@ -847,7 +881,8 @@ const Sidebar = () => {
                 ref={el => (sidebarRefs.current['/list_facebook'] = el)}
                   data-path="/list_facebook"
               >
-                <i className="fa fa-user-graduate nav-icon"></i> Facebook
+                <i className="fa fa-user-graduate nav-icon"></i>
+                {!isCollapsed && "  Facebook"}
               </Link>
             </li>
             <li className="nav-item">
@@ -861,7 +896,8 @@ const Sidebar = () => {
                 ref={el => (sidebarRefs.current['/list_instagram'] = el)}
                   data-path="/list_instagram"
               >
-                <i className="fa fa-user-tie nav-icon"></i> Instagram
+                <i className="fa fa-user-tie nav-icon"></i> 
+                {!isCollapsed && " Instagram"}
               </Link>
             </li>
             <li className="nav-item">
@@ -875,7 +911,8 @@ const Sidebar = () => {
                 ref={el => (sidebarRefs.current['/list_linkedin'] = el)}
                   data-path="/list_linkedin"
               >
-                <i className="fa fa-user-secret nav-icon"></i> LinkedIn
+                <i className="fa fa-user-secret nav-icon"></i> 
+                {!isCollapsed && "LinkedIn"}
               </Link>
             </li>
           </ul>
@@ -892,7 +929,8 @@ const Sidebar = () => {
           ref={el => (sidebarRefs.current['/list_campaign'] = el)}
             data-path="/list_campaign"
         >
-          <i className="fa fa-bullhorn nav-icon"></i> Campaigns
+          <i className="fa fa-bullhorn nav-icon"></i> 
+          {!isCollapsed && " Campaigns"}
         </Link>
       </li>
       <li className="nav-item">
@@ -906,7 +944,8 @@ const Sidebar = () => {
           ref={el => (sidebarRefs.current['/list_daily_task'] = el)}
            data-path="/list_daily_task"
         >
-          <i className="fa fa-tasks nav-icon"></i> Daily Task
+          <i className="fa fa-tasks nav-icon"></i> 
+          {!isCollapsed && " Daily Task"}
         </Link>
       </li>
     </ul>
@@ -924,7 +963,8 @@ const Sidebar = () => {
     ref={el => (sidebarRefs.current['/list_notifications'] = el)}
      data-path="/list_notifications"
   >
-    <i className="fa fa-bell nav-icon"></i> Notifications
+    <i className="fa fa-bell nav-icon"></i>
+    {!isCollapsed && "  Notifications"}
   </Link>
 </li>
 
@@ -939,7 +979,8 @@ const Sidebar = () => {
     ref={el => (sidebarRefs.current['/list_meetings'] = el)}
      data-path="/list_meetings"
   >
-    <i className="fa fa-video nav-icon"></i> Meetings
+    <i className="fa fa-video nav-icon"></i> 
+    {!isCollapsed && " Meetings"}
   </Link>
 </li>
 
@@ -954,7 +995,8 @@ const Sidebar = () => {
     data-path="/list_training"
     ref={el => (sidebarRefs.current['/list_training'] = el)}
   >
-    <i className="fa fa-book nav-icon"></i> Training Material
+    <i className="fa fa-book nav-icon"></i> 
+    {!isCollapsed && " Training Material"}
   </Link>
 </li>
 
@@ -969,7 +1011,8 @@ const Sidebar = () => {
     data-path="/list_chat"
     ref={el => (sidebarRefs.current['/list_chat'] = el)}
   >
-    <i className="fa fa-comments nav-icon"></i> Chat
+    <i className="fa fa-comments nav-icon"></i> 
+    {!isCollapsed && " Chat"}
   </Link>
 </li>
 
@@ -984,7 +1027,8 @@ const Sidebar = () => {
     data-path="/list_email"
     ref={el => (sidebarRefs.current['/list_email'] = el)}
   >
-    <i className="fa fa-envelope nav-icon"></i> Email
+    <i className="fa fa-envelope nav-icon"></i>
+    {!isCollapsed && "  Email"}
   </Link>
 </li>
 
@@ -1002,7 +1046,8 @@ const Sidebar = () => {
      ref={el => (sidebarRefs.current['/list_promotions'] = el)}
   >
     <i className="fa fa-bullhorn nav-icon"></i>
-    Promotions
+   
+    {!isCollapsed && "  Promotions"}
   </Link>
 </li>
 
@@ -1018,7 +1063,8 @@ const Sidebar = () => {
      ref={el => (sidebarRefs.current['/list_events'] = el)}
   >
     <i className="fa fa-calendar nav-icon"></i>
-    Events
+   
+    {!isCollapsed && "  Events"}
   </Link>
 </li>
 
@@ -1033,7 +1079,8 @@ const Sidebar = () => {
      data-path="/list_blog"
      ref={el => (sidebarRefs.current['/list_blog'] = el)}
   >
-    <i className="fa fa-blog nav-icon"></i> Blogs
+    <i className="fa fa-blog nav-icon"></i> 
+    {!isCollapsed && " Blogs"}
   </Link>
 </li>
 
@@ -1048,7 +1095,8 @@ const Sidebar = () => {
      data-path="/list_testimonials"
      ref={el => (sidebarRefs.current['/list_testimonials'] = el)}
   >
-    <i className="fa fa-quote-right nav-icon"></i> Testimonials
+    <i className="fa fa-quote-right nav-icon"></i> 
+    {!isCollapsed && " Testimonials"}
   </Link>
 </li>
 
@@ -1064,7 +1112,8 @@ const Sidebar = () => {
     ref={el => (sidebarRefs.current['/list_admin'] = el)}
   >
     <i className="fa fa-user-shield nav-icon"></i>
-    Admin
+    {!isCollapsed && "   Admin"}
+  
   </Link>
 </li>
 
@@ -1085,7 +1134,8 @@ const Sidebar = () => {
   >
     <div>
       <i className="fa fa-book nav-icon"></i>
-      ELT
+      
+      {!isCollapsed && " ELT"}
     </div>
     <i
       className={`fa fa-angle-right ${isOpen.elt ? "rotate-icon" : ""}`}
@@ -1109,7 +1159,8 @@ const Sidebar = () => {
           data-path="/list_bookings"
           ref={el => (sidebarRefs.current['/list_bookings'] = el)}
         >
-          <i className="fa fa-calendar-check nav-icon"></i> Booking
+          <i className="fa fa-calendar-check nav-icon"></i> 
+          {!isCollapsed && " Booking"}
         </Link>
       </li>
       <li className="nav-item">
@@ -1123,7 +1174,8 @@ const Sidebar = () => {
           data-path="/list_class_schedule"
           ref={el => (sidebarRefs.current['/list_class_schedule'] = el)}
         >
-          <i className="fa fa-calendar nav-icon"></i> Class Schedule
+          <i className="fa fa-calendar nav-icon"></i>
+          {!isCollapsed && "  Class Schedule"}
         </Link>
       </li>
     </ul>
@@ -1157,7 +1209,8 @@ const Sidebar = () => {
       justifyContent: "space-between"  // Space between elements
     }}>
       <i className="fa fa-cog fa-spin nav-icon"></i>
-      Settings
+     
+      {!isCollapsed && "  Settings"}
     </div>
     <i
       className={`fa fa-angle-right ${isOpen.settings ? "rotate-icon" : ""}`}
@@ -1189,7 +1242,7 @@ const Sidebar = () => {
           aria-label="Global Settings"
         >
           <div>
-            <i className="fa fa-globe nav-icon"></i> Global Settings
+            <i className="fa fa-globe nav-icon"></i>  {!isCollapsed && " Global Settings"}
           </div>
           <i
             className={`fa fa-angle-right ${isOpen.globalSettings ? "rotate-icon" : ""}`}
@@ -1217,7 +1270,7 @@ const Sidebar = () => {
                 data-path="/list_GlobalEmail"
                 ref={el => (sidebarRefs.current['/list_GlobalEmail'] = el)}
               >
-                <i className="fa fa-envelope nav-icon"></i> Email
+                <i className="fa fa-envelope nav-icon"></i>  {!isCollapsed && " Email"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1229,7 +1282,7 @@ const Sidebar = () => {
                 data-path="/global_settings"
                 ref={el => (sidebarRefs.current['/global_settings'] = el)}
               >
-                <i className="fa fa-globe nav-icon"></i> Country
+                <i className="fa fa-globe nav-icon"></i>  {!isCollapsed && " Country"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1241,7 +1294,7 @@ const Sidebar = () => {
                 data-path="/currency_settings"
                 ref={el => (sidebarRefs.current['/currency_settings'] = el)}
               >
-                <i className="fa fa-money-bill-wave nav-icon"></i> Currency
+                <i className="fa fa-money-bill-wave nav-icon"></i>  {!isCollapsed && " Currency"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1253,7 +1306,7 @@ const Sidebar = () => {
                 data-path="/status"
                 ref={el => (sidebarRefs.current['/status'] = el)}
               >
-                <i className="fa fa-clipboard-list nav-icon"></i> Status
+                <i className="fa fa-clipboard-list nav-icon"></i>  {!isCollapsed && " Status"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1265,7 +1318,7 @@ const Sidebar = () => {
                 data-path="/intake"
                 ref={el => (sidebarRefs.current['/intake'] = el)}
               >
-                <i className="fa fa-calendar-alt nav-icon"></i> Intake
+                <i className="fa fa-calendar-alt nav-icon"></i>   {!isCollapsed && " Intake"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1277,7 +1330,7 @@ const Sidebar = () => {
                 data-path="/year_setting"
                 ref={el => (sidebarRefs.current['/year_setting'] = el)}
               >
-                <i className="fa fa-calendar nav-icon"></i> Year
+                <i className="fa fa-calendar nav-icon"></i>   {!isCollapsed && " Year"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1292,7 +1345,7 @@ const Sidebar = () => {
                 data-path="/list_GlobalPrivileges"
                 ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
               >
-                <i className="fa fa-lock nav-icon"></i> Privileges
+                <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && " Privileges"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1305,7 +1358,7 @@ const Sidebar = () => {
                 data-path="/global_settingsDashboard"
                 ref={el => (sidebarRefs.current['/global_settingsDashboard'] = el)}
               >
-                <i className="fa fa-tachometer-alt nav-icon"></i> Dashboard
+                <i className="fa fa-tachometer-alt nav-icon"></i>  {!isCollapsed && " Dashboard "}
               </Link>
             </li>
           </ul>
@@ -1332,7 +1385,7 @@ const Sidebar = () => {
           aria-label="Module"
         >
           <div>
-            <i className="fa fa-cogs nav-icon"></i> Module
+            <i className="fa fa-cogs nav-icon"></i>   {!isCollapsed && " Module"}
           </div>
           <i
             className={`fa fa-angle-right ${isOpen.modules ? "rotate-icon" : ""}`}
@@ -1357,7 +1410,7 @@ const Sidebar = () => {
                 data-path="/university_settings"
                 ref={el => (sidebarRefs.current['/university_settings'] = el)}
               >
-                <i className="fa fa-university nav-icon"></i> University
+                <i className="fa fa-university nav-icon"></i>   {!isCollapsed && " University"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1369,7 +1422,7 @@ const Sidebar = () => {
                 data-path="/course_type"
                 ref={el => (sidebarRefs.current['/course_type'] = el)}
               >
-                <i className="fa fa-book nav-icon"></i> Course Type
+                <i className="fa fa-book nav-icon"></i>   {!isCollapsed && " Course Type"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1381,7 +1434,7 @@ const Sidebar = () => {
                 data-path="/application_status"
                 ref={el => (sidebarRefs.current['/application_status'] = el)}
               >
-                <i className="fa fa-book nav-icon"></i> Application Status
+                <i className="fa fa-book nav-icon"></i>  {!isCollapsed && "  Application Status"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1396,7 +1449,7 @@ const Sidebar = () => {
                 data-path="/list_ModuleEmail"
                 ref={el => (sidebarRefs.current['/list_ModuleEmail'] = el)}
               >
-                <i className="fa fa-envelope nav-icon"></i> Email
+                <i className="fa fa-envelope nav-icon"></i>   {!isCollapsed && " Email"}
               </Link>
             </li>
            
@@ -1409,7 +1462,7 @@ const Sidebar = () => {
                 data-path="/client_module"
                 ref={el => (sidebarRefs.current['/client_module'] = el)}
               >
-                <i className="fa fa-user nav-icon"></i> Client
+                <i className="fa fa-user nav-icon"></i> {!isCollapsed && "  Client "}
               </Link>
             </li>
             <li className="nav-item">
@@ -1424,7 +1477,7 @@ const Sidebar = () => {
                 data-path="/list_CustomModule"
                 ref={el => (sidebarRefs.current['/list_CustomModule'] = el)}
               >
-                <i className="fa fa-cogs nav-icon"></i> Custom Module
+                <i className="fa fa-cogs nav-icon"></i>   {!isCollapsed && " Custom Module"}
               </Link>
             </li>
           </ul>
@@ -1451,7 +1504,7 @@ const Sidebar = () => {
           aria-label="Privileges"
         >
           <div>
-            <i className="fa fa-lock nav-icon"></i> Privileges
+            <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && "Privileges"}
           </div>
           <i
             className={`fa fa-angle-right ${isOpen.privileges ? "rotate-icon" : ""}`}
@@ -1479,7 +1532,7 @@ const Sidebar = () => {
                 data-path="/list_GlobalPrivileges"
                 ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
               >
-                <i className="fa fa-lock nav-icon"></i> Global Privileges
+                <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && " Global Privileges"}
               </Link>
             </li>
             <li className="nav-item">
@@ -1494,7 +1547,7 @@ const Sidebar = () => {
                 data-path="/list_ModulePrivileges"
                 ref={el => (sidebarRefs.current['/list_ModulePrivileges'] = el)}
               >
-                <i className="fa fa-lock nav-icon"></i> Module Privileges
+                <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && " Module Privileges"}
               </Link>
             </li>
           </ul>
@@ -1529,7 +1582,7 @@ const Sidebar = () => {
       justifyContent: "space-between"  // Space between elements
     }}>
       <i className="fa fa-file-alt nav-icon"></i>
-      Reports
+      {!isCollapsed && "   Reports"}
     </div>
     <i
       className={`fa fa-angle-right ${isOpen.Reports ? "rotate-icon" : ""}`}
@@ -1557,7 +1610,7 @@ const Sidebar = () => {
           data-path="/list_GlobalPrivileges"
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
-          <i className="fa fa-user-tie nav-icon"></i> Employee
+          <i className="fa fa-user-tie nav-icon"></i>   {!isCollapsed && " Employee"}
         </Link>
       </li>
       <li className="nav-item">
@@ -1576,7 +1629,7 @@ const Sidebar = () => {
           data-path="/list_GlobalPrivileges"
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
-          <i className="fa fa-user-secret nav-icon"></i> Agent
+          <i className="fa fa-user-secret nav-icon"></i>  {!isCollapsed && " Agent "}
         </Link>
       </li>
       <li className="nav-item">
@@ -1595,7 +1648,7 @@ const Sidebar = () => {
           data-path="/list_GlobalPrivileges"
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
-          <i className="fa fa-user-graduate nav-icon"></i> Students
+          <i className="fa fa-user-graduate nav-icon"></i>   {!isCollapsed && " Students"}
         </Link>
       </li>
       <li className="nav-item">
@@ -1614,7 +1667,7 @@ const Sidebar = () => {
           data-path="/list_GlobalPrivileges"
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
-          <i className="fa fa-sitemap nav-icon"></i> Branch
+          <i className="fa fa-sitemap nav-icon"></i>   {!isCollapsed && " Branch"}
         </Link>
       </li>
       <li className="nav-item">
@@ -1633,7 +1686,7 @@ const Sidebar = () => {
           data-path="/list_GlobalPrivileges"
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
-          <i className="fa fa-user-shield nav-icon"></i> Admin
+          <i className="fa fa-user-shield nav-icon"></i>   {!isCollapsed && "Admin"}
         </Link>
       </li>
     </ul>
@@ -1648,7 +1701,7 @@ const Sidebar = () => {
     style={{ cursor: "pointer" }}
   >
     <i className="fa fa-flag nav-icon" aria-hidden="true" />
-    Log Out
+    {!isCollapsed && "   Log Out"}
   </Link>
 </li>
 
