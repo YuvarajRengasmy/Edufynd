@@ -444,11 +444,11 @@ const App = () => {
   return (
     <>
     
-        <div >
+        
           
             <Sidebar />
          
-        </div>
+       
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}

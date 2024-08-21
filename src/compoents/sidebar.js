@@ -5,6 +5,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import Edufynd from "../Assests/EduFynd.png";
+import "bootstrap/dist/css/bootstrap.min.css";
+import * as bootstrap from "bootstrap"; 
+
 
 const Sidebar = () => {
   const location = useLocation();
@@ -27,7 +30,10 @@ const Sidebar = () => {
     users: false,
     socialmedia: false,
   });
-  const [isCollapsed, setIsCollapsed] = useState(false); // New state for collapsing
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // Load the collapsed state from local storage
+    return JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
+  });
 
   const sidebarRefs = useRef({});
 
@@ -40,7 +46,12 @@ const Sidebar = () => {
   };
 
   const handleSidebarToggle = () => {
-    setIsCollapsed((prev) => !prev);
+    setIsCollapsed((prev) => {
+      const newCollapsedState = !prev;
+      // Save the new collapsed state to local storage
+      localStorage.setItem('sidebarCollapsed', JSON.stringify(newCollapsedState));
+      return newCollapsedState;
+    });
   };
 
   const logout = () => {
@@ -252,8 +263,17 @@ const Sidebar = () => {
         activeRef.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100); // Adjust delay as necessary
     }
-  }, [currentPath]);
-  
+
+    // Initialize tooltips
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+      if (isCollapsed) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+      } else {
+        bootstrap.Tooltip.getInstance(tooltipTriggerEl)?.dispose();
+      }
+    });
+  }, [currentPath, isCollapsed]);
 
   return (
     <>
@@ -307,6 +327,9 @@ const Sidebar = () => {
     className={`nav-link sidebar_link ${activeLink === "/dashboard" ? "active" : ""}`}
     onClick={() => handleSetActiveLink("/dashboard")}
       data-path="/dashboard"
+   
+      data-bs-toggle="tooltip"
+      title={isCollapsed ? "Dashboard" : ""}
   >
     <i className="fa fa-tachometer-alt nav-icon"></i>
     {!isCollapsed && "Dashboard"}
@@ -324,6 +347,8 @@ const Sidebar = () => {
     }`}
     onClick={() => handleSetActiveLink("/list_client")}
      data-path="/list_client"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Dashboard" : ""}
   >
     <i className="fa fa-user nav-icon"></i>
    
@@ -341,7 +366,10 @@ const Sidebar = () => {
         : ""
     }`}
     onClick={() => handleSetActiveLink("/list_university")}
+   
      data-path="/list_university"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Dashboard" : ""}
   >
     <i className="fa fa-graduation-cap nav-icon"></i>
     
@@ -360,6 +388,8 @@ const Sidebar = () => {
     }`}
     onClick={() => handleSetActiveLink("/list_commission")}
      data-path="/list_commission"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Dashboard" : ""}
   >
     <i className="fa fa-dollar-sign nav-icon"></i>
     
@@ -378,6 +408,8 @@ const Sidebar = () => {
     }`}
     onClick={() => handleSetActiveLink("/list_Program")}
      data-path="/list_Program"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Dashboard" : ""}
   >
     <i className="fa fa-cogs nav-icon"></i>
    
@@ -400,6 +432,7 @@ const Sidebar = () => {
       justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("users")}
+    
   >
     <div   style={{
       display: "-webkit-box",          // For older Safari versions
@@ -407,7 +440,9 @@ const Sidebar = () => {
       display: "flex",                 // Modern browsers
       alignItems: "center",            // Vertical alignment
       justifyContent: "space-between"  // Space between elements
-    }}>
+    }}
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Dashboard" : ""}>
       <i className="fa fa-users nav-icon"></i>
       
       {!isCollapsed && "Users"}
