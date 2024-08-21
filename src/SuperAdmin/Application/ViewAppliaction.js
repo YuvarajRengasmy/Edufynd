@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
+import { formatDate } from "../../Utils/DateFormat";
 
 import { getFilterStatus } from "../../api/status";
 import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
@@ -925,7 +926,7 @@ export const ViewApplication = () => {
                       
                         <p class="mb-0">Application Decision:{item?.newStatus}</p>
                         <div className="d-flex gap-2">
-                        <p class="mb-0">September 28th 2023, 15:38</p>
+                        <p class="mb-0">{formatDate(item?.createdOn)}</p>
                         <button class="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i class="fa fa-reply" aria-hidden="true"></i>
                         </button>
