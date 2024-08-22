@@ -10,6 +10,10 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveStudnetEnquiry } from "../../../api/Enquiry/student";
+import {getFilterSource} from "../../../api/settings/source";
+import{getallStudent} from "../../../api/student";
+import { getallAgent } from "../../../api/agent";
+
 
 import Mastersidebar from "../../../compoents/sidebar";
 
@@ -40,6 +44,11 @@ export const AddStudentForm = () => {
     refereeName: "",
     refereeContactNo: "",
     registerForIELTSClass: "",
+    agentName: "",
+    businessName: "",
+    agentPrimaryNumber: "",
+    agentWhatsAppNumber: "",
+    agentEmail: "",
   };
   const initialStateErrors = {
     source: { required: false },
@@ -58,7 +67,11 @@ export const AddStudentForm = () => {
     desiredUniversity: { required: false },
     desiredCourse: { required: false },
     doYouHoldAnyOtherOffer: { required: false },
-
+    agentName: { required: false },
+    businessName: { required: false },
+    agentPrimaryNumber: { required: false },
+    agentWhatsAppNumber: { required: false },
+    agentEmail: { required: false },
     doYouNeedSupportForLoan: { required: false },
 
     assignedTo: { required: false },
@@ -72,8 +85,13 @@ export const AddStudentForm = () => {
     registerForIELTSClass: { required: false },
   };
   const [student, setStudent] = useState(initialState);
+  const [source ,setSource] = useState([]);
+  const [agent, setAgent] = useState([]);
+  const [students, setStudents] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+
+
   const navigate = useNavigate();
 
   const handleValidation = (data) => {
@@ -193,13 +211,75 @@ export const AddStudentForm = () => {
     return error;
   };
 
+  useEffect(() => {
+    getAllSourceDetails();
+    getStudentList();
+    getAgentList();
+  }, []);
+
+
+  const getAgentList = () => {
+    getallAgent()
+      .then((res) => {
+        setAgent(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getStudentList = () => {
+    getallStudent()
+      .then((res) => {
+        setStudents(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllSourceDetails = () => {
+  
+    getFilterSource()
+      .then((res) => {
+        setSource(res?.data?.result?.sourceList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleInputs = (event) => {
-    setStudent({ ...student, [event?.target?.name]: event?.target?.value });
+    const { name, value } = event.target;
+
+    setStudent((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+      if (name === "agentName") {
+        const selectedAgent = agent.find(
+          (u) => u.agentName === value
+        );
+        if (selectedAgent) {
+         
+  
+          return {
+            ...updatedProgram,
+            businessName: selectedAgent.businessName,
+            agentPrimaryNumber: selectedAgent.mobileNumber,
+            agentWhatsAppNumber: selectedAgent.whatsAppNumber,
+            agentEmail: selectedAgent.email,
+          };
+         
+   
+        }
+      }
+
+      return updatedProgram;
+    });
+
     if (submitted) {
       const newError = handleValidation({
         ...student,
         [event.target.name]: event.target.value,
       });
+
       setErrors(newError);
     }
   };
@@ -268,8 +348,16 @@ export const AddStudentForm = () => {
                           name="source"
                         >
                           <option value="">Select Source</option>
-                          <option value="walkin">Walk In</option>
-                          <option value="direct">Direct</option>
+                          {source.length > 0 ? (
+                          source.map((data, index) => (
+                          <option key={index} value={data.sourceName}>
+                          {data.sourceName}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No Source Found</option>
+                  )}
+                        
                           <option value="others">Others</option>
                         </select>
                         {errors.source.required ? (
@@ -278,34 +366,182 @@ export const AddStudentForm = () => {
                           </div>
                         ) : null}
                       </div>
+                      
                     </div>
 
+                    {student.source === "Student" ? (
+                    <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputAgentName">
+                            Name
+                          </label>
+                          <select
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          className="form-select form-select-lg rounded-2 "
+                          name="studentName"
+                        >
+                          <option value="">Select students</option>
+                          {students.length > 0 ? (
+                          students.map((data, index) => (
+                          <option key={index} value={`${data.name} - ${data.studentCode}`}>
+                          {data.name}{" - "}{data.studentCode}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No Source Found</option>
+                  )}
+                        
+                          <option value="others">Others</option>
+                        </select>
+                          
+                        </div>
+                        
+                       </div>
+                     
+                  
+                    ) : null}
+                      {student.source === "Agent" ? (
+                    <div className="row gx-4 gy-2">
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputEmail4">
-                        Student Name
-                      </label>
-                      <input
-                        className="form-control rounded-2"
-                        type="text"
-                        id="inputEmail4"
-                        name="name"
-                        onChange={handleInputs}
-                        placeholder="Enter Name"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                      />
-                      {errors.name.required ? (
-                        <span className="text-danger form-text profile_error">
-                          This field is required.
-                        </span>
-                      ) : errors.name.valid ? (
-                        <span className="text-danger form-text profile_error">
-                          Enter A Letter Only.
-                        </span>
-                      ) : null}
-                    </div>
+                    <label className="form-label" for="inputAgentName">
+                      Agent Name
+                    </label>
+                    <select
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          className="form-select form-select-lg rounded-2 "
+                          name="agentName"
+                        >
+                          <option value="">Select Agent</option>
+                          {agent.length > 0 ? (
+                          agent.map((data, index) => (
+                          <option key={index} value={data?.agentName}>
+                          {data.agentName}{" - "}{data.agentCode}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No Source Found</option>
+                  )}
+                        
+                          <option value="others">Others</option>
+                        </select>
+                   
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" for="inputbusinessname">
+                      Business Name
+                    </label>
+                    <input
+                      className="form-control"
+                      id="inputbusinessname"
+                      type="text"
+                      onChange={handleInputs}
+                      value={student.businessName}
+                      name="businessName"
+                      placeholder="Enter Business Name"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" for="inputPrimaryNo">
+                      Primary Number
+                    </label>
+                    <input
+                      className="form-control"
+                      name="agentPrimaryNumber"
+                      onChange={handleInputs}
+                      value={student?.agentPrimaryNumber}
+                      id="inputPrimaryNo"
+                      type="text"
+                      placeholder="Enter Primary Number"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label
+                      className="form-label"
+                      for="inputWhatsAppNumber"
+                    >
+                      {" "}
+                      WhatsApp Number
+                    </label>
+                    <input
+                      className="form-control"
+                      name="agentWhatsAppNumber"
+                      onChange={handleInputs}
+                      value={student?.agentWhatsAppNumber}
+                      id="inputWhatsAppNumber"
+                      type="text"
+                      placeholder="Enter WhatsApp Number"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" for="inputEmail">
+                      Agent Email ID
+                    </label>
+                    <input
+                      className="form-control"
+                      name="agentEmail"
+                      onChange={handleInputs}
+                      id="inputEmail"
+                      value={student?.agentEmail}
+                      type="text"
+                      placeholder="Enter Email ID"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                  </div>
+                 
+                  </div>
+                     
+                      
+                
+                    ) : null}
+                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                         <label className="form-label" for="inputEmail4">
+                           Student Name
+                         </label>
+                         <input
+                           className="form-control rounded-2"
+                           type="text"
+                           id="inputEmail4"
+                           name="name"
+                           onChange={handleInputs}
+                           placeholder="Enter Name"
+                           style={{
+                             fontFamily: "Plus Jakarta Sans",
+                             fontSize: "12px",
+                           }}
+                         />
+                         {errors.name.required ? (
+                           <span className="text-danger form-text profile_error">
+                             This field is required.
+                           </span>
+                         ) : errors.name.valid ? (
+                           <span className="text-danger form-text profile_error">
+                             Enter A Letter Only.
+                           </span>
+                         ) : null}
+                       </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputgender">
                         Gender
