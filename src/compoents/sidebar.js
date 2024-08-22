@@ -707,7 +707,7 @@ const Sidebar = () => {
                           title={isCollapsed ? "Student Enquiry" : ""}
                         >
                           <i className="fa fa-user-graduate nav-icon"></i>
-                          {!isCollapsed && " Student Enquiry"}
+                          {!isCollapsed && " Student "}
                         </Link>
                       </li>
                       <li className="nav-item">
@@ -734,7 +734,7 @@ const Sidebar = () => {
                           title={isCollapsed ? "FOREX Enquiry" : ""}
                         >
                           <i className="fa fa-money-bill-wave nav-icon"></i>
-                          {!isCollapsed && " FOREX Enquiry"}
+                          {!isCollapsed && " FOREX "}
                         </Link>
                       </li>
                       <li className="nav-item">
@@ -761,7 +761,7 @@ const Sidebar = () => {
                           title={isCollapsed ? "Accommodation  Enquiry" : ""}
                         >
                           <i className="fa fa-bed nav-icon"></i>
-                          {!isCollapsed && " Accommodation  Enquiry"}
+                          {!isCollapsed && " Accommodation  "}
                         </Link>
                       </li>
                       <li className="nav-item">
@@ -815,7 +815,7 @@ const Sidebar = () => {
                           title={isCollapsed ? "Loan Enquiry" : ""}
                         >
                           <i className="fa fa-credit-card nav-icon"></i>
-                          {!isCollapsed && " Loan Enquiry"}
+                          {!isCollapsed && " Loan "}
                         </Link>
                       </li>
                       <li className="nav-item">
@@ -842,7 +842,7 @@ const Sidebar = () => {
                           title={isCollapsed ? "Business Enquiry" : ""}
                         >
                           <i className="fa fa-briefcase nav-icon"></i>
-                          {!isCollapsed && "  Business Enquiry"}
+                          {!isCollapsed && "  Business"}
                         </Link>
                       </li>
                       <li className="nav-item">
@@ -869,7 +869,7 @@ const Sidebar = () => {
                           title={isCollapsed ? "General Enquiry" : ""}
                         >
                           <i className="fa fa-info-circle nav-icon"></i>
-                          {!isCollapsed && "General Enquiry"}
+                          {!isCollapsed && "General "}
                         </Link>
                       </li>
                     </ul>
