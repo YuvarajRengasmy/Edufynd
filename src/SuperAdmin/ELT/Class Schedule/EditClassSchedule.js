@@ -90,7 +90,7 @@ export const EditClassSchedule = () => {
                       </div>
                       <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                         <Link
-                          to="/ListClassSchedule"
+                          to="/list_class_schedule"
                           style={{
                             backgroundColor: "#231F20",
                             fontFamily: "Plus Jakarta Sans",

@@ -90,7 +90,7 @@ export const EditBookings = () => {
                       </div>
                       <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                         <Link
-                          to="/ListBookings"
+                          to="/list_bookings"
                           style={{
                             backgroundColor: "#231F20",
                             fontFamily: "Plus Jakarta Sans",

@@ -249,7 +249,7 @@ export const ListBookings = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddBookings">
+                    <Link class="btn btn-pix-primary" to="/add_bookings">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -395,7 +395,7 @@ export const ListBookings = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewBookings",
+                                      pathname: "/view_bookings",
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="View"
@@ -405,7 +405,7 @@ export const ListBookings = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditBookings",
+                                      pathname: "/edit_bookings",
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="Edit"

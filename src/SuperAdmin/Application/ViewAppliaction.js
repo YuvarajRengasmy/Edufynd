@@ -342,27 +342,36 @@ export const ViewApplication = () => {
               </div>
 
               
-           <div className="container ">
+           {/* <div className="container ">
   <div className="row">
     <div className="col">
       <div className="card border-0 rounded-1 shadow-sm p-4">
         <div className="card-body">
-          {/* Progress Bar Container */}
-          <div className="position-relative">
+        
+          {status.map((item, index) => (
+          <div   key={index} className="position-relative">
             <div className="progress" role="progressbar" aria-label="Progress" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} style={{height: 8}}>
               <div className="progress-bar bg-danger progress-bar-striped progress-bar-animated" style={{width: '50%'}} />
             </div>
-            {/* Buttons for each stage */}
+          
+            
             <div className="d-flex justify-content-between position-absolute w-100 top-50 translate-middle-y">
-              <button type="button" className="btn btn-sm btn-primary rounded-pill" style={{width: '2rem', height: '2rem'}}>1</button>
-              <button type="button" className="btn btn-sm btn-primary rounded-pill" style={{width: '2rem', height: '2rem'}}>2</button>
-              <button type="button" className="btn btn-sm btn-primary rounded-pill" style={{width: '2rem', height: '2rem'}}>3</button>
-              <button type="button" className="btn btn-sm btn-danger rounded-pill" style={{width: '2rem', height: '2rem'}}>4</button>
-              <button type="button" className="btn btn-sm btn-danger rounded-pill" style={{width: '2rem', height: '2rem'}}>5</button>
-              <button type="button" className="btn btn-sm btn-danger rounded-pill" style={{width: '2rem', height: '2rem'}}>6</button>
+              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>1</button>
+              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>2</button>
+              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>3</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}   onClick={() => handleEditModule(item)}style={{width: '2rem', height: '2rem'}}>4</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>5</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>6</button>
             </div>
           </div>
-          {/* Labels below the progress bar */}
+            ))}
+        
           <div className="d-flex justify-content-between mt-3">
             <span>Submitted</span>
             <span>Offer</span>
@@ -375,16 +384,16 @@ export const ViewApplication = () => {
       </div>
     </div>
   </div>
-</div>
+</div> */}
 
               
                
                 <div className="container">
   <div className="row">
     <div className="col">
-    <div className="card border-0 shadow-sm p-2">
+    <div className="card border-0 rounded-1 shadow-sm p-3">
                   <div className="card-body">
-                    <div className="d-flex  flex-wrap justify-content-around align-items-center">
+                    <div className="d-flex   justify-content-between align-items-center">
                       {status.map((item, index) => (
                         <div
                           className="position-relative m-2"
@@ -399,7 +408,7 @@ export const ViewApplication = () => {
                               aria-valuenow={item.progress}
                               aria-valuemin="0"
                               aria-valuemax="100"
-                              style={{ height: "7px" }}
+                              style={{ height: "9px" }}
                             >
                               <div
                                 className="progress-bar progress-bar-striped progress-bar-animated"
@@ -409,20 +418,7 @@ export const ViewApplication = () => {
                                 }}
                               ></div>
                             </div>
-                            <button
-                              type="button"
-                              className="position-absolute text-bold top-0 translate-middle btn btn-sm btn-primary rounded-pill"
-                              data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}
-                              style={{
-                                width: "3rem",
-                                height: "3rem",
-                                left: "0",
-                                fontSize: "10px",
-                                color: "#FFF",
-                              }}
-                              onClick={() => handleEditModule(item)}
-                            ></button>
+                          
                             <div
                               className="progress-bar progress-bar-striped progress-bar-animated"
                               style={{
@@ -437,21 +433,24 @@ export const ViewApplication = () => {
                           >
                             <button
                               type="button"
-                              className="position-absolute text-bold  top-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                              className="position-absolute text-bold  top-0  start-0 translate-middle-y btn btn-sm btn-primary rounded-pill"
                               data-bs-toggle="modal"
                               data-bs-target={`#modal-${index}`}
                               style={{
-                                width: "3rem",
-                                height: "3rem",
+                                width: "2rem",
+                                height: "2rem",
                                 left: "0",
-                                fontSize: "10px",
+                               
                                 color: "#FFF",
                               }}
                               onClick={() => handleEditModule(item)}
                             >
-                              {item.statusName}
+{item.duration} 
+                             
                             </button>
                           </OverlayTrigger>
+                          <div className="d-flex justify-content-start align-items-center mt-3"> {item.statusName}</div>
+                         
 
                           <div
                             className="modal fade"
@@ -806,7 +805,7 @@ export const ViewApplication = () => {
 <div className="container-fluid my-2">
   <div className="row flex-nowrap">
    
-    <div className="col-md-3 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
+    <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
       <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
         <div className="card-header bg-white border-0">
          
@@ -903,7 +902,7 @@ export const ViewApplication = () => {
     </div>
     
     
-    <div className="col-md-9 col-sm-8">
+    <div className="col-md-8 col-sm-8">
       <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
         <div className="card-header bg-white sticky-top">
           <h6 className="card-title">Application Track</h6>
@@ -966,11 +965,11 @@ export const ViewApplication = () => {
             src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
             className="card-img-top rounded-circle border-0"
             alt="Profile"
-            style={{ width: "4rem", height: "4rem" }}
+            style={{ width: "4.5rem", height: "4.5rem" }}
           />
                   </div>
                
-                  <div  className="col-8">
+                  <div  className="col-10">
                     <div className="card">
                       <div className="card-header text-bg-danger">
                       

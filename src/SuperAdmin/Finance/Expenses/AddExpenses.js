@@ -93,7 +93,7 @@ export const AddExpenses = () => {
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link
-                            to="/ListExpenses"
+                            to="/list_expenses"
                             style={{
                               backgroundColor: "#231F20",
                               fontFamily: "Plus Jakarta Sans",

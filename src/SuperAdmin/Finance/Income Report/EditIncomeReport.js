@@ -103,7 +103,7 @@ export const EditIncomeReport = () => {
                 
 
                 <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                <Link to='/ListIncomeReport'
+                <Link to='/list_income_report'
                     style={{
                       backgroundColor: "#231F20",
                       fontFamily: "Plus Jakarta Sans",
