@@ -619,21 +619,55 @@ export const AddForex = () => {
                     </div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div className="input-group">
                       <label className="form-label" for="inputPrimaryNo">
                         Primary Number<span className="text-danger">*</span>
                       </label>
-                      <input
-                        className="form-control rounded-2"
+
+                  <div className="input-group mb-3">
+  <button className="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+  <ul className="dropdown-menu">
+    <li><a className="dropdown-item" href="#">Action</a></li>
+    <li><a className="dropdown-item" href="#">Another action</a></li>
+    <li><a className="dropdown-item" href="#">Something else here</a></li>
+    <li><hr className="dropdown-divider" /></li>
+    <li><a className="dropdown-item" href="#">Separated link</a></li>
+  </ul>
+  <input
+                        className="form-control "
                         name="primaryNumber"
                         onChange={handleInputs}
                         id="inputPrimaryNo"
                         type="text"
+                        aria-label="Text input with dropdown button"
                         placeholder="Enter Primary Number"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                      
                       />
+  
+</div>
+
+
+                      {/* <div className="input-group mb-3">
+  <button className="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">+91</button>
+  <ul className="dropdown-menu">
+    <li><a className="dropdown-item" href="#">Action</a></li>
+    <li><a className="dropdown-item" href="#">Another action</a></li>
+    <li><a className="dropdown-item" href="#">Something else here</a></li>
+  
+   
+  </ul>
+  
+</div> */}
+                    
+                     
+                     
+                      </div>
+                     
+                    
                       {errors.primaryNumber.required ? (
                         <div className="text-danger form-text">
                           This field is required.
