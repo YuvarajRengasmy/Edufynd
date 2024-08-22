@@ -10,6 +10,7 @@ import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
 import { duration } from "@mui/material";
+import { formatDate } from "../../Utils/DateFormat";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -849,43 +850,55 @@ export const ViewApplication = () => {
                         </div>
         </div>
         <div className="card-body p-4">
-          <img
-            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-            className="card-img-top rounded-circle border-0"
-            alt="Profile"
-            style={{ width: "3rem", height: "3rem" }}
-          />
-          <p>
-            Application Status - {tracks?.createdBy} {tracks?.createdOn}
-          </p>
-         
-          {tracks?.status && (
-            <div>
-              {tracks.status.map((item, index) => (
-                <a
-                  href={item?.document || "#"}
-                  target="_blank"
-                  download
-                  key={index}
-                  className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
-                >
-                  <div className="me-2">
-                    <img
-                      src={item?.document || "-"}
-                      className="card-img-top border-0 me-2"
-                      alt="Document"
-                      style={{ width: "3rem", height: "3em" }}
-                    />
-                    <p className="card-text mb-0" style={{ fontSize: "12px" }}>
-                      {item?.name}
-                    </p>
-                  </div>
-                  <i className="fa fa-eye" aria-hidden="true"></i>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
+  <img
+    src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+    className="card-img-top rounded-circle border-0"
+    alt="Profile"
+    style={{ width: "3rem", height: "3rem" }}
+  />  {tracks?.createdBy}
+  <p>
+    Application Status -  {formatDate(tracks?.createdOn)}
+  </p>
+  
+  {tracks?.status && (
+    <div>
+      {tracks.status.map((item, index) => (
+        <a
+          href={item?.document || "#"}
+          target="_blank"
+          download
+          key={index}
+          className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
+        >
+          <div className="me-2">
+            {item?.document ? (
+              <img
+                src={item?.document}
+                className="card-img-top border-0 me-2"
+                alt="Document"
+                style={{ width: "3rem", height: "3rem" }}
+              />
+            ) : (
+              <div
+                className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
+                style={{ width: "3rem", height: "3rem", backgroundColor: "#f0f0f0" }}
+              >
+                <p className="mb-0" style={{ fontSize: "12px", color: "#888" }}>
+                  No Image
+                </p>
+              </div>
+            )}
+            <p className="card-text mb-0" style={{ fontSize: "12px" }}>
+              {item?.name}
+            </p>
+          </div>
+          <i className="fa fa-eye" aria-hidden="true"></i>
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+
       </div>
     </div>
     
@@ -963,7 +976,7 @@ export const ViewApplication = () => {
                       
                         <p className="mb-0">Application Decision:{item?.newStatus}</p>
                         <div className="d-flex gap-2">
-                        <p className="mb-0">September 28th 2023, 15:38</p>
+                        <p className="mb-0">{formatDate(item?.createdOn)}</p>
                         <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i className="fa fa-reply" aria-hidden="true"></i>
                         </button>
