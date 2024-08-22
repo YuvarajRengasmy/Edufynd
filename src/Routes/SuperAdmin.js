@@ -34,6 +34,7 @@ import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 import CurrencySettings from "../SuperAdmin/Settings/currencySetting";
 import UniversitySettings from "../SuperAdmin/Settings/universityModule";
+import SourseSettings from "../SuperAdmin/Settings/source";
 import ProgramModule from "../SuperAdmin/Settings/programModule";
 import ClientModule from "../SuperAdmin/Settings/clientModule";
 import Status from "../SuperAdmin/Settings/Status";
@@ -240,6 +241,7 @@ function SuperAdmin() {
         <Route path="/intake" element={<PrivateRoute><Intake /></PrivateRoute>} />
         <Route path="/year_setting" element={<PrivateRoute><Year /></PrivateRoute>} />
         <Route path="/application_status" element={<PrivateRoute><StatusModule/></PrivateRoute>} />
+        <Route path="/source" element={<PrivateRoute><SourseSettings /></PrivateRoute>} />
 
         {/* DashBoard */}
         <Route path="/dashboard" element={<PrivateRoute><DashboardSA /></PrivateRoute>} />
