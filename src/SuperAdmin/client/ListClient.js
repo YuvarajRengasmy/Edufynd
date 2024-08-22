@@ -336,7 +336,7 @@ export default function Masterproductlist() {
 
       <div
         className="content-wrapper"
-        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       >
        <div className="content-header bg-light shadow-sm sticky-top">
   <div className="container">
@@ -529,11 +529,11 @@ export default function Masterproductlist() {
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-3 border-0 text-white shadow-sm"
+          className="card rounded-1 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#00796B" }} // Tropical Teal
         >
           <div className="card-body">
-            <h6 className="card-title"><i className="fas fa-user-check"></i> Active Clients</h6>
+            <h6 className=""><i className="fas fa-user-check"></i> Active Clients</h6>
             <p className="card-text">Total: 120</p>
             <p className="card-text">
               <i className="fas fa-users"></i> Actively Engaged
@@ -546,11 +546,11 @@ export default function Masterproductlist() {
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-3 border-0 text-white shadow-sm"
+          className="card rounded-1 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#C62828" }} // Crimson Red
         >
           <div className="card-body">
-            <h6 className="card-title"><i className="fas fa-user-times"></i> Inactive Clients</h6>
+            <h6 className=""><i className="fas fa-user-times"></i> Inactive Clients</h6>
             <p className="card-text">Total: 45</p>
             <p className="card-text">
               <i className="fas fa-user-slash"></i> Currently Inactive
@@ -563,11 +563,11 @@ export default function Masterproductlist() {
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-3 border-0 text-white shadow-sm"
+          className="card rounded-1 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#0288D1" }} // Steel Blue
         >
           <div className="card-body">
-            <h6 className="card-title"><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
+            <h6 className=""><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
             <p className="card-text">Total: 350</p>
             <p className="card-text">
               <i className="fas fa-file-invoice"></i> Pending Payments
@@ -580,11 +580,11 @@ export default function Masterproductlist() {
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
         <div
-          className="card rounded-3 border-0 text-white shadow-sm"
+          className="card rounded-1 border-0 text-white shadow-sm"
           style={{ backgroundColor: "#1A237E" }} // Navy Blue
         >
           <div className="card-body">
-            <h6 className="card-title"><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
+            <h6 className=""><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
             <p className="card-text">Total: 290</p>
             <p className="card-text">
               <i className="fas fa-money-bill-wave"></i> Payments Received
@@ -623,7 +623,7 @@ export default function Masterproductlist() {
                   <th className="text-capitalize text-start">Action</th>
                 </tr>
               </thead>
-              <tbody style={{ fontSize: "12px" }}>
+              <tbody style={{ fontSize: "11px" }}>
                 {client?.map((data, index) => (
                   <tr key={index} className="align-middle">
                     <td className="text-capitalize text-start">
@@ -655,8 +655,8 @@ export default function Masterproductlist() {
                     <td className="text-capitalize text-start">
                       {data?.status || "Not Available"}
                     </td>
-                    <td>
-                      <div className="d-flex justify-content-center">
+                    <td className="text-capitalize text-start"> 
+                      <div className="d-flex justify-content-center gap-2">
                         <Link
                           className="text-decoration-none me-2"
                           to={{
