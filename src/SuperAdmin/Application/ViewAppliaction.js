@@ -875,15 +875,15 @@ export const ViewApplication = () => {
                 src={item?.document}
                 className="card-img-top border-0 me-2"
                 alt="Document"
-                style={{ width: "3rem", height: "3rem" }}
+                style={{ width: "10rem", height: "3rem" }}
               />
             ) : (
               <div
                 className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
-                style={{ width: "3rem", height: "3rem", backgroundColor: "#f0f0f0" }}
+                style={{ width: "10rem", height: "3rem", backgroundColor: "#f0f0f0" }}
               >
-                <p className="mb-0" style={{ fontSize: "12px", color: "#888" }}>
-                  No Image
+                <p className="mb-0" style={{ fontSize: "12px", color: "#888"}}>
+                  No Document
                 </p>
               </div>
             )}
