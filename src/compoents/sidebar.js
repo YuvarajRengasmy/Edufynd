@@ -348,7 +348,7 @@ const Sidebar = () => {
     onClick={() => handleSetActiveLink("/list_client")}
      data-path="/list_client"
      data-bs-toggle="tooltip"
-     title={isCollapsed ? "Dashboard" : ""}
+     title={isCollapsed ? "Client" : ""}
   >
     <i className="fa fa-user nav-icon"></i>
    
@@ -369,7 +369,7 @@ const Sidebar = () => {
    
      data-path="/list_university"
      data-bs-toggle="tooltip"
-     title={isCollapsed ? "Dashboard" : ""}
+     title={isCollapsed ? "University" : ""}
   >
     <i className="fa fa-graduation-cap nav-icon"></i>
     
