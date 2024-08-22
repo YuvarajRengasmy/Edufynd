@@ -538,7 +538,7 @@ export const ListStudentForm = () => {
                                     {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.primaryNumber || "Not Available"}
+                                    {data?.primaryNumber|| "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.email || "Not Available"}

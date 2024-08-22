@@ -1335,6 +1335,18 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link 
+                to="/source" 
+                className={`nav-link sidebar_link ${[
+                  "/source",
+                ].includes(currentPath) ? "active" : ""}`}
+                data-path="/source"
+                ref={el => (sidebarRefs.current['/source'] = el)}
+              >
+                <i className="fa fa-calendar nav-icon"></i>   {!isCollapsed && " Source"}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link 
                 to="#" 
                 className={`nav-link sidebar_link ${[
                   "/list_GlobalPrivileges",
