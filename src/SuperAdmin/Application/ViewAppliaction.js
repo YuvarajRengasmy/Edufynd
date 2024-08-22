@@ -963,7 +963,7 @@ export const ViewApplication = () => {
         </div>
         
        
-        <div className="card-body p-4">
+        <div className="card-body ">
           <div className="chat-messages">
             <div className="container">
 

@@ -359,7 +359,7 @@ export const ListFlightTicket = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#1976D2" }} // Blue
             >
               <div className="card-body">
@@ -376,7 +376,7 @@ export const ListFlightTicket = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#E64A19" }} // Deep Orange
             >
               <div className="card-body">
@@ -393,7 +393,7 @@ export const ListFlightTicket = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#FBC02D" }} // Yellow
             >
               <div className="card-body">
@@ -410,7 +410,7 @@ export const ListFlightTicket = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#388E3C" }} // Green
             >
               <div className="card-body">
@@ -428,7 +428,36 @@ export const ListFlightTicket = () => {
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card  rounded-0 border-0">
+                <div className="card  rounded-1 shadow-sm border-0">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries
+                        </p>
+                       <div className="p-0 m-0">
+                       <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
+                       </div>
+                        <div className="m-0 p-0">
+                        <select class="form-select form-select-sm rounded-1 d-inline mx-2" aria-label="Default select example2"    style={{ width: "auto", display: "inline-block", fontSize: "12px" }}>
+  <option selected>Select Staff</option>
+  <option value="1">Staff 1</option>
+  <option value="2">Staff 2</option>
+ 
+</select>
+                        </div>
+                      
+                      </div>
+                  </div>
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -441,9 +470,13 @@ export const ListFlightTicket = () => {
                             <tr
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
+                                fontSize: "11px",
                               }}
                             >
+                                <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                              #
+                              </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 S.No.
@@ -492,9 +525,12 @@ export const ListFlightTicket = () => {
                                   key={index}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "11px",
+                                    fontSize: "10px",
                                   }}
                                 >
+                                    <td>
+                        <input type="checkbox" />
+                      </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
@@ -576,7 +612,11 @@ export const ListFlightTicket = () => {
                         </table>
                       </div>
                     </div>
-                    <div className="float-right my-2">
+                  
+                  </div>
+                  <div className="d-flex justify-content-between m-2">
+                    <div> <p>Showing 20 out of 100</p></div>
+                      <div>
                       <Pagination
                         count={Math.ceil(pagination.count / pageSize)}
                         onChange={handlePageChange}
@@ -584,8 +624,9 @@ export const ListFlightTicket = () => {
                         shape="rounded"
                         color="primary"
                       />
+                      </div>
+                     
                     </div>
-                  </div>
                 </div>
               </div>
             </div>

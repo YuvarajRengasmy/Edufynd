@@ -379,11 +379,11 @@ export const ListStudentForm = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#1976D2" }} // Blue
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Lead Converted
                 </h6>
                 <p className="card-text">Total: 75</p>
@@ -396,11 +396,11 @@ export const ListStudentForm = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#E64A19" }} // Deep Orange
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Drop/Withdraw
                 </h6>
                 <p className="card-text">Total: 20</p>
@@ -413,11 +413,11 @@ export const ListStudentForm = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#FBC02D" }} // Yellow
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Delayed Followups
                 </h6>
                 <p className="card-text">Total: 45</p>
@@ -430,11 +430,11 @@ export const ListStudentForm = () => {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#388E3C" }} // Green
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Documents Received
                 </h6>
                 <p className="card-text">Total: 90</p>
@@ -445,26 +445,58 @@ export const ListStudentForm = () => {
       </div>
     </div>
     
-        <div className="content-body">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-0 border-0">
+                <div className="card rounded-1 shadow-sm border-0">
+                  <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries
+                        </p>
+                       <div className="p-0 m-0">
+                       <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
+                       </div>
+                        <div className="m-0 p-0">
+                        <select class="form-select form-select-sm rounded-1 d-inline mx-2" aria-label="Default select example2"    style={{ width: "auto", display: "inline-block", fontSize: "12px" }}>
+  <option selected>Select Staff</option>
+  <option value="1">Staff 1</option>
+  <option value="2">Staff 2</option>
+ 
+</select>
+                        </div>
+                      
+                      </div>
+                  </div>
                   <div className="card-body">
-                    <div className="card-table">
+                   
                       <div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "13px" }}
+                          style={{ color: "#9265cc", fontSize: "11px" }}
                           ref={tableRef}
                         >
                           <thead className="table-light">
                             <tr
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
+                                fontSize: "11px",
                               }}
                             >
+                               <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                              #
+                              </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 S.No.
@@ -507,16 +539,19 @@ export const ListStudentForm = () => {
                               </th>
                             </tr>
                           </thead>
-                          <tbody>
+                          <tbody >
                             {student && student.length > 0 ? (
                               student.map((data, index) => (
                                 <tr
                                   key={index}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "11px",
+                                    fontSize: "10px",
                                   }}
                                 >
+                                   <td>
+                        <input type="checkbox" />
+                      </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
@@ -540,7 +575,7 @@ export const ListStudentForm = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.primaryNumber || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
+                                  <td className=" text-start text-truncate">
                                     {data?.email || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
@@ -598,7 +633,9 @@ export const ListStudentForm = () => {
                         </table>
                       </div>
                     </div>
-                    <div className="float-right my-2">
+                    <div className="d-flex justify-content-between m-2">
+                    <div> <p>Showing 20 out of 100</p></div>
+                      <div>
                       <Pagination
                         count={Math.ceil(pagination.count / pageSize)}
                         onChange={handlePageChange}
@@ -606,13 +643,15 @@ export const ListStudentForm = () => {
                         shape="rounded"
                         color="primary"
                       />
+                      </div>
+                     
                     </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        
       </div>
       <Dialog open={open}>
         <DialogContent>
