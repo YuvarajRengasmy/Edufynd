@@ -258,7 +258,7 @@ export const ListNotifications = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddNotifications">
+                    <Link class="btn btn-pix-primary" to="/add_notifications">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -388,7 +388,7 @@ export const ListNotifications = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/ViewNotifications",
+                                            pathname: "/view_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -397,7 +397,7 @@ export const ListNotifications = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/EditNotifications",
+                                            pathname: "/edit_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

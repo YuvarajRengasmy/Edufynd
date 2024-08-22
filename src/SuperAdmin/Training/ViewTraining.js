@@ -34,15 +34,15 @@ export const ViewTraining = () => {
           <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+      <Link to='/dashboard' target="_self" className="text-decoration-none">Dashboard</Link>
     </li>
     <li className="breadcrumb-item">
-      <Link to='/ListTraining' className="text-decoration-none">ListTraining</Link>
+      <Link to='/list_training' className="text-decoration-none">ListTraining</Link>
     </li>
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
-          pathname: "/EditTraining",
+          pathname: "/edit_training",
           search: `?id=${training?._id}`,
         }} className="text-decoration-none">EditTraining</Link>
       </li>

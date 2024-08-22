@@ -22,6 +22,7 @@ export const Course = () => {
     country:"",
     studentCode: "",
     studentId:"",
+    applicationFee: "",
     campus: "",
     inTake: "",
     courseFees:"",
@@ -33,6 +34,7 @@ const initialStateErrors = {
     primaryNumber: { required: false },
     country: { required: false },
     studentCode: { required: false },
+    applicationFee: { required: false },
     studentId: { required: false },
     campus: { required: false },
     inTake: { required: false },
@@ -118,6 +120,7 @@ const initialStateErrors = {
     if (!data.studentId) error.studentId.required = true;
     if (!data.primaryNumber) error.primaryNumber.required = true;
     if (!data.country) error.country.required = true;
+    if (!data.applicationFee) error.applicationFee.required = true;
     if (!data.studentCode) error.studentCode.required = true;
     if (!data.campus) error.campus.required = true;
     if (!data.inTake) error.inTake.required = true;
@@ -1081,14 +1084,14 @@ const handleSubmit = (event) => {
                                   </Link>
                                 </li>
                                 <li className="breadcrumb-item">
-                                  <Link to="/Programs" className="text-decoration-none text-capitalize">ListProgram</Link>
+                                  <Link to="/list_program" className="text-decoration-none text-capitalize">ListProgram</Link>
                                 </li>
 
                                 <li className="breadcrumb-item">
                                   <Link
                                   className="text-decoration-none text-capitalize"
                                     to={{
-                                      pathname: "/EditProgram",
+                                      pathname: "/edit_program",
                                       search: `?id=${id}`,
                                     }}
                                   >

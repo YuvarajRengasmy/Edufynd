@@ -330,7 +330,7 @@ export const ListFlightTicket = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddFlightTicket">
+                    <Link class="btn btn-pix-primary" to="/add_flight_ticket">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -535,7 +535,7 @@ export const ListFlightTicket = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewFlightTicket",
+                                          pathname: "/view_flight_ticket",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -544,7 +544,7 @@ export const ListFlightTicket = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditFlightTicket",
+                                          pathname: "/edit_flight_ticket",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

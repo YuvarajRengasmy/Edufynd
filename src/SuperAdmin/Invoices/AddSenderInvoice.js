@@ -155,7 +155,7 @@ const AddSenderInvoice = () => {
       saveFSenderInvoice(invoice)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListInvoice");
+          navigate("/list_invoice");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

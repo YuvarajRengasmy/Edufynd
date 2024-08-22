@@ -232,7 +232,7 @@ function ListStaff() {
             </Link>
           </li>
           <li className="ms-2">
-            <Link className="btn btn-pix-primary" to="/AddStaff">
+            <Link className="btn btn-pix-primary" to="/add_staff">
               <button
                 className="btn btn-outline fw-semibold border-0 rounded-1 text-white"
                 style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
@@ -337,7 +337,7 @@ function ListStaff() {
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/ViewStaff",
+                                    pathname: "/view_staff",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -347,7 +347,7 @@ function ListStaff() {
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/EditStaff",
+                                    pathname: "/edit_staff",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
-import { formatDate } from "../../Utils/DateFormat";
 
 import { getFilterStatus } from "../../api/status";
 import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
@@ -11,6 +10,7 @@ import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
 import { duration } from "@mui/material";
+import { formatDate } from "../../Utils/DateFormat";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -340,48 +340,60 @@ export const ViewApplication = () => {
                 </div>
                 </div>
               </div>
-              <div className="container">
+
+              
+           {/* <div className="container ">
   <div className="row">
     <div className="col">
-    <div className="card border-0 rounded-1 shadow-sm p-4">
-      <div className="card-body">
-
-      <div class="position-relative m-4">
-        <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style={{height:"2px"}}>
-            <div class="progress-bar " style={{width: "50%"}}></div>
-        </div>
+      <div className="card border-0 rounded-1 shadow-sm p-4">
+        <div className="card-body">
         
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'0'}}>1</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'20%'}}>2</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-primary rounded-pill" style={{width:" 2rem", height: "2rem",left:'40%'}}>3</button>
-        <button type="button" class="position-absolute translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'60%'}}>4</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'80%'}}>5</button>
-        <button type="button" class="position-absolute  translate-middle btn btn-sm btn-danger rounded-pill" style={{width:" 2rem", height: "2rem",left:'100%'}}>6</button>
+          {status.map((item, index) => (
+          <div   key={index} className="position-relative">
+            <div className="progress" role="progressbar" aria-label="Progress" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} style={{height: 8}}>
+              <div className="progress-bar bg-danger progress-bar-striped progress-bar-animated" style={{width: '50%'}} />
+            </div>
+          
+            
+            <div className="d-flex justify-content-between position-absolute w-100 top-50 translate-middle-y">
+              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>1</button>
+              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>2</button>
+              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>3</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}   onClick={() => handleEditModule(item)}style={{width: '2rem', height: '2rem'}}>4</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>5</button>
+              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
+                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>6</button>
+            </div>
+          </div>
+            ))}
+        
+          <div className="d-flex justify-content-between mt-3">
+            <span>Submitted</span>
+            <span>Offer</span>
+            <span>Deposit</span>
+            <span>Approval</span>
+            <span>Enrollment</span>
+            <span>Completed</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div> */}
 
-    <div class="d-flex justify-content-between">
-        <span>Submitted</span>
-        <span>Offer</span>
-        <span>Deposit</span>
-        <span>Approval</span>
-        <span>Enrollment</span>
-        <span>Completed</span>
-    </div>
-      </div>
-
-    
-      </div>
-      </div>
-      </div>
-      </div>
               
                
                 <div className="container">
   <div className="row">
     <div className="col">
-    <div className="card border-0 shadow-sm p-2">
+    <div className="card border-0 rounded-1 shadow-sm p-3">
                   <div className="card-body">
-                    <div className="d-flex  flex-wrap justify-content-around align-items-center">
+                    <div className="d-flex   justify-content-between align-items-center">
                       {status.map((item, index) => (
                         <div
                           className="position-relative m-2"
@@ -396,7 +408,7 @@ export const ViewApplication = () => {
                               aria-valuenow={item.progress}
                               aria-valuemin="0"
                               aria-valuemax="100"
-                              style={{ height: "7px" }}
+                              style={{ height: "9px" }}
                             >
                               <div
                                 className="progress-bar progress-bar-striped progress-bar-animated"
@@ -406,20 +418,7 @@ export const ViewApplication = () => {
                                 }}
                               ></div>
                             </div>
-                            <button
-                              type="button"
-                              className="position-absolute text-bold top-0 translate-middle btn btn-sm btn-primary rounded-pill"
-                              data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}
-                              style={{
-                                width: "3rem",
-                                height: "3rem",
-                                left: "0",
-                                fontSize: "10px",
-                                color: "#FFF",
-                              }}
-                              onClick={() => handleEditModule(item)}
-                            ></button>
+                          
                             <div
                               className="progress-bar progress-bar-striped progress-bar-animated"
                               style={{
@@ -434,21 +433,24 @@ export const ViewApplication = () => {
                           >
                             <button
                               type="button"
-                              className="position-absolute text-bold  top-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                              className="position-absolute text-bold  top-0  start-0 translate-middle-y btn btn-sm btn-primary rounded-pill"
                               data-bs-toggle="modal"
                               data-bs-target={`#modal-${index}`}
                               style={{
-                                width: "3rem",
-                                height: "3rem",
+                                width: "2rem",
+                                height: "2rem",
                                 left: "0",
-                                fontSize: "10px",
+                               
                                 color: "#FFF",
                               }}
                               onClick={() => handleEditModule(item)}
                             >
-                              {item.statusName}
+{item.duration} 
+                             
                             </button>
                           </OverlayTrigger>
+                          <div className="d-flex justify-content-start align-items-center mt-3"> {item.statusName}</div>
+                         
 
                           <div
                             className="modal fade"
@@ -803,7 +805,7 @@ export const ViewApplication = () => {
 <div className="container-fluid my-2">
   <div className="row flex-nowrap">
    
-    <div className="col-md-3 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
+    <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
       <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
         <div className="card-header bg-white border-0">
          
@@ -847,48 +849,60 @@ export const ViewApplication = () => {
                         </div>
         </div>
         <div className="card-body p-4">
-          <img
-            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-            className="card-img-top rounded-circle border-0"
-            alt="Profile"
-            style={{ width: "3rem", height: "3rem" }}
-          />
-          <p>
-            Application Status - {tracks?.createdBy} {tracks?.createdOn}
-          </p>
-         
-          {tracks?.status && (
-            <div>
-              {tracks.status.map((item, index) => (
-                <a
-                  href={item?.document || "#"}
-                  target="_blank"
-                  download
-                  key={index}
-                  className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
-                >
-                  <div className="me-2">
-                    <img
-                      src={item?.document || "-"}
-                      className="card-img-top border-0 me-2"
-                      alt="Document"
-                      style={{ width: "3rem", height: "3em" }}
-                    />
-                    <p className="card-text mb-0" style={{ fontSize: "12px" }}>
-                      {item?.name}
-                    </p>
-                  </div>
-                  <i className="fa fa-eye" aria-hidden="true"></i>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
+  <img
+    src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+    className="card-img-top rounded-circle border-0"
+    alt="Profile"
+    style={{ width: "3rem", height: "3rem" }}
+  />  {tracks?.createdBy}
+  <p>
+    Application Status -  {formatDate(tracks?.createdOn)}
+  </p>
+  
+  {tracks?.status && (
+    <div>
+      {tracks.status.map((item, index) => (
+        <a
+          href={item?.document || "#"}
+          target="_blank"
+          download
+          key={index}
+          className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
+        >
+          <div className="me-2">
+            {item?.document ? (
+              <img
+                src={item?.document}
+                className="card-img-top border-0 me-2"
+                alt="Document"
+                style={{ width: "10rem", height: "3rem" }}
+              />
+            ) : (
+              <div
+                className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
+                style={{ width: "10rem", height: "3rem", backgroundColor: "#f0f0f0" }}
+              >
+                <p className="mb-0" style={{ fontSize: "12px", color: "#888"}}>
+                  No Document
+                </p>
+              </div>
+            )}
+            <p className="card-text mb-0" style={{ fontSize: "12px" }}>
+              {item?.name}
+            </p>
+          </div>
+          <i className="fa fa-eye" aria-hidden="true"></i>
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+
       </div>
     </div>
     
     
-    <div className="col-md-9 col-sm-8">
+    <div className="col-md-8 col-sm-8">
       <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
         <div className="card-header bg-white sticky-top">
           <h6 className="card-title">Application Track</h6>
@@ -951,17 +965,17 @@ export const ViewApplication = () => {
             src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
             className="card-img-top rounded-circle border-0"
             alt="Profile"
-            style={{ width: "4rem", height: "4rem" }}
+            style={{ width: "4.5rem", height: "4.5rem" }}
           />
                   </div>
                
-                  <div  className="col-8">
+                  <div  className="col-10">
                     <div className="card">
                       <div className="card-header text-bg-danger">
                       
                         <p className="mb-0">Application Decision:{item?.newStatus}</p>
                         <div className="d-flex gap-2">
-                        <p className="mb-0">September 28th 2023, 15:38</p>
+                        <p className="mb-0">{formatDate(item?.createdOn)}</p>
                         <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i className="fa fa-reply" aria-hidden="true"></i>
                         </button>

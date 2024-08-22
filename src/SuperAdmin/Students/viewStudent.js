@@ -284,12 +284,12 @@ const tableRef = useRef(null);
       <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
     </li>
     <li className="breadcrumb-item">
-      <Link to='/ListStudent' className="text-decoration-none">ListSudent</Link>
+      <Link to='/list_student' className="text-decoration-none">ListSudent</Link>
     </li>
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
-          pathname: "/EditStudent",
+          pathname: "/edit_student",
           search: `?studentId=${student?._id}`,
         }} className="text-decoration-none">EditStudent</Link>
       </li>

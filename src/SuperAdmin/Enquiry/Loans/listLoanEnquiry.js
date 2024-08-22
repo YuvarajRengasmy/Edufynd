@@ -332,7 +332,7 @@ export const ListLoanEnquiry = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddLoanEnquiry">
+                    <Link class="btn btn-pix-primary" to="/add_loan_enquiry">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -531,7 +531,7 @@ export const ListLoanEnquiry = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewLoanEnquiry",
+                                          pathname: "/view_loan_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -542,7 +542,7 @@ export const ListLoanEnquiry = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditLoanEnquiry",
+                                          pathname: "/edit_loan_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"

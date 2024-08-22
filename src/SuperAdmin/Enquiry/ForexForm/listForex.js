@@ -323,7 +323,7 @@ export const ListForex = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary " to="/AddForexForm">
+                    <Link class="btn btn-pix-primary " to="/add_forex_form">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -520,7 +520,7 @@ export const ListForex = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewForexForm",
+                                          pathname: "/view_forex_form",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -529,7 +529,7 @@ export const ListForex = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditForexForm",
+                                          pathname: "/edit_forex_form",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

@@ -193,7 +193,7 @@ export const ListCampaign = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddCampaign">
+                    <Link class="btn btn-pix-primary" to="/add_campaign">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -328,7 +328,7 @@ export const ListCampaign = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewCampaign",
+                                      pathname: "/view_campaign",
                                       
                                     }}
                                     data-bs-toggle="tooltip"
@@ -340,7 +340,7 @@ export const ListCampaign = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditCampaign",
+                                      pathname: "/edit_campaign",
                                       
                                     }}
                                     data-bs-toggle="tooltip"

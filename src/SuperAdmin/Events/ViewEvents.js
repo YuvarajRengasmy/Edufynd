@@ -35,15 +35,15 @@ export const ViewEvents = () => {
         <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+      <Link to='/dashboard' target="_self" className="text-decoration-none">Dashboard</Link>
     </li>
     <li className="breadcrumb-item">
-      <Link to='/ListEvents' className="text-decoration-none">ListEvents</Link>
+      <Link to='/list_events' className="text-decoration-none">ListEvents</Link>
     </li>
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
-          pathname: "/EditEvents",
+          pathname: "/edit_events",
           search: `?id=${notification?._id}`,
         }} className="text-decoration-none">EditEvents</Link>
       </li>

@@ -560,7 +560,7 @@ useEffect(() => {
             </Link>
           </li>
           <li className="m-0">
-            <Link className="btn btn-pix-primary border-0" to="/AddProgram">
+            <Link className="btn btn-pix-primary border-0" to="/add_program">
               <button
                 className="btn rounded-1 fw-semibold border-0 text-white"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -689,7 +689,7 @@ useEffect(() => {
                       <Link
                         className="dropdown-item"
                         to={{
-                          pathname: "/ViewProgram",
+                          pathname: "/view_program",
                           search: `?id=${data?._id}`,
                         }}
                       >
@@ -718,7 +718,7 @@ useEffect(() => {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/ViewProgram",
+                            pathname: "/view_program",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -727,7 +727,7 @@ useEffect(() => {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/EditProgram",
+                            pathname: "/edit_program",
                             search: `?id=${data?._id}`,
                           }}
                         >

@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Bar, Line, Pie } from "react-chartjs-2"; //
+import { Bar, Line, Pie,Doughnut,Radar } from "react-chartjs-2"; //
 import Sidebar from "../../compoents/sidebar";
 import 'chart.js/auto';
 import {
@@ -9,6 +9,8 @@ import {
 } from "react-icons/fa";
 
 export const HeroContent = () => {
+
+
 
   const salesData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -78,7 +80,7 @@ export const HeroContent = () => {
   return (
     <div >
       <Sidebar />
-      <div className="content-wrapper" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+      <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
         <div className="container  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
@@ -484,7 +486,7 @@ export const HeroContent = () => {
               <FaChartLine className="me-2" /> Sales Overview
             </div>
             <div className="card-body">
-              <Line data={salesData} />
+            <Line data={salesData} />
             </div>
           </div>
         </div>
@@ -496,7 +498,7 @@ export const HeroContent = () => {
               <FaUserAlt className="me-2" /> Client Growth
             </div>
             <div className="card-body">
-              <Line data={clientGrowthData} />
+            <Line data={clientGrowthData} />
             </div>
           </div>
         </div>

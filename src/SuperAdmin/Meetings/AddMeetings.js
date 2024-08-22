@@ -182,7 +182,7 @@ export const AddMeetings = () => {
       saveMeeting(updateNotifications)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListMeetings");
+          navigate("/list_meetings");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -472,12 +472,13 @@ export const AddMeetings = () => {
 
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
+                            to='/list_meetings'
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              type="reset"
+                              
                               className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
