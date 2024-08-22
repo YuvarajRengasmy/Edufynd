@@ -665,6 +665,13 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("enquiry")}
                   >
                     <div
+                      style={{
+                        display: "-webkit-box", // For older Safari versions
+                        display: "-ms-flexbox", // For IE10
+                        display: "flex", // Modern browsers
+                        alignItems: "center", // Vertical alignment
+                        justifyContent: "space-between", // Space between elements
+                      }}
                       data-bs-toggle="tooltip"
                       title={isCollapsed ? "Enquiry" : ""}
                     >
@@ -892,7 +899,14 @@ const Sidebar = () => {
                     }}
                     onClick={() => toggleDropdown("finance")}
                   >
-                    <div
+                    <div 
+                     style={{
+                      display: "-webkit-box", // For older Safari versions
+                      display: "-ms-flexbox", // For IE10
+                      display: "flex", // Modern browsers
+                      alignItems: "center", // Vertical alignment
+                      justifyContent: "space-between", // Space between elements
+                    }}
                       data-bs-toggle="tooltip"
                       title={isCollapsed ? "Finance" : ""}
                     >
@@ -1062,7 +1076,14 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Projects")}
                     ref={(el) => (sidebarRefs.current["/Projects"] = el)}
                   >
-                    <div
+                    <div 
+                      style={{
+                        display: "-webkit-box", // For older Safari versions
+                        display: "-ms-flexbox", // For IE10
+                        display: "flex", // Modern browsers
+                        alignItems: "center", // Vertical alignment
+                        justifyContent: "space-between", // Space between elements
+                      }}
                       data-bs-toggle="tooltip"
                       title={isCollapsed ? "Project & Task" : ""}
                     >
@@ -1148,7 +1169,14 @@ const Sidebar = () => {
                     onClick={() => toggleDropdown("Marketing")}
                     ref={(el) => (sidebarRefs.current["/Marketing"] = el)}
                   >
-                    <div
+                    <div 
+                      style={{
+                        display: "-webkit-box", // For older Safari versions
+                        display: "-ms-flexbox", // For IE10
+                        display: "flex", // Modern browsers
+                        alignItems: "center", // Vertical alignment
+                        justifyContent: "space-between", // Space between elements
+                      }}
                       data-bs-toggle="tooltip"
                       title={isCollapsed ? "Marketing" : ""}
                     >
@@ -1593,7 +1621,14 @@ const Sidebar = () => {
                     }}
                     onClick={() => toggleDropdown("elt")}
                   >
-                    <div
+                    <div 
+                     style={{
+                      display: "-webkit-box", // For older Safari versions
+                      display: "-ms-flexbox", // For IE10
+                      display: "flex", // Modern browsers
+                      alignItems: "center", // Vertical alignment
+                      justifyContent: "space-between", // Space between elements
+                    }}
                       data-bs-toggle="tooltip"
                       title={isCollapsed ? "ELT" : ""}
                     >
@@ -1731,6 +1766,13 @@ const Sidebar = () => {
                           aria-label="Global Settings"
                         >
                           <div
+                           style={{
+                            display: "-webkit-box", // For older Safari versions
+                            display: "-ms-flexbox", // For IE10
+                            display: "flex", // Modern browsers
+                            alignItems: "center", // Vertical alignment
+                            justifyContent: "space-between", // Space between elements
+                          }}
                             data-bs-toggle="tooltip"
                             title={isCollapsed ? "Global Setting" : ""}
                           >
@@ -1949,6 +1991,13 @@ const Sidebar = () => {
                           aria-label="Module"
                         >
                           <div
+                           style={{
+                            display: "-webkit-box", // For older Safari versions
+                            display: "-ms-flexbox", // For IE10
+                            display: "flex", // Modern browsers
+                            alignItems: "center", // Vertical alignment
+                            justifyContent: "space-between", // Space between elements
+                          }}
                             data-bs-toggle="tooltip"
                             title={isCollapsed ? "Module" : ""}
                           >
@@ -2123,7 +2172,14 @@ const Sidebar = () => {
                           role="button"
                           aria-label="Privileges"
                         >
-                          <div
+                          <div 
+                           style={{
+                            display: "-webkit-box", // For older Safari versions
+                            display: "-ms-flexbox", // For IE10
+                            display: "flex", // Modern browsers
+                            alignItems: "center", // Vertical alignment
+                            justifyContent: "space-between", // Space between elements
+                          }}
                             data-bs-toggle="tooltip"
                             title={isCollapsed ? "Privileges" : ""}
                           >
