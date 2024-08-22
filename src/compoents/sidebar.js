@@ -290,8 +290,8 @@ const Sidebar = () => {
               </Link>
               </div>
             </div>
-            <button onClick={handleSidebarToggle} className= "btn btn-link sidebar-toggle  ">
-            <i className={`fa ${isCollapsed ? "fa-times " : "fa-bars "}`}></i>
+            <button onClick={handleSidebarToggle} className= "btn btn-link text-white sidebar-toggle  ">
+            <i className={`fa ${isCollapsed ? "fa-times " : "fa-bars "}`}/>
           </button>
             <nav>
               <ul

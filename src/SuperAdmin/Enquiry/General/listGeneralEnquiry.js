@@ -357,7 +357,7 @@ export const ListGeneralEnquiry = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddGeneralEnquiry">
+                    <Link class="btn btn-pix-primary" to="/add_general_enquiry">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -552,7 +552,7 @@ export const ListGeneralEnquiry = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewGeneralEnquiry",
+                                          pathname: "/view_general_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -561,7 +561,7 @@ export const ListGeneralEnquiry = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditGeneralEnquiry",
+                                          pathname: "/edit_general_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

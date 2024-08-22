@@ -350,7 +350,7 @@ export const ListStudentForm = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddStudentForm">
+                    <Link class="btn btn-pix-primary" to="/add_enquiry_student">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -557,7 +557,7 @@ export const ListStudentForm = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewStudentForm",
+                                          pathname: "/view_enquiry_student",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -566,7 +566,7 @@ export const ListStudentForm = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditStudentForm",
+                                          pathname: "/vdit_enquiry_student",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

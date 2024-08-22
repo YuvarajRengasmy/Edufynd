@@ -329,7 +329,7 @@ export const ListAccommodation = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddAccommodation">
+                    <Link class="btn btn-pix-primary" to="/add_accommodation">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0  text-white  "
                         style={{
@@ -527,7 +527,7 @@ export const ListAccommodation = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ViewAccommodation",
+                                          pathname: "/view_accommodation",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
