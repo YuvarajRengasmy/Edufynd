@@ -595,6 +595,7 @@ const chartRef = useRef(null);
               <button
                 style={{ backgroundColor: "#E12929", fontSize: "12px" }}
                 className="btn text-white rounded-1 border-0"
+                   title= "Download PDF"
               >
                 <i className="fa fa-file-pdf" aria-hidden="true"></i>
               </button>
@@ -605,8 +606,10 @@ const chartRef = useRef(null);
               <button
                 style={{ backgroundColor: "#22A033", fontSize: "12px" }}
                 className="btn text-white rounded-1 border-0"
+                title= "Download CSV"
+                
               >
-                <i className="fa fa-file-excel" aria-hidden="true"></i>
+                <i className="fa fa-file-excel" aria-hidden="true" ></i>
               </button>
             </Link>
           </li>
@@ -615,6 +618,7 @@ const chartRef = useRef(null);
               <button
                 style={{ backgroundColor: "#7627ef", fontSize: "12px" }}
                 className="btn text-white rounded-1 border-0"
+                title= "Upload"
               >
                 <i className="fa fa-upload" aria-hidden="true"></i>
               </button>
