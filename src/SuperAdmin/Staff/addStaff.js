@@ -142,8 +142,10 @@ export const AddStaff = () => {
     }
 
     if (data.reportingManager === "") {
-      error.reportingManager = true;
+      error.reportingManager.required = true;
     }
+
+
     if (data.shiftTiming === "") {
       error.shiftTiming.required = true;
     }
@@ -163,6 +165,28 @@ export const AddStaff = () => {
     if (data.address === "") {
       error.address.required = true;
     }
+    if (data.address2 === "") {
+      error.address2.required = true;
+    }
+    if (data.pin === "") {
+      error.pin.required = true;
+    }
+    if (data.country === "") {
+      error.country.required = true;
+    }
+    if (data.state === "") {
+      error.state.required = true;
+    }
+    if (data.city === "") {
+      error.city.required = true;
+    }
+    if (data.companyAssests === "") {
+      error.companyAssests.required = true;
+    }
+    if (data.comapnyAssessts === "") {
+      error.comapnyAssessts.required = true;
+    }
+
 
     if (data.mobileNumber === "") {
       error.mobileNumber.required = true;
@@ -747,7 +771,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.address.required ? 'is-invalid' : errors.address.valid ? 'is-valid' : ''
+                                  errors.address.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example 17/3A2, Gandhi St,"
                                 name="address"
@@ -771,7 +795,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.address.required ? 'is-invalid' : errors.address.valid ? 'is-valid' : ''
+                                  errors.address2.required ? 'is-invalid' : ''
                                 }`}
                                 placeholder="Example Alwartirunagar, Chennai"
                                 name="address2"
@@ -795,13 +819,13 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.address.required ? 'is-invalid' : errors.address.valid ? 'is-valid' : ''
+                                  errors.pin.required ? 'is-invalid' : errors.pin.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example 632001"
                                 name="pin"
                                 onChange={handleInputs}
                               />
-                               {errors.address.required ? (
+                               {errors.pin.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
@@ -819,7 +843,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.country.required ? 'is-invalid' : errors.country.valid ? 'is-valid' : ''
+                                  errors.country.required ? 'is-invalid'  : ''
                                 }`}
                                 placeholder="Example India"
                                 name="country"
@@ -844,7 +868,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.state.required ? 'is-invalid' : errors.state.valid ? 'is-valid' : ''
+                                  errors.state.required ? 'is-invalid'  : ''
                                 }`}
                                 placeholder="Example Tamil Nadu"
                                 name="state"
@@ -868,7 +892,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.city.required ? 'is-invalid' : errors.city.valid ? 'is-valid' : ''
+                                  errors.city.required ? 'is-invalid'  : ''
                                 }`}
                                 placeholder="Example Chennai"
                                 name="city"
@@ -886,7 +910,7 @@ export const AddStaff = () => {
                                 ID Card <span className="text-danger">*</span>
                               </label>
                               <select
-                                className={`form-select form-select-lg rounded-2 ${errors.idCard.required ? 'in-valid':''}`}
+                                className={`form-select form-select-lg rounded-2 ${errors.idCard.required ? 'is-invalid':''}`}
                                 onChange={handleInputs}
                                 name="idCard"
                                 style={{
@@ -910,7 +934,7 @@ export const AddStaff = () => {
                                 Active <span className="text-danger">*</span>
                               </label>
                               <select
-                                 className={`form-select form-select-lg rounded-2 ${errors.active.required ? 'is-invalid ':''}`}
+                                 className={`form-select form-select-lg rounded-1 ${errors.active.required ? 'is-invalid ':''}`}
                                 onChange={handleInputs}
                                 name="active"
                                 style={{
