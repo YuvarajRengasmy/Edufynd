@@ -352,17 +352,11 @@ function AddAgent() {
     }`}
     placeholder="Example John Doe"
     onKeyDown={(e) => {
-      // Allow alphabets (both uppercase and lowercase) and numbers
-      const isAllowedChar = /^[a-zA-Z0-9]$/.test(e.key);
-
-      // Allow special keys for navigation and editing
-      const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
-
       // Prevent default behavior for disallowed keys
-      if (!isAllowedChar && !allowedKeys.includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
+ if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+   e.preventDefault();
+ }
+}}
   />
   {errors.businessName.required && (
     <div className="text-danger form-text profile_error">
