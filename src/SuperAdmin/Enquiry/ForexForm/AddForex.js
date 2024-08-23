@@ -10,7 +10,7 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { getallUniversity } from "../../../api/university";
-import { getallCurrency } from "../../../api/currency";
+import { getallCode } from "../../../api/settings/dailcode";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveForexEnquiry } from "../../../api/Enquiry/Forex";
@@ -82,18 +82,29 @@ export const AddForex = () => {
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setStudents] = useState([]);
+  const [dial, setDial] = useState([]);
 
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllUniversityList();
+    getallCodeList();
   }, []);
 
   const getAllUniversityList = () => {
     getallUniversity()
       .then((res) => {
         setUniversity(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -627,10 +638,20 @@ export const AddForex = () => {
                       <div className="input-group mb-3">
   <select className="form-select-sm" style={{ maxWidth: '100px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }} >
     <option value="+91" selected>+91</option>
-    <option value="+1">+1</option>
-    <option value="+44">+44</option>
-    <option value="+61">+61</option>
-    {/* Add more country codes as needed */}
+    {dial?.map((item) => (
+  <option value={item?.dialCode} key={item?.dialCode}>
+    {item?.dialCode} - {item?.name} - 
+    {item?.flag && (
+      <Flags
+        code={item?.flag}
+        className="me-2"
+        style={{ width: "40px", height: "30px" }}
+      />
+    )}
+  </option>
+))}
+
+   
   </select>
   <input
     className="form-control"
@@ -647,17 +668,6 @@ export const AddForex = () => {
   />
 </div>
 
-                      {/* <div className="input-group mb-3">
-  <button className="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">+91</button>
-  <ul className="dropdown-menu">
-    <li><a className="dropdown-item" href="#">Action</a></li>
-    <li><a className="dropdown-item" href="#">Another action</a></li>
-    <li><a className="dropdown-item" href="#">Something else here</a></li>
-  
-   
-  </ul>
-  
-</div> */}
                     
                      
                      
