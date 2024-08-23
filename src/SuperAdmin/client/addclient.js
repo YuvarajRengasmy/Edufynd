@@ -247,7 +247,7 @@ function AddAgent() {
       saveClient(updatedClient)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListClient");
+          navigate("/list_client");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -352,8 +352,14 @@ function AddAgent() {
     }`}
     placeholder="Example John Doe"
     onKeyDown={(e) => {
-      // Prevent non-letter characters
-      if (/[^a-zA-Z\s]/.test(e.key)) {
+      // Allow alphabets (both uppercase and lowercase) and numbers
+      const isAllowedChar = /^[a-zA-Z0-9]$/.test(e.key);
+
+      // Allow special keys for navigation and editing
+      const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
+
+      // Prevent default behavior for disallowed keys
+      if (!isAllowedChar && !allowedKeys.includes(e.key)) {
         e.preventDefault();
       }
     }}
@@ -426,7 +432,7 @@ function AddAgent() {
     Business Primary Number
     <span className="text-danger">*</span>
   </label>
-  <div className="d-flex align-items-center">
+  <div className="d-flex align-items-end">
     <input
       type="text"
       className={`form-control rounded-1 ${
