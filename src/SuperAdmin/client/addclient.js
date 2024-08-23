@@ -302,7 +302,7 @@ function AddAgent() {
           <div className="container ">
             <div className="row">
               <div className="col-xl-12 ">
-                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                   <div
                     className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                     style={{ background: "#fe5722", color: "#fff" }}
