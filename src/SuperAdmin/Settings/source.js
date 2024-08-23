@@ -115,6 +115,7 @@ export default function GlobalSettings() {
   };
 
   const handleInputs = (event) => {
+    console.log("balan", event.target.value)
     setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
 
@@ -190,6 +191,7 @@ const handleSubmit = (event) => {
       } else {
         saveSource(inputs)
           .then((res) => {
+            console.log("kkkkk", res)
             toast.success(res?.data?.message);
             event.target.reset();
             setInputs(initialStateInputs);

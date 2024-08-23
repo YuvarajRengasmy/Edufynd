@@ -89,6 +89,7 @@ export const ViewApplication = () => {
     };
     getFilterApplicationStatus(data)
       .then((res) => {
+        console.log("ggg", res)
         setStatus(res?.data?.result?.statusList || []);
         setPagination({
           ...pagination,
