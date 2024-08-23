@@ -101,6 +101,7 @@ export const AddForex = () => {
         console.log(err);
       });
   };
+  
   const getallCodeList = () => {
     getallCode()
       .then((res) => {
@@ -636,7 +637,7 @@ export const AddForex = () => {
                       </label>
 
                       <div className="input-group mb-3">
-  <select className="form-select-sm" style={{ maxWidth: '100px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }} >
+  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }} >
     <option value="+91" selected>+91</option>
     {dial?.map((item) => (
   <option value={item?.dialCode} key={item?.dialCode}>
