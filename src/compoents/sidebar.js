@@ -574,7 +574,14 @@ const Sidebar = () => {
     onClick={() => toggleDropdown("enquiry")}
     
   >
-    <div
+    <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
      data-bs-toggle="tooltip"
      title={isCollapsed ? "Enquiry" : ""}>
     
@@ -606,7 +613,7 @@ const Sidebar = () => {
            title={isCollapsed ? "Student Enquiry" : ""}
         >
           <i className="fa fa-user-graduate nav-icon"></i> 
-          {!isCollapsed && " Student Enquiry"}
+          {!isCollapsed && " Student "}
         </Link>
       </li>
       <li className="nav-item">
@@ -624,7 +631,7 @@ const Sidebar = () => {
            title={isCollapsed ? "FOREX Enquiry" : ""}
         >
           <i className="fa fa-money-bill-wave nav-icon"></i> 
-          {!isCollapsed && " FOREX Enquiry"}
+          {!isCollapsed && " FOREX "}
         </Link>
       </li>
       <li className="nav-item">
@@ -642,7 +649,7 @@ const Sidebar = () => {
            title={isCollapsed ? "Accommodation  Enquiry" : ""}
         >
           <i className="fa fa-bed nav-icon"></i> 
-          {!isCollapsed && " Accommodation  Enquiry"}
+          {!isCollapsed && " Accommodation  "}
         </Link>
       </li>
       <li className="nav-item">
@@ -660,7 +667,7 @@ const Sidebar = () => {
            title={isCollapsed ? "Flight Ticket" : ""}
         >
           <i className="fa fa-plane nav-icon"></i> 
-          {!isCollapsed && " Flight Ticket"}
+          {!isCollapsed && " Flight Ticket "}
         </Link>
       </li>
       <li className="nav-item">
@@ -678,7 +685,7 @@ const Sidebar = () => {
            title={isCollapsed ? "Loan Enquiry" : ""}
         >
           <i className="fa fa-credit-card nav-icon"></i> 
-          {!isCollapsed && " Loan Enquiry"}
+          {!isCollapsed && " Loan "}
         </Link>
       </li>
       <li className="nav-item">
@@ -696,7 +703,7 @@ const Sidebar = () => {
            title={isCollapsed ? "Business Enquiry" : ""}
         >
           <i className="fa fa-briefcase nav-icon"></i>
-          {!isCollapsed && "  Business Enquiry"}
+          {!isCollapsed && "  Business "}
         </Link>
       </li>
       <li className="nav-item">
@@ -714,7 +721,7 @@ const Sidebar = () => {
            title={isCollapsed ? "General Enquiry" : ""}
         >
           <i className="fa fa-info-circle nav-icon"></i> 
-          {!isCollapsed && "General Enquiry"}
+          {!isCollapsed && "General "}
         </Link>
       </li>
     </ul>
@@ -737,7 +744,15 @@ const Sidebar = () => {
     }}
     onClick={() => toggleDropdown("finance")}
   >
-    <div  data-bs-toggle="tooltip"
+    <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
+     data-bs-toggle="tooltip"
     title={isCollapsed ? "Finance" : ""}>
    
       <i className="fa fa-wallet nav-icon"></i> 
@@ -866,6 +881,13 @@ const Sidebar = () => {
     ref={el => (sidebarRefs.current['/Projects'] = el)}
   >
     <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
       data-bs-toggle="tooltip"
       title={isCollapsed ? "Project & Task" : ""}>
   
@@ -931,7 +953,14 @@ const Sidebar = () => {
     onClick={() => toggleDropdown("Marketing")}
     ref={el => (sidebarRefs.current['/Marketing'] = el)}
   >
-    <div
+    <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
       data-bs-toggle="tooltip"
       title={isCollapsed ? "Marketing" : ""}>
   
@@ -1268,7 +1297,15 @@ const Sidebar = () => {
     }}
     onClick={() => toggleDropdown("elt")}
   >
-    <div   data-bs-toggle="tooltip"
+    <div   
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
+    data-bs-toggle="tooltip"
     title={isCollapsed ? "ELT" : ""}>
       <i className="fa fa-book nav-icon"></i>
       
@@ -1385,7 +1422,15 @@ const Sidebar = () => {
           role="button"
           aria-label="Global Settings"
         >
-          <div   data-bs-toggle="tooltip"
+          <div  
+           style={{
+            display: "-webkit-box",          // For older Safari versions
+            display: "-ms-flexbox",          // For IE10
+            display: "flex",                 // Modern browsers
+            alignItems: "center",            // Vertical alignment
+            justifyContent: "space-between"  // Space between elements
+          }}
+           data-bs-toggle="tooltip"
     title={isCollapsed ? "Global Setting" : ""}>
             <i className="fa fa-globe nav-icon"></i>  {!isCollapsed && " Global Settings"}
           </div>
@@ -1557,7 +1602,15 @@ const Sidebar = () => {
           role="button"
           aria-label="Module"
         >
-          <div   data-bs-toggle="tooltip"
+          <div 
+           style={{
+            display: "-webkit-box",          // For older Safari versions
+            display: "-ms-flexbox",          // For IE10
+            display: "flex",                 // Modern browsers
+            alignItems: "center",            // Vertical alignment
+            justifyContent: "space-between"  // Space between elements
+          }}
+            data-bs-toggle="tooltip"
     title={isCollapsed ? "Module" : ""}>
             <i className="fa fa-cogs nav-icon"></i>   {!isCollapsed && " Module"}
           </div>
@@ -1689,7 +1742,15 @@ const Sidebar = () => {
           role="button"
           aria-label="Privileges"
         >
-          <div   data-bs-toggle="tooltip"
+          <div  
+           style={{
+            display: "-webkit-box",          // For older Safari versions
+            display: "-ms-flexbox",          // For IE10
+            display: "flex",                 // Modern browsers
+            alignItems: "center",            // Vertical alignment
+            justifyContent: "space-between"  // Space between elements
+          }}
+           data-bs-toggle="tooltip"
     title={isCollapsed ? "Privileges" : ""}>
             <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && "Privileges"}
           </div>
