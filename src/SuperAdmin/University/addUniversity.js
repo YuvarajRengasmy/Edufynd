@@ -50,6 +50,7 @@ const App = () => {
         lga: "",
         states: [],
         lgas: [],
+        primary:""
       },
     ],
   };
@@ -242,6 +243,7 @@ const App = () => {
         state: "",
         lga: "",
         lgas: [],
+       
       })),
     }));
     fetchStates(selectedCountry.value);
@@ -267,7 +269,16 @@ const App = () => {
       ),
     }));
   };
-
+  const handlePrimaryChange = (index) => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      campuses: prevState.campuses.map((campus, i) =>
+        i === index ? { ...campus, primary: !campus.primary } : campus
+      ),
+    }));
+   
+  };
+  
   const addCampus = () => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -426,8 +437,7 @@ const App = () => {
   }));
 
  
-  
-  
+ 
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -747,6 +757,18 @@ const App = () => {
                                     </div>
                                   )}
                                 </div>
+                                <div className="col-xl-12 my-3">
+            <label>
+              <input
+                type="checkbox"
+                checked={campus.primary}
+                 onChange={() => handlePrimaryChange(index)}
+                // onChange={(e) => handlePrimaryChange(e, index)}
+                 disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
+              />
+              Set as Primary
+            </label>
+          </div>
 
                                 {index > 0 && (
                                   <div className="col-xl-12 my-3 ">
