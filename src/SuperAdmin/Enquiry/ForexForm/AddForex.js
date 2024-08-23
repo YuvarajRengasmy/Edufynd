@@ -640,14 +640,8 @@ export const AddForex = () => {
     <option value="+91" selected>+91</option>
     {dial?.map((item) => (
   <option value={item?.dialCode} key={item?.dialCode}>
-    {item?.dialCode} - {item?.name} - 
-    {item?.flag && (
-      <Flags
-        code={item?.flag}
-        className="me-2"
-        style={{ width: "40px", height: "30px" }}
-      />
-    )}
+    {item?.dialCode} - {item?.flag} - {item?.name} 
+   
   </option>
 ))}
 
