@@ -345,61 +345,71 @@ function AddAgent() {
                             ) : null}
                           </div>
                         </div>
+
+                   
+
+ 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            {" "}
-                            Business Name
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            name="businessName"
-                            onChange={handleInputs}
-                            className="form-control rounded-1  "
-                            placeholder="Example John Doe"
-                          />
-                          {errors.businessName.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                          {errors.businessName.valid && (
-                            <div className="text-danger form-text">
-                              Name should contain only letters.
-                            </div>
-                          )}
-                        </div>
+  <label style={{ color: "#231F20" }}>
+    Business Name
+    <span className="text-danger">*</span>
+  </label>
+  <input
+    type="text"
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+    name="businessName"
+    onChange={handleInputs}
+    className={`form-control rounded-1 ${
+      errors.businessName.required ? 'is-invalid' : errors.businessName.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example John Doe"
+    onKeyDown={(e) => {
+      // Prevent non-letter characters
+      if (/[^a-zA-Z\s]/.test(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  {errors.businessName.required && (
+    <div className="text-danger form-text profile_error">
+      This field is required.
+    </div>
+  )}
+</div>
+
+
+                      
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Business Website
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control rounded-1 "
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            placeholder="Example www.edufynd.com"
-                            name="website"
-                            onChange={handleInputs}
-                          />
-                          {errors.website.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                          {errors.website.valid && (
-                            <div className="text-danger form-text">
-                              Enter a valid Website URL.
-                            </div>
-                          )}
-                        </div>
+  <label style={{ color: "#231F20" }}>
+    Business Website
+    <span className="text-danger">*</span>
+  </label>
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
+    }`}
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+    placeholder="Example www.edufynd.com"
+    name="website"
+    onChange={handleInputs}
+  />
+  {errors.website.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+ 
+</div>
+
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}
@@ -433,7 +443,7 @@ function AddAgent() {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            type="number"
+                            type="text"
                             className="form-control rounded-1"
                             placeholder="Example 123-456-7890 "
                             style={{
@@ -442,6 +452,12 @@ function AddAgent() {
                             }}
                             name="businessContactNo"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Allow only numbers, backspace, delete, arrows, etc.
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.businessContactNo.required ? (
                             <span className="text-danger form-text profile_error">
@@ -459,7 +475,7 @@ function AddAgent() {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            type="number"
+                            type="text"
                             className="form-control rounded-1"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -468,6 +484,12 @@ function AddAgent() {
                             placeholder="Example 123-456-7890"
                             name="whatsAppNumber"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Allow only numbers, backspace, delete, arrows, etc.
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.whatsAppNumber.required && (
                             <span className="text-danger form-text profile_error">
@@ -698,7 +720,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            to="/ListClient"
+                            to="/list_client"
                             className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                           >
                             Cancel
