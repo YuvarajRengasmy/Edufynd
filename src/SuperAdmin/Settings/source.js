@@ -115,7 +115,6 @@ export default function GlobalSettings() {
   };
 
   const handleInputs = (event) => {
-    console.log("balan", event.target.value)
     setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
 
@@ -169,8 +168,12 @@ const handleSubmit = (event) => {
     setSubmitted(true);
 
     if (handleErrors(newError)) {
+      const data = {
+        ...inputs,
+        _id: editId, // If editing, include the ID in the data
+      };
       if (isEdit) {
-        updateSource({ ...inputs, id: editId }) // Pass the ID for updating
+        updateSource(data) // Pass the ID for updating
           .then((res) => {
             toast.success(res?.data?.message);
             event.target.reset();
@@ -191,7 +194,7 @@ const handleSubmit = (event) => {
       } else {
         saveSource(inputs)
           .then((res) => {
-            console.log("kkkkk", res)
+            console.log("res", res);
             toast.success(res?.data?.message);
             event.target.reset();
             setInputs(initialStateInputs);
@@ -248,7 +251,7 @@ const handleSubmit = (event) => {
 
         }));
         const header1 = ["Source"];
-        const header2 = ["source"];
+        const header2 = ["sourceName"];
         ExportCsvService.downloadCsv(list, "SourceList", "Source List", header1, header2);
       })
       .catch((err) => {
@@ -317,7 +320,7 @@ const handleSubmit = (event) => {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  id="startDate"
+                                  id="intakeName"
                                   name="sourceName"
                                   value={inputs.sourceName}
                                   onChange={handleInputs}
@@ -367,24 +370,7 @@ const handleSubmit = (event) => {
                        <i className="fa fa-file-pdf" aria-hidden="true"></i>
                     </button>
                   </li>
-                  <li className="m-2">
-                    <button
-                      className="btn  text-white text-center px-4 py-2 text-uppercase fw-semibold text-white text-center "
-                      style={{
-                        backgroundColor: "#fe5722",
-                        border: "none",
-                        
-                        fontSize: "12px",
-                        margin: "1px"
-                      }}
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#addSourceModal"
-                      onClick={() => { handleAddModule() }}
-                    >
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Add Source
-                    </button>
-                  </li>
+                 
                 </ol>
               </div>
             </div>
@@ -451,8 +437,7 @@ const handleSubmit = (event) => {
                        
                         <td  className='text-end text-capitalize'>
                         <button type="button" className="btn btn-primary btn-sm text-white btn-sm m-1 fw-semibold text-uppercase px-2 py-2"
-                            data-bs-toggle="modal"
-                           data-bs-target="#addSourceModal"
+                         
                        onClick={() => { handleEditModule(data) }}
                          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}> <i className="far fa-edit text-white me-1"></i></button>
                           <button
@@ -511,37 +496,7 @@ const handleSubmit = (event) => {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="modal fade" id="addSourceModal" tabIndex="-1" aria-labelledby="addSourceModalLabel" aria-hidden="true" ref={modalRef}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="addSourceModalLabel">{isEdit ? "Edit Source" : "Add Source"}</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="mb-3">
-                  <label htmlFor="intakeName" className="form-label">Source</label>
-                  <input
-                type="text"
-                className="form-control"
-                id="intakeName"
-                name="sourceName"
-                value={inputs.sourceName}
-                onChange={handleInputs}
-               placeholder='Enter Source Name'
-            />
-                  {submitted && errors.sourceName.required && (
-                    <span className="text-danger">Source is required</span>
-                  )}
-                </div>
-               
-                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+     
    
     </div>
   );

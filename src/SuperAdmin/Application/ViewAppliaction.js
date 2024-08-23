@@ -866,7 +866,7 @@ export const ViewApplication = () => {
         <a
           href={item?.document || "#"}
           target="_blank"
-          download
+          
           key={index}
           className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
         >
@@ -883,6 +883,7 @@ export const ViewApplication = () => {
                 className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
                 style={{ width: "10rem", height: "3rem", backgroundColor: "#f0f0f0" }}
               >
+                
                 <p className="mb-0" style={{ fontSize: "12px", color: "#888"}}>
                   No Document
                 </p>
@@ -891,11 +892,21 @@ export const ViewApplication = () => {
             <p className="card-text mb-0" style={{ fontSize: "12px" }}>
               {item?.name}
             </p>
+            <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+
+<p classname='mb-0'><small>Sent</small></p>
+
+<p classname='mb-0'><small>Time</small></p>
+</div>
           </div>
           <i className="fa fa-eye" aria-hidden="true"></i>
         </a>
+        
+        
       ))}
+    
     </div>
+    
   )}
 </div>
 
@@ -953,7 +964,7 @@ export const ViewApplication = () => {
         </div>
         
        
-        <div className="card-body p-4">
+        <div className="card-body ">
           <div className="chat-messages">
             <div className="container">
 
@@ -971,7 +982,7 @@ export const ViewApplication = () => {
                   </div>
                
                   <div  className="col-10">
-                    <div className="card">
+                    <div className="card ">
                       <div className="card-header text-bg-danger">
                       
                         <p className="mb-0">Application Decision:{item?.newStatus}</p>
@@ -991,15 +1002,23 @@ export const ViewApplication = () => {
                           Sincerely,<br/>
                           {item?.createdBy}<br />
                         Edufynd
-                        <div className="d-flex flex-column align-items-end justify-content-end">
-                          <p className="mb-1"><b>Duration</b>- {item?.duration}Days</p>
-                          <p className="mb-1"><b>Delayed</b>- {item?.delay}Days</p>
-                        </div>
-                      </div>
-                      <div className="card-footer bg-white border-0">
-                     
 
+                      
+                        <div className="d-flex flex-column align-items-end justify-content-end">
+                          <p className="mb-0"><b>Duration</b>- {item?.duration}Days</p>
+                          <p className="mb-0"><b>Delayed</b>- {item?.delay}Days</p>
+                        </div>
+
+                        <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+
+<p classname='mb-0'><small>Sent</small></p>
+
+<p classname='mb-0'><small>Time</small></p>
+</div>
+                       
+                      
                       </div>
+                     
                     </div>
                   </div>
                

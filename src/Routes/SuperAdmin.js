@@ -47,7 +47,7 @@ import AddStaff from "../SuperAdmin/Staff/addStaff";
 import EditStaff from "../SuperAdmin/Staff/editStaff";
 import ViewStaff from "../SuperAdmin/Staff/viewStaff";
 
-import Application from "../SuperAdmin/Application/Application";
+
 
 import ViewApplication from "../SuperAdmin/Application/ViewAppliaction";
 
@@ -286,7 +286,7 @@ function SuperAdmin() {
 
         {/* Application */}
         <Route path="/list_application" element={<PrivateRoute><ListApplication /></PrivateRoute>} />
-        <Route path="/application" element={<PrivateRoute><Application /></PrivateRoute>} />
+      
         <Route path="/add_application" element={<PrivateRoute><AddApplication /></PrivateRoute>} />
         <Route path="/edit_application" element={<PrivateRoute><EditApplication /></PrivateRoute>} />
         <Route path="/view_application" element={<PrivateRoute><ViewApplication /></PrivateRoute>} />

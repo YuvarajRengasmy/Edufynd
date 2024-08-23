@@ -5,6 +5,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import Edufynd from "../Assests/EduFynd.png";
+import "bootstrap/dist/css/bootstrap.min.css";
+import * as bootstrap from "bootstrap"; 
+
 
 const Sidebar = () => {
   const location = useLocation();
@@ -27,7 +30,10 @@ const Sidebar = () => {
     users: false,
     socialmedia: false,
   });
-  const [isCollapsed, setIsCollapsed] = useState(false); // New state for collapsing
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // Load the collapsed state from local storage
+    return JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
+  });
 
   const sidebarRefs = useRef({});
 
@@ -40,7 +46,12 @@ const Sidebar = () => {
   };
 
   const handleSidebarToggle = () => {
-    setIsCollapsed((prev) => !prev);
+    setIsCollapsed((prev) => {
+      const newCollapsedState = !prev;
+      // Save the new collapsed state to local storage
+      localStorage.setItem('sidebarCollapsed', JSON.stringify(newCollapsedState));
+      return newCollapsedState;
+    });
   };
 
   const logout = () => {
@@ -252,8 +263,35 @@ const Sidebar = () => {
         activeRef.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100); // Adjust delay as necessary
     }
-  }, [currentPath]);
-  
+
+    // Initialize tooltips
+   
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+      if (isCollapsed) {
+        tooltipTriggerEl.addEventListener('mouseenter', () => {
+          if (!bootstrap.Tooltip.getInstance(tooltipTriggerEl)) {
+            new bootstrap.Tooltip(tooltipTriggerEl, {
+              placement: 'right'
+            });
+          }
+        });
+
+        tooltipTriggerEl.addEventListener('mouseleave', () => {
+          const tooltipInstance = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+          if (tooltipInstance && !tooltipTriggerEl.classList.contains('active')) {
+            tooltipInstance.dispose();
+          }
+        });
+      } else {
+        const tooltipInstance = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+        if (tooltipInstance) {
+          tooltipInstance.dispose();
+        }
+      }
+    });
+  }, [currentPath, isCollapsed]);
 
   return (
     <>
@@ -307,6 +345,9 @@ const Sidebar = () => {
     className={`nav-link sidebar_link ${activeLink === "/dashboard" ? "active" : ""}`}
     onClick={() => handleSetActiveLink("/dashboard")}
       data-path="/dashboard"
+   
+      data-bs-toggle="tooltip"
+      title={isCollapsed ? "Dashboard" : ""}
   >
     <i className="fa fa-tachometer-alt nav-icon"></i>
     {!isCollapsed && "Dashboard"}
@@ -324,6 +365,8 @@ const Sidebar = () => {
     }`}
     onClick={() => handleSetActiveLink("/list_client")}
      data-path="/list_client"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Client" : ""}
   >
     <i className="fa fa-user nav-icon"></i>
    
@@ -341,7 +384,10 @@ const Sidebar = () => {
         : ""
     }`}
     onClick={() => handleSetActiveLink("/list_university")}
+   
      data-path="/list_university"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "University" : ""}
   >
     <i className="fa fa-graduation-cap nav-icon"></i>
     
@@ -360,6 +406,8 @@ const Sidebar = () => {
     }`}
     onClick={() => handleSetActiveLink("/list_commission")}
      data-path="/list_commission"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Commission" : ""}
   >
     <i className="fa fa-dollar-sign nav-icon"></i>
     
@@ -378,6 +426,8 @@ const Sidebar = () => {
     }`}
     onClick={() => handleSetActiveLink("/list_Program")}
      data-path="/list_Program"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Program" : ""}
   >
     <i className="fa fa-cogs nav-icon"></i>
    
@@ -400,6 +450,7 @@ const Sidebar = () => {
       justifyContent: "space-between"  // Space between elements
     }}
     onClick={() => toggleDropdown("users")}
+    
   >
     <div   style={{
       display: "-webkit-box",          // For older Safari versions
@@ -407,7 +458,9 @@ const Sidebar = () => {
       display: "flex",                 // Modern browsers
       alignItems: "center",            // Vertical alignment
       justifyContent: "space-between"  // Space between elements
-    }}>
+    }}
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Users" : ""}>
       <i className="fa fa-users nav-icon"></i>
       
       {!isCollapsed && "Users"}
@@ -433,6 +486,9 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_student")}
            data-path="/list_student"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Students" : ""}
+           
         >
           <i className="fa fa-user-graduate nav-icon"></i>
           {!isCollapsed && " Students"} 
@@ -449,6 +505,8 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_staff")}
            data-path="/list_staff"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Staffs" : ""}
         >
           <i className="fa fa-user-tie nav-icon"></i> 
           {!isCollapsed && " Staffs"}
@@ -465,6 +523,8 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_agent")}
            data-path="/list_agent"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Agents" : ""}
         >
           <i className="fa fa-user-secret nav-icon"></i> 
           {!isCollapsed && " Agents"}
@@ -488,6 +548,8 @@ const Sidebar = () => {
     }`}
     onClick={() => handleSetActiveLink("/list_application")}
      data-path="/list_application"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Application" : ""}
   >
     <i className="fa fa-archive nav-icon"></i> 
     {!isCollapsed && " Application"}
@@ -508,9 +570,21 @@ const Sidebar = () => {
       alignItems: "center",            // Vertical alignment
       justifyContent: "space-between"  // Space between elements
     }}
+    
     onClick={() => toggleDropdown("enquiry")}
+    
   >
-    <div>
+    <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Enquiry" : ""}>
+    
       <i className="fa fa-question-circle nav-icon"></i> 
       {!isCollapsed && " Enquiry"}
     </div>
@@ -535,9 +609,11 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_enquiry_student")}
            data-path="/list_enquiry_student"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Student Enquiry" : ""}
         >
           <i className="fa fa-user-graduate nav-icon"></i> 
-          {!isCollapsed && " Student"}
+          {!isCollapsed && " Student "}
         </Link>
       </li>
       <li className="nav-item">
@@ -551,9 +627,11 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_forex_form")}
            data-path="/list_forex_form"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "FOREX Enquiry" : ""}
         >
           <i className="fa fa-money-bill-wave nav-icon"></i> 
-          {!isCollapsed && " FOREX"}
+          {!isCollapsed && " FOREX "}
         </Link>
       </li>
       <li className="nav-item">
@@ -567,9 +645,11 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_accommodation")}
            data-path="/list_accommodation"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Accommodation  Enquiry" : ""}
         >
           <i className="fa fa-bed nav-icon"></i> 
-          {!isCollapsed && " Accommodation"}
+          {!isCollapsed && " Accommodation  "}
         </Link>
       </li>
       <li className="nav-item">
@@ -583,9 +663,11 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_flight_ticket")}
            data-path="/list_flight_ticket"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Flight Ticket" : ""}
         >
           <i className="fa fa-plane nav-icon"></i> 
-          {!isCollapsed && " Flight"}
+          {!isCollapsed && " Flight Ticket "}
         </Link>
       </li>
       <li className="nav-item">
@@ -599,9 +681,11 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_loan_enquiry")}
            data-path="/list_loan_enquiry"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Loan Enquiry" : ""}
         >
           <i className="fa fa-credit-card nav-icon"></i> 
-          {!isCollapsed && " Loan"}
+          {!isCollapsed && " Loan "}
         </Link>
       </li>
       <li className="nav-item">
@@ -615,9 +699,11 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_business_enquiry")}
            data-path="/list_business_enquiry"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Business Enquiry" : ""}
         >
           <i className="fa fa-briefcase nav-icon"></i>
-          {!isCollapsed && "  Business Enquiry"}
+          {!isCollapsed && "  Business "}
         </Link>
       </li>
       <li className="nav-item">
@@ -631,9 +717,11 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_general_enquiry")}
            data-path="/list_general_enquiry"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "General Enquiry" : ""}
         >
           <i className="fa fa-info-circle nav-icon"></i> 
-          {!isCollapsed && "General Enquiry"}
+          {!isCollapsed && "General "}
         </Link>
       </li>
     </ul>
@@ -656,7 +744,17 @@ const Sidebar = () => {
     }}
     onClick={() => toggleDropdown("finance")}
   >
-    <div>
+    <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
+     data-bs-toggle="tooltip"
+    title={isCollapsed ? "Finance" : ""}>
+   
       <i className="fa fa-wallet nav-icon"></i> 
       {!isCollapsed && "Finance"}
     </div>
@@ -681,6 +779,8 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_income")}
            data-path="/list_income"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Income" : ""}
         >
           <i className="fa fa-arrow-up nav-icon"></i> 
           {!isCollapsed && " Income"}
@@ -697,6 +797,8 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_expenses")}
            data-path="/list_expenses"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Expense" : ""}
         >
           <i className="fa fa-arrow-down nav-icon"></i> 
           {!isCollapsed && " Expense"}
@@ -713,6 +815,8 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_raisequotations")}
            data-path="/list_raisequotations"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Raise Quotations" : ""}
         >
           <i className="fa fa-file-invoice nav-icon"></i> 
           {!isCollapsed && " Raise Quotations"}
@@ -729,6 +833,8 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_invoice")}
            data-path="/list_invoice"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Raise Invoice" : ""}
         >
           <i className="fa fa-file-invoice-dollar nav-icon"></i> 
           {!isCollapsed && " Raise Invoice"}
@@ -745,6 +851,8 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveLink("/list_income_report")}
            data-path="/list_income_report"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Income Report" : ""}
         >
           <i className="fa fa-chart-line nav-icon"></i> 
           {!isCollapsed && " Income Report"}
@@ -772,7 +880,17 @@ const Sidebar = () => {
     onClick={() => toggleDropdown("Projects")}
     ref={el => (sidebarRefs.current['/Projects'] = el)}
   >
-    <div>
+    <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
+      data-bs-toggle="tooltip"
+      title={isCollapsed ? "Project & Task" : ""}>
+  
       <i className="fa fa-project-diagram nav-icon"></i> 
       {!isCollapsed && " Project & Task"}
     </div>
@@ -790,6 +908,8 @@ const Sidebar = () => {
           }`}
           ref={el => (sidebarRefs.current['/list_project'] = el)}
            data-path="/list_project"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Project" : ""}
         >
           <i className="fa fa-briefcase nav-icon"></i>
           {!isCollapsed && "  Project"}
@@ -805,6 +925,8 @@ const Sidebar = () => {
           }`}
           ref={el => (sidebarRefs.current['/list_task'] = el)}
            data-path="/list_task"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Task" : ""}
         >
           <i className="fa fa-tasks nav-icon"></i> 
           {!isCollapsed && " Task"}
@@ -831,7 +953,17 @@ const Sidebar = () => {
     onClick={() => toggleDropdown("Marketing")}
     ref={el => (sidebarRefs.current['/Marketing'] = el)}
   >
-    <div>
+    <div 
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
+      data-bs-toggle="tooltip"
+      title={isCollapsed ? "Marketing" : ""}>
+  
       <i className="fa fa-bullhorn nav-icon"></i> 
       {!isCollapsed && " Marketing"}
     </div>
@@ -862,7 +994,10 @@ const Sidebar = () => {
       display: "flex",                 // Modern browsers
       alignItems: "center",            // Vertical alignment
       justifyContent: "space-between"  // Space between elements
-    }}>
+    }}
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Social Media" : ""}>
+      
             <i className="fa fa-users nav-icon"></i>
             {!isCollapsed && "  Social Media"}
           </div>
@@ -880,6 +1015,8 @@ const Sidebar = () => {
                 }`}
                 ref={el => (sidebarRefs.current['/list_facebook'] = el)}
                   data-path="/list_facebook"
+                  data-bs-toggle="tooltip"
+                  title={isCollapsed ? "Facebook" : ""}
               >
                 <i className="fa fa-user-graduate nav-icon"></i>
                 {!isCollapsed && "  Facebook"}
@@ -895,6 +1032,8 @@ const Sidebar = () => {
                 }`}
                 ref={el => (sidebarRefs.current['/list_instagram'] = el)}
                   data-path="/list_instagram"
+                  data-bs-toggle="tooltip"
+                  title={isCollapsed ? "Instagram" : ""}
               >
                 <i className="fa fa-user-tie nav-icon"></i> 
                 {!isCollapsed && " Instagram"}
@@ -910,6 +1049,8 @@ const Sidebar = () => {
                 }`}
                 ref={el => (sidebarRefs.current['/list_linkedin'] = el)}
                   data-path="/list_linkedin"
+                  data-bs-toggle="tooltip"
+                  title={isCollapsed ? "LinkedIn" : ""}
               >
                 <i className="fa fa-user-secret nav-icon"></i> 
                 {!isCollapsed && "LinkedIn"}
@@ -928,6 +1069,8 @@ const Sidebar = () => {
           }`}
           ref={el => (sidebarRefs.current['/list_campaign'] = el)}
             data-path="/list_campaign"
+            data-bs-toggle="tooltip"
+            title={isCollapsed ? " Campaigns" : ""}
         >
           <i className="fa fa-bullhorn nav-icon"></i> 
           {!isCollapsed && " Campaigns"}
@@ -943,6 +1086,8 @@ const Sidebar = () => {
           }`}
           ref={el => (sidebarRefs.current['/list_daily_task'] = el)}
            data-path="/list_daily_task"
+           data-bs-toggle="tooltip"
+           title={isCollapsed ? "Daily Task" : ""}
         >
           <i className="fa fa-tasks nav-icon"></i> 
           {!isCollapsed && " Daily Task"}
@@ -962,6 +1107,8 @@ const Sidebar = () => {
     }`}
     ref={el => (sidebarRefs.current['/list_notifications'] = el)}
      data-path="/list_notifications"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Notifications" : ""}
   >
     <i className="fa fa-bell nav-icon"></i>
     {!isCollapsed && "  Notifications"}
@@ -978,6 +1125,8 @@ const Sidebar = () => {
     }`}
     ref={el => (sidebarRefs.current['/list_meetings'] = el)}
      data-path="/list_meetings"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Meetings" : ""}
   >
     <i className="fa fa-video nav-icon"></i> 
     {!isCollapsed && " Meetings"}
@@ -993,6 +1142,8 @@ const Sidebar = () => {
         : ""
     }`}
     data-path="/list_training"
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Training Material" : ""}
     ref={el => (sidebarRefs.current['/list_training'] = el)}
   >
     <i className="fa fa-book nav-icon"></i> 
@@ -1009,6 +1160,8 @@ const Sidebar = () => {
         : ""
     }`}
     data-path="/list_chat"
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Chat" : ""}
     ref={el => (sidebarRefs.current['/list_chat'] = el)}
   >
     <i className="fa fa-comments nav-icon"></i> 
@@ -1025,6 +1178,8 @@ const Sidebar = () => {
         : ""
     }`}
     data-path="/list_email"
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Email" : ""}
     ref={el => (sidebarRefs.current['/list_email'] = el)}
   >
     <i className="fa fa-envelope nav-icon"></i>
@@ -1043,6 +1198,8 @@ const Sidebar = () => {
       "/view_promotions",
     ].includes(currentPath) ? "active" : ""}`}
      data-path="/list_promotions"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Promotions" : ""}
      ref={el => (sidebarRefs.current['/list_promotions'] = el)}
   >
     <i className="fa fa-bullhorn nav-icon"></i>
@@ -1060,6 +1217,8 @@ const Sidebar = () => {
       "/view_events",
     ].includes(currentPath) ? "active" : ""}`}
      data-path="/list_events"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Events" : ""}
      ref={el => (sidebarRefs.current['/list_events'] = el)}
   >
     <i className="fa fa-calendar nav-icon"></i>
@@ -1077,6 +1236,8 @@ const Sidebar = () => {
       "/view_blog",
     ].includes(currentPath) ? "active" : ""}`}
      data-path="/list_blog"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Blogs" : ""}
      ref={el => (sidebarRefs.current['/list_blog'] = el)}
   >
     <i className="fa fa-blog nav-icon"></i> 
@@ -1093,6 +1254,8 @@ const Sidebar = () => {
       "/view_testimonials",
     ].includes(currentPath) ? "active" : ""}`}
      data-path="/list_testimonials"
+     data-bs-toggle="tooltip"
+     title={isCollapsed ? "Testimonials" : ""}
      ref={el => (sidebarRefs.current['/list_testimonials'] = el)}
   >
     <i className="fa fa-quote-right nav-icon"></i> 
@@ -1109,6 +1272,8 @@ const Sidebar = () => {
       "/view_Admin",
     ].includes(currentPath) ? "active" : ""}`}
     data-path="/list_admin"
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? " Admin" : ""}
     ref={el => (sidebarRefs.current['/list_admin'] = el)}
   >
     <i className="fa fa-user-shield nav-icon"></i>
@@ -1132,7 +1297,16 @@ const Sidebar = () => {
     }}
     onClick={() => toggleDropdown("elt")}
   >
-    <div>
+    <div   
+     style={{
+      display: "-webkit-box",          // For older Safari versions
+      display: "-ms-flexbox",          // For IE10
+      display: "flex",                 // Modern browsers
+      alignItems: "center",            // Vertical alignment
+      justifyContent: "space-between"  // Space between elements
+    }}
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "ELT" : ""}>
       <i className="fa fa-book nav-icon"></i>
       
       {!isCollapsed && " ELT"}
@@ -1157,6 +1331,8 @@ const Sidebar = () => {
             "/view_bookings",
           ].includes(currentPath) ? "active" : ""}`}
           data-path="/list_bookings"
+          data-bs-toggle="tooltip"
+          title={isCollapsed ? "Booking" : ""}
           ref={el => (sidebarRefs.current['/list_bookings'] = el)}
         >
           <i className="fa fa-calendar-check nav-icon"></i> 
@@ -1172,6 +1348,8 @@ const Sidebar = () => {
             "/view_class_schedule",
           ].includes(currentPath) ? "active" : ""}`}
           data-path="/list_class_schedule"
+          data-bs-toggle="tooltip"
+          title={isCollapsed ? "Class Schedule" : ""}
           ref={el => (sidebarRefs.current['/list_class_schedule'] = el)}
         >
           <i className="fa fa-calendar nav-icon"></i>
@@ -1207,7 +1385,10 @@ const Sidebar = () => {
       display: "flex",                 // Modern browsers
       alignItems: "center",            // Vertical alignment
       justifyContent: "space-between"  // Space between elements
-    }}>
+    }}
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Settings" : ""}
+    >
       <i className="fa fa-cog fa-spin nav-icon"></i>
      
       {!isCollapsed && "  Settings"}
@@ -1241,7 +1422,16 @@ const Sidebar = () => {
           role="button"
           aria-label="Global Settings"
         >
-          <div>
+          <div  
+           style={{
+            display: "-webkit-box",          // For older Safari versions
+            display: "-ms-flexbox",          // For IE10
+            display: "flex",                 // Modern browsers
+            alignItems: "center",            // Vertical alignment
+            justifyContent: "space-between"  // Space between elements
+          }}
+           data-bs-toggle="tooltip"
+    title={isCollapsed ? "Global Setting" : ""}>
             <i className="fa fa-globe nav-icon"></i>  {!isCollapsed && " Global Settings"}
           </div>
           <i
@@ -1268,6 +1458,8 @@ const Sidebar = () => {
                   "/view_GlobalEmail",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/list_GlobalEmail"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Email" : ""}
                 ref={el => (sidebarRefs.current['/list_GlobalEmail'] = el)}
               >
                 <i className="fa fa-envelope nav-icon"></i>  {!isCollapsed && " Email"}
@@ -1280,6 +1472,8 @@ const Sidebar = () => {
                   "/global_settings",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/global_settings"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Country" : ""}
                 ref={el => (sidebarRefs.current['/global_settings'] = el)}
               >
                 <i className="fa fa-globe nav-icon"></i>  {!isCollapsed && " Country"}
@@ -1292,6 +1486,8 @@ const Sidebar = () => {
                   "/currency_settings",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/currency_settings"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Currency" : ""}
                 ref={el => (sidebarRefs.current['/currency_settings'] = el)}
               >
                 <i className="fa fa-money-bill-wave nav-icon"></i>  {!isCollapsed && " Currency"}
@@ -1304,6 +1500,8 @@ const Sidebar = () => {
                   "/status",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/status"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Status" : ""}
                 ref={el => (sidebarRefs.current['/status'] = el)}
               >
                 <i className="fa fa-clipboard-list nav-icon"></i>  {!isCollapsed && " Status"}
@@ -1316,6 +1514,8 @@ const Sidebar = () => {
                   "/intake",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/intake"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Intake" : ""}
                 ref={el => (sidebarRefs.current['/intake'] = el)}
               >
                 <i className="fa fa-calendar-alt nav-icon"></i>   {!isCollapsed && " Intake"}
@@ -1328,6 +1528,8 @@ const Sidebar = () => {
                   "/year_setting",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/year_setting"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Year" : ""}
                 ref={el => (sidebarRefs.current['/year_setting'] = el)}
               >
                 <i className="fa fa-calendar nav-icon"></i>   {!isCollapsed && " Year"}
@@ -1355,6 +1557,8 @@ const Sidebar = () => {
                   "/view_GlobalPrivileges",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/list_GlobalPrivileges"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Privileges" : ""}
                 ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
               >
                 <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && " Privileges"}
@@ -1368,6 +1572,8 @@ const Sidebar = () => {
                  
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/global_settingsDashboard"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Dashboard" : ""}
                 ref={el => (sidebarRefs.current['/global_settingsDashboard'] = el)}
               >
                 <i className="fa fa-tachometer-alt nav-icon"></i>  {!isCollapsed && " Dashboard "}
@@ -1396,7 +1602,16 @@ const Sidebar = () => {
           role="button"
           aria-label="Module"
         >
-          <div>
+          <div 
+           style={{
+            display: "-webkit-box",          // For older Safari versions
+            display: "-ms-flexbox",          // For IE10
+            display: "flex",                 // Modern browsers
+            alignItems: "center",            // Vertical alignment
+            justifyContent: "space-between"  // Space between elements
+          }}
+            data-bs-toggle="tooltip"
+    title={isCollapsed ? "Module" : ""}>
             <i className="fa fa-cogs nav-icon"></i>   {!isCollapsed && " Module"}
           </div>
           <i
@@ -1420,6 +1635,8 @@ const Sidebar = () => {
                   "/university_settings",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/university_settings"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "University" : ""}
                 ref={el => (sidebarRefs.current['/university_settings'] = el)}
               >
                 <i className="fa fa-university nav-icon"></i>   {!isCollapsed && " University"}
@@ -1432,6 +1649,8 @@ const Sidebar = () => {
                   "/course_type",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/course_type"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Course Type" : ""}
                 ref={el => (sidebarRefs.current['/course_type'] = el)}
               >
                 <i className="fa fa-book nav-icon"></i>   {!isCollapsed && " Course Type"}
@@ -1444,6 +1663,8 @@ const Sidebar = () => {
                   "/application_status",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/application_status"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Application Status" : ""}
                 ref={el => (sidebarRefs.current['/application_status'] = el)}
               >
                 <i className="fa fa-book nav-icon"></i>  {!isCollapsed && "  Application Status"}
@@ -1459,6 +1680,8 @@ const Sidebar = () => {
                   "/view_ModuleEmail",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/list_ModuleEmail"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Email" : ""}
                 ref={el => (sidebarRefs.current['/list_ModuleEmail'] = el)}
               >
                 <i className="fa fa-envelope nav-icon"></i>   {!isCollapsed && " Email"}
@@ -1472,6 +1695,8 @@ const Sidebar = () => {
                   "/client_module",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/client_module"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Client" : ""}
                 ref={el => (sidebarRefs.current['/client_module'] = el)}
               >
                 <i className="fa fa-user nav-icon"></i> {!isCollapsed && "  Client "}
@@ -1487,6 +1712,8 @@ const Sidebar = () => {
                   "/view_CustomModule",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/list_CustomModule"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Custom Module" : ""}
                 ref={el => (sidebarRefs.current['/list_CustomModule'] = el)}
               >
                 <i className="fa fa-cogs nav-icon"></i>   {!isCollapsed && " Custom Module"}
@@ -1515,7 +1742,16 @@ const Sidebar = () => {
           role="button"
           aria-label="Privileges"
         >
-          <div>
+          <div  
+           style={{
+            display: "-webkit-box",          // For older Safari versions
+            display: "-ms-flexbox",          // For IE10
+            display: "flex",                 // Modern browsers
+            alignItems: "center",            // Vertical alignment
+            justifyContent: "space-between"  // Space between elements
+          }}
+           data-bs-toggle="tooltip"
+    title={isCollapsed ? "Privileges" : ""}>
             <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && "Privileges"}
           </div>
           <i
@@ -1542,6 +1778,8 @@ const Sidebar = () => {
                   "/view_GlobalPrivileges",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/list_GlobalPrivileges"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Global Privileges" : ""}
                 ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
               >
                 <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && " Global Privileges"}
@@ -1557,6 +1795,8 @@ const Sidebar = () => {
                   "/view_ModulePrivileges",
                 ].includes(currentPath) ? "active" : ""}`}
                 data-path="/list_ModulePrivileges"
+                data-bs-toggle="tooltip"
+                title={isCollapsed ? "Module Privileges" : ""}
                 ref={el => (sidebarRefs.current['/list_ModulePrivileges'] = el)}
               >
                 <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && " Module Privileges"}
@@ -1592,7 +1832,9 @@ const Sidebar = () => {
       display: "flex",                 // Modern browsers
       alignItems: "center",            // Vertical alignment
       justifyContent: "space-between"  // Space between elements
-    }}>
+    }}
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Reports" : ""}>
       <i className="fa fa-file-alt nav-icon"></i>
       {!isCollapsed && "   Reports"}
     </div>
@@ -1620,6 +1862,8 @@ const Sidebar = () => {
               : ""
           }`}
           data-path="/list_GlobalPrivileges"
+          data-bs-toggle="tooltip"
+          title={isCollapsed ? "Employee" : ""}
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-tie nav-icon"></i>   {!isCollapsed && " Employee"}
@@ -1639,6 +1883,8 @@ const Sidebar = () => {
               : ""
           }`}
           data-path="/list_GlobalPrivileges"
+          data-bs-toggle="tooltip"
+          title={isCollapsed ? "Agent" : ""}
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-secret nav-icon"></i>  {!isCollapsed && " Agent "}
@@ -1658,6 +1904,8 @@ const Sidebar = () => {
               : ""
           }`}
           data-path="/list_GlobalPrivileges"
+          data-bs-toggle="tooltip"
+          title={isCollapsed ? "Students" : ""}
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-graduate nav-icon"></i>   {!isCollapsed && " Students"}
@@ -1677,6 +1925,8 @@ const Sidebar = () => {
               : ""
           }`}
           data-path="/list_GlobalPrivileges"
+          data-bs-toggle="tooltip"
+          title={isCollapsed ? "Branch" : ""}
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
           <i className="fa fa-sitemap nav-icon"></i>   {!isCollapsed && " Branch"}
@@ -1696,6 +1946,8 @@ const Sidebar = () => {
               : ""
           }`}
           data-path="/list_GlobalPrivileges"
+          data-bs-toggle="tooltip"
+          title={isCollapsed ? "Admin" : ""}
           ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
         >
           <i className="fa fa-user-shield nav-icon"></i>   {!isCollapsed && "Admin"}
@@ -1711,6 +1963,8 @@ const Sidebar = () => {
     className="nav-link sidebar_link"
     onClick={logout}
     style={{ cursor: "pointer" }}
+    data-bs-toggle="tooltip"
+    title={isCollapsed ? "Log Out" : ""}
   >
     <i className="fa fa-flag nav-icon" aria-hidden="true" />
     {!isCollapsed && "   Log Out"}

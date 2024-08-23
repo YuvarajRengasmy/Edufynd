@@ -15,6 +15,8 @@ import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
+import Flags from "react-world-flags";
+import { getallCode } from "../../api/settings/dailcode";
 function AddAgent() {
   const initialState = {
     typeOfClient: "",
@@ -33,6 +35,7 @@ function AddAgent() {
     emailID: "",
     whatsAppNumber: "",
   };
+
   const initialStateErrors = {
     typeOfClient: { required: false },
     businessName: { required: false },
@@ -61,9 +64,16 @@ function AddAgent() {
   const [countries, setCountries] = useState([]);
   const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
+ // Add state for dial code
+
+const [dial, setDial] = useState([]);
+const [selectedDialCode, setSelectedDialCode] = useState("+91");
+
 
   useEffect(() => {
     getAllClientDetails();
+    getallCodeList();
   }, []);
 
   const getAllClientDetails = () => {
@@ -76,90 +86,56 @@ function AddAgent() {
         console.log(err);
       });
   };
+
   const navigate = useNavigate();
+
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-    if (data.typeOfClient === "") {
-      error.typeOfClient.required = true;
-    }
+    if (data.typeOfClient === "") error.typeOfClient.required = true;
+    if (data.businessName === "") error.businessName.required = true;
+    if (data.businessMailID === "") error.businessMailID.required = true;
+    if (data.businessContactNo === "") error.businessContactNo.required = true;
+    if (data.website === "") error.website.required = true;
+    if (data.addressLine1 === "") error.addressLine1.required = true;
+    if (data.name === "") error.name.required = true;
+    if (data.contactNo === "") error.contactNo.required = true;
+    if (data.emailID === "") error.emailID.required = true;
+    if (data.addressLine2 === "") error.addressLine2.required = true;
+    if (data.addressLine3 === "") error.addressLine3.required = true;
+    if (data.whatsAppNumber === "") error.whatsAppNumber.required = true;
 
-    if (data.businessName === "") {
-      error.businessName.required = true;
-    }
+    if (!isValidEmail(data.emailID)) error.emailID.valid = true;
+    if (!isValidPhone(data.contactNo)) error.contactNo.valid = true;
+    if (!isValidEmail(data.businessMailID)) error.businessMailID.valid = true;
+    if (!isValidPhone(data.businessContactNo)) error.businessContactNo.valid = true;
+    if (!isValidPhone(data.whatsAppNumber)) error.whatsAppNumber.valid = true;
+    if (!isValidWebsite(data.website)) error.website.valid = true;
+    if (!isValidName(data.businessName)) error.businessName.valid = true;
+    if (!isValidName(data.name)) error.name.valid = true;
+    if (!isValidPinCode(data.addressLine3)) error.addressLine3.valid = true;
 
-    if (data.businessMailID === "") {
-      error.businessMailID.required = true;
-    }
-    if (data.businessContactNo === "") {
-      error.businessContactNo.required = true;
-    }
-    if (data.website === "") {
-      error.website.required = true;
-    }
-    if (data.addressLine1 === "") {
-      error.addressLine1.required = true;
-    }
-    if (data.name === "") {
-      error.name.required = true;
-    }
-    if (data.contactNo === "") {
-      error.contactNo.required = true;
-    }
-    if (data.emailID === "") {
-      error.emailID.required = true;
-    }
-    if (data.addressLine2 === "") {
-      error.addressLine2.required = true;
-    }
-    if (data.addressLine3 === "") {
-      error.addressLine3.required = true;
-    }
-    if (data.whatsAppNumber === "") {
-      error.whatsAppNumber.required = true;
-    }
-
-    if (!isValidEmail(data.emailID)) {
-      error.emailID.valid = true;
-    }
-    if (!isValidPhone(data.contactNo)) {
-      error.contactNo.valid = true;
-    }
-    if (!isValidEmail(data.businessMailID)) {
-      error.businessMailID.valid = true;
-    }
-    if (!isValidPhone(data.businessContactNo)) {
-      error.businessContactNo.valid = true;
-    }
-    if (!isValidPhone(data.whatsAppNumber)) {
-      error.whatsAppNumber.valid = true;
-    }
-    if (!isValidWebsite(data.website)) {
-      error.website.valid = true;
-    }
-    if (!isValidName(data.businessName)) {
-      error.businessName.valid = true;
-    }
-    if (!isValidName(data.name)) {
-      error.name.valid = true;
-    }
-    if (!isValidPinCode(data.addressLine3)) {
-      error.addressLine3.valid = true;
-    }
     return error;
   };
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
     const updatedClient = { ...client, [name]: value };
-
+  
+    if (name === "businessContactNo") {
+      if (copyToWhatsApp) {
+        updatedClient.whatsAppNumber =   value; // Use selectedDialCode for WhatsApp number
+      }
+    }
+  
     setClient(updatedClient);
-
+  
     if (submitted) {
       const newError = handleValidation(updatedClient);
       setErrors(newError);
     }
   };
+  
 
   const getCountryRegionInstance = () => {
     return new CountryRegion();
@@ -181,6 +157,19 @@ function AddAgent() {
     };
     getCountries();
   }, []);
+
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  
+
 
   useEffect(() => {
     const getStates = async () => {
@@ -222,21 +211,40 @@ function AddAgent() {
 
   const handleCountryChange = (selectedOption) => {
     setCountry(selectedOption.value);
-
     setState("");
     setStates([]);
     setLGA("");
     setLGAs([]);
   };
+
   const handleStateChange = (selectedOptions) => {
     setState(selectedOptions.value);
-    // setSelectedLGAs([]);
     setLGA("");
     setLGAs([]);
   };
+
   const handleLGAChange = (selectedOptions) => {
     setLGA(selectedOptions.value);
   };
+
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setClient((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: `${prevClient.businessContactNo}`,
+      }));
+    } else {
+      setClient((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: "",
+      }));
+    }
+  };
+  
+  
+  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -265,7 +273,7 @@ function AddAgent() {
       saveClient(updatedClient)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListClient");
+          navigate("/list_client");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -290,6 +298,13 @@ function AddAgent() {
       },
     }),
   };
+
+  const handleDialCodeChange = (event) => {
+    setSelectedDialCode(event.target.value);
+  };
+  
+  
+  
   return (
     <>
       <Sidebar />
@@ -302,7 +317,7 @@ function AddAgent() {
           <div className="container ">
             <div className="row">
               <div className="col-xl-12 ">
-                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                   <div
                     className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                     style={{ background: "#fe5722", color: "#fff" }}
@@ -327,7 +342,7 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className="form-select form-select-lg rounded-1 "
+                              className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
                               name="typeOfClient"
                             >
                               <option value={""}>Select Client Type</option>
@@ -338,68 +353,78 @@ function AddAgent() {
                                 </option>
                               ))}
                             </select>
-                            {errors.typeOfClient.required ? (
+                            {errors.typeOfClient.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) : null}
+                            )}
                           </div>
                         </div>
+
+                   
+
+ 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            {" "}
-                            Business Name
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            name="businessName"
-                            onChange={handleInputs}
-                            className="form-control rounded-1  "
-                            placeholder="Example John Doe"
-                          />
-                          {errors.businessName.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                          {errors.businessName.valid && (
-                            <div className="text-danger form-text">
-                              Name should contain only letters.
-                            </div>
-                          )}
-                        </div>
+  <label style={{ color: "#231F20" }}>
+    Business Name
+    <span className="text-danger">*</span>
+  </label>
+  <input
+    type="text"
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+    name="businessName"
+    onChange={handleInputs}
+    className={`form-control rounded-1 ${
+      errors.businessName.required ? 'is-invalid' : errors.businessName.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example John Doe"
+    onKeyDown={(e) => {
+      // Prevent default behavior for disallowed keys
+ if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+   e.preventDefault();
+ }
+}}
+  />
+  {errors.businessName.required && (
+    <div className="text-danger form-text profile_error">
+      This field is required.
+    </div>
+  )}
+</div>
+
+
+                      
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Business Website
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control rounded-1 "
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            placeholder="Example www.edufynd.com"
-                            name="website"
-                            onChange={handleInputs}
-                          />
-                          {errors.website.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                          {errors.website.valid && (
-                            <div className="text-danger form-text">
-                              Enter a valid Website URL.
-                            </div>
-                          )}
-                        </div>
+  <label style={{ color: "#231F20" }}>
+    Business Website
+    <span className="text-danger">*</span>
+  </label>
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
+    }`}
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+    placeholder="Example www.edufynd.com"
+    name="website"
+    onChange={handleInputs}
+  />
+  {errors.website.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+ 
+</div>
+
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}
@@ -408,7 +433,9 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className="form-control rounded-1 "
+                            className={`form-control rounded-1 ${
+                              errors.businessMailID.required ? 'is-invalid' : errors.businessMailID.valid ? 'is-valid' : ''
+                            }`}
                             placeholder="Example john123@gmail.com"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -417,69 +444,131 @@ function AddAgent() {
                             name="businessMailID"
                             onChange={handleInputs}
                           />
-                          {errors.businessMailID.required ? (
+                          {errors.businessMailID.required  &&(
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.businessMailID.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Email Id.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
+                      
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Business Primary Number{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="number"
-                            className="form-control rounded-1"
-                            placeholder="Example 123-456-7890 "
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            name="businessContactNo"
-                            onChange={handleInputs}
-                          />
-                          {errors.businessContactNo.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : errors.businessContactNo.valid ? (
-                            <span className="text-danger form-text profile_error">
-                              Enter valid mobile number.
-                            </span>
-                          ) : null}
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Business WhatsApp Number
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="number"
-                            className="form-control rounded-1"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            placeholder="Example 123-456-7890"
-                            name="whatsAppNumber"
-                            onChange={handleInputs}
-                          />
-                          {errors.whatsAppNumber.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                          {errors.whatsAppNumber.valid && (
-                            <div className="text-danger form-text">
-                              Enter a valid WhatsApp Number.
-                            </div>
-                          )}
-                        </div>
+  <label style={{ color: "#231F20" }}>
+    Business Primary Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  value={selectedDialCode}
+  onChange={handleDialCodeChange} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.businessContactNo.required ? 'is-invalid' : errors.businessContactNo.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="businessContactNo"
+      value={client.businessContactNo}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChange}
+      />
+     
+    </div>
+  </div>
+  {errors.businessContactNo.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+    Business WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={selectedDialCode}
+  onChange={handleDialCodeChange}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="whatsAppNumber"
+    value={client.whatsAppNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.whatsAppNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
+
+
+        
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -487,7 +576,9 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className="form-control rounded-1 "
+                            className={`form-control rounded-1 ${
+                              errors.name.required? 'is-invalid' : errors.name.valid ? 'is-valid' : ''
+                            }`}
                             placeholder="Example Jane Doe"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -495,17 +586,19 @@ function AddAgent() {
                             }}
                             name="name"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.name.required && (
-                            <span className="text-danger form-text profile_error">
+                            <div className="text-danger form-text profile_error">
                               This field is required.
-                            </span>
-                          )}
-                          {errors.name.valid && (
-                            <div className="text-danger form-text">
-                              Name should contain only letters.
                             </div>
                           )}
+                         
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -514,7 +607,9 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className="form-control rounded-1 "
+                            className={`form-control rounded-1 ${
+                              errors.emailID.required  ? 'is-invalid' : errors.emailID.valid ? 'is-valid' : ''
+                            }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -523,15 +618,11 @@ function AddAgent() {
                             name="emailID"
                             onChange={handleInputs}
                           />
-                          {errors.emailID.required ? (
+                          {errors.emailID.required &&(
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.emailID.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Email Id.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -539,8 +630,10 @@ function AddAgent() {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            type="number"
-                            className="form-control rounded-1 "
+                            type="text"
+                            className={`form-control rounded-1 ${
+                              errors.contactNo.required ? 'is-invalid' : errors.contactNo.valid ? 'is-valid' : ''
+                            }`}
                             placeholder="Example 123-456-7890"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -548,16 +641,17 @@ function AddAgent() {
                             }}
                             name="contactNo"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
-                          {errors.contactNo.required ? (
+                          {errors.contactNo.required && (
                             <span className="text-danger form-text profile_error">
                               This field is required.
                             </span>
-                          ) : errors.contactNo.valid ? (
-                            <span className="text-danger form-text profile_error">
-                              Enter valid mobile number.
-                            </span>
-                          ) : null}
+                          ) }
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -567,7 +661,9 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className="form-control rounded-1"
+                            className={`form-control rounded-1 ${
+                              errors.addressLine1.required ? 'is-invalid' : ''
+                            }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -589,7 +685,9 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className="form-control rounded-1 "
+                            className={`form-control rounded-1 ${
+                              errors.addressLine2.required ? 'is-invalid' :  ''
+                            }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -610,7 +708,9 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className="form-control rounded-1 "
+                            className={`form-control rounded-1 ${
+                              errors.addressLine3.required? 'is-invalid' : errors.addressLine3.valid ? 'is-valid' : ''
+                            }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -619,15 +719,11 @@ function AddAgent() {
                             name="addressLine3"
                             onChange={handleInputs}
                           />
-                          {errors.addressLine3.required ? (
+                          {errors.addressLine3.required && (
                             <span className="text-danger form-text profile_error">
                               This field is required.
                             </span>
-                          ) : errors.addressLine3.valid ? (
-                            <span className="text-danger form-text profile_error">
-                              Enter valid Pincode.
-                            </span>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -698,7 +794,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            to="/ListClient"
+                            to="/list_client"
                             className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                           >
                             Cancel

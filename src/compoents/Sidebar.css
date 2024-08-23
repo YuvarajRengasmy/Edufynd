@@ -107,9 +107,10 @@
   margin-left: 10px !important; /* Space between icon and text */
 }
 
-.main-sidebar.collapsed .rotate-icon {
+.main-sidebar.collapsed  .fa-angle-right {
   display: none !important; /* Hide icon in collapsed state */
 }
+
 /* Toggle button for collapsing the sidebar */
 .sidebar-toggle {
   position: absolute !important;
