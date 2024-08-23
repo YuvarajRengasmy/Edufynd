@@ -190,9 +190,7 @@ export const AddStaff = () => {
     if (!isValidName(data.empName)) {
       error.empName.valid = true;
     }
-    if (!isValidNumber(data.doj)) {
-      error.doj.valid = true;
-    }
+   
    
     if (!isValidDob(data.dob)) {
       error.dob.valid = true;
@@ -277,6 +275,9 @@ export const AddStaff = () => {
           toast.error(err?.response?.data?.message);
         });
     }
+    else {
+      toast.error("Please fill mandatory fields");
+    }
   };
   const staffOption = staffs.map((data) => ({
     value: data.empName,
@@ -300,9 +301,9 @@ export const AddStaff = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-xl-12 ">
-                      <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                      <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                         <div
-                          className="card-header mt-3 border-0 rounded-1 position-absolute top-0 start-0"
+                          className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                           style={{ background: "#fe5722", color: "#fff" }}
                         >
                           <h5 className="text-center text-capitalize p-1">
@@ -818,12 +819,18 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.country.required ? 'is-invalid' : errors.country.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example India"
                                 name="country"
                                 onChange={handleInputs}
                               />
+                              {errors.country.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                              
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -837,12 +844,17 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.state.required ? 'is-invalid' : errors.state.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example Tamil Nadu"
                                 name="state"
                                 onChange={handleInputs}
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -856,12 +868,17 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.city.required ? 'is-invalid' : errors.city.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example Chennai"
                                 name="city"
                                 onChange={handleInputs}
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -869,7 +886,7 @@ export const AddStaff = () => {
                                 ID Card <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select form-select-lg rounded-2"
+                                className={`form-select form-select-lg rounded-2 ${errors.idCard.required ? 'in-valid':''}`}
                                 onChange={handleInputs}
                                 name="idCard"
                                 style={{
@@ -882,18 +899,18 @@ export const AddStaff = () => {
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                               </select>
-                              {errors.idCard.required ? (
+                              {errors.idCard.required && (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                active <span className="text-danger">*</span>
+                                Active <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select form-select-lg rounded-2"
+                                 className={`form-select form-select-lg rounded-2 ${errors.active.required ? 'is-invalid ':''}`}
                                 onChange={handleInputs}
                                 name="active"
                                 style={{
@@ -902,7 +919,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                               >
-                                <option value="">Select active Type</option>
+                                <option value="">Select Active Type</option>
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
                               </select>
@@ -931,11 +948,11 @@ export const AddStaff = () => {
                                 name="privileges"
                                 onChange={handleInputs}
                               />
-                              {errors.privileges.required ? (
+                              {errors.privileges.required && (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -946,7 +963,10 @@ export const AddStaff = () => {
                               <select
                                 name="companyAssests"
                                 onChange={handleInputs}
-                                className="form-select form-select-lg rounded-2"
+                                className={`form-select form-select-lg rounded-1 ${
+                                  errors.companyAssests.required ? 'is-invalid' : errors.companyAssests.valid ? 'is-valid' : ''
+                                }`}
+                                
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -960,11 +980,11 @@ export const AddStaff = () => {
                                 <option value="companyAssests">Yes</option>
                                 <option value="no">No</option>
                               </select>
-                              {errors.companyAssests.required ? (
+                              {errors.companyAssests.required && (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             {staff.companyAssests === "companyAssests" && (
                               <>
@@ -976,7 +996,9 @@ export const AddStaff = () => {
                                   <select
                                     name="laptopName"
                                     onChange={handleInputs}
-                                    className="form-select form-select-lg rounded-2"
+                                    className={`form-select form-select-lg rounded-1 ${
+                                      errors.laptopName.required ? 'is-invalid' : errors.laptopName.valid ? 'is-valid' : ''
+                                    }`}
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
@@ -990,6 +1012,11 @@ export const AddStaff = () => {
                                     <option value="labtopAssets">Yes</option>
                                     <option value="no">No</option>
                                   </select>
+                                   {errors.laptopName.required && (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) }
                                 </div>
                                 {staff.laptopName === "labtopAssets" && (
                                   <div className="row g-3">
@@ -1001,7 +1028,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.brand.required ? 'is-invalid' : errors.brand.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example Apple"
                                         style={{
@@ -1012,6 +1039,11 @@ export const AddStaff = () => {
                                         name="brand"
                                         onChange={handleInputs}
                                       />
+                                       {errors.brand.required && (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) }
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
@@ -1021,7 +1053,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.modelName.required ? 'is-invalid' : errors.modelName.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example MacBook Air"
                                         style={{
@@ -1042,7 +1074,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.ipAddress.required ? 'is-invalid' : errors.ipAddress.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example IPv4 192.168.1.1 "
                                         style={{
@@ -1062,7 +1094,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.userName.required ? 'is-invalid' : errors.userName.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example Afynd01"
                                         style={{
@@ -1082,7 +1114,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.loginPassword.required ? 'is-invalid' : errors.loginPassword.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example G7$kL!8mQz@1wXp^"
                                         style={{
@@ -1104,8 +1136,11 @@ export const AddStaff = () => {
                                   </label>
                                   <select
                                     name="mobileName"
+                                    className={`form-select form-select-lg rounded-1 ${
+                                      errors.mobileName.required ? 'is-invalid' : errors.mobileName.valid ? 'is-valid' : ''
+                                    }`}
                                     onChange={handleInputs}
-                                    className="form-select form-select-lg rounded-2"
+                                   
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
@@ -1130,7 +1165,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.brandName.required ? 'is-invalid' : errors.brandName.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example  Samsung"
                                         style={{
@@ -1150,7 +1185,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.imei.required ? 'is-invalid' : errors.imei.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example 356938035643209"
                                         style={{
@@ -1170,7 +1205,7 @@ export const AddStaff = () => {
                                       <input
                                         type="number"
                                          className={`form-control rounded-1 ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.phoneNumber.required ? 'is-invalid' : errors.phoneNumber.valid ? 'is-valid' : ''
                                 }`}
                                         placeholder="Example 123-456-789"
                                         style={{
