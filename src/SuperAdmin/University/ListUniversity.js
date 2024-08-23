@@ -780,7 +780,11 @@ const chartRef = useRef(null);
                             {" ,"}
                             {campus?.lga?.length > 0
                               ? campus.lga
-                              : "Not Available"}
+                              : "Not Available"}{" ,"}
+                              {campus?.isPrimary !== true
+  ? campus.isPrimary ? "Primary" : "Secondary"
+  : "Not Available"}
+
                           </div>
                         ))}
                       </td>
@@ -940,63 +944,7 @@ const chartRef = useRef(null);
             </form>
           </DialogContent>
         </Dialog>
-        {/* <div className="modal fade" id="addCountryModal" tabIndex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true" ref={modalRef}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h6 className="modal-title" id="addCountryModalLabel">{isEdit }</h6>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="mb-3">
-                  <label htmlFor="intakeName" className="form-label">Intake Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="intakeName"
-                    name="intakeName"
-                    value={inputs.intakeName}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.intakeName.required && (
-                    <span className="text-danger">Intake Name is required</span>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="startDate" className="form-label">Start Date</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="startDate"
-                    name="startDate"
-                    value={inputs.startDate}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.startDate.required && (
-                    <span className="text-danger">Start Date is required</span>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="endDate" className="form-label">End Date</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="endDate"
-                    name="endDate"
-                    value={inputs.endDate}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.endDate.required && (
-                    <span className="text-danger">End Date is required</span>
-                  )}
-                </div>
-                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> */}
+       
       </div>
     </>
   );

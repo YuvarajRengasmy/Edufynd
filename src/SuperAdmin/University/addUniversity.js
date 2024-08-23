@@ -50,6 +50,7 @@ const App = () => {
         lga: "",
         states: [],
         lgas: [],
+        isPrimary:""
       },
     ],
   };
@@ -423,7 +424,13 @@ const App = () => {
   }));
 
  
-  
+   const handlePrimaryChange = (index) => {
+    const updatedCampuses = university.campuses.map((campus, i) => ({
+      ...campus,
+      isPrimary: i === index
+    }));
+    setUniversity({ campuses: updatedCampuses });
+  };
   
   const customStyles = {
     control: (provided) => ({
@@ -740,6 +747,17 @@ const App = () => {
                                     </div>
                                   )}
                                 </div>
+                                <div className="col-xl-12 my-3">
+            <label>
+              <input
+                type="checkbox"
+                checked={campus.isPrimary}
+                onChange={() => handlePrimaryChange(index)}
+                disabled={university.campuses.filter(c => c.isPrimary).length > 0 && !campus.isPrimary}
+              />
+              Set as Primary
+            </label>
+          </div>
 
                                 {index > 0 && (
                                   <div className="col-xl-12 my-3 ">
