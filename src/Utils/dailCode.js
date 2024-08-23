@@ -1,5 +1,8 @@
 // CountryData.js
-export const countries = [
+
+
+export const countries =()=>
+   [
     { name: 'Afghanistan', code: 'AF', dialCode: '+93', flag: '🇦🇫' },
     { name: 'Albania', code: 'AL', dialCode: '+355', flag: '🇦🇱' },
     { name: 'Algeria', code: 'DZ', dialCode: '+213', flag: '🇩🇿' },

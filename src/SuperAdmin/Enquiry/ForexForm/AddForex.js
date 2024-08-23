@@ -10,7 +10,7 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { getallUniversity } from "../../../api/university";
-import { getallCurrency } from "../../../api/currency";
+import { getallCode } from "../../../api/settings/dailcode";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveForexEnquiry } from "../../../api/Enquiry/Forex";
@@ -82,18 +82,29 @@ export const AddForex = () => {
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setStudents] = useState([]);
+  const [dial, setDial] = useState([]);
 
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllUniversityList();
+    getallCodeList();
   }, []);
 
   const getAllUniversityList = () => {
     getallUniversity()
       .then((res) => {
         setUniversity(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -619,21 +630,50 @@ export const AddForex = () => {
                     </div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div className="input-group">
                       <label className="form-label" for="inputPrimaryNo">
                         Primary Number<span className="text-danger">*</span>
                       </label>
-                      <input
-                        className="form-control rounded-2"
-                        name="primaryNumber"
-                        onChange={handleInputs}
-                        id="inputPrimaryNo"
-                        type="text"
-                        placeholder="Enter Primary Number"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                      />
+
+                      <div className="input-group mb-3">
+  <select className="form-select-sm" style={{ maxWidth: '100px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }} >
+    <option value="+91" selected>+91</option>
+    {dial?.map((item) => (
+  <option value={item?.dialCode} key={item?.dialCode}>
+    {item?.dialCode} - {item?.name} - 
+    {item?.flag && (
+      <Flags
+        code={item?.flag}
+        className="me-2"
+        style={{ width: "40px", height: "30px" }}
+      />
+    )}
+  </option>
+))}
+
+   
+  </select>
+  <input
+    className="form-control"
+    name="primaryNumber"
+    onChange={handleInputs}
+    id="inputPrimaryNo"
+    type="text"
+    aria-label="Text input with dropdown button"
+    placeholder="Enter Primary Number"
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+  />
+</div>
+
+                    
+                     
+                     
+                      </div>
+                     
+                    
                       {errors.primaryNumber.required ? (
                         <div className="text-danger form-text">
                           This field is required.
