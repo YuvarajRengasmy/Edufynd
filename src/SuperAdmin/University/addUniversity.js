@@ -757,7 +757,7 @@ const App = () => {
                                     </div>
                                   )}
                                 </div>
-                                <div className="col-xl-12 my-3">
+                                <div className="col mt-5">
             <label>
               <input
                 type="checkbox"
@@ -766,7 +766,7 @@ const App = () => {
                 // onChange={(e) => handlePrimaryChange(e, index)}
                  disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
               />
-              Set as Primary
+              <span className="ms-2 text-success">Primary Campus</span> 
             </label>
           </div>
 

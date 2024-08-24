@@ -53,6 +53,7 @@ function Profile() {
         lga: "",
         states: [],
         lgas: [],
+        primary:""
       },
     ],
   };
@@ -327,6 +328,16 @@ function Profile() {
     }));
   };
 
+
+  const handlePrimaryChange = (index) => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      campuses: prevState.campuses.map((campus, i) =>
+        i === index ? { ...campus, primary: !campus.primary } : campus
+      ),
+    }));
+   
+  };
   const addCampus = () => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -759,6 +770,19 @@ function Profile() {
                                   </div>
                                 )}
                               </div>
+                              <div className="col mt-5">
+            <label>
+              <input
+                type="checkbox"
+                value={campus?.primary}
+                checked={campus.primary}
+                 onChange={() => handlePrimaryChange(index)}
+                // onChange={(e) => handlePrimaryChange(e, index)}
+                 disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
+              />
+              <span className="ms-2 text-success">Primary Campus</span> 
+            </label>
+          </div>
 
                               {index > 0 && (
                                 <div className="col-xl-12 my-3 ">
