@@ -183,10 +183,39 @@ export const AddStaff = () => {
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
     }
-    if (data.comapnyAssessts === "") {
-      error.comapnyAssessts.required = true;
-    }
 
+    if (data.mobileName === "") {
+      error.mobileName.required = true;
+    }
+    if (data.loginPassword === "") {
+      error.loginPassword.required = true;
+    }
+    if (data.userName === "") {
+      error.userName.required = true;
+    }
+    if (data.ipAddress === "") {
+      error.ipAddress.required = true;
+    }
+    if (data.modelName === "") {
+      error.modelName.required = true;
+    }
+    if (data.brand === "") {
+      error.brand.required = true;
+    }
+    if (data.laptopName === "") {
+      error.laptopName.required = true;
+    }
+    if (data. phoneNumber === "") {
+      error. phoneNumber.required = true;
+    }
+    if (data.imei === "") {
+      error.imei.required = true;
+    }
+    if (data.brandName === "") {
+      error.brandName.required = true;
+    }
+   
+  
 
     if (data.mobileNumber === "") {
       error.mobileNumber.required = true;
@@ -300,7 +329,7 @@ export const AddStaff = () => {
         });
     }
     else {
-      toast.error("Please fill mandatory fields");
+      toast.error("Please Fill Staff Mandatory Fields");
     }
   };
   const staffOption = staffs.map((data) => ({
@@ -789,14 +818,15 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
+                                className={`form-control rounded-1 ${
+                                  errors.address2.required ? 'is-invalid' : ''
+                                }`}
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                 className={`form-control rounded-1 ${
-                                  errors.address2.required ? 'is-invalid' : ''
-                                }`}
+                                
                                 placeholder="Example Alwartirunagar, Chennai"
                                 name="address2"
                                 onChange={handleInputs}
@@ -931,7 +961,7 @@ export const AddStaff = () => {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Active <span className="text-danger">*</span>
+                                Status <span className="text-danger">*</span>
                               </label>
                               <select
                                  className={`form-select form-select-lg rounded-1 ${errors.active.required ? 'is-invalid ':''}`}
