@@ -50,7 +50,7 @@ const App = () => {
         lga: "",
         states: [],
         lgas: [],
-        isPrimary:""
+        primary:""
       },
     ],
   };
@@ -243,6 +243,7 @@ const App = () => {
         state: "",
         lga: "",
         lgas: [],
+       
       })),
     }));
     fetchStates(selectedCountry.value);
@@ -268,7 +269,16 @@ const App = () => {
       ),
     }));
   };
-
+  const handlePrimaryChange = (index) => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      campuses: prevState.campuses.map((campus, i) =>
+        i === index ? { ...campus, primary: !campus.primary } : campus
+      ),
+    }));
+   
+  };
+  
   const addCampus = () => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -424,14 +434,7 @@ const App = () => {
   }));
 
  
-   const handlePrimaryChange = (index) => {
-    const updatedCampuses = university.campuses.map((campus, i) => ({
-      ...campus,
-      isPrimary: i === index
-    }));
-    setUniversity({ campuses: updatedCampuses });
-  };
-  
+ 
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -751,9 +754,10 @@ const App = () => {
             <label>
               <input
                 type="checkbox"
-                checked={campus.isPrimary}
-                onChange={() => handlePrimaryChange(index)}
-                disabled={university.campuses.filter(c => c.isPrimary).length > 0 && !campus.isPrimary}
+                checked={campus.primary}
+                 onChange={() => handlePrimaryChange(index)}
+                // onChange={(e) => handlePrimaryChange(e, index)}
+                 disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
               />
               Set as Primary
             </label>

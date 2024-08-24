@@ -777,13 +777,11 @@ const chartRef = useRef(null);
                             {campus?.state?.length > 0
                               ? campus.state
                               : "Not Available"}
-                            {" ,"}
+                            {"---"}
                             {campus?.lga?.length > 0
                               ? campus.lga
-                              : "Not Available"}{" ,"}
-                              {campus?.isPrimary !== true
-  ? campus.isPrimary ? "Primary" : "Secondary"
-  : "Not Available"}
+                              : "Not Available"}{"---"}
+                             {campus?.primary === "true" ? campus.primary ? <i className="fas fa-check text-primary">Primary Campus</i> : "Secondary Campus": "Secondary Campus"}
 
                           </div>
                         ))}
