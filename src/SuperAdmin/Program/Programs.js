@@ -406,7 +406,7 @@ useEffect(() => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
        <div className="content-header bg-light shadow-sm sticky-top">
-  <div className="container">
+  <div className="container-fluid">
     <div className="row">
       <div className="col-xl-12">
         <ol className="d-flex justify-content-end align-items-center list-unstyled mb-0">
@@ -575,7 +575,7 @@ useEffect(() => {
   </div>
 </div>
 
-<div className="container mt-3">
+<div className="container-fluid mt-3">
       <div className="row g-4">
         {/* Total Number of Programs Card */}
         <div className="col-md-3">
@@ -627,7 +627,7 @@ useEffect(() => {
       </div>
     </div>
 
-          <div className="container">
+          <div className="container-fluid">
   <div className="row">
     <div className="col-xl-12">
       <div className="card rounded-1 shadow-sm border-0 ">

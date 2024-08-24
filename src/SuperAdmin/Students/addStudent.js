@@ -15,6 +15,8 @@ import { MdCameraAlt } from "react-icons/md";
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
+
+    
   const initialState = {
     source: "",
     name: "",
@@ -118,115 +120,115 @@ const getStudentDetails = () => {
             console.log(err);
         });
 };
-  const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (data.source === "") {
-      error.source.required = true;
-    }
-    if (data.name === "") {
-      error.name.required = true;
-    }
-    if (data.passportNo === "") {
-      error.passportNo.required = true;
-    }
-    if (data.expiryDate === "") {
-      error.expiryDate.required = true;
-    }
-    if (data.citizenship === "") {
-      error.citizenship.required = true;
-    }
-    if (data.dob === "") {
-      error.dob.required = true;
-    }
-    if (data.gender === "") {
-      error.gender.required = true;
-    }
-    if (data.email === "") {
-      error.email.required = true;
-    }
-    if (data.primaryNumber === "") {
-      error.primaryNumber.required = true;
-    }
-    if (data.whatsAppNumber === "") {
-      error.whatsAppNumber.required = true;
-    }
-    if (data.highestQualification === "") {
-      error.highestQualification.required = true;
-    }
-    if (data.degreeName === "") {
-      error.degreeName.required = true;
-    }
-    if (data.academicYear === "") {
-      error.academicYear.required = true;
-    }
-    if (data.yearPassed === "") {
-      error.yearPassed.required = true;
-    }
-    if (data.institution === "") {
-      error.institution.required = true;
-    }
-    if (data.percentage === "") {
-      error.percentage.required = true;
-    }
-    if (data.doHaveAnyEnglishLanguageTest === "") {
-      error.doHaveAnyEnglishLanguageTest.required = true;
-    }
-    if (data.desiredCountry === "") {
-      error.desiredCountry.required = true;
-    }
-    if (data.desiredUniversity === "") {
-      error.desiredUniversity.required = true;
-    }
-    if (data.desiredCourse === "") {
-      error.desiredCourse.required = true;
-    }
-    if (data.workExperience === "") {
-      error.workExperience.required = true;
-    }
-    if (data.anyVisaRejections === "") {
-      error.anyVisaRejections.required = true;
-    }
-    if (data.doYouHaveTravelHistory === "") {
-      error.doYouHaveTravelHistory.required = true;
-    }
-    if (data.finance === "") {
-      error.finance.required = true;
-    }
-   
-    if (!isValidPassportNumber(data.passportNo)) {
-      error.passportNo.valid = true;
-    }
-    if (!isValidPhone(data.primaryNumber)) {
-      error.primaryNumber.valid = true;
-    }
-    if (!isValidPhone(data.whatsAppNumber)) {
-      error.whatsAppNumber.valid = true;
-    }
-    if (!isValidDob(data.dob)) {
-      error.dob.valid = true;
-    }
+const handleValidation = (data) => {
+  let error = initialStateErrors;
+  if (data.source === "") {
+    error.source.required = true;
+  }
+  if (data.name === "") {
+    error.name.required = true;
+  }
+  if (data.passportNo === "") {
+    error.passportNo.required = true;
+  }
+  if (data.expiryDate === "") {
+    error.expiryDate.required = true;
+  }
+  if (data.citizenship === "") {
+    error.citizenship.required = true;
+  }
+  if (data.dob === "") {
+    error.dob.required = true;
+  }
+  if (data.gender === "") {
+    error.gender.required = true;
+  }
+  if (data.email === "") {
+    error.email.required = true;
+  }
+  if (data.primaryNumber === "") {
+    error.primaryNumber.required = true;
+  }
+  if (data.whatsAppNumber === "") {
+    error.whatsAppNumber.required = true;
+  }
+  if (data.highestQualification === "") {
+    error.highestQualification.required = true;
+  }
+  if (data.degreeName === "") {
+    error.degreeName.required = true;
+  }
+  if (data.academicYear === "") {
+    error.academicYear.required = true;
+  }
+  if (data.yearPassed === "") {
+    error.yearPassed.required = true;
+  }
+  if (data.institution === "") {
+    error.institution.required = true;
+  }
+  if (data.percentage === "") {
+    error.percentage.required = true;
+  }
+  if (data.doHaveAnyEnglishLanguageTest === "") {
+    error.doHaveAnyEnglishLanguageTest.required = true;
+  }
+  if (data.desiredCountry === "") {
+    error.desiredCountry.required = true;
+  }
+  if (data.desiredUniversity === "") {
+    error.desiredUniversity.required = true;
+  }
+  if (data.desiredCourse === "") {
+    error.desiredCourse.required = true;
+  }
+  if (data.workExperience === "") {
+    error.workExperience.required = true;
+  }
+  if (data.anyVisaRejections === "") {
+    error.anyVisaRejections.required = true;
+  }
+  if (data.doYouHaveTravelHistory === "") {
+    error.doYouHaveTravelHistory.required = true;
+  }
+  if (data.finance === "") {
+    error.finance.required = true;
+  }
+ 
+  if (!isValidPassportNumber(data.passportNo)) {
+    error.passportNo.valid = true;
+  }
+  if (!isValidPhone(data.primaryNumber)) {
+    error.primaryNumber.valid = true;
+  }
+  if (!isValidPhone(data.whatsAppNumber)) {
+    error.whatsAppNumber.valid = true;
+  }
+  if (!isValidDob(data.dob)) {
+    error.dob.valid = true;
+  }
 
-    if (!isValidEmail(data.email)) {
-      error.email.valid = true;
-    }
-    if (!isValidName(data.name)) {
-      error.name.valid = true;
-    }
-    if (!isValidName(data.institution)) {
-      error.institution.valid = true;
-    }
-    if (!isValidName(data.degreeName)) {
-      error.degreeName.valid = true;
-    }
-    if (!isValidName(data.highestQualification)) {
-      error.highestQualification.valid = true;
-    }
-    if (!isValidNo(data.percentage)) {
-      error.percentage.valid = true;
-    }
+  if (!isValidEmail(data.email)) {
+    error.email.valid = true;
+  }
+  if (!isValidName(data.name)) {
+    error.name.valid = true;
+  }
+  if (!isValidName(data.institution)) {
+    error.institution.valid = true;
+  }
+  if (!isValidName(data.degreeName)) {
+    error.degreeName.valid = true;
+  }
+  if (!isValidName(data.highestQualification)) {
+    error.highestQualification.valid = true;
+  }
+  if (!isValidNo(data.percentage)) {
+    error.percentage.valid = true;
+  }
 
-    return error;
-  };
+  return error;
+};
 
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
@@ -451,15 +453,11 @@ const getStudentDetails = () => {
                                 name="dob"
                                 onChange={handleInputs}
                               />
-                              {errors.dob.required ? (
+                              {errors.dob.required && (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              ) : errors.dob.valid ? (
-                                <span className="text-danger form-text profile_error">
-                                  Enter 15 Year eligible Student Apply
-                                </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -771,15 +769,18 @@ const getStudentDetails = () => {
                                 </span>
                               ) : null}
                             </div>
-                            <div className="d-inline text-end">
-                            <button class="btn fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style={{color:'#fff',background:'#231f20'}}>
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;  Work Experience
-  </button>
+                         
+
+                            <div
+                              className="card-header border-0 rounded-0 "
+                              style={{ background: "#fe5722", color: "#fff" }}
+                            >
+                              <h6 className="text-start text-capitalize pt-1">
+                                Work Experience
+                              </h6>
                             </div>
                             
 
-<div class="collapse" id="collapseExample">
-  <div class="work">
   <div className="row g-3">
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
@@ -1263,8 +1264,7 @@ const getStudentDetails = () => {
                               ) : null}
                             </div>
   </div>
-</div>
-</div>
+
                            
 
                             

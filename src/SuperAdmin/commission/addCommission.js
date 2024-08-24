@@ -208,6 +208,8 @@ function AddCommission() {
       years: updatedYears,
     });
   };
+
+  
   const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
     const updatedYears = [...years];
     if (courseTypeIndex !== null) {
@@ -348,11 +350,11 @@ function AddCommission() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-          <div className="container">
+          <div className="container-fluid">
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-xl-12">
-                  <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
+                  <div className="card border-0 rounded-1 shadow-sm p-3 position-relative">
                     <div
                       className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                       style={{ background: "#fe5722", color: "#fff" }}
@@ -368,7 +370,7 @@ function AddCommission() {
                             Country<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select  form-select-lg  rounded-2"
+                           class={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
                             name="country"
                             value={commission.country}
                             onChange={handleCountryChange}
@@ -396,7 +398,7 @@ function AddCommission() {
                             University<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                           class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
                             name="universityName"
                             value={commission.universityName}
                             onChange={handleInputs}
@@ -467,7 +469,7 @@ function AddCommission() {
                             Payment Method<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                          class={`form-select form-select-lg rounded-1 ${errors.paymentMethod.required ? 'is-invalid' : ''}`}
                             name="paymentMethod"
                             onChange={handleInputs}
                             style={{
@@ -521,7 +523,7 @@ function AddCommission() {
                           <input
                             type="text"
                             value={commission?.eligibility}
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.eligibility.required ? 'is-invalid' : errors.eligibility.valid ? 'is-valid' : '' }`}
                             placeholder="Enter Eligibility"
                             name="eligibility"
                             onChange={handleInputs}
@@ -542,7 +544,7 @@ function AddCommission() {
                             Tax<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2 rounded-2 p-2 "
+                        class={`form-select form-select-lg rounded-1 ${errors.tax.required ? 'is-invalid' : ''}`}
                             name="tax"
                             onChange={handleInputs}
                             style={{
@@ -575,7 +577,7 @@ function AddCommission() {
                           <input
                             type="text"
                             value={commission?.clientName}
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.clientName.required ? 'is-invalid' : errors.clientName.valid ? 'is-valid' : '' }`}
                             placeholder="Enter Client Name"
                             name="clientName"
                             onChange={handleInputs}
@@ -624,7 +626,7 @@ function AddCommission() {
                             Payment Type<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                           className={`form-control rounded-1 ${errors.paymentType.required ? 'is-invalid' : errors.paymentType.valid ? 'is-valid' : '' }`}
                             value={commission?.paymentType}
                             aria-label="Default select example"
                             name="paymentType"
@@ -829,7 +831,7 @@ function AddCommission() {
                                           </div>
                                         )
                                       )}
-                                    <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto">
+                                    <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
                                       <button
                                         type="button"
                                         className="btn text-uppercase px-4 py-2 fw-semibold  text-white "
@@ -853,8 +855,8 @@ function AddCommission() {
                             ))}
                           </div>
                         </div>
-                        <div className="row g-3">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto">
+                        <div className="row g-3 ">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
                             <button
                               type="button"
                               className="btn px-4 py-2 text-uppercase fw-semibold  text-white "

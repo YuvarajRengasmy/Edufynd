@@ -301,11 +301,11 @@ export default function Masterproductlist() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
       <div className="content-header bg-light shadow-sm sticky-top">
-  <div className="container">
+  <div className="container-fluid">
     <div className="row">
       <div className="col-xl-12">
-        <ol className="d-flex flex-row justify-content-end align-items-center list-unstyled mb-0">
-          <li className="flex-grow-1">
+        <ol className="d-flex flex-row flex-wrap  justify-content-end justify-content-sm-evenly align-items-center list-unstyled mb-0">
+          <li className="flex-grow-1 d-none d-md-block">
             <div className="input-group" style={{ maxWidth: "600px" }}>
               <input
                 type="search"
@@ -460,7 +460,7 @@ export default function Masterproductlist() {
 </div>
 
         
-        <div className="container mt-3">
+        <div className="container-fluid mt-3">
   <div className="row">
     <div className="col-xl-12">
       <div className="card rounded-1 shadow-sm border-0">
