@@ -353,8 +353,9 @@ const App = () => {
     if (data.offerTAT === "") error.offerTAT.required = true;
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
+    if (data. ranking === "") error. ranking.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-
+   
     // Add your validation functions here
     if (!isValidName(data.universityName)) error.universityName.valid = true;
     if (!isValidYear(data.founded)) error.founded.valid = true;
@@ -413,6 +414,8 @@ const App = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    }else {
+      toast.error("Please Fill University Details");
     }
   };
 
@@ -578,7 +581,7 @@ const App = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className="form-select rounded-1 form-select-lg  "
+                              className={`form-select form-select-lg rounded-1 ${errors.businessName.required ? 'is-invalid':''}`}
                               name="businessName"
                               placeholder="Select Client"
                             >
@@ -592,11 +595,11 @@ const App = () => {
                                 </option>
                               ))}
                             </select>
-                            {errors.businessName.required ? (
+                            {errors.businessName.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) : null}
+                            ) }
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -604,7 +607,7 @@ const App = () => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-1"
+                              className={`form-select form-select-lg rounded-1 ${errors.institutionType.required  ? 'is-invalid':''}`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -625,11 +628,11 @@ const App = () => {
                                 </option>
                               ))}
                             </select>
-                            {errors.institutionType.required ? (
+                            {errors.institutionType.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) : null}
+                            )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -639,7 +642,9 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                                className={`form-control rounded-1 ${
+                                  errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''
+    }`}
                               placeholder="Enter University Name"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -647,17 +652,19 @@ const App = () => {
                               }}
                               name="universityName"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.universityName.required && (
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
                             )}
-                            {errors.universityName.valid && (
-                              <div className="text-danger form-text">
-                                Name should contain only letters.
-                              </div>
-                            )}
+                           
                           </div>
 
        
@@ -789,7 +796,9 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                                className={`form-control rounded-1 ${
+      errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
+    }`}
                               placeholder="Example johndoe123@gmail.com"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -798,15 +807,11 @@ const App = () => {
                               name="email"
                               onChange={handleInputs}
                             />
-                            {errors.email.required ? (
+                            {errors.email.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) : errors.email.valid ? (
-                              <div className="text-danger form-text">
-                                Enter valid Email Id.
-                              </div>
-                            ) : null}
+                            ) }
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -815,7 +820,9 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                                className={`form-control rounded-1 ${
+      errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
+    }`}
                               placeholder="Example www.edufynd.com"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -829,11 +836,7 @@ const App = () => {
                                 This field is required.
                               </span>
                             )}
-                            {errors.website.valid && (
-                              <div className="text-danger form-text">
-                                Enter a valid Website URL.
-                              </div>
-                            )}
+                            
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -864,8 +867,10 @@ const App = () => {
                               Found Year <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="number"
-                              className="form-control"
+                              type="text"
+                              className={`form-control rounded-1 ${
+      errors.founded.required ? 'is-invalid' : errors.founded.valid ? 'is-valid' : ''
+    }`}
                               placeholder="Example 1947"
                               name="founded"
                               style={{
@@ -873,23 +878,26 @@ const App = () => {
                                 fontSize: "12px",
                               }}
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.founded.required && (
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
                             )}
-                            {errors.founded.valid && (
-                              <div className="text-danger form-text">
-                                Enter a valid Number Only.
-                              </div>
-                            )}
+                            
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>Ranking</label>
                             <input
                               type="text"
-                              className="form-control "
+                                className={`form-control rounded-1 ${
+      errors.ranking.required ? 'is-invalid' : errors.ranking.valid ? 'is-valid' : ''
+    }`}
                               placeholder="Example 7th Ranking "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -897,7 +905,19 @@ const App = () => {
                               }}
                               name="ranking"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                     // Prevent default behavior for disallowed keys
+                                if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight','Space'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
+                              
                             />
+                             {errors.ranking.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) }
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -931,7 +951,9 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control"
+                              className={`form-control rounded-1 ${
+      errors.averageFees.required ? 'is-invalid' : errors.averageFees.valid ? 'is-valid' : ''
+    }`}
                               placeholder="Example 2500 "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -939,17 +961,18 @@ const App = () => {
                               }}
                               name="averageFees"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.averageFees.required && (
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
                             )}
-                            {errors.averageFees.valid && (
-                              <div className="text-danger form-text">
-                                Enter a valid Number Only.
-                              </div>
-                            )}
+                           
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -981,7 +1004,7 @@ const App = () => {
                               Offer TAT<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-2"
+                              className={`form-select form-select-lg rounded-1 ${errors.offerTAT.required ? 'is-invalid':''}`}
                               name="offerTAT"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -998,11 +1021,11 @@ const App = () => {
                                 </option>
                               ))}
                             </select>
-                            {errors.offerTAT.required ? (
+                            {errors.offerTAT.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) : null}
+                            ) }
                           </div>
 
                          

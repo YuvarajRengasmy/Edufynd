@@ -61,3 +61,23 @@ input[type="range"]:focus {
 } */
 
 
+/* .react-select-container {
+  border: 1px solid transparent !important;
+  border-radius: 4px !important; 
+}
+
+.react-select__control {
+  border: none !important; 
+}
+
+.react-select__control--is-focused {
+  border-color: transparent !important;  
+}
+
+.react-select__control--is-invalid {
+  border-color: red !important; 
+}
+
+.react-select__control--is-valid {
+  border-color: green !important; 
+} */

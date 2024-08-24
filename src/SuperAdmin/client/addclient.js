@@ -15,7 +15,8 @@ import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
-
+import Flags from "react-world-flags";
+import { getallCode } from "../../api/settings/dailcode";
 function AddAgent() {
   const initialState = {
     typeOfClient: "",
@@ -64,9 +65,15 @@ function AddAgent() {
   const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
+ // Add state for dial code
+
+const [dial, setDial] = useState([]);
+const [selectedDialCode, setSelectedDialCode] = useState("+91");
+
 
   useEffect(() => {
     getAllClientDetails();
+    getallCodeList();
   }, []);
 
   const getAllClientDetails = () => {
@@ -114,19 +121,21 @@ function AddAgent() {
   const handleInputs = (event) => {
     const { name, value } = event.target;
     const updatedClient = { ...client, [name]: value };
-
-    if (name === "businessContactNo" && copyToWhatsApp) {
-      updatedClient.whatsAppNumber = value;
+  
+    if (name === "businessContactNo") {
+      if (copyToWhatsApp) {
+        updatedClient.whatsAppNumber =   value; // Use selectedDialCode for WhatsApp number
+      }
     }
-    
-
+  
     setClient(updatedClient);
-
+  
     if (submitted) {
       const newError = handleValidation(updatedClient);
       setErrors(newError);
     }
   };
+  
 
   const getCountryRegionInstance = () => {
     return new CountryRegion();
@@ -148,6 +157,19 @@ function AddAgent() {
     };
     getCountries();
   }, []);
+
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  
+
 
   useEffect(() => {
     const getStates = async () => {
@@ -211,7 +233,7 @@ function AddAgent() {
     if (isChecked) {
       setClient((prevClient) => ({
         ...prevClient,
-        whatsAppNumber: prevClient.businessContactNo,
+        whatsAppNumber: `${prevClient.businessContactNo}`,
       }));
     } else {
       setClient((prevClient) => ({
@@ -220,6 +242,9 @@ function AddAgent() {
       }));
     }
   };
+  
+  
+  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -248,7 +273,7 @@ function AddAgent() {
       saveClient(updatedClient)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListClient");
+          navigate("/list_client");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -274,7 +299,11 @@ function AddAgent() {
     }),
   };
 
-
+  const handleDialCodeChange = (event) => {
+    setSelectedDialCode(event.target.value);
+  };
+  
+  
   
   return (
     <>
@@ -353,11 +382,11 @@ function AddAgent() {
     }`}
     placeholder="Example John Doe"
     onKeyDown={(e) => {
-      // Prevent non-letter characters
-      if (/[^a-zA-Z\s]/.test(e.key)) {
-        e.preventDefault();
-      }
-    }}
+      // Prevent default behavior for disallowed keys
+ if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+   e.preventDefault();
+ }
+}}
   />
   {errors.businessName.required && (
     <div className="text-danger form-text profile_error">
@@ -427,10 +456,32 @@ function AddAgent() {
     Business Primary Number
     <span className="text-danger">*</span>
   </label>
-  <div className="d-flex align-items-center">
-    <input
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  value={selectedDialCode}
+  onChange={handleDialCodeChange} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
       type="text"
-      className={`form-control rounded-1 ${
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
         errors.businessContactNo.required ? 'is-invalid' : errors.businessContactNo.valid ? 'is-valid' : ''
       }`}
       placeholder="Example 123-456-7890"
@@ -444,6 +495,10 @@ function AddAgent() {
         }
       }}
     />
+</div>
+
+
+    
     <div className="form-check ms-3 ">
       <input
         className="form-check-input"
@@ -467,6 +522,27 @@ function AddAgent() {
     Business WhatsApp Number
     <span className="text-danger">*</span>
   </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={selectedDialCode}
+  onChange={handleDialCodeChange}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
   <input
     type="text"
     className={`form-control rounded-1 ${
@@ -483,6 +559,7 @@ function AddAgent() {
       }
     }}
   />
+  </div>
   {errors.whatsAppNumber.required && (
     <span className="text-danger form-text profile_error">
       This field is required.
