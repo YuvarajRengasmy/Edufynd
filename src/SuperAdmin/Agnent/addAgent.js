@@ -187,19 +187,19 @@ function AddAgent() {
     if (data.staffContactNo === "") {
       error.staffContactNo.required = true;
     }
-    if (data.countryInterested === 0) {
+    if (data.countryInterested === '') {
       error.countryInterested.required = true;
     }
-    if (data.businessWebsite === 0) {
+    if (data.businessWebsite === '') {
       error.businessWebsite.required = true;
     }
     if (data.registrationNo === 0) {
       error.registrationNo.required = true;
     }
-    if (data.whatsApp === 0) {
+    if (data.whatsApp === '') {
       error.whatsApp.required = true;
     }
-    if (data.accountType === 0) {
+    if (data.accountType === '') {
       error.accountType.required = true;
     }
     if (data.swift === 0) {
@@ -283,6 +283,8 @@ function AddAgent() {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    } else {
+      toast.error("Please Fill  Mandatory Fields");
     }
   };
   const countryList = countries
@@ -374,7 +376,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example John Doe"
-                            className="form-control rounded-2"
+                            className={`form-control rounded-2 ${errors.agentName.required ? 'is-invalid' : errors.agentName.valid ?  'is-valid' : '' }`}
                             id="company"
                             style={{
                               backgroundColor: "#fff",
@@ -382,15 +384,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.agentName.required ? (
+                          {errors.agentName.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.agentName.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Letters Only.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Job" className="form-label">
@@ -399,7 +397,7 @@ function AddAgent() {
                           <input
                             name="businessName"
                             type="text"
-                            className="form-control rounded-2"
+                            className={`form-control rounded-2 ${errors.businessName.required ? 'is-invalid' : errors.businessName.valid ?  'is-valid' : '' }`}
                             onChange={handleInputs}
                             placeholder="Example Jane Doe"
                             id="Job"
@@ -409,15 +407,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.businessName.required ? (
+                          {errors.businessName.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.businessName.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Letters Only.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Job" className="form-label">
@@ -428,7 +422,7 @@ function AddAgent() {
                             name="businessWebsite"
                             type="text"
                             onChange={handleInputs}
-                            className="form-control rounded-2"
+                            className={`form-control rounded-2 ${errors.businessWebsite.required ? 'is-invalid' : errors.businessWebsite.valid ?  'is-valid' : '' }`}
                             placeholder="Example www.edufynd.com"
                             id="Job"
                             style={{
@@ -437,15 +431,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.businessWebsite.required ? (
+                          {errors.businessWebsite.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.businessWebsite.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid businessWebsite.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -455,7 +445,7 @@ function AddAgent() {
                           <input
                             name="email"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.email.required ? 'is-invalid' : errors.email.valid ?  'is-valid' : '' }`}
                             onChange={handleInputs}
                             placeholder="Example john123@gmail.com"
                             id="Address"
@@ -466,15 +456,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.email.required ? (
+                          {errors.email.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.email.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Email Id.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
@@ -483,7 +469,7 @@ function AddAgent() {
                           <input
                             name="mobileNumber"
                             type="number"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ?  'is-valid' : '' }`}
                             onChange={handleInputs}
                             placeholder="Example 123-456-789"
                             id="Email"
@@ -494,15 +480,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.mobileNumber.required ? (
+                          {errors.mobileNumber.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.mobileNumber.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid MobileNumber.
-                            </div>
-                          ) : null}
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
@@ -514,7 +496,7 @@ function AddAgent() {
                             type="number"
                             onChange={handleInputs}
                             placeholder="Example 123-456-789"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ?  'is-valid' : '' }`}
                             id="Email"
                             value={agent?.whatsAppNumber}
                             style={{
@@ -523,15 +505,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.whatsAppNumber.required ? (
+                          {errors.whatsAppNumber.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.whatsAppNumber.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid whatsAppNumber.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -543,7 +521,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example 17/3A2, Gandhi St,"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.addressLine1.required ? 'is-invalid' : errors.addressLine1.valid ?  'is-valid' : '' }`}
                             id="Country"
                             value={agent?.addressLine1}
                             style={{
@@ -568,7 +546,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example Alwartirunagar, Chennai"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.addressLine2.required ? 'is-invalid' : errors.addressLine2.valid ?  'is-valid' : '' }`}
                             id="Country"
                             value={agent?.addressLine2}
                             style={{
@@ -592,7 +570,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example 632001"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.addressLine3.required ? 'is-invalid' : errors.addressLine3.valid ?  'is-valid' : '' }`}
                             id="Country"
                             value={agent?.addressLine3}
                             style={{
@@ -609,13 +587,13 @@ function AddAgent() {
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                           <label htmlFor="Email" className="form-label">
-                            Registration No{" "}
+                            Registration No{" "} 
                           </label>
                           <input
                             name="registrationNo"
                             type="text"
                             placeholder="Example 41151904020"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.registrationNo.required ? 'is-invalid' : errors.registrationNo.valid ?  'is-valid' : '' }`}
                             id="Email"
                             style={{
                               backgroundColor: "#fff",
@@ -623,11 +601,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.registrationNo.required ? (
+                          {errors.registrationNo.required && (
                             <span className="form-text text-danger">
                               This field is required.
                             </span>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
@@ -636,7 +614,7 @@ function AddAgent() {
                           <input
                             name="gstn"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.gstn.required ? 'is-invalid' : errors.gstn.valid ?  'is-valid' : '' }`}
                             onChange={handleInputs}
                             placeholder="Example 29GGGGG1314R9Z6 "
                             id="Email"
@@ -647,15 +625,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.gstn.required ? (
+                          {errors.gstn.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.gstn.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Gstn Number.
-                            </div>
-                          ) : null}
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                           <label htmlFor="Email" className="form-label">
@@ -667,7 +641,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example ABCTY1234D"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.panNumberCompany.required ? 'is-invalid' : errors.panNumberCompany.valid ?  'is-valid' : '' }`}
                             id="Email"
                             value={agent?.panNumberCompany}
                             style={{
@@ -676,15 +650,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.panNumberCompany.required ? (
+                          {errors.panNumberCompany.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.panNumberCompany.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Pan Number.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -694,7 +664,7 @@ function AddAgent() {
                           <input
                             name="staffName"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.staffName.required ? 'is-invalid' : errors.staffName.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example Alice Smith"
@@ -705,15 +675,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.staffName.required ? (
+                          {errors.staffName.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.staffName.valid ? (
-                            <div className="text-danger form-text">
-                              Enter Letter Only.
-                            </div>
-                          ) : null}
+                          )  }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
@@ -723,7 +689,7 @@ function AddAgent() {
                           <input
                             name="staffContactNo"
                             type="number"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.staffContactNo.required ? 'is-invalid' : errors.staffContactNo.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example 123-456-789"
@@ -734,15 +700,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.staffContactNo.required ? (
+                          {errors.staffContactNo.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.staffContactNo.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Phone Number Only.
-                            </div>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
@@ -752,7 +714,7 @@ function AddAgent() {
                           <input
                             name="whatsApp"
                             type="number"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.whatsApp.required ? 'is-invalid' : errors.whatsApp.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example 123-456-789"
@@ -762,15 +724,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.whatsApp.required ? (
+                          {errors.whatsApp.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.whatsApp.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Phone Number Only.
-                            </div>
-                          ) : null}
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                           <label htmlFor="Email" className="form-label">
@@ -780,7 +738,7 @@ function AddAgent() {
                           <input
                             name="bankName"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.bankName.required ? 'is-invalid' : errors.bankName.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example Axis Bank"
@@ -791,11 +749,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.bankName.required ? (
+                          {errors.bankName.required && (
                             <span className="form-text text-danger">
                               This field is required.
                             </span>
-                          ) : null}
+                          ) }
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -805,7 +763,7 @@ function AddAgent() {
                           <input
                             name="accountName"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.accountName.required ? 'is-invalid' : errors.accountName.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example  John Smith"
@@ -816,11 +774,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.accountName.required ? (
+                          {errors.accountName.required && (
                             <span className="form-text text-danger">
                               This field is required.
                             </span>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
@@ -830,7 +788,7 @@ function AddAgent() {
                           <input
                             name="accountNumber"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.accountNumber.required ? 'is-invalid' : errors.accountNumber.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example  0112345678"
@@ -841,26 +799,21 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.accountNumber.required ? (
+                          {errors.accountNumber.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.accountNumber.valid ? (
-                            <div className="text-danger form-text">
-                              account number is numeric and has a length between
-                              9 to 18 characters
-                            </div>
-                          ) : null}
+                          )}
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
-                            Account Type
+                            Account Type  <span className="text-danger">*</span>
                           </label>
                           <input
                             name="accountType"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.accountType.required ? 'is-invalid' : errors.accountType.valid ?  'is-valid' : '' }`}
                             id="text"
                             onChange={handleInputs}
                             placeholder="Example  Personal"
@@ -871,11 +824,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.accountType.required ? (
+                          {errors.accountType.required && (
                             <span className="form-text text-danger">
                               This field is required.
                             </span>
-                          ) : null}
+                          )}
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -885,7 +838,7 @@ function AddAgent() {
                           <input
                             name="ifsc"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.ifsc.required ? 'is-invalid' : errors.ifsc.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example AT611904300234573201"
@@ -896,20 +849,20 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.ifsc.required ? (
+                          {errors.ifsc.required && (
                             <span className="form-text text-danger">
                               This field is required.
                             </span>
-                          ) : null}
+                          ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
-                            Swift
+                            Swift  
                           </label>
                           <input
-                            name="swift"
+                            name="swift "
                             type="text"
-                            className="form-control rounded-2"
+                               className='form-control rounded-2 '
                             id="text"
                             onChange={handleInputs}
                             placeholder="Example AAAA-BB-CC-123"
@@ -920,22 +873,18 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.swift.required ? (
-                            <span className="form-text text-danger">
-                              This field is required.
-                            </span>
-                          ) : null}
+                         
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
-                            Agents Commission
-                            <span className="text-danger">*</span>
+                            Agents Commission <span className="text-danger">*</span>
+                          
                           </label>
                           <input
                             name="agentsCommission"
                             type="text"
-                            className="form-control rounded-2"
+                               className={`form-control rounded-2 ${errors.agentsCommission.required ? 'is-invalid' : errors.agentsCommission.valid ?  'is-valid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example 50"
@@ -960,7 +909,7 @@ function AddAgent() {
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
-                            Country Interested
+                            Country Interested  
                           </label>
 
                           <Select
@@ -990,10 +939,10 @@ function AddAgent() {
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Email" className="form-label">
-                            Do Require Visa Filing Support{" "}
+                            Do Require Visa Filing Support{" "} 
                           </label>
                           <select
-                            class="form-select form-select-lg rounded-2"
+                            class='form-select form-select-lg rounded-2'
                             aria-label="Default select example"
                             name="requireVisaFilingSupport"
                             onChange={handleInputs}
@@ -1010,6 +959,7 @@ function AddAgent() {
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                           </select>
+                         
                           <span className="text-center  text-capitalize">
                             <small>
                               If 'Yes' 10% on commision will be charged'
