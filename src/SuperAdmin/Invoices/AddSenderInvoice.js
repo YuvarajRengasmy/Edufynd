@@ -173,7 +173,7 @@ const AddSenderInvoice = () => {
           <div className='content-wrapper' style={{ fontSize: '13px' }}>
             <form className="p-1" onSubmit={handleSubmited}>
               <div className='content-header'>
-                <div className='container card card-body p-4 border-0'>
+                <div className='container-fluid card card-body p-4 border-0'>
                   <h4 className='card-title  fw-bold'>Add Sender Invoice Details</h4>
                   <hr />
                   <div className='row g-3'>

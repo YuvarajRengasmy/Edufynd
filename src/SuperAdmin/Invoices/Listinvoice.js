@@ -113,7 +113,7 @@ export const Listinvoice = () => {
         
         <div className='content-wrapper' style={{ fontFamily: 'Plus Jakarta Sans',fontSize:'14px' }}>
         <div className="content-header  bg-light shadow-sm sticky-top">
-    <div className="container">
+    <div className="container-fluid">
       <div className="row">
       <div className='col-xl-12'  >
        
@@ -316,7 +316,7 @@ export const Listinvoice = () => {
      
     
     </div>
-    <div className="container mt-3">
+    <div className="container-fluid mt-3">
       <div className="row">
         {/* Card 1: Total Invoices Raised */}
         <div className="col-md-3 col-sm-6 mb-3">
@@ -388,7 +388,7 @@ export const Listinvoice = () => {
       </div>
     </div>
     <div className="content-body">
-            <div className="container">
+            <div className="container-fluid">
             <div className="row">
           
           <div className="col-xl-12">

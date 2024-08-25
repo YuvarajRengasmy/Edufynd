@@ -339,7 +339,7 @@ export default function Masterproductlist() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       >
        <div className="content-header bg-light shadow-sm sticky-top">
-  <div className="container">
+  <div className="container-fluid">
     <div className="row">
       <div className="col-12">
         <ul className="d-flex align-items-center justify-content-end mb-0 list-unstyled">
@@ -524,7 +524,7 @@ export default function Masterproductlist() {
 </div>
 
 
-<div className="container mt-3">
+<div className="container-fluid mt-3">
   <div className="row">
     <div className="col-md-3 col-sm-6 mb-3">
       <Link to="#" className="text-decoration-none">
@@ -597,7 +597,7 @@ export default function Masterproductlist() {
 </div>
 
 
-<div className="container mt-3">
+<div className="container-fluid mt-3">
   <div className="row">
     <div className="col-xl-12">
       <div className="card border-0 rounded-1 shadow-sm">

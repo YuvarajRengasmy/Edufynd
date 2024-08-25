@@ -362,7 +362,7 @@ function AddCommission() {
                             Country<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                          class={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
                             name="country"
                             style={{ fontSize: "12px" }}
                             value={commission.country}
@@ -389,7 +389,7 @@ function AddCommission() {
                             University<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                            class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
                             name="universityName"
                             value={commission.universityName}
                             onChange={handleInputs}
@@ -417,7 +417,7 @@ function AddCommission() {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                             class={`form-select form-select-lg rounded-1 ${errors.paymentMethod.required ? 'is-invalid' : ''}`}
                             value={commission?.paymentMethod}
                             name="paymentMethod"
                             onChange={handleInputs}
@@ -488,7 +488,7 @@ function AddCommission() {
                           <input
                             type="text"
                             value={commission?.eligibility}
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.eligibility.required ? 'is-invalid' : errors.eligibility.valid ? 'is-valid' : '' }`}
                             placeholder="Enter Eligibility"
                             name="eligibility"
                             onChange={handleInputs}
@@ -506,7 +506,7 @@ function AddCommission() {
                             Tax<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2  "
+                          class={`form-select form-select-lg rounded-1 ${errors.tax.required ? 'is-invalid' : ''}`}
                             name="tax"
                             onChange={handleInputs}
                             value={commission?.tax}
@@ -590,7 +590,7 @@ function AddCommission() {
                             Payment Type<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                            className={`form-control rounded-1 ${errors.paymentType.required ? 'is-invalid' : errors.paymentType.valid ? 'is-valid' : '' }`}
                             value={commission?.paymentType}
                             aria-label="Default select example"
                             name="paymentType"

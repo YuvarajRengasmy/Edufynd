@@ -6,7 +6,7 @@ export const ViewIncomeReport = () => {
     <Sidebar/>
     <div className='content-wrapper'style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
   <div className='content-header'>
-  <div class="container mt-4">
+  <div class="container-fluid mt-4">
         <h2 class="mb-4">Income Report</h2>
         
        

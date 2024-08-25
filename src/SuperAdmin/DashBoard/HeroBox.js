@@ -103,10 +103,10 @@ export const HeroContent = () => {
     <div >
       <Sidebar />
       <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-        <div className="container  " >
+        <div className="container-fluid  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
-              <div className="container ">
+              <div className="container-fluid ">
               <div className="d-flex justify-content-between align-items-center">
   {/* Container for the header and profile button */}
   <div>
@@ -513,7 +513,7 @@ export const HeroContent = () => {
 
 
               {/* Top Cards Row */}
-              <div className="container">
+              <div className="container-fluid">
                 <div className="row">
                   <div className="col-lg-3 col-md-6 ">
                     <div className="card text-white rounded-1 border-0 shadow-sm bg-primary">
@@ -586,7 +586,7 @@ export const HeroContent = () => {
 
 
               {/* Charts Row */}
-              <div className="container ">
+              <div className="container-fluid ">
                 <div className="row">
                   {/* Sales Overview Card */}
                   <div className="col-lg-6 ">
@@ -641,7 +641,7 @@ export const HeroContent = () => {
               </div>
 
               {/* Table Row */}
-              <div className="container ">
+              <div className="container-fluid ">
                 <div className="row">
                   {/* Recent Transactions Card */}
                   <div className="col-lg-12 ">

@@ -15,7 +15,7 @@ export const EditCampaign = () => {
     
     <div className="content-wrapper " style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
         <div className="content-header ">
-            <div className=" container ">
+            <div className=" container-fluid ">
                 <form >
                     <div className="row">            
           <div className="col-xl-12 ">
