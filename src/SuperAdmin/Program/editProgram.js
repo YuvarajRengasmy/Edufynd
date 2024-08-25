@@ -357,12 +357,13 @@ function Profile() {
 
 
                       <div className="row gx-4 gy-3">
+                      <div className="row gx-4 gy-3">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Country<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                            className={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
                             name="country"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -396,13 +397,14 @@ function Profile() {
                             </span>
                           ) : null}
                         </div>
+                        </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             University<span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                             class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -601,7 +603,7 @@ function Profile() {
                           </label>
                           <input
                             type="text"
-                            className="form-control "
+                            className={`form-control rounded-1 ${errors.programTitle.required ? 'is-invalid' : errors.programTitle.valid ? 'is-valid' : '' }`}
                             placeholder="Example M.Sc "
                             value={program.programTitle}
                             style={{
@@ -626,7 +628,7 @@ function Profile() {
                           </label>
                           <input
                             type="number"
-                            className="form-control "
+                            className={`form-control rounded-1 ${errors.applicationFee.required ? 'is-invalid' : errors.applicationFee.valid ? 'is-valid' : '' }`}
                             value={program.applicationFee}
                             style={{
                               backgroundColor: "#fff",
@@ -692,7 +694,7 @@ function Profile() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="form-control"
+                            className={`form-control rounded-1 ${errors.discountedValue.required ? 'is-invalid' : errors.discountedValue.valid ? 'is-valid' : '' }`}
                             placeholder="Example 25"
                             name="discountedValue"
                             onChange={handleInputs}
@@ -953,7 +955,7 @@ function Profile() {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                            class={`form-select form-select-lg rounded-1 ${errors.universityInterview.required ? 'is-invalid' : ''}`}
                             value={program?.universityInterview}
                             name="universityInterview"
                             style={{

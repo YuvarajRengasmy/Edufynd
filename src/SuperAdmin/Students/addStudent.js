@@ -15,6 +15,8 @@ import { MdCameraAlt } from "react-icons/md";
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
+
+    
   const initialState = {
     source: "",
     name: "",
@@ -118,115 +120,115 @@ const getStudentDetails = () => {
             console.log(err);
         });
 };
-  const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (data.source === "") {
-      error.source.required = true;
-    }
-    if (data.name === "") {
-      error.name.required = true;
-    }
-    if (data.passportNo === "") {
-      error.passportNo.required = true;
-    }
-    if (data.expiryDate === "") {
-      error.expiryDate.required = true;
-    }
-    if (data.citizenship === "") {
-      error.citizenship.required = true;
-    }
-    if (data.dob === "") {
-      error.dob.required = true;
-    }
-    if (data.gender === "") {
-      error.gender.required = true;
-    }
-    if (data.email === "") {
-      error.email.required = true;
-    }
-    if (data.primaryNumber === "") {
-      error.primaryNumber.required = true;
-    }
-    if (data.whatsAppNumber === "") {
-      error.whatsAppNumber.required = true;
-    }
-    if (data.highestQualification === "") {
-      error.highestQualification.required = true;
-    }
-    if (data.degreeName === "") {
-      error.degreeName.required = true;
-    }
-    if (data.academicYear === "") {
-      error.academicYear.required = true;
-    }
-    if (data.yearPassed === "") {
-      error.yearPassed.required = true;
-    }
-    if (data.institution === "") {
-      error.institution.required = true;
-    }
-    if (data.percentage === "") {
-      error.percentage.required = true;
-    }
-    if (data.doHaveAnyEnglishLanguageTest === "") {
-      error.doHaveAnyEnglishLanguageTest.required = true;
-    }
-    if (data.desiredCountry === "") {
-      error.desiredCountry.required = true;
-    }
-    if (data.desiredUniversity === "") {
-      error.desiredUniversity.required = true;
-    }
-    if (data.desiredCourse === "") {
-      error.desiredCourse.required = true;
-    }
-    if (data.workExperience === "") {
-      error.workExperience.required = true;
-    }
-    // if (data.anyVisaRejections === "") {
-    //   error.anyVisaRejections.required = true;
-    // }
-    if (data.doYouHaveTravelHistory === "") {
-      error.doYouHaveTravelHistory.required = true;
-    }
-    if (data.finance === "") {
-      error.finance.required = true;
-    }
-   
-    if (!isValidPassportNumber(data.passportNo)) {
-      error.passportNo.valid = true;
-    }
-    if (!isValidPhone(data.primaryNumber)) {
-      error.primaryNumber.valid = true;
-    }
-    if (!isValidPhone(data.whatsAppNumber)) {
-      error.whatsAppNumber.valid = true;
-    }
-    if (!isValidDob(data.dob)) {
-      error.dob.valid = true;
-    }
+const handleValidation = (data) => {
+  let error = initialStateErrors;
+  if (data.source === "") {
+    error.source.required = true;
+  }
+  if (data.name === "") {
+    error.name.required = true;
+  }
+  if (data.passportNo === "") {
+    error.passportNo.required = true;
+  }
+  if (data.expiryDate === "") {
+    error.expiryDate.required = true;
+  }
+  if (data.citizenship === "") {
+    error.citizenship.required = true;
+  }
+  if (data.dob === "") {
+    error.dob.required = true;
+  }
+  if (data.gender === "") {
+    error.gender.required = true;
+  }
+  if (data.email === "") {
+    error.email.required = true;
+  }
+  if (data.primaryNumber === "") {
+    error.primaryNumber.required = true;
+  }
+  if (data.whatsAppNumber === "") {
+    error.whatsAppNumber.required = true;
+  }
+  if (data.highestQualification === "") {
+    error.highestQualification.required = true;
+  }
+  if (data.degreeName === "") {
+    error.degreeName.required = true;
+  }
+  if (data.academicYear === "") {
+    error.academicYear.required = true;
+  }
+  if (data.yearPassed === "") {
+    error.yearPassed.required = true;
+  }
+  if (data.institution === "") {
+    error.institution.required = true;
+  }
+  if (data.percentage === "") {
+    error.percentage.required = true;
+  }
+  if (data.doHaveAnyEnglishLanguageTest === "") {
+    error.doHaveAnyEnglishLanguageTest.required = true;
+  }
+  if (data.desiredCountry === "") {
+    error.desiredCountry.required = true;
+  }
+  if (data.desiredUniversity === "") {
+    error.desiredUniversity.required = true;
+  }
+  if (data.desiredCourse === "") {
+    error.desiredCourse.required = true;
+  }
+  if (data.workExperience === "") {
+    error.workExperience.required = true;
+  }
+  if (data.anyVisaRejections === "") {
+    error.anyVisaRejections.required = true;
+  }
+  if (data.doYouHaveTravelHistory === "") {
+    error.doYouHaveTravelHistory.required = true;
+  }
+  if (data.finance === "") {
+    error.finance.required = true;
+  }
+ 
+  if (!isValidPassportNumber(data.passportNo)) {
+    error.passportNo.valid = true;
+  }
+  if (!isValidPhone(data.primaryNumber)) {
+    error.primaryNumber.valid = true;
+  }
+  if (!isValidPhone(data.whatsAppNumber)) {
+    error.whatsAppNumber.valid = true;
+  }
+  if (!isValidDob(data.dob)) {
+    error.dob.valid = true;
+  }
 
-    if (!isValidEmail(data.email)) {
-      error.email.valid = true;
-    }
-    if (!isValidName(data.name)) {
-      error.name.valid = true;
-    }
-    if (!isValidName(data.institution)) {
-      error.institution.valid = true;
-    }
-    if (!isValidName(data.degreeName)) {
-      error.degreeName.valid = true;
-    }
-    if (!isValidName(data.highestQualification)) {
-      error.highestQualification.valid = true;
-    }
-    if (!isValidNo(data.percentage)) {
-      error.percentage.valid = true;
-    }
+  if (!isValidEmail(data.email)) {
+    error.email.valid = true;
+  }
+  if (!isValidName(data.name)) {
+    error.name.valid = true;
+  }
+  if (!isValidName(data.institution)) {
+    error.institution.valid = true;
+  }
+  if (!isValidName(data.degreeName)) {
+    error.degreeName.valid = true;
+  }
+  if (!isValidName(data.highestQualification)) {
+    error.highestQualification.valid = true;
+  }
+  if (!isValidNo(data.percentage)) {
+    error.percentage.valid = true;
+  }
 
-    return error;
-  };
+  return error;
+};
 
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
@@ -300,14 +302,14 @@ const getStudentDetails = () => {
               <div className=" container-fluid ">
                 <div className="row ">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                          Edit Student Details
+                          Add Student Details
                         </h5>
                       </div>
                       <form onSubmit={handleSubmit}>
@@ -358,7 +360,7 @@ const getStudentDetails = () => {
                                   Source<span className="text-danger">*</span>
                                 </label>
                                 <select
-                                  class="form-select form-select-lg rounded-2"
+                                  class={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''}`}
                                   value={student?.source}
                                   aria-label="Default select example"
                                   style={{
@@ -375,11 +377,11 @@ const getStudentDetails = () => {
                                   </option>
                                   <option value="agent">Agent</option>
                                 </select>
-                                {errors.source.required ? (
+                                {errors.source.required && (
                                   <div className="text-danger form-text">
                                     This field is required.
                                   </div>
-                                ) : null}
+                                ) }
                               </div>
                             </div>
 
@@ -398,7 +400,7 @@ const getStudentDetails = () => {
                                   }}
                                   name="name"
                                   onChange={handleInputs}
-                                  className="form-control "
+                                  className={`form-control ${errors.name.required ? 'is-invalid' : errors.name.valid ? 'is-valid' : '' }`}
                                   placeholder="Example John Doe"
                                 />
                                 {errors.name.required ? (
@@ -419,7 +421,7 @@ const getStudentDetails = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.citizenship.required ? 'is-invalid' : errors.citizenship.valid ? 'is-valid' : '' }`}
                                 value={student?.citizenship}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -429,11 +431,11 @@ const getStudentDetails = () => {
                                 name="citizenship"
                                 onChange={handleInputs}
                               />
-                              {errors.citizenship.required ? (
+                              {errors.citizenship.required && (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -441,7 +443,7 @@ const getStudentDetails = () => {
                               </label>
                               <input
                                 type="date"
-                                className="form-control text-uppercase "
+                                className={`form-control ${errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : '' }`}
                                 placeholder="Enter Name"
                                 value={student?.dob}
                                 style={{
@@ -451,15 +453,11 @@ const getStudentDetails = () => {
                                 name="dob"
                                 onChange={handleInputs}
                               />
-                              {errors.dob.required ? (
+                              {errors.dob.required && (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              ) : errors.dob.valid ? (
-                                <span className="text-danger form-text profile_error">
-                                  Enter 15 Year eligible Student Apply
-                                </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -468,7 +466,7 @@ const getStudentDetails = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.passportNo.required ? 'is-invalid' : errors.passportNo.valid ? 'is-valid' : '' }`}
                                 value={student?.passportNo}
                                 placeholder="Example M12345678"
                                 style={{
@@ -496,7 +494,7 @@ const getStudentDetails = () => {
                               <input
                                 type="date"
                                 value={student?.expiryDate}
-                                className="form-control   text-uppercase"
+                                className={`form-control ${errors.expiryDate.required ? 'is-invalid' : errors.expiryDate.valid ? 'is-valid' : '' }`}
                                 placeholder="Enter Contact Number "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -519,7 +517,7 @@ const getStudentDetails = () => {
                               <select
                                 type="text"
                                 value={student?.gender}
-                                className="form-select form-select-lg rounded-2 "
+                                className={`form-select ${errors.gender.required ? 'is-invalid' : errors.gender.valid ? 'is-valid' : '' }`}
                                 placeholder="Select Gender"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -546,7 +544,7 @@ const getStudentDetails = () => {
                               <input
                                 type="text"
                                 value={student?.email}
-                                className="form-control "
+                                className={`form-control ${errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -573,7 +571,7 @@ const getStudentDetails = () => {
                               <input
                                 type="number"
                                 value={student?.primaryNumber}
-                                className="form-control "
+                                className={`form-control ${errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -600,7 +598,7 @@ const getStudentDetails = () => {
                               <input
                                 type="number"
                                 value={student?.whatsAppNumber}
-                                className="form-control "
+                                className={`form-control ${errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -627,7 +625,7 @@ const getStudentDetails = () => {
                               <input
                                 type="text"
                                 value={student?.highestQualification}
-                                className="form-control "
+                                className={`form-control ${errors.highestQualification.required ? 'is-invalid' : errors.highestQualification.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -654,7 +652,7 @@ const getStudentDetails = () => {
                               <input
                                 type="text"
                                 value={student?.degreeName}
-                                className="form-control "
+                                className={`form-control ${errors.degreeName.required ? 'is-invalid' : errors.degreeName.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -680,7 +678,7 @@ const getStudentDetails = () => {
                               <input
                                 type="number"
                                 value={student?.percentage}
-                                className="form-control "
+                                className={`form-control ${errors.percentage.required ? 'is-invalid' : errors.percentage.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -707,7 +705,7 @@ const getStudentDetails = () => {
                               <input
                                 type="text"
                                 value={student?.institution}
-                                className="form-control "
+                                className={`form-control ${errors.institution.required ? 'is-invalid' : errors.institution.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -734,7 +732,7 @@ const getStudentDetails = () => {
                               <input
                                 type="date"
                                 value={student?.academicYear}
-                                className="form-control text-uppercase"
+                                className={`form-control ${errors.academicYear.required ? 'is-invalid' : errors.academicYear.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -755,7 +753,7 @@ const getStudentDetails = () => {
                               </label>
                               <input
                                 type="date"
-                                className="form-control text-uppercase "
+                                className={`form-control ${errors.yearPassed.required ? 'is-invalid' : errors.yearPassed.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -771,6 +769,7 @@ const getStudentDetails = () => {
                                 </span>
                               ) : null}
                             </div>
+                         
 
                             <div
                               className="card-header border-0 rounded-0 "
@@ -780,8 +779,9 @@ const getStudentDetails = () => {
                                 Work Experience
                               </h6>
                             </div>
+                            
 
-                            <div className="row g-3">
+  <div className="row g-3">
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   Duration
@@ -842,7 +842,7 @@ const getStudentDetails = () => {
                                 <select
                                   type="text"
                                   value={student?.doHaveAnyEnglishLanguageTest}
-                                  className="form-select form-select-lg rounded-2 "
+                                  className={`form-select form-select-lg ${errors.doHaveAnyEnglishLanguageTest.required ? 'is-invalid' : errors.doHaveAnyEnglishLanguageTest.valid ? 'is-valid' : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -870,7 +870,7 @@ const getStudentDetails = () => {
                              
                             
                              
-                            </div>
+                           
                             {student.doHaveAnyEnglishLanguageTest ===
                               "doHaveAnyEnglishLanguageTest" && (
                               <div className="row g-3">
@@ -946,7 +946,7 @@ const getStudentDetails = () => {
                                 <select
                                   type="text"
                                   value={student?.doYouHaveTravelHistory}
-                                  className="form-select form-select-lg rounded-2"
+                                  className={`form-select form-select-lg ${errors.doYouHaveTravelHistory.required ? 'is-invalid' : errors.doYouHaveTravelHistory.valid ? 'is-valid' : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1042,7 +1042,7 @@ const getStudentDetails = () => {
                                 <select
                                   type="text"
                                   value={student?.anyVisaRejections}
-                                  className="form-select form-select-lg rounded-2"
+                                  className={`form-select form-select-lg ${errors.anyVisaRejections.required ? 'is-invalid' : errors.anyVisaRejections.valid ? 'is-valid' : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1055,6 +1055,11 @@ const getStudentDetails = () => {
                                   <option value="anyVisaRejections">Yes</option>
                                   <option value="No">No</option>
                                 </select>
+                                {errors.anyVisaRejections.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) }
 
                              
                               </div></div>
@@ -1146,7 +1151,7 @@ const getStudentDetails = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.desiredUniversity.required ? 'is-invalid' : errors.desiredUniversity.valid ? 'is-valid' : '' }`}
                                 value={student?.desiredUniversity}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -1156,11 +1161,11 @@ const getStudentDetails = () => {
                                 name="desiredUniversity"
                                 onChange={handleInputs}
                               />
-                              {errors.desiredUniversity.required ? (
+                              {errors.desiredUniversity.required && (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -1170,7 +1175,7 @@ const getStudentDetails = () => {
                               <input
                                 type="text"
                                 value={student?.desiredCountry}
-                                className="form-control "
+                                className={`form-control ${errors.desiredCountry.required ? 'is-invalid' : errors.desiredCountry.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1179,11 +1184,11 @@ const getStudentDetails = () => {
                                 name="desiredCountry"
                                 onChange={handleInputs}
                               />
-                              {errors.desiredCountry.required ? (
+                              {errors.desiredCountry.required && (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -1193,7 +1198,7 @@ const getStudentDetails = () => {
                               <input
                                 type="text"
                                 value={student?.desiredCourse}
-                                className="form-control "
+                                className={`form-control ${errors.desiredCourse.required ? 'is-invalid' : errors.desiredCourse.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1202,11 +1207,11 @@ const getStudentDetails = () => {
                                 name="desiredCourse"
                                 onChange={handleInputs}
                               />
-                              {errors.desiredCourse.required ? (
+                              {errors.desiredCourse.required && (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -1215,7 +1220,7 @@ const getStudentDetails = () => {
                               <select
                                 type="text"
                                 value={student?.finance}
-                                className="form-select form-select-lg rounded-2"
+                                className={`form-select form-select-lg ${errors.finance.required ? 'is-invalid' : errors.finance.valid ? 'is-valid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1229,11 +1234,11 @@ const getStudentDetails = () => {
                                 <option value="self">Self </option>
                               </select>
 
-                              {errors.finance.required ? (
+                              {errors.finance.required && (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                               <label style={{ color: "#231F20" }}>
@@ -1258,6 +1263,11 @@ const getStudentDetails = () => {
                                 </span>
                               ) : null}
                             </div>
+  </div>
+
+                           
+
+                            
 
                             <div className="row g-3">
                               <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

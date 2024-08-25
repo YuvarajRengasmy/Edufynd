@@ -311,6 +311,8 @@ function Profile() {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    } else{
+      toast.error("Please Fill Program Details");
     }
   };
 
@@ -326,7 +328,9 @@ function Profile() {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
           <div className="content-header ">
-            <div className=" container">
+          
+          </div>
+          <div className=" container-fluid">
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
@@ -342,12 +346,13 @@ function Profile() {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row mb-2">
+                         
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Country<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select font-weight-light"
+                              className={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
                               name="country"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -389,7 +394,7 @@ function Profile() {
                               University<span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select font-weight-light"
+                              class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "14px",
@@ -562,7 +567,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 ${errors.programTitle.required ? 'is-invalid' : errors.programTitle.valid ? 'is-valid' : '' }`}
                               placeholder="Enter Program Title "
                               style={{
                                 backgroundColor: "#fff",
@@ -586,7 +591,7 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 ${errors.applicationFee.required ? 'is-invalid' : errors.applicationFee.valid ? 'is-valid' : '' }`}
                               style={{
                                 backgroundColor: "#fff",
                                 fontFamily: "Plus Jakarta Sans",
@@ -600,12 +605,8 @@ function Profile() {
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
-                            )}
-                            {errors.applicationFee.valid && (
-                              <div className="text-danger form-text">
-                                Name should contain only letters.
-                              </div>
-                            )}
+                            ) 
+                           }
                           </div>
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
@@ -654,7 +655,7 @@ function Profile() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className="form-control"
+                              className={`form-control rounded-1 ${errors.discountedValue.required ? 'is-invalid' : errors.discountedValue.valid ? 'is-valid' : '' }`}
                               placeholder="Enter DiscountedValue"
                               name="discountedValue"
                               onChange={handleInputs}
@@ -664,14 +665,10 @@ function Profile() {
                                 This field is required.
                               </span>
                             )}
-                            {errors.discountedValue.valid && (
-                              <div className="text-danger form-text">
-                                Name should contain only letters.
-                              </div>
-                            )}
+                           
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12">
+                          <div className="col-lg-12 col-md-12 col-sm-12 text-end">
                             <div>
                               <button
                                 type="button"
@@ -951,7 +948,7 @@ function Profile() {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-2"
+                           class={`form-select form-select-lg rounded-1 ${errors.universityInterview.required ? 'is-invalid' : ''}`}
                               name="universityInterview"
                               style={{
                                 backgroundColor: "#fff",
@@ -985,8 +982,7 @@ function Profile() {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                
                                   zIndex:'0'
                                 }}
                               />
@@ -1025,7 +1021,6 @@ function Profile() {
                 </div>
               </form>
             </div>
-          </div>
         </div>
       </div>
     </>

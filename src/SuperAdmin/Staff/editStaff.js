@@ -151,13 +151,15 @@ export const AddStaff = () => {
     if (data.designation === "") {
       error.designation.required = true;
     }
-    if (data.role === "") {
+    if(data.role === "") {
       error.role.required = true;
     }
 
     if (data.reportingManager === "") {
-      error.reportingManager = true;
+      error.reportingManager.required = true;
     }
+
+
     if (data.shiftTiming === "") {
       error.shiftTiming.required = true;
     }
@@ -177,6 +179,34 @@ export const AddStaff = () => {
     if (data.address === "") {
       error.address.required = true;
     }
+    if (data.address2 === "") {
+      error.address2.required = true;
+    }
+    if (data.pin === "") {
+      error.pin.required = true;
+    }
+    if (data.country === "") {
+      error.country.required = true;
+    }
+    if (data.state === "") {
+      error.state.required = true;
+    }
+    if (data.city === "") {
+      error.city.required = true;
+    }
+    if (data.companyAssests === "") {
+      error.companyAssests.required = true;
+    }
+
+   
+   
+   
+   
+   
+   
+   
+   
+  
 
     if (data.mobileNumber === "") {
       error.mobileNumber.required = true;
@@ -201,9 +231,12 @@ export const AddStaff = () => {
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
     }
+
     if (!isValidName(data.empName)) {
       error.empName.valid = true;
     }
+   
+   
     if (!isValidDob(data.dob)) {
       error.dob.valid = true;
     }
@@ -369,7 +402,9 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control rounded-2  "
+                                className={`form-control rounded-1 ${
+                                  errors.empName.required ? 'is-invalid' : errors.empName.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example John Doe "
                                 value={staff?.empName}
                                 style={{
@@ -397,7 +432,9 @@ export const AddStaff = () => {
 
                               <input
                                 type="date"
-                                className="form-control  rounded-2  text-uppercase "
+                                className={`form-control rounded-1 text-uppercase ${
+                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Enter  DOB "
                                 value={staff?.dob}
                                 style={{
@@ -426,7 +463,9 @@ export const AddStaff = () => {
                               </label>
 
                               <select
-                            className="form-select rounded-1"
+                           className={`form-select form-select-lg rounded-1 ${
+                            errors.designation.required ? 'is-invalid' : errors.designation.valid ? 'is-valid' : ''
+                          }`}
                             style={{ fontSize: "12px" }}
                             name="designation"
                             onChange={handleInputs}
@@ -460,7 +499,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control text-uppercase rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.role.required ? 'is-invalid' : errors.role.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Enter  Role "
                                 name="role"
                                 onChange={handleInputs}
@@ -483,7 +524,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
                                 }}
-                                className="form-control text-uppercase rounded-2"
+                                className={`form-control text-uppercase rounded-1 ${
+                                  errors.doj.required ? 'is-invalid' : errors.doj.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Enter  DOJ "
                                 name="doj"
                                 onChange={handleInputs}
@@ -502,7 +545,9 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control rounded-2 "
+                                className={`form-control rounded-1 ${
+                                  errors.reportingManager.required ? 'is-invalid' : ''
+                                }`}
                                 value={staff?.reportingManager}
                                 style={{
                                   backgroundColor: "#fff",
@@ -533,7 +578,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.shiftTiming.required ? 'is-invalid' : errors.shiftTiming.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example 10.00 AM - 07.00 PM"
                                 name="shiftTiming"
                                 onChange={handleInputs}
@@ -557,7 +604,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.probationDuration.required ? 'is-invalid' : errors.probationDuration.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example 6 months"
                                 name="probationDuration"
                                 onChange={handleInputs}
@@ -577,7 +626,9 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 value={staff?.email}
-                                className="form-control rounded-2 "
+                                className={`form-control rounded-1 ${
+                                  errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example jay.j@afynd.com "
                                 style={{
                                   backgroundColor: "#fff",
@@ -606,7 +657,9 @@ export const AddStaff = () => {
                                 name="team"
                                 onChange={handleInputs}
                                 value={staff?.team}
-                                className="form-select form-select-lg"
+                                className={`form-select form-select-lg rounded-1 ${
+                                  errors.team.required ? 'is-invalid' : errors.team.valid ? 'is-valid' : ''
+                                }`}
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -668,7 +721,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.personalMail.required ? 'is-invalid' : errors.personalMail.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example johndoe123@gmail.com"
                                 onChange={handleInputs}
                               />
@@ -696,7 +751,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example 123-456-789"
                                 name="mobileNumber"
                                 onChange={handleInputs}
@@ -723,7 +780,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.emergencyContactNo.required ? 'is-invalid' : errors.emergencyContactNo.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example 123-456-789"
                                 name="emergencyContactNo"
                                 onChange={handleInputs}
@@ -751,7 +810,9 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.address.required ? 'is-invalid' :  ''
+                                }`}
                                 placeholder="Example 17/3A2, Gandhi St,"
                                 name="address"
                                 onChange={handleInputs}
@@ -774,11 +835,18 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.address2.required ? 'is-invalid' : ''
+                                }`}
                                 placeholder="Example Alwartirunagar, Chennai"
                                 name="address2"
                                 onChange={handleInputs}
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -792,11 +860,18 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.pin.required ? 'is-invalid' : errors.pin.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example 632001"
                                 name="pin"
                                 onChange={handleInputs}
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -810,11 +885,18 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.country.required ? 'is-invalid'  : ''
+                                }`}
                                 placeholder="Example Indai"
                                 name="country"
                                 onChange={handleInputs}
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -828,11 +910,18 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.state.required ? 'is-invalid'  : ''
+                                }`}
                                 placeholder="Example Tamil Nadu"
                                 name="state"
                                 onChange={handleInputs}
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -846,11 +935,18 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.city.required ? 'is-invalid'  : ''
+                                }`}
                                 placeholder="Example Chennai"
                                 name="city"
                                 onChange={handleInputs}
                               />
+                              {errors.address.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -858,7 +954,7 @@ export const AddStaff = () => {
                                 ID Card <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select form-select-lg rounded-2"
+                               className={`form-select form-select-lg rounded-2 ${errors.idCard.required ? 'is-invalid':''}`}
                                 onChange={handleInputs}
                                 value={staff?.idCard}
                                 name="idCard"
@@ -883,7 +979,7 @@ export const AddStaff = () => {
                                 Status <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select form-select-lg rounded-2"
+                                 className={`form-select form-select-lg rounded-1 ${errors.active.required ? 'is-invalid ':''}`}
                                 onChange={handleInputs}
                                 name="active"
                                 value={staff?.active}
@@ -911,7 +1007,9 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 value={staff?.privileges}
-                                className="form-control rounded-2"
+                                className={`form-control rounded-1 ${
+                                  errors.privileges.required ? 'is-invalid' : errors.privileges.valid ? 'is-valid' : ''
+                                }`}
                                 placeholder="Example Employment..."
                                 style={{
                                   backgroundColor: "#fff",
@@ -937,7 +1035,9 @@ export const AddStaff = () => {
                                 name="companyAssests"
                                 value={staff?.companyAssests}
                                 onChange={handleInputs}
-                                className="form-select form-select-lg rounded-2"
+                                className={`form-select form-select-lg rounded-1 ${
+                                  errors.companyAssests.required ? 'is-invalid' : errors.companyAssests.valid ? 'is-valid' : ''
+                                }`}
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -962,13 +1062,13 @@ export const AddStaff = () => {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
                                     Laptop Assets{" "}
-                                    <span className="text-danger">*</span>
+                                    
                                   </label>
                                   <select
                                     name="laptopName"
                                     value={staff?.laptopName}
                                     onChange={handleInputs}
-                                    className="form-select form-select-lg rounded-2"
+                                    className='form-select form-select-lg rounded-1 '
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
@@ -982,18 +1082,19 @@ export const AddStaff = () => {
                                     <option value="labtopAssessts">Yes</option>
                                     <option value="no">No</option>
                                   </select>
+                                  
                                 </div>
                                 {staff.laptopName === "labtopAssessts" && (
                                   <div className="row g-3">
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         Brand Name
-                                        <span className="text-danger">*</span>
+                                        
                                       </label>
                                       <input
                                         type="text"
                                         value={staff?.brand}
-                                        className="form-control rounded-2"
+                                        className='form-control rounded-1 '
                                         placeholder="Example Apple"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1003,15 +1104,16 @@ export const AddStaff = () => {
                                         name="brand"
                                         onChange={handleInputs}
                                       />
+                                      
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         Model
-                                        <span className="text-danger">*</span>
+                                     
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className='form-control rounded-1'
                                         placeholder="Example MacBook Air"
                                         value={staff?.modelName}
                                         style={{
@@ -1022,6 +1124,7 @@ export const AddStaff = () => {
                                         name="modelName"
                                         onChange={handleInputs}
                                       />
+                                      
                                     </div>
 
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1031,7 +1134,9 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className={`form-control rounded-1 ${
+                                          errors.ipAddress.required ? 'is-invalid' : errors.ipAddress.valid ? 'is-valid' : ''
+                                        }`}
                                         placeholder="Example IPv4 192.168.1.1"
                                         value={staff?.ipAddress}
                                         style={{
@@ -1042,15 +1147,20 @@ export const AddStaff = () => {
                                         name="ipAddress"
                                         onChange={handleInputs}
                                       />
+                                      {errors.ipAddress.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         UserName
-                                        <span className="text-danger">*</span>
+                                       
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className='form-control rounded-1 '
                                         value={staff?.userName}
                                         placeholder="Example Afynd01"
                                         style={{
@@ -1061,15 +1171,16 @@ export const AddStaff = () => {
                                         name="userName"
                                         handleInputs={handleInputs}
                                       />
+                                     
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         Password
-                                        <span className="text-danger">*</span>
+                                        
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className='form-control rounded-1' 
                                         value={staff?.loginPassword}
                                         placeholder="Example G7$kL!8mQz@1wXp^"
                                         style={{
@@ -1080,6 +1191,7 @@ export const AddStaff = () => {
                                         name="loginPassword"
                                         onChange={handleInputs}
                                       />
+                                      
                                     </div>
                                   </div>
                                 )}
@@ -1087,19 +1199,20 @@ export const AddStaff = () => {
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
                                     Mobile Assets
-                                    <span className="text-danger">*</span>
+                                    
                                   </label>
                                   <select
                                     name="mobileName"
                                     onChange={handleInputs}
                                     value={staff?.mobileName}
-                                    className="form-select form-select-lg rounded-2"
+                                    className='form-select form-select-lg rounded-1' 
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
                                     }}
                                   >
+                                    
                                     <option value={""}>
                                    
                                       Select Mobile Assets
@@ -1113,12 +1226,12 @@ export const AddStaff = () => {
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         Brand Name
-                                        <span className="text-danger">*</span>
+                                       
                                       </label>
                                       <input
                                         type="text"
                                         value={staff?.brandName}
-                                        className="form-control rounded-2"
+                                        className='form-control rounded-1 '
                                         placeholder="Example  Samsung"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1128,16 +1241,17 @@ export const AddStaff = () => {
                                         name="brandName"
                                         onChange={handleInputs}
                                       />
+                                      
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         IMEI
-                                        <span className="text-danger">*</span>
+                                       
                                       </label>
                                       <input
                                         type="text"
                                         value={staff?.imei}
-                                        className="form-control rounded-2"
+                                        className='form-control rounded-1 '
                                         placeholder="Example 356938035643209"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1147,16 +1261,17 @@ export const AddStaff = () => {
                                         name="imei"
                                         onChange={handleInputs}
                                       />
+                                     
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         Phone Number
-                                        <span className="text-danger">*</span>
+                                       
                                       </label>
                                       <input
                                         type="number"
                                         value={staff?.phoneNumber}
-                                        className="form-control rounded-2"
+                                        className='form-control rounded-1 '
                                         placeholder="Example 123-456-789"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1166,6 +1281,7 @@ export const AddStaff = () => {
                                         name="phoneNumber"
                                         onChange={handleInputs}
                                       />
+                                      
                                     </div>
                                   </div>
                                 )}
