@@ -8,7 +8,7 @@ import {
   isValidGSTN,
   isValidPAN,
   isValidBankAccountNumber,
-  isValidNumberLessThanOrEqualTo35,
+  isValidNumberLessThanOrEqualTo95,
 } from "../../Utils/Validation";
 import { updateAgent, getSingleAgent } from "../../api/agent";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -40,7 +40,7 @@ function EditAgent() {
     accountNumber: "",
     bankName: "",
     ifsc: "",
-    businessWebsite: "",
+    businessWebsite: "",   
     registrationNo: "",
     whatsApp: "",
     accountType: "",
@@ -184,9 +184,7 @@ function EditAgent() {
     if (data.panNumberCompany === "") {
       error.panNumberCompany.required = true;
     }
-    if (data.gstn === "") {
-      error.gstn.required = true;
-    }
+   
 
     if (data.staffName === "") {
       error.staffName.required = true;
@@ -200,7 +198,7 @@ function EditAgent() {
     if (data.businessWebsite === '') {
       error.businessWebsite.required = true;
     }
-    if (data.registrationNo === 0) {
+    if (data.registrationNo === "") {
       error.registrationNo.required = true;
     }
     if (data.whatsApp === '') {
@@ -212,10 +210,10 @@ function EditAgent() {
     if (data.swift === 0) {
       error.swift.required = true;
     }
-    if (data.agentsCommission === 0) {
+    if (data.agentsCommission === "") {
       error.agentsCommission.required = true;
     }
-    if (!isValidNumberLessThanOrEqualTo35(data.agentsCommission)) {
+    if (!isValidNumberLessThanOrEqualTo95(data.agentsCommission)) {
       error.agentsCommission.valid = true;
     }
     if (!isValidPAN(data.panNumberCompany)) {
@@ -224,9 +222,7 @@ function EditAgent() {
     if (!isValidBankAccountNumber(data.accountNumber)) {
       error.accountNumber.valid = true;
     }
-    if (!isValidGSTN(data.gstn)) {
-      error.gstn.valid = true;
-    }
+   
     if (!isValidWebsite(data.businessWebsite)) {
       error.businessWebsite.valid = true;
     }
@@ -633,6 +629,7 @@ function EditAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onChange={handleInputs}
                           />
                           {errors.registrationNo.required ? (
                             <span className="form-text text-danger">
@@ -658,19 +655,11 @@ function EditAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.gstn.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : errors.gstn.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Gstn Number.
-                            </div>
-                          ) : null}
+                          
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                           <label htmlFor="Email" className="form-label">
-                            PAN of Company{" "}
+                            PAN Number{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <input

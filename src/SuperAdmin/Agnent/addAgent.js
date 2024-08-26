@@ -5,10 +5,10 @@ import {
   isValidWebsite,
   isValidEmail,
   isValidName,
-  isValidGSTN,
+ 
   isValidPAN,
   isValidBankAccountNumber,
-  isValidNumberLessThanOrEqualTo35,
+  isValidNumberLessThanOrEqualTo95,
 } from "../../Utils/Validation";
 import { SuperAgent } from "../../api/agent";
 
@@ -177,9 +177,7 @@ function AddAgent() {
     if (data.panNumberCompany === "") {
       error.panNumberCompany.required = true;
     }
-    if (data.gstn === "") {
-      error.gstn.required = true;
-    }
+    
 
     if (data.staffName === "") {
       error.staffName.required = true;
@@ -208,7 +206,7 @@ function AddAgent() {
     if (data.agentsCommission === 0) {
       error.agentsCommission.required = true;
     }
-    if (!isValidNumberLessThanOrEqualTo35(data.agentsCommission)) {
+    if (!isValidNumberLessThanOrEqualTo95(data.agentsCommission)) {
       error.agentsCommission.valid = true;
     }
     if (!isValidPAN(data.panNumberCompany)) {
@@ -217,9 +215,7 @@ function AddAgent() {
     if (!isValidBankAccountNumber(data.accountNumber)) {
       error.accountNumber.valid = true;
     }
-    if (!isValidGSTN(data.gstn)) {
-      error.gstn.valid = true;
-    }
+   
     if (!isValidWebsite(data.businessWebsite)) {
       error.businessWebsite.valid = true;
     }
@@ -625,15 +621,11 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                           />
-                          {errors.gstn.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
+                       
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                           <label htmlFor="Email" className="form-label">
-                            PAN of Company{" "}
+                            PAN Number{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -901,7 +893,7 @@ function AddAgent() {
                             </div>
                           ) : errors.agentsCommission.valid ? (
                             <div className="text-danger form-text">
-                              Enter The agent Commission Is 35 % Less Than only
+                              Enter The agent Commission Is 95 % Less Than only
                               2 digit Number
                             </div>
                           ) : null}

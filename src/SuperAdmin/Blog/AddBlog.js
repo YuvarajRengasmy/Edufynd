@@ -51,6 +51,10 @@ export const AddBlog = () => {
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
   const pageSize = 10;
+  const [tags, setTags] = useState([]);
+  const [input, setInput] = useState('');
+
+
   const [isScheduled, setIsScheduled] = useState(false);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -117,21 +121,13 @@ export const AddBlog = () => {
       });
   };
 
+  const handleAddImage = () => {
+    setBlog([...blog, null]);
+};
 
+  
 
-  const addEntry = () => {
-    setBlog((prevState) => ({
-      ...prevState,uploadImage: "",
-      
-    }));
-  };
-
-  const removeCampus = (index) => {
-    setBlog((prevUniversity) => ({
-      ...prevUniversity,
-      uploadImage: prevUniversity.uploadImage.filter((_, i) => i !== index),
-    }));
-  };
+ 
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -147,6 +143,19 @@ export const AddBlog = () => {
     };
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        if (input.trim() !== '') {
+            setTags([...tags, input.trim()]);
+            setInput('');
+        }
+    }
+};
+
+const removeTag = (indexToRemove) => {
+    setTags(tags.filter((_, index) => index !== indexToRemove));
+};
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -288,25 +297,50 @@ export const AddBlog = () => {
                       </div>
 
                       <div className="form-group">
-                        <label htmlFor="tags">Tags</label>
-
-                        <TextField
-                          label="Hashtag"
-                          className="w-100"
-                          multiline
-                          maxRows={3}
-                          name="tags"
-                         
-                          // onChange={handleInputs}
-                        />
-                        {errors.tags.required && (
-                          <div className="text-danger form-text">
-                            This field is required.
-                          </div>
-                        )}
-                        <small className="form-text text-muted">
-                          (Type tag and hit enter)
-                        </small>
+            <label htmlFor="tags-input">Tags </label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', border: '1px solid #ccc', padding: '5px' }}>
+                {tags.map((tag, index) => (
+                    <div
+                        key={index}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '5px',
+                            margin: '5px',
+                            backgroundColor: '#e1e1e1',
+                            borderRadius: '5px',
+                        }}
+                    >
+                        <span>{tag}</span>
+                        <button
+                            type="button"
+                            onClick={() => removeTag(index)}
+                            style={{
+                                marginLeft: '10px',
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            &times;
+                        </button>
+                    </div>
+                ))}
+                <input
+                    type="text"
+                    id="tags-input"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="form-control rounded-1 text-muted"
+                    style={{
+                        border: 'none',
+                        outline: 'none',
+                        padding: '5px',
+                        flexGrow: 1,
+                    }}
+                />
+            </div>
                       </div>
 
                       <div className="form-group">
@@ -390,37 +424,25 @@ export const AddBlog = () => {
                           </div>
                           <div className="row m-b-5">
                            <small className="small-title" style={{ fontSize: "10px" }}> Main banner image </small>
-                          {blog.uploadImage === "" && (
-                            <div className="col-sm-12 m-b-5" >
-                              <input
-                                type="file"
-                                className="form-control rounded-1 text-muted"
-                                name="main_image"
-                                id="main_image"
-                                
-                                placeholder="Add Image"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                            </div>
-                          )}
-                            {/* <div className="col-sm-12 m-b-5 " >
-                              <input
-                                type="file"
-                                className="form-control rounded-1 text-muted"
-                                name="main_image"
-                                id="main_image"
-                                
-                                placeholder="Add Image"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                            </div>
-                         */}
+                           {blog.uploadImage && blog.uploadImage.map((image, index) => (
+                    <div key={index} style={{ marginBottom: '10px' }}>
+                        <input
+                            type="file"
+                            accept="image/*"
+                              className="form-control rounded-1 text-muted"
+                            onChange={handleInputs}
+                            style={{ display: 'block', marginBottom: '5px' }}
+                        />
+                        {/* {image && (
+                            <img
+                                src={image}
+                                alt={`Uploaded ${index}`}
+                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                            />
+                        )} */}
+                    </div>
+                ))}
+                            
                            
                             
                         
@@ -432,7 +454,7 @@ export const AddBlog = () => {
       fontSize: "12px",
     }}
     className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-    onClick={addEntry}
+    onClick={handleAddImage}
   >
  <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add 
   </button>

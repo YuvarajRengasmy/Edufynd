@@ -98,10 +98,7 @@ export const ViewStaff = () => {
                             <i className="fas fa-calendar-day me-2"></i>
                             <strong>DOJ:</strong> {staff?.doj  || "Not Available"}
                           </p>
-                          <p>
-                            <i className="fas fa-user-tie me-2"></i>
-                            <strong>Reporting Manager:</strong> {staff?.reportingManager  || "Not Available"}
-                          </p>
+                         
                           <p>
                             <i className="fas fa-clock me-2"></i>
                             <strong>Shift Timing:</strong> {staff?.shiftTiming  || "Not Available"}
@@ -114,16 +111,21 @@ export const ViewStaff = () => {
                             <i className="fas fa-mobile-alt me-2"></i>
                             <strong>Personal Contact No:</strong> {staff?.mobileNumber  || "Not Available"}
                           </p>
+                          <p>
+                            <i className="fas fa-phone-alt me-2"></i>
+                            <strong>Emergency Contact:</strong> {staff?.emergencyContactNo  || "Not Available"}
+                          </p>
                         </div>
                         <div className="col-md-6">
                           <p>
                             <i className="fas fa-home me-2"></i>
-                            <strong>Address:</strong> {staff?.address  || "Not Available"}
+                            <strong>Address Line1 :</strong> {staff?.address  || "Not Available"}
                           </p>
                           <p>
-                            <i className="fas fa-phone-alt me-2"></i>
-                            <strong>Emergency Contact:</strong> {staff?.emergencyContact  || "Not Available"}
+                            <i className="fas fa-home me-2"></i>
+                            <strong>Address Line2:</strong> {staff?.address2  || "Not Available"} 
                           </p>
+                         
                           <p>
                             <i className="fas fa-id-card me-2"></i>
                             <strong>ID Card:</strong> {staff?.idCard  || "Not Available"}
@@ -134,7 +136,7 @@ export const ViewStaff = () => {
                           </p>
                           <p>
                             <i className="fas fa-briefcase me-2"></i>
-                            <strong>Job Description:</strong> {staff?.jobDescription  || "Not Available"}
+                            <strong>Pin Code:</strong> {staff?.pin  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-calendar-check me-2"></i>
@@ -145,7 +147,64 @@ export const ViewStaff = () => {
                     </div>
                   </div>
 
-                  <div className="card border-0">
+                  
+                  <div className="row mb-4">
+                  <div className="col-lg-6">
+                <div className="card mb-3 shadow-sm">
+                  <div className="card-header bg-danger text-white">
+                    <h5 className="card-title mb-0">
+                      <i className="fas fa-building me-2"></i> Team Management
+                    </h5>
+                  </div>
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item">
+                      <strong>Role :</strong> {staff?.role || "Not Available"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Team :</strong>  {staff?.designation || "No Visa Rejections"} 
+                    </li>
+                    <li className="list-group-item">
+                      <strong>probation : </strong> {staff?.probationDuration || "No Visa Rejections"}
+                    </li>
+                    <li className="list-group-item">
+                    <strong>Reporting Manager:</strong> {staff?.reportingManager  || "Not Available"}
+                    </li>
+                    
+                  </ul>
+
+                </div>
+              </div>
+
+              <div className="col-lg-6">
+                <div className="card mb-3 shadow-sm">
+                  <div className="card-header bg-danger text-white">
+                    <h5 className="card-title mb-0">
+                    <i className="fas fa-location-arrow me-2"></i> Location
+                     
+                    </h5>
+                  </div>
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item">
+                      <strong>Country:</strong> {staff?.country || "Not Available"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>State:</strong>  {staff?.state|| "No Travel History"} 
+                    </li>
+                    <li className="list-group-item">
+                      <strong>City:</strong> {staff?.city || "No Travel History"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Country Name:</strong> {staff?.countryName|| "No Travel History"}
+                    </li>
+                    
+                  </ul>
+
+                </div>
+              </div>
+              </div>
+
+
+              <div className="card border-0">
                     <div className="card-header bg-primary text-white">
                       <h5 className="mb-0">Professional Information</h5>
                     </div>

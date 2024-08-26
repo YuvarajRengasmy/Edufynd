@@ -11,7 +11,10 @@ import { toast } from "react-toastify";
 import { StudentSuperEdit, getSingleStudent } from "../../api/student";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
+import Flags from "react-world-flags";
+
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
@@ -24,6 +27,8 @@ function AddAgent() {
     citizenship: "",
     dob: "",
     gender: "",
+    dial1: "",
+    dial2: "",
     highestQualification: "",
     degreeName: "",
     academicYear: "",
@@ -64,6 +69,8 @@ function AddAgent() {
     expiryDate: { required: false },
     citizenship: { required: false },
     dob: { required: false },
+    dail:{required: false},
+    dail:{required:false},
     gender: { required: false },
     highestQualification: { required: false },
     addressLine1: { required: false },
@@ -102,11 +109,13 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-
+  const [dial, setDial] = useState([]);
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false);
 
 
   useEffect(() => {
     getStudentDetails();
+    getallCodeList();
 }, []);
 
 const getStudentDetails = () => {
@@ -117,6 +126,15 @@ const getStudentDetails = () => {
         .catch((err) => {
             console.log(err);
         });
+};
+const getallCodeList = () => {
+  getallCode()
+    .then((res) => {
+      setDial(res?.data?.result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
   const handleValidation = (data) => {
     let error = initialStateErrors;
@@ -242,7 +260,21 @@ const getStudentDetails = () => {
       console.log("Error: ", error);
     };
   };
-
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setStudent((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: `${prevClient.primaryNumber}`,
+      }));
+    } else {
+      setStudent((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: "",
+      }));
+    }
+  };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -566,23 +598,66 @@ const getStudentDetails = () => {
                               ) : null}
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Primary Number
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="number"
-                                value={student?.primaryNumber}
-                                className={`form-control ${errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : '' }`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 123-456-789"
-                                name="primaryNumber"
-                                onChange={handleInputs}
-                              />
-                              {errors.primaryNumber.required ? (
+  <label style={{ color: "#231F20" }}>
+    Primary Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={student?.dial1} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="primaryNumber"
+      value={student.primaryNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+     
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChange}
+      />
+     
+    </div>
+  </div>
+  {errors.primaryNumber.required ? (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
@@ -591,25 +666,52 @@ const getStudentDetails = () => {
                                   Enter valid mobile number.
                                 </span>
                               ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                WhatsApp Number{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="number"
-                                value={student?.whatsAppNumber}
-                                className={`form-control ${errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : '' }`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 123-456-789"
-                                name="whatsAppNumber"
-                                onChange={handleInputs}
-                              />
-                              {errors.whatsAppNumber.required ? (
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+    Business WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={student?.dial2}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="whatsAppNumber"
+    value={student.whatsAppNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.whatsAppNumber.required ? (
                                 <span className="text-danger form-text profile_error">
                                   This field is required.
                                 </span>
@@ -618,7 +720,7 @@ const getStudentDetails = () => {
                                   Enter valid whatsAppNumber.
                                 </span>
                               ) : null}
-                            </div>
+</div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Highest Qualification

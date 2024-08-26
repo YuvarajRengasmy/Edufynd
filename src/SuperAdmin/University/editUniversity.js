@@ -461,8 +461,8 @@ function Profile() {
   const intakeOptions = inTake.map((data) => {
     const year = new Date(data.startDate).getFullYear();
     return {
-      value: `${data.intakeName} - ${year}`,
-      label: `${data.intakeName} - ${year}`,
+      value: data.intakeName,
+      label: data.intakeName
     };
   });
 
@@ -825,6 +825,33 @@ function Profile() {
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Website<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={university?.website}
+                            className={`form-control rounded-1 ${
+                              errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
+                            }`}
+                            placeholder="Enter Website"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="website"
+                            onChange={handleInputs}
+                          />
+                          {errors.website.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                          
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
                             Course Type<span className="text-danger">*</span>
                           </label>
 
@@ -1010,32 +1037,7 @@ function Profile() {
                             </div>
                           ) }
                         </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            {" "}
-                            Website<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={university?.website}
-                            className={`form-control rounded-1 ${
-                              errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
-                            }`}
-                            placeholder="Enter Website"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            name="website"
-                            onChange={handleInputs}
-                          />
-                          {errors.website.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                          
-                        </div>
+                        
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             InTake<span className="text-danger">*</span>
