@@ -9,10 +9,10 @@ export const ViewClassSchedule = () => {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-          <div className="container">
+          <div className="container-fluid">
             <div className="row">
               <div className="col-lg-12">
-                <div class="container mt-4">
+                <div class="container-fluid mt-4">
                   <h2 class="mb-4">ClassSchedule</h2>
                   <div class="row">
                     <div class="col-md-4 mb-3">

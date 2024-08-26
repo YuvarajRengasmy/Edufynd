@@ -32,7 +32,7 @@ function AddAgent() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header ">
-          <div className="container">
+          <div className="container-fluid">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
               <div
                 className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"

@@ -11,7 +11,7 @@
 
 /* Sidebar Background */
 .sidebar {
-  background-color: #2C3E50  !important; /* Coral background */
+  background-color: #2C3E50 !important; /* Coral background */
   padding: 10px !important; /* Padding for a more spacious layout */
   font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
@@ -20,15 +20,10 @@
 .sidebar_link {
   color: #FFFFFF !important; /* White text for contrast with the coral background */
   text-decoration: none !important; /* Remove underline */
-  display: -webkit-box !important; /* For older Safari */
-  display: -ms-flexbox !important; /* For IE10 */
   display: flex !important; /* For modern browsers */
-  -webkit-box-align: center !important; /* For older Safari */
-  -ms-flex-align: center !important; /* For IE10 */
   align-items: center !important; /* Center items vertically */
   padding: 10px 20px !important; /* Adjust padding as needed */
   font-weight: bold !important;
-  -webkit-transition: background-color 0.3s, color 0.3s, box-shadow 0.3s !important;
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s !important; /* Smooth transition for hover effects */
   border-radius: 4px !important; /* Rounded corners for each link */
 }
@@ -50,7 +45,6 @@
 .sidebar_link:hover {
   color: #FFFFFF !important; /* White text on hover */
   background-color: #FF8A80 !important; /* Light coral on hover */
-  -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* For older Safari */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow on hover */
 }
 
@@ -66,10 +60,7 @@
 
 /* Rotate icon for dropdown */
 .rotate-icon {
-  -webkit-transform: rotate(90deg) !important; /* For older Safari */
-  -ms-transform: rotate(90deg) !important; /* For IE10 */
   transform: rotate(90deg) !important;
-  -webkit-transition: -webkit-transform 0.1s ease !important;
   transition: transform 0.1s ease !important; /* Modern browsers */
   color: #FFFFFF !important;
 }
@@ -81,7 +72,6 @@
 
 /* Transition for submenu */
 .collapse.show {
-  -webkit-transition: height 0.3s ease !important;
   transition: height 0.3s ease !important;
 }
 
@@ -107,7 +97,7 @@
   margin-left: 10px !important; /* Space between icon and text */
 }
 
-.main-sidebar.collapsed  .fa-angle-right {
+.main-sidebar.collapsed .fa-angle-right {
   display: none !important; /* Hide icon in collapsed state */
 }
 
@@ -119,13 +109,13 @@
   cursor: pointer !important;
 }
 
-
-
 /* Older browsers fallback */
 .sidebar_link {
   display: block !important; /* Basic fallback for very old browsers */
   text-align: left !important;
 }
+
+/* Default margin for content wrapper */
 .content-wrapper {
   margin-left: 250px !important; /* Default margin when sidebar is expanded */
   transition: margin-left 0.3s ease !important;
@@ -135,14 +125,51 @@
   margin-left: 80px !important; /* Adjust margin when sidebar is collapsed */
 }
 
+/* Media queries for responsiveness */
+@media (max-width: 991px) {
+  .content-wrapper {
+    margin-left: 200px !important; /* Adjust margin for medium screens (tablets) */
+  }
 
+  .main-sidebar.collapsed ~ .content-wrapper {
+    margin-left: 60px !important;
+  }
+
+  .main-sidebar {
+    width: 200px !important; /* Adjust sidebar width for medium screens */
+  }
+}
+
+@media (max-width: 767px) {
+  .content-wrapper {
+    margin-left: 0 !important; /* Remove margin for small screens (mobiles) */
+  }
+
+  .main-sidebar.collapsed ~ .content-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .main-sidebar {
+    width: 100% !important; /* Sidebar takes full width on mobile */
+    position: absolute !important;
+    height: auto !important;
+  }
+
+  .main-sidebar.collapsed {
+    width: 0 !important;
+    visibility: hidden !important; /* Hide sidebar when collapsed on mobile */
+  }
+
+  .sidebar-toggle {
+    display: block !important;
+  }
+}
 
 /* Safari-specific adjustments */
 @media not all and (min-resolution:.001dpcm) { 
   @supports (-webkit-appearance:none) {
     .sidebar_link {
       display: flex !important;
-      -webkit-flex-direction: row !important;
       flex-direction: row !important;
       align-items: center !important;
       justify-content: space-between !important;

@@ -388,10 +388,7 @@ export default function Masterproductlist() {
     };
   }, []);
 
-  // Function to handle the display of cities or state
-
-
-//charts
+ 
 const chartRef = useRef(null);
   const chartInstance = useRef(null);
 

@@ -240,10 +240,10 @@ export const ViewApplication = () => {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
       
-        <div className="container">
+        <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
-              <div className="container">
+              <div className="container-fluid">
             <div className="row">
               <div className="col">
               <div className="card rounded-1 ">
@@ -343,7 +343,7 @@ export const ViewApplication = () => {
               </div>
 
               
-           {/* <div className="container ">
+           {/* <div className="container-fluid ">
   <div className="row">
     <div className="col">
       <div className="card border-0 rounded-1 shadow-sm p-4">
@@ -389,7 +389,7 @@ export const ViewApplication = () => {
 
               
                
-                <div className="container">
+                <div className="container-fluid">
   <div className="row">
     <div className="col">
     <div className="card border-0 rounded-1 shadow-sm p-3">
@@ -635,7 +635,7 @@ export const ViewApplication = () => {
 
 
 
-<div className="container">
+<div className="container-fluid">
   <div className="row">
     <div className="col">
     <div className="card card-body mb-3">
@@ -803,7 +803,7 @@ export const ViewApplication = () => {
   </div>
 </div>
 
-<div className="container-fluid my-2">
+<div className="container-fluid-fluid my-2">
   <div className="row flex-nowrap">
    
     <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
@@ -966,7 +966,7 @@ export const ViewApplication = () => {
        
         <div className="card-body ">
           <div className="chat-messages">
-            <div className="container">
+            <div className="container-fluid">
 
               <div className="row">
               {tracks?.status &&

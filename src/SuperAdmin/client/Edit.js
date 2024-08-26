@@ -331,7 +331,7 @@ function AddAgent() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header ">
-          <div className="container ">
+          <div className="container-fluid ">
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-xl-12 ">

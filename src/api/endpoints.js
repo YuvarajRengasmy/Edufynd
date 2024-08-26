@@ -22,7 +22,9 @@ export const Tax ="tax";
 export const Currency ="currency";
 export const TypeOfClient ="typeOfClient";
 export const Staff ="staff";
+// settings
 export const Year ="year";
+export const Category ="category";
 export const DepartmentHead="departmentHead";
 export const Demo = "demo";
 export const ApplicationStatus= "applicationStatus";
@@ -46,3 +48,4 @@ export const Meeting ="meeting"
 export const Event ="event"
 export const Training ="training"
 export const Testimonial ="testimonial"
+export const Blog ="blog"

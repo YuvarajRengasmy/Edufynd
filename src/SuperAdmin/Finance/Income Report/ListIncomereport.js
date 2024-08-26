@@ -304,7 +304,7 @@ export const ListIncomeReport = () => {
       </div>
     </div>
         <div className="content-body">
-            <div className="container">
+            <div className="container-fluid">
             <div className="row">
             <div className="col-xl-12">
               <div className="card rounded-0  border-0">

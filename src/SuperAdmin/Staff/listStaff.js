@@ -248,8 +248,9 @@ function ListStaff() {
   </div>
 </div>
 
-         
-          <div className="container mt-3">
+
+<div className="content-body">
+<div className="container mt-3">
       <div className="row">
         {/* Card 1: Active Logins - Daily */}
         <div className="col-md-3 col-sm-6 mb-3">
@@ -391,6 +392,9 @@ function ListStaff() {
           </div>
         </div>
             </div>
+</div>
+         
+          
           
         
                 

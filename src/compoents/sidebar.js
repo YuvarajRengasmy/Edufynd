@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import Edufynd from "../Assests/EduFynd.png";
+import Edufynd_logo from "../Assests/3.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as bootstrap from "bootstrap"; 
 
@@ -320,11 +321,12 @@ const Sidebar = () => {
                 className="brand-text font-weight-light text-decoration-none"
               >
                 <img
-                  src={Edufynd}
-                  alt="logo"
-                  className="img-fluid"
-                  style={{ width: "100%" }}
-                />
+  src={isCollapsed ? Edufynd_logo : Edufynd}
+  alt="logo"
+  className="img-fluid"
+  style={{ width: "75%" }}
+/>
+
               </Link>
               </div>
             </div>
@@ -1545,6 +1547,18 @@ const Sidebar = () => {
                 ref={el => (sidebarRefs.current['/source'] = el)}
               >
                 <i className="fa fa-calendar nav-icon"></i>   {!isCollapsed && " Source"}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link 
+                to="/blog_setting" 
+                className={`nav-link sidebar_link ${[
+                  "/blog_setting",
+                ].includes(currentPath) ? "active" : ""}`}
+                data-path="/blog_setting"
+                ref={el => (sidebarRefs.current['/blog_setting'] = el)}
+              >
+                <i className="fa fa-calendar nav-icon"></i>   {!isCollapsed && " Blog_Category"}
               </Link>
             </li>
             <li className="nav-item">
