@@ -296,7 +296,7 @@ export default function Masterproductlist() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
        <div className="content-header bg-light shadow-sm sticky-top">
-  <div className="container">
+  <div className="container-fluid">
     <div className="row">
       <div className="col-xl-12">
         <ol className="d-flex justify-content-between align-items-center mb-0 list-unstyled">
@@ -470,7 +470,7 @@ export default function Masterproductlist() {
 
     
 
-    <div className="container mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
+    <div className="container-fluid mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
       <div className="d-flex ">
         {/* Application Submitted Card */}
         <div className="col-md-3 flex-shrink-0">
@@ -555,7 +555,7 @@ export default function Masterproductlist() {
       </div>
     </div>
        
-          <div className="container">
+          <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm border-0">

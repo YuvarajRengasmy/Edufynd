@@ -10,7 +10,7 @@ export const AddRecieverInvoice = () => {
         
         <div className='content-wrapper' style={{ fontSize:'14px' }}>
 <div className='content-header'>
-  <div className='container card card-body p-4 border-0'>
+  <div className='container-fluid card card-body p-4 border-0'>
     <h4 className='card-title  fw-bold'>Add Reciever Invoice Details  </h4>
     <hr/>
   <form className="p-1">

@@ -55,7 +55,7 @@ const ViewInvoice = () => {
                 
                 <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
                     <div className="content-header">
-                        <div className="card shadow-sm border-0 text-center p-4" >
+                        <div className=" container-fluid card shadow-sm border-0 text-center p-4" >
                             <div className="card-body " ref={invoiceRef}>
                                 <h4 className="card-head fw-semibold" style={{ color: '#fe5722' }}>AFYND PRIVATE LIMITED</h4>
                                 <h6 className="card-code" style={{ color: '#0f2239' }}>CIN - U72900TN2020PTC135299 </h6>

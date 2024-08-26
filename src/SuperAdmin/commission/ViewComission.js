@@ -32,7 +32,7 @@ export const ViewComission = () => {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header">
-          <div className="container ">
+          <div className="container-fluid ">
             <div className="row">
               <div className="col-12 text-center my-4">
                 <h2 className="fw-semibold">Commission Details</h2>

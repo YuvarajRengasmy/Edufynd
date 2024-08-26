@@ -12,7 +12,7 @@ const ViewLinkedin = () => {
 
 <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
 <div className="content-header ">
-<div class="container mt-4">
+<div class="container-fluid mt-4">
 <h2 class="mb-4"> View Social Media </h2>
 
 <div class="row mb-4">

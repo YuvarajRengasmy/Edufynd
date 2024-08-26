@@ -52,7 +52,7 @@ export const ListEmail = () => {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
 
-<div className="container mt-3">
+<div className="container-fluid mt-3">
       <div className="row">
         {/* Card 1: New Emails */}
         <div className="col-md-3 col-sm-6 mb-3">

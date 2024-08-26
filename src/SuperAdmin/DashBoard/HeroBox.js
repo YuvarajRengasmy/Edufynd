@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 // Importing the React library for building UI components.
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -96,6 +96,33 @@ export const HeroContent = () => {
   // Various styling options for the line and points on the chart are specified.
 
   // The component should return JSX to render the charts, but this is not shown in the provided code.
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatDate = (date) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const dayName = days[date.getDay()];
+    const day = String(date.getDate()).padStart(2, '0');
+    const monthName = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${dayName}, ${day} ${monthName} ${year}`;
+  };
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString();
+  };
 
 
 
@@ -103,10 +130,10 @@ export const HeroContent = () => {
     <div >
       <Sidebar />
       <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-        <div className="container  " >
+        <div className="container-fluid  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
-              <div className="container ">
+              <div className="container-fluid ">
               <div className="d-flex justify-content-between align-items-center">
   {/* Container for the header and profile button */}
   <div>
@@ -115,8 +142,8 @@ export const HeroContent = () => {
       Dashboard
     </h1>
     {/* Current date displayed in smaller text */}
-    <p className="text-secondary" style={{ fontSize: '12px' }}>
-      Sunday, 05 August 2024
+    <p className="text-secondary" style={{ fontSize: '16px' }}>
+      {formatDate(currentDate)}, {formatTime(currentDate)}
     </p>
   </div>
   
@@ -513,7 +540,7 @@ export const HeroContent = () => {
 
 
               {/* Top Cards Row */}
-              <div className="container">
+              <div className="container-fluid">
                 <div className="row">
                   <div className="col-lg-3 col-md-6 ">
                     <div className="card text-white rounded-1 border-0 shadow-sm bg-primary">
@@ -586,7 +613,7 @@ export const HeroContent = () => {
 
 
               {/* Charts Row */}
-              <div className="container ">
+              <div className="container-fluid ">
                 <div className="row">
                   {/* Sales Overview Card */}
                   <div className="col-lg-6 ">
@@ -641,7 +668,7 @@ export const HeroContent = () => {
               </div>
 
               {/* Table Row */}
-              <div className="container ">
+              <div className="container-fluid ">
                 <div className="row">
                   {/* Recent Transactions Card */}
                   <div className="col-lg-12 ">
