@@ -102,7 +102,7 @@ export default function Masterproductlist() {
       agentName: inputs.agentName,
       agentCode: inputs.agentCode,
       mobileNumber: inputs.mobileNumber,
-      status: inputs.status,
+      activeStatus: inputs.activeStatus,
       limit: 10,
       page: pagination.from,
     };
@@ -453,7 +453,7 @@ export default function Masterproductlist() {
                               <input
                                 type="text"
                                 className="form-control"
-                                name="status"
+                                name="activeStatus"
                                 onChange={handleInputs}
                                 placeholder="Search...Status"
                                 style={{
@@ -723,7 +723,7 @@ export default function Masterproductlist() {
                                   {data?.mobileNumber || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">
-                                  {data?.status || "Not Available"}
+                                  {data?.activeStatus || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">
                                   {formatDate(
