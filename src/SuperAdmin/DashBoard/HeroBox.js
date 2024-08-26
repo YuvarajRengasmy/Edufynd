@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 // Importing the React library for building UI components.
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -96,6 +96,33 @@ export const HeroContent = () => {
   // Various styling options for the line and points on the chart are specified.
 
   // The component should return JSX to render the charts, but this is not shown in the provided code.
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatDate = (date) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const dayName = days[date.getDay()];
+    const day = String(date.getDate()).padStart(2, '0');
+    const monthName = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${dayName}, ${day} ${monthName} ${year}`;
+  };
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString();
+  };
 
 
 
@@ -115,8 +142,8 @@ export const HeroContent = () => {
       Dashboard
     </h1>
     {/* Current date displayed in smaller text */}
-    <p className="text-secondary" style={{ fontSize: '12px' }}>
-      Sunday, 05 August 2024
+    <p className="text-secondary" style={{ fontSize: '16px' }}>
+      {formatDate(currentDate)}, {formatTime(currentDate)}
     </p>
   </div>
   
