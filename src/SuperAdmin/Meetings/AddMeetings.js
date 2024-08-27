@@ -1,36 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
+import Select from "react-select";
+import { Link, useNavigate } from "react-router-dom";
+import { RichTextEditor } from '@mantine/rte';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { saveClient } from '../../api/client';
-import {getallClientModule} from "../../api/universityModule/clientModule";
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { saveMeeting } from "../../api/Notification/meeting";
 import { getallStaff } from "../../api/staff";
 import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
-import Select from "react-select";
-import { Link } from "react-router-dom";
-import { RichTextEditor } from '@mantine/rte';
-export const AddMeetings = () => {
 
+export const AddMeetings = () => {
   const initialState = {
     hostName: "",
-    typeOfUser:"",
-    attendees: "",
+    typeOfUser: "",
+    attendees: [],
     subject: "",
     content: "",
     date: "",
     time: "",
   };
-    
 
   const initialStateErrors = {
     hostName: { required: false },
     typeOfUser: { required: false },
-
     attendees: { required: false },
     subject: { required: false },
     content: { required: false },
@@ -38,8 +31,8 @@ export const AddMeetings = () => {
     time: { required: false },
   };
 
-  const [notification, setnotification] = useState(initialState);
-  const [staff, setStaff] = useState([]);
+  const [notification, setNotification] = useState(initialState);
+  const [staffs, setStaffs] = useState([]);
   const [admin, setAdmin] = useState([]);
   const [agent, setAgent] = useState([]);
   const [student, setStudent] = useState([]);
@@ -53,24 +46,27 @@ export const AddMeetings = () => {
     getAgentList();
     getStudentList();
   }, []);
+
   const getStaffList = () => {
     getallStaff()
       .then((res) => {
-        setStaff(res?.data?.result || []);
+        setStaffs(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   const getAdminList = () => {
     getallAdmin()
       .then((res) => {
-        setAdmin(res?.data?.result );
+        setAdmin(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   const getAgentList = () => {
     getallAgent()
       .then((res) => {
@@ -80,6 +76,7 @@ export const AddMeetings = () => {
         console.log(err);
       });
   };
+
   const getStudentList = () => {
     getallStudent()
       .then((res) => {
@@ -99,7 +96,7 @@ export const AddMeetings = () => {
     if (data.typeOfUser === "") {
       error.typeOfUser.required = true;
     }
-    if (data.attendees === "") {
+    if (data.attendees.length === 0) {
       error.attendees.required = true;
     }
     if (data.subject === "") {
@@ -118,46 +115,27 @@ export const AddMeetings = () => {
     return error;
   };
 
-  
-  const convertToBase64 = (e, name) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setnotification((notification) => ({
-        ...notification,
-        [name]: reader.result,
-      }));
-    };
-    reader.onerror = (error) => {
-      console.log("Error: ", error);
-    };
-  };
   const handleInputs = (event) => {
-    const { name, value, files } = event.target;
-    if (files && files[0]) {
-      convertToBase64(event, name);
-    } else{
-      setnotification({ ...notification, [event?.target?.name]: event?.target?.value });
-    }
-    
+    const { name, value } = event.target;
+    setNotification({ ...notification, [name]: value });
+
     if (submitted) {
-      const newError = handleValidation({...notification,
-        [event.target.name]: event.target.value,});
+      const newError = handleValidation({
+        ...notification,
+        [name]: value,
+      });
       setErrors(newError);
     }
   };
 
-
   const handleSelectChange = (selectedOption, action) => {
     const { name } = action;
-    const value = selectedOption ? selectedOption.value : "";
-    setnotification((prevNotification) => ({
+    const value = selectedOption ? selectedOption.map(option => option.value) : [];
+    setNotification((prevNotification) => ({
       ...prevNotification,
       [name]: value,
     }));
   };
-  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -171,14 +149,12 @@ export const AddMeetings = () => {
     return true;
   };
 
-  
   const handleRichTextChange = (value) => {
-    setnotification((prevnotification) => ({
-      ...prevnotification,
+    setNotification((prevNotification) => ({
+      ...prevNotification,
       content: value,
     }));
   };
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -202,26 +178,26 @@ export const AddMeetings = () => {
     }
   };
 
-  const adminOptions = admin.map((data, index) => ({
+  const adminOptions = admin.map((data) => ({
     value: data.name,
     label: data.name,
   }));
 
-  const staffOptions = staff.map((data, index) => ({
+  const staffOptions = staffs.map((data) => ({
     value: data.empName,
     label: data.empName,
   }));
- 
-  const studentOptions = student.map((data, index) => ({
+
+  const studentOptions = student.map((data) => ({
     value: data.name,
     label: data.name,
   }));
 
-  const agentOptions = agent.map((data, index) => ({
+  const agentOptions = agent.map((data) => ({
     value: data.agentName,
     label: data.agentName,
   }));
- 
+
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -238,303 +214,291 @@ export const AddMeetings = () => {
     }),
   };
 
-
-
-
-
   return (
-    <>
-     <div>
-        <Sidebar />
-
-        <div
-          className="content-wrapper "
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-        >
-          <div className="content-header ">
-            <div className=" container-fluid ">
-              <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-                      <div
-                        className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                        style={{ background: "#fe5722", color: "#fff" }}
-                      >
-                        <h5 className="text-center text-capitalize p-1">
-                          {" "}
-                          Add Meeting Details
-                        </h5>
-                      </div>
-                      <div className="card-body mt-5">
-                        <div className="row g-3">
+    <div>
+      <Sidebar />
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      >
+        <div className="content-header">
+          <div className="container-fluid">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div
+                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                      style={{ background: "#fe5722", color: "#fff" }}
+                    >
+                      <h5 className="text-center text-capitalize p-1">
+                        Add Meeting Details
+                      </h5>
+                    </div>
+                    <div className="card-body mt-5">
+                      <div className="row g-3">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    Host Name<span className="text-danger">*</span>
-  </label>
-  <Select
-    placeholder="Select staff"
-    onChange={handleSelectChange}
-    options={staffOptions}
-    name="hostName"
-    styles={customStyles}
-    className="submain-one-form-body-subsection-select"
-  />
-  {errors.hostName.required && (
-    <div className="text-danger form-text">
-      This field is required.
-    </div>
-  )}
-</div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                            Type of user{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-
-                            <select
-                              class="form-select form-select-lg"
-                              name="typeOfUser"
-                              onChange={handleInputs}
-                              aria-label="Default select example"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <option selected>Select User</option>
-                              <option value="staff">Staff</option>
-                              <option value="student">Student</option>
-                              <option value="agent">Agent</option>
-                              <option value="admin">Admin</option>
-                            </select>
-                            {errors.typeOfUser.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-                          {notification.typeOfUser === "staff" ? (
-                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                             <label style={{ color: "#231F20" }}>
-                               Staff List<span className="text-danger">*</span>
-                             </label>
-                            <Select
-                             isMulti
-                             placeholder="Select staff"
-                             onChange={handleSelectChange}
-                              options={staffOptions}
-                             name="attendees"
-                             
-                             styles={customStyles}
-                             className="submain-one-form-body-subsection-select"
-                           />
-                             {errors.attendees.required ? (
-                               <div className="text-danger form-text">
-                                 This field is required.
-                               </div>
-                             ) : null}
-                           </div>
-                          ) : notification.typeOfUser === "student" ? (
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Student List<span className="text-danger">*</span>
-                              </label>
-                             <Select
-                              isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={studentOptions}
-                              name="attendees"
-                              
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
-                              {errors.attendees.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                          ) :notification.typeOfUser === "agent" ? (
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Agent List<span className="text-danger">*</span>
-                            </label>
-                           <Select
-                            isMulti
-                            placeholder="Select Country"
-                             onChange={handleSelectChange}
-                             options={agentOptions}
-                            name="attendees "
-                            
+                          <label style={{ color: "#231F20" }}>
+                            Host Name<span className="text-danger">*</span>
+                          </label>
+                          <Select
+                            placeholder="Select staff"
+                            onChange={(selectedOption) =>
+                              setNotification({
+                                ...notification,
+                                hostName: selectedOption.value,
+                              })
+                            }
+                            options={staffOptions}
+                            name="hostName"
                             styles={customStyles}
                             className="submain-one-form-body-subsection-select"
                           />
-                            {errors.attendees.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
-                          ) : notification.typeOfUser === "admin" ? (
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
-                              </label>
-                             <Select
+                          {errors.hostName.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Type of user <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className="form-select form-select-lg"
+                            name="typeOfUser"
+                            onChange={handleInputs}
+                            aria-label="Default select example"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option selected>Select User</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                            <option value="agent">Agent</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                          {errors.typeOfUser.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : null}
+                        </div>
+
+                        {notification.typeOfUser === "staff" && (
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Attendees<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              options={staffOptions}
+                              onChange={handleSelectChange}
+                              name="attendees"
                               isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={adminOptions}
-                              name="attendees "
-                              
+                              placeholder="Select attendees"
                               styles={customStyles}
                               className="submain-one-form-body-subsection-select"
                             />
-                              {errors.attendees.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                          ) : null}
-
-                          <div className="row gy-2 ">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Subject<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                onChange={handleInputs}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Subject"
-                                name="subject"
-                              />
-                              {errors.subject.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
+                            {errors.attendees.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                           </div>
+                        )}
 
-                          <div className="row gy-2 ">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                              Date<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Date"
-                                name="date"
-                                onChange={handleInputs}
-                              />
-                              {errors.date.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                              
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                              Time<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type='time'
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                 
-                                }}
-                                placeholder="Enter  Time"
-                                name="time"
-                                onChange={handleInputs}
-                              />
-                              {errors.time.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                              
-                            </div>
-                            </div>
-                          <div className="row gy-2 ">
-                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Content<span className="text-danger">*</span>
-                              </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="content"
-                                onChange={handleRichTextChange}
-                                value={notification.content}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                 
-                                }}
-                              />
-                              {errors.content.required && (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              )}
-                            </div>
+                        {notification.typeOfUser === "student" && (
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Attendees<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              options={studentOptions}
+                              onChange={handleSelectChange}
+                              name="attendees"
+                              isMulti
+                              placeholder="Select attendees"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
+                            {errors.attendees.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                           </div>
-                         
-                         
+                        )}
 
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                            <Link
-                            to='/list_meetings'
-                              style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                        {notification.typeOfUser === "agent" && (
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Attendees<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              options={agentOptions}
+                              onChange={handleSelectChange}
+                              name="attendees"
+                              isMulti
+                              placeholder="Select attendees"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
+                            {errors.attendees.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {notification.typeOfUser === "admin" && (
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Attendees<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              options={adminOptions}
+                              onChange={handleSelectChange}
+                              name="attendees"
+                              isMulti
+                              placeholder="Select attendees"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
+                            {errors.attendees.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Subject<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control form-control-lg"
+                            name="subject"
+                            value={notification.subject}
+                            onChange={handleInputs}
+                            placeholder="Enter meeting subject"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                              border: "1.4783px solid rgba(11, 70, 84, 0.25)",
+                              borderRadius: "4.91319px",
+                            }}
+                          />
+                          {errors.subject.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Date<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="date"
+                            className="form-control form-control-lg"
+                            name="date"
+                            value={notification.date}
+                            onChange={handleInputs}
+                            placeholder="Enter meeting date"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                              border: "1.4783px solid rgba(11, 70, 84, 0.25)",
+                              borderRadius: "4.91319px",
+                            }}
+                          />
+                          {errors.date.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Time<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="time"
+                            className="form-control form-control-lg"
+                            name="time"
+                            value={notification.time}
+                            onChange={handleInputs}
+                            placeholder="Enter meeting time"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                              border: "1.4783px solid rgba(11, 70, 84, 0.25)",
+                              borderRadius: "4.91319px",
+                            }}
+                          />
+                          {errors.time.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="col-12">
+                          <label style={{ color: "#231F20" }}>
+                            Content<span className="text-danger">*</span>
+                          </label>
+                          <RichTextEditor
+                            value={notification.content}
+                            onChange={handleRichTextChange}
+                            placeholder="Enter meeting content"
+                          />
+                          {errors.content.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+                          <button
+                            type="submit"
+                            className="btn btn-primary mt-3"
+                            style={{
+                              background: "#fe5722",
+                              color: "#fff",
+                              border: "none",
+                            }}
+                          >
+                            Submit
+                          </button>
+                          <Link to="/list_meetings">
+                            <button
+                              className="btn btn-danger ms-2 mt-3"
+                              style={{ background: "#8B0000", border: "none" }}
                             >
                               Cancel
-                            </Link>
-                            <button
-                              style={{
-                                backgroundColor: "#FE5722",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
-                            >
-                              Submit
                             </button>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      
-    </>
-  )
-}
-export default AddMeetings
+    </div>
+  );
+};
+
+export default AddMeetings;
