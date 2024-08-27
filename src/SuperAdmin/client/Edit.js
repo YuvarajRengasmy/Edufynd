@@ -14,6 +14,9 @@ import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+// import 'flag-icon-css/css/flag-icon.min.css';
 
 function AddAgent() {
   const location = useLocation();
@@ -322,6 +325,20 @@ function AddAgent() {
       },
     }),
   };
+
+
+  const [primaryNumber, setPrimaryNumber] = useState('');
+  const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckbox = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      setWhatsappNumber(primaryNumber);
+    } else {
+      setWhatsappNumber('');
+    }
+  }
   return (
     <>
       <Sidebar />
@@ -347,6 +364,7 @@ function AddAgent() {
                     </div>
                     <div className="card-body mt-5">
                       <div className="row g-3">
+                        
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Type of Client{" "}
@@ -378,6 +396,42 @@ function AddAgent() {
                             ) }
                           </div>
                         </div>
+
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label>Business Primary Number</label>
+        <PhoneInput
+          country={'us'}
+          value={primaryNumber}
+          onChange={(phone) => setPrimaryNumber(phone)}
+          enableSearch={true} // Enables search functionality in the dropdown
+          disableSearchIcon={false} // Shows the search icon
+        />
+      </div>
+      
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label>
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={handleCheckbox}
+          />{' '}
+          Same as Primary Number
+        </label>
+      </div>
+
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label>Business WhatsApp Number</label>
+        <PhoneInput
+          country={'us'}
+          value={whatsappNumber}
+          onChange={(phone) => setWhatsappNumber(phone)}
+          enableSearch={true}
+          disableSearchIcon={false}
+          disabled={isChecked}
+        />
+      </div>
+    
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}
