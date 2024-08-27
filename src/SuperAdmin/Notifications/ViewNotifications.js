@@ -62,7 +62,7 @@ export const ViewNotifications = () => {
 
           
           </div>
-          <main class="container my-3">
+          <main class="container-fluid my-3">
         
        
 

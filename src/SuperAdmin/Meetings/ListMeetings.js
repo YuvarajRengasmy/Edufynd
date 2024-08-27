@@ -113,12 +113,12 @@ export const ListMeetings = () => {
 
     <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
     <div className="content-header  bg-light shadow-sm sticky-top">
-      <div className="container">
+      <div className="container-fluid">
         
           <div className="row ">
             <div className="col-xl-12">
            
-              <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+              <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
                 <li className="flex-grow-1">
                   <div className="input-group" style={{ maxWidth: "600px" }}>
                     <input

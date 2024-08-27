@@ -153,13 +153,10 @@ export const ViewAccommodation = () => {
                           <td className="fw-bold">City </td>
                           <td>City</td>
                         </tr>
-                        <tr>
-                          <td className="fw-bold">Accommodation Type </td>
-                          <td>Accommodation Type</td>
-                        </tr>
+                        
                         <tr>
                           <td className="fw-bold">
-                            Assigned To (List Staff) Multiple Assign
+                            Assigned To 
                           </td>
                           <td>{accommodation?.assignedTo || "Not Available"}</td>
                         </tr>
@@ -167,28 +164,9 @@ export const ViewAccommodation = () => {
                           <td className="fw-bold">Finalised By</td>
                           <td>Finalised By</td>
                         </tr>
-                        <tr>
-                          <td className="fw-bold">Location</td>
-                          <td>Location</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">
-                            Holding Offer from the University (Yes/No){" "}
-                          </td>
-                          <td>
-                            {accommodation?.holdingOfferFromTheUniversity || "Not Available"}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">
-                            Location where accommodation is required{" "}
-                          </td>
-                          <td>
-                            {
-                              accommodation?.locationWhereAccommodationIsRequired || "Not Available"
-                            }
-                          </td>
-                        </tr>
+                      
+                      
+                       
                       </tbody>
                     </table>
                   </div>

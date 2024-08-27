@@ -515,11 +515,11 @@ export default function Masterproductlist() {
 
 
 
-<div className="container mt-3 overflow-x-auto" style={{scrollbarWidth:'thin'}}>
-      <div className="d-flex ">
+<div className="container mt-3 " >
+      <div className="row ">
         {/* Application Submitted Card */}
        
-        <div className="col-md-3 flex-shrink-0">
+        <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
               <div className="card-body text-center">
@@ -531,7 +531,7 @@ export default function Masterproductlist() {
         </div>
 
         {/* Offered and Rejected Card */}
-        <div className="col-md-3 flex-shrink-0">
+        <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#2196F3', color: '#fff' }}>
               <div className="card-body text-center">
@@ -552,7 +552,7 @@ export default function Masterproductlist() {
         </div>
 
         {/* Deposit Paid Card */}
-        <div className="col-md-3 flex-shrink-0">
+        <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FFC107', color: '#fff' }}>
               <div className="card-body text-center">
@@ -564,7 +564,7 @@ export default function Masterproductlist() {
         </div>
 
         {/* Travel Card */}
-        <div className="col-md-3 flex-shrink-0">
+        <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FF5722', color: '#fff' }}>
               <div className="card-body text-center">
@@ -576,7 +576,7 @@ export default function Masterproductlist() {
         </div>
 
         {/* Enrolled Card */}
-        <div className="col-md-3 flex-shrink-0">
+        <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#009688', color: '#fff' }}>
               <div className="card-body text-center">
@@ -588,7 +588,7 @@ export default function Masterproductlist() {
         </div>
 
         {/* Invoices Raised Card */}
-        <div className="col-md-3 flex-shrink-0">
+        <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3F51B5', color: '#fff' }}>
               <div className="card-body text-center">

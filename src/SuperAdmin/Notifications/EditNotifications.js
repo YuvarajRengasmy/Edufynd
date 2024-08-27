@@ -254,7 +254,10 @@ export const EditNotifications = () => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
         >
           <div className="content-header ">
-            <div className=" container-fluid ">
+          
+          </div>
+
+          <div className=" container-fluid ">
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
@@ -550,7 +553,7 @@ export const EditNotifications = () => {
 
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                            to='ListNotifications'
+                            to='/list_notifications'
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
@@ -580,7 +583,6 @@ export const EditNotifications = () => {
                 </div>
               </form>
             </div>
-          </div>
         </div>
       </div>
     </>
