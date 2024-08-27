@@ -31,6 +31,7 @@ function AddAgent() {
     lga: "",
     dail1: "",
     dail2: "",
+    dial3:"",
     addressLine1: "",
     addressLine2: "",
     addressLine3: "",
@@ -51,6 +52,7 @@ function AddAgent() {
     lga: { required: false },
     dail1: { required: false },
     dail2: { required: false },
+    dail3:{required:false},
     addressLine3: { required: false },
     addressLine1: { required: false },
     name: { required: false },
@@ -661,35 +663,54 @@ function AddAgent() {
                           ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Staff Contact Number
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={client?.contactNo}
-                            className={`form-control rounded-1 ${
-                              errors.contactNo.required ? 'is-invalid' : errors.contactNo.valid ? 'is-valid' : ''
-                            }`}
-                            placeholder="Example 123-456-7890"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            name="contactNo"
-                            onChange={handleInputs}
-                            onKeyDown={(e) => {
-                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-                                e.preventDefault();
-                              }
-                            }}
-                          />
-                          {errors.contactNo.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) }
-                        </div>
+  <label style={{ color: "#231F20" }}>
+  Staff ContactNo
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={client?.dial3}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.contactNo.required ? 'is-invalid' : errors.contactNo.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="contactNo"
+    value={client.contactNo}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.contactNo.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>

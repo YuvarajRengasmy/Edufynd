@@ -79,7 +79,7 @@ const AddAgent = () => {
           label: "Business Contact No",
           value: clientData?.businessContactNo || "Not Available"
         },
-        { id: 6, label: "whatsAppNumber", value: clientData?.whatsAppNumber || "Not Available" },
+        { id: 6, label: "whatsAppNumber", value:clientData?.whatsAppNumber || "Not Available" },
         { id: 6, label: "Website", value: clientData?.website || "Not Available" },
         { id: 7, label: "Staff Name", value: clientData?.name || "Not Available" },
         { id: 8, label: "Staff Contact No", value: clientData?.contactNo || "Not Available" },
