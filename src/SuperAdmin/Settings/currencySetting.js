@@ -431,8 +431,8 @@ export default function GlobalSettings() {
                     </button>
                   </li>
                   <li className="me-2">
-                    {/* <button
-                      className="btn btn-sm text-uppercase fw-semibold text-white px-4 py-2 "
+                    <button
+                      className="btn btn-sm text-uppercase fw-semibold text-white px-4 py-2   d-sm-block d-lg-none"
                       style={{
                         backgroundColor: "#fe5722",
                         border: "none",
@@ -446,13 +446,13 @@ export default function GlobalSettings() {
                       onClick={() => { handleAddModule() }}
                     >
                      <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;  Add Currency
-                    </button> */}
+                    </button>
                   </li>
                 </ol>
               </div>
           <div className="container-fluid mt-4">
           <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-4  d-none d-lg-block">
           <div className="card rounded-1 border-0 shadow-sm " ref={modalRef}>
           <div className="card-header bg-white border-0">
               <h5 className="card-title fw-semibold " >{isEdit ? "Edit Currency" : "Add Currency"}</h5>
@@ -495,7 +495,7 @@ Country Name<span className="text-danger">*</span>
                  
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="currency" className="form-label">End Date</label>
+                  <label htmlFor="currency" className="form-label">Currency</label>
                   <input
                     type="text"
                     className="form-control"
@@ -545,12 +545,12 @@ Country Name<span className="text-danger">*</span>
                         <td className="text-capitalize text-start">
                        
                           <button
-                            className="btn btn-danger text-uppercase fw-semibold px-3 py-1 btn-sm m-2"
+                            className="btn btn-danger fw-semibold "
                             type="button"
                             onClick={() => openPopup(data._id)}
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px" }}
                           >
-                       <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete
+                       <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; 
                           </button>
                         </td>
                       </tr>
@@ -605,7 +605,7 @@ Country Name<span className="text-danger">*</span>
           </DialogContent>
         </Dialog>
       </div>
-      {/* <div className="modal fade" id="addPopularModal5" tabIndex="-1" aria-labelledby="addModalLabelCurrency" aria-hidden="true" ref={modalRef}>
+      <div className="modal fade" id="addPopularModal5" tabIndex="-1" aria-labelledby="addModalLabelCurrency" aria-hidden="true" ref={modalRef}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -667,7 +667,7 @@ Country Name<span className="text-danger">*</span>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
    
    
     </div>
