@@ -17,6 +17,9 @@ import Select from "react-select";
 import CountryRegion from "countryregionjs";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+
 function AddAgent() {
   const initialState = {
     typeOfClient: "",
@@ -64,12 +67,11 @@ function AddAgent() {
   const [countries, setCountries] = useState([]);
   const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
-  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
- // Add state for dial code
-
-const [dial, setDial] = useState([]);
-const [selectedDialCode, setSelectedDialCode] = useState("+91");
-
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false);
+  const [dial, setDial] = useState([]);
+  const [primaryNumber, setPrimaryNumber] = useState('');
+  const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     getAllClientDetails();
@@ -79,11 +81,10 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
   const getAllClientDetails = () => {
     getallClientModule()
       .then((res) => {
-        console.log(res);
         setType(res?.data?.result);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -108,8 +109,8 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
     if (!isValidEmail(data.emailID)) error.emailID.valid = true;
     if (!isValidPhone(data.contactNo)) error.contactNo.valid = true;
     if (!isValidEmail(data.businessMailID)) error.businessMailID.valid = true;
-    if (!isValidPhone(data.businessContactNo)) error.businessContactNo.valid = true;
-    if (!isValidPhone(data.whatsAppNumber)) error.whatsAppNumber.valid = true;
+    // if (!isValidPhone(data.businessContactNo)) error.businessContactNo.valid = true;
+    // if (!isValidPhone(data.whatsAppNumber)) error.whatsAppNumber.valid = true;
     if (!isValidWebsite(data.website)) error.website.valid = true;
     if (!isValidName(data.businessName)) error.businessName.valid = true;
     if (!isValidName(data.name)) error.name.valid = true;
@@ -121,21 +122,19 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
   const handleInputs = (event) => {
     const { name, value } = event.target;
     const updatedClient = { ...client, [name]: value };
-  
-    if (name === "businessContactNo") {
-      if (copyToWhatsApp) {
-        updatedClient.whatsAppNumber =   value; // Use selectedDialCode for WhatsApp number
-      }
+
+    if (name === "businessContactNo" && isChecked) {
+      updatedClient.whatsAppNumber = value;
+      setWhatsappNumber(value); // Update WhatsApp number state
     }
-  
+
     setClient(updatedClient);
-  
+
     if (submitted) {
       const newError = handleValidation(updatedClient);
       setErrors(newError);
     }
   };
-  
 
   const getCountryRegionInstance = () => {
     return new CountryRegion();
@@ -164,12 +163,9 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
         setDial(res?.data?.result);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
-  
-  
-
 
   useEffect(() => {
     const getStates = async () => {
@@ -227,24 +223,22 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
     setLGA(selectedOptions.value);
   };
 
-  const handleCheckboxChange = (e) => {
-    const isChecked = e.target.checked;
-    setCopyToWhatsApp(isChecked);
-    if (isChecked) {
+  const handleCheckbox = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      setWhatsappNumber(primaryNumber);
       setClient((prevClient) => ({
         ...prevClient,
-        whatsAppNumber: `${prevClient.businessContactNo}`,
+        whatsAppNumber: primaryNumber,
       }));
     } else {
+      setWhatsappNumber('');
       setClient((prevClient) => ({
         ...prevClient,
-        whatsAppNumber: "",
+        whatsAppNumber: '',
       }));
     }
   };
-  
-  
-  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -286,24 +280,10 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-      borderRadius: "4.91319px",
-      fontSize: "11px",
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? "#3B0051" : "#F2CCFF",
-      ":hover": {
-        color: "black",
-      },
+      border: "1px solid #E5E5E5",
+      boxShadow: "none",
     }),
   };
-
-  const handleDialCodeChange = (event) => {
-    setSelectedDialCode(event.target.value);
-  };
-  
-  
   
   return (
     <>
@@ -450,8 +430,74 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
                             </div>
                           ) }
                         </div>
-                      
+
+
+                        
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label>Business Primary Number</label>
+        <PhoneInput
+                        country={"in"}
+                        value={primaryNumber}
+                        onChange={(phone) => {
+                          setPrimaryNumber(phone);
+                          handleInputs({
+                            target: {
+                              name: "businessContactNo",
+                              value: phone,
+                            },
+                          });
+                        }}
+                        inputClass={`form-control ${
+                          errors.businessContactNo.required ? 'is-invalid' 
+                        
+                            : ""
+                        }`}
+                        enableSearch={true} // Enables search functionality in the dropdown
+                        disableSearchIcon={false} 
+                      />
+
+
+      </div>
+      
+     
+
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label>Business WhatsApp Number</label>
+        <PhoneInput
+                        country={"in"}
+                        value={whatsappNumber}
+                        onChange={(phone) => {
+                          setWhatsappNumber(phone);
+                          handleInputs({
+                            target: {
+                              name: "whatsAppNumber",
+                              value: phone,
+                            },
+                          });
+                        }}
+                        inputClass={`form-control ${
+                          errors.whatsAppNumber.required ? "is-invalid" 
+                        
+                            : ""
+                        }`}
+                        disabled={isChecked}
+                        enableSearch={true} // Enables search functionality in the dropdown
+                        disableSearchIcon={false} 
+                      />
+                      <div >
+        <label>
+        <input
+                        type="checkbox"
+                        id="sameNumber"
+                        checked={isChecked}
+                        onChange={handleCheckbox}
+                      />
+         <small>Same as Primary Number</small> 
+        </label>
+      </div>
+      </div>
+                      
+                        {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
   <label style={{ color: "#231F20" }}>
     Business Primary Number
     <span className="text-danger">*</span>
@@ -565,7 +611,7 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
       This field is required.
     </span>
   )}
-</div>
+</div> */}
 
 
         
