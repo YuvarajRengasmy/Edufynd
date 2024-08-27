@@ -613,6 +613,13 @@ export default function Masterproductlist() {
                 style={{ fontSize: "12px" }}
               >
                 <tr>
+                  <th className=" text-start">
+                 
+                   
+  <input  type="checkbox" />
+ 
+
+                  </th>
                   <th className="text-capitalize text-start">S No</th>
                   <th className="text-capitalize text-start">Code</th>
                   <th className="text-capitalize text-start">Type</th>
@@ -626,6 +633,13 @@ export default function Masterproductlist() {
               <tbody style={{ fontSize: "11px" }}>
                 {client?.map((data, index) => (
                   <tr key={index} className="align-middle">
+                     <td className=" text-start">
+                 
+                   
+                 <input  type="checkbox" />
+                
+               
+                                 </td>
                     <td className="text-capitalize text-start">
                       {pagination.from + index + 1}
                     </td>

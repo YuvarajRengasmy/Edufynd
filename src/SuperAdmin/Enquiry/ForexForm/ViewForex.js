@@ -58,7 +58,7 @@ export const ViewForex = () => {
                 <h6 className=" mb-0 p-2 fw-semibold">Forex Enquiry Profile</h6>
               </div>
 
-              {forex ? (
+             
                 <div className="card-body">
                   <div className="row mb-4">
                     <div className="col-md-6">
@@ -247,11 +247,8 @@ export const ViewForex = () => {
                     </div>
                   </div>
                 </div>
-              ) : (
-                <div className="text-center p-4">
-                  <p>Loading...</p>
-                </div>
-              )}
+             
+                
             </div>
           </div>
       </div>

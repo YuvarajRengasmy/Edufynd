@@ -108,6 +108,7 @@ const AddAgent = () => {
   );
 
   return (
+    <>
     <DndProvider backend={HTML5Backend}>
       <Sidebar />
 
@@ -172,8 +173,62 @@ const AddAgent = () => {
             </div>
           </div>
         </div>
+
+        <div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        
+        <li className="mb-4 position-relative">
+          <div className="row align-items-start g-0">
+
+          <div className="col-1 d-flex justify-content-center align-items-center">
+              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                <i className="fas fa-check" />
+              </div>
+            </div>
+            <div className="col-4 text-center">
+              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+            </div>
+           
+          
+           
+            <div className="col-7">
+            <div className="mb-3">
+              
+              <div className="bg-success text-white rounded-3 p-2">
+                <h6 className="mb-1">New University Name</h6>
+                <p className="mb-0">University Y</p>
+              </div>
+            </div>
+              <div className="mb-3">
+             
+                <div className="bg-danger text-white rounded-3 p-2">
+                  <h6 className="mb-1">Old University Name</h6>
+                  <p className="mb-0">University X</p>
+                </div>
+              </div>
+           
+            </div>
+          </div>
+          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</div>
+
+
       </div>
     </DndProvider>
+
+
+
+
+
+    </>
   );
 };
 
