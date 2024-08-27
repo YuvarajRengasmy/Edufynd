@@ -629,10 +629,9 @@ export const ViewApplication = () => {
                   </div>
                 </div>
       </div>
-      </div></div>              
-               
-
-
+      </div>
+      </div>              
+    
 
 <div className="container-fluid">
   <div className="row">
