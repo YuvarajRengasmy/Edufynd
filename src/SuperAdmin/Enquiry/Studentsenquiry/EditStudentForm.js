@@ -396,7 +396,7 @@ export const AddStudentForm = () => {
               >
                 <h5 className="text-center text-capitalize p-1">
                   {" "}
-                  Add Student Enquiry Details
+                  Edit Student Enquiry Details
                 </h5>
               </div>
               <div className="card-body mt-5">
@@ -753,6 +753,7 @@ export const AddStudentForm = () => {
                       <input
                         className="form-control rounded-2"
                         onChange={handleInputs}
+                        value={student?.citizenShip}
                         name="citizenShip"
                         id="inputPassword4"
                         type="text"
@@ -781,6 +782,7 @@ export const AddStudentForm = () => {
                         className="form-control rounded-2"
                         onChange={handleInputs}
                         name="passportNo"
+                        value={student?.passportNo}
                         id="inputAddress"
                         type="text"
                         placeholder="Enter Passport No"
@@ -806,6 +808,7 @@ export const AddStudentForm = () => {
                       <input
                         className="form-control rounded-2"
                         onChange={handleInputs}
+                        value={student?.expiryDate}
                         name="expiryDate"
                         id="inputAddress"
                         type="Date"
@@ -833,6 +836,7 @@ export const AddStudentForm = () => {
                       <input
                         className="form-control rounded-2"
                         onChange={handleInputs}
+                        value={student?.email}
                         id="inputPassword4"
                         text="text"
                         placeholder="Enter Email ID"
@@ -979,6 +983,7 @@ export const AddStudentForm = () => {
                         className="form-control rounded-2"
                         id="inputPassword4"
                         onChange={handleInputs}
+                        value={student?.qualification}
                         type="text"
                         name="qualification"
                         placeholder="Enter Qualification"
@@ -1008,6 +1013,7 @@ export const AddStudentForm = () => {
                         id="inputAddress"
                         onChange={handleInputs}
                         name="yearPassed"
+                        value={student?.yearPassed}
                         type="text"
                         placeholder="Enter Passed Year"
                         style={{
@@ -1031,6 +1037,7 @@ export const AddStudentForm = () => {
                         name="cgpa"
                         id="inputAddress"
                         type="text"
+                        value={student?.cgpa}
                         placeholder=" Enter CGPA"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -1055,6 +1062,7 @@ export const AddStudentForm = () => {
                         className="form-control rounded-2"
                         id="inputEmail4"
                         onChange={handleInputs}
+                        value={student?.desiredCountry}
                         name="desiredCountry"
                         type="text"
                         placeholder="Enter Desired Country"
@@ -1078,6 +1086,7 @@ export const AddStudentForm = () => {
                         id="inputPassword4"
                         type="text"
                         onChange={handleInputs}
+                        value={student?.desiredUniversity}
                         name="desiredUniversity"
                         placeholder="Enter Desired University"
                         style={{
@@ -1103,6 +1112,7 @@ export const AddStudentForm = () => {
                         className="form-control rounded-2"
                         id="inputPassword4"
                         onChange={handleInputs}
+                        value={student?.desiredCourse}
                         type="text"
                         name="desiredCourse"
                         placeholder="Enter Desired Course"
@@ -1130,6 +1140,7 @@ export const AddStudentForm = () => {
                             fontSize: "12px",
                           }}
                           onChange={handleInputs}
+                          value={student?.doYouHoldAnyOtherOffer}
                         >
                           <option value=""> Select Offer </option>
                           <option value="yes"> Yes </option>
@@ -1156,6 +1167,7 @@ export const AddStudentForm = () => {
                             type="text"
                             name="country"
                             onChange={handleInputs}
+                            value={student?.country}
                             placeholder=" Enter Country"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -1172,6 +1184,7 @@ export const AddStudentForm = () => {
                             id="inputEmail4"
                             type="text"
                             onChange={handleInputs}
+                            value={student?.universityName}
                             name="universityName"
                             placeholder="Enter University "
                             style={{
@@ -1189,6 +1202,7 @@ export const AddStudentForm = () => {
                             id="inputEmail4"
                             type="text"
                             onChange={handleInputs}
+                            value={student?.program}
                             name="program"
                             placeholder="Enter Program"
                             style={{
@@ -1211,6 +1225,7 @@ export const AddStudentForm = () => {
                           type="text"
                           name="refereeName"
                           onChange={handleInputs}
+                          value={student?.refereeName}
                           placeholder="Enter Referee Name"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
@@ -1237,6 +1252,7 @@ export const AddStudentForm = () => {
                           type="text"
                           name="refereeContactNo"
                           onChange={handleInputs}
+                          value={student?.refereeContactNo}
                           placeholder="Enter Referee Contact"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
@@ -1267,6 +1283,7 @@ export const AddStudentForm = () => {
                             fontSize: "12px",
                           }}
                           onChange={handleInputs}
+                          value={student?.doYouNeedSupportForLoan}
                         >
                           <option value=""> Select Loan support </option>
                           <option value="yes"> Yes </option>
@@ -1288,6 +1305,7 @@ export const AddStudentForm = () => {
                           type="text"
                           name="registerForIELTSClass"
                           onChange={handleInputs}
+                          value={student?.registerForIELTSClass}
                           placeholder="Enter Register for IELTS class"
                           style={{
                             fontFamily: "Plus Jakarta Sans",

@@ -46,9 +46,11 @@ export const AddStudentForm = () => {
     country: "",
     universityName: "",
     programName: "",
+    
     refereeName: "",
     refereeContactNo: "",
     registerForIELTSClass: "",
+    studentName:"",
     agentName: "",
     businessName: "",
     agentPrimaryNumber: "",
@@ -355,7 +357,7 @@ export const AddStudentForm = () => {
       saveStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudentForm");
+          navigate("/list_enquiry_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

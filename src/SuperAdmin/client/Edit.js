@@ -418,40 +418,7 @@ function AddAgent() {
                         </div>
 
 
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label>Business Primary Number</label>
-        <PhoneInput
-          country={'us'}
-          value={primaryNumber}
-          onChange={(phone) => setPrimaryNumber(phone)}
-          enableSearch={true} // Enables search functionality in the dropdown
-          disableSearchIcon={false} // Shows the search icon
-        />
-      </div>
-      
-      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label>
-          <input
-            type="checkbox"
-            checked={isChecked}
-            onChange={handleCheckbox}
-          />{' '}
-          Same as Primary Number
-        </label>
-      </div>
-
-      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label>Business WhatsApp Number</label>
-        <PhoneInput
-          country={'us'}
-          value={whatsappNumber}
-          onChange={(phone) => setWhatsappNumber(phone)}
-          enableSearch={true}
-          disableSearchIcon={false}
-          disabled={isChecked}
-        />
-      </div>
-    
+                  
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}
