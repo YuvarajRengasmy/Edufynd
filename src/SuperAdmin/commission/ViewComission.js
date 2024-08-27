@@ -3,6 +3,7 @@ import { getSingleCommission } from "../../api/commission";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 export const ViewComission = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -31,8 +32,12 @@ export const ViewComission = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
-          <div className="container-fluid ">
+        <div className="content-header text-end">
+
+<BackButton/>
+
+</div>
+        <div className="container-fluid ">
             <div className="row">
               <div className="col-12 text-center my-4">
                 <h2 className="fw-semibold">Commission Details</h2>
@@ -138,7 +143,6 @@ export const ViewComission = () => {
               </nav>
             </div>
           </div>
-        </div>
         <div className="container-fluid my-2">
   <div className="row ">
     <div className="col-12 col-lg-7 col-auto">
