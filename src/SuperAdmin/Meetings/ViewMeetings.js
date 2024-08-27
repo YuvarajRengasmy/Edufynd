@@ -52,7 +52,7 @@ export const ViewMeetings = () => {
   </ol>
 </nav>
 
-          <div class="container ">
+          <div class="container-fluid ">
      
         <div class="card border-light rounded-1 shadow-sm p-4">
             <div class="card-body">

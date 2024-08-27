@@ -103,7 +103,7 @@ export default function ListAgent() {
         className="content-wrapper "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header bg-light shadow-sm sticky-top">
+        <div className="content-header bg-light shadow-sm sticky-top mb-0">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
@@ -347,7 +347,7 @@ export default function ListAgent() {
         {/* Card 1: Active Users */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#9C27B0" }} // Purple
           >
             <div className="card-body">
@@ -363,7 +363,7 @@ export default function ListAgent() {
         {/* Card 2: Pending Requests */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#FF5722" }} // Deep Orange
           >
             <div className="card-body">
@@ -379,7 +379,7 @@ export default function ListAgent() {
         {/* Card 3: Banned Users */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#FFEB3B" }} // Yellow
           >
             <div className="card-body">
@@ -395,7 +395,7 @@ export default function ListAgent() {
         {/* Card 4: System Logs */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#2196F3" }} // Blue
           >
             <div className="card-body">
@@ -415,6 +415,25 @@ export default function ListAgent() {
             <div className="row">
               <div className="col-xl-12">
                 <div className="card  border-0 rounded-1 shadow-sm">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                    <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
+
+
+                  </div>
+                </div>
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -430,6 +449,9 @@ export default function ListAgent() {
                                 fontSize: "12px",
                               }}
                             >
+ <th className=" text-start">
+                            <input type="checkbox" />
+                            </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 S.No.
@@ -469,6 +491,9 @@ export default function ListAgent() {
                                   fontSize: "11px",
                                 }}
                               >
+                                 <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
                                 <td className="text-capitalize text-start text-truncate ">
                                   #{pagination.from + index + 1}
                                 </td>

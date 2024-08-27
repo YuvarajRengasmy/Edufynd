@@ -172,21 +172,8 @@ export const ViewAccommodation = () => {
     <td>{accommodation?.final || "Not Available"}</td>
   </tr>
   
-  <tr>
-    
-    <td>
-      {accommodation?.holdingOfferFromTheUniversity || "Not Available"}
-    </td>
-  </tr>
-  <tr>
-    <td className="fw-bold">
-      Location where accommodation is required
-    </td>
-    <td>
-      {accommodation?.locationWhereAccommodationIsRequired ||
-        "Not Available"}
-    </td>
-  </tr>
+ 
+ 
 </tbody>
 
                     </table>
@@ -195,6 +182,7 @@ export const ViewAccommodation = () => {
               </div>
             </div>
           </div>
+
       </div>
     </>
   );

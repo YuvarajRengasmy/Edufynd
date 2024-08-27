@@ -49,7 +49,7 @@ export const ViewTraining = () => {
   
   </ol>
 </nav>
-            <div className="container my-3">
+            <div className="container-fluid my-3">
               <div className="card border-light shadow-sm p-4">
                 <div className="card-body">
                   

@@ -114,27 +114,24 @@ export const ListTraining = () => {
 
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div className="content-header bg-light shadow-sm sticky-top">
-        <div className="container">
+      <div className="content-header bg-light shadow-sm sticky-top mb-0">
+        <div className="container-fluid">
           
             <div className="row ">
               <div className="col-xl-12">
              
-                <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+                <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
                         placeholder="Search"
                         aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                        className="form-control  border-1  rounded-4 w-100"
                         style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
+                        
                           fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px" // Adjust padding to fit the height
+                         
                         }}
                       />
                       <span
@@ -203,7 +200,7 @@ export const ListTraining = () => {
                               <button
 
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
+                                className="btn btn-cancel border-0 fw-semibold   rounded-pill text-white float-right bg"
                                 style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
                               // onClick={resetFilter}
                               >
@@ -213,7 +210,7 @@ export const ListTraining = () => {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
+                                className="btn btn-save border-0 fw-semibold   rounded-pill text-white float-right mx-2"
                                 style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
                               >
                                 Apply
@@ -260,8 +257,8 @@ export const ListTraining = () => {
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/add_training">
                       <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                        style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
+                        className="btn    fw-semibold  border-0 rounded-1 text-white  "
+                        style={{ backgroundColor: "#231f20", fontSize: "12px" }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
@@ -284,16 +281,16 @@ export const ListTraining = () => {
         
         </div>
 
-        <div className="container mt-3">
+        <div className="container-fluid mt-3">
       <div className="row">
         {/* Card 1: New Materials */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#FF9800" }} // Orange
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-newspaper" style={{ color: '#ffffff' }}></i> New Materials
               </h6>
               <p className="card-text">Recently added training materials.</p>
@@ -305,11 +302,11 @@ export const ListTraining = () => {
         {/* Card 2: Completed Trainings */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#4CAF50" }} // Green
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-trophy" style={{ color: '#ffffff' }}></i> Completed Trainings
               </h6>
               <p className="card-text">Trainings that have been completed.</p>
@@ -321,11 +318,11 @@ export const ListTraining = () => {
         {/* Card 3: Pending Reviews */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#2196F3" }} // Blue
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Pending Reviews
               </h6>
               <p className="card-text">Materials pending review.</p>
@@ -337,11 +334,11 @@ export const ListTraining = () => {
         {/* Card 4: Reviewed Materials */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#F44336" }} // Red
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Reviewed Materials
               </h6>
               <p className="card-text">Materials that have been reviewed.</p>
@@ -352,10 +349,29 @@ export const ListTraining = () => {
       </div>
     </div>
         <div className="content-body">
-            <div className="container">
+            <div className="container-fluid">
             <div className="row">
             <div className="col-xl-12">
-              <div className="card rounded-0 border-0">
+              <div className="card rounded-1 shadow-sm border-0">
+              <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                    <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
+
+
+                  </div>
+                </div>
                 <div className="card-body">
                   <div className="card-table">
                     <div className="table-responsive">
@@ -363,6 +379,9 @@ export const ListTraining = () => {
                       <table className=" table table-hover card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
                         <thead className="table-light">
                           <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <th className=" text-start">
+                            <input type="checkbox" />
+                            </th>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
                             <th className="text-capitalize text-start sortable-handle">Date</th>
                             <th className="text-capitalize text-start sortable-handle"> Topic</th>
@@ -375,6 +394,9 @@ export const ListTraining = () => {
                         <tbody>
                         {notification?.map((data, index) => (
                             <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                              <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
                               <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
                               <td className="text-capitalize text-start text-truncate" >{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-") || "Not Available"}</td>
                               <td className="text-capitalize text-start text-truncate">{data?.trainingTopic || "Not Available"}</td>
@@ -427,15 +449,28 @@ export const ListTraining = () => {
                       </table>
                     </div>
                   </div>
-                  <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                    </div>
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                  <p className="me-auto ">
+                    Show
+                    <select
+                      className="form-select form-select-sm rounded-1 d-inline mx-2"
+                      aria-label="Default select example1"
+                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>{" "}
+                    Entries    out of 100
+                  </p>
+                  <Pagination
+                    count={Math.ceil(pagination.count / pageSize)}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
+                </div>
                 </div>
               </div>
             </div>
@@ -453,7 +488,7 @@ export const ListTraining = () => {
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold  mx-3"
               onClick={deleteProgramData}
               style={{ fontSize: '12px' }}
             >
@@ -461,7 +496,7 @@ export const ListTraining = () => {
             </button>
             <button
               type="button"
-              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold  "
               onClick={closePopup}
               style={{ fontSize: '12px' }}
             >
@@ -506,7 +541,7 @@ export const ListTraining = () => {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
+                className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 
               >
@@ -515,7 +550,7 @@ export const ListTraining = () => {
               <button
                 type="submit"
                 // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
+                className="btn btn-save border-0 rounded-pill  fw-semibold px-3 py-1 text-white float-right mx-2"
                 style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
               >
                 Apply
