@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getSinglePromotion } from "../../api/promotions";
 import { RichTextEditor } from "@mantine/rte";
 import { Link, useLocation } from "react-router-dom";
-
+import BackButton from "../../compoents/backButton";
 import Sidebar from "../../compoents/sidebar";
 export const ViewPromotion = () => {
   const location = useLocation();
@@ -35,6 +35,8 @@ export const ViewPromotion = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="content-header ">
+
+            <BackButton/>
             <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">

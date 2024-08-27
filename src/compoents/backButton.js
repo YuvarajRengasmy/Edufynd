@@ -16,7 +16,9 @@ const BackButton = () => {
   };
 
   return (
-    <button className='btn float-end'
+    <>
+    <div className='text-end'>
+    <button className='btn '
       onClick={handleBack}
       style={{
      
@@ -33,6 +35,9 @@ const BackButton = () => {
     >
       Back to Previous Page
     </button>
+    </div>
+    </>
+    
   );
 };
 

@@ -4,6 +4,7 @@ import { getSingleMeeting } from "../../api/Notification/meeting";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 export const ViewMeetings = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -33,6 +34,7 @@ export const ViewMeetings = () => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
         >
           <div className="content-header ">
+          <BackButton/>
           <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">
