@@ -17,6 +17,9 @@ import Select from "react-select";
 import CountryRegion from "countryregionjs";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+
 function AddAgent() {
   const initialState = {
     typeOfClient: "",
@@ -27,9 +30,6 @@ function AddAgent() {
     country: "",
     state: "",
     lga: "",
-    dial1: "",
-    dial2: "",
-    dial3: "",
     addressLine1: "",
     addressLine2: "",
     addressLine3: "",
@@ -39,7 +39,6 @@ function AddAgent() {
     whatsAppNumber: "",
   };
 
-  
   const initialStateErrors = {
     typeOfClient: { required: false },
     businessName: { required: false },
@@ -47,9 +46,6 @@ function AddAgent() {
     businessContactNo: { required: false, valid: false },
     website: { required: false, valid: false },
     addressLine2: { required: false },
-    dial1: { required: false },
-    dial2: { required: false },
-    dial3: { required: false },
     country: { required: false },
     state: { required: false },
     lga: { required: false },
@@ -71,11 +67,11 @@ function AddAgent() {
   const [countries, setCountries] = useState([]);
   const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
-  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
- // Add state for dial code
-
-const [dial, setDial] = useState([]);
-
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false);
+  const [dial, setDial] = useState([]);
+  const [primaryNumber, setPrimaryNumber] = useState('');
+  const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     getAllClientDetails();
@@ -85,11 +81,10 @@ const [dial, setDial] = useState([]);
   const getAllClientDetails = () => {
     getallClientModule()
       .then((res) => {
-        console.log(res);
         setType(res?.data?.result);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -114,8 +109,8 @@ const [dial, setDial] = useState([]);
     if (!isValidEmail(data.emailID)) error.emailID.valid = true;
     if (!isValidPhone(data.contactNo)) error.contactNo.valid = true;
     if (!isValidEmail(data.businessMailID)) error.businessMailID.valid = true;
-    if (!isValidPhone(data.businessContactNo)) error.businessContactNo.valid = true;
-    if (!isValidPhone(data.whatsAppNumber)) error.whatsAppNumber.valid = true;
+    // if (!isValidPhone(data.businessContactNo)) error.businessContactNo.valid = true;
+    // if (!isValidPhone(data.whatsAppNumber)) error.whatsAppNumber.valid = true;
     if (!isValidWebsite(data.website)) error.website.valid = true;
     if (!isValidName(data.businessName)) error.businessName.valid = true;
     if (!isValidName(data.name)) error.name.valid = true;
@@ -127,21 +122,19 @@ const [dial, setDial] = useState([]);
   const handleInputs = (event) => {
     const { name, value } = event.target;
     const updatedClient = { ...client, [name]: value };
-  
-    if (name === "businessContactNo") {
-      if (copyToWhatsApp) {
-        updatedClient.whatsAppNumber =   value; // Use selectedDialCode for WhatsApp number
-      }
+
+    if (name === "businessContactNo" && isChecked) {
+      updatedClient.whatsAppNumber = value;
+      setWhatsappNumber(value); // Update WhatsApp number state
     }
-  
+
     setClient(updatedClient);
-  
+
     if (submitted) {
       const newError = handleValidation(updatedClient);
       setErrors(newError);
     }
   };
-  
 
   const getCountryRegionInstance = () => {
     return new CountryRegion();
@@ -170,12 +163,9 @@ const [dial, setDial] = useState([]);
         setDial(res?.data?.result);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
-  
-  
-
 
   useEffect(() => {
     const getStates = async () => {
@@ -233,24 +223,22 @@ const [dial, setDial] = useState([]);
     setLGA(selectedOptions.value);
   };
 
-  const handleCheckboxChange = (e) => {
-    const isChecked = e.target.checked;
-    setCopyToWhatsApp(isChecked);
-    if (isChecked) {
+  const handleCheckbox = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      setWhatsappNumber(primaryNumber);
       setClient((prevClient) => ({
         ...prevClient,
-        whatsAppNumber: `${prevClient.businessContactNo}`,
+        whatsAppNumber: primaryNumber,
       }));
     } else {
+      setWhatsappNumber('');
       setClient((prevClient) => ({
         ...prevClient,
-        whatsAppNumber: "",
+        whatsAppNumber: '',
       }));
     }
   };
-  
-  
-  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -292,22 +280,10 @@ const [dial, setDial] = useState([]);
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-      borderRadius: "4.91319px",
-      fontSize: "11px",
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? "#3B0051" : "#F2CCFF",
-      ":hover": {
-        color: "black",
-      },
+      border: "1px solid #E5E5E5",
+      boxShadow: "none",
     }),
   };
-
- 
-  
-  
   
   return (
     <>
@@ -454,8 +430,74 @@ const [dial, setDial] = useState([]);
                             </div>
                           ) }
                         </div>
-                      
+
+
+                        
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label>Business Primary Number</label>
+        <PhoneInput
+                        country={"in"}
+                        value={primaryNumber}
+                        onChange={(phone) => {
+                          setPrimaryNumber(phone);
+                          handleInputs({
+                            target: {
+                              name: "businessContactNo",
+                              value: phone,
+                            },
+                          });
+                        }}
+                        inputClass={`form-control ${
+                          errors.businessContactNo.required ? 'is-invalid' 
+                        
+                            : ""
+                        }`}
+                        enableSearch={true} // Enables search functionality in the dropdown
+                        disableSearchIcon={false} 
+                      />
+
+
+      </div>
+      
+     
+
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label>Business WhatsApp Number</label>
+        <PhoneInput
+                        country={"in"}
+                        value={whatsappNumber}
+                        onChange={(phone) => {
+                          setWhatsappNumber(phone);
+                          handleInputs({
+                            target: {
+                              name: "whatsAppNumber",
+                              value: phone,
+                            },
+                          });
+                        }}
+                        inputClass={`form-control ${
+                          errors.whatsAppNumber.required ? "is-invalid" 
+                        
+                            : ""
+                        }`}
+                        disabled={isChecked}
+                        enableSearch={true} // Enables search functionality in the dropdown
+                        disableSearchIcon={false} 
+                      />
+                      <div >
+        <label>
+        <input
+                        type="checkbox"
+                        id="sameNumber"
+                        checked={isChecked}
+                        onChange={handleCheckbox}
+                      />
+         <small>Same as Primary Number</small> 
+        </label>
+      </div>
+      </div>
+                      
+                        {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
   <label style={{ color: "#231F20" }}>
     Business Primary Number
     <span className="text-danger">*</span>
@@ -464,8 +506,8 @@ const [dial, setDial] = useState([]);
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={client?.dial1} >
+  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  value={selectedDialCode}
+  onChange={handleDialCodeChange} >
   
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
@@ -527,9 +569,9 @@ const [dial, setDial] = useState([]);
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial2}
-  onChange={handleInputs}>
+  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={selectedDialCode}
+  onChange={handleDialCodeChange}>
     
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
@@ -569,7 +611,7 @@ const [dial, setDial] = useState([]);
       This field is required.
     </span>
   )}
-</div>
+</div> */}
 
 
         
@@ -629,55 +671,34 @@ const [dial, setDial] = useState([]);
                           ) }
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-  Staff ContactNo
-    <span className="text-danger">*</span>
-  </label>
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial3}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-
-  <input
-    type="text"
-    className={`form-control rounded-1 ${
-      errors.contactNo.required ? 'is-invalid' : errors.contactNo.valid ? 'is-valid' : ''
-    }`}
-    placeholder="Example 123-456-7890"
-    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-    name="contactNo"
-    value={client.contactNo}
-    onChange={handleInputs}
-    onKeyDown={(e) => {
-      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-  </div>
-  {errors.contactNo.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-                      
+                          <label style={{ color: "#231F20" }}>
+                            Staff Contact Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className={`form-control rounded-1 ${
+                              errors.contactNo.required ? 'is-invalid' : errors.contactNo.valid ? 'is-valid' : ''
+                            }`}
+                            placeholder="Example 123-456-7890"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="contactNo"
+                            onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                          {errors.contactNo.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) }
+                        </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
