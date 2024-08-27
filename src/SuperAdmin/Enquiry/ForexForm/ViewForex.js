@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
 import Mastersidebar from "../../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { RichTextEditor } from "@mantine/rte";
 export const ViewForex = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -302,16 +304,16 @@ export const ViewForex = () => {
           </div>
 
 
-          {/* <div className="container-fluid">
+          <div className="container-fluid">
   <div className="row">
     <div className="col">
     <div className="card border-0 rounded-1 shadow-sm p-3">
                   <div className="card-body">
                     <div className="d-flex   justify-content-between align-items-center">
-                      {status.map((item, index) => (
+                      
                         <div
                           className="position-relative m-2"
-                          key={index}
+                         
                           style={{ flex: "1 1 auto", maxWidth: "18%" }}
                         >
                           <div className="position-relative">
@@ -319,7 +321,7 @@ export const ViewForex = () => {
                               className="progress"
                               role="progressbar"
                               aria-label="Progress"
-                              aria-valuenow={item.progress}
+                              
                               aria-valuemin="0"
                               aria-valuemax="100"
                               style={{ height: "9px" }}
@@ -327,8 +329,8 @@ export const ViewForex = () => {
                               <div
                                 className="progress-bar progress-bar-striped progress-bar-animated"
                                 style={{
-                                  width: `${item.progress}%`,
-                                  backgroundColor: getProgressColor(item.progress),
+                                  width: '3',
+                                  backgroundColor:'#000' ,
                                 }}
                               ></div>
                             </div>
@@ -336,20 +338,20 @@ export const ViewForex = () => {
                             <div
                               className="progress-bar progress-bar-striped progress-bar-animated"
                               style={{
-                                width: `${item.progress}%`,
-                                backgroundColor: getProgressColor(item.progress),
+                                width: '3',
+                                backgroundColor:'#000' ,
                               }}
                             ></div>
                           </div>
                           <OverlayTrigger
                             placement="bottom"
-                            overlay={<Tooltip>{item.duration} Days</Tooltip>}
+                            overlay={<Tooltip>3 Days</Tooltip>}
                           >
                             <button
                               type="button"
                               className="position-absolute text-bold  top-0  start-0 translate-middle-y btn btn-sm btn-primary rounded-pill"
                               data-bs-toggle="modal"
-                              data-bs-target={`#modal-${index}`}
+                              data-bs-target='modal1'
                               style={{
                                 width: "2rem",
                                 height: "2rem",
@@ -357,18 +359,18 @@ export const ViewForex = () => {
                                
                                 color: "#FFF",
                               }}
-                              onClick={() => handleEditModule(item)}
+                              
                             >
-{item.duration} 
+
                              
                             </button>
                           </OverlayTrigger>
-                          <div className="d-flex justify-content-start align-items-center mt-3"> {item.statusName}</div>
+                          <div className="d-flex justify-content-start align-items-center mt-3"> </div>
                          
 
                           <div
                             className="modal fade"
-                            id={`modal-${index}`}
+                            id='modal1'
                             tabIndex="-1"
                             aria-labelledby="exampleModalLabel"
                             aria-hidden="true"
@@ -387,11 +389,11 @@ export const ViewForex = () => {
                                     className="btn-close"
                                     data-bs-dismiss="modal"
                                     aria-label="Close"
-                                    ref={modalRef}
+                                   
                                   ></button>
                                 </div>
                                 <div className="modal-body">
-                                  <form onSubmit={handleTrackSubmit}>
+                                  <form >
                                     <div className="input-group mb-3">
                                       <span
                                         className="input-group-text"
@@ -402,20 +404,14 @@ export const ViewForex = () => {
                                       <input
                                         type="text"
                                         name="newStatus"
-                                        value={track.newStatus}
-                                        onChange={handleTrack}
+                                       
                                         className="form-control"
                                         placeholder="Enter Status...."
                                         aria-label="Status"
                                         aria-describedby="basic-addon1"
                                         style={{ fontSize: "12px" }}
                                       />
-                                      {submitted &&
-                                        trackErrors.newStatus.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
+                                      
                                     </div>
                                     <div className="input-group mb-3">
                                       <span
@@ -427,28 +423,21 @@ export const ViewForex = () => {
                                       <input
                                         type="text"
                                         name="duration"
-                                        value={track.duration}
-                                        onChange={handleTrack}
+                                       
                                         className="form-control"
                                         placeholder="Enter Status...."
                                         aria-label="Status"
                                         aria-describedby="basic-addon1"
                                         style={{ fontSize: "12px" }}
                                       />
-                                      {submitted &&
-                                        trackErrors.duration.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
+                                      
                                     </div>
                                     <div className="input-group mb-3">
                                     
                                       <RichTextEditor
                                         placeholder="Start writing your content here..."
                                         name="commentBox"
-                                        onChange={handleRichTextChange}
-                                        value={track.commentBox}
+                                       
                                         type="text"
                                         style={{
                                           fontFamily: "Plus Jakarta Sans",
@@ -457,12 +446,7 @@ export const ViewForex = () => {
                                           zIndex: "0",
                                         }}
                                       />
-                                      {submitted &&
-                                        trackErrors.commentBox.required && (
-                                          <p className="text-danger">
-                                            Comment is required
-                                          </p>
-                                        )}
+                                      
                                     </div>
 
                                     <div className="input-group mb-3">
@@ -482,7 +466,7 @@ export const ViewForex = () => {
                                         value={"80"}
                                         placeholder="Enter  Image upload"
                                         name="progress"
-                                        onChange={handleTrack}
+                                       
                                       />
                                     </div>
                                     <div className="input-group mb-3">
@@ -501,7 +485,7 @@ export const ViewForex = () => {
                                         }}
                                         placeholder="Enter  Image upload"
                                         name="document"
-                                        onChange={handleTrack}
+                                        
                                       />
                                     </div>
                                     <div className="modal-footer">
@@ -538,14 +522,15 @@ export const ViewForex = () => {
                           
                         </div>
                        
-                      ))}
+                     
                     </div>
                   </div>
                 </div>
       </div>
-      </div>
-      </div>              
-    
+      </div></div>              
+               
+
+
 
 <div className="container-fluid">
   <div className="row">
@@ -584,7 +569,7 @@ export const ViewForex = () => {
                                   ></button>
                                 </div>
                                 <div className="modal-body">
-                                <form onSubmit={handleTrackSubmit}>
+                                <form >
                                     <div className="input-group mb-3">
                                       <span
                                         className="input-group-text"
@@ -594,28 +579,14 @@ export const ViewForex = () => {
                                       </span>
                                       <select
                                         name="newStatus"
-                                        value={track.newStatus}
-                                        onChange={handleTrack}
+                                        
                                         className="form-select"
                                         style={{ fontSize: "12px" }}
                                       >
                                         <option value="">Select Status</option>
-                                        {
-                                          application.map((status) => (
-                                            <option
-                                              key={status._id}
-                                              value={status.statusName}
-                                            >
-                                              {status.statusName}
-                                            </option>
-                                          ))}
+                                      
                                       </select>
-                                      {submitted &&
-                                        trackErrors.newStatus.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
+                                    
                                     </div>
                                     <div className="input-group mb-3 visually-hidden">
                                       <span
@@ -628,7 +599,7 @@ export const ViewForex = () => {
                                         type="text"
                                         name="duration"
                                         value="0"
-                                        onChange={handleTrack}
+                                       
                                         className="form-control"
                                         placeholder="Enter Status...."
                                         aria-label="Status"
@@ -642,8 +613,7 @@ export const ViewForex = () => {
                                       <RichTextEditor
                                         placeholder="Start writing your content here..."
                                         name="commentBox"
-                                        onChange={handleRichTextChange}
-                                        value={track.commentBox}
+                                        
                                         type="text"
                                         style={{
                                           fontFamily: "Plus Jakarta Sans",
@@ -652,12 +622,7 @@ export const ViewForex = () => {
                                           zIndex: "0",
                                         }}
                                       />
-                                      {submitted &&
-                                        trackErrors.commentBox.required && (
-                                          <p className="text-danger">
-                                            Comment is required
-                                          </p>
-                                        )}
+                                     
                                     </div>
                                     <div className="input-group mb-3">
                                       <span
@@ -675,7 +640,7 @@ export const ViewForex = () => {
                                         }}
                                         placeholder="Enter  Image upload"
                                         name="document"
-                                        onChange={handleTrack}
+                                        
                                       />
                                     </div>
                                     <div className="modal-footer">
@@ -693,7 +658,7 @@ export const ViewForex = () => {
                                       </button>
                                       <button
                                         type="submit"
-                                        data-bs-dismiss="modal"
+                                        
                                         className="btn px-4 py-2 text-uppercase fw-semibold"
                                         style={{
                                           fontSize: "12px",
@@ -715,7 +680,7 @@ export const ViewForex = () => {
   </div>
 </div>
 
-<div className="container-fluid-fluid my-2">
+<div className="container-fluid my-2">
   <div className="row flex-nowrap">
    
     <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
@@ -763,34 +728,34 @@ export const ViewForex = () => {
         </div>
         <div className="card-body p-4">
   <img
-    src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+    src= "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
     className="card-img-top rounded-circle border-0"
     alt="Profile"
     style={{ width: "3rem", height: "3rem" }}
-  />  {tracks?.createdBy}
+  />  
   <p>
-    Application Status -  {formatDate(tracks?.createdOn)}
+    Application Status -  submitted
   </p>
   
-  {tracks?.status && (
+  
     <div>
-      {tracks.status.map((item, index) => (
+     
         <a
-          href={item?.document || "#"}
+          href='#'
           target="_blank"
           
-          key={index}
+         
           className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
         >
           <div className="me-2">
-            {item?.document ? (
+            
               <img
-                src={item?.document}
+                src={""}
                 className="card-img-top border-0 me-2"
                 alt="Document"
                 style={{ width: "10rem", height: "3rem" }}
               />
-            ) : (
+           
               <div
                 className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
                 style={{ width: "10rem", height: "3rem", backgroundColor: "#f0f0f0" }}
@@ -800,9 +765,9 @@ export const ViewForex = () => {
                   No Document
                 </p>
               </div>
-            )}
+          
             <p className="card-text mb-0" style={{ fontSize: "12px" }}>
-              {item?.name}
+            
             </p>
             <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
 
@@ -815,11 +780,11 @@ export const ViewForex = () => {
         </a>
         
         
-      ))}
+      
     
     </div>
     
-  )}
+ 
 </div>
 
       </div>
@@ -881,12 +846,11 @@ export const ViewForex = () => {
             <div className="container-fluid">
 
               <div className="row">
-              {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                <div key={index} className="d-flex justify-content-end mb-4">
+            
+                <div className="d-flex justify-content-end mb-4">
                   <div  className="profile-content">
                   <img
-            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+            src={"https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
             className="card-img-top rounded-circle border-0"
             alt="Profile"
             style={{ width: "4.5rem", height: "4.5rem" }}
@@ -897,9 +861,9 @@ export const ViewForex = () => {
                     <div className="card ">
                       <div className="card-header text-bg-danger">
                       
-                        <p className="mb-0">Application Decision:{item?.newStatus}</p>
+                        <p className="mb-0">Application Decision:</p>
                         <div className="d-flex gap-2">
-                        <p className="mb-0">{formatDate(item?.createdOn)}</p>
+                        <p className="mb-0"></p>
                         <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
                         <i className="fa fa-reply" aria-hidden="true"></i>
                         </button>
@@ -908,17 +872,17 @@ export const ViewForex = () => {
                       </div>
                       <div className="card-body">
                       <RichTextEditor
-                                                value={item?.commentBox}
+                                                
                                                 readOnly
                                               /> <br/><br/>
                           Sincerely,<br/>
-                          {item?.createdBy}<br />
+                          <br />
                         Edufynd
 
                       
                         <div className="d-flex flex-column align-items-end justify-content-end">
-                          <p className="mb-0"><b>Duration</b>- {item?.duration}Days</p>
-                          <p className="mb-0"><b>Delayed</b>- {item?.delay}Days</p>
+                          <p className="mb-0"><b>Duration</b>- Days</p>
+                          <p className="mb-0"><b>Delayed</b>- Days</p>
                         </div>
 
                         <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
@@ -935,7 +899,7 @@ export const ViewForex = () => {
                   </div>
                
                 </div>
-                 ))}
+                 
               </div>
             </div>
           </div>
@@ -946,7 +910,7 @@ export const ViewForex = () => {
       </div>
     </div>
   </div>
-</div> */}
+</div>
       </div>
     </>
   );
