@@ -12,7 +12,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { getallUniversity } from "../../../api/university";
 import { getallCode } from "../../../api/settings/dailcode";
 import { getallCurrency } from "../../../api/currency";
-
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveForexEnquiry } from "../../../api/Enquiry/Forex";
@@ -20,6 +19,7 @@ import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import Mastersidebar from "../../../compoents/sidebar";
+
 export const AddForex = () => {
   const initialState = {
     source: "",

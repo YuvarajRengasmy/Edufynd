@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getSingleStudnetEnquiry } from "../../../api/Enquiry/student";
+import { updateGeneralEnquiry,getSingleGeneralEnquiry } from '../../../api/Enquiry/GeneralEnquiry';
+
 import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/sidebar";
@@ -16,7 +17,7 @@ export const ViewGeneralEnquiry = () => {
   }, []);
 
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleGeneralEnquiry(id)
       .then((res) => {
         setStudent(res?.data?.result);
       })
@@ -39,12 +40,12 @@ export const ViewGeneralEnquiry = () => {
       <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
     </li>
     <li className="breadcrumb-item">
-      <Link to='/ListGeneralEnquiry' className="text-decoration-none">ListGeneralEnquiry</Link>
+      <Link to='/list_general_enquiry' className="text-decoration-none">ListGeneralEnquiry</Link>
     </li>
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
-          pathname: "/EditGeneralEnquiry",
+          pathname: "/edit_general_enquiry",
           search: `?id=${student?._id}`,
         }} className="text-decoration-none">EditGeneralEnquiry</Link>
       </li>
@@ -68,21 +69,63 @@ export const ViewGeneralEnquiry = () => {
                   style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
                 >
                   <tbody>
+
+                  {student?.agentName ? (
+    <>
+      <tr>
+        <td className="fw-bold">Source: Student/Agent</td>
+        <td>{student?.source || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent ID</td>
+        <td>{student?.agentId || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Name</td>
+        <td>{student?.agentName || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Business Name</td>
+        <td>{student?.businessName || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Primary Number</td>
+        <td>{student?.dial3 + " " + student?.agentPrimaryNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent WhatsApp Number</td>
+        <td>{student?.dial4 + " " +student?.agentWhatsAppNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Email ID</td>
+        <td>{student?.agentEmail || "Not Available"}</td>
+      </tr>
+    </>
+  ) : (
+    <>
+      <tr>
+        <td className="fw-bold">Name of the Student</td>
+        <td>{student?.studentName || "Not Available"}</td>
+      </tr>
+      
+    </>
+  )}
                     <tr>
                       <td className="fw-bold">Student Name </td>
                       <td>{student?.name || "Not Available" }</td>
                     </tr>
-                    <tr>
-                      <td className="fw-bold">Date Of Birth </td>
-                      <td>{formatDate(student?.createdOn) || "Not Available"}</td>
-                    </tr>
+                   
                     <tr>
                       <td className="fw-bold">Passport No </td>
                       <td>{student?.passportNo || "Not Available"}</td>
                     </tr>
                     <tr>
+                      <td className="fw-bold">Expiry Date</td>
+                      <td>{student?.expiryDate || "Not Available"}</td>
+                    </tr>
+                    <tr>
                       <td className="fw-bold">Contact Number </td>
-                      <td>{student?.primaryNumber || "Not Available"}</td>
+                      <td>{student?.mobileNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email ID </td>
