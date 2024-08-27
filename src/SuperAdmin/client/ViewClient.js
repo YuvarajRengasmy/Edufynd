@@ -79,13 +79,17 @@ const AddAgent = () => {
           label: "Business Contact No",
           value: clientData?.businessContactNo || "Not Available"
         },
+        { id: 6, label: "whatsAppNumber", value:clientData?.whatsAppNumber || "Not Available" },
         { id: 6, label: "Website", value: clientData?.website || "Not Available" },
         { id: 7, label: "Staff Name", value: clientData?.name || "Not Available" },
         { id: 8, label: "Staff Contact No", value: clientData?.contactNo || "Not Available" },
         { id: 9, label: "Staff Email ID", value: clientData?.emailID  || "Not Available"},
-        { id: 10, label: "Address", value: clientData?.addressLine1 || "Not Available" },
-        { id: 11, label: "GSTN", value: clientData?.gstn || "Not Available" },
-        { id: 12, label: "Status", value: clientData?.staffStatus || "Not Available" },
+        { id: 10, label: "Address Line 1", value: clientData?.addressLine1 || "Not Available" },
+        { id: 10, label: "Address Line 2", value: clientData?.addressLine2 || "Not Available" },
+        { id: 10, label: "Pincode", value: clientData?.addressLine3 || "Not Available" },
+        { id: 11, label: "city", value: clientData?.lga || "Not Available" },
+        { id: 12, label: "State", value: clientData?.state || "Not Available" },
+        { id: 13, label: "Country", value: clientData?.country || "Not Available" },
       ]);
     } catch (err) {
       console.error(err);

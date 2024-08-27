@@ -378,6 +378,8 @@ const App = () => {
     return true;
   };
 
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -432,8 +434,8 @@ const App = () => {
 
   const intakeOptions = inTake.map((data) => ({
     
-    value: `${data.intakeName} - ${data.startDate}`,
-    label: `${data.intakeName} - ${data.startDate}`,
+    value: data.intakeName, 
+    label: data.intakeName,
   }));
 
  

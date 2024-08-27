@@ -601,7 +601,7 @@ export const ListStudentForm = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/vdit_enquiry_student",
+                                          pathname: "/edit_enquiry_student",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

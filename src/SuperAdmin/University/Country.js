@@ -1,464 +1,957 @@
-import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { saveNotifications } from "../../api/Notification/Notification";
-import { getallStaff } from "../../api/staff";
-import { getallAdmin } from "../../api/admin";
-import { getallAgent } from "../../api/agent";
-import { getallStudent } from "../../api/student";
-import Select from "react-select";
-import Sidebar from "../../compoents/sidebar";
-import "react-quill/dist/quill.snow.css";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { RichTextEditor } from "@mantine/rte";
-import { Link } from "react-router-dom";
-import DatePicker from "react-datepicker"; // Add this line
-import 'react-datepicker/dist/react-datepicker.css';
+// import React, { useEffect, useState } from "react";
+// import { toast } from "react-toastify";
+// import { Link, useNavigate, useLocation } from "react-router-dom";
+// import {
+//   isValidEmail,
+//   isValidDob,
+//   isValidPhone,
+//   isValidName,
+//   isValidNo,
+//   isValidPassportNumber,
+// } from "../../../Utils/Validation";
+// import {
+//   updateStudnetEnquiry,
+//   getSingleStudnetEnquiry,
+// } from "../../../api/Enquiry/student";
 
-export const AddNotifications = () => {
-  const initialState = {
-    typeOfUser: "",
-    userName: "",
-    subject: "",
-    content: "",
-    uploadImage: "",
-    createdBy: "",
-    scheduledTime: null, // Add this line
-  };
+// import Mastersidebar from "../../../compoents/sidebar";
+// import { Student } from "../../../api/endpoints";
 
-  const initialStateErrors = {
-    typeOfUser: { required: false },
-    userName: { required: false },
-    subject: { required: false },
-    content: { required: false },
-    uploadImage: { required: false },
-    scheduledTime: { required: false }, // Add this line
-  };
+// export const AddStudentForm = () => {
+//   const location = useLocation();
+//   const id = new URLSearchParams(location.search).get("id");
 
-  const [notification, setNotification] = useState(initialState);
-  const [staff, setStaff] = useState([]);
-  const [admin, setAdmin] = useState([]);
-  const [agent, setAgent] = useState([]);
-  const [student, setStudent] = useState([]);
-  const [errors, setErrors] = useState(initialStateErrors);
-  const [submitted, setSubmitted] = useState(false);
-  const navigate = useNavigate();
+//   const initialState = {
+//     source: "",
+//     name: "",
+//     dob: "",
+//     citizenShip: "",
+//     passportNo: "",
+//     expiryDate: "",
+//     email: "",
+//     primaryNumber: "",
+//     whatsAppNumber: "",
+//     qualification: "",
+//     yearPassed: "",
+//     cgpa: "",
+//     desiredCountry: "",
+//     desiredUniversity: "",
+//     desiredCourse: "",
+//     doYouHoldAnyOtherOffer: "",
+//     doYouNeedSupportForLoan: "",
+//     assignedTo: "",
+//     gender: "",
+//     country: "",
+//     universityName: "",
+//     programName: "",
+//     refereeName: "",
+//     refereeContactNo: "",
+//     registerForIELTSClass: "",
+//   };
+//   const initialStateErrors = {
+//     source: { required: false },
+//     name: { required: false },
+//     dob: { required: false },
+//     citizenShip: { required: false },
+//     passportNo: { required: false },
+//     expiryDate: { required: false },
+//     email: { required: false },
+//     primaryNumber: { required: false },
+//     whatsAppNumber: { required: false },
+//     qualification: { required: false },
+//     yearPassed: { required: false },
+//     cgpa: { required: false },
+//     desiredCountry: { required: false },
+//     desiredUniversity: { required: false },
+//     desiredCourse: { required: false },
+//     doYouHoldAnyOtherOffer: { required: false },
+//     doYouNeedSupportForLoan: { required: false },
+//     assignedTo: { required: false },
+//     gender: { required: false },
+//     country: { required: false },
+//     universityName: { required: false },
+//     programName: { required: false },
+//     refereeName: { required: false },
+//     refereeContactNo: { required: false },
+//     registerForIELTSClass: { required: false },
+//   };
+//   const [student, setStudent] = useState(initialState);
+//   const [errors, setErrors] = useState(initialStateErrors);
+//   const [submitted, setSubmitted] = useState(false);
+//   const navigate = useNavigate();
 
-  useEffect(() => {
-    getStaffList();
-    getAdminList();
-    getAgentList();
-    getStudentList();
-  }, []);
+//   useEffect(() => {
+//     getStudentDetails();
+//   }, []);
 
-  const getStaffList = () => {
-    getallStaff()
-      .then((res) => {
-        setStaff(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+//   const getStudentDetails = () => {
+//     getSingleStudnetEnquiry(id)
+//       .then((res) => {
+//         setStudent(res?.data?.result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+//   const handleValidation = (data) => {
+//     let error = initialStateErrors;
 
-  const getAdminList = () => {
-    getallAdmin()
-      .then((res) => {
-        setAdmin(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+//     if (data.source === "") {
+//       error.source.required = true;
+//     }
 
-  const getAgentList = () => {
-    getallAgent()
-      .then((res) => {
-        setAgent(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+//     if (data.name === "") {
+//       error.name.required = true;
+//     }
+//     if (!isValidName(data.name)) {
+//       error.name.valid = true;
+//     }
+//     if (data.dob === "") {
+//       error.dob.required = true;
+//     }
+//     if (!isValidDob(data.dob)) {
+//       error.dob.valid = true;
+//     }
+//     if (data.citizenShip === "") {
+//       error.citizenShip.required = true;
+//     }
+//     if (!isValidName(data.citizenShip)) {
+//       error.citizenShip.valid = true;
+//     }
+//     if (data.passportNo === "") {
+//       error.passportNo.required = true;
+//     }
+//     if (!isValidPassportNumber(data.passportNo)) {
+//       error.passportNo.valid = true;
+//     }
+//     if (data.expiryDate === "") {
+//       error.expiryDate.required = true;
+//     }
+//     if (data.email === "") {
+//       error.email.required = true;
+//     }
+//     if (!isValidEmail(data.email)) {
+//       error.email.valid = true;
+//     }
+//     if (data.primaryNumber === "") {
+//       error.primaryNumber.required = true;
+//     }
+//     if (!isValidPhone(data.primaryNumber)) {
+//       error.primaryNumber.valid = true;
+//     }
 
-  const getStudentList = () => {
-    getallStudent()
-      .then((res) => {
-        setStudent(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+//     if (data.whatsAppNumber === "") {
+//       error.whatsAppNumber.required = true;
+//     }
 
-  const handleValidation = (data) => {
-    let error = initialStateErrors;
+//     if (!isValidPhone(data.whatsAppNumber)) {
+//       error.whatsAppNumber.valid = true;
+//     }
+//     if (data.qualification === "") {
+//       error.qualification.required = true;
+//     }
+//     if (!isValidName(data.qualification)) {
+//       error.qualification.valid = true;
+//     }
+//     if (data.yearPassed === "") {
+//       error.yearPassed.required = true;
+//     }
+//     if (data.cgpa === "") {
+//       error.cgpa.required = true;
+//     }
+//     if (!isValidNo(data.cgpa)) {
+//       error.cgpa.valid = true;
+//     }
+//     if (data.desiredCountry === "") {
+//       error.desiredCountry.required = true;
+//     }
 
-    if (data.typeOfUser === "") {
-      error.typeOfUser.required = true;
-    }
+//     if (data.desiredUniversity === "") {
+//       error.desiredUniversity.required = true;
+//     }
+//     if (!isValidName(data.desiredUniversity)) {
+//       error.desiredUniversity.valid = true;
+//     }
+//     if (data.desiredCourse === "") {
+//       error.desiredCourse.required = true;
+//     }
+//     if (data.doYouHoldAnyOtherOffer === "") {
+//       error.doYouHoldAnyOtherOffer.required = true;
+//     }
 
-    if (data.userName.length === 0) {
-      error.userName.required = true;
-    }
+//     if (data.gender === "") {
+//       error.gender.required = true;
+//     }
+//     if (data.assignedTo === "") {
+//       error.assignedTo.required = true;
+//     }
+//     if (data.doYouNeedSupportForLoan === "") {
+//       error.doYouNeedSupportForLoan.required = true;
+//     }
+//     if (data.registerForIELTSClass === "") {
+//       error.registerForIELTSClass.required = true;
+//     }
+//     if (data.refereeName === "") {
+//       error.refereeName.required = true;
+//     }
+//     if (data.refereeContactNo === "") {
+//       error.refereeContactNo.required = true;
+//     }
+//     if (!isValidPhone(data.refereeContactNo)) {
+//       error.refereeContactNo.valid = true;
+//     }
+//     if (!isValidName(data.refereeName)) {
+//       error.refereeName.valid = true;
+//     }
 
-    if (data.subject === "") {
-      error.subject.required = true;
-    }
+//     return error;
+//   };
 
-    if (data.content === "") {
-      error.content.required = true;
-    }
+//   const handleInputs = (event) => {
+//     setStudent({ ...student, [event?.target?.name]: event?.target?.value });
+//     if (submitted) {
+//       const newError = handleValidation({
+//         ...student,
+//         [event.target.name]: event.target.value,
+//       });
+//       setErrors(newError);
+//     }
+//   };
 
-    if (data.uploadImage === "") {
-      error.uploadImage.required = true;
-    }
+//   const handleErrors = (obj) => {
+//     for (const key in obj) {
+//       if (obj.hasOwnProperty(key)) {
+//         const prop = obj[key];
+//         if (prop.required === true || prop.valid === true) {
+//           return false;
+//         }
+//       }
+//     }
+//     return true;
+//   };
 
-    if (!data.scheduledTime) {
-      error.scheduledTime.required = true;
-    }
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     const newError = handleValidation(student);
+//     setErrors(newError);
+//     setSubmitted(true);
+//     if (handleErrors(newError)) {
+//       updateStudnetEnquiry(student)
+//         .then((res) => {
+//           toast.success(res?.data?.message);
+//           navigate("/ListStudentForm");
+//         })
+//         .catch((err) => {
+//           toast.error(err?.response?.data?.message);
+//         });
+//     }
+//   };
 
-    return error;
-  };
+//   return (
+//     <>
+//       <Mastersidebar />
 
-  const convertToBase64 = (e, name) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setNotification((notification) => ({
-        ...notification,
-        [name]: reader.result,
-      }));
-    };
-    reader.onerror = (error) => {
-      console.log("Error: ", error);
-    };
-  };
+//       <div
+//         className="content-wrapper"
+//         style={{ fontSize: "13px", fontFamily: "Plus Jakarta Sans" }}
+//       >
+//         <div className="content-header">
+//           <div className="container-fluid">
+//             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+//               <div
+//                 className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+//                 style={{ background: "#fe5722", color: "#fff" }}
+//               >
+//                 <h5 className="text-center text-capitalize p-1">
+//                   {" "}
+//                   Edit Student Enquiry Details
+//                 </h5>
+//               </div>
+//               <div className="card-body mt-5">
+//                 <form className="p-1" onSubmit={handleSubmit}>
+//                   <div className="row g-3">
+//                     <div className="row g-3">
+//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                         <label className="form-label" for="inputEmail4">
+//                           Source
+//                         </label>
+//                         <select
+//                           onChange={handleInputs}
+//                           style={{
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                           className="form-select form-select-lg rounded-2 "
+//                           name="source"
+//                           value={student.source}
+//                         >
+//                           <option value="">Select Source</option>
+//                           <option value="walkin">Walk In</option>
+//                           <option value="direct">Direct</option>
+//                           <option value="others">Others</option>
+//                         </select>
+//                         {errors.source.required ? (
+//                           <div className="text-danger form-text">
+//                             This field is required.
+//                           </div>
+//                         ) : null}
+//                       </div>
+//                     </div>
 
-  const handleInputs = (event) => {
-    const { name, value, files } = event.target;
-    if (files && files[0]) {
-      convertToBase64(event, name);
-    } else {
-      setNotification({
-        ...notification,
-        [event?.target?.name]: event?.target?.value,
-      });
-    }
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputEmail4">
+//                         Student Name
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         type="text"
+//                         id="inputEmail4"
+//                         name="name"
+//                         onChange={handleInputs}
+//                         placeholder="Enter Name"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.name}
+//                       />
+//                       {errors.name.required ? (
+//                         <span className="text-danger form-text profile_error">
+//                           This field is required.
+//                         </span>
+//                       ) : errors.name.valid ? (
+//                         <span className="text-danger form-text profile_error">
+//                           Enter A Letter Only.
+//                         </span>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputgender">
+//                         Gender
+//                       </label>
+//                       <select
+//                         class="form-select form-select-lg rounded-2"
+//                         onChange={handleInputs}
+//                         name="gender"
+//                         aria-label="Default select example"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.gender}
+//                       >
+//                         <option selected>Select Gender</option>
+//                         <option value="Male">Male</option>
+//                         <option value="Female">Female</option>
+//                         <option value="Other">Other</option>
+//                       </select>
+//                       {errors.gender.required ? (
+//                         <span className="text-danger form-text profile_error">
+//                           This field is required.
+//                         </span>
+//                       ) : null}
+//                     </div>
 
-    if (submitted) {
-      const newError = handleValidation({
-        ...notification,
-        [event.target.name]: event.target.value,
-      });
-      setErrors(newError);
-    }
-  };
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputPassword4">
+//                         DOB
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         onChange={handleInputs}
+//                         id="inputPassword4"
+//                         type="date"
+//                         placeholder="Enter DOB"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         name="dob"
+//                         value={student.dob ? student.dob.slice(0, 10) : ""}
+//                       />
+//                       {errors.dob.required ? (
+//                         <span className="text-danger form-text profile_error">
+//                           This field is required.
+//                         </span>
+//                       ) : errors.dob.valid ? (
+//                         <span className="text-danger form-text profile_error">
+//                           Enter 15 Year eligible Student Apply
+//                         </span>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputPassword4">
+//                         CitizenShip
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         onChange={handleInputs}
+//                         name="citizenShip"
+//                         id="inputPassword4"
+//                         type="text"
+//                         placeholder="Enter CitizenShip"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.citizenShip}
+//                       />
 
-  const handleSelectChange = (selectedOptions, action) => {
-    const { name } = action;
-    const values = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    setNotification((prevNotification) => ({
-      ...prevNotification,
-      [name]: values,
-    }));
-  };
+//                       {errors.citizenShip.required ? (
+//                         <span className="text-danger form-text profile_error">
+//                           This field is required.
+//                         </span>
+//                       ) : errors.citizenShip.valid ? (
+//                         <span className="text-danger form-text profile_error">
+//                           Enter A Letter Only.
+//                         </span>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputAddress">
+//                         Passport No
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         onChange={handleInputs}
+//                         name="passportNo"
+//                         id="inputAddress"
+//                         type="text"
+//                         placeholder="Enter Passport No"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.passportNo}
+//                       />
+//                       {errors.passportNo.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : errors.passportNo.valid ? (
+//                         <span className="text-danger form-text">
+//                           Enter Vaild PassportNo.
+//                         </span>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputExpiry">
+//                         Expiry Date
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         onChange={handleInputs}
+//                         name="expiryDate"
+//                         id="inputAddress"
+//                         type="Date"
+//                         placeholder="Enter Expiry Date"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.expiryDate?.slice(0, 10)}
+//                       />
+//                       {errors.expiryDate.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : errors.expiryDate.valid ? (
+//                         <span className="text-danger form-text">
+//                           Enter Valid Expiry Date.
+//                         </span>
+//                       ) : null}
+//                     </div>
 
-  const handleErrors = (obj) => {
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        const prop = obj[key];
-        if (prop.required === true || prop.valid === true) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputPassword4">
+//                         Email ID
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         onChange={handleInputs}
+//                         id="inputPassword4"
+//                         text="text"
+//                         placeholder="Enter Email ID"
+//                         name="email"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.email}
+//                       />
+//                       {errors.email.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : errors.email.valid ? (
+//                         <div className="text-danger form-text">
+//                           Enter valid Email Id.
+//                         </div>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputEmail4">
+//                         Primary Number
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         onChange={handleInputs}
+//                         id="inputEmail4"
+//                         type="text"
+//                         name="primaryNumber"
+//                         placeholder="Enter Primary Number"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.primaryNumber}
+//                       />
+//                       {errors.primaryNumber.required ? (
+//                         <span className="text-danger form-text profile_error">
+//                           This field is required.
+//                         </span>
+//                       ) : errors.primaryNumber.valid ? (
+//                         <span className="text-danger form-text profile_error">
+//                           Enter valid mobile number.
+//                         </span>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputEmail4">
+//                         WhatsApp Number
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         id="inputEmail4"
+//                         onChange={handleInputs}
+//                         type="text"
+//                         name="whatsAppNumber"
+//                         placeholder="Enter WhatsApp Number"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.whatsAppNumber}
+//                       />
+//                       {errors.whatsAppNumber.required ? (
+//                         <span className="text-danger form-text profile_error">
+//                           This field is required.
+//                         </span>
+//                       ) : errors.whatsAppNumber.valid ? (
+//                         <span className="text-danger form-text profile_error">
+//                           Enter valid WhatsApp number.
+//                         </span>
+//                       ) : null}
+//                     </div>
 
-  const handleRichTextChange = (value) => {
-    setNotification((prevNotification) => ({
-      ...prevNotification,
-      content: value,
-    }));
-  };
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputPassword4">
+//                         Qualification
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         id="inputPassword4"
+//                         onChange={handleInputs}
+//                         type="text"
+//                         name="qualification"
+//                         placeholder="Enter Qualification"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.qualification}
+//                       />
+//                       {errors.qualification.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : errors.qualification.valid ? (
+//                         <span className="text-danger form-text">
+//                           Enter valid Letter Onlyqualification.
+//                         </span>
+//                       ) : null}
+//                     </div>
 
-  const handleScheduledTimeChange = (date) => {
-    setNotification((prevNotification) => ({
-      ...prevNotification,
-      scheduledTime: date,
-    }));
-  };
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputAddress">
+//                         {" "}
+//                         Year passed
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         id="inputAddress"
+//                         onChange={handleInputs}
+//                         name="yearPassed"
+//                         type="text"
+//                         placeholder="Enter Passed Year"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.yearPassed}
+//                       />
+//                       {errors.yearPassed.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputAddress">
+//                         CGPA{" "}
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         onChange={handleInputs}
+//                         name="cgpa"
+//                         id="inputAddress"
+//                         type="text"
+//                         placeholder=" Enter CGPA"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.cgpa}
+//                       />
+//                       {errors.cgpa.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : errors.cgpa.valid ? (
+//                         <span className="text-danger form-text">
+//                           Enter valid Number
+//                         </span>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputEmail4">
+//                         Desired Country
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         id="inputEmail4"
+//                         onChange={handleInputs}
+//                         name="desiredCountry"
+//                         type="text"
+//                         placeholder="Enter Desired Country"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.desiredCountry}
+//                       />
+//                       {errors.desiredCountry.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputPassword4">
+//                         Desired University
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         id="inputPassword4"
+//                         type="text"
+//                         onChange={handleInputs}
+//                         name="desiredUniversity"
+//                         placeholder="Enter Desired University"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.desiredUniversity}
+//                       />
+//                       {errors.desiredUniversity.required ? (
+//                         <span className="text-danger form-text profile_error">
+//                           This field is required.
+//                         </span>
+//                       ) : errors.desiredUniversity.valid ? (
+//                         <span className="text-danger form-text profile_error">
+//                           Enter valid Letter Only.
+//                         </span>
+//                       ) : null}
+//                     </div>
+//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                       <label className="form-label" for="inputPassword4">
+//                         Desired Course
+//                       </label>
+//                       <input
+//                         className="form-control rounded-2"
+//                         id="inputPassword4"
+//                         onChange={handleInputs}
+//                         type="text"
+//                         name="desiredCourse"
+//                         placeholder="Enter Desired Course"
+//                         style={{
+//                           fontFamily: "Plus Jakarta Sans",
+//                           fontSize: "12px",
+//                         }}
+//                         value={student.desiredCourse}
+//                       />
+//                       {errors.desiredCourse.required ? (
+//                         <div className="text-danger form-text">
+//                           This field is required.
+//                         </div>
+//                       ) : null}
+//                     </div>
+//                     <div className="row g-3">
+//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                         <label className="form-label" for="inputAddress">
+//                           Do You Hold Any Other Offer?{" "}
+//                         </label>
+//                         <select
+//                           className="form-select form-select-lg rounded-2"
+//                           name="doYouHoldAnyOtherOffer"
+//                           style={{
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                           onChange={handleInputs}
+//                           value={student.doYouHoldAnyOtherOffer}
+//                         >
+//                           <option value=""> Select Offer </option>
+//                           <option value="yes"> Yes </option>
+//                           <option value="no">No </option>
+//                         </select>
+//                         {errors.doYouHoldAnyOtherOffer.required ? (
+//                           <div className="text-danger form-text">
+//                             This field is required.
+//                           </div>
+//                         ) : null}
+//                       </div>
+//                     </div>
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const newError = handleValidation(notification);
-    setErrors(newError);
-    setSubmitted(true);
-    const updateNotifications = {
-      ...notification,
-    };
-    if (handleErrors(newError)) {
-      saveNotifications(updateNotifications)
-        .then((res) => {
-          toast.success(res?.data?.message);
-          navigate("/list_notifications");
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
-    } else {
-      toast.error("Please fill mandatory fields");
-    }
-  };
+//                     {student.doYouHoldAnyOtherOffer === "yes" ? (
+//                       <div className="row g-3">
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputEmail4">
+//                             {" "}
+//                             Country
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputEmail4"
+//                             type="text"
+//                             name="country"
+//                             value={student.country}
+//                             onChange={handleInputs}
+//                             placeholder=" Enter Country"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputEmail4">
+//                             University
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputEmail4"
+//                             type="text"
+//                             onChange={handleInputs}
+//                             name="universityName"
+//                             value={student.universityName}
+//                             placeholder="Enter University "
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputEmail4">
+//                             Program
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputEmail4"
+//                             type="text"
+//                             onChange={handleInputs}
+//                             name="program"
+//                             value={student.program}
+//                             placeholder="Enter Program"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                         </div>
+//                       </div>
+//                     ) : null}
 
-  const adminOptions = admin.map((data) => ({
-    value: data.name,
-    label: data.name,
-  }));
+//                     <div className="row g-3">
+//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                         <label className="form-label" for="inputEmail4">
+//                           Referee Name
+//                         </label>
+//                         <input
+//                           className="form-control rounded-2"
+//                           id="inputEmail4"
+//                           type="text"
+//                           name="refereeName"
+//                           value={student.refereeName}
+//                           onChange={handleInputs}
+//                           placeholder="Enter Referee Name"
+//                           style={{
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                         />
+//                         {errors.refereeName.required ? (
+//                           <div className="text-danger form-text">
+//                             This field is required.
+//                           </div>
+//                         ) : errors.refereeName.valid ? (
+//                           <span className="text-danger form-text">
+//                             Enter valid Referee Name
+//                           </span>
+//                         ) : null}
+//                       </div>
+//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                         <label className="form-label" for="inputEmail4">
+//                           Referee Contact
+//                         </label>
+//                         <input
+//                           className="form-control rounded-2"
+//                           id="inputEmail4"
+//                           type="text"
+//                           name="refereeContactNo"
+//                           onChange={handleInputs}
+//                           value={student.refereeContactNo}
+//                           placeholder="Enter Referee Contact"
+//                           style={{
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                         />
+//                         {errors.refereeContactNo.required ? (
+//                           <div className="text-danger form-text">
+//                             This field is required.
+//                           </div>
+//                         ) : errors.refereeContactNo.valid ? (
+//                           <span className="text-danger form-text">
+//                             Enter valid Referee Contact
+//                           </span>
+//                         ) : null}
+//                       </div>
+//                     </div>
+//                     <div className="row g-3">
+//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                         <label className="form-label" for="inputEmail4">
+//                           Request Loan Support
+//                         </label>
+//                         <select
+//                           className="form-control rounded-2"
+//                           name="doYouNeedSupportForLoan"
+//                           style={{
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                           onChange={handleInputs}
+//                           value={student.doYouNeedSupportForLoan}
+//                         >
+//                           <option value=""> Select Loan support </option>
+//                           <option value="yes"> Yes </option>
+//                           <option value="no">No </option>
+//                         </select>
+//                         {errors.doYouNeedSupportForLoan.required ? (
+//                           <div className="text-danger form-text">
+//                             This field is required.
+//                           </div>
+//                         ) : null}
+//                       </div>
+//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                         <label className="form-label" for="inputEmail4">
+//                           Register for IELTS class
+//                         </label>
+//                         <input
+//                           className="form-control rounded-2"
+//                           id="inputEmail4"
+//                           type="text"
+//                           name="registerForIELTSClass"
+//                           onChange={handleInputs}
+//                           placeholder="Enter Register for IELTS class"
+//                           style={{
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                           value={student.registerForIELTSClass}
+//                         />
+//                         {errors.registerForIELTSClass.required ? (
+//                           <div className="text-danger form-text">
+//                             This field is required.
+//                           </div>
+//                         ) : errors.registerForIELTSClass.valid ? (
+//                           <span className="text-danger form-text">
+//                             Only number is allowed
+//                           </span>
+//                         ) : null}
+//                       </div>
+//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+//                         <label className="form-label" for="inputEmail4">
+//                           {" "}
+//                           Assigned To
+//                         </label>
+//                         <input
+//                           className="form-control rounded-2"
+//                           id="inputEmail4"
+//                           onChange={handleInputs}
+//                           type="text"
+//                           name="assignedTo"
+//                           placeholder=" Assigned To Staff"
+//                           style={{
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                           value={student.assignedTo}
+//                         />
+//                         {errors.assignedTo.required ? (
+//                           <div className="text-danger form-text">
+//                             This field is required.
+//                           </div>
+//                         ) : null}
+//                       </div>
+//                     </div>
 
-  const staffOptions = staff.map((data) => ({
-    value: data.empName,
-    label: data.empName,
-  }));
+//                     <div className="row g-4">
+//                       <div className="d-flex flex-row align-item-center justify-content-end gap-3 ">
+//                         <Link
+//                           style={{
+//                             backgroundColor: "#231F20",
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                           to="/ListStudentForm"
+//                           className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white"
+//                         >
+//                           Cancel
+//                         </Link>
 
-  const studentOptions = student.map((data) => ({
-    value: data.name,
-    label: data.name,
-  }));
-
-  const agentOptions = agent.map((data) => ({
-    value: data.agentName,
-    label: data.agentName,
-  }));
-
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-      borderRadius: "4.91319px",
-      fontSize: "11px",
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? "#3B0051" : "#F2CCFF",
-      ":hover": {
-        color: "black",
-      },
-    }),
-  };
-
-  return (
-    <>
-      <div>
-        <Sidebar />
-
-        <div
-          className="content-wrapper "
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-        >
-          <div className="content-header ">
-            <div className="container-fluid">
-              <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-xl-12 ">
-                    <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
-                      <div
-                        className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                        style={{ background: "#fe5722", color: "#fff" }}
-                      >
-                        <h5 className="text-center text-capitalize p-1">
-                          Add Notifications Details
-                        </h5>
-                      </div>
-                      <div className="card-body mt-5">
-                        <div className="row g-3">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Type of Users{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-
-                            <select
-                              className="form-select form-select-lg"
-                              name="typeOfUser"
-                              onChange={handleInputs}
-                              aria-label="Default select example"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <option selected>Select User</option>
-                              <option value="staff">Staff</option>
-                              <option value="student">Student</option>
-                              <option value="agent">Agent</option>
-                              <option value="admin">Admin</option>
-                            </select>
-                            {errors?.typeOfUser?.required && (
-                              <span className="text-danger font-monospace ps-2">
-                                User Type is Required
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              User Name <span className="text-danger">*</span>
-                            </label>
-
-                            <Select
-                              isMulti
-                              options={
-                                notification?.typeOfUser === "staff"
-                                  ? staffOptions
-                                  : notification?.typeOfUser === "student"
-                                  ? studentOptions
-                                  : notification?.typeOfUser === "admin"
-                                  ? adminOptions
-                                  : agentOptions
-                              }
-                              onChange={handleSelectChange}
-                              name="userName"
-                              styles={customStyles}
-                            />
-                            {errors?.userName?.required && (
-                              <span className="text-danger font-monospace ps-2">
-                                User Name is Required
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Subject <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control form-control-lg"
-                              name="subject"
-                              onChange={handleInputs}
-                              placeholder="Enter Notification Subject"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            />
-                            {errors?.subject?.required && (
-                              <span className="text-danger font-monospace ps-2">
-                                Subject is Required
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Schedule Time <span className="text-danger">*</span>
-                            </label>
-                            <DatePicker
-        selected={notification.scheduledTime}
-        onChange={handleScheduledTimeChange}
-        showTimeSelect
-        dateFormat="Pp"
-        className="form-control form-control-md custom-date-picker"
-        name="scheduledTime"
-        type="date"
-        style={{
-          fontFamily: "Plus Jakarta Sans",
-          fontSize: "12px",
-        }}
-      />
-                            {errors?.scheduledTime?.required && (
-                              <span className="text-danger font-monospace ps-2">
-                                Scheduled Time is Required
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Upload Image <span className="text-danger">*</span>
-                            </label>
-
-                            <input
-                              type="file"
-                              className="form-control form-control-lg"
-                              onChange={handleInputs}
-                              name="uploadImage"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            />
-                            {errors?.uploadImage?.required && (
-                              <span className="text-danger font-monospace ps-2">
-                                Upload Image is Required
-                              </span>
-                            )}
-                          </div>
-                          <div className="col-xl-8 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Content <span className="text-danger">*</span>
-                            </label>
-                            <RichTextEditor
-                              value={notification.content}
-                              onChange={handleRichTextChange}
-                              controls={[
-                                ["bold", "italic", "underline", "link"],
-                                ["unorderedList", "h1", "h2", "h3"],
-                                ["sup", "sub"],
-                                ["alignLeft", "alignCenter", "alignRight"],
-                              ]}
-                            />
-                            {errors?.content?.required && (
-                              <span className="text-danger font-monospace ps-2">
-                                Content is Required
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="d-flex justify-content-between mt-3">
-                          <button
-                            type="submit"
-                            className="btn btn-success"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                              color: "#fff",
-                            }}
-                          >
-                            Save
-                          </button>
-                          <Link
-                            to="/list_notifications"
-                            className="btn btn-primary"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Back
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-export default AddNotifications;
+//                         <button
+//                           style={{
+//                             backgroundColor: "#FE5722",
+//                             fontFamily: "Plus Jakarta Sans",
+//                             fontSize: "12px",
+//                           }}
+//                           type="submit"
+//                           className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  "
+//                         >
+//                           Submit
+//                         </button>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </form>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+// export default AddStudentForm;

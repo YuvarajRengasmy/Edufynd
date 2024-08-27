@@ -20,9 +20,12 @@ export const isValidEmail = (email) => {
 }
 
 export const isValidPhone = (phone) => {
-  const phoneRegex = /^[0-9]{10}$/;
+  // const phoneRegex = /^[0-9]{15}$/;
+  const  phoneRegex= /^\d{10,18}$/;
   return phoneRegex.test(phone);
 }
+
+
 
 export const isValidWebsite = (website) => {
   const websiteRegex = /^(https?:\/\/)?([^\s@]+@[^\s@]+\.)?([^\s@]+\.)?([^\s@]+\.[^\s@]{2,})(\/[^\s@]*)*$/;
@@ -34,6 +37,9 @@ export const isValidName = (name) => {
 }
 export const isValidNumberLessThanOrEqualTo35 = (number) => {
   return !isNaN(number) && Number(number) <= 35;
+};
+export const isValidNumberLessThanOrEqualTo95 = (number) => {
+  return !isNaN(number) && Number(number) <= 95;
 };
 export const  isValidPinCode= (number) => {
   return typeof number === 'string' && /^\d{1,6}$/.test(number);

@@ -871,11 +871,20 @@ const tableRef = useRef(null);
                       <i className="fas fa-briefcase me-2"></i> Work Experience
                     </h5>
                   </div>
+                 
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                    {student?.duration || "Not Available"} || {student?.lastDesignation || "Not Available"} ||  {student?.lastEmployeer || "Not Available"}
+                      <strong>Total Year:</strong> {student?.duration || "Not Available"}
                     </li>
+                    <li className="list-group-item">
+                      <strong>Role:</strong>  {student?.lastDesignation || "Not Available"} 
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Company Name:</strong> {student?.lastEmployeer || "Not Available"}
+                    </li>
+                    
                   </ul>
+
                 </div>
               </div>
 
@@ -888,9 +897,20 @@ const tableRef = useRef(null);
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.anyVisaRejections || "Not Available"}
+                      <strong>VisaRejections:</strong> {student?.anyVisaRejections || "Not Available"}
                     </li>
+                    <li className="list-group-item">
+                      <strong>VisaReason:</strong>  {student?.visaReason || "No Visa Rejections"} 
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Travel Date:</strong> {student?.dateVisa || "No Visa Rejections"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Purpose:</strong> {student?.purposeVisa|| "No Visa Rejections"}
+                    </li>
+                    
                   </ul>
+
                 </div>
               </div>
 
@@ -898,19 +918,44 @@ const tableRef = useRef(null);
                 <div className="card mb-3 shadow-sm">
                   <div className="card-header bg-danger text-white">
                     <h5 className="card-title mb-0">
-                      <i className="fas fa-globe-americas me-2"></i> Travel
-                      History
+                    <i className="fas fa-globe-americas me-2"></i>  Travel History
+                     
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      {student?.travelHistory || "Not Available"}
+                      <strong>Do You Have Travel History:</strong> {student?.doYouHaveTravelHistory || "Not Available"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Travel Date:</strong>  {student?.date || "No Travel History"} 
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Purpose:</strong> {student?.purpose || "No Travel History"}
+                    </li>
+                    <li className="list-group-item">
+                      <strong>Country Name:</strong> {student?.countryName|| "No Travel History"}
+                    </li>
+                    
+                  </ul>
+
+                </div>
+              </div>
+       
+
+              <div className="col-lg-6">
+                <div className="card mb-3 shadow-sm">
+                  <div className="card-header bg-danger text-white">
+                    <h5 className="card-title mb-0">
+                      <i className="fas fa-dollar-sign me-2"></i> Finance
+                      Information
+                    </h5>
+                  </div>
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item">
+                      {student?.finance || "Not Available"}
                     </li>
                   </ul>
                 </div>
-              </div>
-
-              <div className="col-lg-6">
                 <div className="card mb-3 shadow-sm">
                   <div className="card-header bg-danger text-white">
                     <h5 className="card-title mb-0">
