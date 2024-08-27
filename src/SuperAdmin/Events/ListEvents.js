@@ -118,25 +118,22 @@ export const ListEvents = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header  bg-light shadow-sm sticky-top">
+        <div className="content-header  bg-light shadow-sm sticky-top mb-0">
           <div className="container-fluid">
             <div className="row ">
               <div className="col-xl-12">
-                <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+                <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
                         placeholder="Search"
                         aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                        className="form-control bg-white border-1  rounded-4 w-100"
                         style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
+                          
                           fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
+                          
                         }}
                       />
                       <span
@@ -229,7 +226,7 @@ export const ListEvents = () => {
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
+                                className="btn btn-cancel border-0 fw-semibold rounded-1  rounded-pill text-white float-right bg"
                                 style={{
                                   backgroundColor: "#0f2239",
                                   color: "#fff",
@@ -243,7 +240,7 @@ export const ListEvents = () => {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
+                                className="btn btn-save border-0 fw-semibold rounded-1  rounded-pill text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
                                   color: "#fff",
@@ -304,8 +301,8 @@ export const ListEvents = () => {
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/add_events">
                       <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                        style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
+                        className="btn btn-outline   fw-semibold rounded-1 border-0 text-white  "
+                        style={{ backgroundColor: "#231f20", fontSize: "12px" }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
@@ -325,11 +322,11 @@ export const ListEvents = () => {
         {/* Card 1: Upcoming Events */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#00BCD4" }} // Cyan
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Events
               </h6>
               <p className="card-text">Events scheduled to happen soon.</p>
@@ -341,11 +338,11 @@ export const ListEvents = () => {
         {/* Card 2: Past Events */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#FF9800" }} // Orange
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Past Events
               </h6>
               <p className="card-text">Events that have already occurred.</p>
@@ -357,11 +354,11 @@ export const ListEvents = () => {
         {/* Card 3: Scheduled Events */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#4CAF50" }} // Green
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Scheduled Events
               </h6>
               <p className="card-text">Events that are planned and scheduled.</p>
@@ -373,11 +370,11 @@ export const ListEvents = () => {
         {/* Card 4: Event Feedback */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#9C27B0" }} // Purple
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-comments" style={{ color: '#ffffff' }}></i> Event Feedback
               </h6>
               <p className="card-text">Feedback and reviews for events.</p>
@@ -392,7 +389,26 @@ export const ListEvents = () => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-0  border-0">
+                <div className="card rounded-1 shadow=sm border-0">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                    <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
+
+
+                  </div>
+                </div>
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -408,6 +424,9 @@ export const ListEvents = () => {
                                 fontSize: "12px",
                               }}
                             >
+                                <th className=" text-start">
+                            <input type="checkbox" />
+                            </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 S No
                               </th>
@@ -444,6 +463,9 @@ export const ListEvents = () => {
                                   fontSize: "11px",
                                 }}
                               >
+                                <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
                                 <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
@@ -510,15 +532,28 @@ export const ListEvents = () => {
                         </table>
                       </div>
                     </div>
-                    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                    </div>
+                    <div className="d-flex justify-content-between align-items-center p-3">
+                  <p className="me-auto ">
+                    Show
+                    <select
+                      className="form-select form-select-sm rounded-1 d-inline mx-2"
+                      aria-label="Default select example1"
+                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>{" "}
+                    Entries    out of 100
+                  </p>
+                  <Pagination
+                    count={Math.ceil(pagination.count / pageSize)}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
+                </div>
                   </div>
                 </div>
               </div>
@@ -534,7 +569,7 @@ export const ListEvents = () => {
             </h5>
             <button
               type="button"
-              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold rounded-1 mx-3"
               onClick={deleteProgramData}
               style={{ fontSize: "12px" }}
             >
@@ -542,7 +577,7 @@ export const ListEvents = () => {
             </button>
             <button
               type="button"
-              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold rounded-1 "
               onClick={closePopup}
               style={{ fontSize: "12px" }}
             >
@@ -582,7 +617,7 @@ export const ListEvents = () => {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
+                className="btn btn-cancel border-0 rounded-pill rounded-1 px-3 py-1 fw-semibold text-white float-right bg"
                 style={{
                   backgroundColor: "#0f2239",
                   color: "#fff",
@@ -594,7 +629,7 @@ export const ListEvents = () => {
               <button
                 type="submit"
                 // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
+                className="btn btn-save border-0 rounded-pill rounded-1 fw-semibold px-3 py-1 text-white float-right mx-2"
                 style={{
                   backgroundColor: "#fe5722",
                   color: "#fff",

@@ -18,6 +18,7 @@ export const AddMeetings = () => {
 
   const initialState = {
     hostName: "",
+    typeOfUser:"",
     attendees: "",
     subject: "",
     content: "",
@@ -28,6 +29,8 @@ export const AddMeetings = () => {
 
   const initialStateErrors = {
     hostName: { required: false },
+    typeOfUser: { required: false },
+
     attendees: { required: false },
     subject: { required: false },
     content: { required: false },
@@ -93,6 +96,9 @@ export const AddMeetings = () => {
     if (data.hostName === "") {
       error.hostName.required = true;
     }
+    if (data.typeOfUser === "") {
+      error.typeOfUser.required = true;
+    }
     if (data.attendees === "") {
       error.attendees.required = true;
     }
@@ -141,13 +147,17 @@ export const AddMeetings = () => {
       setErrors(newError);
     }
   };
-  const handleSelectChange = (selectedOptions, action) => {
+
+
+  const handleSelectChange = (selectedOption, action) => {
     const { name } = action;
-    const values = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
+    const value = selectedOption ? selectedOption.value : "";
+    setnotification((prevNotification) => ({
+      ...prevNotification,
+      [name]: value,
+    }));
   };
+  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -258,15 +268,34 @@ export const AddMeetings = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+    Host Name<span className="text-danger">*</span>
+  </label>
+  <Select
+    placeholder="Select staff"
+    onChange={handleSelectChange}
+    options={staffOptions}
+    name="hostName"
+    styles={customStyles}
+    className="submain-one-form-body-subsection-select"
+  />
+  {errors.hostName.required && (
+    <div className="text-danger form-text">
+      This field is required.
+    </div>
+  )}
+</div>
+
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                             Host Name{" "}
+                            Type of user{" "}
                               <span className="text-danger">*</span>
                             </label>
 
                             <select
                               class="form-select form-select-lg"
-                              name="hostName"
+                              name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
                               style={{
@@ -280,16 +309,16 @@ export const AddMeetings = () => {
                               <option value="agent">Agent</option>
                               <option value="admin">Admin</option>
                             </select>
-                            {errors.hostName.required ? (
+                            {errors.typeOfUser.required ? (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
                             ) : null}
                           </div>
-                          {notification.hostName === "staff" ? (
+                          {notification.typeOfUser === "staff" ? (
                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                              <label style={{ color: "#231F20" }}>
-                               Admin List<span className="text-danger">*</span>
+                               Staff List<span className="text-danger">*</span>
                              </label>
                             <Select
                              isMulti
@@ -307,7 +336,7 @@ export const AddMeetings = () => {
                                </div>
                              ) : null}
                            </div>
-                          ) : notification.hostName === "student" ? (
+                          ) : notification.typeOfUser === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Student List<span className="text-danger">*</span>
@@ -328,10 +357,10 @@ export const AddMeetings = () => {
                                 </div>
                               ) : null}
                             </div>
-                          ) :notification.hostName === "agent" ? (
+                          ) :notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Admin List<span className="text-danger">*</span>
+                              Agent List<span className="text-danger">*</span>
                             </label>
                            <Select
                             isMulti
@@ -349,7 +378,7 @@ export const AddMeetings = () => {
                               </div>
                             ) : null}
                           </div>
-                          ) : notification.hostName === "admin" ? (
+                          ) : notification.typeOfUser === "admin" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Admin List<span className="text-danger">*</span>
@@ -456,8 +485,7 @@ export const AddMeetings = () => {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                 
                                 }}
                               />
                               {errors.content.required && (

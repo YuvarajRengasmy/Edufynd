@@ -424,19 +424,19 @@ export const ListForex = () => {
                 <div className="card rounded-1 shadow-sm border-0">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries
-                        </p>
+                  <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
                        <div className="p-0 m-0">
                        <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
                        </div>
@@ -468,7 +468,7 @@ export const ListForex = () => {
                             >
                                 <th className="text-capitalize text-start sortable-handle">
                                 {" "}
-                              #
+                                <input type="checkbox" />
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
@@ -537,7 +537,7 @@ export const ListForex = () => {
                                     {data?.forexID || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentName || "Not Available"}
+                                    {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.passportNo || "Not Available"}
@@ -600,7 +600,19 @@ export const ListForex = () => {
                  
                   </div>
                   <div className="d-flex justify-content-between m-2">
-                    <div> <p>Showing 20 out of 100</p></div>
+                  <p className="me-auto ">
+                    Show
+                    <select
+                      className="form-select form-select-sm rounded-1 d-inline mx-2"
+                      aria-label="Default select example1"
+                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>{" "}
+                    Entries    out of 100
+                  </p>
                       <div>
                       <Pagination
                         count={Math.ceil(pagination.count / pageSize)}

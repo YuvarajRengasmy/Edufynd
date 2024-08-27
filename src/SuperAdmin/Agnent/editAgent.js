@@ -10,6 +10,8 @@ import {
   isValidBankAccountNumber,
   isValidNumberLessThanOrEqualTo95,
 } from "../../Utils/Validation";
+import Flags from "react-world-flags";
+import { getallCode } from "../../api/settings/dailcode";
 import { updateAgent, getSingleAgent } from "../../api/agent";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Select from "react-select";
@@ -28,6 +30,10 @@ function EditAgent() {
     addressLine2: "",
     addressLine3: "",
     email: "",
+    dial1: "",
+    dial2: "",
+    dial3:"",
+    dial4:"",
     mobileNumber: "",
     whatsAppNumber: "",
     panNumberCompany: "", // If applicable
@@ -61,6 +67,10 @@ function EditAgent() {
     panNumberCompany: { required: false }, // If applicable
     gstn: { required: false }, // Optional
     staffName: { required: false },
+    dial1: { required: false },
+    dial2: { required: false },
+    dial3: { required: false },
+    dial4: { required: false },
     staffContactNo: { required: false, valid: false }, // agentPayout: string[]; // List of payouts
     agentsCommission: { required: false }, // Will be calculated based on the University Commission & Agent Payout
     countryInterested: { required: false },
@@ -81,14 +91,28 @@ function EditAgent() {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
   const navigate = useNavigate();
+  const [dial, setDial] = useState([]);
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false);
+  const [copyToStaffApp, setCopyToStaffApp] = useState(false);
 
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
     getAllCountryDetails();
     getAgentDetails();
+    getallCodeList();
   }, []);
 
+
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllCountryDetails = () => {
     getFilterCountry()
       .then((res) => {
@@ -122,6 +146,37 @@ function EditAgent() {
         [event.target.name]: event.target.value,
       });
       setErrors(newError);
+    }
+  };
+
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setAgent((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: `${prevClient.mobileNumber}`,
+      }));
+    } else {
+      setAgent((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: "",
+      }));
+    }
+  };
+  const handleCheckboxChanges = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToStaffApp(isChecked);
+    if (isChecked) {
+      setAgent((prevClient) => ({
+        ...prevClient,
+        whatsApp: `${prevClient.staffContactNo}`,
+      }));
+    } else {
+      setAgent((prevClient) => ({
+        ...prevClient,
+        whatsApp: "",
+      }));
     }
   };
   const convertToBase64 = (e, name) => {
@@ -483,62 +538,129 @@ function EditAgent() {
                           ) : null}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label htmlFor="Email" className="form-label">
-                            Primary Number<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            name="mobileNumber"
-                            type="number"
-                            className={`form-control rounded-2 ${errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ?  'is-valid' : '' }`}
-                            onChange={handleInputs}
-                            placeholder="Example 123-456-789"
-                            id="Email"
-                            value={agent?.mobileNumber}
-                            style={{
-                              backgroundColor: "#fff",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          />
-                          {errors.mobileNumber.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : errors.mobileNumber.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid MobileNumber.
-                            </div>
-                          ) : null}
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label htmlFor="Email" className="form-label">
-                            WhatsApp Number
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            name="whatsAppNumber"
-                            type="number"
-                            onChange={handleInputs}
-                            placeholder="Example 123-456-789"
-                            className={`form-control rounded-2 ${errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ?  'is-valid' : '' }`}
-                            id="Email"
-                            value={agent?.whatsAppNumber}
-                            style={{
-                              backgroundColor: "#fff",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          />
-                          {errors.whatsAppNumber.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : errors.whatsAppNumber.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid whatsAppNumber.
-                            </div>
-                          ) : null}
-                        </div>
+  <label style={{ color: "#231F20" }}>
+  Mobile Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={agent?.dial1} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="mobileNumber"
+      value={agent.mobileNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+     
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChange}
+      />
+     
+    </div>
+  </div>
+  {errors.mobileNumber.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : errors.mobileNumber.valid ? (
+                                <span className="text-danger form-text profile_error">
+                                  Enter valid mobile number.
+                                </span>
+                              ) : null}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+    Business WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={agent?.dial2}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="whatsAppNumber"
+    value={agent.whatsAppNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.whatsAppNumber.required ? (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              ) : errors.whatsAppNumber.valid ? (
+                                <span className="text-danger form-text profile_error">
+                                  Enter valid whatsAppNumber.
+                                </span>
+                              ) : null}
+</div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label htmlFor="Country" className="form-label">
@@ -715,64 +837,124 @@ function EditAgent() {
                             </div>
                           ) : null}
                         </div>
+                        
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label htmlFor="Email" className="form-label">
-                            Staff Contact No{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            name="staffContactNo"
-                            type="number"
-                            className={`form-control rounded-2 ${errors.staffContactNo.required ? 'is-invalid' : errors.staffContactNo.valid ?  'is-valid' : '' }`}
-                            id="Email"
-                            onChange={handleInputs}
-                            placeholder="Example 123-456-789"
-                            value={agent?.staffContactNo}
-                            style={{
-                              backgroundColor: "#fff",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          />
-                          {errors.staffContactNo.required ? (
+  <label style={{ color: "#231F20" }}>
+  Staff Contact No
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={agent?.dial3} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.staffContactNo.required ? 'is-invalid' : errors.staffContactNo.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="staffContactNo"
+      value={agent.staffContactNo}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+     
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToStaffApp}
+        onChange={handleCheckboxChanges}
+      />
+     
+    </div>
+  </div>
+  {errors.staffContactNo.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.staffContactNo.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Phone Number Only.
-                            </div>
-                          ) : null}
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label htmlFor="Email" className="form-label">
-                            Staff WhatsApp Number{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            name="whatsApp"
-                            value={agent?.whatsApp}
-                            type="number"
-                            className={`form-control rounded-2 ${errors.whatsApp.required ? 'is-invalid' : errors.whatsApp.valid ?  'is-valid' : '' }`}
-                            id="Email"
-                            onChange={handleInputs}
-                            placeholder="Example 123-456-789"
-                            style={{
-                              backgroundColor: "#fff",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          />
-                          {errors.whatsApp.required ? (
+                          ) }
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+    Staff WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={agent?.dial4}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.whatsApp.required ? 'is-invalid' : errors.whatsApp.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="whatsApp"
+    value={agent.whatsApp}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.whatsApp.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) : errors.whatsApp.valid ? (
-                            <div className="text-danger form-text">
-                              Enter valid Phone Number Only.
-                            </div>
-                          ) : null}
-                        </div>
+                          )}
+</div>
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                           <label htmlFor="Email" className="form-label">
                             {" "}

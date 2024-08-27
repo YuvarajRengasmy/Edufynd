@@ -1,28 +1,16 @@
-import React,{useEffect,useState} from "react";
-// Importing the React library for building UI components.
-
+import React, { useEffect, useState,useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// Importing Bootstrap CSS for styling and responsive layout.
-
-import { Bar, Line, Pie, Doughnut, Radar } from "react-chartjs-2";
-// Importing chart components from react-chartjs-2 for creating different types of charts.
-
+import { Bar, Line } from "react-chartjs-2";
 import Sidebar from "../../compoents/sidebar";
-// Importing the Sidebar component from a relative path. (Note: "compoents" should probably be "components".)
-
 import 'chart.js/auto';
-// Importing Chart.js library with automatic registration of components and controllers.
-
 import {
   FaTrash, FaListAlt, FaChartBar, FaUser, FaFileAlt, FaSuitcase, FaRegChartBar, FaCalendarAlt, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaCommentsDollar, FaFileInvoice, FaBuilding, FaShieldAlt, FaGlobe, FaCogs, FaTrophy, FaEnvelopeOpenText, FaExclamationCircle,
   FaMoneyBillWave, FaCheckCircle, FaComments, FaEnvelope, FaPhone, FaDollarSign, FaUserAlt, FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram, FaBell, FaChartLine, FaUserCog, FaBullhorn
 } from "react-icons/fa";
-// Importing various icons from the react-icons library to use in the component.
 
 export const HeroContent = () => {
-// Declaring the HeroContent functional component.
-
-  const salesData = {
+  // Chart data
+  const salesData = useMemo(() => ({
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
     datasets: [
       {
@@ -33,11 +21,9 @@ export const HeroContent = () => {
         borderColor: '#231f20',
       },
     ],
-  };
-  // Defining data for a line chart that shows sales over six months. 
-  // 'labels' are the X-axis labels, 'datasets' contains the data points and styling.
+  }), []);
 
-  const clientGrowthData = {
+  const clientGrowthData = useMemo(() => ({
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
     datasets: [
       {
@@ -48,10 +34,9 @@ export const HeroContent = () => {
         borderColor: '#231f20',
       },
     ],
-  };
-  // Defining data for a line chart that shows client growth over six months.
+  }), []);
 
-  const barData = {
+  const barData = useMemo(() => ({
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
@@ -62,11 +47,9 @@ export const HeroContent = () => {
         data: [65, 59, 80, 81, 56, 55]
       }
     ]
-  };
-  // Defining data for a bar chart that shows client growth across six months.
-  // 'backgroundColor' and 'borderColor' define the chart’s appearance.
+  }), []);
 
-  const lineData = {
+  const lineData = useMemo(() => ({
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
@@ -91,11 +74,10 @@ export const HeroContent = () => {
         data: [65, 59, 80, 81, 56, 55]
       }
     ]
-  };
-  // Defining data for a line chart that shows a finance overview across six months.
-  // Various styling options for the line and points on the chart are specified.
+  }), []);
 
-  // The component should return JSX to render the charts, but this is not shown in the provided code.
+
+  // State for current date and time
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
@@ -124,7 +106,12 @@ export const HeroContent = () => {
     return date.toLocaleTimeString();
   };
 
-
+  // Extract the date and time rendering to a separate component to avoid unnecessary re-rendering
+  const DateTimeDisplay = React.memo(({ date }) => (
+    <div>
+      <p>{formatDate(date)}, {formatTime(date)}</p>
+    </div>
+  ));
 
   return (
     <div >
@@ -143,7 +130,7 @@ export const HeroContent = () => {
     </h1>
     {/* Current date displayed in smaller text */}
     <p className="text-secondary" style={{ fontSize: '16px' }}>
-      {formatDate(currentDate)}, {formatTime(currentDate)}
+    <DateTimeDisplay date={currentDate} />
     </p>
   </div>
   

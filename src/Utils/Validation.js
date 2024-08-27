@@ -20,9 +20,12 @@ export const isValidEmail = (email) => {
 }
 
 export const isValidPhone = (phone) => {
-  const phoneRegex = /^[0-9]{10}$/;
+  // const phoneRegex = /^[0-9]{15}$/;
+  const  phoneRegex= /^\d{10,18}$/;
   return phoneRegex.test(phone);
 }
+
+
 
 export const isValidWebsite = (website) => {
   const websiteRegex = /^(https?:\/\/)?([^\s@]+@[^\s@]+\.)?([^\s@]+\.)?([^\s@]+\.[^\s@]{2,})(\/[^\s@]*)*$/;

@@ -301,6 +301,25 @@ function ListStaff() {
           <div className="col-xl-12">
           <div className="col-md-12">
             <div className="card rounded-1 shadow-sm mt-2 border-0">
+            <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                        <p className="me-auto ">
+                         Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">Active</option>
+                            <option value="10">InActive</option>
+                            <option value="20">Delete</option>
+                          </select>{" "}
+                         
+                        </p>
+                      
+                      
+                      </div>
+                  </div>
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">
@@ -308,6 +327,9 @@ function ListStaff() {
               ref={tableRef}>
                       <thead className="table-light">
                         <tr style={{fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+                        <th className=" text-start">
+                            <input type="checkbox" />
+                            </th>
                           <th className="text-capitalize text-start sortable-handle"> S.No.</th>
                           <th className="text-capitalize text-start sortable-handle">Emp_ID </th>
                           <th className="text-capitalize text-start sortable-handle"> DOJ </th>
@@ -323,6 +345,9 @@ function ListStaff() {
                       <tbody>
                       {staff?.map((data, index) => (
                         <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }} >
+                          <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
                            <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
                           <td className="text-capitalize text-start text-truncate">{data?.employeeID  || "Not Available"}</td>
                           <td className="text-capitalize text-start text-truncate">{formatDate(data?.doj)  || "Not Available"}</td>
@@ -383,9 +408,23 @@ function ListStaff() {
                     </table>
                   </div>
                 </div>
-                <div className="float-right my-2">
-                  <Pagination variant="outlined" shape="rounded" color="primary"/>
-                </div>
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries    out of 100
+                        </p> 
+                        <Pagination variant="outlined" shape="rounded" color="primary"/>
+        </div>
+                
               </div>
             </div>
           </div>

@@ -210,7 +210,9 @@ const UserProfile = () => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
           <div className="content-header">
-            <div className="container ">
+          
+          </div>
+          <div className="container-fluid ">
               <div className="row">
                 <div className="col-xl-12">
                   <div className="card border-0 rounded-0 ">
@@ -271,7 +273,7 @@ const UserProfile = () => {
                                 {university?.universityName}
                               </h5>
                             </div>
-                            <div className="d-flex flex-row justify-content-between align-items-start">
+                            <div className="d-flex  flex-lg-row flex-xs-column  justify-content-between align-items-start">
                               <p
                                 className="text-white fw-semibold mb-1"
                                 style={{ fontSize: "14px" }}
@@ -365,7 +367,7 @@ const UserProfile = () => {
                       </div>
                     </div>
                     <div className="card-body  ">
-                      <div className="container">
+                      <div className="container-fluid">
                         <div className="row ">
                           <div className="col-md-8">
                             <ul
@@ -605,50 +607,40 @@ const UserProfile = () => {
                                         <div className="card-body">
                                           <div className="row gy-3 py-2">
                                             <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Payment Method
+                                              <div className=" text-lead text-capitalize">
+                                                Payment Method - <b>{commission.paymentMethod}</b>
                                               </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.paymentMethod}
-                                              </div>
+                                            
                                             </div>
                                           </div>
                                           <div className="row gy-3 py-2">
                                             <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Eligibility For Commission
+                                              <div className=" text-lead text-capitalize">
+                                                Eligibility For Commission - <b>   {commission.eligibility}%</b>
                                               </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.eligibility}
-                                              </div>
+                                              
                                             </div>
                                             <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Payment TAT
+                                              <div className=" text-lead text-capitalize">
+                                                Payment TAT -<b> {commission.paymentType}</b>
                                               </div>
-                                              <div className="fw-nsemibold">
-                                                {commission.paymentType}
-                                              </div>
+                                              
                                             </div>
                                           </div>
                                           <div className="row gy-3 py-2">
                                             <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Tax
+                                              <div className=" text-lead text-capitalize">
+                                                Tax - <b> {commission.tax}</b>
                                               </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.tax}
-                                              </div>
+                                              
                                             </div>
                                             <div className="col-sm-6">
-                                              <div className="fw-light text-lead text-capitalize">
-                                                Commission Paid On
-                                              </div>
-                                              <div className="fw-semibold text-capitalize">
-                                                {commission.commissionPaidOn
+                                              <div className=" text-lead text-capitalize">
+                                                Commission Paid On - <b>{commission.commissionPaidOn
                                                   ? commission.commissionPaidOn
-                                                  : "null"}
+                                                  : "null"}</b>
                                               </div>
+                                             
                                             </div>
                                           </div>
                                         </div>
@@ -1034,7 +1026,53 @@ const UserProfile = () => {
                 </nav>
               </div>
             </div>
+
+          <div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        
+        <li className="mb-4 position-relative">
+          <div className="row align-items-start g-0">
+
+          <div className="col-1 d-flex justify-content-center align-items-center">
+              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                <i className="fas fa-check" />
+              </div>
+            </div>
+            <div className="col-4 text-center">
+              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+            </div>
+           
+          
+           
+            <div className="col-7">
+            <div className="mb-3">
+              
+              <div className="bg-success text-white rounded-3 p-2">
+                <h6 className="mb-1">New University Name</h6>
+                <p className="mb-0">University Y</p>
+              </div>
+            </div>
+              <div className="mb-3">
+             
+                <div className="bg-danger text-white rounded-3 p-2">
+                  <h6 className="mb-1">Old University Name</h6>
+                  <p className="mb-0">University X</p>
+                </div>
+              </div>
+           
+            </div>
           </div>
+          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
     </>

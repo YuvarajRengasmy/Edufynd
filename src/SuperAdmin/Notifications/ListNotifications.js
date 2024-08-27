@@ -115,26 +115,23 @@ export const ListNotifications = () => {
 
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div className="content-header bg-light shadow-sm sticky-top">
-        <div className="container">
+        <div className="container-fluid">
           
             <div className="row ">
               <div className="col-xl-12">
              
-                <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+                <ol className="d-flex flex-row justify-content-end align-items-center w-100 list-unstyled mb-0">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
                         placeholder="Search"
                         aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                        className="form-control  border-1  rounded-4 "
                         style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
+                         
                           fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px" // Adjust padding to fit the height
+                         
                         }}
                       />
                       <span
@@ -203,7 +200,7 @@ export const ListNotifications = () => {
                               <button
 
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
+                                className="btn btn-cancel border-0 fw-semibold   rounded-pill text-white float-right bg"
                                 style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
                               // onClick={resetFilter}
                               >
@@ -213,7 +210,7 @@ export const ListNotifications = () => {
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
+                                className="btn btn-save border-0 fw-semibold   rounded-pill text-white float-right mx-2"
                                 style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
                               >
                                 Apply
@@ -229,39 +226,39 @@ export const ListNotifications = () => {
                   <li class="m-1">
                     <Link >
                       <button style={{ backgroundColor: "#E12929", fontSize: "11px" }} className="btn text-white ">
-                        <span>
+                      
                           <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
+                        
                       </button>
                     </Link>
                   </li>
                   <li class="m-1">
                     <Link  class="btn-filters">
-                      <span>
+                   
                         <button style={{ backgroundColor: "#22A033", fontSize: "11px" }} className="btn text-white ">
                           <i class="fa fa-file-excel" aria-hidden="true"></i>
                         </button>
-                      </span>
+                     
                     </Link>
                   </li>
 
                   <li class="m-1">
                     <Link class="btn-filters">
-                      <span>
+                    
                         <button
                           style={{ backgroundColor: "#9265cc", fontSize: "11px" }}
                           className="btn text-white "
                         >
                           <i class="fa fa fa-upload" aria-hidden="true"></i>
                         </button>
-                      </span>
+                    
                     </Link>
                   </li>
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/add_notifications">
                       <button
-                        className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                        style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
+                        className="btn btn-outline   fw-semibold rounded-1  border-0 text-white  "
+                        style={{ backgroundColor: "#231f20", fontSize: "12px" }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
@@ -283,16 +280,16 @@ export const ListNotifications = () => {
         
         </div>
 
-        <div className="container mt-3">
+        <div className="container-fluid mt-3">
       <div className="row">
         {/* Card 1: New Notifications */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#4CAF50" }} // Green
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-bell" style={{ color: '#ffffff' }}></i> New Notifications
               </h6>
               <p className="card-text">New notifications received.</p>
@@ -304,11 +301,11 @@ export const ListNotifications = () => {
         {/* Card 2: Alerts */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#F44336" }} // Red
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-exclamation-circle" style={{ color: '#ffffff' }}></i> Alerts
               </h6>
               <p className="card-text">Critical alerts issued.</p>
@@ -320,11 +317,11 @@ export const ListNotifications = () => {
         {/* Card 3: System Updates */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#2196F3" }} // Blue
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-sync" style={{ color: '#ffffff' }}></i> System Updates
               </h6>
               <p className="card-text">Recent system updates.</p>
@@ -336,11 +333,11 @@ export const ListNotifications = () => {
         {/* Card 4: Messages */}
         <div className="col-md-3 col-sm-6 mb-3">
           <div
-            className="card rounded-3 border-0 text-white shadow-sm"
+            className="card rounded-1 border-0 text-white shadow-sm"
             style={{ backgroundColor: "#FFC107" }} // Amber
           >
             <div className="card-body">
-              <h6 className="card-title">
+              <h6 className="">
                 <i className="fas fa-envelope" style={{ color: '#ffffff' }}></i> Messages
               </h6>
               <p className="card-text">New messages in the inbox.</p>
@@ -351,10 +348,29 @@ export const ListNotifications = () => {
       </div>
     </div>
         <div className="content-body">
-            <div className="container">
+            <div className="container-fluid">
             <div className="row">
             <div className="col-xl-12">
-              <div className="card rounded-0  border-0">
+              <div className="card rounded-1 shadow-sm  border-0">
+              <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                    <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
+
+
+                  </div>
+                </div>
                 <div className="card-body">
                   <div className="card-table">
                     <div className="table-responsive">
@@ -362,6 +378,9 @@ export const ListNotifications = () => {
                       <table className=" table  table-hover card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
                         <thead className="table-light">
                           <tr style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <th className=" text-start">
+                            <input type="checkbox" />
+                            </th>
                             <th className="text-capitalize text-start sortable-handle">S No</th>
                             <th className="text-capitalize text-start sortable-handle">Date</th>
                             <th className="text-capitalize text-start sortable-handle">TypeOfUser</th>
@@ -375,8 +394,11 @@ export const ListNotifications = () => {
                         <tbody>
                         {notification?.map((data, index) => (
                             <tr key={index}  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
+                               <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
                               <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")  || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")  || "Not Available"}  <small>Timer</small></td>
                               <th className="text-capitalize text-start  text-truncate">{data?.typeOfUser  || "Not Available"}</th>
 
                               <td className="text-capitalize text-start text-truncate">{data?.subject  || "Not Available"}</td>
@@ -384,7 +406,7 @@ export const ListNotifications = () => {
                             
                             
                               <td className="text-capitalize text-start text-truncate">
-                              <div className="d-flex">
+                              <div className="d-flex justify-content-between align-items-center">
                                         <Link
                                           className="dropdown-item"
                                           to={{
@@ -421,15 +443,29 @@ export const ListNotifications = () => {
                       </table>
                     </div>
                   </div>
-                  <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                    </div>
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                  <p className="me-auto ">
+                    Show
+                    <select
+                      className="form-select form-select-sm rounded-1 d-inline mx-2"
+                      aria-label="Default select example1"
+                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>{" "}
+                    Entries    out of 100
+                  </p>
+                  <Pagination
+                    count={Math.ceil(pagination.count / pageSize)}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
+                </div>
+               
                 </div>
               </div>
             </div>
@@ -442,12 +478,12 @@ export const ListNotifications = () => {
       <Dialog open={open}>
         <DialogContent>
           <div className="text-center p-4">
-            <h5 className="mb-4" style={{fontSize:'14px'}}>
-              Are you sure you want to Delete <br /> the selected Notification ?
-            </h5>
+            <h6 className="mb-4" >
+              Are you sure you want to Delete  the selected Notification ?
+            </h6>
             <button
               type="button"
-              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold  mx-3"
               onClick={deleteProgramData}
               style={{ fontSize: '12px' }}
             >
@@ -455,7 +491,7 @@ export const ListNotifications = () => {
             </button>
             <button
               type="button"
-              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold  "
               onClick={closePopup}
               style={{ fontSize: '12px' }}
             >
@@ -500,7 +536,7 @@ export const ListNotifications = () => {
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
+                className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 
               >
@@ -509,7 +545,7 @@ export const ListNotifications = () => {
               <button
                 type="submit"
                 // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
+                className="btn btn-save border-0 rounded-pill  fw-semibold px-3 py-1 text-white float-right mx-2"
                 style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
               >
                 Apply

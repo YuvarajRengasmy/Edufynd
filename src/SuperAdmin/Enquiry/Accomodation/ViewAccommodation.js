@@ -74,125 +74,115 @@ export const ViewAccommodation = () => {
                       }}
                     >
                       <tbody>
-                        <tr>
-                          <td className="fw-bold">Source: Student/Agent </td>
-                          <td>{accommodation?.source || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Agent ID </td>
-                          <td>{accommodation?.agentId || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Agent Name </td>
-                          <td>{accommodation?.agentName || "Not Available"}</td>
-                        </tr>{" "}
-                        <tr>
-                          <td className="fw-bold">AgentBusiness Name </td>
-                          <td>{accommodation?.businessName || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Agent Primary Number</td>
-                          <td>{accommodation?.agentPrimaryNumber || "Not Available"}</td>
-                        </tr>{" "}
-                        <tr>
-                          <td className="fw-bold">Agent WhatsApp Number </td>
-                          <td>{accommodation?.agentWhatsAppNumber || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Agent Email ID </td>
-                          <td>{accommodation?.agentEmail || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Name of the Student </td>
-                          <td>{accommodation?.studentName || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Passport Number </td>
-                          <td>{accommodation?.passportNumber || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Expiry Date </td>
-                          <td>Expiry Date</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Student Email ID </td>
-                          <td>{accommodation?.email || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Student Primary Number </td>
-                          <td>{accommodation?.primaryNumber || "Not Available"}</td>
-                        </tr>{" "}
-                        <tr>
-                          <td className="fw-bold">Student WhatsApp number </td>
-                          <td>{accommodation?.whatsAppNumber || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">University Name </td>
-                          <td>{accommodation?.universityName || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Course</td>
-                          <td>Course</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Accommodation Type </td>
-                          <td>Accommodation Type</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Country </td>
-                          <td>Country</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">State </td>
-                          <td>State</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">City </td>
-                          <td>City</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Accommodation Type </td>
-                          <td>Accommodation Type</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">
-                            Assigned To (List Staff) Multiple Assign
-                          </td>
-                          <td>{accommodation?.assignedTo || "Not Available"}</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Finalised By</td>
-                          <td>Finalised By</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">Location</td>
-                          <td>Location</td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">
-                            Holding Offer from the University (Yes/No){" "}
-                          </td>
-                          <td>
-                            {accommodation?.holdingOfferFromTheUniversity || "Not Available"}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="fw-bold">
-                            Location where accommodation is required{" "}
-                          </td>
-                          <td>
-                            {
-                              accommodation?.locationWhereAccommodationIsRequired || "Not Available"
-                            }
-                          </td>
-                        </tr>
-                      </tbody>
+  {accommodation?.agentName ? (
+    <>
+      <tr>
+        <td className="fw-bold">Source: Student/Agent</td>
+        <td>{accommodation?.source || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent ID</td>
+        <td>{accommodation?.agentId || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Name</td>
+        <td>{accommodation?.agentName || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Business Name</td>
+        <td>{accommodation?.businessName || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Primary Number</td>
+        <td>{accommodation?.dial3 + " " + accommodation?.agentPrimaryNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent WhatsApp Number</td>
+        <td>{accommodation?.dial4 + " " +accommodation?.agentWhatsAppNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Email ID</td>
+        <td>{accommodation?.agentEmail || "Not Available"}</td>
+      </tr>
+    </>
+  ) : (
+    <>
+      <tr>
+        <td className="fw-bold">Name of the Student</td>
+        <td>{accommodation?.studentName || "Not Available"}</td>
+      </tr>
+      
+    </>
+  )}
+  {/* Common fields */}
+  <tr>
+        <td className="fw-bold">Name of the Student</td>
+        <td>{accommodation?.name || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Passport Number</td>
+        <td>{accommodation?.passportNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Expiry Date</td>
+        <td>{accommodation?.expiryDate || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Student Email ID</td>
+        <td>{accommodation?.email || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Student Primary Number</td>
+        <td>{accommodation?.dial1 + " " +accommodation?.primaryNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Student WhatsApp number</td>
+        <td>{accommodation?.dial2 + " " +accommodation?.whatsAppNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">University Name</td>
+        <td>{accommodation?.universityName || "Not Available"}</td>
+      </tr>
+  <tr>
+    <td className="fw-bold">Course</td>
+    <td>{accommodation?.courseType || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Accommodation Type</td>
+    <td>{accommodation?.accommodationType || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Country</td>
+    <td>{accommodation?.country || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">State</td>
+    <td>{accommodation?.state || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">City</td>
+    <td>{accommodation?.lga || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Assigned To (List Staff) Multiple Assign</td>
+    <td>{accommodation?.assignedTo || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Finalised By</td>
+    <td>{accommodation?.final || "Not Available"}</td>
+  </tr>
+  
+ 
+ 
+</tbody>
+
                     </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
       </div>
     </>
   );

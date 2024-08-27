@@ -242,7 +242,9 @@ export const AddNotifications = () => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
         >
           <div className="content-header ">
-            <div className=" container-fluid ">
+            
+          </div>
+          <div className=" container-fluid ">
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
@@ -509,7 +511,6 @@ export const AddNotifications = () => {
                 </div>
               </form>
             </div>
-          </div>
         </div>
       </div>
     </>
