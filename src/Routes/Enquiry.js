@@ -46,7 +46,6 @@ function Enquiry() {
         <Route path="/edit_accommodation" element={<PrivateRoute><EditAccomodation /></PrivateRoute>} />
         <Route path="/list_accommodation" element={<PrivateRoute><ListAccomodation /></PrivateRoute>} />
         <Route path="/view_accommodation" element={<PrivateRoute><ViewAccomodation /></PrivateRoute>} />
-
         <Route path="/add_business_enquiry" element={<PrivateRoute><AddBusiness /></PrivateRoute>} />
         <Route path="/edit_business_enquiry" element={<PrivateRoute><EditBusiness /></PrivateRoute>} />
         <Route path="/list_business_enquiry" element={<PrivateRoute><ListBusiness /></PrivateRoute>} />

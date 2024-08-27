@@ -1,93 +1,116 @@
 // import React, { useEffect, useState } from "react";
+// import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 // import { toast } from "react-toastify";
-// import { Link, useNavigate, useLocation } from "react-router-dom";
+// import { useNavigate, Link, useLocation } from "react-router-dom";
+// import { getallUniversity } from "../../../api/university";
+// import { getFilterCountry } from "../../../api/globalsettings";
+// import Select from "react-select";
+// import Flags from "react-world-flags";
 // import {
-//   isValidEmail,
-//   isValidDob,
-//   isValidPhone,
-//   isValidName,
-//   isValidNo,
-//   isValidPassportNumber,
-// } from "../../../Utils/Validation";
-// import {
-//   updateStudnetEnquiry,
-//   getSingleStudnetEnquiry,
-// } from "../../../api/Enquiry/student";
-
+//   updateAccommodationEnquiry,
+//   getSingleAccommodationEnquiry,
+// } from "../../../api/Enquiry/accommodation";
 // import Mastersidebar from "../../../compoents/sidebar";
-// import { Student } from "../../../api/endpoints";
-
-// export const AddStudentForm = () => {
+// export const EditAccommodation = () => {
 //   const location = useLocation();
 //   const id = new URLSearchParams(location.search).get("id");
 
 //   const initialState = {
 //     source: "",
-//     name: "",
-//     dob: "",
-//     citizenShip: "",
-//     passportNo: "",
-//     expiryDate: "",
-//     email: "",
+//     studentName: "",
+//     locationWhereAccommodationIsRequired: "",
+
+//     universityName: "",
+//     passportNumber: "",
 //     primaryNumber: "",
 //     whatsAppNumber: "",
-//     qualification: "",
-//     yearPassed: "",
-//     cgpa: "",
-//     desiredCountry: "",
-//     desiredUniversity: "",
-//     desiredCourse: "",
-//     doYouHoldAnyOtherOffer: "",
-//     doYouNeedSupportForLoan: "",
+//     email: "",
+//     agentName: "",
+
+//     businessName: "",
+//     agentPrimaryNumber: "",
+//     agentWhatsAppNumber: "",
+//     agentEmail: "",
+//     holdingOfferFromTheUniversity: "",
+
 //     assignedTo: "",
-//     gender: "",
-//     country: "",
-//     universityName: "",
-//     programName: "",
-//     refereeName: "",
-//     refereeContactNo: "",
-//     registerForIELTSClass: "",
 //   };
 //   const initialStateErrors = {
 //     source: { required: false },
-//     name: { required: false },
-//     dob: { required: false },
-//     citizenShip: { required: false },
-//     passportNo: { required: false },
-//     expiryDate: { required: false },
-//     email: { required: false },
-//     primaryNumber: { required: false },
-//     whatsAppNumber: { required: false },
-//     qualification: { required: false },
-//     yearPassed: { required: false },
-//     cgpa: { required: false },
-//     desiredCountry: { required: false },
-//     desiredUniversity: { required: false },
-//     desiredCourse: { required: false },
-//     doYouHoldAnyOtherOffer: { required: false },
-//     doYouNeedSupportForLoan: { required: false },
-//     assignedTo: { required: false },
-//     gender: { required: false },
-//     country: { required: false },
+//     studentName: { required: false },
+//     locationWhereAccommodationIsRequired: { required: false },
+
 //     universityName: { required: false },
-//     programName: { required: false },
-//     refereeName: { required: false },
-//     refereeContactNo: { required: false },
-//     registerForIELTSClass: { required: false },
+//     passportNumber: { required: false },
+//     primaryNumber: { required: false, valid: false },
+//     whatsAppNumber: { required: false, valid: false },
+//     email: { required: false, valid: false },
+//     agentName: { required: false },
+//     businessName: { required: false },
+//     agentPrimaryNumber: { required: false },
+//     agentWhatsAppNumber: { required: false },
+//     agentEmail: { required: false },
+//     holdingOfferFromTheUniversity: { required: false },
+
+//     assignedTo: { required: false },
 //   };
-//   const [student, setStudent] = useState(initialState);
+
+//   const [countries, setCountries] = useState([]);
+//   const [pagination, setPagination] = useState({
+//     from: 0,
+//     to: 10,
+//     count: 0,
+//   });
+//   const [university, setUniversity] = useState();
+//   const [accommodation, setAccommodation] = useState(initialState);
 //   const [errors, setErrors] = useState(initialStateErrors);
 //   const [submitted, setSubmitted] = useState(false);
 //   const navigate = useNavigate();
 
 //   useEffect(() => {
-//     getStudentDetails();
+//     getAllUniversityList();
 //   }, []);
 
-//   const getStudentDetails = () => {
-//     getSingleStudnetEnquiry(id)
+//   useEffect(() => {
+//     getAllCountryDetails();
+//   }, [pagination.from, pagination.to]);
+
+//   const getAllCountryDetails = () => {
+//     const data = {
+//       limit: 10,
+//       page: pagination.from,
+//     };
+//     getFilterCountry(data)
 //       .then((res) => {
-//         setStudent(res?.data?.result);
+//         console.log(res);
+//         setCountries(res?.data?.result?.countryList);
+//         setPagination({
+//           ...pagination,
+//           count: res?.data?.result?.countryCount,
+//         });
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+
+//   const getAllUniversityList = () => {
+//     getallUniversity()
+//       .then((res) => {
+//         setUniversity(res?.data?.result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+
+//   useEffect(() => {
+//     getAccommodationDetails();
+//   }, []);
+//   const getAccommodationDetails = () => {
+//     getSingleAccommodationEnquiry(id)
+//       .then((res) => {
+//         setAccommodation(res?.data?.result);
 //       })
 //       .catch((err) => {
 //         console.log(err);
@@ -96,122 +119,62 @@
 //   const handleValidation = (data) => {
 //     let error = initialStateErrors;
 
-//     if (data.source === "") {
+//     if (!data.source) {
 //       error.source.required = true;
 //     }
+//     if (!data.studentName) {
+//       error.studentName.required = true;
+//     }
+//     if (!data.locationWhereAccommodationIsRequired) {
+//       error.locationWhereAccommodationIsRequired.required = true;
+//     }
 
-//     if (data.name === "") {
-//       error.name.required = true;
+//     if (!data.universityName) {
+//       error.universityName.required = true;
 //     }
-//     if (!isValidName(data.name)) {
-//       error.name.valid = true;
-//     }
-//     if (data.dob === "") {
-//       error.dob.required = true;
-//     }
-//     if (!isValidDob(data.dob)) {
-//       error.dob.valid = true;
-//     }
-//     if (data.citizenShip === "") {
-//       error.citizenShip.required = true;
-//     }
-//     if (!isValidName(data.citizenShip)) {
-//       error.citizenShip.valid = true;
-//     }
-//     if (data.passportNo === "") {
+//     if (!data.passportNumber) {
 //       error.passportNo.required = true;
 //     }
-//     if (!isValidPassportNumber(data.passportNo)) {
-//       error.passportNo.valid = true;
+//     if (!data.primaryNumber) {
+//       error.primaryNumber.required = true;
 //     }
-//     if (data.expiryDate === "") {
-//       error.expiryDate.required = true;
+//     if (!data.whatsAppNumber) {
+//       error.whatsAppNumber.required = true;
 //     }
-//     if (data.email === "") {
+//     if (!data.email) {
 //       error.email.required = true;
 //     }
+
+//     if (!data.holdingOfferFromTheUniversity) {
+//       error.holdingOfferFromTheUniversity.required = true;
+//     }
+
+//     if (!data.assignedTo) {
+//       error.assignedTo.required = true;
+//     }
+
 //     if (!isValidEmail(data.email)) {
 //       error.email.valid = true;
-//     }
-//     if (data.primaryNumber === "") {
-//       error.primaryNumber.required = true;
 //     }
 //     if (!isValidPhone(data.primaryNumber)) {
 //       error.primaryNumber.valid = true;
 //     }
-
-//     if (data.whatsAppNumber === "") {
-//       error.whatsAppNumber.required = true;
-//     }
-
 //     if (!isValidPhone(data.whatsAppNumber)) {
 //       error.whatsAppNumber.valid = true;
-//     }
-//     if (data.qualification === "") {
-//       error.qualification.required = true;
-//     }
-//     if (!isValidName(data.qualification)) {
-//       error.qualification.valid = true;
-//     }
-//     if (data.yearPassed === "") {
-//       error.yearPassed.required = true;
-//     }
-//     if (data.cgpa === "") {
-//       error.cgpa.required = true;
-//     }
-//     if (!isValidNo(data.cgpa)) {
-//       error.cgpa.valid = true;
-//     }
-//     if (data.desiredCountry === "") {
-//       error.desiredCountry.required = true;
-//     }
-
-//     if (data.desiredUniversity === "") {
-//       error.desiredUniversity.required = true;
-//     }
-//     if (!isValidName(data.desiredUniversity)) {
-//       error.desiredUniversity.valid = true;
-//     }
-//     if (data.desiredCourse === "") {
-//       error.desiredCourse.required = true;
-//     }
-//     if (data.doYouHoldAnyOtherOffer === "") {
-//       error.doYouHoldAnyOtherOffer.required = true;
-//     }
-
-//     if (data.gender === "") {
-//       error.gender.required = true;
-//     }
-//     if (data.assignedTo === "") {
-//       error.assignedTo.required = true;
-//     }
-//     if (data.doYouNeedSupportForLoan === "") {
-//       error.doYouNeedSupportForLoan.required = true;
-//     }
-//     if (data.registerForIELTSClass === "") {
-//       error.registerForIELTSClass.required = true;
-//     }
-//     if (data.refereeName === "") {
-//       error.refereeName.required = true;
-//     }
-//     if (data.refereeContactNo === "") {
-//       error.refereeContactNo.required = true;
-//     }
-//     if (!isValidPhone(data.refereeContactNo)) {
-//       error.refereeContactNo.valid = true;
-//     }
-//     if (!isValidName(data.refereeName)) {
-//       error.refereeName.valid = true;
 //     }
 
 //     return error;
 //   };
 
 //   const handleInputs = (event) => {
-//     setStudent({ ...student, [event?.target?.name]: event?.target?.value });
+//     setAccommodation({
+//       ...accommodation,
+//       [event?.target?.name]: event?.target?.value,
+//     });
+
 //     if (submitted) {
 //       const newError = handleValidation({
-//         ...student,
+//         ...accommodation,
 //         [event.target.name]: event.target.value,
 //       });
 //       setErrors(newError);
@@ -232,14 +195,13 @@
 
 //   const handleSubmit = (event) => {
 //     event.preventDefault();
-//     const newError = handleValidation(student);
+//     const newError = handleValidation(accommodation);
 //     setErrors(newError);
-//     setSubmitted(true);
-//     if (handleErrors(newError)) {
-//       updateStudnetEnquiry(student)
+//     if (handleErrors(newError)){
+//       updateAccommodationEnquiry(accommodation)
 //         .then((res) => {
 //           toast.success(res?.data?.message);
-//           navigate("/ListStudentForm");
+//           navigate("/list_accommodation");
 //         })
 //         .catch((err) => {
 //           toast.error(err?.response?.data?.message);
@@ -251,493 +213,220 @@
 //     <>
 //       <Mastersidebar />
 
-//       <div
-//         className="content-wrapper"
-//         style={{ fontSize: "13px", fontFamily: "Plus Jakarta Sans" }}
-//       >
+//       <div className="content-wrapper" style={{ fontSize: "13px" }}>
 //         <div className="content-header">
-//           <div className="container-fluid">
-//             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-//               <div
-//                 className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-//                 style={{ background: "#fe5722", color: "#fff" }}
-//               >
-//                 <h5 className="text-center text-capitalize p-1">
-//                   {" "}
-//                   Edit Student Enquiry Details
-//                 </h5>
-//               </div>
-//               <div className="card-body mt-5">
-//                 <form className="p-1" onSubmit={handleSubmit}>
-//                   <div className="row g-3">
-//                     <div className="row g-3">
-//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                         <label className="form-label" for="inputEmail4">
-//                           Source
-//                         </label>
-//                         <select
-//                           onChange={handleInputs}
-//                           style={{
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                           className="form-select form-select-lg rounded-2 "
-//                           name="source"
-//                           value={student.source}
-//                         >
-//                           <option value="">Select Source</option>
-//                           <option value="walkin">Walk In</option>
-//                           <option value="direct">Direct</option>
-//                           <option value="others">Others</option>
-//                         </select>
-//                         {errors.source.required ? (
-//                           <div className="text-danger form-text">
-//                             This field is required.
-//                           </div>
-//                         ) : null}
-//                       </div>
-//                     </div>
-
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputEmail4">
-//                         Student Name
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         type="text"
-//                         id="inputEmail4"
-//                         name="name"
-//                         onChange={handleInputs}
-//                         placeholder="Enter Name"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.name}
-//                       />
-//                       {errors.name.required ? (
-//                         <span className="text-danger form-text profile_error">
-//                           This field is required.
-//                         </span>
-//                       ) : errors.name.valid ? (
-//                         <span className="text-danger form-text profile_error">
-//                           Enter A Letter Only.
-//                         </span>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputgender">
-//                         Gender
-//                       </label>
-//                       <select
-//                         class="form-select form-select-lg rounded-2"
-//                         onChange={handleInputs}
-//                         name="gender"
-//                         aria-label="Default select example"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.gender}
-//                       >
-//                         <option selected>Select Gender</option>
-//                         <option value="Male">Male</option>
-//                         <option value="Female">Female</option>
-//                         <option value="Other">Other</option>
-//                       </select>
-//                       {errors.gender.required ? (
-//                         <span className="text-danger form-text profile_error">
-//                           This field is required.
-//                         </span>
-//                       ) : null}
-//                     </div>
-
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputPassword4">
-//                         DOB
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         onChange={handleInputs}
-//                         id="inputPassword4"
-//                         type="date"
-//                         placeholder="Enter DOB"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         name="dob"
-//                         value={student.dob ? student.dob.slice(0, 10) : ""}
-//                       />
-//                       {errors.dob.required ? (
-//                         <span className="text-danger form-text profile_error">
-//                           This field is required.
-//                         </span>
-//                       ) : errors.dob.valid ? (
-//                         <span className="text-danger form-text profile_error">
-//                           Enter 15 Year eligible Student Apply
-//                         </span>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputPassword4">
-//                         CitizenShip
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         onChange={handleInputs}
-//                         name="citizenShip"
-//                         id="inputPassword4"
-//                         type="text"
-//                         placeholder="Enter CitizenShip"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.citizenShip}
-//                       />
-
-//                       {errors.citizenShip.required ? (
-//                         <span className="text-danger form-text profile_error">
-//                           This field is required.
-//                         </span>
-//                       ) : errors.citizenShip.valid ? (
-//                         <span className="text-danger form-text profile_error">
-//                           Enter A Letter Only.
-//                         </span>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputAddress">
-//                         Passport No
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         onChange={handleInputs}
-//                         name="passportNo"
-//                         id="inputAddress"
-//                         type="text"
-//                         placeholder="Enter Passport No"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.passportNo}
-//                       />
-//                       {errors.passportNo.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : errors.passportNo.valid ? (
-//                         <span className="text-danger form-text">
-//                           Enter Vaild PassportNo.
-//                         </span>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputExpiry">
-//                         Expiry Date
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         onChange={handleInputs}
-//                         name="expiryDate"
-//                         id="inputAddress"
-//                         type="Date"
-//                         placeholder="Enter Expiry Date"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.expiryDate?.slice(0, 10)}
-//                       />
-//                       {errors.expiryDate.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : errors.expiryDate.valid ? (
-//                         <span className="text-danger form-text">
-//                           Enter Valid Expiry Date.
-//                         </span>
-//                       ) : null}
-//                     </div>
-
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputPassword4">
-//                         Email ID
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         onChange={handleInputs}
-//                         id="inputPassword4"
-//                         text="text"
-//                         placeholder="Enter Email ID"
-//                         name="email"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.email}
-//                       />
-//                       {errors.email.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : errors.email.valid ? (
-//                         <div className="text-danger form-text">
-//                           Enter valid Email Id.
-//                         </div>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputEmail4">
-//                         Primary Number
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         onChange={handleInputs}
-//                         id="inputEmail4"
-//                         type="text"
-//                         name="primaryNumber"
-//                         placeholder="Enter Primary Number"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.primaryNumber}
-//                       />
-//                       {errors.primaryNumber.required ? (
-//                         <span className="text-danger form-text profile_error">
-//                           This field is required.
-//                         </span>
-//                       ) : errors.primaryNumber.valid ? (
-//                         <span className="text-danger form-text profile_error">
-//                           Enter valid mobile number.
-//                         </span>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputEmail4">
-//                         WhatsApp Number
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         id="inputEmail4"
-//                         onChange={handleInputs}
-//                         type="text"
-//                         name="whatsAppNumber"
-//                         placeholder="Enter WhatsApp Number"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.whatsAppNumber}
-//                       />
-//                       {errors.whatsAppNumber.required ? (
-//                         <span className="text-danger form-text profile_error">
-//                           This field is required.
-//                         </span>
-//                       ) : errors.whatsAppNumber.valid ? (
-//                         <span className="text-danger form-text profile_error">
-//                           Enter valid WhatsApp number.
-//                         </span>
-//                       ) : null}
-//                     </div>
-
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputPassword4">
-//                         Qualification
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         id="inputPassword4"
-//                         onChange={handleInputs}
-//                         type="text"
-//                         name="qualification"
-//                         placeholder="Enter Qualification"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.qualification}
-//                       />
-//                       {errors.qualification.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : errors.qualification.valid ? (
-//                         <span className="text-danger form-text">
-//                           Enter valid Letter Onlyqualification.
-//                         </span>
-//                       ) : null}
-//                     </div>
-
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputAddress">
+//           <form className="p-1" onSubmit={handleSubmit}>
+//             <div className="container">
+//               <div className="row">
+//                 <div className="col-xl-12">
+//                   <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+//                     <div
+//                       className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+//                       style={{ background: "#fe5722", color: "#fff" }}
+//                     >
+//                       <h6 className="text-center text-capitalize p-1">
 //                         {" "}
-//                         Year passed
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         id="inputAddress"
-//                         onChange={handleInputs}
-//                         name="yearPassed"
-//                         type="text"
-//                         placeholder="Enter Passed Year"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.yearPassed}
-//                       />
-//                       {errors.yearPassed.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : null}
+//                         Edit Accommodation Enquiry
+//                       </h6>
 //                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputAddress">
-//                         CGPA{" "}
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         onChange={handleInputs}
-//                         name="cgpa"
-//                         id="inputAddress"
-//                         type="text"
-//                         placeholder=" Enter CGPA"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.cgpa}
-//                       />
-//                       {errors.cgpa.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : errors.cgpa.valid ? (
-//                         <span className="text-danger form-text">
-//                           Enter valid Number
-//                         </span>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputEmail4">
-//                         Desired Country
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         id="inputEmail4"
-//                         onChange={handleInputs}
-//                         name="desiredCountry"
-//                         type="text"
-//                         placeholder="Enter Desired Country"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.desiredCountry}
-//                       />
-//                       {errors.desiredCountry.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputPassword4">
-//                         Desired University
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         id="inputPassword4"
-//                         type="text"
-//                         onChange={handleInputs}
-//                         name="desiredUniversity"
-//                         placeholder="Enter Desired University"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.desiredUniversity}
-//                       />
-//                       {errors.desiredUniversity.required ? (
-//                         <span className="text-danger form-text profile_error">
-//                           This field is required.
-//                         </span>
-//                       ) : errors.desiredUniversity.valid ? (
-//                         <span className="text-danger form-text profile_error">
-//                           Enter valid Letter Only.
-//                         </span>
-//                       ) : null}
-//                     </div>
-//                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                       <label className="form-label" for="inputPassword4">
-//                         Desired Course
-//                       </label>
-//                       <input
-//                         className="form-control rounded-2"
-//                         id="inputPassword4"
-//                         onChange={handleInputs}
-//                         type="text"
-//                         name="desiredCourse"
-//                         placeholder="Enter Desired Course"
-//                         style={{
-//                           fontFamily: "Plus Jakarta Sans",
-//                           fontSize: "12px",
-//                         }}
-//                         value={student.desiredCourse}
-//                       />
-//                       {errors.desiredCourse.required ? (
-//                         <div className="text-danger form-text">
-//                           This field is required.
-//                         </div>
-//                       ) : null}
-//                     </div>
-//                     <div className="row g-3">
-//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                         <label className="form-label" for="inputAddress">
-//                           Do You Hold Any Other Offer?{" "}
-//                         </label>
-//                         <select
-//                           className="form-select form-select-lg rounded-2"
-//                           name="doYouHoldAnyOtherOffer"
-//                           style={{
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                           onChange={handleInputs}
-//                           value={student.doYouHoldAnyOtherOffer}
-//                         >
-//                           <option value=""> Select Offer </option>
-//                           <option value="yes"> Yes </option>
-//                           <option value="no">No </option>
-//                         </select>
-//                         {errors.doYouHoldAnyOtherOffer.required ? (
-//                           <div className="text-danger form-text">
-//                             This field is required.
-//                           </div>
-//                         ) : null}
-//                       </div>
-//                     </div>
-
-//                     {student.doYouHoldAnyOtherOffer === "yes" ? (
+//                     <div className="card-body mt-5">
 //                       <div className="row g-3">
 //                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                           <label className="form-label" for="inputEmail4">
-//                             {" "}
-//                             Country
+//                           <label className="form-label" for="inputsource">
+//                             Source<span className="text-danger">*</span>
+//                           </label>
+//                           <select
+//                             className="form-select form-select-lg rounded-2"
+//                             onChange={handleInputs}
+//                             value={accommodation?.source}
+//                             name="source"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           >
+//                             <option value="">Select In Source</option>
+//                             <option value="Agent">Agent</option>
+//                             <option value="Student">Student</option>
+//                           </select>
+//                           {errors.source.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : null}
+//                         </div>
+
+//                         {accommodation.source === "Agent" ? (
+//                           <>
+//                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                               <label
+//                                 className="form-label"
+//                                 for="inputAgentName"
+//                               >
+//                                 Agent Name
+//                               </label>
+//                               <input
+//                                 className="form-control rounded-2"
+//                                 id="inputAgentName"
+//                                 value={accommodation?.agentName}
+//                                 onChange={handleInputs}
+//                                 type="text"
+//                                 name="agentName"
+//                                 placeholder="Enter Agent Name"
+//                                 style={{
+//                                   fontFamily: "Plus Jakarta Sans",
+//                                   fontSize: "12px",
+//                                 }}
+//                               />
+//                               {errors.agentName.required ? (
+//                                 <div className="text-danger form-text">
+//                                   This field is required.
+//                                 </div>
+//                               ) : null}
+//                             </div>
+//                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                               <label
+//                                 className="form-label"
+//                                 for="inputbusinessname"
+//                               >
+//                                 Business Name
+//                               </label>
+//                               <input
+//                                 className="form-control rounded-2"
+//                                 id="inputbusinessname"
+//                                 value={accommodation?.businessName}
+//                                 type="text"
+//                                 onChange={handleInputs}
+//                                 name="businessName"
+//                                 placeholder="Enter Business Name"
+//                                 style={{
+//                                   fontFamily: "Plus Jakarta Sans",
+//                                   fontSize: "12px",
+//                                 }}
+//                               />
+//                             </div>
+//                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                               <label className="form-label" for="inputEmail">
+//                                 Agent Email ID
+//                               </label>
+//                               <input
+//                                 className="form-control rounded-2"
+//                                 name="agentEmail"
+//                                 value={accommodation?.agentEmail}
+//                                 onChange={handleInputs}
+//                                 id="inputEmail"
+//                                 type="text"
+//                                 placeholder="Enter Email ID"
+//                                 style={{
+//                                   fontFamily: "Plus Jakarta Sans",
+//                                   fontSize: "12px",
+//                                 }}
+//                               />
+//                             </div>
+//                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                               <label
+//                                 className="form-label"
+//                                 for="inputPrimaryNo"
+//                               >
+//                                 Primary Number
+//                               </label>
+//                               <input
+//                                 className="form-control rounded-2"
+//                                 name="agentPrimaryNumber"
+//                                 value={accommodation?.agentPrimaryNumber}
+//                                 onChange={handleInputs}
+//                                 id="inputPrimaryNo"
+//                                 type="text"
+//                                 placeholder="Enter Primary Number"
+//                                 style={{
+//                                   fontFamily: "Plus Jakarta Sans",
+//                                   fontSize: "12px",
+//                                 }}
+//                               />
+//                             </div>
+
+//                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                               <label
+//                                 className="form-label"
+//                                 for="inputWhatsAppNumber"
+//                               >
+//                                 {" "}
+//                                 WhatsApp Number
+//                               </label>
+//                               <input
+//                                 className="form-control rounded-2"
+//                                 name="agentWhatsAppNumber"
+//                                 value={accommodation?.agentWhatsAppNumber}
+//                                 onChange={handleInputs}
+//                                 id="inputWhatsAppNumber"
+//                                 type="text"
+//                                 placeholder="Enter WhatsApp Number"
+//                                 style={{
+//                                   fontFamily: "Plus Jakarta Sans",
+//                                   fontSize: "12px",
+//                                 }}
+//                               />
+//                             </div>
+//                           </>
+//                         ) : null}
+
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputstudentname">
+//                             Name of the Student
+//                             <span className="text-danger">*</span>
 //                           </label>
 //                           <input
 //                             className="form-control rounded-2"
-//                             id="inputEmail4"
-//                             type="text"
-//                             name="country"
-//                             value={student.country}
+//                             value={accommodation?.studentName}
+//                             name="studentName"
 //                             onChange={handleInputs}
-//                             placeholder=" Enter Country"
+//                             id="inputstudentname"
+//                             type="text"
+//                             placeholder="Enter Name of the Student"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                           {errors.studentName.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : null}
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputpassportno">
+//                             Passport No<span className="text-danger">*</span>
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             value={accommodation?.passportNumber}
+//                             id="inputpassportno"
+//                             onChange={handleInputs}
+//                             name="passportNumber"
+//                             type="text"
+//                             placeholder="Enter Passport No"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                           {errors.passportNumber.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : null}
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputpassportno">
+//                             Expiry Date<span className="text-danger">*</span>
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputpassportno"
+//                             name="expirydate"
+//                             type="date"
+//                             placeholder="Enter Expiry Date"
 //                             style={{
 //                               fontFamily: "Plus Jakarta Sans",
 //                               fontSize: "12px",
@@ -745,17 +434,127 @@
 //                           />
 //                         </div>
 //                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                           <label className="form-label" for="inputEmail4">
-//                             University
+//                           <label className="form-label" for="inputEmail">
+//                             Email ID<span className="text-danger">*</span>
 //                           </label>
 //                           <input
 //                             className="form-control rounded-2"
-//                             id="inputEmail4"
-//                             type="text"
+//                             name="email"
+//                             value={accommodation?.email}
 //                             onChange={handleInputs}
+//                             id="inputEmail"
+//                             type="text"
+//                             placeholder="Enter Email ID"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                           {errors.email.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : errors.email.valid ? (
+//                             <div className="text-danger form-text">
+//                               Enter valid Email Id.
+//                             </div>
+//                           ) : null}
+//                         </div>
+
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputPrimaryNo">
+//                             Primary Number<span className="text-danger">*</span>
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             value={accommodation?.primaryNumber}
+//                             name="primaryNumber"
+//                             onChange={handleInputs}
+//                             id="inputPrimaryNo"
+//                             type="text"
+//                             placeholder="Enter Primary Number"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                           {errors.primaryNumber.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : errors.primaryNumber.valid ? (
+//                             <div className="text-danger form-text">
+//                               Enter valid emergencyContactNo.
+//                             </div>
+//                           ) : null}
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label
+//                             className="form-label"
+//                             for="inputWhatsAppNumber"
+//                           >
+//                             WhatsApp Number
+//                             <span className="text-danger">*</span>
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             name="whatsAppNumber"
+//                             value={accommodation?.whatsAppNumber}
+//                             onChange={handleInputs}
+//                             id="inputWhatsAppNumber"
+//                             type="text"
+//                             placeholder="Enter WhatsApp Number"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                           {errors.whatsAppNumber.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : errors.whatsAppNumber.valid ? (
+//                             <div className="text-danger form-text">
+//                               Enter valid emergencyContactNo.
+//                             </div>
+//                           ) : null}
+//                         </div>
+
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputuniversity">
+//                             University Name
+//                             <span className="text-danger">*</span>{" "}
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             value={accommodation?.universityName}
+//                             id="inputstudentid"
 //                             name="universityName"
-//                             value={student.universityName}
-//                             placeholder="Enter University "
+//                             onChange={handleInputs}
+//                             type="text"
+//                             placeholder="Enter Student ID"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                           {errors.universityName.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : null}
+//                         </div>
+
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputuniversity">
+//                             Course<span className="text-danger">*</span>{" "}
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputstudentid"
+//                             name="course"
+//                             type="text"
+//                             placeholder="Enter Course"
 //                             style={{
 //                               fontFamily: "Plus Jakarta Sans",
 //                               fontSize: "12px",
@@ -763,195 +562,218 @@
 //                           />
 //                         </div>
 //                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                           <label className="form-label" for="inputEmail4">
-//                             Program
+//                           <label className="form-label" for="inputuniversity">
+//                             Accommodation Type
+//                             <span className="text-danger">*</span>{" "}
 //                           </label>
 //                           <input
 //                             className="form-control rounded-2"
-//                             id="inputEmail4"
+//                             id="inputstudentid"
+//                             name="AccommodationType"
 //                             type="text"
-//                             onChange={handleInputs}
-//                             name="program"
-//                             value={student.program}
-//                             placeholder="Enter Program"
+//                             placeholder="Enter Accommodation Type"
 //                             style={{
 //                               fontFamily: "Plus Jakarta Sans",
 //                               fontSize: "12px",
 //                             }}
 //                           />
 //                         </div>
-//                       </div>
-//                     ) : null}
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputuniversity">
+//                             Country<span className="text-danger">*</span>{" "}
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputstudentid"
+//                             name="Country"
+//                             type="text"
+//                             placeholder="EnterCountry"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputuniversity">
+//                             State<span className="text-danger">*</span>{" "}
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputstudentid"
+//                             name="State"
+//                             type="text"
+//                             placeholder="Enter State"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputuniversity">
+//                             City<span className="text-danger">*</span>{" "}
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputstudentid"
+//                             name="City"
+//                             type="text"
+//                             placeholder="Enter City"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputassignedto">
+//                             Assigned To <span className="text-danger">*</span>
+//                           </label>
+//                           <select
+//                             className="form-select form-select-lg rounded-2"
+//                             onChange={handleInputs}
+//                             value={accommodation?.assignedTo}
+//                             name="assignedTo"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                             id="inputassignedto"
+//                           >
+//                             <option>Assigned To</option>
+//                             <option>Agent</option>
+//                             <option>Admin</option>
+//                           </select>
+//                           {errors.assignedTo.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : null}
+//                         </div>
 
-//                     <div className="row g-3">
-//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                         <label className="form-label" for="inputEmail4">
-//                           Referee Name
-//                         </label>
-//                         <input
-//                           className="form-control rounded-2"
-//                           id="inputEmail4"
-//                           type="text"
-//                           name="refereeName"
-//                           value={student.refereeName}
-//                           onChange={handleInputs}
-//                           placeholder="Enter Referee Name"
-//                           style={{
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                         />
-//                         {errors.refereeName.required ? (
-//                           <div className="text-danger form-text">
-//                             This field is required.
-//                           </div>
-//                         ) : errors.refereeName.valid ? (
-//                           <span className="text-danger form-text">
-//                             Enter valid Referee Name
-//                           </span>
-//                         ) : null}
-//                       </div>
-//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                         <label className="form-label" for="inputEmail4">
-//                           Referee Contact
-//                         </label>
-//                         <input
-//                           className="form-control rounded-2"
-//                           id="inputEmail4"
-//                           type="text"
-//                           name="refereeContactNo"
-//                           onChange={handleInputs}
-//                           value={student.refereeContactNo}
-//                           placeholder="Enter Referee Contact"
-//                           style={{
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                         />
-//                         {errors.refereeContactNo.required ? (
-//                           <div className="text-danger form-text">
-//                             This field is required.
-//                           </div>
-//                         ) : errors.refereeContactNo.valid ? (
-//                           <span className="text-danger form-text">
-//                             Enter valid Referee Contact
-//                           </span>
-//                         ) : null}
-//                       </div>
-//                     </div>
-//                     <div className="row g-3">
-//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                         <label className="form-label" for="inputEmail4">
-//                           Request Loan Support
-//                         </label>
-//                         <select
-//                           className="form-control rounded-2"
-//                           name="doYouNeedSupportForLoan"
-//                           style={{
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                           onChange={handleInputs}
-//                           value={student.doYouNeedSupportForLoan}
-//                         >
-//                           <option value=""> Select Loan support </option>
-//                           <option value="yes"> Yes </option>
-//                           <option value="no">No </option>
-//                         </select>
-//                         {errors.doYouNeedSupportForLoan.required ? (
-//                           <div className="text-danger form-text">
-//                             This field is required.
-//                           </div>
-//                         ) : null}
-//                       </div>
-//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-//                         <label className="form-label" for="inputEmail4">
-//                           Register for IELTS class
-//                         </label>
-//                         <input
-//                           className="form-control rounded-2"
-//                           id="inputEmail4"
-//                           type="text"
-//                           name="registerForIELTSClass"
-//                           onChange={handleInputs}
-//                           placeholder="Enter Register for IELTS class"
-//                           style={{
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                           value={student.registerForIELTSClass}
-//                         />
-//                         {errors.registerForIELTSClass.required ? (
-//                           <div className="text-danger form-text">
-//                             This field is required.
-//                           </div>
-//                         ) : errors.registerForIELTSClass.valid ? (
-//                           <span className="text-danger form-text">
-//                             Only number is allowed
-//                           </span>
-//                         ) : null}
-//                       </div>
-//                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-//                         <label className="form-label" for="inputEmail4">
-//                           {" "}
-//                           Assigned To
-//                         </label>
-//                         <input
-//                           className="form-control rounded-2"
-//                           id="inputEmail4"
-//                           onChange={handleInputs}
-//                           type="text"
-//                           name="assignedTo"
-//                           placeholder=" Assigned To Staff"
-//                           style={{
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                           value={student.assignedTo}
-//                         />
-//                         {errors.assignedTo.required ? (
-//                           <div className="text-danger form-text">
-//                             This field is required.
-//                           </div>
-//                         ) : null}
-//                       </div>
-//                     </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputuniversity">
+//                             Finalised By<span className="text-danger">*</span>{" "}
+//                           </label>
+//                           <input
+//                             className="form-control rounded-2"
+//                             id="inputstudentid"
+//                             name="  Finalised By"
+//                             type="text"
+//                             placeholder="Enter   Finalised By"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                           />
+//                         </div>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label style={{ color: "#231F20" }}>
+//                             Location<span className="text-danger">*</span>
+//                           </label>
+//                           <select
+//                             className="form-select form-select-lg rounded-2"
+//                             name="locationWhereAccommodationIsRequired"
+//                             value={
+//                               accommodation?.locationWhereAccommodationIsRequired
+//                             }
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                             onChange={handleInputs}
+//                           >
+//                             <option value="" disabled hidden>
+//                               Select Country
+//                             </option>
+//                             {countries.map(
+//                               (country, index) =>
+//                                 Array.isArray(country.country) &&
+//                                 country.country.map(
+//                                   (countryName, countryIndex) => (
+//                                     <option
+//                                       key={`${index}-${countryIndex}`}
+//                                       value={countryName}
+//                                     >
+//                                       {countryName}
+//                                     </option>
+//                                   )
+//                                 )
+//                             )}
+//                           </select>
+//                           {errors.locationWhereAccommodationIsRequired
+//                             .required && (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           )}
+//                         </div>
 
-//                     <div className="row g-4">
-//                       <div className="d-flex flex-row align-item-center justify-content-end gap-3 ">
-//                         <Link
-//                           style={{
-//                             backgroundColor: "#231F20",
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                           to="/ListStudentForm"
-//                           className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white"
-//                         >
-//                           Cancel
-//                         </Link>
+//                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+//                           <label className="form-label" for="inputpayment">
+//                             Holding Offer From The University
+//                             <span className="text-danger">*</span>{" "}
+//                           </label>
+//                           <select
+//                             className="form-select form-select-lg rounded-2"
+//                             onChange={handleInputs}
+//                             value={accommodation?.holdingOfferFromTheUniversity}
+//                             name="holdingOfferFromTheUniversity"
+//                             style={{
+//                               fontFamily: "Plus Jakarta Sans",
+//                               fontSize: "12px",
+//                             }}
+//                             id="inputpayment"
+//                           >
+//                             <option>Select Type</option>
+//                             <option value="No"> Yes</option>
 
-//                         <button
-//                           style={{
-//                             backgroundColor: "#FE5722",
-//                             fontFamily: "Plus Jakarta Sans",
-//                             fontSize: "12px",
-//                           }}
-//                           type="submit"
-//                           className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  "
-//                         >
-//                           Submit
-//                         </button>
+//                             <option value="No">No</option>
+//                           </select>
+//                           {errors.holdingOfferFromTheUniversity.required ? (
+//                             <div className="text-danger form-text">
+//                               This field is required.
+//                             </div>
+//                           ) : null}
+//                         </div>
+
+//                         <div className="row g-2">
+//                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+//                             <Link
+//                               to="/list_accommodation"
+//                               style={{
+//                                 backgroundColor: "#231F20",
+//                                 fontFamily: "Plus Jakarta Sans",
+//                                 fontSize: "12px",
+//                               }}
+//                               className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+//                             >
+//                               Cancel
+//                             </Link>
+//                             <button
+//                               style={{
+//                                 backgroundColor: "#FE5722",
+//                                 fontFamily: "Plus Jakarta Sans",
+//                                 fontSize: "12px",
+//                               }}
+//                               type="submit"
+//                               className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
+//                             >
+//                               Update
+//                             </button>
+//                           </div>
+//                         </div>
 //                       </div>
 //                     </div>
 //                   </div>
-//                 </form>
+//                 </div>
 //               </div>
 //             </div>
-//           </div>
+//           </form>
 //         </div>
 //       </div>
 //     </>
 //   );
 // };
-// export default AddStudentForm;
+// export default EditAccommodation;

@@ -150,9 +150,8 @@ export const EditBusiness = () => {
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-    if (valid) {
+   
+   if (handleErrors(newError)) {
       updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
