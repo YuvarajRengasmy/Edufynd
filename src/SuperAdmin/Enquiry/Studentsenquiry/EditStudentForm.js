@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   isValidEmail,
   isValidDob,
@@ -9,15 +7,22 @@ import {
   isValidNo,
   isValidPassportNumber,
 } from "../../../Utils/Validation";
+import { toast } from "react-toastify";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   updateStudnetEnquiry,
   getSingleStudnetEnquiry,
 } from "../../../api/Enquiry/student";
+import {getFilterSource} from "../../../api/settings/source";
+import{getallStudent} from "../../../api/student";
+import { getallAgent } from "../../../api/agent";
+import Flags from "react-world-flags";
+import { getallCode } from "../../../api/settings/dailcode";
 
 import Mastersidebar from "../../../compoents/sidebar";
-import { Student } from "../../../api/endpoints";
 
 export const AddStudentForm = () => {
+
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
@@ -29,6 +34,10 @@ export const AddStudentForm = () => {
     passportNo: "",
     expiryDate: "",
     email: "",
+    dial1: "",
+    dial2: "",
+    dial3:"",
+    dial4:"",
     primaryNumber: "",
     whatsAppNumber: "",
     qualification: "",
@@ -47,11 +56,20 @@ export const AddStudentForm = () => {
     refereeName: "",
     refereeContactNo: "",
     registerForIELTSClass: "",
+    agentName: "",
+    businessName: "",
+    agentPrimaryNumber: "",
+    agentWhatsAppNumber: "",
+    agentEmail: "",
   };
   const initialStateErrors = {
     source: { required: false },
     name: { required: false },
     dob: { required: false },
+    dial1: { required: false },
+    dial2: { required: false },
+    dial3: { required: false },
+    dial4: { required: false },
     citizenShip: { required: false },
     passportNo: { required: false },
     expiryDate: { required: false },
@@ -65,9 +83,16 @@ export const AddStudentForm = () => {
     desiredUniversity: { required: false },
     desiredCourse: { required: false },
     doYouHoldAnyOtherOffer: { required: false },
+    agentName: { required: false },
+    businessName: { required: false },
+    agentPrimaryNumber: { required: false },
+    agentWhatsAppNumber: { required: false },
+    agentEmail: { required: false },
     doYouNeedSupportForLoan: { required: false },
+
     assignedTo: { required: false },
     gender: { required: false },
+
     country: { required: false },
     universityName: { required: false },
     programName: { required: false },
@@ -76,23 +101,16 @@ export const AddStudentForm = () => {
     registerForIELTSClass: { required: false },
   };
   const [student, setStudent] = useState(initialState);
+  const [source ,setSource] = useState([]);
+  const [agent, setAgent] = useState([]);
+  const [students, setStudents] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
+  const [dial, setDial] = useState([]);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getStudentDetails();
-  }, []);
-
-  const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
-      .then((res) => {
-        setStudent(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -185,6 +203,7 @@ export const AddStudentForm = () => {
     if (data.assignedTo === "") {
       error.assignedTo.required = true;
     }
+
     if (data.doYouNeedSupportForLoan === "") {
       error.doYouNeedSupportForLoan.required = true;
     }
@@ -197,9 +216,11 @@ export const AddStudentForm = () => {
     if (data.refereeContactNo === "") {
       error.refereeContactNo.required = true;
     }
+
     if (!isValidPhone(data.refereeContactNo)) {
       error.refereeContactNo.valid = true;
     }
+
     if (!isValidName(data.refereeName)) {
       error.refereeName.valid = true;
     }
@@ -207,17 +228,131 @@ export const AddStudentForm = () => {
     return error;
   };
 
+  useEffect(() => {
+    getAllSourceDetails();
+    getStudentList();
+    getAgentList();
+    getallCodeList();
+    getStudentDetails();
+  }, []);
+
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAgentList = () => {
+    getallAgent()
+      .then((res) => {
+        setAgent(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getStudentList = () => {
+    getallStudent()
+      .then((res) => {
+        setStudents(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllSourceDetails = () => {
+  
+    getFilterSource()
+      .then((res) => {
+        setSource(res?.data?.result?.sourceList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const getStudentDetails = () => {
+    getSingleStudnetEnquiry(id)
+      .then((res) => {
+        setStudent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleInputs = (event) => {
-    setStudent({ ...student, [event?.target?.name]: event?.target?.value });
+    const { name, value } = event.target;
+
+    setStudent((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+      if (name === "agentName") {
+        const selectedAgent = agent.find(
+          (u) => u.agentName === value
+        );
+        if (selectedAgent) {
+         
+  
+          return {
+            ...updatedProgram,
+            businessName: selectedAgent.businessName,
+            agentPrimaryNumber: selectedAgent.mobileNumber,
+            agentWhatsAppNumber: selectedAgent.whatsAppNumber,
+            agentEmail: selectedAgent.email,
+          };
+         
+   
+        }
+      }
+
+      return updatedProgram;
+    });
+
     if (submitted) {
       const newError = handleValidation({
         ...student,
         [event.target.name]: event.target.value,
       });
+
       setErrors(newError);
     }
   };
 
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setStudent((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: `${prevClient.primaryNumber}`,
+      }));
+    } else {
+      setStudent((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: "",
+      }));
+    }
+  };
+
+  const handleCheckboxChanges = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setStudent((prevClient) => ({
+        ...prevClient,
+        agentWhatsAppNumber: `${prevClient.agentPrimaryNumber}`,
+      }));
+    } else {
+      setStudent((prevClient) => ({
+        ...prevClient,
+        agentWhatsAppNumber: "",
+      }));
+    }
+  };
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -239,7 +374,7 @@ export const AddStudentForm = () => {
       updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudentForm");
+          navigate("/list_enquiry_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -251,10 +386,7 @@ export const AddStudentForm = () => {
     <>
       <Mastersidebar />
 
-      <div
-        className="content-wrapper"
-        style={{ fontSize: "13px", fontFamily: "Plus Jakarta Sans" }}
-      >
+      <div className="content-wrapper" style={{ fontSize: "13px" }}>
         <div className="content-header">
           <div className="container-fluid">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -264,7 +396,7 @@ export const AddStudentForm = () => {
               >
                 <h5 className="text-center text-capitalize p-1">
                   {" "}
-                  Edit Student Enquiry Details
+                  Add Student Enquiry Details
                 </h5>
               </div>
               <div className="card-body mt-5">
@@ -286,8 +418,16 @@ export const AddStudentForm = () => {
                           value={student.source}
                         >
                           <option value="">Select Source</option>
-                          <option value="walkin">Walk In</option>
-                          <option value="direct">Direct</option>
+                          {source.length > 0 ? (
+                          source.map((data, index) => (
+                          <option key={index} value={data.sourceName}>
+                          {data.sourceName}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No Source Found</option>
+                  )}
+                        
                           <option value="others">Others</option>
                         </select>
                         {errors.source.required ? (
@@ -296,35 +436,262 @@ export const AddStudentForm = () => {
                           </div>
                         ) : null}
                       </div>
+                      
                     </div>
 
+                    {student.source === "Student" ? (
+                    <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label className="form-label" for="inputAgentName">
+                            Name
+                          </label>
+                          <select
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          className="form-select form-select-lg rounded-2 "
+                          name="studentName"
+                          value={student.studentName}
+                        >
+                          <option value="">Select students</option>
+                          {students.length > 0 ? (
+                          students.map((data, index) => (
+                          <option key={index} value={`${data.name} - ${data.studentCode}`}>
+                          {data.name}{" - "}{data.studentCode}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No Source Found</option>
+                  )}
+                        
+                          <option value="others">Others</option>
+                        </select>
+                          
+                        </div>
+                        
+                       </div>
+                     
+                  
+                    ) : null}
+                      {student.source === "Agent" ? (
+                    <div className="row gx-4 gy-2">
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputEmail4">
-                        Student Name
-                      </label>
-                      <input
-                        className="form-control rounded-2"
-                        type="text"
-                        id="inputEmail4"
-                        name="name"
-                        onChange={handleInputs}
-                        placeholder="Enter Name"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                        value={student.name}
-                      />
-                      {errors.name.required ? (
-                        <span className="text-danger form-text profile_error">
-                          This field is required.
-                        </span>
-                      ) : errors.name.valid ? (
-                        <span className="text-danger form-text profile_error">
-                          Enter A Letter Only.
-                        </span>
-                      ) : null}
-                    </div>
+                    <label className="form-label" for="inputAgentName">
+                      Agent Name
+                    </label>
+                    <select
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          className="form-select form-select-lg rounded-2 "
+                          name="agentName"
+                          value={student.agentName}
+                        >
+                          <option value="">Select Agent</option>
+                          {agent.length > 0 ? (
+                          agent.map((data, index) => (
+                          <option key={index} value={data?.agentName}>
+                          {data.agentName}{" - "}{data.agentCode}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No Source Found</option>
+                  )}
+                        
+                          <option value="others">Others</option>
+                        </select>
+                   
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" for="inputbusinessname">
+                      Business Name
+                    </label>
+                    <input
+                      className="form-control"
+                      id="inputbusinessname"
+                      type="text"
+                      onChange={handleInputs}
+                      value={student.businessName}
+                      name="businessName"
+                     
+                      placeholder="Enter Business Name"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                  </div>
+                
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+     Agent Primary Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={student?.dial3} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.agentPrimaryNumber.required ? 'is-invalid' : errors.agentPrimaryNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="agentPrimaryNumber"
+      value={student.agentPrimaryNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChanges}
+      />
+     
+    </div>
+  </div>
+  {errors.agentPrimaryNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+     Agent WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={student?.dial4}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.agentWhatsAppNumber.required ? 'is-invalid' : errors.agentWhatsAppNumber.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="agentWhatsAppNumber"
+    value={student.agentWhatsAppNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.agentWhatsAppNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" for="inputEmail">
+                      Agent Email ID
+                    </label>
+                    <input
+                      className="form-control"
+                      name="agentEmail"
+                      onChange={handleInputs}
+                      id="inputEmail"
+                      value={student?.agentEmail}
+                      type="text"
+                      placeholder="Enter Email ID"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    />
+                  </div>
+                 
+                  </div>
+                     
+                      
+                
+                    ) : null}
+                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                         <label className="form-label" for="inputEmail4">
+                           Student Name
+                         </label>
+                         <input
+                           className="form-control rounded-2"
+                           type="text"
+                           id="inputEmail4"
+                           name="name"
+                           onChange={handleInputs}
+                           value={student?.name}
+                           placeholder="Enter Name"
+                           style={{
+                             fontFamily: "Plus Jakarta Sans",
+                             fontSize: "12px",
+                           }}
+                         />
+                         {errors.name.required ? (
+                           <span className="text-danger form-text profile_error">
+                             This field is required.
+                           </span>
+                         ) : errors.name.valid ? (
+                           <span className="text-danger form-text profile_error">
+                             Enter A Letter Only.
+                           </span>
+                         ) : null}
+                       </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputgender">
                         Gender
@@ -333,12 +700,12 @@ export const AddStudentForm = () => {
                         class="form-select form-select-lg rounded-2"
                         onChange={handleInputs}
                         name="gender"
+                        value={student?.gender}
                         aria-label="Default select example"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.gender}
                       >
                         <option selected>Select Gender</option>
                         <option value="Male">Male</option>
@@ -361,13 +728,13 @@ export const AddStudentForm = () => {
                         onChange={handleInputs}
                         id="inputPassword4"
                         type="date"
+                        value={student?.dob}
                         placeholder="Enter DOB"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
                         name="dob"
-                        value={student.dob ? student.dob.slice(0, 10) : ""}
                       />
                       {errors.dob.required ? (
                         <span className="text-danger form-text profile_error">
@@ -394,7 +761,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.citizenShip}
                       />
 
                       {errors.citizenShip.required ? (
@@ -422,7 +788,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.passportNo}
                       />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
@@ -449,7 +814,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.expiryDate?.slice(0, 10)}
                       />
                       {errors.expiryDate.required ? (
                         <div className="text-danger form-text">
@@ -477,7 +841,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.email}
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
@@ -489,60 +852,124 @@ export const AddStudentForm = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputEmail4">
-                        Primary Number
-                      </label>
-                      <input
-                        className="form-control rounded-2"
-                        onChange={handleInputs}
-                        id="inputEmail4"
-                        type="text"
-                        name="primaryNumber"
-                        placeholder="Enter Primary Number"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                        value={student.primaryNumber}
-                      />
-                      {errors.primaryNumber.required ? (
-                        <span className="text-danger form-text profile_error">
-                          This field is required.
-                        </span>
-                      ) : errors.primaryNumber.valid ? (
-                        <span className="text-danger form-text profile_error">
-                          Enter valid mobile number.
-                        </span>
-                      ) : null}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputEmail4">
-                        WhatsApp Number
-                      </label>
-                      <input
-                        className="form-control rounded-2"
-                        id="inputEmail4"
-                        onChange={handleInputs}
-                        type="text"
-                        name="whatsAppNumber"
-                        placeholder="Enter WhatsApp Number"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                        value={student.whatsAppNumber}
-                      />
-                      {errors.whatsAppNumber.required ? (
-                        <span className="text-danger form-text profile_error">
-                          This field is required.
-                        </span>
-                      ) : errors.whatsAppNumber.valid ? (
-                        <span className="text-danger form-text profile_error">
-                          Enter valid WhatsApp number.
-                        </span>
-                      ) : null}
-                    </div>
+                 
+
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+     Primary Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={student?.dial1} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="primaryNumber"
+      value={student.primaryNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChange}
+      />
+     
+    </div>
+  </div>
+  {errors.primaryNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+     WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={student?.dial2}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="whatsAppNumber"
+    value={student.whatsAppNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.whatsAppNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">
@@ -559,7 +986,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.qualification}
                       />
                       {errors.qualification.required ? (
                         <div className="text-danger form-text">
@@ -588,7 +1014,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.yearPassed}
                       />
                       {errors.yearPassed.required ? (
                         <div className="text-danger form-text">
@@ -611,7 +1036,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.cgpa}
                       />
                       {errors.cgpa.required ? (
                         <div className="text-danger form-text">
@@ -638,7 +1062,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.desiredCountry}
                       />
                       {errors.desiredCountry.required ? (
                         <div className="text-danger form-text">
@@ -661,7 +1084,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.desiredUniversity}
                       />
                       {errors.desiredUniversity.required ? (
                         <span className="text-danger form-text profile_error">
@@ -688,7 +1110,6 @@ export const AddStudentForm = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student.desiredCourse}
                       />
                       {errors.desiredCourse.required ? (
                         <div className="text-danger form-text">
@@ -709,7 +1130,6 @@ export const AddStudentForm = () => {
                             fontSize: "12px",
                           }}
                           onChange={handleInputs}
-                          value={student.doYouHoldAnyOtherOffer}
                         >
                           <option value=""> Select Offer </option>
                           <option value="yes"> Yes </option>
@@ -735,7 +1155,6 @@ export const AddStudentForm = () => {
                             id="inputEmail4"
                             type="text"
                             name="country"
-                            value={student.country}
                             onChange={handleInputs}
                             placeholder=" Enter Country"
                             style={{
@@ -754,7 +1173,6 @@ export const AddStudentForm = () => {
                             type="text"
                             onChange={handleInputs}
                             name="universityName"
-                            value={student.universityName}
                             placeholder="Enter University "
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -772,7 +1190,6 @@ export const AddStudentForm = () => {
                             type="text"
                             onChange={handleInputs}
                             name="program"
-                            value={student.program}
                             placeholder="Enter Program"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -793,7 +1210,6 @@ export const AddStudentForm = () => {
                           id="inputEmail4"
                           type="text"
                           name="refereeName"
-                          value={student.refereeName}
                           onChange={handleInputs}
                           placeholder="Enter Referee Name"
                           style={{
@@ -821,7 +1237,6 @@ export const AddStudentForm = () => {
                           type="text"
                           name="refereeContactNo"
                           onChange={handleInputs}
-                          value={student.refereeContactNo}
                           placeholder="Enter Referee Contact"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
@@ -852,7 +1267,6 @@ export const AddStudentForm = () => {
                             fontSize: "12px",
                           }}
                           onChange={handleInputs}
-                          value={student.doYouNeedSupportForLoan}
                         >
                           <option value=""> Select Loan support </option>
                           <option value="yes"> Yes </option>
@@ -879,7 +1293,6 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          value={student.registerForIELTSClass}
                         />
                         {errors.registerForIELTSClass.required ? (
                           <div className="text-danger form-text">
@@ -907,7 +1320,6 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          value={student.assignedTo}
                         />
                         {errors.assignedTo.required ? (
                           <div className="text-danger form-text">

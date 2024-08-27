@@ -39,6 +39,7 @@ function AddAgent() {
     whatsAppNumber: "",
   };
 
+  
   const initialStateErrors = {
     typeOfClient: { required: false },
     businessName: { required: false },
