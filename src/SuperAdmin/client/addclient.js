@@ -27,6 +27,8 @@ function AddAgent() {
     country: "",
     state: "",
     lga: "",
+    dial1: "",
+    dial2: "",
     addressLine1: "",
     addressLine2: "",
     addressLine3: "",
@@ -43,6 +45,8 @@ function AddAgent() {
     businessContactNo: { required: false, valid: false },
     website: { required: false, valid: false },
     addressLine2: { required: false },
+    dial1: { required: false },
+    dial2: { required: false },
     country: { required: false },
     state: { required: false },
     lga: { required: false },
@@ -68,7 +72,6 @@ function AddAgent() {
  // Add state for dial code
 
 const [dial, setDial] = useState([]);
-const [selectedDialCode, setSelectedDialCode] = useState("+91");
 
 
   useEffect(() => {
@@ -299,9 +302,7 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
     }),
   };
 
-  const handleDialCodeChange = (event) => {
-    setSelectedDialCode(event.target.value);
-  };
+ 
   
   
   
@@ -460,8 +461,8 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  value={selectedDialCode}
-  onChange={handleDialCodeChange} >
+  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={client?.dial1} >
   
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
@@ -523,9 +524,9 @@ const [selectedDialCode, setSelectedDialCode] = useState("+91");
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={selectedDialCode}
-  onChange={handleDialCodeChange}>
+  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={client?.dial2}
+  onChange={handleInputs}>
     
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>

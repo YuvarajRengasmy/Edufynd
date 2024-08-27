@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { updateStaff, getSingleStaff,getallStaff } from "../../api/staff";
 import { getallDepartment } from "../../api/universityModule/Department";
-
+import { getallCode } from "../../api/settings/dailcode";
 import {
   isValidPhone,
   isValidEmail,
@@ -39,6 +39,9 @@ export const AddStaff = () => {
     address: "",
     address2: "",
     pin: "",
+    dial1: "",
+    dial2: "",
+    dial3: "",
     country: "",
     state: "",
     city: "",
@@ -77,6 +80,9 @@ export const AddStaff = () => {
     address2: { required: false },
     pin: { required: false },
     country: { required: false },
+    dial1: { required: false },
+    dial2: { required: false },
+    dial3: { required: false },
     state: { required: false },
     city: { required: false },
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
@@ -99,7 +105,8 @@ export const AddStaff = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [department, setDepartment] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-
+  const [dial, setDial] = useState([]);
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const navigate = useNavigate();
 
 
@@ -107,6 +114,7 @@ export const AddStaff = () => {
     getAllStaffDetails();
     getallDepartmentData();
     getStaffDetails();
+    getallCodeList();
   }, []);
 
   const getAllStaffDetails = () => {
@@ -133,6 +141,17 @@ export const AddStaff = () => {
       .then((res) => {
         console.log(res);
         setStaff(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -197,16 +216,6 @@ export const AddStaff = () => {
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
     }
-
-   
-   
-   
-   
-   
-   
-   
-   
-  
 
     if (data.mobileNumber === "") {
       error.mobileNumber.required = true;
@@ -293,6 +302,22 @@ export const AddStaff = () => {
     setStaff({ ...staff, [name]: values });
   };
 
+
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setStaff((prevClient) => ({
+        ...prevClient,
+       emergencyContactNo: `${prevClient.mobileNumber}`,
+      }));
+    } else {
+      setStaff((prevClient) => ({
+        ...prevClient,
+        emergencyContactNo: "",
+      }));
+    }
+  };
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -739,26 +764,66 @@ export const AddStaff = () => {
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Personal Contact No
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="number"
-                                value={staff?.mobileNumber}
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                className={`form-control rounded-1 ${
-                                  errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
-                                }`}
-                                placeholder="Example 123-456-789"
-                                name="mobileNumber"
-                                onChange={handleInputs}
-                              />
-                              {errors.mobileNumber.required ? (
+  <label style={{ color: "#231F20" }}>
+    Mobile Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={staff?.dial1} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="mobileNumber"
+      value={staff.mobileNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+     
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChange}
+      />
+     
+    </div>
+  </div>
+  {errors.mobileNumber.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
@@ -767,27 +832,52 @@ export const AddStaff = () => {
                                   Enter valid MobileNumber.
                                 </div>
                               ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }} className="">
-                                Emergency Contact
-                              </label>
-                              <input
-                                type="number"
-                                value={staff?.emergencyContactNo}
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                className={`form-control rounded-1 ${
-                                  errors.emergencyContactNo.required ? 'is-invalid' : errors.emergencyContactNo.valid ? 'is-valid' : ''
-                                }`}
-                                placeholder="Example 123-456-789"
-                                name="emergencyContactNo"
-                                onChange={handleInputs}
-                              />
-                              {errors.emergencyContactNo.required ? (
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+    Emergency Contact Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={staff?.dial2}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.emergencyContactNo.required ? 'is-invalid' : errors.emergencyContactNo.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="emergencyContactNo"
+    value={staff.emergencyContactNo}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.emergencyContactNo.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
@@ -796,7 +886,7 @@ export const AddStaff = () => {
                                   Enter valid emergencyContactNo.
                                 </div>
                               ) : null}
-                            </div>
+</div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -1264,25 +1354,48 @@ export const AddStaff = () => {
                                      
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                      <label style={{ color: "#231F20" }}>
-                                        Phone Number
-                                       
-                                      </label>
-                                      <input
-                                        type="number"
-                                        value={staff?.phoneNumber}
-                                        className='form-control rounded-1 '
-                                        placeholder="Example 123-456-789"
-                                        style={{
-                                          backgroundColor: "#fff",
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                        name="phoneNumber"
-                                        onChange={handleInputs}
-                                      />
-                                      
-                                    </div>
+  <label style={{ color: "#231F20" }}>
+  Phone Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={staff?.dial3}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+     className="form-control rounded-1"
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="phoneNumber"
+    value={staff.phoneNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+ 
+</div>
                                   </div>
                                 )}
                               </>

@@ -165,6 +165,9 @@ function Profile() {
     setCampuses([...campuses, newCampus]);
   };
 
+  const removeCampus = (index) => {
+    setCampuses(campuses.filter((_, i) => i !== index));
+  };
   const handleRichTextChange = (value) => {
     setProgram((prevUniversity) => ({
       ...prevUniversity,
@@ -301,7 +304,7 @@ function Profile() {
         ...program,
         campuses: campuses,
         courseType: selectedCourseType?.label,
-        popularCategories: selectedCourseType?.label,
+        popularCategories:selectedPopularType?.label,
 
       })
         .then((res) => {
@@ -842,6 +845,16 @@ function Profile() {
                                   </div>
                                 </div>
                               </div>
+                              <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
+                                <button
+                                  type="button"
+                                  className="btn btn-danger"
+                                  onClick={() => removeCampus(index)}
+                                >
+                                 <i className="fa fa-trash"></i>
+                                </button>
+                              </div>
+
                             </div>
                           ))}
 
