@@ -31,6 +31,7 @@ export const AddStudentForm = () => {
     dial2: "",
     dial3:"",
     dial4:"",
+    dial: "",
     primaryNumber: "",
     whatsAppNumber: "",
     qualification: "",
@@ -65,6 +66,8 @@ export const AddStudentForm = () => {
     dial2: { required: false },
     dial3: { required: false },
     dial4: { required: false },
+    dial: { required: false },
+
     citizenShip: { required: false },
     passportNo: { required: false },
     expiryDate: { required: false },
@@ -504,46 +507,7 @@ export const AddStudentForm = () => {
                       }}
                     />
                   </div>
-                  {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputPrimaryNo">
-                      Primary Number
-                    </label>
-                    <input
-                      className="form-control"
-                      name="agentPrimaryNumber"
-                      onChange={handleInputs}
-                      value={student?.agentPrimaryNumber}
-                      id="inputPrimaryNo"
-                      type="text"
-                      placeholder="Enter Primary Number"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    />
-                  </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label
-                      className="form-label"
-                      for="inputWhatsAppNumber"
-                    >
-                      {" "}
-                      WhatsApp Number
-                    </label>
-                    <input
-                      className="form-control"
-                      name="agentWhatsAppNumber"
-                      onChange={handleInputs}
-                      value={student?.agentWhatsAppNumber}
-                      id="inputWhatsAppNumber"
-                      type="text"
-                      placeholder="Enter WhatsApp Number"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    />
-                  </div> */}
+                 
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
   <label style={{ color: "#231F20" }}>
      Agent Primary Number
@@ -1156,6 +1120,88 @@ export const AddStudentForm = () => {
                           </div>
                         ) : null}
                       </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label className="form-label" for="inputEmail4">
+                          Referee Name
+                        </label>
+                        <input
+                          className="form-control rounded-2"
+                          id="inputEmail4"
+                          type="text"
+                          name="refereeName"
+                          onChange={handleInputs}
+                          placeholder="Enter Referee Name"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.refereeName.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : errors.refereeName.valid ? (
+                          <span className="text-danger form-text">
+                            Enter valid Referee Name
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+  Referee Contact
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={student?.dial3} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.refereeContactNo.required ? 'is-invalid' : errors.refereeContactNo.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="refereeContactNo"
+      value={student.refereeContactNo}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+</div>
+
+
+    
+   
+  </div>
+  {errors.refereeContactNo.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
                     </div>
 
                     {student.doYouHoldAnyOtherOffer === "yes" ? (
@@ -1204,7 +1250,7 @@ export const AddStudentForm = () => {
                             id="inputEmail4"
                             type="text"
                             onChange={handleInputs}
-                            name="program"
+                            name="programName"
                             placeholder="Enter Program"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -1215,60 +1261,7 @@ export const AddStudentForm = () => {
                       </div>
                     ) : null}
 
-                    <div className="row g-3">
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <label className="form-label" for="inputEmail4">
-                          Referee Name
-                        </label>
-                        <input
-                          className="form-control rounded-2"
-                          id="inputEmail4"
-                          type="text"
-                          name="refereeName"
-                          onChange={handleInputs}
-                          placeholder="Enter Referee Name"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                        />
-                        {errors.refereeName.required ? (
-                          <div className="text-danger form-text">
-                            This field is required.
-                          </div>
-                        ) : errors.refereeName.valid ? (
-                          <span className="text-danger form-text">
-                            Enter valid Referee Name
-                          </span>
-                        ) : null}
-                      </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <label className="form-label" for="inputEmail4">
-                          Referee Contact
-                        </label>
-                        <input
-                          className="form-control rounded-2"
-                          id="inputEmail4"
-                          type="text"
-                          name="refereeContactNo"
-                          onChange={handleInputs}
-                          placeholder="Enter Referee Contact"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                        />
-                        {errors.refereeContactNo.required ? (
-                          <div className="text-danger form-text">
-                            This field is required.
-                          </div>
-                        ) : errors.refereeContactNo.valid ? (
-                          <span className="text-danger form-text">
-                            Enter valid Referee Contact
-                          </span>
-                        ) : null}
-                      </div>
-                    </div>
+                  
                     <div className="row g-3">
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label className="form-label" for="inputEmail4">

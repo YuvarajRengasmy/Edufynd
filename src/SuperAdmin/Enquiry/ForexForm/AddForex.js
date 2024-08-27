@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { getallUniversity } from "../../../api/university";
 import { getallCode } from "../../../api/settings/dailcode";
+import { getallCurrency } from "../../../api/currency";
+
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveForexEnquiry } from "../../../api/Enquiry/Forex";
@@ -21,59 +23,61 @@ import Mastersidebar from "../../../compoents/sidebar";
 export const AddForex = () => {
   const initialState = {
     source: "",
+    name:"",
     studentName: "",
-    country: "",
-    currency: "",
-    universityName: "",
     passportNo: "",
-    primaryNumber: "",
-    whatsAppNumber: "",
     email: "",
+    dial1: "",
+    dial2: "",
+    dial3:"",
+    dial4:"",
     agentName: "",
-    flag: "",
     businessName: "",
     agentPrimaryNumber: "",
     agentWhatsAppNumber: "",
     agentEmail: "",
-    paymentType: "",
-    amountInCurrency: "",
-    assignedTo: "",
     expiryDate: "",
+    primaryNumber: "",
+    whatsAppNumber: "",
+    country: "",
+    universityName: "",
     courseType: "",
+    paymentType: "",
+    flag: "",
+    currency: "",
+    assignedTo: "",
     value: "",
     markUp: "",
     profit: "",
   };
   const initialStateErrors = {
     source: { required: false },
+    name:{required: false},
     studentName: { required: false },
-    country: { required: false },
-    currency: { required: false },
-    universityName: { required: false },
     passportNo: { required: false },
-    primaryNumber: { required: false, valid: false },
-    whatsAppNumber: { required: false, valid: false },
     email: { required: false, valid: false },
     agentName: { required: false },
     businessName: { required: false },
     agentPrimaryNumber: { required: false },
     agentWhatsAppNumber: { required: false },
     agentEmail: { required: false },
-    paymentType: { required: false },
-    amountInCurrency: { required: false },
-    assignedTo: { required: false },
-    flag: { required: false },
+    dial1: { required: false },
+    dial2: { required: false },
+    dial3: { required: false },
+    dial4: { required: false },
     expiryDate: { required: false },
+    primaryNumber: { required: false, valid: false },
+    whatsAppNumber: { required: false, valid: false },
+    universityName: { required: false },
     courseType: { required: false },
-    value: {
-      required: false,
-    },
-    markUp: {
-      required: false,
-    },
-    profit: {
-      required: false,
-    },
+    paymentType: { required: false },
+    flag: { required: false },
+    country: { required: false },
+    currency: { required: false },
+    assignedTo: { required: false },
+    value: {required: false},
+    markUp: {required: false},
+    profit: {required: false},
   };
   const [forex, setForex] = useState(initialState);
   const [university, setUniversity] = useState();
@@ -81,14 +85,15 @@ export const AddForex = () => {
   const [countries, setCountries] = useState([]);
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
-  const [students, setStudents] = useState([]);
+  const [students, setForexs] = useState([]);
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
-
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllUniversityList();
+    getAllCurrencyDetails();
     getallCodeList();
   }, []);
 
@@ -101,7 +106,15 @@ export const AddForex = () => {
         console.log(err);
       });
   };
-  
+  const getAllCurrencyDetails = () => {
+    getallCurrency()
+      .then((res) => {
+        setCountries(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getallCodeList = () => {
     getallCode()
       .then((res) => {
@@ -132,7 +145,7 @@ export const AddForex = () => {
   const getStudentList = () => {
     getallStudent()
       .then((res) => {
-        setStudents(res?.data?.result || []);
+        setForexs(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
@@ -155,44 +168,44 @@ export const AddForex = () => {
     if (!data.source) {
       error.source.required = true;
     }
-    if (!data.agentName) {
-      error.agentName.required = true;
-    }
-    if (!isValidName(data.agentName)) {
-      error.agentName.valid = true;
-    }
-    if (!data.businessName) {
-      error.businessName.required = true;
-    }
+    // if (!data.agentName) {
+    //   error.agentName.required = true;
+    // }
+    // if (!isValidName(data.agentName)) {
+    //   error.agentName.valid = true;
+    // }
+    // if (!data.businessName) {
+    //   error.businessName.required = true;
+    // }
 
-    if (!isValidName(data.businessName)) {
-      error.businessName.valid = true;
-    }
+    // if (!isValidName(data.businessName)) {
+    //   error.businessName.valid = true;
+    // }
 
-    if (!data.agentEmail) {
-      error.agentEmail.required = true;
-    }
-    if (!isValidEmail(data.agentEmail)) {
-      error.agentEmail.valid = true;
-    }
-    if (!data.agentPrimaryNumber) {
-      error.agentPrimaryNumber.required = true;
-    }
-    if (!isValidPhone(data.agentPrimaryNumber)) {
-      error.agentPrimaryNumber.valid = true;
-    }
+    // if (!data.agentEmail) {
+    //   error.agentEmail.required = true;
+    // }
+    // if (!isValidEmail(data.agentEmail)) {
+    //   error.agentEmail.valid = true;
+    // }
+    // if (!data.agentPrimaryNumber) {
+    //   error.agentPrimaryNumber.required = true;
+    // }
+    // if (!isValidPhone(data.agentPrimaryNumber)) {
+    //   error.agentPrimaryNumber.valid = true;
+    // }
 
-    if (!data.agentWhatsAppNumber) {
-      error.agentWhatsAppNumber.required = true;
+    // if (!data.agentWhatsAppNumber) {
+    //   error.agentWhatsAppNumber.required = true;
+    // }
+    // if (!isValidPhone(data.agentWhatsAppNumber)) {
+    //   error.agentWhatsAppNumber.valid = true;
+    // }
+    if (!data.name) {
+      error.name.required = true;
     }
-    if (!isValidPhone(data.agentWhatsAppNumber)) {
-      error.agentWhatsAppNumber.valid = true;
-    }
-    if (!data.studentName) {
-      error.studentName.required = true;
-    }
-    if (!isValidName(data.studentName)) {
-      error.studentName.valid = true;
+    if (!isValidName(data.name)) {
+      error.name.valid = true;
     }
     if (!data.passportNo) {
       error.passportNo.required = true;
@@ -203,23 +216,30 @@ export const AddForex = () => {
     if (!data.expiryDate) {
       error.expiryDate.required = true;
     }
+   
+    if (!data.email) {
+      error.email.required = true;
+    }
+    if (!isValidEmail(data.email)) {
+      error.email.valid = true;
+    }
     if (!data.primaryNumber) {
       error.primaryNumber.required = true;
     }
     if (!data.whatsAppNumber) {
       error.whatsAppNumber.required = true;
     }
-    if (!data.email) {
-      error.email.required = true;
+    if (!isValidPhone(data.primaryNumber)) {
+      error.primaryNumber.valid = true;
+    }
+    if (!isValidPhone(data.whatsAppNumber)) {
+      error.whatsAppNumber.valid = true;
     }
     if (!data.universityName) {
       error.universityName.required = true;
     }
     if (!isValidName(data.universityName)) {
       error.universityName.valid = true;
-    }
-    if (!data.country) {
-      error.country.required = true;
     }
     if (!data.courseType) {
       error.courseType.required = true;
@@ -228,26 +248,16 @@ export const AddForex = () => {
     if (!data.paymentType) {
       error.paymentType.required = true;
     }
-    if (!data.amountInCurrency) {
-      error.amountInCurrency.required = true;
-    }
-    if (!data.assignedTo) {
-      error.assignedTo.required = true;
-    }
-
-    if (!isValidEmail(data.email)) {
-      error.email.valid = true;
-    }
-    if (!isValidPhone(data.primaryNumber)) {
-      error.primaryNumber.valid = true;
-    }
-    if (!isValidPhone(data.whatsAppNumber)) {
-      error.whatsAppNumber.valid = true;
+    if (!data.country) {
+      error.country.required = true;
     }
     if (!data.currency) {
       error.currency.required = true;
     }
 
+    if (!data.assignedTo) {
+      error.assignedTo.required = true;
+    }
     if (!data.value) {
       error.value.required = true;
     }
@@ -261,18 +271,14 @@ export const AddForex = () => {
   };
 
   const handleInputs = (event) => {
-   
     const { name, value } = event.target;
-
+  
     setForex((prevProgram) => {
       const updatedProgram = { ...prevProgram, [name]: value };
-      if (name === "agentName") {
-        const selectedAgent = agent.find(
-          (u) => u.agentName === value
-        );
-        if (selectedAgent) {
-         
   
+      if (name === "agentName") {
+        const selectedAgent = agent.find((u) => u.agentName === value);
+        if (selectedAgent) {
           return {
             ...updatedProgram,
             businessName: selectedAgent.businessName,
@@ -280,20 +286,58 @@ export const AddForex = () => {
             agentWhatsAppNumber: selectedAgent.whatsAppNumber,
             agentEmail: selectedAgent.email,
           };
-         
-   
         }
       }
-
+  
+      if (name === "country") {
+        const selectedCountryData = countries.find(
+          (country) => country.country === value
+        ) || { currency: "", flag: "" };
+  
+        updatedProgram.currency = selectedCountryData.currency;
+        updatedProgram.flag = selectedCountryData.flag;
+      }
+  
       return updatedProgram;
     });
-
+  
     if (submitted) {
       const newError = handleValidation({
         ...forex,
         [event.target.name]: event.target.value,
       });
       setErrors(newError);
+    }
+  };
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setForex((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: `${prevClient.primaryNumber}`,
+      }));
+    } else {
+      setForex((prevClient) => ({
+        ...prevClient,
+        whatsAppNumber: "",
+      }));
+    }
+  };
+
+  const handleCheckboxChanges = (e) => {
+    const isChecked = e.target.checked;
+    setCopyToWhatsApp(isChecked);
+    if (isChecked) {
+      setForex((prevClient) => ({
+        ...prevClient,
+        agentWhatsAppNumber: `${prevClient.agentPrimaryNumber}`,
+      }));
+    } else {
+      setForex((prevClient) => ({
+        ...prevClient,
+        agentWhatsAppNumber: "",
+      }));
     }
   };
 
@@ -319,7 +363,7 @@ export const AddForex = () => {
       saveForexEnquiry(forex)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListForexForm");
+          navigate("/list_forex_form");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -464,45 +508,120 @@ export const AddForex = () => {
                     />
                   </div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputPrimaryNo">
-                      Primary Number
-                    </label>
-                    <input
-                      className="form-control"
-                      name="agentPrimaryNumber"
-                      onChange={handleInputs}
-                      value={forex?.agentPrimaryNumber}
-                      id="inputPrimaryNo"
-                      type="text"
-                      placeholder="Enter Primary Number"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    />
-                  </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label
-                      className="form-label"
-                      for="inputWhatsAppNumber"
-                    >
-                      {" "}
-                      WhatsApp Number
-                    </label>
-                    <input
-                      className="form-control"
-                      name="agentWhatsAppNumber"
-                      onChange={handleInputs}
-                      value={forex?.agentWhatsAppNumber}
-                      id="inputWhatsAppNumber"
-                      type="text"
-                      placeholder="Enter WhatsApp Number"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    />
-                  </div>
+  <label style={{ color: "#231F20" }}>
+     Agent Primary Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
+
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={forex?.dial3} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+  <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.agentPrimaryNumber.required ? 'is-invalid' : errors.agentPrimaryNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="agentPrimaryNumber"
+      value={forex.agentPrimaryNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+</div>
+
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChanges}
+      />
+     
+    </div>
+  </div>
+  {errors.agentPrimaryNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+     Agent WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={forex?.dial4}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.agentWhatsAppNumber.required ? 'is-invalid' : errors.agentWhatsAppNumber.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="agentWhatsAppNumber"
+    value={forex.agentWhatsAppNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.agentWhatsAppNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label className="form-label" for="inputEmail">
                       Agent Email ID
@@ -535,7 +654,7 @@ export const AddForex = () => {
                       </label>
                       <input
                         className="form-control rounded-2"
-                        name="studentName"
+                        name="name"
                         onChange={handleInputs}
                         id="inputstudentname"
                         type="text"
@@ -545,11 +664,11 @@ export const AddForex = () => {
                           fontSize: "12px",
                         }}
                       />
-                      {errors.studentName.required ? (
+                      {errors.name.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>
-                      ) : errors.studentName.valid ? (
+                      ) : errors.name.valid ? (
                         <div className="text-danger form-text">
                           Enter Name Letter Only
                         </div>
@@ -631,80 +750,120 @@ export const AddForex = () => {
                     </div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <div className="input-group">
-                      <label className="form-label" for="inputPrimaryNo">
-                        Primary Number<span className="text-danger">*</span>
-                      </label>
+  <label style={{ color: "#231F20" }}>
+     Primary Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="d-flex align-items-end">
 
-                      <div className="input-group mb-3">
-  <select className="form-select form-select-sm" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }} >
-    <option value="+91" selected>+91</option>
-    {dial?.map((item) => (
-  <option value={item?.dialCode} key={item?.dialCode}>
-    {item?.dialCode} - {item?.flag} - {item?.name} 
-   
-  </option>
-))}
+
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  onChange={handleInputs} value={forex?.dial1} >
+  
+  {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
 
    
   </select>
   <input
-    className="form-control"
-    name="primaryNumber"
-    onChange={handleInputs}
-    id="inputPrimaryNo"
-    type="text"
-    aria-label="Text input with dropdown button"
-    placeholder="Enter Primary Number"
-    style={{
-      fontFamily: "Plus Jakarta Sans",
-      fontSize: "12px",
-    }}
-  />
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="primaryNumber"
+      value={forex.primaryNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
 </div>
 
-                    
-                     
-                     
-                      </div>
-                     
-                    
-                      {errors.primaryNumber.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : errors.primaryNumber.valid ? (
-                        <div className="text-danger form-text">
-                          Enter valid emergencyContactNo.
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputWhatsAppNumber">
-                        WhatsApp Number<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control rounded-2"
-                        name="whatsAppNumber"
-                        onChange={handleInputs}
-                        id="inputWhatsAppNumber"
-                        type="text"
-                        placeholder="Enter WhatsApp Number"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                      />
-                      {errors.whatsAppNumber.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : errors.whatsAppNumber.valid ? (
-                        <div className="text-danger form-text">
-                          Enter valid emergencyContactNo.
-                        </div>
-                      ) : null}
-                    </div>
+
+    
+    <div className="form-check ms-3 ">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="copyToWhatsApp"
+        checked={copyToWhatsApp}
+        onChange={handleCheckboxChange}
+      />
+     
+    </div>
+  </div>
+  {errors.primaryNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label style={{ color: "#231F20" }}>
+     WhatsApp Number
+    <span className="text-danger">*</span>
+  </label>
+  <div className="input-group mb-3">
+  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  value={forex?.dial2}
+  onChange={handleInputs}>
+    
+    {dial?.map((item) => (
+    <option value={item?.dialCode} key={item?.dialCode}>
+      {item?.dialCode} - {item?.name} -
+      {item?.flag && (
+        <Flags
+          code={item?.flag}
+          className="me-2"
+          style={{ width: "40px", height: "30px" }}
+        />
+      )}
+    </option>
+  ))}
+
+   
+  </select>
+
+  <input
+    type="text"
+    className={`form-control rounded-1 ${
+      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    }`}
+    placeholder="Example 123-456-7890"
+    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+    name="whatsAppNumber"
+    value={forex.whatsAppNumber}
+    onChange={handleInputs}
+    onKeyDown={(e) => {
+      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+  </div>
+  {errors.whatsAppNumber.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+</div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">
@@ -755,6 +914,7 @@ export const AddForex = () => {
                         </div>
                       ) : null}
                     </div>
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpayment">
                         Payment Type<span className="text-danger">*</span>{" "}
@@ -786,6 +946,7 @@ export const AddForex = () => {
                         </div>
                       ) : null}
                     </div>
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label style={{ color: "#231F20" }}>
                         Country<span className="text-danger">*</span>
@@ -802,6 +963,14 @@ export const AddForex = () => {
                         <option value="" disabled hidden>
                           Select Country
                         </option>
+                        {countries.map((country) => (
+                          <option
+                            key={country.value}
+                            value={country.country}
+                          >
+                            {country.country}
+                          </option>
+                        ))}
                       </select>
                       {errors.country.required && (
                         <div className="text-danger form-text">
@@ -809,54 +978,35 @@ export const AddForex = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label style={{ color: "#231F20" }}>Currency</label>
-                      <div className="d-flex align-items-center">
-                        {forex.flag && (
-                          <Flags
-                            code={forex.flag}
-                            className="me-2"
-                            name="flag"
-                            onChange={handleInputs}
-                            style={{ width: "40px", height: "30px" }}
-                          />
-                        )}
-                        <input
-                          className="form-control rounded-2"
-                          type="text"
-                          onChange={handleInputs}
-                          name="currency"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          value={`${forex.currency}`}
-                          readOnly
-                        />
-                      </div>
-                    </div>
+
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputamount">
-                        Amount In Currency<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control rounded-2"
-                        id="inputamount"
-                        onChange={handleInputs}
-                        name="amountInCurrency"
-                        type="text"
-                        placeholder="Enter Amount In Currency"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                      />
-                      {errors.amountInCurrency.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
+  <label style={{ color: "#231F20" }}>Currency</label>
+  <div className="d-flex align-items-center">
+    {forex.flag && (
+      <Flags
+        code={forex.flag}
+        className="me-2"
+        name="flag"
+        onChange={handleInputs}
+        style={{ width: "40px", height: "30px" }}
+      />
+    )}
+    <input
+      className="form-control rounded-2"
+      type="text"
+      name="currency"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      value={forex.currency}
+      onChange={handleInputs}
+      readOnly
+    />
+    {errors.currency.required && (
+      <div className="text-danger form-text">
+        This field is required.
+      </div>
+    )}
+  </div>
                     </div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -886,12 +1036,36 @@ export const AddForex = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputamount">
+                        Value<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control rounded-2"
+                        id="inputamount"
+                        name="value"
+                        onChange={handleInputs}
+                        type="number"
+                        placeholder="Enter Mark up"
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                      />
+                      {errors.value.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputamount">
                         Mark up<span className="text-danger">*</span>
                       </label>
                       <input
                         className="form-control rounded-2"
                         id="inputamount"
-                        name="Markup"
+                        name="markUp"
+                        onChange={handleInputs}
                         type="text"
                         placeholder="Enter Mark up"
                         style={{
@@ -899,7 +1073,13 @@ export const AddForex = () => {
                           fontSize: "12px",
                         }}
                       />
+                      {errors.markUp.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
+
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputamount">
                         Profit (Value*Mark up)
@@ -909,7 +1089,7 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputamount"
                         onChange={handleInputs}
-                        name="Profit"
+                        name="profit"
                         type="text"
                         placeholder="Enter Profit"
                         style={{
@@ -917,7 +1097,7 @@ export const AddForex = () => {
                           fontSize: "12px",
                         }}
                       />
-                      {errors.amountInCurrency.required ? (
+                      {errors.profit.required ? (
                         <div className="text-danger form-text">
                           This field is required.
                         </div>

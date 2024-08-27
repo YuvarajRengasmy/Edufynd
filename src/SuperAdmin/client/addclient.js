@@ -140,6 +140,16 @@ const [dial, setDial] = useState([]);
       setErrors(newError);
     }
   };
+
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   
 
   const getCountryRegionInstance = () => {
@@ -162,20 +172,6 @@ const [dial, setDial] = useState([]);
     };
     getCountries();
   }, []);
-
-  const getallCodeList = () => {
-    getallCode()
-      .then((res) => {
-        setDial(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  
-  
-
-
   useEffect(() => {
     const getStates = async () => {
       try {

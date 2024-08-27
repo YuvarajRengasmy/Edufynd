@@ -572,7 +572,7 @@ export const ListAccommodation = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditAccommodation",
+                                          pathname: "/edit_accommodation",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

@@ -96,7 +96,7 @@ export const ViewForex = () => {
                           <div>
                             <strong>Agent Primary Number:</strong>
                             <p className="mb-0">
-                              {forex.agentPrimaryNumber || "Not Available"}
+                             {forex.dial3 || "+"} {forex.agentPrimaryNumber || "Not Available"}
                             </p>
                           </div>
                         </div>
@@ -105,7 +105,7 @@ export const ViewForex = () => {
                           <div>
                             <strong>Agent WhatsApp Number:</strong>
                             <p className="mb-0">
-                              {forex.agentWhatsAppNumber || "Not Available"}
+                            {forex.dial4 || "+"} {forex.agentWhatsAppNumber || "Not Available"}
                             </p>
                           </div>
                         </div>
@@ -156,7 +156,7 @@ export const ViewForex = () => {
                           <div>
                             <strong>Primary Number:</strong>
                             <p className="mb-0">
-                              {forex.primaryNumber || "Not Available"}
+                            {forex.dial1 || "+"} {forex.primaryNumber || "Not Available"}
                             </p>
                           </div>
                         </div>
@@ -165,7 +165,7 @@ export const ViewForex = () => {
                           <div>
                             <strong>WhatsApp Number:</strong>
                             <p className="mb-0">
-                              {forex.whatsAppNumber || "Not Available"}
+                            {forex.dial2 || "+"} {forex.whatsAppNumber || "Not Available"}
                             </p>
                           </div>
                         </div>
