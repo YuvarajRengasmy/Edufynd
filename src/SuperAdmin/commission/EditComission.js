@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
-import { updatedCommission, getSingleCommission } from "../../api/commission";
+import { updatedCommission,getSingleCommission  } from "../../api/commission";
 import { getallCurrency } from "../../api/currency";
 import { getFilterYear } from "../../api/year";
 import { getallTaxModule } from "../../api/universityModule/tax";
 import { FaTrash } from "react-icons/fa";
 import { getUniversitiesByCountry } from "../../api/university";
 import Flags from "react-world-flags";
-
 import Sidebar from "../../compoents/sidebar";
-
+import BackButton from "../../compoents/backButton";
 function AddCommission() {
+
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
@@ -20,8 +19,6 @@ function AddCommission() {
     country: "",
     universityName: "",
     paymentMethod: "",
-    amount: null,
-    percentage: null,
     commissionPaidOn: "",
     eligibility: "",
     tax: "",
@@ -31,9 +28,8 @@ function AddCommission() {
     clientName: "",
     years: [
       {
-        id: 1,
         year: "",
-        courseTypes: [{ courseType: "", inTake: "", value: null }],
+        courseTypes: [{ courseType: "", inTake: [{ inTake: "", value: "" }] }],
       },
     ],
   };
@@ -42,8 +38,6 @@ function AddCommission() {
     country: { required: false },
     universityName: { required: false },
     paymentMethod: { required: false },
-    amount: { required: false },
-    percentage: { required: false },
     commissionPaidOn: { required: false },
     eligibility: { required: false },
     tax: { required: false },
@@ -113,6 +107,7 @@ function AddCommission() {
         console.log(err);
       });
   };
+
   const getEditCommissionDetails = () => {
     getSingleCommission(id)
       .then((res) => {
@@ -143,86 +138,112 @@ function AddCommission() {
     if (!data.paymentType) {
       error.paymentType.required = true;
     }
+    if (!data.years) {
+      error.years.required = true;
+    }
+
+
 
     return error;
   };
-  // const addYear = () => {
-  //   const newYear = {
-  //     year: "",
-  //     courseTypes: [{ courseType: "", intake: "", value: null }],
-  //   };
-  //   setYears([...years, newYear]);
-  // };
-
-  const addYear = () => {
-    const newYear = {
-      year: "",
-      courseTypes: [
-        {
-          courseType: "",
-          inTake: "",
-          value: "",
-        },
-      ],
-    };
-    setCommission((prevCommission) => ({
-      ...prevCommission,
-      years: [...(prevCommission.years || []), newYear],
-    }));
+ 
+  const handleYearChange = (yearIndex, fieldName, value) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
   };
 
-  // const addCourseType = (yearIndex) => {
-  //   const updatedYears = [...years];
-  //   updatedYears[yearIndex].courseTypes.push({
-  //     courseType: "",
-  //     intake: "",
-  //     value: null,
-  //   });
-  //   setYears(updatedYears);
-  // };
+  const handleCourseTypeChange = (
+    yearIndex,
+    courseTypeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const handleIntakeChange = (
+    yearIndex,
+    courseTypeIndex,
+    intakeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake[
+      intakeIndex
+    ][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const addYear = () => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: [
+        ...prevState.years,
+        {
+          year: "",
+          courseTypes: [
+            { courseType: "", inTake: [{ inTake: "", value: "" }] },
+          ],
+        },
+      ],
+    }));
+  };
+  const removeYear = (indexToRemove) => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: prevState.years.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+  
 
   const addCourseType = (yearIndex) => {
-    const newCourseType = {
-      courseType: "",
-      inTake: "",
-      value: "",
-    };
     const updatedYears = [...commission.years];
-    updatedYears[yearIndex].courseTypes.push(newCourseType);
-    setCommission({
-      ...commission,
-      years: updatedYears,
+    updatedYears[yearIndex].courseTypes.push({
+      courseType: "",
+      inTake: [{ inTake: "", value: "" }],
     });
+    setCommission({ ...commission, years: updatedYears });
   };
 
   const removeCourseType = (yearIndex, courseTypeIndex) => {
     const updatedYears = [...commission.years];
     updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
-    setCommission({
-      ...commission,
-      years: updatedYears,
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const addIntake = (yearIndex, courseTypeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.push({
+      inTake: "",
+      value: "",
     });
+    setCommission({ ...commission, years: updatedYears });
   };
 
-  const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
-    const updatedYears = [...years];
-    if (courseTypeIndex !== null) {
-      updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
-    } else {
-      updatedYears[yearIndex][fieldName] = value;
-    }
-    setYears(updatedYears);
+  const removeIntake = (yearIndex, courseTypeIndex, intakeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.splice(
+      intakeIndex,
+      1
+    );
+    setCommission({ ...commission, years: updatedYears });
   };
-
   const yearOptions = year.map((data) => ({
     value: data.year,
     label: data.year,
   }));
 
   const fetchCountryDetails = (selectedCountry) => {
+    // Find the country details from the countries state
     const selectedCountryData = countries.find(
       (c) => c.country === selectedCountry
     );
+  
+    // If the country data exists, update the commission state with currency and flag
     if (selectedCountryData) {
       setCommission((prevState) => ({
         ...prevState,
@@ -231,25 +252,32 @@ function AddCommission() {
       }));
     }
   };
-
+  
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
-    setCommission({ ...commission, country: selectedCountry });
-
+    
+    // Update the commission state with the selected country
+    setCommission((prevState) => ({
+      ...prevState,
+      country: selectedCountry,
+    }));
+  
+    // Fetch the universities for the selected country
     getUniversitiesByCountry(selectedCountry)
       .then((res) => {
+        // Update the universities state with the fetched data
         setUniversities(res?.data?.result || []);
       })
       .catch((err) => {
-        console.error(
-          `Error fetching universities for ${selectedCountry}:`,
-          err
-        );
+        // Handle errors and reset the universities state
+        console.error(`Error fetching universities for ${selectedCountry}:`, err);
         setUniversities([]);
       });
-
+  
+    // Update the commission state with country-specific details
     fetchCountryDetails(selectedCountry);
   };
+  
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
@@ -263,6 +291,7 @@ function AddCommission() {
         setCommission((prevState) => ({
           ...prevState,
           universityId: selectedUniversity._id,
+
           clientName: selectedUniversity.businessName,
           courseType: selectedUniversity.courseType,
         }));
@@ -286,12 +315,19 @@ function AddCommission() {
       setErrors(newError);
     }
   };
+    const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
 
-  // const handlePageChange = (event, page) => {
-  //   const from = (page - 1) * pageSize;
-  //   const to = (page - 1) * pageSize + pageSize;
-  //   setPagination({ ...pagination, from: from, to: to });
-  // };
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -300,18 +336,17 @@ function AddCommission() {
     setErrors(newError);
     setSubmitted(true);
 
-    // Check if all inputs are valid
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-
-    if (valid) {
+    // If there are no validation errors, proceed
+    if (handleErrors(newError)) {
       // Prepare years data for submission
-      const yearsData = years.map((year) => ({
+      const yearsData = commission.years.map((year) => ({
         year: year.year,
         courseTypes: year.courseTypes.map((courseType) => ({
           courseType: courseType.courseType,
-          inTake: courseType.inTake,
-          value: courseType.value,
+          inTake: courseType.inTake.map((inTake) => ({
+            inTake: inTake.inTake,
+            value: inTake.value,
+          })),
         })),
       }));
 
@@ -324,14 +359,18 @@ function AddCommission() {
       // Call API to save commission
       updatedCommission(dataToSave)
         .then((res) => {
-          toast.success(res?.data?.message);
+          toast.success(res?.data?.message || "Commission saved successfully!");
           navigate("/list_commission");
         })
         .catch((err) => {
-          toast.error(err?.response?.data?.message);
+          toast.error(
+            err?.response?.data?.message ||
+              "An error occurred while saving the commission."
+          );
         });
     }
   };
+
 
   return (
     <>
@@ -342,7 +381,11 @@ function AddCommission() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-          <div className="content container-fluid">
+
+        <BackButton/>
+        
+        </div>
+        <div className="container-fluid">
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-xl-12">
@@ -362,15 +405,16 @@ function AddCommission() {
                             Country<span className="text-danger">*</span>
                           </label>
                           <select
-                          class={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
+                           class={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
                             name="country"
-                            style={{ fontSize: "12px" }}
-                            value={commission.country}
                             onChange={handleCountryChange}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            value={commission.country?commission.country:"Not Available"}
                           >
-                            <option value="" style={{ fontSize: "12px" }}>
-                              Select Country
-                            </option>
+                            <option value="">Select Country</option>
                             {countries.map((country) => (
                               <option key={country._id} value={country.country}>
                                 {country.country}
@@ -388,15 +432,33 @@ function AddCommission() {
                           <label style={{ color: "#231F20" }}>
                             University<span className="text-danger">*</span>
                           </label>
+
                           <select
-                            class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
+                            class={`form-select form-select-lg rounded-1 ${
+                              errors.universityName.required ? "is-invalid" : ""
+                            }`}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "14px",
+                            }}
                             name="universityName"
-                            value={commission.universityName}
                             onChange={handleInputs}
-                            style={{ fontSize: "12px" }}
+                            value={commission.
+                              universityName?commission.universityName:"Not Available"}
                           >
-                            <option value="" style={{ fontSize: "12px" }}>
-                              {commission.universityName}
+                            <option
+                              className=" font-weight-light"
+                              value= {commission.universityName
+                                ? commission.universityName
+                                : "Select University"}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {commission.universityName
+                                ? commission.universityName
+                                : "Select University"}
                             </option>
                             {universities.map((uni) => (
                               <option key={uni._id} value={uni.universityName}>
@@ -404,6 +466,7 @@ function AddCommission() {
                               </option>
                             ))}
                           </select>
+                          
                           {errors.universityName.required ? (
                             <span className="text-danger form-text profile_error">
                               This field is required.
@@ -411,30 +474,66 @@ function AddCommission() {
                           ) : null}
                         </div>
 
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
                           <label style={{ color: "#231F20" }}>
-                            Payment Method
+                            {" "}
+                            University Id
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                             class={`form-select form-select-lg rounded-1 ${errors.paymentMethod.required ? 'is-invalid' : ''}`}
-                            value={commission?.paymentMethod}
+                            onChange={handleInputs}
+                            value={commission?.universityId?commission?.universityId:"Not Available"}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className="form-select rounded-2 p-2 "
+                            name="universityId"
+                          >
+                            <option
+                              value={""}
+                              disabled
+                              hidden
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Select UniversityId
+                            </option>
+                            {universities.map((data, index) => (
+                              <option
+                                key={index}
+                                value={data?.universityId}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                {" "}
+                                {data?.universityName}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Payment Method<span className="text-danger">*</span>
+                          </label>
+                          <select
+                          class={`form-select form-select-lg rounded-1 ${errors.paymentMethod.required ? 'is-invalid' : ''}`}
                             name="paymentMethod"
                             onChange={handleInputs}
-                            style={{ fontSize: "12px" }}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            value={commission.paymentMethod}
                           >
-                            <option value="" style={{ fontSize: "12px" }}>
-                              Select Payment Type
-                            </option>
-                            <option value="Fixed" style={{ fontSize: "12px" }}>
-                              Fixed Amount
-                            </option>
-                            <option
-                              value="Percentage"
-                              style={{ fontSize: "12px" }}
-                            >
-                              Percentage
-                            </option>
+                            <option value="">Select Payment Type</option>
+                            <option value="Fixed">Fixed Amount</option>
+                            <option value="Percentage">Percentage</option>
                           </select>
                           {errors.paymentMethod.required ? (
                             <span className="text-danger form-text profile_error">
@@ -454,27 +553,17 @@ function AddCommission() {
                                   className="form-select form-select-lg rounded-2"
                                   name="commissionPaidOn"
                                   onChange={handleInputs}
-                                  value={commission?.commissionPaidOn}
-                                  style={{ fontSize: "12px" }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                 >
-                                  <option
-                                    value="PaidFees"
-                                    style={{ fontSize: "12px" }}
-                                  >
+                                  <option value="">
                                     Select Commission Paid On
                                   </option>
-                                  <option
-                                    value="CourseFees"
-                                    style={{ fontSize: "12px" }}
-                                  >
-                                    Course Fees
-                                  </option>
-                                  <option
-                                    value="PaidFees"
-                                    style={{ fontSize: "12px" }}
-                                  >
-                                    Paid Fees
-                                  </option>
+                                  <option value="CourseFees">Net Fees</option>
+                                  <option value="PaidFees">Paid Fees</option>
+                                  <option value="PaidFees">Gross Fees</option>
                                 </select>
                               </div>
                             </div>
@@ -492,13 +581,16 @@ function AddCommission() {
                             placeholder="Enter Eligibility"
                             name="eligibility"
                             onChange={handleInputs}
-                            style={{ fontSize: "12px" }}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
                           />
-                          {errors.eligibility.required ? (
+                          {errors.eligibility.required && (
                             <span className="text-danger form-text profile_error">
                               This field is required.
                             </span>
-                          ) : null}
+                          )}
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -506,16 +598,16 @@ function AddCommission() {
                             Tax<span className="text-danger">*</span>
                           </label>
                           <select
-                          class={`form-select form-select-lg rounded-1 ${errors.tax.required ? 'is-invalid' : ''}`}
+                        class={`form-select form-select-lg rounded-1 ${errors.tax.required ? 'is-invalid' : ''}`}
                             name="tax"
                             onChange={handleInputs}
-                            value={commission?.tax}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
                             displayEmpty
                             inputProps={{ "aria-label": "Without label" }}
+                            value={commission?.tax}
                           >
                             <option value="">Select Tax</option>
                             {tax.map((data, index) => (
@@ -540,11 +632,10 @@ function AddCommission() {
                           <input
                             type="text"
                             value={commission?.clientName}
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.clientName.required ? 'is-invalid' : errors.clientName.valid ? 'is-valid' : '' }`}
                             placeholder="Enter Client Name"
                             name="clientName"
                             onChange={handleInputs}
-                            style={{ fontSize: "12px" }}
                           />
                           {errors.clientName.required ? (
                             <span className="text-danger form-text profile_error">
@@ -590,30 +681,19 @@ function AddCommission() {
                             Payment Type<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`form-control rounded-1 ${errors.paymentType.required ? 'is-invalid' : errors.paymentType.valid ? 'is-valid' : '' }`}
+                           className={`form-control rounded-1 ${errors.paymentType.required ? 'is-invalid' : errors.paymentType.valid ? 'is-valid' : '' }`}
                             value={commission?.paymentType}
                             aria-label="Default select example"
                             name="paymentType"
                             onChange={handleInputs}
-                            style={{ fontSize: "12px" }}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
                           >
-                            <option value="" style={{ fontSize: "12px" }}>
-                              {" "}
-                              Select Payment Type
-                            </option>
-                            <option
-                              value="One_Time"
-                              style={{ fontSize: "12px" }}
-                            >
-                              One Time
-                            </option>
-                            <option
-                              value="Semester"
-                              style={{ fontSize: "12px" }}
-                            >
-                              {" "}
-                              Semester{" "}
-                            </option>
+                            <option value=""> Select Payment Type</option>
+                            <option value="One_Time">One Time</option>
+                            <option value="Semester"> Semester </option>
                           </select>
                           {errors.paymentType.required ? (
                             <span className="text-danger form-text profile_error">
@@ -621,107 +701,59 @@ function AddCommission() {
                             </span>
                           ) : null}
                         </div>
-                        <div className="row g-2">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                            <button
-                              type="button"
-                              className="btn btn-sm text-uppercase fw-semibold px-4 py-2 text-white ml-2"
-                              style={{
-                                backgroundColor: "#FE5722",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              onClick={addYear}
-                            >
-                              <i
-                                class="fa fa-plus-circle"
-                                aria-hidden="true"
-                              ></i>
-                              &nbsp;&nbsp; Add Year
-                            </button>
-                          </div>
-                        </div>
+
                         <div className="row g-3 mt-3">
                           <div className="col-12">
-                            {commission?.years &&
-                              commission?.years?.map((year, yearIndex) => (
-                                <div
-                                  key={yearIndex}
-                                  className="year-section mb-3"
-                                >
-                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>
-                                      Year
-                                    </label>
-                                    <select
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-                                      }}
-                                      value={year.year} // Changed this line
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          yearIndex,
-                                          null,
-                                          "year",
-                                          e.target.value
-                                        )
-                                      }
-                                      name="year"
-                                      className="form-select form-select-lg rounded-2 mb-3"
-                                      placeholder="Enter Year"
-                                    >
-                                      <option
-                                        value=""
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        Select Year
-                                      </option>
-                                      {yearOptions.map((option) => (
-                                        <option
-                                          key={option.value}
-                                          value={option.value}
-                                        >
-                                          {option.label}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
-                                  <div>
-                                    {year?.courseTypes &&
-                                      year?.courseTypes.map(
-                                        (courseType, courseTypeIndex) => (
-                                          <div
-                                            className="row g-3"
-                                            key={courseTypeIndex}
-                                          >
-                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                              <label
-                                                style={{ color: "#231F20" }}
-                                              >
-                                                Course Type
-                                              </label>
-                                              <select
-                                                className="form-select form-select-lg rounded-2"
-                                                style={{ fontSize: "12px" }}
-                                                value={courseType.courseType}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    yearIndex,
-                                                    courseTypeIndex,
-                                                    "courseType",
-                                                    e.target.value
-                                                  )
-                                                }
-                                              >
-                                                <option
-                                                  value=""
-                                                  style={{ fontSize: "12px" }}
-                                                >
-                                                  {courseType.courseType}
-                                                </option>
-                                                {(
+                          {commission.years.map((year, yearIndex) => (
+                            <div className="row g-3">
+            <div key={yearIndex}>
+               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label>Year</label>
+                <select
+                  name="year"
+                  className={`form-select rounded-1 ${errors.years.required ? "is-invalid" : ""
+                    }`}
+                  value={year.year}
+                  onChange={(e) =>
+                    handleYearChange(yearIndex, "year", e.target.value)
+                  }
+                >
+                  <option value="">Select Year</option>
+                  {yearOptions.map((yearOption) => (
+                    <option key={yearOption.value} value={yearOption.value}>
+                      {yearOption.label}
+                    </option>
+                  ))}
+                </select>
+                {errors.years.required && (
+                  <div className="invalid-feedback">Year is required</div>
+                )}
+              </div>
+              </div>
+              {year.courseTypes.map((courseType, courseTypeIndex) => (
+                 
+                <div >
+                
+                  <div key={courseTypeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label>Course Type</label>
+                   
+                    <select
+                      name="courseType"
+                      className={`form-select rounded-1 ${errors.courseType?.required ? "is-invalid" : ""
+                        }`}
+                      value={courseType.courseType}
+                      onChange={(e) =>
+                        handleCourseTypeChange(
+                          yearIndex,
+                          courseTypeIndex,
+                          "courseType",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value={courseType?.courseType}>{courseType?.courseType}</option>
+                      {(
                                                   universities.find(
                                                     (uni) =>
                                                       uni.universityName ===
@@ -735,34 +767,37 @@ function AddCommission() {
                                                     {type}
                                                   </option>
                                                 ))}
-                                              </select>
-                                            </div>
-                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                              <label
-                                                style={{ color: "#231F20" }}
-                                              >
-                                                Intake
-                                              </label>
-                                              <select
-                                                className="form-select form-select-lg rounded-2"
-                                                style={{ fontSize: "12px" }}
-                                                value={courseType.inTake}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    yearIndex,
-                                                    courseTypeIndex,
-                                                    "inTake",
-                                                    e.target.value
-                                                  )
-                                                }
-                                              >
-                                                <option
-                                                  value=""
-                                                  style={{ fontSize: "12px" }}
-                                                >
-                                                  {courseType.inTake}
-                                                </option>
-                                                {(
+                    </select>
+                    {errors.courseType?.required && (
+                      <div className="invalid-feedback">
+                        Course Type is required
+                      </div>
+                    )}
+                  </div>
+              
+
+                  {courseType.inTake.map((intake, intakeIndex) => (
+                    
+                      <div className="row g-2">
+                      <div  key={intakeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label>Intake</label>
+                     <select
+                        name="inTake"
+                        className={`form-control ${errors.inTake?.required ? "is-invalid" : ""
+                          }`}
+                        value={intake.inTake}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "inTake",
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value={intake.inTake}>{intake.inTake}</option>
+                        {(
                                                   universities.find(
                                                     (uni) =>
                                                       uni.universityName ===
@@ -776,73 +811,115 @@ function AddCommission() {
                                                     {type}
                                                   </option>
                                                 ))}
-                                              </select>
-                                            </div>
-                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                              <label
-                                                style={{ color: "#231F20" }}
-                                              >
-                                                Value
-                                              </label>
-                                              <input
-                                                className="form-control rounded-2"
-                                                type="text"
-                                                name="value"
-                                                style={{ fontSize: "12px" }}
-                                                placeholder="Value"
-                                                value={courseType.value}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    yearIndex,
-                                                    courseTypeIndex,
-                                                    "value",
-                                                    e.target.value
-                                                  )
-                                                }
-                                              />
-                                            </div>
-                                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                              <button
-                                                type="button"
-                                                className="btn btn-sm btn-danger text-white ml-2 mb-3"
-                                                onClick={() =>
-                                                  removeCourseType(
-                                                    yearIndex,
-                                                    courseTypeIndex
-                                                  )
-                                                }
-                                              >
-                                                <i
-                                                  class="fa fa-trash"
-                                                  aria-hidden="true"
-                                                ></i>
-                                              </button>
-                                            </div>
-                                          </div>
-                                        )
-                                      )}
-                                    <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                      <button
-                                        type="button"
-                                        className="btn btn-sm text-uppercase fw-semibold px-4 py-2 text-white ml-2"
-                                        onClick={() => addCourseType(yearIndex)}
-                                        style={{
-                                          backgroundColor: "#FE5722",
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                      >
-                                        <i
-                                          class="fa fa-plus-circle"
-                                          aria-hidden="true"
-                                        ></i>
-                                        &nbsp;&nbsp; Add Course
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
+                      </select>
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label>Value</label>
+                      <input
+                        type="text"
+                        name="value"
+                        className="form-control"
+                        value={intake.value}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "value",
+                            e.target.value
+                          )
+                        }
+                      />
+                      </div>
+
+                      <div className='d-inline text-end'>
+                      <button
+                      type="button"
+                     
+                      className="btn rounded-1 btn-danger "
+                      onClick={() =>
+                        removeIntake(yearIndex, courseTypeIndex, intakeIndex)
+                      }
+                    >
+                      <FaTrash /> Remove Intake
+                    </button>
+                   
+                      </div>
+                    
+                     
+                      </div>
+                     
+                  ))}
+
+
+
+
+
+
+
+
+<div className=' text-en my-1'>
+<button
+                    type="button"
+                    className="btn rounded-1 btn-secondary"
+                    onClick={() => addIntake(yearIndex, courseTypeIndex)}
+                  >
+                 <i class="fa fa-plus-circle" aria-hidden="true"></i>   Add Intake
+                  </button>
+</div>
+<div className=' text-end my-1'>
+<button
+                    type="button"
+                    className="btn rounded-1 btn-danger"
+                    onClick={() =>
+                      removeCourseType(yearIndex, courseTypeIndex)
+                    }
+                  >
+                    <FaTrash /> Remove Course 
+                  </button>
+</div>
+                 
+
+                 
+                </div>
+               
+              ))}
+<div className=' text-start'>
+<button
+                type="button"
+                className="btn rounded-1 btn-secondary"
+                onClick={() => addCourseType(yearIndex)}
+              >
+               <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Course 
+              </button>
+</div>
+             
+            </div>
+            </div>
+          ))}
                           </div>
+                        </div>
+                        <div className="row g-3 ">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
+                            <button
+                              type="button"
+                              className="btn rounded-1 px-4 py-2 text-uppercase fw-semibold  text-white "
+                              style={{
+                                backgroundColor: "#FE5722",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onClick={addYear}
+                            >
+                              <i
+                                class="fa fa-plus-circle me-2"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              Add Year
+                            </button>
+
+                          </div>
+                          
                         </div>
                       </div>
 
@@ -853,9 +930,9 @@ function AddCommission() {
                             style={{
                               backgroundColor: "#231F20",
                               fontFamily: "Plus Jakarta Sans",
-                              fontSize: "14px",
+                              fontSize: "12px",
                             }}
-                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                            className="btn rounded-1 btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                           >
                             Cancel
                           </Link>
@@ -863,12 +940,12 @@ function AddCommission() {
                             style={{
                               backgroundColor: "#FE5722",
                               fontFamily: "Plus Jakarta Sans",
-                              fontSize: "14px",
+                              fontSize: "12px",
                             }}
                             type="submit"
-                            className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                            className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
                           >
-                            Update
+                            Submit
                           </button>
                         </div>
                       </div>
@@ -878,7 +955,6 @@ function AddCommission() {
               </div>
             </form>
           </div>
-        </div>
       </div>
     </>
   );
