@@ -144,7 +144,7 @@ export const ViewFlightTicket = () => {
                 </table>
               </div>
 
-              <div class="card mb-3">
+              {/* <div class="card mb-3">
                   <div class="card-header bg-primary text-white">
                    Agent Details
                   </div>
@@ -188,7 +188,7 @@ export const ViewFlightTicket = () => {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
             </div>
           </div>
 

@@ -250,7 +250,7 @@ export const AddGeneralEnquiry = () => {
       updateGeneralEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_general_enquiry");
+          navigate("/staff_list_general_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -860,7 +860,7 @@ export const AddGeneralEnquiry = () => {
                 <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
 
 
-                  <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/list_general_enquiry" className="btn btn-cancel border text-white w-10 m-2">
+                  <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/staff_list_general_enquiry" className="btn btn-cancel border text-white w-10 m-2">
                     Cancel
                   </Link>
 

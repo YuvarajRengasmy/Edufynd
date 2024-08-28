@@ -36,6 +36,24 @@ export const StudentForm = () => {
         <div className="content-header">
 
 
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListStudentForm' className="text-decoration-none">ListStudentEnquiry</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditStudentForm",
+          search: `?id=${ student?._id}`,
+        }} className="text-decoration-none">EditStudentEnquiry</Link>
+      </li>
+  
+  </ol>
+</nav>
           <div class="container">
             <div class="col-12 text-center">
               <h2>Student Enquiry Profile</h2>
@@ -117,51 +135,7 @@ export const StudentForm = () => {
                 </div>
                
 
-                <div class="card mb-3">
-                  <div class="card-header bg-primary text-white">
-                   Agent Details
-                  </div>
-                  <div class="card-body ">
-                  <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Business Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Primary Number:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Email:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Student Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    
-                  </div>
-                </div>
+              
 
                 <div class="card mb-3">
                   <div class="card-header bg-primary text-white">

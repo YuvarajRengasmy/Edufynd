@@ -32,7 +32,7 @@ export const ViewAccommodation = () => {
       
         <div className="content-header">
 
-       
+      
          
         </div>
         <div className="container">

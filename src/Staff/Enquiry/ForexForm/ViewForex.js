@@ -34,7 +34,24 @@ export const ViewForex = () => {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       >
         <div className="content-header">
-       
+        {/* <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListForexForm' className="text-decoration-none">ListForexForm</Link>
+    </li>
+  
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditForexForm",
+          search: `?id=${ forex?._id}`,
+        }} className="text-decoration-none">EditForexForm</Link>
+      </li>
+  
+  </ol>
+</nav> */}
          
         </div>
         <div className="container">
@@ -239,51 +256,7 @@ export const ViewForex = () => {
               )}
             </div>
 
-            <div class="card mb-3">
-                  <div class="card-header bg-primary text-white">
-                   Agent Details
-                  </div>
-                  <div class="card-body ">
-                  <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Business Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Primary Number:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Email:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Student Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    
-                  </div>
-                </div>
+           
           </div>
 
 

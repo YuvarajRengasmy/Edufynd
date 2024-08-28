@@ -32,7 +32,7 @@ export const ViewFlightTicket = () => {
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
         
-       
+      
           <div className="container-fluid">
             <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
               <div

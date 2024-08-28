@@ -32,7 +32,7 @@ export const ViewLoanEnquiry = () => {
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
 
-    
+       
          
           
         </div>
@@ -197,51 +197,7 @@ export const ViewLoanEnquiry = () => {
                   </tbody>
                 </table>
               </div>
-              <div class="card mb-3">
-                  <div class="card-header bg-primary text-white">
-                   Agent Details
-                  </div>
-                  <div class="card-body ">
-                  <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Business Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Primary Number:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Agent Email:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Student Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
-                    
-                  </div>
-                </div>
+             
             </div>
           </div>
 
