@@ -302,6 +302,8 @@ export const AddForex = () => {
             agentPrimaryNumber: selectedAgent.mobileNumber,
             agentWhatsAppNumber: selectedAgent.whatsAppNumber,
             agentEmail: selectedAgent.email,
+            dial1: selectedAgent.dial1,
+            dial2: selectedAgent.dial2
           };
         }
       }
@@ -403,7 +405,7 @@ export const AddForex = () => {
                 >
                   <h6 className="text-center text-capitalize p-1">
                     {" "}
-                   Edit Forex Enquiry
+                    Forex Enquiry
                   </h6>
                 </div>
                 <div className="card-body mt-5">
@@ -414,7 +416,6 @@ export const AddForex = () => {
                         </label>
                         <select
                           onChange={handleInputs}
-                          value={forex.source}
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
@@ -450,7 +451,6 @@ export const AddForex = () => {
                           </label>
                           <select
                           onChange={handleInputs}
-                          value={forex.studentName}
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
@@ -486,7 +486,6 @@ export const AddForex = () => {
                     </label>
                     <select
                           onChange={handleInputs}
-                          value={forex.agentName}
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
@@ -538,7 +537,7 @@ export const AddForex = () => {
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial3} >
-  
+    <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -602,7 +601,7 @@ export const AddForex = () => {
   <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial4}
   onChange={handleInputs}>
-    
+      <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -676,7 +675,6 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         name="name"
                         onChange={handleInputs}
-                        value={forex?.name}
                         id="inputstudentname"
                         type="text"
                         placeholder="Enter Name of the Student"
@@ -703,7 +701,6 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputpassportno"
                         onChange={handleInputs}
-                        value={forex?.passportNo}
                         name="passportNo"
                         type="text"
                         placeholder="Enter Passport No"
@@ -731,7 +728,6 @@ export const AddForex = () => {
                         id="inputpassportno"
                         name="expiryDate"
                         onChange={handleInputs}
-                        value={forex?.expiryDate}
                         type="date"
                         placeholder="Enter ExpiryDate"
                         style={{
@@ -753,7 +749,6 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         name="email"
                         onChange={handleInputs}
-                        value={forex?.email}
                         id="inputEmail"
                         type="text"
                         placeholder="Enter Email ID"
@@ -783,8 +778,8 @@ export const AddForex = () => {
 
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={agent?.dial1} >
-  
+  onChange={handleInputs} value={forex?.dial1} >
+  <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -809,7 +804,7 @@ export const AddForex = () => {
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       name="primaryNumber"
-      value={forex?.primaryNumber}
+      value={forex.primaryNumber}
       onChange={handleInputs}
       onKeyDown={(e) => {
         if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
@@ -846,9 +841,9 @@ export const AddForex = () => {
   </label>
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={agent?.dial2}
+  value={forex?.dial2}
   onChange={handleInputs}>
-    
+    <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -898,7 +893,6 @@ export const AddForex = () => {
                         id="inputstudentid"
                         name="universityName"
                         onChange={handleInputs}
-                        value={forex?.universityName}
                         type="text"
                         placeholder="Enter Student ID"
                         style={{
@@ -925,7 +919,6 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputstudentid"
                         name="courseType"
-                        value={forex?.courseType}
                         onChange={handleInputs}
                         type="text"
                         placeholder="Enter Course"
@@ -949,7 +942,6 @@ export const AddForex = () => {
                         className="form-select form-select-lg"
                         onChange={handleInputs}
                         name="paymentType"
-                        value={forex?.paymentType}
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
@@ -981,7 +973,6 @@ export const AddForex = () => {
                       <select
                         className="form-select rounded-2 p-2"
                         name="country"
-                        value={forex?.country}
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
@@ -1044,7 +1035,6 @@ export const AddForex = () => {
                       <select
                         className="form-select form-select-lg"
                         onChange={handleInputs}
-                        value={forex?.assignedTo}
                         name="assignedTo"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -1071,7 +1061,6 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputamount"
                         name="value"
-                        value={forex?.value}
                         onChange={handleInputs}
                         type="number"
                         placeholder="Enter Mark up"
@@ -1095,7 +1084,6 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputamount"
                         name="markUp"
-                        value={forex?.markUp}
                         onChange={handleInputs}
                         type="text"
                         placeholder="Enter Mark up"
@@ -1120,7 +1108,6 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputamount"
                         onChange={handleInputs}
-                        value={forex?.profit}
                         name="profit"
                         type="text"
                         placeholder="Enter Profit"

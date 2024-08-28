@@ -1,460 +1,629 @@
-import React, { useEffect, useState, useRef } from "react";
-import Sortable from "sortablejs";
-import { Link } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-} from "@mui/material";
-import Mastersidebar from "../../compoents/sidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import {
-  getallEvent,
-  deleteEvent,
-  getFilterEvent,
-} from "../../api/Notification/event";
-import { formatDate } from "../../Utils/DateFormat";
+import { useNavigate, Link } from "react-router-dom";
+import { saveCommission } from "../../api/commission";
+import { getallCurrency } from "../../api/currency";
+import { getFilterYear } from "../../api/year";
+import { getallTaxModule } from "../../api/universityModule/tax";
+import { getUniversitiesByCountry } from "../../api/university";
+import Sidebar from "../../compoents/sidebar";
+import { FaTrash } from "react-icons/fa";
 
-import { FaFilter } from "react-icons/fa";
-
-export const ListEvents = () => {
-  const [notification, setnotification] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: 0,
-  });
-
-  useEffect(() => {
-    getAllClientDetails();
-  }, [pagination.from, pagination.to]);
-
-  const getAllClientDetails = () => {
-    const data = {
-      limit: 10,
-      page: pagination.from,
-    };
-    getFilterEvent(data)
-      .then((res) => {
-        setnotification(res?.data?.result?.eventList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.eventCount,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const deleteProgramData = () => {
-    deleteEvent(deleteId)
-      .then((res) => {
-        toast.success(res?.data?.message);
-        closePopup();
-        getAllClientDetails();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const openPopup = (data) => {
-    setOpen(true);
-    setDeleteId(data);
-  };
-
-  const closePopup = () => {
-    setOpen(false);
-  };
-
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
-  };
-
-  const tableRef = useRef(null);
-
-  useEffect(() => {
-    const table = tableRef.current;
-
-    const sortable = new Sortable(table.querySelector("thead tr"), {
-      animation: 150,
-      swapThreshold: 0.5,
-      handle: ".sortable-handle",
-      onEnd: (evt) => {
-        const oldIndex = evt.oldIndex;
-        const newIndex = evt.newIndex;
-
-        table.querySelectorAll("tbody tr").forEach((row) => {
-          const cells = Array.from(row.children);
-          row.insertBefore(cells[oldIndex], cells[newIndex]);
-        });
+function AddCommission() {
+  const initialState = {
+    country: "",
+    universityName: "",
+    paymentMethod: "",
+    commissionPaidOn: "",
+    eligibility: "",
+    tax: "",
+    paymentType: "",
+    currency: "",
+    flag: "",
+    clientName: "",
+    years: [
+      {
+        year: "",
+        courseTypes: [{ courseType: "", inTake: [{ inTake: "", value: "" }] }],
       },
-    });
+    ],
+  };
 
-    return () => {
-      sortable.destroy();
-    };
+  const initialStateErrors = {
+    country: { required: false },
+    universityName: { required: false },
+    paymentMethod: { required: false },
+    commissionPaidOn: { required: false },
+    eligibility: { required: false },
+    tax: { required: false },
+    paymentType: { required: false },
+    years: { required: false },
+  };
+
+  const [commission, setCommission] = useState(initialState);
+  const [errors, setErrors] = useState(initialStateErrors);
+  const [submitted, setSubmitted] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [universities, setUniversities] = useState([]);
+  const [yearOptions, setYearOptions] = useState([]);
+  const [tax,setTax] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllCurrencyDetails();
+    getAllTaxDetails();
+    getAllYearDetails();
   }, []);
 
-  // Countdown Timer
-  const calculateTimeLeft = (date) => {
-    const difference = +new Date(date) - +new Date();
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-
-    return timeLeft;
+  const getAllCurrencyDetails = () => {
+    getallCurrency()
+      .then((res) => {
+        setCountries(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
-  const [timeLefts, setTimeLefts] = useState({});
+  const getAllTaxDetails = () => {
+    getallTaxModule()
+      .then((res) => {
+        setTax(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-  useEffect(() => {
-    const timers = setInterval(() => {
-      setTimeLefts((prevTimes) =>
-        notification.reduce((acc, data) => {
-          acc[data._id] = calculateTimeLeft(data.date);
-          return acc;
-        }, {})
+  const getAllYearDetails = () => {
+    getFilterYear({ limit: 10, page: 1 })
+      .then((res) => {
+        setYearOptions(
+          res?.data?.result?.yearList?.map((year) => ({
+            value: year.year,
+            label: year.year,
+          })) || []
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const fetchCountryDetails = (selectedCountry) => {
+    const selectedCountryData = countries.find(
+      (c) => c.country === selectedCountry
+    );
+    if (selectedCountryData) {
+      setCommission((prevState) => ({
+        ...prevState,
+        currency: selectedCountryData.currency,
+        flag: selectedCountryData.flag,
+      }));
+    }
+  };
+
+  const handleCountryChange = (event) => {
+    const selectedCountry = event.target.value;
+    setCommission({ ...commission, country: selectedCountry });
+
+    getUniversitiesByCountry(selectedCountry)
+      .then((res) => {
+        setUniversities(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(
+          `Error fetching universities for ${selectedCountry}:`,
+          err
+        );
+        setUniversities([]);
+      });
+
+    fetchCountryDetails(selectedCountry);
+  };
+
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+    setCommission({ ...commission, [name]: value });
+
+    if (name === "universityName") {
+      const selectedUniversity = universities.find(
+        (u) => u.universityName === value
       );
-    }, 1000);
+      if (selectedUniversity) {
+        setCommission((prevState) => ({
+          ...prevState,
+          universityId: selectedUniversity._id,
+          clientName: selectedUniversity.businessName,
+          courseType: selectedUniversity.courseType,
+          inTake: selectedUniversity.inTake,
+        }));
+      }
+    }
 
-    return () => clearInterval(timers);
-  }, [notification]);
+    if (submitted) {
+      const newError = handleValidation({ ...commission, [name]: value });
+      setErrors(newError);
+    }
+  };
+
+  const handleYearChange = (yearIndex, fieldName, value) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const handleCourseTypeChange = (
+    yearIndex,
+    courseTypeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const handleIntakeChange = (
+    yearIndex,
+    courseTypeIndex,
+    intakeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake[
+      intakeIndex
+    ][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const addYear = () => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: [
+        ...prevState.years,
+        {
+          year: "",
+          courseTypes: [
+            { courseType: "", inTake: [{ inTake: "", value: "" }] },
+          ],
+        },
+      ],
+    }));
+  };
+
+  const addCourseType = (yearIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.push({
+      courseType: "",
+      inTake: [{ inTake: "", value: "" }],
+    });
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const removeCourseType = (yearIndex, courseTypeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const addIntake = (yearIndex, courseTypeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.push({
+      inTake: "",
+      value: "",
+    });
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const removeIntake = (yearIndex, courseTypeIndex, intakeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.splice(
+      intakeIndex,
+      1
+    );
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const handleValidation = (data) => {
+    let error = initialStateErrors;
+    if (!data.country) {
+      error.country.required = true;
+    }
+    if (!data.universityName) {
+      error.universityName.required = true;
+    }
+    if (!data.paymentMethod) {
+      error.paymentMethod.required = true;
+    }
+    if (!data.eligibility) {
+      error.eligibility.required = true;
+    }
+    if (!data.tax) {
+      error.tax.required = true;
+    }
+    if (!data.paymentType) {
+      error.paymentType.required = true;
+    }
+    if (!data.years || data.years.length === 0) {
+      error.years.required = true;
+    }
+
+    return error;
+  };
+
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Validate the commission data
+    const newError = handleValidation(commission);
+    setErrors(newError);
+    setSubmitted(true);
+
+    // If there are no validation errors, proceed
+    if (handleErrors(newError)) {
+      // Prepare years data for submission
+      const yearsData = commission.years.map((year) => ({
+        year: year.year,
+        courseTypes: year.courseTypes.map((courseType) => ({
+          courseType: courseType.courseType,
+          inTake: courseType.inTake.map((inTake) => ({
+            inTake: inTake.inTake,
+            value: inTake.value,
+          })),
+        })),
+      }));
+
+      // Prepare commission data including years
+      const dataToSave = {
+        ...commission,
+        years: yearsData,
+      };
+
+      // Call API to save commission
+      saveCommission(dataToSave)
+        .then((res) => {
+          toast.success(res?.data?.message || "Commission saved successfully!");
+          navigate("/commission");
+        })
+        .catch((err) => {
+          toast.error(
+            err?.response?.data?.message ||
+              "An error occurred while saving the commission."
+          );
+        });
+    }
+  };
 
   return (
-    <>
-      <Mastersidebar />
-
-      <div
-        className="content-wrapper"
-        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-      >
-        <div className="content-header  bg-light shadow-sm sticky-top mb-0">
-          <div className="container-fluid">
-            <div className="row ">
-              <div className="col-xl-12">
-                <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control bg-white border-1  rounded-4 w-100"
-                        style={{
-                          fontSize: "12px",
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li className="m-1">
-                    <div>
-                      <button
-                        className="btn btn-primary"
-                        style={{ fontSize: "11px" }}
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                      >
-                        {" "}
-                        <FaFilter />
-                      </button>
-                      <div
-                        className="offcanvas offcanvas-end"
-                        tabIndex={-1}
-                        id="offcanvasRight"
-                        aria-labelledby="offcanvasRightLabel"
-                      >
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Events</h5>
-                          <button
-                            type="button"
-                            className="btn-close text-reset"
-                            data-bs-dismiss="offcanvas"
-                            aria-label="Close"
-                          />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Date</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessName"
-                                placeholder="Search...Date"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                              <label className="form-label">Subject</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessContactNo"
-                                placeholder="Search...Subject"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-
-                              <label className="form-label">Users</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                                placeholder="Search...Users"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                            </div>
-                            <div>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold rounded-1  rounded-pill text-white float-right bg"
-                                style={{
-                                  backgroundColor: "#0f2239",
-                                  color: "#fff",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                className="btn btn-save border-0 fw-semibold rounded-1  rounded-pill text-white float-right mx-2"
-                                style={{
-                                  backgroundColor: "#fe5722",
-                                  color: "#fff",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="m-1">
-                    <Link>
-                      <button
-                        style={{ backgroundColor: "#E12929", fontSize: "11px" }}
-                        className="btn text-white "
-                      >
-                        <span>
-                          <i className="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li className="m-1">
-                    <Link className="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#22A033",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i
-                            className="fa fa-file-excel"
-                            aria-hidden="true"
-                          ></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li className="m-1">
-                    <Link to="/add-event">
-                      <button
-                        style={{ backgroundColor: "#3A74FF", fontSize: "11px" }}
-                        className="btn text-white"
-                      >
-                        <span>
-                          <i
-                            className="fa fa-plus-circle"
-                            aria-hidden="true"
-                          ></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                </ol>
-              </div>
-            </div>
+    <div>
+      <Sidebar />
+      <div className="container mt-3 p-3">
+        <h2>Add Commission</h2>
+        <form onSubmit={handleSubmit}>
+          {/* Country Select */}
+          <div className="form-group">
+            <label>Country</label>
+            <select
+              name="country"
+              className={`form-control ${errors.country.required ? "is-invalid" : ""
+                }`}
+              value={commission.country}
+              onChange={handleCountryChange}
+            >
+              <option value="">Select Country</option>
+              {countries.map((country) => (
+                <option key={country.country} value={country.country}>
+                  {country.country}
+                </option>
+              ))}
+            </select>
+            {errors.country.required && (
+              <div className="invalid-feedback">Country is required</div>
+            )}
           </div>
-        </div>
 
-        <div className="container-fluid mt-2">
-          <div className="card">
-            <div className="card-body pt-2">
-              <table
-                ref={tableRef}
-                className="table table-hover table-bordered table-striped"
-              >
-                <thead
-                  className="bg-light"
-                  style={{ position: "sticky", top: "0", zIndex: 100 }}
+          {/* University Select */}
+          <div className="form-group">
+            <label>University Name</label>
+            <select
+              name="universityName"
+              className={`form-control ${errors.universityName.required ? "is-invalid" : ""
+                }`}
+              value={commission.universityName}
+              onChange={handleInputs}
+            >
+              <option value="">Select University</option>
+              {universities.map((university) => (
+                <option
+                  key={university.universityName}
+                  value={university.universityName}
                 >
-                  <tr>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Event
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Date
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Countdown
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Users
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {notification.map((data, index) => (
-                    <tr key={index}>
-                      <td style={{ fontSize: "12px" }}>{data.subject}</td>
-                      <td style={{ fontSize: "12px" }}>
-                        {formatDate(data.date)}
-                      </td>
-                      <td style={{ fontSize: "12px" }}>
-                        {timeLefts[data._id] ? (
-                          <>
-                            {timeLefts[data._id].days}d{" "}
-                            {timeLefts[data._id].hours}h{" "}
-                            {timeLefts[data._id].minutes}m{" "}
-                            {timeLefts[data._id].seconds}s
-                          </>
-                        ) : (
-                          "Event Started"
-                        )}
-                      </td>
-                      <td style={{ fontSize: "12px" }}>{data.users}</td>
-                      <td>
-                        <div className="d-flex flex-row">
-                          <Link
-                            to={`/edit-event/${data._id}`}
-                            className="m-1 btn-sm btn btn-primary"
-                            style={{ fontSize: "11px" }}
-                          >
-                            Edit
-                          </Link>
-                          <button
-                            onClick={() => openPopup(data._id)}
-                            className="m-1 btn-sm btn btn-danger"
-                            style={{ fontSize: "11px" }}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                  {university.universityName}
+                </option>
+              ))}
+            </select>
+            {errors.universityName.required && (
+              <div className="invalid-feedback">
+                University Name is required
+              </div>
+            )}
+          </div>
+
+          {/* Payment Method */}
+          <div className="form-group">
+            <label>Payment Method</label>
+            <input
+              type="text"
+              name="paymentMethod"
+              className={`form-control ${errors.paymentMethod.required ? "is-invalid" : ""
+                }`}
+              value={commission.paymentMethod}
+              onChange={handleInputs}
+            />
+            {errors.paymentMethod.required && (
+              <div className="invalid-feedback">Payment Method is required</div>
+            )}
+          </div>
+
+          {/* Commission Paid On */}
+          <div className="form-group">
+            <label>Commission Paid On</label>
+            <input
+              type="text"
+              name="commissionPaidOn"
+              className={`form-control ${errors.commissionPaidOn.required ? "is-invalid" : ""
+                }`}
+              value={commission.commissionPaidOn}
+              onChange={handleInputs}
+            />
+            {errors.commissionPaidOn.required && (
+              <div className="invalid-feedback">
+                Commission Paid On is required
+              </div>
+            )}
+          </div>
+
+          {/* Eligibility */}
+          <div className="form-group">
+            <label>Eligibility</label>
+            <input
+              type="text"
+              name="eligibility"
+              className={`form-control ${errors.eligibility.required ? "is-invalid" : ""
+                }`}
+              value={commission.eligibility}
+              onChange={handleInputs}
+            />
+            {errors.eligibility.required && (
+              <div className="invalid-feedback">Eligibility is required</div>
+            )}
+          </div>
+
+          {/* Tax */}
+          <div className="form-group">
+            <label>Tax</label>
+            <select
+              name="tax"
+              className={`form-control ${errors.tax.required ? "is-invalid" : ""
+                }`}
+              value={commission.tax}
+              onChange={handleInputs}
+            >
+              <option value="">Select Tax</option>
+              {tax.map((taxItem) => (
+                <option key={taxItem.tax} value={taxItem.tax}>
+                  {taxItem.tax}
+                </option>
+              ))}
+            </select>
+            {errors.tax.required && (
+              <div className="invalid-feedback">Tax is required</div>
+            )}
+          </div>
+
+          {/* Payment Type */}
+          <div className="form-group">
+            <label>Payment Type</label>
+            <input
+              type="text"
+              name="paymentType"
+              className={`form-control ${errors.paymentType.required ? "is-invalid" : ""
+                }`}
+              value={commission.paymentType}
+              onChange={handleInputs}
+            />
+            {errors.paymentType.required && (
+              <div className="invalid-feedback">Payment Type is required</div>
+            )}
+          </div>
+
+          {/* Years Section */}
+          {commission.years.map((year, yearIndex) => (
+            <div key={yearIndex}>
+              <div className="form-group">
+                <label>Year</label>
+                <select
+                  name="year"
+                  className={`form-control ${errors.years.required ? "is-invalid" : ""
+                    }`}
+                  value={year.year}
+                  onChange={(e) =>
+                    handleYearChange(yearIndex, "year", e.target.value)
+                  }
+                >
+                  <option value="">Select Year</option>
+                  {yearOptions.map((yearOption) => (
+                    <option key={yearOption.value} value={yearOption.value}>
+                      {yearOption.label}
+                    </option>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div className="card-footer pb-0">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-auto">
-              <Pagination
-                count={Math.ceil(pagination.count / pageSize)}
-                onChange={handlePageChange}
-                variant="outlined"
-                shape="rounded"
-                size="small"
-                siblingCount={0}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Dialog open={open} onClose={closePopup}>
-        <DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={closePopup}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            X
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <div className="d-flex justify-content-center align-items-center">
-            <div>
-              <h4>Are you sure?</h4>
-              <div>
-                <button
-                  className="btn btn-primary mx-2"
-                  onClick={deleteProgramData}
-                >
-                  Yes
-                </button>
-                <button className="btn btn-secondary mx-2" onClick={closePopup}>
-                  No
-                </button>
+                </select>
+                {errors.years.required && (
+                  <div className="invalid-feedback">Year is required</div>
+                )}
               </div>
+
+              {year.courseTypes.map((courseType, courseTypeIndex) => (
+                <div key={courseTypeIndex}>
+                  <div className="form-group">
+                    <label>Course Type</label>
+                   
+                    <select
+                      name="courseType"
+                      className={`form-control ${errors.courseType?.required ? "is-invalid" : ""
+                        }`}
+                      value={courseType.courseType}
+                      onChange={(e) =>
+                        handleCourseTypeChange(
+                          yearIndex,
+                          courseTypeIndex,
+                          "courseType",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="">Select Course Type</option>
+                      {(
+                                                  universities.find(
+                                                    (uni) =>
+                                                      uni.universityName ===
+                                                      commission.universityName
+                                                  )?.courseType || []
+                                                ).map((type, idx) => (
+                                                  <option
+                                                    key={idx}
+                                                    value={type}
+                                                  >
+                                                    {type}
+                                                  </option>
+                                                ))}
+                    </select>
+                    {errors.courseType?.required && (
+                      <div className="invalid-feedback">
+                        Course Type is required
+                      </div>
+                    )}
+                  </div>
+
+                  {courseType.inTake.map((intake, intakeIndex) => (
+                    <div key={intakeIndex} className="form-group">
+                      <label>Intake</label>
+                     <select
+                        name="inTake"
+                        className={`form-control ${errors.intake?.required ? "is-invalid" : ""
+                          }`}
+                        value={intake.inTake}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "intake",
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="">Select Intake</option>
+                        {(
+                                                  universities.find(
+                                                    (uni) =>
+                                                      uni.universityName ===
+                                                      commission.universityName
+                                                  )?.inTake || []
+                                                ).map((type, idx) => (
+                                                  <option
+                                                    key={idx}
+                                                    value={type}
+                                                  >
+                                                    {type}
+                                                  </option>
+                                                ))}
+                      </select>
+
+                      <label>Value</label>
+                      <input
+                        type="text"
+                        name="value"
+                        className="form-control"
+                        value={intake.value}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "value",
+                            e.target.value
+                          )
+                        }
+                      />
+
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() =>
+                          removeIntake(yearIndex, courseTypeIndex, intakeIndex)
+                        }
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  ))}
+
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => addIntake(yearIndex, courseTypeIndex)}
+                  >
+                    Add Intake
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() =>
+                      removeCourseType(yearIndex, courseTypeIndex)
+                    }
+                  >
+                    <FaTrash /> Remove Course Type
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => addCourseType(yearIndex)}
+              >
+                Add Course Type
+              </button>
             </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+          ))}
+
+          <button type="button" className="btn btn-secondary" onClick={addYear}>
+            Add Year
+          </button>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
   );
-};
-export default ListEvents;
+}
+
+export default AddCommission;

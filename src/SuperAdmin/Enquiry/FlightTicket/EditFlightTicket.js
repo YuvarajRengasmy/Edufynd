@@ -205,7 +205,28 @@ export const Addflight = () => {
   };
 
   const handleInputs = (event) => {
-    setFlight({ ...flight, [event?.target?.name]: event?.target?.value });
+    const { name, value } = event.target;
+  
+    setFlight((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+  
+      if (name === "agentName") {
+        const selectedAgent = agent.find((u) => u.agentName === value);
+        if (selectedAgent) {
+          return {
+            ...updatedProgram,
+            businessName: selectedAgent.businessName,
+            agentPrimaryNumber: selectedAgent.mobileNumber,
+            agentWhatsAppNumber: selectedAgent.whatsAppNumber,
+            agentEmail: selectedAgent.email,
+            dial1: selectedAgent.dial1,
+            dial2: selectedAgent.dial2
+          };
+        }
+      } 
+      return updatedProgram;
+    });
+  
     if (submitted) {
       const newError = handleValidation({
         ...flight,
