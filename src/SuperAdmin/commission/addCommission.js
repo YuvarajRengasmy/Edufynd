@@ -996,10 +996,10 @@ function AddCommission() {
                           </div>
                         </div>
                         <div className="row g-3 ">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto my-3">
                             <button
                               type="button"
-                              className="btn rounded-1 px-4 py-2 text-uppercase fw-semibold  text-white "
+                              className="btn rounded-1 border-0 fw-semibold  text-white "
                               style={{
                                 backgroundColor: "#FE5722",
                                 fontFamily: "Plus Jakarta Sans",
