@@ -97,9 +97,9 @@ export const StaffDashBoard = () => {
 
   return (
     <>
-    <div>
+    
         <Sidebar/>
-    </div>
+   
    
     <div className="content-wrapper"  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="container">
