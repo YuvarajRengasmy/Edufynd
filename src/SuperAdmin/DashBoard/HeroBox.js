@@ -124,7 +124,7 @@ export const HeroContent = () => {
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
             <BackButton/>
-              <div className="container-fluid ">
+           
               <div className="d-flex justify-content-between align-items-center">
   {/* Container for the header and profile button */}
   <div>
@@ -195,13 +195,13 @@ export const HeroContent = () => {
       </p>
       {/* Action buttons */}
       <div className="d-flex justify-content-around mt-3">
-        <button className="btn btn-outline-primary" style={{ fontSize: '12px' }}>
+        <button className="btn btn-sm btn-primary" style={{ fontSize: '12px' }}>
           <FaEdit /> Edit
         </button>
-        <button className="btn btn-outline-secondary" style={{ fontSize: '12px' }}>
+        <button className="btn btn-sm btn-secondary" style={{ fontSize: '12px' }}>
           <FaCog /> Settings
         </button>
-        <button className="btn btn-outline-danger" style={{ fontSize: '12px' }}>
+        <button className="btn btn-sm btn-danger" style={{ fontSize: '12px' }}>
           <FaSignOutAlt /> Logout
         </button>
       </div>
@@ -525,14 +525,14 @@ export const HeroContent = () => {
   </div>
 </div>
 
-              </div>
+             
 
 
 
 
 
               {/* Top Cards Row */}
-              <div className="container-fluid">
+            
                 <div className="row">
                   <div className="col-lg-3 col-md-6 ">
                     <div className="card text-white rounded-1 border-0 shadow-sm bg-primary">
@@ -566,8 +566,7 @@ export const HeroContent = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="row">
+              
                   <div className="col-lg-3 col-md-6 ">
                     <div className="card text-white rounded-1 border-0 shadow-sm bg-info">
                       <div className="card-body">
@@ -600,12 +599,12 @@ export const HeroContent = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                
               </div>
 
 
               {/* Charts Row */}
-              <div className="container-fluid ">
+             
                 <div className="row">
                   {/* Sales Overview Card */}
                   <div className="col-lg-6 ">
@@ -630,9 +629,9 @@ export const HeroContent = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+               
 
-                <div className="row">
+               
                   {/* Client Growth Bar Chart Card */}
                   <div className="col-md-6 ">
                     <div className="card rounded-1 border-0 shadow-sm">
@@ -656,11 +655,11 @@ export const HeroContent = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                
               </div>
 
               {/* Table Row */}
-              <div className="container-fluid ">
+             
                 <div className="row">
                   {/* Recent Transactions Card */}
                   <div className="col-lg-12 ">
@@ -695,10 +694,10 @@ export const HeroContent = () => {
                                 <td>$5,000</td>
                                 <td><span className="badge" style={{ backgroundColor: '#7ed321', color: '#fff' }}>Paid</span></td>
                                 <td>
-                                  <button className="btn btn-outline-primary btn-sm me-2">
+                                  <button className="btn btn-sm btn-primary btn-sm me-2">
                                     <FaEdit />
                                   </button>
-                                  <button className="btn btn-outline-danger btn-sm">
+                                  <button className="btn btn-sm btn-danger btn-sm">
                                     <FaTrash />
                                   </button>
                                 </td>
@@ -713,10 +712,10 @@ export const HeroContent = () => {
                                 <td>$3,200</td>
                                 <td><span className="badge" style={{ backgroundColor: '#f5a623', color: '#fff' }}>Pending</span></td>
                                 <td>
-                                  <button className="btn btn-outline-primary btn-sm me-2">
+                                  <button className="btn btn-sm btn-primary btn-sm me-2">
                                     <FaEdit />
                                   </button>
-                                  <button className="btn btn-outline-danger btn-sm">
+                                  <button className="btn btn-sm btn-danger btn-sm">
                                     <FaTrash />
                                   </button>
                                 </td>
@@ -731,10 +730,10 @@ export const HeroContent = () => {
                                 <td>$1,500</td>
                                 <td><span className="badge" style={{ backgroundColor: '#d0021b', color: '#fff' }}>Overdue</span></td>
                                 <td>
-                                  <button className="btn btn-outline-primary btn-sm me-2">
+                                  <button className="btn btn-sm btn-primary btn-sm me-2">
                                     <FaEdit />
                                   </button>
-                                  <button className="btn btn-outline-danger btn-sm">
+                                  <button className="btn btn-sm btn-danger btn-sm">
                                     <FaTrash />
                                   </button>
                                 </td>
@@ -745,9 +744,9 @@ export const HeroContent = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+               
 
-                <div className="row">
+               
                   {/* Recent Applications Card */}
                   <div className="col-md-6 ">
                     <div className="card rounded-1 border-0 shadow-sm">
@@ -774,10 +773,10 @@ export const HeroContent = () => {
                               <td>John Doe</td>
                               <td>Pending</td>
                               <td>
-                                <button className="btn btn-outline-primary btn-sm me-2">
+                                <button className="btn btn-sm btn-primary btn-sm me-2">
                                   <FaEdit />
                                 </button>
-                                <button className="btn btn-outline-danger btn-sm">
+                                <button className="btn btn-sm btn-danger btn-sm">
                                   <FaTrash />
                                 </button>
                               </td>
@@ -815,10 +814,10 @@ export const HeroContent = () => {
                               <td>Jane Smith</td>
                               <td>$1,000</td>
                               <td>
-                                <button className="btn btn-outline-primary btn-sm me-2">
+                                <button className="btn btn-sm btn-primary btn-sm me-2">
                                   <FaEdit />
                                 </button>
-                                <button className="btn btn-outline-danger btn-sm">
+                                <button className="btn btn-sm btn-danger btn-sm">
                                   <FaTrash />
                                 </button>
                               </td>
@@ -829,9 +828,9 @@ export const HeroContent = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                
 
-                <div className="row">
+                
                   {/* Upcoming Meetings Card */}
                   <div className="col-md-6 ">
                     <div className="card  rounded-1 border-0 shadow-sm">
@@ -875,7 +874,8 @@ export const HeroContent = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                
+              
               </div>
 
             </div>
