@@ -183,354 +183,354 @@ export const HeroContent = () => {
   </div>
   
   {/* Off-canvas body */}
-  <div className="offcanvas-body" style={{ fontSize: '12px' }}>
-    {/* Profile Information */}
-    <div className="text-center">
-      {/* User avatar */}
-      <img
-        src="https://via.placeholder.com/100"
-        alt="User Avatar"
-        className="rounded-circle mb-3"
-      />
-      {/* User name and position */}
-      <h5 style={{ color: '#0056b3', fontSize: '16px' }}>John Doe</h5>
-      <p className="text-muted" style={{ fontSize: '12px' }}>Senior CRM Manager</p>
-      <p className="mb-1" style={{ color: '#007bff', fontSize: '12px' }}>
-        <FaEnvelope /> john.doe@example.com
-      </p>
-      <p style={{ color: '#007bff', fontSize: '12px' }}>
-        <FaPhone /> +123 456 7890
-      </p>
-      {/* Action buttons */}
-      <div className="d-flex justify-content-around mt-3">
-        <button className="btn btn-sm btn-primary" style={{ fontSize: '12px' }}>
-          <FaEdit /> Edit
-        </button>
-        <button className="btn btn-sm btn-secondary" style={{ fontSize: '12px' }}>
-          <FaCog /> Settings
-        </button>
-        <button className="btn btn-sm btn-danger" style={{ fontSize: '12px' }}>
-          <FaSignOutAlt /> Logout
-        </button>
+  <div className="offcanvas-body">
+  {/* Profile Information */}
+  <div className="text-center">
+    {/* User avatar */}
+    <img
+      src="https://via.placeholder.com/100"
+      alt="User Avatar"
+      className="rounded-circle mb-3"
+    />
+    {/* User name and position */}
+    <h5 className="text-primary">John Doe</h5>
+    <p className="text-muted fs-6">Senior CRM Manager</p>
+    <p className="text-primary fs-6">
+      <FaEnvelope /> john.doe@example.com
+    </p>
+    <p className="text-primary fs-6">
+      <FaPhone /> +123 456 7890
+    </p>
+    {/* Action buttons */}
+    <div className="d-flex justify-content-around mt-3">
+      <button className="btn btn-sm btn-primary">
+        <FaEdit /> Edit
+      </button>
+      <button className="btn btn-sm btn-secondary">
+        <FaCog /> Settings
+      </button>
+      <button className="btn btn-sm btn-danger">
+        <FaSignOutAlt /> Logout
+      </button>
+    </div>
+  </div>
+
+  {/* Navigation Tabs */}
+  <ul className="nav nav-pills nav-justified fs-6 mt-3">
+    <li className="nav-item">
+      <a className="nav-link active" href="#dashboard" data-bs-toggle="tab">
+        <FaChartPie /> Dashboard
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#clients" data-bs-toggle="tab">
+        <FaUsers /> Clients
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#commissions" data-bs-toggle="tab">
+        <FaFileInvoiceDollar /> Commissions
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#projects" data-bs-toggle="tab">
+        <FaProjectDiagram /> Projects
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#hrms" data-bs-toggle="tab">
+        <FaSuitcase /> HRMS
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#finance" data-bs-toggle="tab">
+        <FaDollarSign /> Finance
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#marketing" data-bs-toggle="tab">
+        <FaGlobe /> Marketing
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#reports" data-bs-toggle="tab">
+        <FaRegChartBar /> Reports
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link" href="#settings" data-bs-toggle="tab">
+        <FaCogs /> Settings
+      </a>
+    </li>
+  </ul>
+
+  {/* Tab content */}
+  <div className="tab-content mt-3">
+    {/* Dashboard Tab */}
+    <div className="tab-pane fade show active" id="dashboard">
+      <h6 className="text-primary">Dashboard Overview</h6>
+      <div className="row g-3">
+        {/* Performance Card */}
+        <div className="col-6">
+          <div className="card text-center border-primary">
+            <div className="card-body">
+              <FaChartLine size={30} className="text-primary mb-2" />
+              <h6>Performance</h6>
+              <p className="text-muted">80% Achieved</p>
+              <div className="progress">
+                <div className="progress-bar bg-success" role="progressbar" style={{ width: '80%' }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Feedback Card */}
+        <div className="col-6">
+          <div className="card text-center border-success">
+            <div className="card-body">
+              <FaComments size={30} className="text-success mb-2" />
+              <h6>Feedback</h6>
+              <p className="text-muted">23 New Comments</p>
+              <span className="badge bg-primary"><FaCheckCircle /> Resolved</span>
+            </div>
+          </div>
+        </div>
+        {/* Notifications Card */}
+        <div className="col-12">
+          <div className="card">
+            <div className="card-body">
+              <FaBell size={30} className="text-danger mb-2" />
+              <h6 className="text-primary">Notifications</h6>
+              <p className="text-muted">5 New Alerts</p>
+              <ul className="list-group">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  Meeting with Client X
+                  <span className="badge bg-warning rounded-pill">1 hr</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  Payment Due: Invoice #1234
+                  <span className="badge bg-danger rounded-pill">2 days</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  Project Deadline: Y
+                  <span className="badge bg-primary rounded-pill">5 days</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    {/* Navigation Tabs */}
-    <ul className="nav nav-pills nav-justified fs-9" style={{ fontSize: '10px' }}>
-      {/* Each tab item */}
-      <li className="nav-item">
-        <a className="nav-link active" href="#dashboard" data-bs-toggle="tab" style={{ backgroundColor: '#e9ecef' }}>
-          <FaChartPie /> Dashboard
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#clients" data-bs-toggle="tab">
-          <FaUsers /> Clients
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#commissions" data-bs-toggle="tab">
-          <FaFileInvoiceDollar /> Commissions
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#projects" data-bs-toggle="tab">
-          <FaProjectDiagram /> Projects
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#hrms" data-bs-toggle="tab">
-          <FaSuitcase /> HRMS
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#finance" data-bs-toggle="tab">
-          <FaDollarSign /> Finance
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#marketing" data-bs-toggle="tab">
-          <FaGlobe /> Marketing
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#reports" data-bs-toggle="tab">
-          <FaRegChartBar /> Reports
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#settings" data-bs-toggle="tab">
-          <FaCogs /> Settings
-        </a>
-      </li>
-    </ul>
-
-    {/* Tab content */}
-    <div className="tab-content">
-      {/* Dashboard Tab */}
-      <div className="tab-pane fade show active" id="dashboard">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Dashboard Overview</h6>
-        <div className="row g-3">
-          {/* Performance Card */}
-          <div className="col-6">
-            <div className="card text-center" style={{ borderColor: '#007bff', fontSize: '12px' }}>
-              <div className="card-body">
-                <FaChartLine size={30} className="mb-2" style={{ color: '#007bff' }} />
-                <h6>Performance</h6>
-                <p className="text-muted small">80% Achieved</p>
-                <div className="progress">
-                  <div className="progress-bar bg-success" role="progressbar" style={{ width: '80%' }} aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Feedback Card */}
-          <div className="col-6">
-            <div className="card text-center" style={{ borderColor: '#28a745', fontSize: '12px' }}>
-              <div className="card-body">
-                <FaComments size={30} className="mb-2" style={{ color: '#28a745' }} />
-                <h6>Feedback</h6>
-                <p className="text-muted small">23 New Comments</p>
-                <span className="badge bg-primary"><FaCheckCircle /> Resolved</span>
-              </div>
-            </div>
-          </div>
-          {/* Notifications Card */}
-          <div className="col-12">
-            <div className="card" style={{ fontSize: '12px' }}>
-              <div className="card-body">
-                <FaBell size={30} className="mb-2" style={{ color: '#dc3545' }} />
-                <h6 style={{ color: '#0056b3', fontSize: '14px' }}>Notifications</h6>
-                <p className="text-muted small">5 New Alerts</p>
-                <ul className="list-group">
-                  <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                    Meeting with Client X
-                    <span className="badge bg-warning rounded-pill">1 hr</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                    Payment Due: Invoice #1234
-                    <span className="badge bg-danger rounded-pill">2 days</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                    Project Deadline: Y
-                    <span className="badge bg-primary rounded-pill">5 days</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+    {/* Client Tab */}
+    <div className="tab-pane fade" id="clients">
+      <h6 className="text-primary">Clients Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaUsers /> Active Clients
+        </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Client A
+              <span className="badge bg-success rounded-pill">Active</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Client B
+              <span className="badge bg-warning rounded-pill">Pending</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Client C
+              <span className="badge bg-danger rounded-pill">Inactive</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      {/* Client Tab */}
-      <div className="tab-pane fade" id="clients">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Clients Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaUsers /> Active Clients
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Client A
-                <span className="badge bg-success rounded-pill">Active</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Client B
-                <span className="badge bg-warning rounded-pill">Pending</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Client C
-                <span className="badge bg-danger rounded-pill">Inactive</span>
-              </li>
-            </ul>
-          </div>
+    {/* Commissions Tab */}
+    <div className="tab-pane fade" id="commissions">
+      <h6 className="text-primary">Commissions Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaFileInvoiceDollar /> Commission Statements
+        </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Statement A
+              <span className="badge bg-primary rounded-pill">Paid</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Statement B
+              <span className="badge bg-warning rounded-pill">Pending</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Statement C
+              <span className="badge bg-danger rounded-pill">Overdue</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      {/* Commissions Tab */}
-      <div className="tab-pane fade" id="commissions">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Commissions Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaFileInvoiceDollar /> Commission Statements
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Statement A
-                <span className="badge bg-primary rounded-pill">Paid</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Statement B
-                <span className="badge bg-warning rounded-pill">Pending</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Statement C
-                <span className="badge bg-danger rounded-pill">Overdue</span>
-              </li>
-            </ul>
-          </div>
+    {/* Projects Tab */}
+    <div className="tab-pane fade" id="projects">
+      <h6 className="text-primary">Projects Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaProjectDiagram /> Ongoing Projects
+        </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Project X
+              <span className="badge bg-primary rounded-pill">In Progress</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Project Y
+              <span className="badge bg-success rounded-pill">Completed</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Project Z
+              <span className="badge bg-warning rounded-pill">Delayed</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      {/* Projects Tab */}
-      <div className="tab-pane fade" id="projects">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Projects Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaProjectDiagram /> Ongoing Projects
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Project X
-                <span className="badge bg-primary rounded-pill">In Progress</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Project Y
-                <span className="badge bg-success rounded-pill">Completed</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Project Z
-                <span className="badge bg-warning rounded-pill">Delayed</span>
-              </li>
-            </ul>
-          </div>
+    {/* HRMS Tab */}
+    <div className="tab-pane fade" id="hrms">
+      <h6 className="text-primary">HRMS Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaSuitcase /> Employee Records
+        </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Employee A
+              <span className="badge bg-success rounded-pill">Active</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Employee B
+              <span className="badge bg-warning rounded-pill">On Leave</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Employee C
+              <span className="badge bg-danger rounded-pill">Resigned</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      {/* HRMS Tab */}
-      <div className="tab-pane fade" id="hrms">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>HRMS Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaSuitcase /> Employee Records
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Employee A
-                <span className="badge bg-success rounded-pill">Active</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Employee B
-                <span className="badge bg-warning rounded-pill">On Leave</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Employee C
-                <span className="badge bg-danger rounded-pill">Terminated</span>
-              </li>
-            </ul>
-          </div>
+    {/* Finance Tab */}
+    <div className="tab-pane fade" id="finance">
+      <h6 className="text-primary">Finance Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaDollarSign /> Financial Reports
+        </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Report A
+              <span className="badge bg-primary rounded-pill">Q1</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Report B
+              <span className="badge bg-secondary rounded-pill">Q2</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Report C
+              <span className="badge bg-success rounded-pill">Q3</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      {/* Finance Tab */}
-      <div className="tab-pane fade" id="finance">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Finance Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaDollarSign /> Financial Reports
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Report A
-                <span className="badge bg-primary rounded-pill">Reviewed</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Report B
-                <span className="badge bg-warning rounded-pill">Pending</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Report C
-                <span className="badge bg-danger rounded-pill">Not Reviewed</span>
-              </li>
-            </ul>
-          </div>
+    {/* Marketing Tab */}
+    <div className="tab-pane fade" id="marketing">
+      <h6 className="text-primary">Marketing Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaGlobe /> Campaigns
+        </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Campaign A
+              <span className="badge bg-primary rounded-pill">Ongoing</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Campaign B
+              <span className="badge bg-success rounded-pill">Completed</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Campaign C
+              <span className="badge bg-danger rounded-pill">Cancelled</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      {/* Marketing Tab */}
-      <div className="tab-pane fade" id="marketing">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Marketing Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaGlobe /> Campaigns
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Campaign X
-                <span className="badge bg-success rounded-pill">Active</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Campaign Y
-                <span className="badge bg-warning rounded-pill">Pending</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Campaign Z
-                <span className="badge bg-danger rounded-pill">Completed</span>
-              </li>
-            </ul>
-          </div>
+    {/* Reports Tab */}
+    <div className="tab-pane fade" id="reports">
+      <h6 className="text-primary">Reports Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaRegChartBar /> Summary Reports
+        </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Report X
+              <span className="badge bg-primary rounded-pill">Monthly</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Report Y
+              <span className="badge bg-secondary rounded-pill">Quarterly</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              Report Z
+              <span className="badge bg-success rounded-pill">Yearly</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      {/* Reports Tab */}
-      <div className="tab-pane fade" id="reports">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Reports Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaRegChartBar /> Performance Reports
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Report A
-                <span className="badge bg-primary rounded-pill">Reviewed</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Report B
-                <span className="badge bg-warning rounded-pill">Pending</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Report C
-                <span className="badge bg-danger rounded-pill">Not Reviewed</span>
-              </li>
-            </ul>
-          </div>
+    {/* Settings Tab */}
+    <div className="tab-pane fade" id="settings">
+      <h6 className="text-primary">Settings Overview</h6>
+      <div className="card">
+        <div className="card-header bg-light">
+          <FaCogs /> System Settings
         </div>
-      </div>
-
-      {/* Settings Tab */}
-      <div className="tab-pane fade" id="settings">
-        <h6 className="fw-bold" style={{ color: '#0056b3', fontSize: '14px' }}>Settings Overview</h6>
-        <div className="card" style={{ fontSize: '12px' }}>
-          <div className="card-header" style={{ backgroundColor: '#e9ecef' }}>
-            <FaCogs /> User Settings
-          </div>
-          <div className="card-body">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Profile Settings
-                <span className="badge bg-success rounded-pill">Updated</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Account Security
-                <span className="badge bg-warning rounded-pill">Pending</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center" style={{ fontSize: '12px' }}>
-                Notification Preferences
-                <span className="badge bg-primary rounded-pill">Set</span>
-              </li>
-            </ul>
-          </div>
+        <div className="card-body">
+          <ul className="list-group">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              General Settings
+              <span className="badge bg-primary rounded-pill">Configure</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              User Management
+              <span className="badge bg-success rounded-pill">Manage</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              System Logs
+              <span className="badge bg-warning rounded-pill">View</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
+</div>
+
 </div>
 
              
@@ -621,7 +621,7 @@ export const HeroContent = () => {
                         <FaChartLine className="me-2" /> Sales Overview
                       </div>
                       <div className="card-body">
-                        <Line data={salesData} />
+                        <Line data={salesData} options={{ responsive: true }}/>
                       </div>
                     </div>
                   </div>
@@ -633,7 +633,7 @@ export const HeroContent = () => {
                         <FaUserAlt className="me-2" /> Client Growth
                       </div>
                       <div className="card-body">
-                        <Line data={clientGrowthData} />
+                        <Line data={clientGrowthData} options={{ responsive: true }} />
                       </div>
                     </div>
                   </div>
@@ -647,7 +647,7 @@ export const HeroContent = () => {
                         <FaChartBar className="me-2" /> Client Growth (Bar)
                       </div>
                       <div className="card-body">
-                        <Bar data={barData} />
+                        <Bar data={barData}  options={{ responsive: true }}/>
                       </div>
                     </div>
                   </div>
@@ -659,7 +659,7 @@ export const HeroContent = () => {
                         <FaMoneyBillWave className="me-2" /> Finance Overview
                       </div>
                       <div className="card-body">
-                        <Line data={lineData} />
+                        <Line data={lineData} options={{ responsive: true }} />
                       </div>
                     </div>
                   </div>
