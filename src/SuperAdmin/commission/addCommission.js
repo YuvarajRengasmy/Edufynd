@@ -105,42 +105,6 @@ function AddCommission() {
       });
   };
 
-  // const validateYears = (years) => {
-  //   const errors = [];
-  //   for (let i = 0; i < years.length; i++) {
-  //     const year = years[i];
-  //     const yearErrors = {};
-
-  //     if (!year.year) {
-  //       yearErrors.year = "Year is required.";
-  //     }
-
-  //     yearErrors.courseTypes = [];
-  //     for (let j = 0; j < year.courseTypes.length; j++) {
-  //       const courseType = year.courseTypes[j];
-  //       const courseTypeErrors = {};
-
-  //       if (!courseType.courseType) {
-  //         courseTypeErrors.courseType = "Course Type is required.";
-  //       }
-
-  //       if (!courseType.inTake) {
-  //         courseTypeErrors.inTake = "Intake is required.";
-  //       }
-
-  //       if (courseType.value === null || courseType.value === "") {
-  //         courseTypeErrors.value = "Value is required.";
-  //       } else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
-  //         courseTypeErrors.value = "Value must be a number less than 35.";
-  //       }
-
-  //       yearErrors.courseTypes[j] = courseTypeErrors;
-  //     }
-
-  //     errors[i] = yearErrors;
-  //   }
-  //   return errors;
-  // };
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (!data.country) {
@@ -165,60 +129,11 @@ function AddCommission() {
       error.years.required = true;
     }
 
-    // const yearValidationErrors = validateYears(data.years);
-    // if (
-    //   yearValidationErrors.some(
-    //     (yearError) => Object.keys(yearError).length > 0
-    //   )
-    // ) {
-    //   errors.years = {
-    //     required: false,
-    //     valid: true,
-    //     message: "Please fix the errors in the year fields.",
-    //   };
-    //   errors.yearErrors = yearValidationErrors;
-    // }
+
 
     return error;
   };
-  // const addYear = () => {
-  //   const newYear = {
-  //     year: "",
-  //     courseTypes: [{ courseType: "", intake: "", value: null }],
-  //   };
-  //   setYears([...years, newYear]);
-  // };
-
-  // const addCourseType = (yearIndex) => {
-  //   const updatedYears = [...years];
-  //   updatedYears[yearIndex].courseTypes.push({
-  //     courseType: "",
-  //     intake: "",
-  //     value: null,
-  //   });
-  //   setYears(updatedYears);
-  // };
-
-  // const removeCourseType = (yearIndex, courseTypeIndex) => {
-  //   const updatedYears = [...commission.years];
-  //   updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
-  //   setCommission({
-  //     ...commission,
-  //     years: updatedYears,
-  //   });
-  // };
-
-  
-  // const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
-  //   const updatedYears = [...years];
-  //   if (courseTypeIndex !== null) {
-  //     updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
-  //   } else {
-  //     updatedYears[yearIndex][fieldName] = value;
-  //   }
-  //   setYears(updatedYears);
-  // };
-  
+ 
   const handleYearChange = (yearIndex, fieldName, value) => {
     const updatedYears = [...commission.years];
     updatedYears[yearIndex][fieldName] = value;
@@ -264,6 +179,13 @@ function AddCommission() {
       ],
     }));
   };
+  const removeYear = (indexToRemove) => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: prevState.years.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+  
 
   const addCourseType = (yearIndex) => {
     const updatedYears = [...commission.years];
@@ -370,31 +292,7 @@ function AddCommission() {
       setErrors(newError);
     }
   };
-  // const handleInputs = (event) => {
-  //   const { name, value } = event.target;
-  //   setCommission({ ...commission, [name]: value });
-
-  //   if (name === "universityName") {
-  //     const selectedUniversity = universities.find(
-  //       (u) => u.universityName === value
-  //     );
-  //     if (selectedUniversity) {
-  //       setCommission((prevState) => ({
-  //         ...prevState,
-  //         universityId: selectedUniversity._id,
-  //         clientName: selectedUniversity.businessName,
-  //         courseType: selectedUniversity.courseType,
-  //         inTake: selectedUniversity.inTake,
-  //       }));
-  //     }
-  //   }
-
-  //   if (submitted) {
-  //     const newError = handleValidation({ ...commission, [name]: value });
-  //     setErrors(newError);
-  //   }
-  // };
-  const handleErrors = (obj) => {
+    const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const prop = obj[key];
@@ -406,44 +304,7 @@ function AddCommission() {
     return true;
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   // Validate the commission data
-  //   const newError = handleValidation(commission);
-  //   setErrors(newError);
-  //   setSubmitted(true);
-  //   if (handleErrors(newError)) {
-  //     // Prepare years data for submission
-  //     const yearsData = years.map((year) => ({
-  //       year: year.year,
-  //       courseTypes: year.courseTypes.map((courseType) => ({
-  //         courseType: courseType.courseType,
-  //         inTake: courseType.inTake.map((inTake) => ({
-  //                     inTake: inTake.inTake,
-  //                     value: inTake.value,
-  //                   })),
-  //       })),
-  //     }));
-
-  //     // Prepare commission data including years
-  //     const dataToSave = {
-  //       ...commission,
-  //       years: yearsData,
-  //     };
-
-  //     // Call API to save commission
-  //     saveCommission(dataToSave)
-  //       .then((res) => {
-  //         toast.success(res?.data?.message);
-  //         navigate("/list_commission");
-  //       })
-  //       .catch((err) => {
-  //         toast.error(err?.response?.data?.message);
-  //       });
-  //   }
-  // };
-
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -1013,7 +874,9 @@ function AddCommission() {
                               ></i>{" "}
                               Add Year
                             </button>
+
                           </div>
+                          
                         </div>
                       </div>
 

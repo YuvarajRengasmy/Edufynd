@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
-import { saveCommission } from "../../api/commission";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { updatedCommission,getSingleCommission  } from "../../api/commission";
 import { getallCurrency } from "../../api/currency";
 import { getFilterYear } from "../../api/year";
 import { getallTaxModule } from "../../api/universityModule/tax";
-import { getUniversitiesByCountry } from "../../api/university";
-import Sidebar from "../../compoents/sidebar";
 import { FaTrash } from "react-icons/fa";
-
+import { getUniversitiesByCountry } from "../../api/university";
+import Flags from "react-world-flags";
+import Sidebar from "../../compoents/sidebar";
+import BackButton from "../../compoents/backButton";
 function AddCommission() {
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
   const initialState = {
     country: "",
     universityName: "",
@@ -38,115 +43,110 @@ function AddCommission() {
     tax: { required: false },
     paymentType: { required: false },
     years: { required: false },
+    flag: { required: false },
+    clientName: { required: false },
+    currency: { required: false },
   };
 
   const [commission, setCommission] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [countries, setCountries] = useState([]);
+  const [tax, setTax] = useState([]);
   const [universities, setUniversities] = useState([]);
-  const [yearOptions, setYearOptions] = useState([]);
-  const [tax,setTax] = useState([]);
+  const [years, setYears] = useState([]);
+  const [year, setYear] = useState([]);
+  const pageSize = 5;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllCurrencyDetails();
     getAllTaxDetails();
     getAllYearDetails();
-  }, []);
+    getEditCommissionDetails();
+  }, [pagination.from, pagination.to]);
 
   const getAllCurrencyDetails = () => {
     getallCurrency()
       .then((res) => {
-        setCountries(res?.data?.result || []);
+        setCountries(res?.data?.result);
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
       });
   };
-
+  const getAllYearDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterYear(data)
+      .then((res) => {
+        setYear(res?.data?.result?.yearList || []);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.yearCount || 0,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllTaxDetails = () => {
     getallTaxModule()
       .then((res) => {
-        setTax(res?.data?.result || []);
+        console.log(res);
+        setTax(res?.data?.result);
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
       });
   };
 
-  const getAllYearDetails = () => {
-    getFilterYear({ limit: 10, page: 1 })
+  const getEditCommissionDetails = () => {
+    getSingleCommission(id)
       .then((res) => {
-        setYearOptions(
-          res?.data?.result?.yearList?.map((year) => ({
-            value: year.year,
-            label: year.year,
-          })) || []
-        );
+        console.log(res?.data?.result);
+        setCommission(res?.data?.result);
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
       });
   };
-
-  const fetchCountryDetails = (selectedCountry) => {
-    const selectedCountryData = countries.find(
-      (c) => c.country === selectedCountry
-    );
-    if (selectedCountryData) {
-      setCommission((prevState) => ({
-        ...prevState,
-        currency: selectedCountryData.currency,
-        flag: selectedCountryData.flag,
-      }));
+  const handleValidation = (data) => {
+    let error = initialStateErrors;
+    if (!data.country) {
+      error.country.required = true;
     }
-  };
-
-  const handleCountryChange = (event) => {
-    const selectedCountry = event.target.value;
-    setCommission({ ...commission, country: selectedCountry });
-
-    getUniversitiesByCountry(selectedCountry)
-      .then((res) => {
-        setUniversities(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.error(
-          `Error fetching universities for ${selectedCountry}:`,
-          err
-        );
-        setUniversities([]);
-      });
-
-    fetchCountryDetails(selectedCountry);
-  };
-
-  const handleInputs = (event) => {
-    const { name, value } = event.target;
-    setCommission({ ...commission, [name]: value });
-
-    if (name === "universityName") {
-      const selectedUniversity = universities.find(
-        (u) => u.universityName === value
-      );
-      if (selectedUniversity) {
-        setCommission((prevState) => ({
-          ...prevState,
-          universityId: selectedUniversity._id,
-          clientName: selectedUniversity.businessName,
-          courseType: selectedUniversity.courseType,
-          inTake: selectedUniversity.inTake,
-        }));
-      }
+    if (!data.universityName) {
+      error.universityName.required = true;
+    }
+    if (!data.paymentMethod) {
+      error.paymentMethod.required = true;
+    }
+    if (!data.eligibility) {
+      error.eligibility.required = true;
+    }
+    if (!data.tax) {
+      error.tax.required = true;
+    }
+    if (!data.paymentType) {
+      error.paymentType.required = true;
+    }
+    if (!data.years) {
+      error.years.required = true;
     }
 
-    if (submitted) {
-      const newError = handleValidation({ ...commission, [name]: value });
-      setErrors(newError);
-    }
-  };
 
+
+    return error;
+  };
+ 
   const handleYearChange = (yearIndex, fieldName, value) => {
     const updatedYears = [...commission.years];
     updatedYears[yearIndex][fieldName] = value;
@@ -192,6 +192,13 @@ function AddCommission() {
       ],
     }));
   };
+  const removeYear = (indexToRemove) => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: prevState.years.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+  
 
   const addCourseType = (yearIndex) => {
     const updatedYears = [...commission.years];
@@ -225,35 +232,80 @@ function AddCommission() {
     );
     setCommission({ ...commission, years: updatedYears });
   };
+  const yearOptions = year.map((data) => ({
+    value: data.year,
+    label: data.year,
+  }));
 
-  const handleValidation = (data) => {
-    let error = initialStateErrors;
-    if (!data.country) {
-      error.country.required = true;
+  const fetchCountryDetails = (selectedCountry) => {
+    const selectedCountryData = countries.find(
+      (c) => c.country === selectedCountry
+    );
+    if (selectedCountryData) {
+      setCommission((prevState) => ({
+        ...prevState,
+        currency: selectedCountryData.currency,
+        flag: selectedCountryData.flag,
+      }));
     }
-    if (!data.universityName) {
-      error.universityName.required = true;
-    }
-    if (!data.paymentMethod) {
-      error.paymentMethod.required = true;
-    }
-    if (!data.eligibility) {
-      error.eligibility.required = true;
-    }
-    if (!data.tax) {
-      error.tax.required = true;
-    }
-    if (!data.paymentType) {
-      error.paymentType.required = true;
-    }
-    if (!data.years || data.years.length === 0) {
-      error.years.required = true;
-    }
-
-    return error;
   };
 
-  const handleErrors = (obj) => {
+  const handleCountryChange = (event) => {
+    const selectedCountry = event.target.value;
+    setCommission({ ...commission, country: selectedCountry });
+
+    getUniversitiesByCountry(selectedCountry)
+      .then((res) => {
+        setUniversities(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(
+          `Error fetching universities for ${selectedCountry}:`,
+          err
+        );
+        setUniversities([]);
+      });
+
+    fetchCountryDetails(selectedCountry);
+  };
+
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+    setCommission({ ...commission, [name]: value });
+
+    if (name === "universityName") {
+      const selectedUniversity = universities.find(
+        (u) => u.universityName === value
+      );
+      if (selectedUniversity) {
+        setCommission((prevState) => ({
+          ...prevState,
+          universityId: selectedUniversity._id,
+
+          clientName: selectedUniversity.businessName,
+          courseType: selectedUniversity.courseType,
+        }));
+        setYears((prevYears) =>
+          prevYears.map((year) => ({
+            ...year,
+            courseTypes: [
+              {
+                courseType: selectedUniversity.courseType,
+                intake: "",
+                value: null,
+              },
+            ],
+          }))
+        );
+      }
+    }
+
+    if (submitted) {
+      const newError = handleValidation({ ...commission, [name]: value });
+      setErrors(newError);
+    }
+  };
+    const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const prop = obj[key];
@@ -265,6 +317,7 @@ function AddCommission() {
     return true;
   };
 
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -294,10 +347,10 @@ function AddCommission() {
       };
 
       // Call API to save commission
-      saveCommission(dataToSave)
+      updatedCommission(dataToSave)
         .then((res) => {
           toast.success(res?.data?.message || "Commission saved successfully!");
-          navigate("/commission");
+          navigate("/list_commission");
         })
         .catch((err) => {
           toast.error(
@@ -308,157 +361,358 @@ function AddCommission() {
     }
   };
 
+
   return (
-    <div>
+    <>
       <Sidebar />
-      <div className="container mt-3 p-3">
-        <h2>Add Commission</h2>
-        <form onSubmit={handleSubmit}>
-          {/* Country Select */}
-          <div className="form-group">
-            <label>Country</label>
-            <select
-              name="country"
-              className={`form-control ${errors.country.required ? "is-invalid" : ""
-                }`}
-              value={commission.country}
-              onChange={handleCountryChange}
-            >
-              <option value="">Select Country</option>
-              {countries.map((country) => (
-                <option key={country.country} value={country.country}>
-                  {country.country}
-                </option>
-              ))}
-            </select>
-            {errors.country.required && (
-              <div className="invalid-feedback">Country is required</div>
-            )}
-          </div>
 
-          {/* University Select */}
-          <div className="form-group">
-            <label>University Name</label>
-            <select
-              name="universityName"
-              className={`form-control ${errors.universityName.required ? "is-invalid" : ""
-                }`}
-              value={commission.universityName}
-              onChange={handleInputs}
-            >
-              <option value="">Select University</option>
-              {universities.map((university) => (
-                <option
-                  key={university.universityName}
-                  value={university.universityName}
-                >
-                  {university.universityName}
-                </option>
-              ))}
-            </select>
-            {errors.universityName.required && (
-              <div className="invalid-feedback">
-                University Name is required
-              </div>
-            )}
-          </div>
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+      >
+        <div className="content-header">
 
-          {/* Payment Method */}
-          <div className="form-group">
-            <label>Payment Method</label>
-            <input
-              type="text"
-              name="paymentMethod"
-              className={`form-control ${errors.paymentMethod.required ? "is-invalid" : ""
-                }`}
-              value={commission.paymentMethod}
-              onChange={handleInputs}
-            />
-            {errors.paymentMethod.required && (
-              <div className="invalid-feedback">Payment Method is required</div>
-            )}
-          </div>
+        <BackButton/>
+        
+        </div>
+        <div className="container-fluid">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card border-0 rounded-1 shadow-sm p-3 position-relative">
+                    <div
+                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                      style={{ background: "#fe5722", color: "#fff" }}
+                    >
+                      <h5 className="text-center text-capitalize p-1">
+                        Edit Commission Details
+                      </h5>
+                    </div>
+                    <div className="card-body mt-5">
+                      <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Country<span className="text-danger">*</span>
+                          </label>
+                          <select
+                           class={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
+                            name="country"
+                          
+                            onChange={handleCountryChange}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            value={commission.country?commission.country:"Not Available"}
+                          >
+                            <option value="">Select Country</option>
+                            {countries.map((country) => (
+                              <option key={country._id} value={country.country}>
+                                {country.country}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.country.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
 
-          {/* Commission Paid On */}
-          <div className="form-group">
-            <label>Commission Paid On</label>
-            <input
-              type="text"
-              name="commissionPaidOn"
-              className={`form-control ${errors.commissionPaidOn.required ? "is-invalid" : ""
-                }`}
-              value={commission.commissionPaidOn}
-              onChange={handleInputs}
-            />
-            {errors.commissionPaidOn.required && (
-              <div className="invalid-feedback">
-                Commission Paid On is required
-              </div>
-            )}
-          </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            University<span className="text-danger">*</span>
+                          </label>
 
-          {/* Eligibility */}
-          <div className="form-group">
-            <label>Eligibility</label>
-            <input
-              type="text"
-              name="eligibility"
-              className={`form-control ${errors.eligibility.required ? "is-invalid" : ""
-                }`}
-              value={commission.eligibility}
-              onChange={handleInputs}
-            />
-            {errors.eligibility.required && (
-              <div className="invalid-feedback">Eligibility is required</div>
-            )}
-          </div>
+                          <select
+                            class={`form-select form-select-lg rounded-1 ${
+                              errors.universityName.required ? "is-invalid" : ""
+                            }`}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "14px",
+                            }}
+                            name="universityName"
+                            value={commission.universityName}
+                            onChange={handleInputs}
+                          >
+                            <option
+                              className=" font-weight-light"
+                              value=""
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                            >
+                              Select University
+                            </option>
+                            {universities.map((uni) => (
+                              <option key={uni._id} value={uni.universityName}>
+                                {uni.universityName}
+                              </option>
+                            ))}
+                          </select>
+                          {/* <select
+                           class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
+                            name="universityName"
+                            value={commission.universityName?commission.universityName:"Not Available"}
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="">Select University</option>
+                            {universities.map((uni) => (
+                              <option key={uni._id} value={uni.universityName}>
+                                {uni.universityName}
+                              </option>
+                            ))}
+                          </select> */}
+                          {errors.universityName.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
 
-          {/* Tax */}
-          <div className="form-group">
-            <label>Tax</label>
-            <select
-              name="tax"
-              className={`form-control ${errors.tax.required ? "is-invalid" : ""
-                }`}
-              value={commission.tax}
-              onChange={handleInputs}
-            >
-              <option value="">Select Tax</option>
-              {tax.map((taxItem) => (
-                <option key={taxItem.tax} value={taxItem.tax}>
-                  {taxItem.tax}
-                </option>
-              ))}
-            </select>
-            {errors.tax.required && (
-              <div className="invalid-feedback">Tax is required</div>
-            )}
-          </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            University Id
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            value={commission?.universityId?commission?.universityId:"Not Available"}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className="form-select rounded-2 p-2 "
+                            name="universityId"
+                          >
+                            <option
+                              value={""}
+                              disabled
+                              hidden
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Select UniversityId
+                            </option>
+                            {universities.map((data, index) => (
+                              <option
+                                key={index}
+                                value={data?.universityId}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                {" "}
+                                {data?.universityName}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
 
-          {/* Payment Type */}
-          <div className="form-group">
-            <label>Payment Type</label>
-            <input
-              type="text"
-              name="paymentType"
-              className={`form-control ${errors.paymentType.required ? "is-invalid" : ""
-                }`}
-              value={commission.paymentType}
-              onChange={handleInputs}
-            />
-            {errors.paymentType.required && (
-              <div className="invalid-feedback">Payment Type is required</div>
-            )}
-          </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Payment Method<span className="text-danger">*</span>
+                          </label>
+                          <select
+                          class={`form-select form-select-lg rounded-1 ${errors.paymentMethod.required ? 'is-invalid' : ''}`}
+                            name="paymentMethod"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="">Select Payment Type</option>
+                            <option value="Fixed">Fixed Amount</option>
+                            <option value="Percentage">Percentage</option>
+                          </select>
+                          {errors.paymentMethod.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="row g-2">
+                          {commission.paymentMethod === "Percentage" ? (
+                            <div className="row g-2">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Commission Paid On
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  className="form-select form-select-lg rounded-2"
+                                  name="commissionPaidOn"
+                                  onChange={handleInputs}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  <option value="">
+                                    Select Commission Paid On
+                                  </option>
+                                  <option value="CourseFees">Net Fees</option>
+                                  <option value="PaidFees">Paid Fees</option>
+                                  <option value="PaidFees">Gross Fees</option>
+                                </select>
+                              </div>
+                            </div>
+                          ) : null}
+                        </div>
 
-          {/* Years Section */}
-          {commission.years.map((year, yearIndex) => (
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Eligibility<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={commission?.eligibility}
+                            className={`form-control rounded-1 ${errors.eligibility.required ? 'is-invalid' : errors.eligibility.valid ? 'is-valid' : '' }`}
+                            placeholder="Enter Eligibility"
+                            name="eligibility"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                          {errors.eligibility.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Tax<span className="text-danger">*</span>
+                          </label>
+                          <select
+                        class={`form-select form-select-lg rounded-1 ${errors.tax.required ? 'is-invalid' : ''}`}
+                            name="tax"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            displayEmpty
+                            inputProps={{ "aria-label": "Without label" }}
+                          >
+                            <option value="">Select Tax</option>
+                            {tax.map((data, index) => (
+                              <option key={index} value={data?.tax}>
+                                {" "}
+                                {data?.tax}
+                              </option>
+                            ))}
+                          </select>
+
+                          {errors.tax.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                          <label style={{ color: "#231F20" }}>
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={commission?.clientName}
+                            className={`form-control rounded-1 ${errors.clientName.required ? 'is-invalid' : errors.clientName.valid ? 'is-valid' : '' }`}
+                            placeholder="Enter Client Name"
+                            name="clientName"
+                            onChange={handleInputs}
+                          />
+                          {errors.clientName.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  visually-hidden">
+                          <label style={{ color: "#231F20" }}>Currency</label>
+                          <div sm="9" className="d-flex align-items-center">
+                            {commission.flag && (
+                              <Flags
+                                code={commission.flag}
+                                className="me-2"
+                                style={{ width: "40px", height: "30px" }}
+                                onChange={handleInputs}
+                                name="flag"
+                              />
+                            )}
+                            <input
+                              className="form-control rounded-2"
+                              type="text"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                              name="currency"
+                              value={`${commission.currency}`}
+                              readOnly
+                            />
+                          </div>
+                          {errors.currency.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Payment Type<span className="text-danger">*</span>
+                          </label>
+                          <select
+                           className={`form-control rounded-1 ${errors.paymentType.required ? 'is-invalid' : errors.paymentType.valid ? 'is-valid' : '' }`}
+                            value={commission?.paymentType}
+                            aria-label="Default select example"
+                            name="paymentType"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value=""> Select Payment Type</option>
+                            <option value="One_Time">One Time</option>
+                            <option value="Semester"> Semester </option>
+                          </select>
+                          {errors.paymentType.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="row g-3 mt-3">
+                          <div className="col-12">
+                          {commission.years.map((year, yearIndex) => (
+                            <div className="row g-3">
             <div key={yearIndex}>
+               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
                 <label>Year</label>
                 <select
                   name="year"
-                  className={`form-control ${errors.years.required ? "is-invalid" : ""
+                  className={`form-select rounded-1 ${errors.years.required ? "is-invalid" : ""
                     }`}
                   value={year.year}
                   onChange={(e) =>
@@ -476,15 +730,17 @@ function AddCommission() {
                   <div className="invalid-feedback">Year is required</div>
                 )}
               </div>
-
+              </div>
               {year.courseTypes.map((courseType, courseTypeIndex) => (
-                <div key={courseTypeIndex}>
-                  <div className="form-group">
+                 
+                <div >
+                
+                  <div key={courseTypeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label>Course Type</label>
                    
                     <select
                       name="courseType"
-                      className={`form-control ${errors.courseType?.required ? "is-invalid" : ""
+                      className={`form-select rounded-1 ${errors.courseType?.required ? "is-invalid" : ""
                         }`}
                       value={courseType.courseType}
                       onChange={(e) =>
@@ -518,13 +774,16 @@ function AddCommission() {
                       </div>
                     )}
                   </div>
+              
 
                   {courseType.inTake.map((intake, intakeIndex) => (
-                    <div key={intakeIndex} className="form-group">
+                    
+                      <div className="row g-2">
+                      <div  key={intakeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label>Intake</label>
                      <select
                         name="inTake"
-                        className={`form-control ${errors.intake?.required ? "is-invalid" : ""
+                        className={`form-control ${errors.inTake?.required ? "is-invalid" : ""
                           }`}
                         value={intake.inTake}
                         onChange={(e) =>
@@ -532,7 +791,7 @@ function AddCommission() {
                             yearIndex,
                             courseTypeIndex,
                             intakeIndex,
-                            "intake",
+                            "inTake",
                             e.target.value
                           )
                         }
@@ -553,7 +812,8 @@ function AddCommission() {
                                                   </option>
                                                 ))}
                       </select>
-
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label>Value</label>
                       <input
                         type="text"
@@ -570,59 +830,133 @@ function AddCommission() {
                           )
                         }
                       />
+                      </div>
 
+                      <div className='d-inline text-end'>
                       <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={() =>
-                          removeIntake(yearIndex, courseTypeIndex, intakeIndex)
-                        }
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
+                      type="button"
+                     
+                      className="btn rounded-1 btn-danger "
+                      onClick={() =>
+                        removeIntake(yearIndex, courseTypeIndex, intakeIndex)
+                      }
+                    >
+                      <FaTrash /> Remove Intake
+                    </button>
+                   
+                      </div>
+                    
+                     
+                      </div>
+                     
                   ))}
 
-                  <button
+
+
+
+
+
+
+
+<div className=' text-en my-1'>
+<button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn rounded-1 btn-secondary"
                     onClick={() => addIntake(yearIndex, courseTypeIndex)}
                   >
-                    Add Intake
+                 <i class="fa fa-plus-circle" aria-hidden="true"></i>   Add Intake
                   </button>
-
-                  <button
+</div>
+<div className=' text-end my-1'>
+<button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn rounded-1 btn-danger"
                     onClick={() =>
                       removeCourseType(yearIndex, courseTypeIndex)
                     }
                   >
-                    <FaTrash /> Remove Course Type
+                    <FaTrash /> Remove Course 
                   </button>
-                </div>
-              ))}
+</div>
+                 
 
-              <button
+                 
+                </div>
+               
+              ))}
+<div className=' text-start'>
+<button
                 type="button"
-                className="btn btn-secondary"
+                className="btn rounded-1 btn-secondary"
                 onClick={() => addCourseType(yearIndex)}
               >
-                Add Course Type
+               <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Course 
               </button>
+</div>
+             
+            </div>
             </div>
           ))}
+                          </div>
+                        </div>
+                        <div className="row g-3 ">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
+                            <button
+                              type="button"
+                              className="btn rounded-1 px-4 py-2 text-uppercase fw-semibold  text-white "
+                              style={{
+                                backgroundColor: "#FE5722",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onClick={addYear}
+                            >
+                              <i
+                                class="fa fa-plus-circle me-2"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              Add Year
+                            </button>
 
-          <button type="button" className="btn btn-secondary" onClick={addYear}>
-            Add Year
-          </button>
+                          </div>
+                          
+                        </div>
+                      </div>
 
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+                      <div className="row g-2">
+                        <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                          <Link
+                            to="/list_commission"
+                            style={{
+                              backgroundColor: "#231F20",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className="btn rounded-1 btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                          >
+                            Cancel
+                          </Link>
+                          <button
+                            style={{
+                              backgroundColor: "#FE5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            type="submit"
+                            className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
       </div>
-    </div>
+    </>
   );
 }
 
