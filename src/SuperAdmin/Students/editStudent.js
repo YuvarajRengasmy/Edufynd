@@ -14,6 +14,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import Flags from "react-world-flags";
+import BackButton from "../../compoents/backButton";
 
 function AddAgent() {
     const location = useLocation();
@@ -329,7 +330,10 @@ const getallCodeList = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="content-header ">
-              <div className=" container-fluid ">
+            <BackButton/>
+            
+            </div>
+            <div className=" container-fluid ">
                 <div className="row ">
                   <div className="col-xl-12 ">
                     <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -1394,7 +1398,6 @@ const getallCodeList = () => {
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       

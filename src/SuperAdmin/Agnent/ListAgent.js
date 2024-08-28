@@ -541,7 +541,7 @@ export default function Masterproductlist() {
                     <Link class="btn btn-pix-primary" to="/add_agent">
                       <button
                         className="btn btn-outline  fw-semibold border-0 rounded-1 text-white  "
-                        style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
+                        style={{ backgroundColor: "#231f20", fontSize: "12px" }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
@@ -567,11 +567,11 @@ export default function Masterproductlist() {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#388E3C" }} // Green
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-user-friends" style={{ color: '#ffffff' }}></i> Total Agents
                 </h6>
                 <p className="card-text">Total: 200</p>
@@ -584,11 +584,11 @@ export default function Masterproductlist() {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#1E88E5" }} // Blue
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Status - Active
                 </h6>
                 <p className="card-text">Total: 150</p>
@@ -601,11 +601,11 @@ export default function Masterproductlist() {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#D32F2F" }} // Red
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Status - Inactive
                 </h6>
                 <p className="card-text">Total: 30</p>
@@ -618,11 +618,11 @@ export default function Masterproductlist() {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#FBC02D" }} // Yellow
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-file-invoice" style={{ color: '#ffffff' }}></i> Pending Invoices
                 </h6>
                 <p className="card-text">Total: 50</p>
@@ -635,11 +635,11 @@ export default function Masterproductlist() {
         <div className="col-md-3 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#4CAF50" }} // Light Green
             >
               <div className="card-body">
-                <h6 className="card-title">
+                <h6 className="">
                   <i className="fas fa-money-check-alt" style={{ color: '#ffffff' }}></i> Paid Invoices
                 </h6>
                 <p className="card-text">Total: 120</p>
@@ -653,7 +653,7 @@ export default function Masterproductlist() {
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-0 mt-2 border-0 ">
+                <div className="card rounded-1 shadow-sm mt-2 border-0 ">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex  mb-0">
                     <p className="me-auto ">

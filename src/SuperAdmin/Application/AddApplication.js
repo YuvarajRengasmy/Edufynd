@@ -1,7 +1,9 @@
 import React from 'react'
 import Sidebar from '../../compoents/sidebar';
 import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 export const AddApplication = () => {
+  
   return (
     <>
         
@@ -14,10 +16,15 @@ export const AddApplication = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
-              <div className=" container-fluid ">
+            <BackButton/>
+
+
+              
+            </div>
+            <div className=" container-fluid ">
                 <div className="row ">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
@@ -730,7 +737,7 @@ export const AddApplication = () => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/ListApplication"
+                                  to="/list_application"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel
@@ -755,7 +762,6 @@ export const AddApplication = () => {
                   </div>
                 </div>
               </div>
-            </div>
           </div>
        
      

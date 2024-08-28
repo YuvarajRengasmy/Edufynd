@@ -11,6 +11,7 @@ import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
 import { duration } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
+import BackButton from "../../compoents/backButton";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -238,7 +239,11 @@ export const ViewApplication = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-      
+        <div className="content-header text-end">
+
+<BackButton/>
+
+</div>
         <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">

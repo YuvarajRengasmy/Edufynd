@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from "../../compoents/sidebar";
 import { Link } from 'react-router-dom';
+import BackButton from "../../compoents/backButton";
 export const ViewTestimonials = () => {
   return (
     <>  
@@ -13,6 +14,7 @@ export const ViewTestimonials = () => {
    
     <div className="content-wrapper "  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
         <div className="content-header ">
+        <BackButton/>
         <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">

@@ -220,7 +220,7 @@ import ViewTask from "../SuperAdmin/Project & Task/Task/ViewTask";
 
 import GlobalSearch from "../SuperAdmin/Search/GlobalSearch";
 
-
+import Countrys from '../SuperAdmin/Settings/GlobalSetting/country'
 
 function SuperAdmin() {
   return (
@@ -511,7 +511,7 @@ function SuperAdmin() {
         <Route path="/edit_instagram" element={<PrivateRoute><EditInstagram/></PrivateRoute>}/>
         <Route path="/view_instagram" element={<PrivateRoute><ViewInstagram/></PrivateRoute>}/>
 
-
+<Route path="/countrys" element={<PrivateRoute><Countrys/></PrivateRoute>}/>
 
       </Routes>
 

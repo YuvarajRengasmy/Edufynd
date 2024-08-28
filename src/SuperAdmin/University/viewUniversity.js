@@ -6,7 +6,7 @@ import { IoMailUnread } from "react-icons/io5";
 import banner from "../../styles/Assets/Student/EventBanner.png";
 import { getSingleUniversity } from "../../api/university";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
-
+import BackButton from "../../compoents/backButton";
 import {
   Dialog,
   DialogContent,
@@ -209,8 +209,8 @@ const UserProfile = () => {
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
-          <div className="content-header">
-          
+          <div className="content-header text-end">
+          <BackButton/>
           </div>
           <div className="container-fluid ">
               <div className="row">

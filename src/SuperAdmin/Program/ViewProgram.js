@@ -11,7 +11,7 @@ import { Pagination } from "@mui/material";
 import { toast } from 'react-toastify';
 import { University } from "../../api/endpoints";
 import { RichTextEditor } from "@mantine/rte";
-
+import BackButton from "../../compoents/backButton";
 export const Course = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -213,6 +213,11 @@ const handleSubmit = (event) => {
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <Sidebar />
  <div className="content-wrapper">
+ <div className="content-header text-end">
+
+<BackButton/>
+
+</div>
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">

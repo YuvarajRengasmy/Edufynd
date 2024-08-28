@@ -17,6 +17,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { Program } from "../../api/endpoints";
+import BackButton from "../../compoents/backButton";
 
 function Profile() {
  
@@ -277,7 +278,11 @@ const tableRef = useRef(null);
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
+        <div className="content-header ">
+
+<BackButton/>
+
+
         <nav aria-label="breadcrumb">
   <ol className="breadcrumb float-end">
     <li className="breadcrumb-item">

@@ -3,7 +3,7 @@ import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { updateAdmin, getSingleAdmin } from "../../api/admin";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import BackButton from "../../compoents/backButton";
 function AddAgent() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -32,6 +32,8 @@ function AddAgent() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header ">
+
+        <BackButton/>
           <div className="container-fluid">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
               <div

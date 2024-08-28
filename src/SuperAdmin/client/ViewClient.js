@@ -5,7 +5,7 @@ import { useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import Sidebar from "../../compoents/sidebar";
-
+import BackButton from "../../compoents/backButton";
 const ItemTypes = {
   ROW: "row",
 };
@@ -120,8 +120,12 @@ const AddAgent = () => {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-        <div className="content-header">
-          <div className="container-fluid">
+        <div className="content-header text-end">
+
+        <BackButton/>
+        
+        </div>
+        <div className="container-fluid mt-3">
             <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
               <div
                 className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
@@ -176,7 +180,6 @@ const AddAgent = () => {
               </nav>
             </div>
           </div>
-        </div>
 
         <div className="container-fluid my-2">
   <div className="row ">

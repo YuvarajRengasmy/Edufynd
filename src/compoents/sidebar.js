@@ -1653,10 +1653,10 @@ const Sidebar = () => {
                 title={isCollapsed ? "University" : ""}
                 ref={el => (sidebarRefs.current['/university_settings'] = el)}
               >
-                <i className="fa fa-university nav-icon"></i>   {!isCollapsed && " University"}
+                <i className="fa fa-university nav-icon"></i>   {!isCollapsed && " Global Module"}
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link 
                 to="/course_type" 
                 className={`nav-link sidebar_link ${[
@@ -1669,8 +1669,8 @@ const Sidebar = () => {
               >
                 <i className="fa fa-book nav-icon"></i>   {!isCollapsed && " Course Type"}
               </Link>
-            </li>
-            <li className="nav-item">
+            </li> */}
+            {/* <li className="nav-item">
               <Link 
                 to="/application_status" 
                 className={`nav-link sidebar_link ${[
@@ -1683,7 +1683,7 @@ const Sidebar = () => {
               >
                 <i className="fa fa-book nav-icon"></i>  {!isCollapsed && "  Application Status"}
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link 
                 to="#" 
@@ -1702,7 +1702,7 @@ const Sidebar = () => {
               </Link>
             </li>
            
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link 
                 to="/client_module" 
                 className={`nav-link sidebar_link ${[
@@ -1715,7 +1715,7 @@ const Sidebar = () => {
               >
                 <i className="fa fa-user nav-icon"></i> {!isCollapsed && "  Client "}
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link 
                 to="#" 

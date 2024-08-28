@@ -4,6 +4,7 @@ import { getSingleNotifications } from "../../api/Notification/Notification";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 export const ViewNotifications = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -31,9 +32,10 @@ export const ViewNotifications = () => {
 
         <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
 
-          
+        <BackButton/>
       
           <div className="content-header">
+            
           <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">

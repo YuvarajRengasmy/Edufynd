@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
 import { InputBase } from "@mui/material";
+import BackButton from "../../compoents/backButton";
 export const AddStaff = () => {
   const initialState = {
     photo: "",
@@ -351,7 +352,10 @@ export const AddStaff = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
-              <div className=" container-fluid">
+            <BackButton/>
+             
+            </div>
+            <div className=" container-fluid">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-xl-12 ">
@@ -1403,7 +1407,6 @@ export const AddStaff = () => {
                   </div>
                 </form>
               </div>
-            </div>
           </div>
         </div>
       

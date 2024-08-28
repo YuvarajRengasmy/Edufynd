@@ -272,10 +272,10 @@ export default function GlobalSettings() {
     <div>
      
          
-            <Mastersidebar />
+            {/* <Mastersidebar /> */}
          
-          <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
-            <div className="content-header bg-light shadow-sm sticky-top">
+          <div className=" " >
+            {/* <div className="content-header bg-light shadow-sm sticky-top">
               <div className="container-fluid">
                 <div className="row ">
                   <div className='col-xl-12'>
@@ -377,32 +377,17 @@ export default function GlobalSettings() {
                         </button>
                       </li>
                       <li className="breadcrumb-item">
-                        <button
-                          className="btn btn-primary text-white text-center"
-                          style={{
-                            backgroundColor: "#3498DB",
-                            border: "none",
-                            fontFamily: "Poppins",
-                            fontSize: "14px",
-                            margin: "1px"
-                          }}
-                          type="button"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addCountryModal11"
-                          onClick={() => { handleAddModule () }}
-                        >
-                       Add TypeOfClient
-                        </button>
+                       
                       </li>
                     </ol>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="container-fluid mt-3">
+            </div> */}
+            <div className="container-fluid">
 
               <div className='row'>
-              <div className='col-md-4'>
+              {/* <div className='col-md-4'>
               <div className="card rounded-1 border-0 shadow-sm">
                   <div className="card-header bg-white border-0">
                     <h5 className="card-title fw-semibold text-capitalize" >{isEditing ? "Edit typeOfClient" : "Add typeOfClient"}</h5>
@@ -431,11 +416,27 @@ export default function GlobalSettings() {
                   </div>
                 </div>
 
-              </div>
-              <div className='col-md-8'>
+              </div> */}
+              <div className='col-md-12'>
               <div className="card rounded-1 border-0 shadow-sm">
-                <div className="card-header bg-white border-0" style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                  <h3 className="card-title fw-semibold">Type Of Client</h3>
+                <div className="card-header bg-white border-0 d-flex align-items-center" style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+                  <h3 className="card-title fw-semibold flex-grow-1">Type Of Client</h3>
+                  <button
+                          className="btn btn-primary text-white text-center"
+                          style={{
+                            backgroundColor: "#3498DB",
+                            border: "none",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                            margin: "1px"
+                          }}
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCountryModal11"
+                          onClick={() => { handleAddModule () }}
+                        >
+                       Add TypeOfClient
+                        </button>
                 </div>
                 <div className="card-body">
                   <table className="table table-hover text-nowrap">

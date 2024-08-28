@@ -11,7 +11,7 @@ import Flags from "react-world-flags";
 
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
-
+import BackButton from "../../compoents/backButton";
 function AddCommission() {
   const initialState = {
     country: "",
@@ -337,7 +337,7 @@ function AddCommission() {
       saveCommission(dataToSave)
         .then((res) => {
           toast.success(res?.data?.message || "Commission saved successfully!");
-          navigate("/commission");
+          navigate("/list_commission");
         })
         .catch((err) => {
           toast.error(
@@ -358,7 +358,11 @@ function AddCommission() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-          <div className="container-fluid">
+
+        <BackButton/>
+        
+        </div>
+        <div className="container-fluid">
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-xl-12">
@@ -665,7 +669,7 @@ function AddCommission() {
                 <label>Year</label>
                 <select
                   name="year"
-                  className={`form-control ${errors.years.required ? "is-invalid" : ""
+                  className={`form-select rounded-1 ${errors.years.required ? "is-invalid" : ""
                     }`}
                   value={year.year}
                   onChange={(e) =>
@@ -693,7 +697,7 @@ function AddCommission() {
                    
                     <select
                       name="courseType"
-                      className={`form-control ${errors.courseType?.required ? "is-invalid" : ""
+                      className={`form-select rounded-1 ${errors.courseType?.required ? "is-invalid" : ""
                         }`}
                       value={courseType.courseType}
                       onChange={(e) =>
@@ -784,50 +788,69 @@ function AddCommission() {
                         }
                       />
                       </div>
+
+                      <div className='d-inline text-end'>
                       <button
                       type="button"
                      
-                      className="btn "
+                      className="btn rounded-1 btn-danger "
                       onClick={() =>
                         removeIntake(yearIndex, courseTypeIndex, intakeIndex)
                       }
                     >
-                      <FaTrash />
+                      <FaTrash /> Remove Intake
                     </button>
                    
+                      </div>
+                    
                      
                       </div>
                      
                   ))}
 
-                  <button
+
+
+
+
+
+
+
+<div className=' text-en my-1'>
+<button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn rounded-1 btn-secondary"
                     onClick={() => addIntake(yearIndex, courseTypeIndex)}
                   >
-                    Add Intake
+                 <i class="fa fa-plus-circle" aria-hidden="true"></i>   Add Intake
                   </button>
-
-                  <button
+</div>
+<div className=' text-end my-1'>
+<button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn rounded-1 btn-danger"
                     onClick={() =>
                       removeCourseType(yearIndex, courseTypeIndex)
                     }
                   >
-                    <FaTrash /> Remove Course Type
+                    <FaTrash /> Remove Course 
                   </button>
+</div>
+                 
+
+                 
                 </div>
                
               ))}
-
-              <button
+<div className=' text-start'>
+<button
                 type="button"
-                className="btn btn-secondary"
+                className="btn rounded-1 btn-secondary"
                 onClick={() => addCourseType(yearIndex)}
               >
-                Add Course Type
+               <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Course 
               </button>
+</div>
+             
             </div>
             </div>
           ))}
@@ -837,7 +860,7 @@ function AddCommission() {
                           <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
                             <button
                               type="button"
-                              className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
+                              className="btn rounded-1 px-4 py-2 text-uppercase fw-semibold  text-white "
                               style={{
                                 backgroundColor: "#FE5722",
                                 fontFamily: "Plus Jakarta Sans",
@@ -866,7 +889,7 @@ function AddCommission() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                            className="btn rounded-1 btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                           >
                             Cancel
                           </Link>
@@ -877,7 +900,7 @@ function AddCommission() {
                               fontSize: "12px",
                             }}
                             type="submit"
-                            className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                            className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
                           >
                             Submit
                           </button>
@@ -889,7 +912,6 @@ function AddCommission() {
               </div>
             </form>
           </div>
-        </div>
       </div>
     </>
   );
