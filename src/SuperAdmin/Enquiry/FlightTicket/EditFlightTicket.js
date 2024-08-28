@@ -331,6 +331,7 @@ export const Addflight = () => {
                             }}
                             className="form-select form-select-lg rounded-2 "
                             name="studentName"
+                            value={flight?.studentName}
                           >
                             <option value="">Select students</option>
                             {students.length > 0 ? (
@@ -367,6 +368,7 @@ export const Addflight = () => {
                             }}
                             className="form-select form-select-lg rounded-2 "
                             name="agentName"
+                            value={flight?.agentName}
                           >
                             <option value="">Select Agent</option>
                             {agent.length > 0 ? (

@@ -501,6 +501,7 @@ export const AddAccommodation = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="studentName"
+                          value={forex?.studentName}
                         >
                           <option value="">Select students</option>
                           {students.length > 0 ? (
@@ -536,6 +537,7 @@ export const AddAccommodation = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="agentName"
+                          value={forex?.agentName}
                         >
                           <option value="">Select Agent</option>
                           {agent.length > 0 ? (

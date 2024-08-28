@@ -422,6 +422,7 @@ export const AddForex = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="source"
+                          value={forex.source}
                         >
                           <option value="">Select Source</option>
                           {source.length > 0 ? (
@@ -457,6 +458,7 @@ export const AddForex = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="studentName"
+                          value={forex.studentName}
                         >
                           <option value="">Select students</option>
                           {students.length > 0 ? (
@@ -492,6 +494,7 @@ export const AddForex = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="agentName"
+                          value={forex?.agentName}
                         >
                           <option value="">Select Agent</option>
                           {agent.length > 0 ? (
@@ -682,6 +685,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.name}
                       />
                       {errors.name.required ? (
                         <div className="text-danger form-text">
@@ -708,6 +712,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.passportNo}
                       />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
@@ -734,6 +739,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.expiryDate}
                       />
                       {errors.expiryDate.required ? (
                         <div className="text-danger form-text">
@@ -756,6 +762,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.email}
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
@@ -899,6 +906,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.universityName}
                       />
                       {errors.universityName.required ? (
                         <div className="text-danger form-text">
@@ -926,6 +934,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.courseType}
                       />
                       {errors.courseType.required ? (
                         <div className="text-danger form-text">
@@ -947,6 +956,7 @@ export const AddForex = () => {
                           fontSize: "12px",
                         }}
                         id="inputpayment"
+                        value={forex?.paymentType}
                       >
                         <option>Payment Type</option>
                         <option value="Tuition_Fees"> Tuition Fees</option>
@@ -1040,6 +1050,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.assignedTo}
                         id="inputassignedto"
                       >
                         <option>Assigned To</option>
@@ -1062,6 +1073,7 @@ export const AddForex = () => {
                         id="inputamount"
                         name="value"
                         onChange={handleInputs}
+                        value={forex?.value}
                         type="number"
                         placeholder="Enter Mark up"
                         style={{
@@ -1085,6 +1097,7 @@ export const AddForex = () => {
                         id="inputamount"
                         name="markUp"
                         onChange={handleInputs}
+                        value={forex?.markUp}
                         type="text"
                         placeholder="Enter Mark up"
                         style={{
@@ -1108,6 +1121,7 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputamount"
                         onChange={handleInputs}
+                        value={forex?.profit}
                         name="profit"
                         type="text"
                         placeholder="Enter Profit"
@@ -1126,7 +1140,7 @@ export const AddForex = () => {
                     <div className="row g-2">
                       <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                         <Link
-                          to="/ListForexForm"
+                          to="/list_forex_form"
                           style={{
                             backgroundColor: "#231F20",
                             fontFamily: "Plus Jakarta Sans",
