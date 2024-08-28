@@ -123,13 +123,13 @@ export const StudentForm = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-phone-alt"></i> Primary Number:
                       </div>
-                      <div class="col-6"> {student.dial1 || "+"}{student?.primaryNumber || "Not Available"}</div>
+                      <div class="col-6"> {student?.dial1 + " " +student?.primaryNumber  || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fab fa-whatsapp "></i> WhatsApp Number:
                       </div>
-                      <div class="col-6"> {student.dial2 || "+"}{student?.whatsAppNumber || "Not Available"}</div>
+                      <div class="col-6"> {student?.dial2 + " " +student?.whatsAppNumber || "Not Available"}</div>
                     </div>
                   </div>
                 </div>
@@ -305,9 +305,8 @@ export const StudentForm = () => {
                       </div>
                       <div class="col-6">
                         {" "}
-                        {student.dial || "+"} {student?.refereeContactNo
-                          ? student?.refereeContactNo
-                          : "N/A" || "Not Available"}
+                       { student?.dial + " " +student?.refereeContactNo || "Not Available"}
+                        
                       </div>
                     </div>
                     <div class="row mb-3">
