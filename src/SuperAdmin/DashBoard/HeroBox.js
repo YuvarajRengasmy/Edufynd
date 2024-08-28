@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar, Line } from "react-chartjs-2";
 import Sidebar from "../../compoents/sidebar";
 import 'chart.js/auto';
-import BackButton from "../../compoents/backButton";
+// import BackButton from "../../compoents/backButton";
 import {
   FaTrash, FaListAlt, FaChartBar, FaUser, FaFileAlt, FaSuitcase, FaRegChartBar, FaCalendarAlt, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaCommentsDollar, FaFileInvoice, FaBuilding, FaShieldAlt, FaGlobe, FaCogs, FaTrophy, FaEnvelopeOpenText, FaExclamationCircle,
   FaMoneyBillWave, FaCheckCircle, FaComments, FaEnvelope, FaPhone, FaDollarSign, FaUserAlt, FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram, FaBell, FaChartLine, FaUserCog, FaBullhorn
@@ -119,15 +119,8 @@ export const HeroContent = () => {
       <Sidebar />
     
       <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-    
-        <div className="container-fluid  " >
-          <div className="row">
-            <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
-            <BackButton/>
-           
-              <div className="d-flex justify-content-between align-items-center">
-  {/* Container for the header and profile button */}
-  <div>
+      <div className="content-header bg-light sticky-top shadow-sm mb-0">
+      <div className="float-start">
     {/* Main title of the dashboard */}
     <h1 className="fw-bold mb-1" style={{ color: '#0056b3', fontSize: '24px' }}>
       Dashboard
@@ -137,9 +130,8 @@ export const HeroContent = () => {
     <DateTimeDisplay date={currentDate} />
     </p>
   </div>
-  
-  {/* Button to open the off-canvas profile menu */}
-  <button
+        <div className="float-end">
+        <button
     className="btn"
     style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}
     type="button"
@@ -149,6 +141,21 @@ export const HeroContent = () => {
   >
     Profile {/* Button label */}
   </button>
+        </div>
+           
+            </div>
+        <div className="container-fluid  " >
+          <div className="row">
+            <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+            {/* <BackButton/> */}
+         
+           
+              <div className="d-flex justify-content-between align-items-center">
+  {/* Container for the header and profile button */}
+
+  
+  {/* Button to open the off-canvas profile menu */}
+ 
  
 </div>
 
