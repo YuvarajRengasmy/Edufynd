@@ -6,6 +6,9 @@ import Institution from "./University/InstitutionType .js";
 import OfferTat from "./University/OfferTAT.js" ;
 import PaymentMethod from "./University/PaymentMethod.js";
 import Tax from "./University/tax.js";
+import CourseType from "./programModule.js";
+import ApplicationStatus from './University/ApplicationStatus.js'
+import Client from './clientModule.js'
 export const UniversityModule = () => {
 
     return (
@@ -25,7 +28,10 @@ export const UniversityModule = () => {
   <li class="nav-item">  <a className="nav-link" id="institution-tab" data-bs-toggle="tab" href="#tab-institution" role="tab" aria-controls="tab-institution" aria-selected="false" tabindex="-1">Institution Type</a></li>
   <li class="nav-item"><a className="nav-link" id="offertat-tab" data-bs-toggle="tab" href="#tab-offertat" role="tab" aria-controls="tab-offertat" aria-selected="false" tabindex="-1">Offertat</a></li>
   <li class="nav-item"> <a className="nav-link" id="payment-tab" data-bs-toggle="tab" href="#tab-payment" role="tab" aria-controls="tab-payment" aria-selected="false" tabindex="-1">Payment Method</a></li>
+  
 </ul>
+
+
                     <div className='col-md-4 d-lg-block d-none'>
                   
     <div className='card border-0 rounded-1 shadow-sm  '>
@@ -49,6 +55,17 @@ export const UniversityModule = () => {
                 <li className="list-group-item" role="presentation">
                     <a className="nav-link" id="payment-tab" data-bs-toggle="tab" href="#tab-payment" role="tab" aria-controls="tab-payment" aria-selected="false" tabindex="-1">Payment Method</a>
                 </li>
+                <li className="list-group-item" role="presentation">
+                    <a className="nav-link" id="payment-tab" data-bs-toggle="tab" href="#tab-coursetype" role="tab" aria-controls="tab-coursetype" aria-selected="false" tabindex="-1">Course Type</a>
+                </li>
+                <li className="list-group-item" role="presentation">
+                    <a className="nav-link" id="payment-tab" data-bs-toggle="tab" href="#tab-application" role="tab" aria-controls="tab-application" aria-selected="false" tabindex="-1">Application Status</a>
+                </li>
+                <li className="list-group-item" role="presentation">
+                    <a className="nav-link" id="payment-tab" data-bs-toggle="tab" href="#tab-client" role="tab" aria-controls="tab-client" aria-selected="false" tabindex="-1">Client</a>
+                </li>
+
+
                 {/* <li className="list-group-item" role="presentation">
                     <a className="nav-link" id="country-tab" data-bs-toggle="tab" href="#tab-country" role="tab" aria-controls="tab-country" aria-selected="false" tabindex="-1">Payment Method</a>
                 </li> */}
@@ -80,6 +97,15 @@ export const UniversityModule = () => {
                 {/* <div className="tab-pane fade" id="tab-country" role="tabpanel" aria-labelledby="country-tab">
                  <Country />
                 </div> */}
+                 <div className="tab-pane fade" id="tab-coursetype" role="tabpanel" aria-labelledby="coursetype-tab">
+              <CourseType/>
+                </div>
+                <div className="tab-pane fade" id="tab-application" role="tabpanel" aria-labelledby="application-tab">
+               <ApplicationStatus/>
+                </div>
+                <div className="tab-pane fade" id="tab-client" role="tabpanel" aria-labelledby="client-tab">
+               <Client/>
+                </div>
 
             </div>
         
