@@ -376,7 +376,7 @@ const [dial, setDial] = useState([]);
     }}
     name="businessName"
     onChange={handleInputs}
-    className={`form-control rounded-1 ${
+    className={`form-control rounded-1 text-capitalize ${
       errors.businessName.required ? 'is-invalid' : errors.businessName.valid ? 'is-valid' : ''
     }`}
     placeholder="Example John Doe"
@@ -432,7 +432,7 @@ const [dial, setDial] = useState([]);
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-lowercase ${
                               errors.businessMailID.required ? 'is-invalid' : errors.businessMailID.valid ? 'is-valid' : ''
                             }`}
                             placeholder="Example john123@gmail.com"

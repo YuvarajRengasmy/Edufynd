@@ -20,7 +20,8 @@ import Flags from "react-world-flags";
 import { getallCode } from "../../../api/settings/dailcode";
 
 import Mastersidebar from "../../../compoents/sidebar";
-
+import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { RichTextEditor } from "@mantine/rte";
 export const AddStudentForm = () => {
 
   const location = useLocation();

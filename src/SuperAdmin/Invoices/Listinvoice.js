@@ -466,15 +466,29 @@ export const Listinvoice = () => {
                     </table>
                   </div>
                 </div>
-                <div className="float-right my-2">
-                        <Pagination
-                          count={Math.ceil(pagination.count / pageSize)}
-                          onChange={handlePageChange}
-                          variant="outlined"
-                          shape="rounded"
-                          color="primary"
-                        />
-                      </div>
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries    out of 100
+                        </p> 
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div>
+                
               </div>
             </div>
           </div>
