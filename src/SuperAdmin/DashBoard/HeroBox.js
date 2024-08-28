@@ -119,31 +119,32 @@ export const HeroContent = () => {
       <Sidebar />
     
       <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-      <div className="content-header bg-light sticky-top shadow-sm mb-0">
-      <div className="float-start">
-    {/* Main title of the dashboard */}
-    <h1 className="fw-bold mb-1" style={{ color: '#0056b3', fontSize: '24px' }}>
-      Dashboard
-    </h1>
-    {/* Current date displayed in smaller text */}
-    <p className="text-secondary" style={{ fontSize: '16px' }}>
-    <DateTimeDisplay date={currentDate} />
-    </p>
+      <div className="content-header bg-light sticky-top shadow-sm mb-2 pb-0">
+  <div className="d-flex justify-content-between align-items-center ">
+    <div className="d-flex flex-column">
+      {/* Main title of the dashboard */}
+      <h6 className="fw-bold mb-0" style={{ color: '#0056b3' }}>
+        Dashboard
+      </h6>
+      {/* Current date displayed in smaller text */}
+      <p className="text-secondary mb-0" >
+        <DateTimeDisplay date={currentDate} />
+      </p>
+    </div>
+    <button
+      className="btn"
+      style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasProfile"
+      aria-controls="offcanvasProfile"
+    >
+      Profile {/* Button label */}
+    </button>
   </div>
-        <div className="float-end">
-        <button
-    className="btn"
-    style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}
-    type="button"
-    data-bs-toggle="offcanvas" 
-    data-bs-target="#offcanvasProfile" 
-    aria-controls="offcanvasProfile" 
-  >
-    Profile {/* Button label */}
-  </button>
-        </div>
-           
-            </div>
+</div>
+
+
         <div className="container-fluid  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">

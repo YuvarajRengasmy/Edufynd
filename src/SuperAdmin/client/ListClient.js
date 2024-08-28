@@ -338,7 +338,7 @@ export default function Masterproductlist() {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       >
-        <div className="content-header bg-light shadow-sm sticky-top">
+        <div className="content-header bg-light shadow-sm sticky-top mb-2 ">
           <div className="container-fluid">
             <div className="row">
               <div className="col-12">
@@ -348,7 +348,7 @@ export default function Masterproductlist() {
                     <form onSubmit={handleSearch}>
                       <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
-                          className="form-control border-1 border-dark rounded-4"
+                          className="form-control form-control-sm border-1 border-dark rounded-4"
                           placeholder="Search..."
                           type="search"
                           aria-describedby="button-addon3"
