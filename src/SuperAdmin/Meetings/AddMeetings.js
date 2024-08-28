@@ -147,13 +147,17 @@ export const AddMeetings = () => {
       setErrors(newError);
     }
   };
-  const handleSelectChange = (selectedOptions, action) => {
+
+
+  const handleSelectChange = (selectedOption, action) => {
     const { name } = action;
-    const values = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
+    const value = selectedOption ? selectedOption.value : "";
+    setnotification((prevNotification) => ({
+      ...prevNotification,
+      [name]: value,
+    }));
   };
+  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -265,25 +269,24 @@ export const AddMeetings = () => {
                       <div className="card-body mt-5">
                         <div className="row g-3">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                             <label style={{ color: "#231F20" }}>
-                              Host Name<span className="text-danger">*</span>
-                             </label>
-                            <Select
-                             isMulti
-                             placeholder="Select staff"
-                             onChange={handleSelectChange}
-                              options={staffOptions}
-                             name="hostName"
-                             
-                             styles={customStyles}
-                             className="submain-one-form-body-subsection-select"
-                           />
-                             {errors.attendees.required ? (
-                               <div className="text-danger form-text">
-                                 This field is required.
-                               </div>
-                             ) : null}
-                           </div>
+  <label style={{ color: "#231F20" }}>
+    Host Name<span className="text-danger">*</span>
+  </label>
+  <Select
+    placeholder="Select staff"
+    onChange={handleSelectChange}
+    options={staffOptions}
+    name="hostName"
+    styles={customStyles}
+    className="submain-one-form-body-subsection-select"
+  />
+  {errors.hostName.required && (
+    <div className="text-danger form-text">
+      This field is required.
+    </div>
+  )}
+</div>
+
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                             Type of user{" "}
