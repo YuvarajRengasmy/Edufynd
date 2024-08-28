@@ -4,6 +4,7 @@ import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 export const ViewTraining = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -30,7 +31,7 @@ export const ViewTraining = () => {
 
         <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header">
-
+          <BackButton/>
           <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">
     <li className="breadcrumb-item">

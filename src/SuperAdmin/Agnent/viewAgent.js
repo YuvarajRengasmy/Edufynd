@@ -3,6 +3,7 @@ import { getSingleAgent } from "../../api/agent";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -32,6 +33,7 @@ function Profile() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header">
+        <BackButton/>
 
         <nav aria-label="breadcrumb">
   <ol className="breadcrumb justify-content-end">

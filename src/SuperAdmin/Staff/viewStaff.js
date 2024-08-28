@@ -3,6 +3,7 @@ import Mastersidebar from "../../compoents/sidebar";
 import { useLocation } from "react-router-dom";
 import { getSingleStaff } from "../../api/staff";
 import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 export const ViewStaff = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -34,6 +35,9 @@ export const ViewStaff = () => {
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
           <div className="content-header">
+
+
+          <BackButton/>
           <nav aria-label="breadcrumb">
   <ol className="breadcrumb float-end">
     <li className="breadcrumb-item">

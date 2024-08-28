@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar, Line } from "react-chartjs-2";
 import Sidebar from "../../compoents/sidebar";
 import 'chart.js/auto';
+import BackButton from "../../compoents/backButton";
 import {
   FaTrash, FaListAlt, FaChartBar, FaUser, FaFileAlt, FaSuitcase, FaRegChartBar, FaCalendarAlt, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaCommentsDollar, FaFileInvoice, FaBuilding, FaShieldAlt, FaGlobe, FaCogs, FaTrophy, FaEnvelopeOpenText, FaExclamationCircle,
   FaMoneyBillWave, FaCheckCircle, FaComments, FaEnvelope, FaPhone, FaDollarSign, FaUserAlt, FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram, FaBell, FaChartLine, FaUserCog, FaBullhorn
@@ -116,10 +117,13 @@ export const HeroContent = () => {
   return (
     <div >
       <Sidebar />
+    
       <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+    
         <div className="container-fluid  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+            <BackButton/>
               <div className="container-fluid ">
               <div className="d-flex justify-content-between align-items-center">
   {/* Container for the header and profile button */}
@@ -145,6 +149,7 @@ export const HeroContent = () => {
   >
     Profile {/* Button label */}
   </button>
+ 
 </div>
 
 
