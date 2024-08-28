@@ -373,7 +373,7 @@ export default function GlobalSettings() {
                                 />
                               </div>
                               <div className="mb-3">
-                                <label htmlFor="endDate" className="form-label">End Date</label>
+                                <label htmlFor="endDate" className="form-label">Currency</label>
                                 <input
                                   type="text"
                                   className="form-control"
@@ -495,7 +495,7 @@ Country Name<span className="text-danger">*</span>
                  
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="currency" className="form-label">End Date</label>
+                  <label htmlFor="currency" className="form-label">Currency</label>
                   <input
                     type="text"
                     className="form-control"
@@ -605,69 +605,7 @@ Country Name<span className="text-danger">*</span>
           </DialogContent>
         </Dialog>
       </div>
-      {/* <div className="modal fade" id="addPopularModal5" tabIndex="-1" aria-labelledby="addModalLabelCurrency" aria-hidden="true" ref={modalRef}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="addModalLabelCurrency">{isEdit ? "Edit Currency" : "Add Currency"}</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleSubmit} noValidate>
-              <div className="mb-3">
-
-<label style={{ color: "#231F20" }}>
-  {" "}
-Country Name<span className="text-danger">*</span>
-</label>
-<select onChange={handleInputs} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} className="form-select rounded-2 p-2 " name='country'>
-  <option value={""}  >Select Country</option>
-  {country.map((country, index) =>
-          Array.isArray(country.country) && country.country.map((countryName, countryIndex) => (
-  
-    
-       <option key={`${index}-${countryIndex}`} value={countryName}> {countryName}</option>
-     ))
-  )}
-</select>
-{errors.country.required ? (
-  <div className="text-danger form-text">
-    This field is required.
-  </div>
-) : null}
-</div>
-                <div className="mb-3">
-                  <label htmlFor="text" className="form-label">Flag</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="flag"
-                    name="flag"
-                    value={inputs.flag}
-                    onChange={handleInputs}
-                  />
-                 
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="currency" className="form-label">End Date</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="currency"
-                    name="currency"
-                    value={inputs.currency}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.currency.required && (
-                    <span className="text-danger">currency is required</span>
-                  )}
-                </div>
-                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      
    
    
     </div>

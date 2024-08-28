@@ -48,7 +48,7 @@ export const ListLoanEnquiry = () => {
     };
     getallLoanEnquiry(data)
       .then((res) => {
-        console.log("loan", res);
+        setPagination({ ...pagination, count: res?.data?.count });
         setLoan(res?.data?.result);
       })
       .catch((err) => {
