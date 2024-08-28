@@ -151,7 +151,7 @@ export const ViewLoanEnquiry = () => {
                             </a>
                             <a
                               href={loan.uploadPassport}
-                              download="Passport.pdf"
+                              download
                               rel="noopener noreferrer"
                               className="btn btn-sm mx-2"
                               style={{
@@ -170,45 +170,45 @@ export const ViewLoanEnquiry = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td className="fw-bold">Offer Letter</td>
-                      <td>
-                        {loan?.uploadOfferletter ? (
-                          <div>
-                            <a
-                              href={loan.uploadOfferletter}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn btn-sm mx-2"
-                              style={{
-                                background: "#fe5722",
-                                color: "#fff",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <i class="fa fa-eye" aria-hidden="true"></i> Offer
-                              Letter
-                            </a>
-                            <a
-                              href={loan.uploadOfferletter}
-                              download="offer_letter.pdf"
-                              rel="noopener noreferrer"
-                              // Reference to trigger click
-                              className="btn btn-sm mx-2"
-                              style={{
-                                background: "#fe5722",
-                                color: "#fff",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <i class="fa fa-download" aria-hidden="true"></i>{" "}
-                              Offer Letter
-                            </a>
-                          </div>
-                        ) : (
-                          "No document available"
-                        )}
-                      </td>
-                    </tr>
+  <td className="fw-bold">Offer Letter</td>
+  <td>
+    {loan?.uploadOfferletter ? (
+      <div>
+        {/* View Offer Letter */}
+        <a
+          href={loan.uploadOfferletter}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-sm mx-2"
+          style={{
+            background: "#fe5722",
+            color: "#fff",
+            fontSize: "12px",
+          }}
+        >
+          <i className="fa fa-eye" aria-hidden="true"></i> Offer Letter
+        </a>
+
+        {/* Download Offer Letter */}
+        <a
+          href={loan.uploadOfferletter}
+          download
+          className="btn btn-sm mx-2"
+          style={{
+            background: "#fe5722",
+            color: "#fff",
+            fontSize: "12px",
+          }}
+        >
+          <i className="fa fa-download" aria-hidden="true"></i> Offer Letter
+        </a>
+      </div>
+    ) : (
+      "No document available"
+    )}
+  </td>
+</tr>
+
                   </tbody>
                 </table>
               </div>

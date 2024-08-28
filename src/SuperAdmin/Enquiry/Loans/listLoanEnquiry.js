@@ -48,6 +48,7 @@ export const ListLoanEnquiry = () => {
     };
     getallLoanEnquiry(data)
       .then((res) => {
+        console.log("loan", res);
         setLoan(res?.data?.result);
       })
       .catch((err) => {

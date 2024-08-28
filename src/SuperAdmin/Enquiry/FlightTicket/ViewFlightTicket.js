@@ -63,64 +63,82 @@ export const ViewFlightTicket = () => {
                   className="table table-hover table-bordered table-striped-columns mt-5"
                   style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
                 >
-                  <tbody>
-                    <tr>
-                      <td className="fw-bold">Name of the Student</td>
-                      <td>{flight?.studentName || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Passport Number</td>
-                      <td>{flight?.passportNo || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Source</td>
-                      <td>{flight?.source || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Agent Name</td>
-                      <td>{flight?.agentName || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Agent Business Name</td>
-                      <td>{flight?.agentBusinessName || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Agent Primary Number</td>
-                      <td>{flight?.agentPrimaryNumber || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Agent WhatsApp Number</td>
-                      <td>{flight?.agentWhatsappNumber || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Agent Email ID</td>
-                      <td>{flight?.agentEmail || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Student Primary Number</td>
-                      <td>{flight?.primaryNumber || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Student WhatsApp Number</td>
-                      <td>{flight?.whatsappNumber || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Student Email ID</td>
-                      <td>{flight?.email || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Location: From</td>
-                      <td>{flight?.from || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Location: To</td>
-                      <td>{flight?.to || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Date of Travel</td>
-                      <td>{flight?.dateOfTravel || "Not Available"}</td>
-                    </tr>
-                  </tbody>
+                 <tbody>
+  {/* Student Details */}
+  <tr>
+    <td className="fw-bold">Name of the Student</td>
+    <td>{flight?.name || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Passport Number</td>
+    <td>{flight?.passportNo || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Student Primary Number</td>
+    <td>{flight?.dial1  +"  "+ flight?.primaryNumber || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Student WhatsApp Number</td>
+    <td>{flight?.dial2  +"  "+ flight?.whatsAppNumber || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Student Email ID</td>
+    <td>{flight?.email || "Not Available"}</td>
+  </tr>
+
+  {/* Conditionally render Agent Details if available */}
+  {flight?.agentName ? (
+    <>
+      <tr>
+        <td className="fw-bold">Source</td>
+        <td>{flight?.source || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Name</td>
+        <td>{flight?.agentName || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Business Name</td>
+        <td>{flight?.businessName || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Primary Number</td>
+        <td>{flight?.dial3  +"  "+ flight?.agentPrimaryNumber || "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent WhatsApp Number</td>
+        <td>{ flight?.dial4  +"  "+ flight?.agentWhatsAppNumber|| "Not Available"}</td>
+      </tr>
+      <tr>
+        <td className="fw-bold">Agent Email ID</td>
+        <td>{flight?.agentEmail || "Not Available"}</td>
+      </tr>
+    </>
+  ) : (
+    <>
+      <tr>
+        <td className="fw-bold">Name of the Student</td>
+        <td>{flight?.studentName || "Not Available"}</td>
+      </tr>
+      
+    </>
+  )}
+
+  {/* Common Fields */}
+  <tr>
+    <td className="fw-bold">Location: From</td>
+    <td>{flight?.from || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Location: To</td>
+    <td>{flight?.to || "Not Available"}</td>
+  </tr>
+  <tr>
+    <td className="fw-bold">Date of Travel</td>
+    <td>{flight?.dateOfTravel || "Not Available"}</td>
+  </tr>
+</tbody>
+
                 </table>
               </div>
             </div>

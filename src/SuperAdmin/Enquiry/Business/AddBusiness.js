@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-import { saveStudnetEnquiry } from "../../../api/Enquiry/student";
+import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
 
 import Mastersidebar from "../../../compoents/sidebar";
 
@@ -132,7 +132,7 @@ export const AddBusiness = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveStudnetEnquiry(student)
+      saveBusinessEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/ListBusinessEnquiry");
