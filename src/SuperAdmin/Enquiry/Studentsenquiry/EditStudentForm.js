@@ -304,6 +304,8 @@ export const AddStudentForm = () => {
             agentPrimaryNumber: selectedAgent.mobileNumber,
             agentWhatsAppNumber: selectedAgent.whatsAppNumber,
             agentEmail: selectedAgent.email,
+            dial1: selectedAgent.dial1,
+            dial2: selectedAgent.dial2,
           };
          
    

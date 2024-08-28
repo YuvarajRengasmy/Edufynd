@@ -285,10 +285,13 @@ export const AddForex = () => {
             agentPrimaryNumber: selectedAgent.mobileNumber,
             agentWhatsAppNumber: selectedAgent.whatsAppNumber,
             agentEmail: selectedAgent.email,
+            dial1: selectedAgent.dial1,
+            dial2: selectedAgent.dial2
           };
         }
       }
   
+
       if (name === "country") {
         const selectedCountryData = countries.find(
           (country) => country.country === value
@@ -518,7 +521,7 @@ export const AddForex = () => {
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial3} >
-  
+    <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -582,7 +585,7 @@ export const AddForex = () => {
   <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial4}
   onChange={handleInputs}>
-    
+      <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -760,7 +763,7 @@ export const AddForex = () => {
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial1} >
-  
+  <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -824,7 +827,7 @@ export const AddForex = () => {
   <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial2}
   onChange={handleInputs}>
-    
+    <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
