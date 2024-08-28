@@ -18,7 +18,7 @@ import Select from "react-select";
 import { getFilterCountry } from "../../api/globalsettings";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-
+import BackButton from "../../compoents/backButton";
 function EditAgent() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -368,7 +368,11 @@ function EditAgent() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-          <div className="container-fluid">
+
+        <BackButton/>
+         
+        </div>
+        <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -1227,7 +1231,6 @@ function EditAgent() {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );
