@@ -41,7 +41,7 @@ export const ViewApplication = () => {
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
   const [payment ,setPayment]=useState({
-    amount: 2000,
+    amount: 20*10,
     name: "applicationFee",
   });
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
@@ -242,7 +242,7 @@ export const ViewApplication = () => {
   const handlePayment = (token) => {
     const data = {
       token,
-      amount: 2000,
+      amount: 20*10,
       name: "applicationFee",
 
     };
@@ -335,7 +335,7 @@ export const ViewApplication = () => {
         token={handlePayment}
         name="applicationFee"
         currency="INR"
-        amount={payment?.amount * 100} // Amount in paise (1 INR = 100 paise)
+        amount={payment?.amount * 10} // Amount in paise (1 INR = 100 paise)
       >
   <button className="btn btn-primary btn-sm" style={{marginRight:"0.5rem"}}>Pay Now</button>
 </StripeCheckout>
