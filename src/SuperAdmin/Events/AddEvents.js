@@ -532,6 +532,17 @@ export const AddEvents = () => {
     />
                        
                         </div>
+                    
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                        <label style={{ color: "#231F20" }}>
+                              File<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="file"
+                              className="form-control "/>
+                        </div>
+                        <div className="text-end"><button className="btn btn-primary">Add</button></div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link
