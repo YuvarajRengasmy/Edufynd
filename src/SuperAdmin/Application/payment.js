@@ -4,16 +4,23 @@ import {savePaymentGetWay } from "../../api/invoice/payment";
 import StripeCheckout from 'react-stripe-checkout';
 
 const PaymentComponent = ({ Program }) => {
-  
+    const [payment ,setPayment]=useState({
+        applicationFee: 200*10,
+        name: "applicationFee",
+      });
+      const modalRef = useRef(null);
+
     const handlePayment = (token) => {
         const data = {
-          _id: id,
-          applicationFee: token,
+          token,
+          applicationFee: 20*100,
+          name: "applicationFee",
+    
         };
         savePaymentGetWay (data)
           .then((res) => {
             toast.success("Successfully added payment");
-            getAllModuleDetails();
+            // getAllModuleDetails();
             if (modalRef.current) {
               modalRef.current.click(); // Close the modal
             }
@@ -21,19 +28,20 @@ const PaymentComponent = ({ Program }) => {
           .catch((err) => console.log(err));
       };
     
+    
 
   return (
     <div>
-      <StripeCheckout
+                      <StripeCheckout
         stripeKey="pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY"
         token={handlePayment}
-        name="payment"
+        name="applicationFee"
         currency="INR"
-        amount={10 * 100} // Amount in paise (1 INR = 100 paise)
+        amount={payment?.applicationFee * 100} // Amount in paise (1 INR = 100 paise)
       >
-        <button className="btn btn-primary btn-sm" style={{marginRight:"0.5rem"}}>Pay Now</button>
-      </StripeCheckout>
-    </div>
+  <button className="btn btn-primary btn-sm" style={{marginRight:"0.5rem"}}>Pay Now</button>
+</StripeCheckout>
+                      </div>
   );
 };
 
