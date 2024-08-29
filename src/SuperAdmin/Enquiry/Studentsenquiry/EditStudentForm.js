@@ -382,6 +382,8 @@ export const AddStudentForm = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    }else {
+      toast.error("Please Fill  Mandatory Fields");
     }
   };
 
@@ -416,7 +418,7 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className={`form-select form-select-lg rounded-2 ${errors.source.required ? 'is-invalid' : ''}`}
                           name="source"
                           value={student.source}
                         >

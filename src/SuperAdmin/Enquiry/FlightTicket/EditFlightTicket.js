@@ -260,6 +260,8 @@ export const Addflight = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    }else {
+      toast.error("Please Fill  Mandatory Fields");
     }
   };
 

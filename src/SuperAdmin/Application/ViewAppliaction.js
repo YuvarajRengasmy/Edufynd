@@ -302,6 +302,89 @@ export const ViewApplication = () => {
                             <small>(75%) Completed</small>
                           </div>
                         </div>
+
+
+
+                        
+    <div>
+ 
+  <div className="modal fade" id="applicationFeesModal" aria-hidden="true" aria-labelledby="applicationFeesModalLabel" tabIndex={-1}>
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h1 className="modal-title fs-5" id="applicationFeesModalLabel">Application Fees</h1>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+        </div>
+        <div className="modal-body">
+          <h5 className="mb-3">Review Application Fees</h5>
+          <div className="mb-3">
+            <p><strong>Course Name:</strong> Advanced Web Development</p>
+            <p><strong>Fee:</strong> $1500</p>
+            <p><strong>Additional Charges:</strong> $50 (Processing Fee)</p>
+          </div>
+          <hr />
+          <div className="d-flex justify-content-between align-items-center">
+            <h5>Total:</h5>
+            <h5>$1550</h5>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-primary" data-bs-target="#paymentModal" data-bs-toggle="modal">Proceed to Payment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div className="modal fade" id="paymentModal" aria-hidden="true" aria-labelledby="paymentModalLabel" tabIndex={-1}>
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h1 className="modal-title fs-5" id="paymentModalLabel">Payment</h1>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+        </div>
+        <div className="modal-body">
+          <h5 className="mb-3">Choose Payment Method</h5>
+          <div className="mb-3">
+            <label htmlFor="cardNumber" className="form-label">Credit/Debit Card Number</label>
+            <input type="text" className="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" />
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-6">
+              <label htmlFor="expiryDate" className="form-label">Expiry Date</label>
+              <input type="text" className="form-control" id="expiryDate" placeholder="MM/YY" />
+            </div>
+            <div className="col-md-6">
+              <label htmlFor="cvv" className="form-label">CVV</label>
+              <input type="text" className="form-control" id="cvv" placeholder={123} />
+            </div>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="cardHolderName" className="form-label">Cardholder Name</label>
+            <input type="text" className="form-control" id="cardHolderName" placeholder="John Doe" />
+          </div>
+          <hr />
+          <h5 className="text-center">Or</h5>
+          <div className="d-grid gap-2">
+            <button className="btn btn-outline-primary mb-2">Pay with PayPal</button>
+            <button className="btn btn-outline-primary">Pay with Google Pay</button>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-primary" data-bs-target="#applicationFeesModal" data-bs-toggle="modal">Back to Application Fees</button>
+          <button type="button" className="btn btn-success">Confirm Payment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button className="btn btn-primary" data-bs-target="#applicationFeesModal" data-bs-toggle="modal">Open Application Fees</button>
+</div>
+
+
+
+
+
+
                       </div>
                       <div className="col-8">
                         <h5 className="card-program mb-2 fw-light">
