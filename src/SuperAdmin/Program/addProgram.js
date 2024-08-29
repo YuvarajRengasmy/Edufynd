@@ -609,7 +609,7 @@ function Profile() {
                            }
                           </div>
 
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                             <label style={{ color: "#231F20" }}>
                               Currency <span className="text-danger">*</span>
                             </label>
