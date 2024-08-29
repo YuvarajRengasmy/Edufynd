@@ -572,7 +572,7 @@ export const ListGeneralEnquiry = () => {
                                     {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.primaryNumber || "Not Available"}
+                                    {data?.mobileNumber || "Not Available"}
                                   </td>
                                   <td className=" text-start text-truncate">{data?.email || "Not Available"}</td>
                                   <td className="text-capitalize text-start text-truncate">
