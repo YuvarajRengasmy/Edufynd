@@ -17,7 +17,8 @@ import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { University } from "../../api/endpoints";
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export const AddEvents = () => {
   const initialState = {
     typeOfUser: "",
@@ -253,6 +254,8 @@ export const AddEvents = () => {
     }),
   };
 
+  
+
   return (
     <>
       <Sidebar />
@@ -278,6 +281,18 @@ export const AddEvents = () => {
                     </div>
                     <div className="card-body mt-5">
                       <div className="row g-3">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Host Name <span className="text-danger">*</span>
+                          </label>
+                          <select class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+</div>
+                     
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Type of Users <span className="text-danger">*</span>
@@ -504,6 +519,18 @@ export const AddEvents = () => {
                               </div>
                             ) : null}
                           </div>
+                        </div>
+
+                        <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                        <CKEditor
+      editor={ClassicEditor}
+      data="<p>Hello from CKEditor 5!</p>"
+      onChange={(event, editor) => {
+        const data = editor.getData();
+        console.log({ data });
+      }}
+    />
+                       
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
