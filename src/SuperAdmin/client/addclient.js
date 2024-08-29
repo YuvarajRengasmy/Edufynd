@@ -17,9 +17,11 @@ import Select from "react-select";
 import CountryRegion from "countryregionjs";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
+
+
 function AddAgent() {
   const initialState = {
-    typeOfClient: "",
+    // typeOfClient: "",
     businessName: "",
     businessMailID: "",
     businessContactNo: "",
@@ -40,7 +42,7 @@ function AddAgent() {
   };
 
   const initialStateErrors = {
-    typeOfClient: { required: false },
+    // typeOfClient: { required: false },
     businessName: { required: false },
     businessMailID: { required: false, valid: false },
     businessContactNo: { required: false, valid: false },
@@ -97,7 +99,7 @@ const [dial, setDial] = useState([]);
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-    if (data.typeOfClient === "") error.typeOfClient.required = true;
+    // if (data.typeOfClient === "") error.typeOfClient.required = true;
     if (data.businessName === "") error.businessName.required = true;
     if (data.businessMailID === "") error.businessMailID.required = true;
     if (data.businessContactNo === "") error.businessContactNo.required = true;
@@ -335,28 +337,28 @@ const [dial, setDial] = useState([]);
                             <span className="text-danger">*</span>
                           </label>
                           <div className="">
-                            <select
+                            {/* <select
                               onChange={handleInputs}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1`}
                               name="typeOfClient"
-                            >
-                              <option value={""}>Select Client Type</option>
-                              {type.map((data, index) => (
+                            > */}
+                              {/* <option value={""}>Select Client Type</option> */}
+                              {/* {type.map((data, index) => (
                                 <option key={index} value={data?.typeOfClient}>
                                   {" "}
                                   {data?.typeOfClient}
                                 </option>
-                              ))}
-                            </select>
-                            {errors.typeOfClient.required && (
+                              ))} */}
+                            {/* </select> */}
+                            {/* {errors.typeOfClient.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
 

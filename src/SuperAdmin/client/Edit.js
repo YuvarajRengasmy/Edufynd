@@ -78,7 +78,7 @@ function AddAgent() {
   const [dial, setDial] = useState([]);
 
   useEffect(() => {
-    getAllClientDetails();
+    // getAllClientDetails();
     getSingleDetails();
     getallCodeList();
   }, []);
@@ -93,16 +93,16 @@ function AddAgent() {
         console.log(err);
       });
   };
-  const getAllClientDetails = () => {
-    getallClientModule()
-      .then((res) => {
-        console.log(res);
-        setType(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const getAllClientDetails = () => {
+  //   getallClientModule()
+  //     .then((res) => {
+  //       console.log(res);
+  //       setType(res?.data?.result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const getSingleDetails = () => {
     getSingleClient(id)
       .then((res) => {
@@ -116,9 +116,9 @@ function AddAgent() {
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-    if (data.typeOfClient === "") {
-      error.typeOfClient.required = true;
-    }
+    // if (data.typeOfClient === "") {
+    //   error.typeOfClient.required = true;
+    // }
 
     if (data.businessName === "") {
       error.businessName.required = true;
