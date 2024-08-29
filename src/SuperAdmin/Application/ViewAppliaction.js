@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
-
+import StripeCheckout from "react-stripe-checkout";
 import { getFilterStatus } from "../../api/status";
 import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
 import { toast } from "react-toastify";
@@ -12,6 +12,8 @@ import { RichTextEditor } from "@mantine/rte";
 import { duration } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
 import BackButton from "../../compoents/backButton";
+import {savePaymentGetWay } from "../../api/invoice/payment";
+import { Program } from "../../api/endpoints";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -24,6 +26,7 @@ export const ViewApplication = () => {
     document: "",
     duration: "",
     progress:"",
+   
   };
 
   const initialStateErrors = {
@@ -37,7 +40,10 @@ export const ViewApplication = () => {
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
-
+  const [payment ,setPayment]=useState({
+    applicationFee: 200*10,
+    name: "applicationFee",
+  });
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -232,6 +238,24 @@ export const ViewApplication = () => {
     return '#4caf50'; // Green for 100%
   };
 
+  const handlePayment = (token) => {
+    const data = {
+      token,
+      applicationFee: 20*100,
+      name: "applicationFee",
+
+    };
+    savePaymentGetWay (data)
+      .then((res) => {
+        toast.success("Successfully added payment");
+        getAllModuleDetails();
+        if (modalRef.current) {
+          modalRef.current.click(); // Close the modal
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <Sidebar />
@@ -304,82 +328,19 @@ export const ViewApplication = () => {
                         </div>
 
 
-
+                      <div>
+                      <StripeCheckout
+        stripeKey="pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY"
+        token={handlePayment}
+        name="applicationFee"
+        currency="INR"
+        amount={payment?.applicationFee * 100} // Amount in paise (1 INR = 100 paise)
+      >
+  <button className="btn btn-primary btn-sm" style={{marginRight:"0.5rem"}}>Pay Now</button>
+</StripeCheckout>
+                      </div>
                         
-    <div>
- 
-  <div className="modal fade" id="applicationFeesModal" aria-hidden="true" aria-labelledby="applicationFeesModalLabel" tabIndex={-1}>
-    <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="applicationFeesModalLabel">Application Fees</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-        </div>
-        <div className="modal-body">
-          <h5 className="mb-3">Review Application Fees</h5>
-          <div className="mb-3">
-            <p><strong>Course Name:</strong> Advanced Web Development</p>
-            <p><strong>Fee:</strong> $1500</p>
-            <p><strong>Additional Charges:</strong> $50 (Processing Fee)</p>
-          </div>
-          <hr />
-          <div className="d-flex justify-content-between align-items-center">
-            <h5>Total:</h5>
-            <h5>$1550</h5>
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button className="btn btn-primary" data-bs-target="#paymentModal" data-bs-toggle="modal">Proceed to Payment</button>
-        </div>
-      </div>
-    </div>
-  </div>
- 
-  <div className="modal fade" id="paymentModal" aria-hidden="true" aria-labelledby="paymentModalLabel" tabIndex={-1}>
-    <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="paymentModalLabel">Payment</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-        </div>
-        <div className="modal-body">
-          <h5 className="mb-3">Choose Payment Method</h5>
-          <div className="mb-3">
-            <label htmlFor="cardNumber" className="form-label">Credit/Debit Card Number</label>
-            <input type="text" className="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" />
-          </div>
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <label htmlFor="expiryDate" className="form-label">Expiry Date</label>
-              <input type="text" className="form-control" id="expiryDate" placeholder="MM/YY" />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="cvv" className="form-label">CVV</label>
-              <input type="text" className="form-control" id="cvv" placeholder={123} />
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="cardHolderName" className="form-label">Cardholder Name</label>
-            <input type="text" className="form-control" id="cardHolderName" placeholder="John Doe" />
-          </div>
-          <hr />
-          <h5 className="text-center">Or</h5>
-          <div className="d-grid gap-2">
-            <button className="btn btn-outline-primary mb-2">Pay with PayPal</button>
-            <button className="btn btn-outline-primary">Pay with Google Pay</button>
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button className="btn btn-primary" data-bs-target="#applicationFeesModal" data-bs-toggle="modal">Back to Application Fees</button>
-          <button type="button" className="btn btn-success">Confirm Payment</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <button className="btn btn-primary" data-bs-target="#applicationFeesModal" data-bs-toggle="modal">Open Application Fees</button>
-</div>
-
+  
 
 
 
@@ -430,51 +391,7 @@ export const ViewApplication = () => {
               </div>
 
               
-           {/* <div className="container-fluid ">
-  <div className="row">
-    <div className="col">
-      <div className="card border-0 rounded-1 shadow-sm p-4">
-        <div className="card-body">
-        
-          {status.map((item, index) => (
-          <div   key={index} className="position-relative">
-            <div className="progress" role="progressbar" aria-label="Progress" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} style={{height: 8}}>
-              <div className="progress-bar bg-danger progress-bar-striped progress-bar-animated" style={{width: '50%'}} />
-            </div>
-          
-            
-            <div className="d-flex justify-content-between position-absolute w-100 top-50 translate-middle-y">
-              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>1</button>
-              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>2</button>
-              <button type="button" className="btn btn-sm btn-primary rounded-pill"  data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>3</button>
-              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}   onClick={() => handleEditModule(item)}style={{width: '2rem', height: '2rem'}}>4</button>
-              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>5</button>
-              <button type="button" className="btn btn-sm btn-danger rounded-pill"  data-bs-bs-toggle="modal"
-                              data-bs-bs-target={`#modal-${index}`}  onClick={() => handleEditModule(item)} style={{width: '2rem', height: '2rem'}}>6</button>
-            </div>
-          </div>
-            ))}
-        
-          <div className="d-flex justify-content-between mt-3">
-            <span>Submitted</span>
-            <span>Offer</span>
-            <span>Deposit</span>
-            <span>Approval</span>
-            <span>Enrollment</span>
-            <span>Completed</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> */}
-
-              
+      
                
                 <div className="container-fluid">
   <div className="row">

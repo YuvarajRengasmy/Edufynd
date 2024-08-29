@@ -42,6 +42,7 @@ export const GeneralEnquiry ="generalEnquiry";
 // Invoice
 export const SenderInvoice ="senderInvoice";
 export const Chat ="chat";
+export const PaymentGetWay ="payment"
 //Notifications
 export const Notifications="notification";
 export const Promotion ="promotion"
