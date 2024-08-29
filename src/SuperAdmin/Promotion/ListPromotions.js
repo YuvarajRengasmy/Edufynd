@@ -243,7 +243,7 @@ export const ListPromotions = () => {
                   </Link>
                 </li>
                 <li class="m-1">
-                  <Link class="btn btn-pix-primary" to="/list_promotions">
+                  <Link class="btn btn-pix-primary" to="/Add_promotions">
                     <button
                       className="btn btn-outline rounded-1  fw-semibold  border-0 text-white  "
                       style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -502,7 +502,7 @@ export const ListPromotions = () => {
           </div>
           <div>
             <Link
-              to="/ListPromotions"
+              to="/list_promotions"
               className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
               style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 

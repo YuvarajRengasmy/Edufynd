@@ -284,7 +284,7 @@ export const ListTestimonials = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddTestimonials">
+                    <Link class="btn btn-pix-primary" to="/add_testimonials">
                       <button
                         className="btn btn-outline   fw-semibold rounded-1 border-0 text-white  "
                         style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -435,7 +435,7 @@ export const ListTestimonials = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/ViewTestimonials",
+                                      pathname: "/view_testimonials",
                                       search: `?id=${item?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
@@ -447,7 +447,7 @@ export const ListTestimonials = () => {
                                   <Link
                                     className="dropdown-item"
                                     to={{
-                                      pathname: "/EditTestimonials",
+                                      pathname: "/edit_testimonials",
                                       search: `?id=${item?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
@@ -563,7 +563,7 @@ export const ListTestimonials = () => {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="/list_testimonials"
                 className="btn btn-cancel border-0 rounded-pill rounded-1 px-3 py-1 fw-semibold text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 

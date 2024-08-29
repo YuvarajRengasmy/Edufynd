@@ -288,7 +288,7 @@ export const ListBusiness = () => {
                                 Reset
                               </button>
                               <button
-                                data-bs-dismiss="offcanvas"
+                               
                                 type="submit"
                                 className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
                                 style={{

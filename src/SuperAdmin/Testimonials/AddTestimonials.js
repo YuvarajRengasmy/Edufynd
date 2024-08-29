@@ -202,7 +202,7 @@ export const AddTestimonials = () => {
       saveTestimonial(updateNotifications)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListTestimonials");
+          navigate("/list_testimonials");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -509,7 +509,7 @@ export const AddTestimonials = () => {
 
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                               to="/ListTestimonials"
+                               to="/list_testimonials"
                                 style={{
                                   backgroundColor: "#231F20",
                                   fontFamily: "Plus Jakarta Sans",
