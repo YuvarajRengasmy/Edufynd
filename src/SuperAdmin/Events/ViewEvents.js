@@ -69,6 +69,10 @@ export const ViewEvents = () => {
                   }}
                 >
                   <tbody>
+                  <tr>
+                      <th>Host Name</th>
+                      <td>Staff Name</td>
+                    </tr>
                     <tr>
                       <th>Type of User</th>
                       <td>{notification?.typeOfUser   || "Not Available"}</td>
@@ -101,6 +105,14 @@ export const ViewEvents = () => {
                     <tr>
                       <th>Venue</th>
                       <td>{notification?.venue  || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <th>Content</th>
+                      <td>Helo</td>
+                    </tr>
+                    <tr>
+                      <th>File</th>
+                      <td>New File</td>
                     </tr>
                   </tbody>
                 </table>

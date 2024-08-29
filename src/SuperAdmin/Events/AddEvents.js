@@ -542,7 +542,9 @@ export const AddEvents = () => {
                               type="file"
                               className="form-control "/>
                         </div>
-                        <div className="text-end"><button className="btn btn-primary">Add</button></div>
+                        <div className="text-end">
+                          <button className="btn btn-primary">Add</button>
+                          </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link

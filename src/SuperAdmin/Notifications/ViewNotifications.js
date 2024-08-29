@@ -82,6 +82,7 @@ export const ViewNotifications = () => {
                           : "N/A"
                         }</h6>
                     <p class="text-muted mb-1"><i class="fas fa-users"></i> Type of Users:  {notification?.typeOfUser  || "Not Available"} </p>
+                    <p class="text-muted mb-1"><i class="fas fa-users"></i> username:  { "Not Available"} </p>
                     <p class="text-muted mb-1"><i class="fas fa-book"></i> Subject: {notification?.subject  || "Not Available"}</p>
                     <p class="mb-0"><RichTextEditor value={notification?.content  || "Not Available"} readOnly /></p>
                 </div>

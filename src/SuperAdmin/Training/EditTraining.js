@@ -324,7 +324,17 @@ export const EditTraining = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
-                          <div className="row g-2">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                           UserName <span className="text-danger">*</span>
+                          </label>
+                          <select class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+</div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Request Training
@@ -518,8 +528,8 @@ export const EditTraining = () => {
                                 ) : null}
                               </div>
                             ) : null}
-                          </div>
-                          <div className="row g-2">
+                          
+                         
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Material<span className="text-danger">*</span>
@@ -582,9 +592,9 @@ export const EditTraining = () => {
                                 <p className="text-danger">Please Enter Time</p>
                               )}
                             </div>
-                          </div>
+                          
 
-                          <div className="row gy-2 ">
+                         
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Subject<span className="text-danger">*</span>
@@ -631,26 +641,26 @@ export const EditTraining = () => {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                                Uplaod Image<span className="text-danger">*</span>
+                                Upload Image<span className="text-danger">*</span>
                               </label>
                             <img
-                                className="img-fluid  img-thumbnail mx-auto d-block"
+                                className="img-fluid   rounded-circle border   mx-auto d-block"
                                 src={
                                   notification?.uploadDocument
                                     ? notification?.uploadDocument
                                     : "https://via.placeholder.com/128"
                                 }
                                 alt="student-image"
-                                style={{ width: "12rem", height: "6rem" }}
+                                style={{ width: "7rem", height: "7rem" }}
                               />
                             <label
                                 htmlFor="fileInputImage"
                                 className="position-absolute fs-6  "
                                 style={{
                                   cursor: "pointer",
-                                  bottom: "5%",
-                                  left: "53.5%",
-                                  transform: "translate(25%, 25%)",
+                                  bottom: "0",
+                                  left: "50%",
+                                  transform: "translate(50%, 50%)",
                                   color: "#0f2239",
                                 }}
                               >
@@ -675,7 +685,10 @@ export const EditTraining = () => {
                                 </div>
                               ) : null}
                             </div>
+                            <div className="text-end">
+                          <button className="btn btn-primary">Add</button>
                           </div>
+                          
 
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -690,8 +703,7 @@ export const EditTraining = () => {
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                 
                                 }}
                               />
                               {errors.content.required && (
