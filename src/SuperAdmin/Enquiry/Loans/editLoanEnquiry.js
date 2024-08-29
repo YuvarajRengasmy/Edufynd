@@ -185,7 +185,7 @@ export const AddLoanEnquiry = () => {
       updateLoanEnquiry(loan)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListLoanEnquiry");
+          navigate("/list_loan_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -581,6 +581,7 @@ export const AddLoanEnquiry = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={loan?.age}
                       />
                       {errors.age.required ? (
                         <div className="text-danger form-text">
@@ -698,7 +699,7 @@ export const AddLoanEnquiry = () => {
                       <select
                         className="form-select"
                         value={loan?.willyouSubmitYourCollateral}
-                        name=" willyouSubmitYourCollateral"
+                        name="willyouSubmitYourCollateral"
                         onChange={handleInputs}
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -715,7 +716,7 @@ export const AddLoanEnquiry = () => {
                   <div className="row g-3">
                     <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
-                        to=""
+                        to="/list_loan_enquiry"
                         style={{
                           backgroundColor: "#0f2239",
                           fontFamily: "Plus Jakarta Sans",

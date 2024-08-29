@@ -165,7 +165,7 @@ export const AddLoanEnquiry = () => {
       saveLoanEnquiry(loan)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListLoanEnquiry");
+          navigate("/list_loan_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -647,7 +647,7 @@ export const AddLoanEnquiry = () => {
                   <div className="row g-3">
                     <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
-                        to=""
+                        to="/list_loan_enquiry"
                         style={{
                           backgroundColor: "#0f2239",
                           fontFamily: "Plus Jakarta Sans",

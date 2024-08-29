@@ -395,7 +395,7 @@ agentPrimaryNumber}`,
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={student?.dial3} >
-  
+   <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -464,7 +464,7 @@ agentPrimaryNumber.required && (
   <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={student?.dial4}
   onChange={handleInputs}>
-    
+     <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -648,7 +648,7 @@ agentPrimaryNumber.required && (
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={student?.dial1} >
-  
+   <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -712,7 +712,7 @@ agentPrimaryNumber.required && (
   <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={student?.dial2}
   onChange={handleInputs}>
-    
+     <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
