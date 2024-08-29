@@ -41,7 +41,7 @@ export const ViewApplication = () => {
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
   const [payment ,setPayment]=useState({
-    amount: 20 * 10,
+    amount: 2000,
     name: "applicationFee",
   });
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
@@ -96,6 +96,7 @@ export const ViewApplication = () => {
     };
     getFilterApplicationStatus(data)
       .then((res) => {
+        console.log("ggg", res)
         setStatus(res?.data?.result?.statusList || []);
         setPagination({
           ...pagination,
@@ -241,7 +242,7 @@ export const ViewApplication = () => {
   const handlePayment = (token) => {
     const data = {
       token,
-      ammount: 20 * 10,
+      amount: 2000,
       name: "applicationFee",
 
     };
@@ -334,7 +335,7 @@ export const ViewApplication = () => {
         token={handlePayment}
         name="applicationFee"
         currency="INR"
-        amount={payment?.amount * 10} // Amount in paise (1 INR = 100 paise)
+        amount={payment?.amount * 100} // Amount in paise (1 INR = 100 paise)
       >
   <button className="btn btn-primary btn-sm" style={{marginRight:"0.5rem"}}>Pay Now</button>
 </StripeCheckout>
