@@ -530,8 +530,7 @@ export const AddEvents = () => {
         console.log({ data });
       }}
     />
-     
-    
+                       
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

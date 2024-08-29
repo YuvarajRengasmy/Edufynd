@@ -22,7 +22,8 @@ import Select from "react-select";
 import CountryRegion from "countryregionjs";
 import { RichTextEditor } from "@mantine/rte";
 
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const App = () => {
 
@@ -1064,7 +1065,26 @@ const App = () => {
                                 Admission Requirements{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
+
+                              <CKEditor
+  editor={ClassicEditor}
+  data={university.admissionRequirement}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]  // Adjust toolbar as needed
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
+                              {/* <RichTextEditor
                                 placeholder="Start writing your content here..."
                                 name="admissionRequirement"
                                 onChange={handleRichTextChange}
@@ -1076,7 +1096,7 @@ const App = () => {
                                  
                                   zIndex:'0'
                                 }}
-                              />
+                              /> */}
                             </div>
                           </div>
                           
