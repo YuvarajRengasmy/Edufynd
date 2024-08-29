@@ -350,7 +350,7 @@ function Profile() {
                       <div className="card-body mt-5">
                         <div className="row mb-2">
                          
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Country<span className="text-danger">*</span>
                             </label>
@@ -374,14 +374,6 @@ function Profile() {
                               >
                                 Select Country
                               </option>
-                              {/* {countries.map((country) => (
-                                <option
-                                  key={country._id}
-                                  value={country.country}
-                                >
-                                  {country.country}
-                                </option>
-                              ))} */}
                             {university.map((uni) => (
                               <option
                                 key={uni._id}
