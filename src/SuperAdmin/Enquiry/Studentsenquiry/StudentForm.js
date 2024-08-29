@@ -134,7 +134,9 @@ export const StudentForm = () => {
                   </div>
                 </div>
                
-
+                {student?.agentName ? (
+                  <>
+                  
                 <div class="card mb-3">
                   <div class="card-header bg-primary text-white">
                    Agent Details
@@ -144,42 +146,49 @@ export const StudentForm = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Name:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{student?.agentName || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Business Name:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{student?.businessName || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Primary Number:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{student?.dial1 + " " +student?.primaryNumber  || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{student?.dial2 + " " +student?.whatsAppNumber || "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Email:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{student?.agentEmail || "Not Available"}</div>
                     </div>
 
-                    <div class="row mb-3">
-                      <div class="col-6 fw-bold">
-                        <i class="fas fa-graduation-cap"></i>Student Name:
-                      </div>
-                      <div class="col-6">John doe</div>
-                    </div>
+                   
                     
                   </div>
                 </div>
+                 </>
+                  ) : (
+                    <>
+                      <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Student Name:
+                      </div>
+                      <div class="col-6">{student?.studentName || "Not Available"}</div>
+                    </div>
+                      
+                    </>
+                  )}
 
                 <div class="card mb-3">
                   <div class="card-header bg-primary text-white">

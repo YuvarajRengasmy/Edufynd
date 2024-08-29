@@ -1,14 +1,14 @@
 import React from 'react'
-import Sidebar from "../../compoents/StaffSidebar";
-import Select from 'react-select';
+import Sidebar from '../../compoents/StaffSidebar';
 import { Link } from "react-router-dom";
-
-export const EditStaffApplication = () => {
+import BackButton from "../../compoents/backButton";
+export const AddApplication = () => {
+  
   return (
-    <> 
-       
-        <div >
-          
+    <>
+        
+        
+         
             <Sidebar />
           
           <div
@@ -16,17 +16,22 @@ export const EditStaffApplication = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
-              <div className=" container ">
+            <BackButton/>
+
+
+              
+            </div>
+            <div className=" container-fluid ">
                 <div className="row ">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                         Edit Application Details
+                          Add Application Details
                         </h5>
                       </div>
                       <form >
@@ -732,7 +737,7 @@ export const EditStaffApplication = () => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/ListApplication"
+                                  to="/list_application"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel
@@ -746,7 +751,7 @@ export const EditStaffApplication = () => {
                                   type="submit"
                                   className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                                 >
-                                  Update
+                                  Submit
                                 </button>
                               </div>
                             </div>
@@ -757,12 +762,10 @@ export const EditStaffApplication = () => {
                   </div>
                 </div>
               </div>
-            </div>
           </div>
-        </div>
-      
-    </>
+       
+     
+      </>
   )
 }
-
-export default EditStaffApplication
+export default AddApplication

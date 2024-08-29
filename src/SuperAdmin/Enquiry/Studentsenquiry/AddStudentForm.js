@@ -289,6 +289,8 @@ export const AddStudentForm = () => {
             agentPrimaryNumber: selectedAgent.mobileNumber,
             agentWhatsAppNumber: selectedAgent.whatsAppNumber,
             agentEmail: selectedAgent.email,
+            dial1: selectedAgent.dial1,
+            dial2: selectedAgent.dial2,
           };
          
    
@@ -519,7 +521,7 @@ export const AddStudentForm = () => {
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={student?.dial3} >
-  
+  <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -583,7 +585,7 @@ export const AddStudentForm = () => {
   <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={student?.dial4}
   onChange={handleInputs}>
-    
+    <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -845,7 +847,7 @@ export const AddStudentForm = () => {
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={student?.dial1} >
-  
+  <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -909,7 +911,7 @@ export const AddStudentForm = () => {
   <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={student?.dial2}
   onChange={handleInputs}>
-    
+    <option value="+91">+91-India-in</option>
     {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -
@@ -1156,8 +1158,8 @@ export const AddStudentForm = () => {
 
   <div className="input-group mb-3">
   <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={student?.dial3} >
-  
+  onChange={handleInputs} value={student?.dial} >
+  <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
     <option value={item?.dialCode} key={item?.dialCode}>
       {item?.dialCode} - {item?.name} -

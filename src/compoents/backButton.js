@@ -17,8 +17,8 @@ const BackButton = () => {
 
   return (
     <>
-    <div className='text-end m-1'>
-    <button className='btn btn-sm fw-semibold rounded-1 border-0  '
+    <div className='   text-end m-1' >
+    <button className='btn btn-sm fw-semibold rounded-1 border-0   '
       onClick={handleBack}
       style={{
      

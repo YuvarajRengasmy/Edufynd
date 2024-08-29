@@ -255,8 +255,9 @@ export const ViewForex = () => {
                 </div>
               )}
             </div>
-
-            <div class="card mb-3">
+{forex?.agentName ? (
+  <>
+   <div class="card mb-3">
                   <div class="card-header bg-primary text-white">
                    Agent Details
                   </div>
@@ -265,31 +266,31 @@ export const ViewForex = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Name:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{forex.agentName}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Business Name:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{forex.businessName}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Primary Number:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{ forex?.dial3  +"  "+ forex?.agentPrimaryNumber|| "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{ forex?.dial4  +"  "+ forex?.agentWhatsAppNumber|| "Not Available"}</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Email:
                       </div>
-                      <div class="col-6">John doe</div>
+                      <div class="col-6">{forex?.agentEmail || "Not Available"}</div>
                     </div>
 
                     <div class="row mb-3">
@@ -301,6 +302,18 @@ export const ViewForex = () => {
                     
                   </div>
                 </div>
+  </>
+  ) : (
+    <>
+      <tr>
+        <td className="fw-bold">Name of the Student</td>
+        <td>{forex?.studentName || "Not Available"}</td>
+      </tr>
+      
+    </>
+  )}
+           
+
           </div>
 
 

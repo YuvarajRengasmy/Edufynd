@@ -275,8 +275,28 @@ export const AddAccommodation = () => {
   };
 
   const handleInputs = (event) => {
-    setForex({ ...forex, [event?.target?.name]: event?.target?.value });
-
+    const { name, value } = event.target;
+  
+    setForex((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
+  
+      if (name === "agentName") {
+        const selectedAgent = agent.find((u) => u.agentName === value);
+        if (selectedAgent) {
+          return {
+            ...updatedProgram,
+            businessName: selectedAgent.businessName,
+            agentPrimaryNumber: selectedAgent.mobileNumber,
+            agentWhatsAppNumber: selectedAgent.whatsAppNumber,
+            agentEmail: selectedAgent.email,
+            dial1: selectedAgent.dial1,
+            dial2: selectedAgent.dial2,
+          };
+        }
+      } 
+      return updatedProgram;
+    });
+  
     if (submitted) {
       const newError = handleValidation({
         ...forex,
@@ -285,6 +305,7 @@ export const AddAccommodation = () => {
       setErrors(newError);
     }
   };
+ 
   const getCountryRegionInstance = () => {
     return new CountryRegion();
   };
@@ -480,6 +501,7 @@ export const AddAccommodation = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="studentName"
+                          value={forex?.studentName}
                         >
                           <option value="">Select students</option>
                           {students.length > 0 ? (
@@ -515,6 +537,7 @@ export const AddAccommodation = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="agentName"
+                          value={forex?.agentName}
                         >
                           <option value="">Select Agent</option>
                           {agent.length > 0 ? (

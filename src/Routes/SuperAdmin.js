@@ -8,10 +8,12 @@ import ListUniversity from "../SuperAdmin/University/ListUniversity";
 import ViewUniversity from "../SuperAdmin/University/viewUniversity";
 import EditUniversity from "../SuperAdmin/University/editUniversity";
 import ViewProgram from "../SuperAdmin/Program/ViewProgram";
+
 import ListStudent from "../SuperAdmin/Students/listStudent";
 import AddStudentSA from "../SuperAdmin/Students/addStudent";
 import ViewStudent from "../SuperAdmin/Students/viewStudent";
 import Editstudent from "../SuperAdmin/Students/editStudent";
+
 import EnquiryStudent from "../SuperAdmin/Students/enquiryStudent";
 import AddAgent from "../SuperAdmin/Agnent/addAgent";
 import ListAgent from "../SuperAdmin/Agnent/ListAgent";
@@ -220,7 +222,7 @@ import ViewTask from "../SuperAdmin/Project & Task/Task/ViewTask";
 
 import GlobalSearch from "../SuperAdmin/Search/GlobalSearch";
 
-
+import Countrys from '../SuperAdmin/Settings/GlobalSetting/country'
 
 function SuperAdmin() {
   return (
@@ -511,7 +513,7 @@ function SuperAdmin() {
         <Route path="/edit_instagram" element={<PrivateRoute><EditInstagram/></PrivateRoute>}/>
         <Route path="/view_instagram" element={<PrivateRoute><ViewInstagram/></PrivateRoute>}/>
 
-
+<Route path="/countrys" element={<PrivateRoute><Countrys/></PrivateRoute>}/>
 
       </Routes>
 

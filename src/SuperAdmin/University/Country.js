@@ -1,460 +1,963 @@
-import React, { useEffect, useState, useRef } from "react";
-import Sortable from "sortablejs";
-import { Link } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-} from "@mui/material";
-import Mastersidebar from "../../compoents/sidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import {
-  getallEvent,
-  deleteEvent,
-  getFilterEvent,
-} from "../../api/Notification/event";
-import { formatDate } from "../../Utils/DateFormat";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { updatedCommission,getSingleCommission  } from "../../api/commission";
+import { getallCurrency } from "../../api/currency";
+import { getFilterYear } from "../../api/year";
+import { getallTaxModule } from "../../api/universityModule/tax";
+import { FaTrash } from "react-icons/fa";
+import { getUniversitiesByCountry } from "../../api/university";
+import Flags from "react-world-flags";
+import Sidebar from "../../compoents/sidebar";
+import BackButton from "../../compoents/backButton";
+function AddCommission() {
 
-import { FaFilter } from "react-icons/fa";
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
 
-export const ListEvents = () => {
-  const [notification, setnotification] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const initialState = {
+    country: "",
+    universityName: "",
+    paymentMethod: "",
+    commissionPaidOn: "",
+    eligibility: "",
+    tax: "",
+    paymentType: "",
+    currency: "",
+    flag: "",
+    clientName: "",
+    years: [
+      {
+        year: "",
+        courseTypes: [{ courseType: "", inTake: [{ inTake: "", value: "" }] }],
+      },
+    ],
+  };
+
+  const initialStateErrors = {
+    country: { required: false },
+    universityName: { required: false },
+    paymentMethod: { required: false },
+    commissionPaidOn: { required: false },
+    eligibility: { required: false },
+    tax: { required: false },
+    paymentType: { required: false },
+    years: { required: false },
+    flag: { required: false },
+    clientName: { required: false },
+    currency: { required: false },
+  };
+
+  const [commission, setCommission] = useState(initialState);
+  const [errors, setErrors] = useState(initialStateErrors);
+  const [submitted, setSubmitted] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [tax, setTax] = useState([]);
+  const [universities, setUniversities] = useState([]);
+  const [years, setYears] = useState([]);
+  const [year, setYear] = useState([]);
+  const pageSize = 5;
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
-    to: 0,
+    to: pageSize,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getAllClientDetails();
+    getAllCurrencyDetails();
+    getAllTaxDetails();
+    getAllYearDetails();
+    getEditCommissionDetails();
   }, [pagination.from, pagination.to]);
 
-  const getAllClientDetails = () => {
+  const getAllCurrencyDetails = () => {
+    getallCurrency()
+      .then((res) => {
+        setCountries(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllYearDetails = () => {
     const data = {
       limit: 10,
       page: pagination.from,
     };
-    getFilterEvent(data)
+    getFilterYear(data)
       .then((res) => {
-        setnotification(res?.data?.result?.eventList);
+        setYear(res?.data?.result?.yearList || []);
         setPagination({
           ...pagination,
-          count: res?.data?.result?.eventCount,
+          count: res?.data?.result?.yearCount || 0,
         });
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  const deleteProgramData = () => {
-    deleteEvent(deleteId)
+  const getAllTaxDetails = () => {
+    getallTaxModule()
       .then((res) => {
-        toast.success(res?.data?.message);
-        closePopup();
-        getAllClientDetails();
+        console.log(res);
+        setTax(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const openPopup = (data) => {
-    setOpen(true);
-    setDeleteId(data);
+  const getEditCommissionDetails = () => {
+    getSingleCommission(id)
+      .then((res) => {
+        console.log(res?.data?.result);
+        setCommission(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
-  const closePopup = () => {
-    setOpen(false);
-  };
-
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
-  };
-
-  const tableRef = useRef(null);
-
-  useEffect(() => {
-    const table = tableRef.current;
-
-    const sortable = new Sortable(table.querySelector("thead tr"), {
-      animation: 150,
-      swapThreshold: 0.5,
-      handle: ".sortable-handle",
-      onEnd: (evt) => {
-        const oldIndex = evt.oldIndex;
-        const newIndex = evt.newIndex;
-
-        table.querySelectorAll("tbody tr").forEach((row) => {
-          const cells = Array.from(row.children);
-          row.insertBefore(cells[oldIndex], cells[newIndex]);
-        });
-      },
-    });
-
-    return () => {
-      sortable.destroy();
-    };
-  }, []);
-
-  // Countdown Timer
-  const calculateTimeLeft = (date) => {
-    const difference = +new Date(date) - +new Date();
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
+  const handleValidation = (data) => {
+    let error = initialStateErrors;
+    if (!data.country) {
+      error.country.required = true;
+    }
+    if (!data.universityName) {
+      error.universityName.required = true;
+    }
+    if (!data.paymentMethod) {
+      error.paymentMethod.required = true;
+    }
+    if (!data.eligibility) {
+      error.eligibility.required = true;
+    }
+    if (!data.tax) {
+      error.tax.required = true;
+    }
+    if (!data.paymentType) {
+      error.paymentType.required = true;
+    }
+    if (!data.years) {
+      error.years.required = true;
     }
 
-    return timeLeft;
+
+
+    return error;
+  };
+ 
+  const handleYearChange = (yearIndex, fieldName, value) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
   };
 
-  const [timeLefts, setTimeLefts] = useState({});
+  const handleCourseTypeChange = (
+    yearIndex,
+    courseTypeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
 
-  useEffect(() => {
-    const timers = setInterval(() => {
-      setTimeLefts((prevTimes) =>
-        notification.reduce((acc, data) => {
-          acc[data._id] = calculateTimeLeft(data.date);
-          return acc;
-        }, {})
+  const handleIntakeChange = (
+    yearIndex,
+    courseTypeIndex,
+    intakeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake[
+      intakeIndex
+    ][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const addYear = () => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: [
+        ...prevState.years,
+        {
+          year: "",
+          courseTypes: [
+            { courseType: "", inTake: [{ inTake: "", value: "" }] },
+          ],
+        },
+      ],
+    }));
+  };
+  const removeYear = (indexToRemove) => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: prevState.years.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+  
+
+  const addCourseType = (yearIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.push({
+      courseType: "",
+      inTake: [{ inTake: "", value: "" }],
+    });
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const removeCourseType = (yearIndex, courseTypeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const addIntake = (yearIndex, courseTypeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.push({
+      inTake: "",
+      value: "",
+    });
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const removeIntake = (yearIndex, courseTypeIndex, intakeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.splice(
+      intakeIndex,
+      1
+    );
+    setCommission({ ...commission, years: updatedYears });
+  };
+  const yearOptions = year.map((data) => ({
+    value: data.year,
+    label: data.year,
+  }));
+
+  const fetchCountryDetails = (selectedCountry) => {
+    const selectedCountryData = countries.find(
+      (c) => c.country === selectedCountry
+    );
+    if (selectedCountryData) {
+      setCommission((prevState) => ({
+        ...prevState,
+        currency: selectedCountryData.currency,
+        flag: selectedCountryData.flag,
+      }));
+    }
+  };
+
+  const handleCountryChange = (event) => {
+    const selectedCountry = event.target.value;
+    setCommission({ ...commission, country: selectedCountry });
+
+    getUniversitiesByCountry(selectedCountry)
+      .then((res) => {
+        setUniversities(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.error(
+          `Error fetching universities for ${selectedCountry}:`,
+          err
+        );
+        setUniversities([]);
+      });
+
+    fetchCountryDetails(selectedCountry);
+  };
+
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+    setCommission({ ...commission, [name]: value });
+
+    if (name === "universityName") {
+      const selectedUniversity = universities.find(
+        (u) => u.universityName === value
       );
-    }, 1000);
+      if (selectedUniversity) {
+        setCommission((prevState) => ({
+          ...prevState,
+          universityId: selectedUniversity._id,
 
-    return () => clearInterval(timers);
-  }, [notification]);
+          clientName: selectedUniversity.businessName,
+          courseType: selectedUniversity.courseType,
+        }));
+        setYears((prevYears) =>
+          prevYears.map((year) => ({
+            ...year,
+            courseTypes: [
+              {
+                courseType: selectedUniversity.courseType,
+                intake: "",
+                value: null,
+              },
+            ],
+          }))
+        );
+      }
+    }
+
+    if (submitted) {
+      const newError = handleValidation({ ...commission, [name]: value });
+      setErrors(newError);
+    }
+  };
+    const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+ 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Validate the commission data
+    const newError = handleValidation(commission);
+    setErrors(newError);
+    setSubmitted(true);
+
+    // If there are no validation errors, proceed
+    if (handleErrors(newError)) {
+      // Prepare years data for submission
+      const yearsData = commission.years.map((year) => ({
+        year: year.year,
+        courseTypes: year.courseTypes.map((courseType) => ({
+          courseType: courseType.courseType,
+          inTake: courseType.inTake.map((inTake) => ({
+            inTake: inTake.inTake,
+            value: inTake.value,
+          })),
+        })),
+      }));
+
+      // Prepare commission data including years
+      const dataToSave = {
+        ...commission,
+        years: yearsData,
+      };
+
+      // Call API to save commission
+      updatedCommission(dataToSave)
+        .then((res) => {
+          toast.success(res?.data?.message || "Commission saved successfully!");
+          navigate("/list_commission");
+        })
+        .catch((err) => {
+          toast.error(
+            err?.response?.data?.message ||
+              "An error occurred while saving the commission."
+          );
+        });
+    }
+  };
+
 
   return (
     <>
-      <Mastersidebar />
+      <Sidebar />
 
       <div
         className="content-wrapper"
-        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
-        <div className="content-header  bg-light shadow-sm sticky-top mb-0">
-          <div className="container-fluid">
-            <div className="row ">
-              <div className="col-xl-12">
-                <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control bg-white border-1  rounded-4 w-100"
-                        style={{
-                          fontSize: "12px",
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li className="m-1">
-                    <div>
-                      <button
-                        className="btn btn-primary"
-                        style={{ fontSize: "11px" }}
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                      >
-                        {" "}
-                        <FaFilter />
-                      </button>
-                      <div
-                        className="offcanvas offcanvas-end"
-                        tabIndex={-1}
-                        id="offcanvasRight"
-                        aria-labelledby="offcanvasRightLabel"
-                      >
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Events</h5>
-                          <button
-                            type="button"
-                            className="btn-close text-reset"
-                            data-bs-dismiss="offcanvas"
-                            aria-label="Close"
-                          />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Date</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessName"
-                                placeholder="Search...Date"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                              <label className="form-label">Subject</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessContactNo"
-                                placeholder="Search...Subject"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
+        <div className="content-header">
 
-                              <label className="form-label">Users</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                                placeholder="Search...Users"
+        <BackButton/>
+        
+        </div>
+        <div className="container-fluid">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card border-0 rounded-1 shadow-sm p-3 position-relative">
+                    <div
+                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                      style={{ background: "#fe5722", color: "#fff" }}
+                    >
+                      <h5 className="text-center text-capitalize p-1">
+                        Edit Commission Details
+                      </h5>
+                    </div>
+                    <div className="card-body mt-5">
+                      <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Country<span className="text-danger">*</span>
+                          </label>
+                          <select
+                           class={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
+                            name="country"
+                          
+                            onChange={handleCountryChange}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            value={commission.country?commission.country:"Not Available"}
+                          >
+                            <option value="">Select Country</option>
+                            {countries.map((country) => (
+                              <option key={country._id} value={country.country}>
+                                {country.country}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.country.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            University<span className="text-danger">*</span>
+                          </label>
+
+                          <select
+                            class={`form-select form-select-lg rounded-1 ${
+                              errors.universityName.required ? "is-invalid" : ""
+                            }`}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "14px",
+                            }}
+                            name="universityName"
+                            value={commission.universityName}
+                            onChange={handleInputs}
+                          >
+                            <option
+                              className=" font-weight-light"
+                              value=""
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                            >
+                              Select University
+                            </option>
+                            {universities.map((uni) => (
+                              <option key={uni._id} value={uni.universityName}>
+                                {uni.universityName}
+                              </option>
+                            ))}
+                          </select>
+                          {/* <select
+                           class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
+                            name="universityName"
+                            value={commission.universityName?commission.universityName:"Not Available"}
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="">Select University</option>
+                            {universities.map((uni) => (
+                              <option key={uni._id} value={uni.universityName}>
+                                {uni.universityName}
+                              </option>
+                            ))}
+                          </select> */}
+                          {errors.universityName.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            University Id
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            value={commission?.universityId?commission?.universityId:"Not Available"}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className="form-select rounded-2 p-2 "
+                            name="universityId"
+                          >
+                            <option
+                              value={""}
+                              disabled
+                              hidden
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Select UniversityId
+                            </option>
+                            {universities.map((data, index) => (
+                              <option
+                                key={index}
+                                value={data?.universityId}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
+                              >
+                                {" "}
+                                {data?.universityName}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Payment Method<span className="text-danger">*</span>
+                          </label>
+                          <select
+                          class={`form-select form-select-lg rounded-1 ${errors.paymentMethod.required ? 'is-invalid' : ''}`}
+                            name="paymentMethod"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="">Select Payment Type</option>
+                            <option value="Fixed">Fixed Amount</option>
+                            <option value="Percentage">Percentage</option>
+                          </select>
+                          {errors.paymentMethod.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="row g-2">
+                          {commission.paymentMethod === "Percentage" ? (
+                            <div className="row g-2">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Commission Paid On
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  className="form-select form-select-lg rounded-2"
+                                  name="commissionPaidOn"
+                                  onChange={handleInputs}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  <option value="">
+                                    Select Commission Paid On
+                                  </option>
+                                  <option value="CourseFees">Net Fees</option>
+                                  <option value="PaidFees">Paid Fees</option>
+                                  <option value="PaidFees">Gross Fees</option>
+                                </select>
+                              </div>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Eligibility<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={commission?.eligibility}
+                            className={`form-control rounded-1 ${errors.eligibility.required ? 'is-invalid' : errors.eligibility.valid ? 'is-valid' : '' }`}
+                            placeholder="Enter Eligibility"
+                            name="eligibility"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                          {errors.eligibility.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Tax<span className="text-danger">*</span>
+                          </label>
+                          <select
+                        class={`form-select form-select-lg rounded-1 ${errors.tax.required ? 'is-invalid' : ''}`}
+                            name="tax"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            displayEmpty
+                            inputProps={{ "aria-label": "Without label" }}
+                          >
+                            <option value="">Select Tax</option>
+                            {tax.map((data, index) => (
+                              <option key={index} value={data?.tax}>
+                                {" "}
+                                {data?.tax}
+                              </option>
+                            ))}
+                          </select>
+
+                          {errors.tax.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                          <label style={{ color: "#231F20" }}>
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={commission?.clientName}
+                            className={`form-control rounded-1 ${errors.clientName.required ? 'is-invalid' : errors.clientName.valid ? 'is-valid' : '' }`}
+                            placeholder="Enter Client Name"
+                            name="clientName"
+                            onChange={handleInputs}
+                          />
+                          {errors.clientName.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  visually-hidden">
+                          <label style={{ color: "#231F20" }}>Currency</label>
+                          <div sm="9" className="d-flex align-items-center">
+                            {commission.flag && (
+                              <Flags
+                                code={commission.flag}
+                                className="me-2"
+                                style={{ width: "40px", height: "30px" }}
+                                onChange={handleInputs}
+                                name="flag"
                               />
+                            )}
+                            <input
+                              className="form-control rounded-2"
+                              type="text"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                              name="currency"
+                              value={`${commission.currency}`}
+                              readOnly
+                            />
+                          </div>
+                          {errors.currency.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
                             </div>
-                            <div>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold rounded-1  rounded-pill text-white float-right bg"
-                                style={{
-                                  backgroundColor: "#0f2239",
-                                  color: "#fff",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                className="btn btn-save border-0 fw-semibold rounded-1  rounded-pill text-white float-right mx-2"
-                                style={{
-                                  backgroundColor: "#fe5722",
-                                  color: "#fff",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
+                          ) : null}
+                        </div>
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Payment Type<span className="text-danger">*</span>
+                          </label>
+                          <select
+                           className={`form-control rounded-1 ${errors.paymentType.required ? 'is-invalid' : errors.paymentType.valid ? 'is-valid' : '' }`}
+                            value={commission?.paymentType}
+                            aria-label="Default select example"
+                            name="paymentType"
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value=""> Select Payment Type</option>
+                            <option value="One_Time">One Time</option>
+                            <option value="Semester"> Semester </option>
+                          </select>
+                          {errors.paymentType.required ? (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="row g-3 mt-3">
+                          <div className="col-12">
+                          {commission.years.map((year, yearIndex) => (
+                            <div className="row g-3">
+            <div key={yearIndex}>
+               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label>Year</label>
+                <select
+                  name="year"
+                  className={`form-select rounded-1 ${errors.years.required ? "is-invalid" : ""
+                    }`}
+                  value={year.year}
+                  onChange={(e) =>
+                    handleYearChange(yearIndex, "year", e.target.value)
+                  }
+                >
+                  <option value="">Select Year</option>
+                  {yearOptions.map((yearOption) => (
+                    <option key={yearOption.value} value={yearOption.value}>
+                      {yearOption.label}
+                    </option>
+                  ))}
+                </select>
+                {errors.years.required && (
+                  <div className="invalid-feedback">Year is required</div>
+                )}
+              </div>
+              </div>
+              {year.courseTypes.map((courseType, courseTypeIndex) => (
+                 
+                <div >
+                
+                  <div key={courseTypeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label>Course Type</label>
+                   
+                    <select
+                      name="courseType"
+                      className={`form-select rounded-1 ${errors.courseType?.required ? "is-invalid" : ""
+                        }`}
+                      value={courseType.courseType}
+                      onChange={(e) =>
+                        handleCourseTypeChange(
+                          yearIndex,
+                          courseTypeIndex,
+                          "courseType",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="">Select Course Type</option>
+                      {(
+                                                  universities.find(
+                                                    (uni) =>
+                                                      uni.universityName ===
+                                                      commission.universityName
+                                                  )?.courseType || []
+                                                ).map((type, idx) => (
+                                                  <option
+                                                    key={idx}
+                                                    value={type}
+                                                  >
+                                                    {type}
+                                                  </option>
+                                                ))}
+                    </select>
+                    {errors.courseType?.required && (
+                      <div className="invalid-feedback">
+                        Course Type is required
+                      </div>
+                    )}
+                  </div>
+              
+
+                  {courseType.inTake.map((intake, intakeIndex) => (
+                    
+                      <div className="row g-2">
+                      <div  key={intakeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label>Intake</label>
+                     <select
+                        name="inTake"
+                        className={`form-control ${errors.inTake?.required ? "is-invalid" : ""
+                          }`}
+                        value={intake.inTake}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "inTake",
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="">Select Intake</option>
+                        {(
+                                                  universities.find(
+                                                    (uni) =>
+                                                      uni.universityName ===
+                                                      commission.universityName
+                                                  )?.inTake || []
+                                                ).map((type, idx) => (
+                                                  <option
+                                                    key={idx}
+                                                    value={type}
+                                                  >
+                                                    {type}
+                                                  </option>
+                                                ))}
+                      </select>
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label>Value</label>
+                      <input
+                        type="text"
+                        name="value"
+                        className="form-control"
+                        value={intake.value}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "value",
+                            e.target.value
+                          )
+                        }
+                      />
+                      </div>
+
+                      <div className='d-inline text-end'>
+                      <button
+                      type="button"
+                     
+                      className="btn rounded-1 btn-danger "
+                      onClick={() =>
+                        removeIntake(yearIndex, courseTypeIndex, intakeIndex)
+                      }
+                    >
+                      <FaTrash /> Remove Intake
+                    </button>
+                   
+                      </div>
+                    
+                     
+                      </div>
+                     
+                  ))}
+
+
+
+
+
+
+
+
+<div className=' text-en my-1'>
+<button
+                    type="button"
+                    className="btn rounded-1 btn-secondary"
+                    onClick={() => addIntake(yearIndex, courseTypeIndex)}
+                  >
+                 <i class="fa fa-plus-circle" aria-hidden="true"></i>   Add Intake
+                  </button>
+</div>
+<div className=' text-end my-1'>
+<button
+                    type="button"
+                    className="btn rounded-1 btn-danger"
+                    onClick={() =>
+                      removeCourseType(yearIndex, courseTypeIndex)
+                    }
+                  >
+                    <FaTrash /> Remove Course 
+                  </button>
+</div>
+                 
+
+                 
+                </div>
+               
+              ))}
+<div className=' text-start'>
+<button
+                type="button"
+                className="btn rounded-1 btn-secondary"
+                onClick={() => addCourseType(yearIndex)}
+              >
+               <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Course 
+              </button>
+</div>
+             
+            </div>
+            </div>
+          ))}
+                          </div>
+                        </div>
+                        <div className="row g-3 ">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
+                            <button
+                              type="button"
+                              className="btn rounded-1 px-4 py-2 text-uppercase fw-semibold  text-white "
+                              style={{
+                                backgroundColor: "#FE5722",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onClick={addYear}
+                            >
+                              <i
+                                class="fa fa-plus-circle me-2"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              Add Year
+                            </button>
+
+                          </div>
+                          
+                        </div>
+                      </div>
+
+                      <div className="row g-2">
+                        <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                          <Link
+                            to="/list_commission"
+                            style={{
+                              backgroundColor: "#231F20",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className="btn rounded-1 btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                          >
+                            Cancel
+                          </Link>
+                          <button
+                            style={{
+                              backgroundColor: "#FE5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            type="submit"
+                            className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                          >
+                            Submit
+                          </button>
                         </div>
                       </div>
                     </div>
-                  </li>
-                  <li className="m-1">
-                    <Link>
-                      <button
-                        style={{ backgroundColor: "#E12929", fontSize: "11px" }}
-                        className="btn text-white "
-                      >
-                        <span>
-                          <i className="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li className="m-1">
-                    <Link className="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#22A033",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i
-                            className="fa fa-file-excel"
-                            aria-hidden="true"
-                          ></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li className="m-1">
-                    <Link to="/add-event">
-                      <button
-                        style={{ backgroundColor: "#3A74FF", fontSize: "11px" }}
-                        className="btn text-white"
-                      >
-                        <span>
-                          <i
-                            className="fa fa-plus-circle"
-                            aria-hidden="true"
-                          ></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                </ol>
+                  </div>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
-        </div>
-
-        <div className="container-fluid mt-2">
-          <div className="card">
-            <div className="card-body pt-2">
-              <table
-                ref={tableRef}
-                className="table table-hover table-bordered table-striped"
-              >
-                <thead
-                  className="bg-light"
-                  style={{ position: "sticky", top: "0", zIndex: 100 }}
-                >
-                  <tr>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Event
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Date
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Countdown
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Users
-                    </th>
-                    <th style={{ fontSize: "12px", fontWeight: "bold" }}>
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {notification.map((data, index) => (
-                    <tr key={index}>
-                      <td style={{ fontSize: "12px" }}>{data.subject}</td>
-                      <td style={{ fontSize: "12px" }}>
-                        {formatDate(data.date)}
-                      </td>
-                      <td style={{ fontSize: "12px" }}>
-                        {timeLefts[data._id] ? (
-                          <>
-                            {timeLefts[data._id].days}d{" "}
-                            {timeLefts[data._id].hours}h{" "}
-                            {timeLefts[data._id].minutes}m{" "}
-                            {timeLefts[data._id].seconds}s
-                          </>
-                        ) : (
-                          "Event Started"
-                        )}
-                      </td>
-                      <td style={{ fontSize: "12px" }}>{data.users}</td>
-                      <td>
-                        <div className="d-flex flex-row">
-                          <Link
-                            to={`/edit-event/${data._id}`}
-                            className="m-1 btn-sm btn btn-primary"
-                            style={{ fontSize: "11px" }}
-                          >
-                            Edit
-                          </Link>
-                          <button
-                            onClick={() => openPopup(data._id)}
-                            className="m-1 btn-sm btn btn-danger"
-                            style={{ fontSize: "11px" }}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div className="card-footer pb-0">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-auto">
-              <Pagination
-                count={Math.ceil(pagination.count / pageSize)}
-                onChange={handlePageChange}
-                variant="outlined"
-                shape="rounded"
-                size="small"
-                siblingCount={0}
-              />
-            </div>
-          </div>
-        </div>
       </div>
-
-      <Dialog open={open} onClose={closePopup}>
-        <DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={closePopup}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            X
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <div className="d-flex justify-content-center align-items-center">
-            <div>
-              <h4>Are you sure?</h4>
-              <div>
-                <button
-                  className="btn btn-primary mx-2"
-                  onClick={deleteProgramData}
-                >
-                  Yes
-                </button>
-                <button className="btn btn-secondary mx-2" onClick={closePopup}>
-                  No
-                </button>
-              </div>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </>
   );
-};
-export default ListEvents;
+}
+
+export default AddCommission;

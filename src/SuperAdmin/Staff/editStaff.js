@@ -14,6 +14,7 @@ import {
 import Sidebar from "../../compoents/sidebar";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
+import BackButton from "../../compoents/backButton";
 export const AddStaff = () => {
  
   const location = useLocation();
@@ -364,11 +365,14 @@ export const AddStaff = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
-              <div className=" container-fluid">
+            <BackButton/>
+             
+            </div>
+            <div className=" container-fluid">
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-xl-12 ">
-                      <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                      <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                         <div
                           className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                           style={{ background: "#fe5722", color: "#fff" }}
@@ -1433,7 +1437,6 @@ export const AddStaff = () => {
                   </div>
                 </form>
               </div>
-            </div>
           </div>
         </div>
       

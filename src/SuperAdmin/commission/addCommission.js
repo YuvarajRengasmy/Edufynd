@@ -11,7 +11,7 @@ import Flags from "react-world-flags";
 
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
-
+import BackButton from "../../compoents/backButton";
 function AddCommission() {
   const initialState = {
     country: "",
@@ -26,9 +26,8 @@ function AddCommission() {
     clientName: "",
     years: [
       {
-        id: 1,
         year: "",
-        courseTypes: [{ courseType: "", inTake: "", value: null }],
+        courseTypes: [{ courseType: "", inTake: [{ inTake: "", value: "" }] }],
       },
     ],
   };
@@ -106,42 +105,6 @@ function AddCommission() {
       });
   };
 
-  const validateYears = (years) => {
-    const errors = [];
-    for (let i = 0; i < years.length; i++) {
-      const year = years[i];
-      const yearErrors = {};
-
-      if (!year.year) {
-        yearErrors.year = "Year is required.";
-      }
-
-      yearErrors.courseTypes = [];
-      for (let j = 0; j < year.courseTypes.length; j++) {
-        const courseType = year.courseTypes[j];
-        const courseTypeErrors = {};
-
-        if (!courseType.courseType) {
-          courseTypeErrors.courseType = "Course Type is required.";
-        }
-
-        if (!courseType.inTake) {
-          courseTypeErrors.inTake = "Intake is required.";
-        }
-
-        if (courseType.value === null || courseType.value === "") {
-          courseTypeErrors.value = "Value is required.";
-        } else if (isNaN(courseType.value) || Number(courseType.value) >= 35) {
-          courseTypeErrors.value = "Value must be a number less than 35.";
-        }
-
-        yearErrors.courseTypes[j] = courseTypeErrors;
-      }
-
-      errors[i] = yearErrors;
-    }
-    return errors;
-  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (!data.country) {
@@ -166,58 +129,95 @@ function AddCommission() {
       error.years.required = true;
     }
 
-    const yearValidationErrors = validateYears(data.years);
-    if (
-      yearValidationErrors.some(
-        (yearError) => Object.keys(yearError).length > 0
-      )
-    ) {
-      errors.years = {
-        required: false,
-        valid: true,
-        message: "Please fix the errors in the year fields.",
-      };
-      errors.yearErrors = yearValidationErrors;
-    }
+
 
     return error;
   };
-  const addYear = () => {
-    const newYear = {
-      year: "",
-      courseTypes: [{ courseType: "", intake: "", value: null }],
-    };
-    setYears([...years, newYear]);
+ 
+  const handleYearChange = (yearIndex, fieldName, value) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
   };
 
+  const handleCourseTypeChange = (
+    yearIndex,
+    courseTypeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const handleIntakeChange = (
+    yearIndex,
+    courseTypeIndex,
+    intakeIndex,
+    fieldName,
+    value
+  ) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake[
+      intakeIndex
+    ][fieldName] = value;
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const addYear = () => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: [
+        ...prevState.years,
+        {
+          year: "",
+          courseTypes: [
+            { courseType: "", inTake: [{ inTake: "", value: "" }] },
+          ],
+        },
+      ],
+    }));
+  };
+  const removeYear = (indexToRemove) => {
+    setCommission((prevState) => ({
+      ...prevState,
+      years: prevState.years.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+  
+
   const addCourseType = (yearIndex) => {
-    const updatedYears = [...years];
+    const updatedYears = [...commission.years];
     updatedYears[yearIndex].courseTypes.push({
       courseType: "",
-      intake: "",
-      value: null,
+      inTake: [{ inTake: "", value: "" }],
     });
-    setYears(updatedYears);
+    setCommission({ ...commission, years: updatedYears });
   };
 
   const removeCourseType = (yearIndex, courseTypeIndex) => {
     const updatedYears = [...commission.years];
     updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
-    setCommission({
-      ...commission,
-      years: updatedYears,
-    });
+    setCommission({ ...commission, years: updatedYears });
   };
 
-  
-  const handleInputChange = (yearIndex, courseTypeIndex, fieldName, value) => {
-    const updatedYears = [...years];
-    if (courseTypeIndex !== null) {
-      updatedYears[yearIndex].courseTypes[courseTypeIndex][fieldName] = value;
-    } else {
-      updatedYears[yearIndex][fieldName] = value;
-    }
-    setYears(updatedYears);
+  const addIntake = (yearIndex, courseTypeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.push({
+      inTake: "",
+      value: "",
+    });
+    setCommission({ ...commission, years: updatedYears });
+  };
+
+  const removeIntake = (yearIndex, courseTypeIndex, intakeIndex) => {
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.splice(
+      intakeIndex,
+      1
+    );
+    setCommission({ ...commission, years: updatedYears });
   };
   const yearOptions = year.map((data) => ({
     value: data.year,
@@ -292,8 +292,7 @@ function AddCommission() {
       setErrors(newError);
     }
   };
-
-  const handleErrors = (obj) => {
+    const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const prop = obj[key];
@@ -305,6 +304,7 @@ function AddCommission() {
     return true;
   };
 
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -312,14 +312,18 @@ function AddCommission() {
     const newError = handleValidation(commission);
     setErrors(newError);
     setSubmitted(true);
+
+    // If there are no validation errors, proceed
     if (handleErrors(newError)) {
       // Prepare years data for submission
-      const yearsData = years.map((year) => ({
+      const yearsData = commission.years.map((year) => ({
         year: year.year,
         courseTypes: year.courseTypes.map((courseType) => ({
           courseType: courseType.courseType,
-          inTake: courseType.inTake,
-          value: courseType.value,
+          inTake: courseType.inTake.map((inTake) => ({
+            inTake: inTake.inTake,
+            value: inTake.value,
+          })),
         })),
       }));
 
@@ -332,14 +336,18 @@ function AddCommission() {
       // Call API to save commission
       saveCommission(dataToSave)
         .then((res) => {
-          toast.success(res?.data?.message);
+          toast.success(res?.data?.message || "Commission saved successfully!");
           navigate("/list_commission");
         })
         .catch((err) => {
-          toast.error(err?.response?.data?.message);
+          toast.error(
+            err?.response?.data?.message ||
+              "An error occurred while saving the commission."
+          );
         });
     }
   };
+
 
   return (
     <>
@@ -350,7 +358,11 @@ function AddCommission() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-          <div className="container-fluid">
+
+        <BackButton/>
+        
+        </div>
+        <div className="container-fluid">
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-xl-12">
@@ -649,82 +661,56 @@ function AddCommission() {
 
                         <div className="row g-3 mt-3">
                           <div className="col-12">
-                            {years.map((year, yearIndex) => (
-                              <div
-                                key={yearIndex}
-                                className="year-section mb-3"
-                              >
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Year
-                                  </label>
-                                  <select
-                                    style={{
-                                      backgroundColor: "#fff",
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "14px",
-                                    }}
-                                    value={year?.year}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        yearIndex,
-                                        null,
-                                        "year",
-                                        e.target.value
-                                      )
-                                    }
-                                    name="year"
-                                    className="form-select form-select-lg rounded-2 mb-3 "
-                                    placeholder="Enter Year"
-                                  >
-                                    <option value="">Select Year</option>
-                                    {yearOptions.map((option) => (
-                                      <option
-                                        key={option.value}
-                                        value={option.value}
-                                      >
-                                        {option.label}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                                <div>
-                                  <div>
-                                    {year?.courseTypes &&
-                                      year?.courseTypes.map(
-                                        (courseType, courseTypeIndex) => (
-                                          <div
-                                            className="row g-3"
-                                            key={courseTypeIndex}
-                                          >
-                                            <div className=" col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                              <label
-                                                style={{ color: "#231F20" }}
-                                              >
-                                                Course Type
-                                              </label>
-                                              <select
-                                                className="form-select form-select-lg rounded-2"
-                                                value={courseType.courseType}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    yearIndex,
-                                                    courseTypeIndex,
-                                                    "courseType",
-                                                    e.target.value
-                                                  )
-                                                }
-                                                style={{
-                                                  fontFamily:
-                                                    "Plus Jakarta Sans",
-                                                  fontSize: "12px",
-                                                }}
-                                              >
-                                                <option value="">
-                                                  Select Course Type
-                                                </option>
-
-                                                {(
+                          {commission.years.map((year, yearIndex) => (
+                            <div className="row g-3">
+            <div key={yearIndex}>
+               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label>Year</label>
+                <select
+                  name="year"
+                  className={`form-select rounded-1 ${errors.years.required ? "is-invalid" : ""
+                    }`}
+                  value={year.year}
+                  onChange={(e) =>
+                    handleYearChange(yearIndex, "year", e.target.value)
+                  }
+                >
+                  <option value="">Select Year</option>
+                  {yearOptions.map((yearOption) => (
+                    <option key={yearOption.value} value={yearOption.value}>
+                      {yearOption.label}
+                    </option>
+                  ))}
+                </select>
+                {errors.years.required && (
+                  <div className="invalid-feedback">Year is required</div>
+                )}
+              </div>
+              </div>
+              {year.courseTypes.map((courseType, courseTypeIndex) => (
+                 
+                <div >
+                
+                  <div key={courseTypeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label>Course Type</label>
+                   
+                    <select
+                      name="courseType"
+                      className={`form-select rounded-1 ${errors.courseType?.required ? "is-invalid" : ""
+                        }`}
+                      value={courseType.courseType}
+                      onChange={(e) =>
+                        handleCourseTypeChange(
+                          yearIndex,
+                          courseTypeIndex,
+                          "courseType",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="">Select Course Type</option>
+                      {(
                                                   universities.find(
                                                     (uni) =>
                                                       uni.universityName ===
@@ -738,36 +724,37 @@ function AddCommission() {
                                                     {type}
                                                   </option>
                                                 ))}
-                                              </select>
-                                            </div>
-                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                              <label
-                                                style={{ color: "#231F20" }}
-                                              >
-                                                Intake
-                                              </label>
-                                              <select
-                                                className="form-select form-select-lg rounded-2"
-                                                value={courseType.inTake}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    yearIndex,
-                                                    courseTypeIndex,
-                                                    "inTake",
-                                                    e.target.value
-                                                  )
-                                                }
-                                                style={{
-                                                  fontFamily:
-                                                    "Plus Jakarta Sans",
-                                                  fontSize: "12px",
-                                                }}
-                                              >
-                                                <option value="">
-                                                  Select Intake
-                                                </option>
+                    </select>
+                    {errors.courseType?.required && (
+                      <div className="invalid-feedback">
+                        Course Type is required
+                      </div>
+                    )}
+                  </div>
+              
 
-                                                {(
+                  {courseType.inTake.map((intake, intakeIndex) => (
+                    
+                      <div className="row g-2">
+                      <div  key={intakeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label>Intake</label>
+                     <select
+                        name="inTake"
+                        className={`form-control ${errors.inTake?.required ? "is-invalid" : ""
+                          }`}
+                        value={intake.inTake}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "inTake",
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="">Select Intake</option>
+                        {(
                                                   universities.find(
                                                     (uni) =>
                                                       uni.universityName ===
@@ -781,85 +768,99 @@ function AddCommission() {
                                                     {type}
                                                   </option>
                                                 ))}
-                                              </select>
-                                            </div>
-                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                              <label
-                                                style={{ color: "#231F20" }}
-                                              >
-                                                Value
-                                              </label>
-                                              <input
-                                                className="form-control rounded-2"
-                                                type="text"
-                                                name="value"
-                                                placeholder="Enter Value"
-                                                value={courseType.value}
-                                                style={{
-                                                  fontFamily:
-                                                    "Plus Jakarta Sans",
-                                                  fontSize: "12px",
-                                                }}
-                                                onChange={(e) =>
-                                                  handleInputChange(
-                                                    yearIndex,
-                                                    courseTypeIndex,
-                                                    "value",
-                                                    e.target.value
-                                                  )
-                                                }
-                                              />
-                                            </div>
+                      </select>
+                      </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label>Value</label>
+                      <input
+                        type="text"
+                        name="value"
+                        className="form-control"
+                        value={intake.value}
+                        onChange={(e) =>
+                          handleIntakeChange(
+                            yearIndex,
+                            courseTypeIndex,
+                            intakeIndex,
+                            "value",
+                            e.target.value
+                          )
+                        }
+                      />
+                      </div>
 
-                                            <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                                              <button
-                                                type="button"
-                                                className="btn text-white btn-danger  mb-3"
-                                                onClick={() =>
-                                                  removeCourseType(
-                                                    yearIndex,
-                                                    courseTypeIndex
-                                                  )
-                                                }
-                                                style={{
-                                                  fontSize: "12px",
-                                                }}
-                                              >
-                                                <FaTrash />
-                                              </button>
-                                            </div>
-                                          </div>
-                                        )
-                                      )}
-                                    <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
-                                      <button
-                                        type="button"
-                                        className="btn text-uppercase px-4 py-2 fw-semibold  text-white "
-                                        onClick={() => addCourseType(yearIndex)}
-                                        style={{
-                                          backgroundColor: "#FE5722",
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                      >
-                                        <i
-                                          class="fa fa-plus-circle me-2"
-                                          aria-hidden="true"
-                                        ></i>{" "}
-                                        Course
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
+                      <div className='d-inline text-end'>
+                      <button
+                      type="button"
+                     
+                      className="btn rounded-1 btn-danger "
+                      onClick={() =>
+                        removeIntake(yearIndex, courseTypeIndex, intakeIndex)
+                      }
+                    >
+                      <FaTrash /> Remove Intake
+                    </button>
+                   
+                      </div>
+                    
+                     
+                      </div>
+                     
+                  ))}
+
+
+
+
+
+
+
+
+<div className=' text-en my-1'>
+<button
+                    type="button"
+                    className="btn rounded-1 btn-secondary"
+                    onClick={() => addIntake(yearIndex, courseTypeIndex)}
+                  >
+                 <i class="fa fa-plus-circle" aria-hidden="true"></i>   Add Intake
+                  </button>
+</div>
+<div className=' text-end my-1'>
+<button
+                    type="button"
+                    className="btn rounded-1 btn-danger"
+                    onClick={() =>
+                      removeCourseType(yearIndex, courseTypeIndex)
+                    }
+                  >
+                    <FaTrash /> Remove Course 
+                  </button>
+</div>
+                 
+
+                 
+                </div>
+               
+              ))}
+<div className=' text-start'>
+<button
+                type="button"
+                className="btn rounded-1 btn-secondary"
+                onClick={() => addCourseType(yearIndex)}
+              >
+               <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Course 
+              </button>
+</div>
+             
+            </div>
+            </div>
+          ))}
                           </div>
                         </div>
                         <div className="row g-3 ">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
+                          <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto my-3">
                             <button
                               type="button"
-                              className="btn px-4 py-2 text-uppercase fw-semibold  text-white "
+                              className="btn rounded-1 border-0 fw-semibold  text-white "
                               style={{
                                 backgroundColor: "#FE5722",
                                 fontFamily: "Plus Jakarta Sans",
@@ -873,7 +874,9 @@ function AddCommission() {
                               ></i>{" "}
                               Add Year
                             </button>
+
                           </div>
+                          
                         </div>
                       </div>
 
@@ -886,7 +889,7 @@ function AddCommission() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                            className="btn rounded-1 btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                           >
                             Cancel
                           </Link>
@@ -897,7 +900,7 @@ function AddCommission() {
                               fontSize: "12px",
                             }}
                             type="submit"
-                            className="btn btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                            className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
                           >
                             Submit
                           </button>
@@ -909,7 +912,6 @@ function AddCommission() {
               </div>
             </form>
           </div>
-        </div>
       </div>
     </>
   );

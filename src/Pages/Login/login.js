@@ -110,7 +110,7 @@ const Login = () => {
               };
               saveToken(data);
               if (isAuthenticated()) {
-                  navigate("/ViewProfile");
+                  navigate("/staff_dashboard");
                   window.location.reload(); // Refresh the page
               }
           }

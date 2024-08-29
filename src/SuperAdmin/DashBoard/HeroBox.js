@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar, Line } from "react-chartjs-2";
 import Sidebar from "../../compoents/sidebar";
 import 'chart.js/auto';
-import BackButton from "../../compoents/backButton";
+// import BackButton from "../../compoents/backButton";
 import {
   FaTrash, FaListAlt, FaChartBar, FaUser, FaFileAlt, FaSuitcase, FaRegChartBar, FaCalendarAlt, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaCommentsDollar, FaFileInvoice, FaBuilding, FaShieldAlt, FaGlobe, FaCogs, FaTrophy, FaEnvelopeOpenText, FaExclamationCircle,
   FaMoneyBillWave, FaCheckCircle, FaComments, FaEnvelope, FaPhone, FaDollarSign, FaUserAlt, FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram, FaBell, FaChartLine, FaUserCog, FaBullhorn
@@ -119,36 +119,44 @@ export const HeroContent = () => {
       <Sidebar />
     
       <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-    
+      <div className="content-header bg-light sticky-top shadow-sm mb-2 pb-0">
+  <div className="d-flex justify-content-between align-items-center ">
+    <div className="d-flex flex-column">
+      {/* Main title of the dashboard */}
+      <h6 className="fw-bold mb-0" style={{ color: '#0056b3' }}>
+        Dashboard
+      </h6>
+      {/* Current date displayed in smaller text */}
+      <p className="text-secondary mb-0" >
+        <DateTimeDisplay date={currentDate} />
+      </p>
+    </div>
+    <button
+      className="btn"
+      style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasProfile"
+      aria-controls="offcanvasProfile"
+    >
+      Profile {/* Button label */}
+    </button>
+  </div>
+</div>
+
+
         <div className="container-fluid  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
-            <BackButton/>
+            {/* <BackButton/> */}
+         
            
               <div className="d-flex justify-content-between align-items-center">
   {/* Container for the header and profile button */}
-  <div>
-    {/* Main title of the dashboard */}
-    <h1 className="fw-bold mb-1" style={{ color: '#0056b3', fontSize: '24px' }}>
-      Dashboard
-    </h1>
-    {/* Current date displayed in smaller text */}
-    <p className="text-secondary" style={{ fontSize: '16px' }}>
-    <DateTimeDisplay date={currentDate} />
-    </p>
-  </div>
+
   
   {/* Button to open the off-canvas profile menu */}
-  <button
-    className="btn"
-    style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '12px' }}
-    type="button"
-    data-bs-toggle="offcanvas" 
-    data-bs-target="#offcanvasProfile" 
-    aria-controls="offcanvasProfile" 
-  >
-    Profile {/* Button label */}
-  </button>
+ 
  
 </div>
 

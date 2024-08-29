@@ -106,11 +106,11 @@ function ListStaff() {
             <Mastersidebar />
         
         <div className='content-wrapper ' style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-        <div className='content-header bg-light shadow-sm sticky-top'>
+        <div className='content-header bg-light shadow-sm sticky-top mb-0'>
   <div className="container">
     <div className="row">
       <div className='col-xl-12'>
-        <ol className="list-unstyled mb-0 d-flex justify-content-end align-items-center w-100">
+        <ol className="list-unstyled mb-0 d-flex justify-content-end align-items-center w-100 mb-0">
           <li className="flex-grow-1 me-2">
             <div className="input-group" style={{ maxWidth: "600px" }}>
               <input
@@ -253,10 +253,10 @@ function ListStaff() {
 <div className="container mt-3">
       <div className="row">
         {/* Card 1: Active Logins - Daily */}
-        <div className="col-md-3 col-sm-6 mb-3">
+        <div className="col-md-4 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#43A047" }} // Leaf Green
             >
               <div className="card-body">
@@ -273,10 +273,10 @@ function ListStaff() {
         </div>
 
         {/* Card 2: Total Staff - Active Overall */}
-        <div className="col-md-3 col-sm-6 mb-3">
+        <div className="col-md-4 col-sm-6 mb-3">
           <Link to="#" className="text-decoration-none">
             <div
-              className="card rounded-3 border-0 text-white shadow-sm"
+              className="card rounded-1 border-0 text-white shadow-sm"
               style={{ backgroundColor: "#D32F2F" }} // Red
             >
               <div className="card-body">
@@ -446,7 +446,7 @@ function ListStaff() {
         <DialogContent>
           <div className="text-center m-4">
             <h5 className="mb-4 text-capitalize">
-              Are you sure you want to Delete <br /> the selected Staff?
+              Are you sure you want to Delete  the Selected Staff?
             </h5>
             <button
               type="button"

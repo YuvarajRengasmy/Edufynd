@@ -18,7 +18,7 @@ import { getFilterCountry } from "../../api/globalsettings";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate } from "react-router-dom";
-
+import BackButton from "../../compoents/backButton";
 function AddAgent() {
   const initialState = {
     businessName: "",
@@ -359,7 +359,9 @@ function AddAgent() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-          <div className="container-fluid ">
+        <BackButton/>
+        </div>
+        <div className="container-fluid ">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
@@ -1186,7 +1188,6 @@ function AddAgent() {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );

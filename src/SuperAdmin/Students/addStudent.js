@@ -14,6 +14,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
+import BackButton from "../../compoents/backButton";
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
@@ -339,7 +340,11 @@ const handleValidation = (data) => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="content-header ">
-              <div className=" container-fluid ">
+            <BackButton/>
+
+            
+            </div>
+            <div className=" container-fluid ">
                 <div className="row ">
                   <div className="col-xl-12 ">
                     <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
@@ -1413,7 +1418,6 @@ const handleValidation = (data) => {
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       
