@@ -29,7 +29,7 @@ function Profile() {
     courseType: "",
     applicationFee: "",
     currency: "",
-    discountedValue: "",
+    
     englishlanguageTest: "",
     textBox: "",
     universityInterview: "",
@@ -50,7 +50,7 @@ function Profile() {
     courseType: { required: false },
     applicationFee: { required: false },
     currency: { required: false },
-    discountedValue: { required: false },
+   
     englishlanguageTest: { required: false },
     textBox: { required: false },
     universityInterview: { required: false },
@@ -131,16 +131,12 @@ function Profile() {
     if (data.universityInterview === "") {
       error.universityInterview.required = true;
     }
-    if (data.discountedValue === "") {
-      error.discountedValue.required = true;
-    }
+   
 
     if (!isValidNumber(data.applicationFee)) {
       error.applicationFee.valid = true;
     }
-    if (!isValidNumber(data.discountedValue)) {
-      error.discountedValue.valid = true;
-    }
+    
     const campusErrors = data.campuses.map((campus) => ({
       campus: campus.campus === "",
       inTake: campus.inTake === "",
@@ -609,7 +605,7 @@ function Profile() {
                            }
                           </div>
 
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                             <label style={{ color: "#231F20" }}>
                               Currency <span className="text-danger">*</span>
                             </label>
@@ -644,29 +640,7 @@ function Profile() {
                               </div>
                             ) : null}
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Discounted Value
-                            </label>
-                            <input
-                              type="text"
-                              style={{
-                                backgroundColor: "#fff",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              className={`form-control rounded-1 ${errors.discountedValue.required ? 'is-invalid' : errors.discountedValue.valid ? 'is-valid' : '' }`}
-                              placeholder="Enter DiscountedValue"
-                              name="discountedValue"
-                              onChange={handleInputs}
-                            />
-                            {errors.discountedValue.required && (
-                              <span className="text-danger form-text profile_error">
-                                This field is required.
-                              </span>
-                            )}
-                           
-                          </div>
+                         
 
                           <div className="col-lg-12 col-md-12 col-sm-12 text-end">
                             <div>

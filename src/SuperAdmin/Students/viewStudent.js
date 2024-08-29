@@ -2,7 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { getSingleStudent } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
-import { getallProgram, getProgramByUniversity, getProgramByCountry } from "../../api/Program";
+import {
+  getallProgram,
+  getProgramByUniversity,
+  getProgramByCountry,
+} from "../../api/Program";
 import { getUniversitiesByCountry } from "../../api/university";
 import { getallUniversity } from "../../api/university";
 import { saveApplication } from "../../api/applicatin";
@@ -10,9 +14,19 @@ import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
 import { toast } from "react-toastify";
 import { getMonthYear } from "../../Utils/DateFormat";
-import { getallApplication, deleteApplication,getStudentApplication } from "../../api/applicatin";
+import {
+  getallApplication,
+  deleteApplication,
+  getStudentApplication,
+} from "../../api/applicatin";
 
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+} from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -20,7 +34,6 @@ import { Program } from "../../api/endpoints";
 import BackButton from "../../compoents/backButton";
 
 function Profile() {
- 
   const location = useLocation();
   const studentId = new URLSearchParams(location.search).get("id");
 
@@ -38,13 +51,14 @@ function Profile() {
     programTitle: "",
     campus: "",
     courseFees: "",
+    applicationFee:"",
     courseType: "",
   };
   const initialStateErrors = {
     name: { required: false },
     dob: { required: false },
     passportNo: { required: false },
-    // studentId: { required: false },
+    studentId: { required: false },
     country: { required: false },
     email: { required: false },
     primaryNumber: { required: false },
@@ -54,6 +68,7 @@ function Profile() {
     programTitle: { required: false },
     campus: { required: false },
     courseFees: { required: false },
+    applicationFee: { required: false },
     courseType: { required: false },
   };
 
@@ -79,28 +94,27 @@ function Profile() {
 
   useEffect(() => {
     getApplicationList();
-  }, [ pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to]);
 
   const getApplicationList = () => {
- 
     getStudentApplication(studentId)
-    .then((res) => {
-      console.log("API Response:", res); // Debugging API response
-      if (res?.data?.result && Array.isArray(res.data.result)) {
-        setApplication(res.data.result);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.length,
-        });
-      } else {
-        console.warn("Unexpected response structure:", res);
-      }
-    })
-    .catch((err) => {
-      console.error("Error fetching programs:", err);
-    });
+      .then((res) => {
+        console.log("API Response:", res); // Debugging API response
+        if (res?.data?.result && Array.isArray(res.data.result)) {
+          setApplication(res.data.result);
+          setPagination({
+            ...pagination,
+            count: res?.data?.result?.length,
+          });
+        } else {
+          console.warn("Unexpected response structure:", res);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching programs:", err);
+      });
   };
-const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     getStudentDetails();
     getAllCurrencyDetails();
@@ -122,8 +136,8 @@ const navigate = useNavigate();
           studentId: result?._id,
           email: result?.email,
           primaryNumber: result?.primaryNumber,
-          whatsAppNumber: result?.whatsAppNumber
-      }));
+          whatsAppNumber: result?.whatsAppNumber,
+        }));
       })
       .catch((err) => {
         console.log(err);
@@ -169,7 +183,7 @@ const navigate = useNavigate();
         console.log(err);
       });
   };
- 
+
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
     for (let key in data) {
@@ -196,7 +210,10 @@ const navigate = useNavigate();
         setUniversities(res?.data?.result || []);
       })
       .catch((err) => {
-        console.error(`Error fetching universities for ${selectedCountry}:`, err);
+        console.error(
+          `Error fetching universities for ${selectedCountry}:`,
+          err
+        );
       });
   };
 
@@ -210,19 +227,25 @@ const navigate = useNavigate();
         setPrograms(res?.data?.data?.universityDetails?.programDetails || []);
       })
       .catch((err) => {
-        console.error(`Error fetching programs for ${selectedUniversity}:`, err);
+        console.error(
+          `Error fetching programs for ${selectedUniversity}:`,
+          err
+        );
       });
   };
 
   const handleProgramChange = (event) => {
     const selectedProgramTitle = event.target.value;
-    const program = programs.find((prog) => prog.programTitle === selectedProgramTitle);
+    const program = programs.find(
+      (prog) => prog.programTitle === selectedProgramTitle
+    );
     setSelectedProgram(program || null);
     setInputs((prevInputs) => ({
       ...prevInputs,
       programTitle: selectedProgramTitle,
       campus: program ? program.campuses.map((campus) => campus.campus) : [],
       courseType: program ? program.courseType : "",
+      applicationFee: program ? program.applicationFee : "",
     }));
   };
 
@@ -240,35 +263,34 @@ const navigate = useNavigate();
     return !Object.keys(error).some((key) => error[key].required);
   };
 
-const handleSubmit = (event) => {
-  event.preventDefault();
-  setSubmitted(true);
-  if (handleErrors(errors)) {
-        saveApplication(inputs)
-      .then((res) => {
-        toast.success(res?.data?.message);
-        getStudentDetails();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    if (handleErrors(errors)) {
+      saveApplication(inputs)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          getStudentDetails();
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    }
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
 
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message);
-      });
-  }
-};
-const handlePageChange = (event, page) => {
-  const from = (page - 1) * pageSize;
-  const to = (page - 1) * pageSize + pageSize;
-  setPagination({ ...pagination, from: from, to: to });
-};
-const openPopup = (data) => {
-  setOpen(true);
-  setDeleteId(data);
-};
-
-const closePopup = () => {
-  setOpen(false);
-};
-const tableRef = useRef(null);
+  const closePopup = () => {
+    setOpen(false);
+  };
+  const tableRef = useRef(null);
 
   return (
     <>
@@ -279,29 +301,39 @@ const tableRef = useRef(null);
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header ">
+          <BackButton />
 
-<BackButton/>
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb float-end">
+              <li className="breadcrumb-item">
+                <Link
+                  to="/DashBoard"
+                  target="_self"
+                  className="text-decoration-none"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li className="breadcrumb-item">
+                <Link to="/list_student" className="text-decoration-none">
+                  ListSudent
+                </Link>
+              </li>
+              {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+              <li className="breadcrumb-item">
+                <Link
+                  to={{
+                    pathname: "/edit_student",
+                    search: `?studentId=${student?._id}`,
+                  }}
+                  className="text-decoration-none"
+                >
+                  EditStudent
+                </Link>
+              </li>
+            </ol>
+          </nav>
 
-
-        <nav aria-label="breadcrumb">
-  <ol className="breadcrumb float-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/list_student' className="text-decoration-none">ListSudent</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/edit_student",
-          search: `?studentId=${student?._id}`,
-        }} className="text-decoration-none">EditStudent</Link>
-      </li>
-  
-  </ol>
-</nav>
-      
           <div className="container-fluid">
             <h2 className="mb-4 text-center">Student Details</h2>
 
@@ -320,17 +352,17 @@ const tableRef = useRef(null);
               </div>
 
               <div className="col-md-4">
-                <h3 className="mb-2">{student?.name  || "Not Available"}</h3>
+                <h3 className="mb-2">{student?.name || "Not Available"}</h3>
                 <p className="text-muted mb-2">
-                  Student Code: {student?.studentCode  || "Not Available"}
+                  Student Code: {student?.studentCode || "Not Available"}
                 </p>
                 <p className="text-muted mb-2">
                   <i className="fas fa-envelope me-2"></i>
-                  {student?.email  || "Not Available"}
+                  {student?.email || "Not Available"}
                 </p>
                 <p className="text-muted mb-2">
                   <i className="fas fa-phone-alt me-2"></i>
-                  {student?.primaryNumber  || "Not Available"}
+                  {student?.primaryNumber || "Not Available"}
                 </p>
               </div>
               <div className="col-md-4">
@@ -363,7 +395,10 @@ const tableRef = useRef(null);
                   <div class="modal-dialog modal-fullscreen">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h1 class="modal-title fs-5" studentId="exampleModalLabel">
+                        <h1
+                          class="modal-title fs-5"
+                          studentId="exampleModalLabel"
+                        >
                           Course Apply
                         </h1>
                         <button
@@ -373,8 +408,8 @@ const tableRef = useRef(null);
                           aria-label="Close"
                         ></button>
                       </div>
-              
-                       <form onSubmit={handleSubmit}>
+
+                      <form onSubmit={handleSubmit}>
                         <div className="modal-body">
                           <div className="container">
                             <div className="row g-4">
@@ -385,14 +420,21 @@ const tableRef = useRef(null);
                                 <select
                                   className="form-select font-weight-light"
                                   name="country"
-                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "14px",
+                                  }}
                                   value={inputs.country}
                                   onChange={handleCountryChange}
                                 >
                                   <option value="">Select Country</option>
-                                  {countries.map((country) => (
-                                    <option key={country._id} value={country.country}>
-                                      {country.country}
+                                  {[
+                                    ...new Set(
+                                      universities.map((uni) => uni.country)
+                                    ),
+                                  ].map((country, index) => (
+                                    <option key={index} value={country}>
+                                      {country}
                                     </option>
                                   ))}
                                 </select>
@@ -404,18 +446,25 @@ const tableRef = useRef(null);
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
-                                  University<span className="text-danger">*</span>
+                                  University
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <select
                                   className="form-select font-weight-light"
                                   name="universityName"
-                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "14px",
+                                  }}
                                   value={inputs.universityName}
                                   onChange={handleUniversityChange}
                                 >
                                   <option value="">Select University</option>
                                   {universities.map((uni) => (
-                                    <option key={uni._id} value={uni.universityName}>
+                                    <option
+                                      key={uni._id}
+                                      value={uni.universityName}
+                                    >
                                       {uni.universityName}
                                     </option>
                                   ))}
@@ -433,13 +482,19 @@ const tableRef = useRef(null);
                                 <select
                                   className="form-select font-weight-light"
                                   name="programTitle"
-                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "14px",
+                                  }}
                                   value={inputs.programTitle}
                                   onChange={handleProgramChange}
                                 >
                                   <option value="">Select Program</option>
                                   {programs.map((program) => (
-                                    <option key={program._id} value={program.programTitle}>
+                                    <option
+                                      key={program._id}
+                                      value={program.programTitle}
+                                    >
                                       {program.programTitle}
                                     </option>
                                   ))}
@@ -457,14 +512,24 @@ const tableRef = useRef(null);
                                 <select
                                   className="form-select font-weight-light"
                                   name="campus"
-                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "14px",
+                                  }}
                                   value={inputs.campus}
                                   onChange={handleInputs}
                                 >
                                   <option value="">Select Campus</option>
-                                  {selectedProgram?.campuses?.map((campus) => (
-                                    <option key={campus.campus} value={campus.campus}>
-                                      {campus.campus}
+                                
+                                  {[
+                                    ...new Set(
+                                      selectedProgram?.campuses?.map(
+                                        (campus) => campus.campus
+                                      )
+                                    ),
+                                  ].map((uniqueCampus, index) => (
+                                    <option key={index} value={uniqueCampus}>
+                                      {uniqueCampus}
                                     </option>
                                   ))}
                                 </select>
@@ -481,16 +546,27 @@ const tableRef = useRef(null);
                                 <select
                                   className="form-select font-weight-light"
                                   name="inTake"
-                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "14px",
+                                  }}
                                   value={inputs.inTake}
                                   onChange={handleInputs}
                                 >
                                   <option value="">Select Intake</option>
-                                  {selectedProgram?.campuses?.map((campus) => (
-                                    <option key={campus.campus} value={campus.inTake}>
-                                      {campus.inTake}
+
+                                  {[
+                                    ...new Set(
+                                      selectedProgram?.campuses?.map(
+                                        (campus) => campus.inTake
+                                      )
+                                    ),
+                                  ].map((uniqueCampus, index) => (
+                                    <option key={index} value={uniqueCampus}>
+                                      {uniqueCampus}
                                     </option>
                                   ))}
+                                 
                                 </select>
                                 {errors.inTake.required && (
                                   <span className="text-danger form-text profile_error">
@@ -522,7 +598,7 @@ const tableRef = useRef(null);
                                   </span>
                                 ) : null}
                               </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  ">
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden  ">
                                 <label style={{ color: "#231F20" }}>
                                   Student Id
                                   <span className="text-danger">*</span>
@@ -540,7 +616,6 @@ const tableRef = useRef(null);
                                   }}
                                   name="studentId"
                                 />
-                               
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                                 <label style={{ color: "#231F20" }}>
@@ -684,21 +759,51 @@ const tableRef = useRef(null);
                                   </span>
                                 ) : null}
                               </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                ApplicationFee
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control rounded-1 p-2"
+                                  placeholder="Enter Course Type"
+                                  name="applicationFee"
+                                  value={inputs?.applicationFee}
+                                  onChange={handleInputs}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                />
+                                {errors.applicationFee.required ? (
+                                  <span className="text-danger form-text profile_error">
+                                    This field is required.
+                                  </span>
+                                ) : null}
+                              </div>
                               {/* Add additional fields here */}
                             </div>
                           </div>
                         </div>
                         <div className="modal-footer">
                           <Link
-                          
-                          
                             className="btn btn-secondary"
                             data-bs-dismiss="modal"
                           >
                             Close
                           </Link>
-                          <button type="submit" data-bs-dismiss="modal" className="btn" style={{ backgroundColor: "#fe5722", color: "#fff" }}>
-                           Submit
+                          <button
+                            type="submit"
+                            data-bs-dismiss="modal"
+                            className="btn"
+                            style={{
+                              backgroundColor: "#fe5722",
+                              color: "#fff",
+                            }}
+                          >
+                            Submit
                           </button>
                         </div>
                       </form>
@@ -719,26 +824,32 @@ const tableRef = useRef(null);
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>Source:</strong> {student?.source  || "Not Available"}
+                      <strong>Source:</strong>{" "}
+                      {student?.source || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Date of Birth:</strong> {student?.dob  || "Not Available"}
+                      <strong>Date of Birth:</strong>{" "}
+                      {student?.dob || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Passport:</strong> {student?.passportNo  || "Not Available"}
+                      <strong>Passport:</strong>{" "}
+                      {student?.passportNo || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Expiry Date:</strong> {student?.expiryDate  || "Not Available"}
+                      <strong>Expiry Date:</strong>{" "}
+                      {student?.expiryDate || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Citizenship:</strong> {student?.citizenship  || "Not Available"}
+                      <strong>Citizenship:</strong>{" "}
+                      {student?.citizenship || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Gender:</strong> {student?.gender || "Not Available"}
+                      <strong>Gender:</strong>{" "}
+                      {student?.gender || "Not Available"}
                     </li>
                     <li className="list-group-item">
                       <strong>WhatsApp Number:</strong>{" "}
-                      {student?.whatsAppNumber  || "Not Available"}
+                      {student?.whatsAppNumber || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -758,19 +869,24 @@ const tableRef = useRef(null);
                       {student?.highestQualification || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Degree Name:</strong> {student?.degreeName || "Not Available"}
+                      <strong>Degree Name:</strong>{" "}
+                      {student?.degreeName || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Institution:</strong> {student?.institution || "Not Available"}
+                      <strong>Institution:</strong>{" "}
+                      {student?.institution || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Percentage:</strong> {student?.percentage || "Not Available"}
+                      <strong>Percentage:</strong>{" "}
+                      {student?.percentage || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Academic Year:</strong> {student?.academicYear || "Not Available"}
+                      <strong>Academic Year:</strong>{" "}
+                      {student?.academicYear || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Year Passed:</strong> {student?.yearPassed || "Not Available"}
+                      <strong>Year Passed:</strong>{" "}
+                      {student?.yearPassed || "Not Available"}
                     </li>
                   </ul>
                 </div>
@@ -801,7 +917,9 @@ const tableRef = useRef(null);
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">{student?.testScore || "Not Available"}</li>
+                    <li className="list-group-item">
+                      {student?.testScore || "Not Available"}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -814,7 +932,9 @@ const tableRef = useRef(null);
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">{student?.dateOfTest || "Not Available"}</li>
+                    <li className="list-group-item">
+                      {student?.dateOfTest || "Not Available"}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -876,20 +996,21 @@ const tableRef = useRef(null);
                       <i className="fas fa-briefcase me-2"></i> Work Experience
                     </h5>
                   </div>
-                 
+
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>Total Year:</strong> {student?.duration || "Not Available"}
+                      <strong>Total Year:</strong>{" "}
+                      {student?.duration || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Role:</strong>  {student?.lastDesignation || "Not Available"} 
+                      <strong>Role:</strong>{" "}
+                      {student?.lastDesignation || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Company Name:</strong> {student?.lastEmployeer || "Not Available"}
+                      <strong>Company Name:</strong>{" "}
+                      {student?.lastEmployeer || "Not Available"}
                     </li>
-                    
                   </ul>
-
                 </div>
               </div>
 
@@ -902,20 +1023,22 @@ const tableRef = useRef(null);
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>VisaRejections:</strong> {student?.anyVisaRejections || "Not Available"}
+                      <strong>VisaRejections:</strong>{" "}
+                      {student?.anyVisaRejections || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>VisaReason:</strong>  {student?.visaReason || "No Visa Rejections"} 
+                      <strong>VisaReason:</strong>{" "}
+                      {student?.visaReason || "No Visa Rejections"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Travel Date:</strong> {student?.dateVisa || "No Visa Rejections"}
+                      <strong>Travel Date:</strong>{" "}
+                      {student?.dateVisa || "No Visa Rejections"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Purpose:</strong> {student?.purposeVisa|| "No Visa Rejections"}
+                      <strong>Purpose:</strong>{" "}
+                      {student?.purposeVisa || "No Visa Rejections"}
                     </li>
-                    
                   </ul>
-
                 </div>
               </div>
 
@@ -923,29 +1046,30 @@ const tableRef = useRef(null);
                 <div className="card mb-3 shadow-sm">
                   <div className="card-header bg-danger text-white">
                     <h5 className="card-title mb-0">
-                    <i className="fas fa-globe-americas me-2"></i>  Travel History
-                     
+                      <i className="fas fa-globe-americas me-2"></i> Travel
+                      History
                     </h5>
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>Do You Have Travel History:</strong> {student?.doYouHaveTravelHistory || "Not Available"}
+                      <strong>Do You Have Travel History:</strong>{" "}
+                      {student?.doYouHaveTravelHistory || "Not Available"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Travel Date:</strong>  {student?.date || "No Travel History"} 
+                      <strong>Travel Date:</strong>{" "}
+                      {student?.date || "No Travel History"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Purpose:</strong> {student?.purpose || "No Travel History"}
+                      <strong>Purpose:</strong>{" "}
+                      {student?.purpose || "No Travel History"}
                     </li>
                     <li className="list-group-item">
-                      <strong>Country Name:</strong> {student?.countryName|| "No Travel History"}
+                      <strong>Country Name:</strong>{" "}
+                      {student?.countryName || "No Travel History"}
                     </li>
-                    
                   </ul>
-
                 </div>
               </div>
-       
 
               <div className="col-lg-6">
                 <div className="card mb-3 shadow-sm">
@@ -977,183 +1101,188 @@ const tableRef = useRef(null);
               </div>
             </div>
             <div className="container">
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card rounded-1 shadow-sm border-0">
-                  <div className="card-body">
-                    <div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className=" table table-hover card-table dataTable table-responsive-sm text-center"
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Date
-                              </th>
-                              <th className="text-capitalize text-start">
-                                {" "}
-                                Code
-                              </th>
-
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Name
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                University Applied
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Course Applied
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Status
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {application?.map((data, index) => (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card rounded-1 shadow-sm border-0">
+                    <div className="card-body">
+                      <div className="card-table">
+                        <div className="table-responsive">
+                          <table
+                            className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                            ref={tableRef}
+                          >
+                            <thead className="table-light">
                               <tr
-                                key={index}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                               >
-                                <td className="text-capitalize text-start text-truncate">
-                                  {pagination.from + index + 1}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {getMonthYear(data?.createdOn) || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.applicationCode || "Not Available"}
-                                </td>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Date
+                                </th>
+                                <th className="text-capitalize text-start">
+                                  {" "}
+                                  Code
+                                </th>
 
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.name || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.universityName || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.course || data?.programTitle || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate"></td>
-
-                                <td className="text-capitalize text-start text-truncate">
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/ApplicationView",
-                                        search: `?studentId=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/EditApplication",
-                                        search: `?studentId=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link>
-                                  </div>
-                                </td>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  {" "}
+                                  Name
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  University Applied
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Course Applied
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Status
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action
+                                </th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {application?.map((data, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {pagination.from + index + 1}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {getMonthYear(data?.createdOn) ||
+                                      "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.applicationCode || "Not Available"}
+                                  </td>
+
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.name || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.universityName || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.course ||
+                                      data?.programTitle ||
+                                      "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate"></td>
+
+                                  <td className="text-capitalize text-start text-truncate">
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/ApplicationView",
+                                          search: `?studentId=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/EditApplication",
+                                          search: `?studentId=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </Link>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                    </div>
-                    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
+                      <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          </div>
-
-
-
 
           <div className="container-fluid my-2">
-  <div className="row ">
-    <div className="col-12 col-lg-7 col-auto">
-      <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
+            <div className="row ">
+              <div className="col-12 col-lg-7 col-auto">
+                <ul className="list-unstyled">
+                  <li className="mb-4 position-relative">
+                    <div className="row align-items-start g-0">
+                      <div className="col-1 d-flex justify-content-center align-items-center">
+                        <div
+                          className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+                          style={{ width: "2rem", height: "2rem" }}
+                        >
+                          <i className="fas fa-check" />
+                        </div>
+                      </div>
+                      <div className="col-4 text-center">
+                        <p className="mb-1 fw-semibold text-muted">
+                          23 August, 2023 10:30 AM
+                        </p>
+                        <p className="mb-0 text-muted">
+                          Changed by:<strong>John Doe</strong>
+                        </p>
+                      </div>
 
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
+                      <div className="col-7">
+                        <div className="mb-3">
+                          <div className="bg-success text-white rounded-3 p-2">
+                            <h6 className="mb-1">New University Name</h6>
+                            <p className="mb-0">University Y</p>
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <div className="bg-danger text-white rounded-3 p-2">
+                            <h6 className="mb-1">Old University Name</h6>
+                            <p className="mb-0">University X</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="position-absolute top-0 start-0 translate-middle-x"
+                      style={{
+                        width: 2,
+                        height: "100%",
+                        backgroundColor: "#007bff",
+                      }}
+                    />
+                  </li>
+                </ul>
               </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
             </div>
           </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
-      </ul>
-    </div>
-  </div>
-</div>
         </div>
       </div>
     </>

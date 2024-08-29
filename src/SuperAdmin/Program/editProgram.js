@@ -30,7 +30,7 @@ function Profile() {
     courseType: "",
     applicationFee: "",
     currency: "",
-    discountedValue: "",
+    
     englishlanguageTest: "",
     textBox: "",
     universityInterview: "",
@@ -51,7 +51,7 @@ function Profile() {
     courseType: { required: false },
     applicationFee: { required: false },
     currency: { required: false },
-    discountedValue: { required: false },
+   
     englishlanguageTest: { required: false },
     textBox: { required: false },
     universityInterview: { required: false },
@@ -161,16 +161,12 @@ function Profile() {
     if (data.universityInterview === "") {
       error.universityInterview.required = true;
     }
-    if (data.discountedValue === "") {
-      error.discountedValue.required = true;
-    }
+  
 
-    if (!isValidNumber(data.applicationFee)) {
-      error.applicationFee.valid = true;
-    }
-    if (!isValidNumber(data.discountedValue)) {
-      error.discountedValue.valid = true;
-    }
+    // if (!isValidNumber(data.applicationFee)) {
+    //   error.applicationFee.valid = true;
+    // }
+   
     const campusErrors = data.campuses.map((campus) => ({
       campus: campus.campus === "",
       inTake: campus.inTake === "",
@@ -384,11 +380,11 @@ function Profile() {
                             >
                               Select Country
                             </option>
-                            {countries.map((country) => (
-                              <option key={country._id} value={country.country}>
-                                {country.country}
-                              </option>
-                            ))}
+                            {[...new Set(university.map(uni => uni.country))].map((country, index) => (
+                             <option key={index} value={country}>
+                               {country}
+                             </option>
+                              ))}
                           </select>
                           {errors.country.required ? (
                             <span className="text-danger form-text profile_error">
@@ -658,8 +654,7 @@ function Profile() {
                             className={`form-control rounded-1 ${
                               errors.applicationFee.required
                                 ? "is-invalid"
-                                : errors.applicationFee.valid
-                                ? "is-valid"
+                                
                                 : ""
                             }`}
                             value={program?.applicationFee}
@@ -714,42 +709,7 @@ function Profile() {
                             </div>
                           ) : null}
                         </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                          <label style={{ color: "#231F20" }}>
-                            Currency<span className="text-danger">*</span>
-                          </label>
-                          <div sm="9" className="d-flex align-items-center">
-                            {program.flag && (
-                              <Flags
-                                code={program.flag}
-                                value={program.flag}
-                                className="me-2"
-                                style={{ width: "30px", height: "20px" }}
-                                onChange={handleInputs}
-                                name="flag"
-                              />
-                            )}
-                            <input
-                              className="form-control"
-                              placeholder="Autofetch Currency"
-                              style={{
-                                backgroundColor: "#fff",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              type="text"
-                              onChange={handleInputs}
-                              name="currency"
-                              value={`${program.currency}`}
-                              readOnly
-                            />
-                          </div>
-                          {errors.currency.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-                        </div>
+                      
 
                         <div className="col-lg-12 col-md-12 col-sm-12 text-end">
                           <div>
