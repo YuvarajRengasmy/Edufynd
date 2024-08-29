@@ -374,14 +374,11 @@ function Profile() {
                               >
                                 Select Country
                               </option>
-                            {university.map((uni) => (
-                              <option
-                                key={uni._id}
-                                value={uni.country}
-                              >
-                                {uni.country}
-                              </option>
-                            ))}
+                              {[...new Set(university.map(uni => uni.country))].map((country, index) => (
+                             <option key={index} value={country}>
+                               {country}
+                             </option>
+                              ))}
                             </select>
                             {errors.country.required ? (
                               <span className="text-danger form-text profile_error">
