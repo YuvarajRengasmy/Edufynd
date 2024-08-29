@@ -26,16 +26,16 @@ body {
 }
 
 /* Hide the spin buttons in Chrome, Safari, Edge, and Opera */
-input[type=number]::-webkit-outer-spin-button,
+/* input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
   margin: 0 !important;
 }
 
 /* Hide the spin buttons in Firefox */
-input[type=number] {
+/* input[type=number] {
   -moz-appearance: textfield !important;
-}
+} */ */
 
 .nav-pills .nav-link{
  

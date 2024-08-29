@@ -496,7 +496,7 @@ export const ListClassSchedule = () => {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="/list_class_schedule"
                 className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
                 style={{
                   backgroundColor: "#0f2239",
