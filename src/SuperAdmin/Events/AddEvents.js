@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { saveEvent } from "../../api/Notification/event";
@@ -12,32 +8,37 @@ import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import { getallUniversity } from "../../api/university";
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { University } from "../../api/endpoints";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export const AddEvents = () => {
   const initialState = {
     typeOfUser: "",
     userName: "",
+    hostName: "",
+    content:"",
     eventTopic: "",
     universityName: "",
     date: "",
     time: "",
     venue: "",
+    fileUpload: [{ fileName: "", fileImage:"" }],
+   
   };
 
   const initialStateErrors = {
     typeOfUser: { required: false },
     userName: { required: false },
+    hostName: { required: false },
+    content: { required: false },
     eventTopic: { required: false },
     universityName: { required: false },
     date: { required: false },
     time: { required: false },
     venue: { required: false },
+   
   };
 
   const [notification, setnotification] = useState(initialState);
@@ -103,6 +104,7 @@ export const AddEvents = () => {
       });
   };
 
+ 
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -112,6 +114,9 @@ export const AddEvents = () => {
 
     if (data.userName === "") {
       error.userName.required = true;
+    }
+    if(data.hostName === "") {
+      error.hostName.required = true;
     }
 
     if (data.eventTopic === "") {
@@ -133,20 +138,35 @@ export const AddEvents = () => {
     return error;
   };
 
-  const convertToBase64 = (e, name) => {
+  const convertToBase64 = (e, name, index, listName) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      setnotification((notification) => ({
-        ...notification,
-        [name]: reader.result,
-      }));
+      const updatedList = [...notification[listName]];
+      updatedList[index][name] = reader.result;
+      setnotification({ ...notification, [listName]: updatedList });
     };
     reader.onerror = (error) => {
       console.log("Error: ", error);
     };
   };
+  
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...notification[listName]];
+  
+    if (files && files[0]) {
+      convertToBase64(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setnotification({ ...notification, [listName]: updatedList });
+    }
+  };
+  
+  
+ 
+ 
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -165,6 +185,19 @@ export const AddEvents = () => {
       });
       setErrors(newError);
     }
+  };
+
+
+  const addEntry = (listName) => {
+    const newEntry = listName === "fileUpload"
+      ? { fileName: "",fileImage: ""}
+      : null;
+    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
+  };
+
+  const removeEntry = (index, listName) => {
+    const updatedList = notification[listName].filter((_, i) => i !== index);
+    setnotification({ ...notification, [listName]: updatedList });
   };
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
@@ -283,15 +316,27 @@ export const AddEvents = () => {
                       <div className="row g-3">
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
-                            Host Name <span className="text-danger">*</span>
+                            Host Name<span className="text-danger">*</span>
                           </label>
-                          <select class="form-select" aria-label="Default select example">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-</div>
+                          <Select
+                            placeholder="Select staff"
+                            onChange={(selectedOption) =>
+                              setnotification({
+                                ...notification,
+                                hostName: selectedOption.value,
+                              })
+                            }
+                            options={staffOptions}
+                            name="hostName"
+                            styles={customStyles}
+                            className="submain-one-form-body-subsection-select"
+                          />
+                          {errors.hostName.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
                      
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -401,6 +446,9 @@ export const AddEvents = () => {
                             ) : null}
                           </div>
                         ) : null}
+                       
+
+                        <div className="row gy-2 ">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Event Topic<span className="text-danger">*</span>
@@ -423,8 +471,6 @@ export const AddEvents = () => {
                             </div>
                           ) : null}
                         </div>
-
-                        <div className="row gy-2 ">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               University<span className="text-danger">*</span>
@@ -523,28 +569,71 @@ export const AddEvents = () => {
 
                         <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
                         <CKEditor
-      editor={ClassicEditor}
-      data="<p>Hello from CKEditor 5!</p>"
-      onChange={(event, editor) => {
-        const data = editor.getData();
-        console.log({ data });
-      }}
-    />
+  editor={ClassicEditor}
+  data={notification.content}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]  // Adjust toolbar as needed
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
                        
                         </div>
-                    
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        
+                        {notification.fileUpload.map((fileUpload, index) => (
+  <div key={index} className="mb-3">
+    <div className="row gy-2 ">
+    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Name</label>
+    <input
+      type="text"
+      name="fileName"
+      value={fileUpload.fileName}
+      onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+      className="form-control rounded-1"
+      style={{ fontSize: "12px" }}
+      placeholder="File Upload Title"
+    />
+    </div>
+    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Document</label>
+    <input
+      type="file"
+      name="fileImage"
+      onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+      className="form-control rounded-1 "
+      style={{ fontSize: "12px" }}
+      placeholder="Upload File"
+    />
+    </div>
+    </div>
+    <button
+      type="button"
+      onClick={() => removeEntry(index, "fileUpload")}
+      className="btn mt-2"
+    >
+      <i className="far fa-trash-alt text-danger me-1"></i>
+    </button>
+  </div>
+))}
 
-                        <label style={{ color: "#231F20" }}>
-                              File<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="file"
-                              className="form-control "/>
-                        </div>
-                        <div className="text-end">
-                          <button className="btn btn-primary">Add</button>
-                          </div>
+<button
+  type="button"
+  onClick={() => addEntry("fileUpload")}
+className="add-customer-btns mb-40 d-flex justify-content-start  ml-auto"
+  style={{ backgroundColor: "#7267ef" }}
+>
+  <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+</button>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link
