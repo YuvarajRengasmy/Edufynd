@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { saveEvent } from "../../api/Notification/event";
@@ -12,32 +8,36 @@ import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import { getallUniversity } from "../../api/university";
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { University } from "../../api/endpoints";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export const AddEvents = () => {
   const initialState = {
     typeOfUser: "",
     userName: "",
+    hostName: "",
+    content:"",
     eventTopic: "",
     universityName: "",
     date: "",
     time: "",
     venue: "",
+    fileUpload: [{ id: 1, file: null }],
   };
 
   const initialStateErrors = {
     typeOfUser: { required: false },
     userName: { required: false },
+    hostName: { required: false },
+    content: { required: false },
     eventTopic: { required: false },
     universityName: { required: false },
     date: { required: false },
     time: { required: false },
     venue: { required: false },
+    fileUpload: { required: false },
   };
 
   const [notification, setnotification] = useState(initialState);
@@ -103,6 +103,15 @@ export const AddEvents = () => {
       });
   };
 
+  const addLabel = () => {
+    setnotification({
+      ...notification,
+      fileUpload: [
+        ...notification.fileUpload,
+        { id: notification.fileUpload.length + 1, file:"" }
+      ]
+    });
+  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -112,6 +121,9 @@ export const AddEvents = () => {
 
     if (data.userName === "") {
       error.userName.required = true;
+    }
+    if(data.hostName === "") {
+      error.hostName.required = true;
     }
 
     if (data.eventTopic === "") {
@@ -147,6 +159,7 @@ export const AddEvents = () => {
       console.log("Error: ", error);
     };
   };
+  
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -166,6 +179,7 @@ export const AddEvents = () => {
       setErrors(newError);
     }
   };
+
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions
@@ -283,15 +297,27 @@ export const AddEvents = () => {
                       <div className="row g-3">
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
-                            Host Name <span className="text-danger">*</span>
+                            Host Name<span className="text-danger">*</span>
                           </label>
-                          <select class="form-select" aria-label="Default select example">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-</div>
+                          <Select
+                            placeholder="Select staff"
+                            onChange={(selectedOption) =>
+                              setnotification({
+                                ...notification,
+                                hostName: selectedOption.value,
+                              })
+                            }
+                            options={staffOptions}
+                            name="hostName"
+                            styles={customStyles}
+                            className="submain-one-form-body-subsection-select"
+                          />
+                          {errors.hostName.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
                      
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -523,26 +549,41 @@ export const AddEvents = () => {
 
                         <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
                         <CKEditor
-      editor={ClassicEditor}
-      data="<p>Hello from CKEditor 5!</p>"
-      onChange={(event, editor) => {
-        const data = editor.getData();
-        console.log({ data });
-      }}
-    />
+  editor={ClassicEditor}
+  data={notification.content}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]  // Adjust toolbar as needed
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
                        
                         </div>
                     
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        {notification.fileUpload && notification.fileUpload.map((fileInput, index) => (
+        <div key={index} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <label style={{ color: "#231F20" }}>
+            File <span className="text-danger">*</span>
+          </label>
+          <input
+            type="file"
+            name="fileUpload"
+           onChange={handleInputs}
+            className="form-control"
+          />
+        </div>
+      ))}
 
-                        <label style={{ color: "#231F20" }}>
-                              File<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="file"
-                              className="form-control "/>
-                        </div>
-                        <div className="text-end"><button className="btn btn-primary">Add</button></div>
+                        <div className="text-end"><button type="button" className="btn btn-primary" onClick={addLabel}>Add</button></div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link
