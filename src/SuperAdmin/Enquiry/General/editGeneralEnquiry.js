@@ -548,7 +548,7 @@ export const AddGeneralEnquiry = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
                         name="name"
                         onChange={handleInputs}
                         id="inputstudentname"
@@ -575,7 +575,7 @@ export const AddGeneralEnquiry = () => {
                         Passport No<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
@@ -602,7 +602,7 @@ export const AddGeneralEnquiry = () => {
                         Expiry Date<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         name="expiryDate"
                         onChange={handleInputs}
@@ -627,7 +627,7 @@ export const AddGeneralEnquiry = () => {
                         Email ID<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
                         name="email"
                         onChange={handleInputs}
                         id="inputEmail"
@@ -681,7 +681,7 @@ export const AddGeneralEnquiry = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+        errors.mobileNumber.required ? 'is-invalid'  : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -744,8 +744,8 @@ export const AddGeneralEnquiry = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.whatsAppNumber.required ? 'is-invalid' : ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -770,7 +770,8 @@ export const AddGeneralEnquiry = () => {
 
                 <div className="col">
                   <label className="form-label" for="inputAddress">CGPA </label>
-                  <input className="form-control" value={student?.cgpa} onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <input className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
+                   value={student?.cgpa} onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.cgpa.required ? (
                     <div className="text-danger form-text">
                       This field is required.
@@ -779,7 +780,7 @@ export const AddGeneralEnquiry = () => {
                 </div>
                 <div className="col">
                   <label className="form-label" for="inputAddress"> Year passed</label>
-                  <input className="form-control" id="inputAddress" value={student?.yearPassed} onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <input className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`} id="inputAddress" value={student?.yearPassed} onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.yearPassed.required ? (
                     <div className="text-danger form-text">
                       This field is required.
@@ -789,7 +790,7 @@ export const AddGeneralEnquiry = () => {
                 </div>
                 <div className="col">
                   <label className="form-label" for="inputEmail4">Desired Country</label>
-                  <input className="form-control" id="inputEmail4" value={student?.desiredCountry} onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <input className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`} id="inputEmail4" value={student?.desiredCountry} onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.desiredCountry.required ? (
                     <div className="text-danger form-text">
                       This field is required.
@@ -802,7 +803,7 @@ export const AddGeneralEnquiry = () => {
               <div className='row mb-3'>
                 <div className="col">
                   <label className="form-label" for="inputPassword4">Desired Course</label>
-                  <input className="form-control" id="inputPassword4" value={student?.desiredCourse} onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <input className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`} id="inputPassword4" value={student?.desiredCourse} onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.desiredCourse.required ? (
                     <div className="text-danger form-text">
                       This field is required.
@@ -812,7 +813,7 @@ export const AddGeneralEnquiry = () => {
                 </div>
                 <div className="col">
                   <label className="form-label" for="inputAddress">Do you need support for loan? </label>
-                  <select className="form-control"
+                  <select className={`form-select form-select-lg  rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
                     name="doYouNeedSupportForLoan"
                     style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                     value={student?.doYouNeedSupportForLoan}
@@ -834,7 +835,7 @@ export const AddGeneralEnquiry = () => {
               <div className='row mb-3'>
                 <div className="col">
                   <label className="form-label" for="inputPassword4">Qualification</label>
-                  <input className="form-control" value={student?.qualification} id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <input className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`} value={student?.qualification} id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.qualification.required ? (
                     <div className="text-danger form-text">
                       This field is required.
@@ -845,7 +846,7 @@ export const AddGeneralEnquiry = () => {
 
                 <div className="col">
                   <label className="form-label" for="inputEmail4"> Assigned To</label>
-                  <input className="form-control" id="inputEmail4" value={student?.assignedTo} onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <input className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`} id="inputEmail4" value={student?.assignedTo} onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.assignedTo.required ?
 
                     <span className="text-danger form-text profile_error">

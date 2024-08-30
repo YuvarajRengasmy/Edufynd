@@ -465,7 +465,7 @@ export const AddAccommodation = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
                           name="source"
                           value={forex?.source}
                         >
@@ -605,7 +605,7 @@ export const AddAccommodation = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.agentPrimaryNumber.required ? 'is-invalid' : errors.agentPrimaryNumber.valid ? 'is-valid' : ''
+        errors.agentPrimaryNumber.required ? 'is-invalid' :  ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -668,8 +668,8 @@ export const AddAccommodation = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.agentWhatsAppNumber.required ? 'is-invalid' : errors.agentWhatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.agentWhatsAppNumber.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -719,7 +719,7 @@ export const AddAccommodation = () => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
                             name="name"
                             onChange={handleInputs}
                             value={forex?.name}
@@ -742,7 +742,7 @@ export const AddAccommodation = () => {
                             Passport No<span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.passportNumber.required ? 'is-invalid' : ''}`}
                             id="inputpassportno"
                             onChange={handleInputs}
                             name="passportNumber"
@@ -765,7 +765,7 @@ export const AddAccommodation = () => {
                             Expiry Date<span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                             id="inputpassportno"
                             name="expiryDate"
                             value={forex?.expiryDate}
@@ -789,7 +789,7 @@ export const AddAccommodation = () => {
                             Email ID<span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
                             name="email"
                             onChange={handleInputs}
                             value={forex?.email}
@@ -843,7 +843,7 @@ export const AddAccommodation = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+        errors.primaryNumber.required ? 'is-invalid' :  ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -906,8 +906,8 @@ export const AddAccommodation = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.whatsAppNumber.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -933,7 +933,7 @@ export const AddAccommodation = () => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="universityName"
                             onChange={handleInputs}
@@ -956,7 +956,7 @@ export const AddAccommodation = () => {
                             Course<span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.courseType.required ?  'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="courseType"
                             onChange={handleInputs}
@@ -1035,7 +1035,7 @@ export const AddAccommodation = () => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.accommodationType.required ?  'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="accommodationType"
                             type="text"
@@ -1058,7 +1058,7 @@ export const AddAccommodation = () => {
                             Assigned To <span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg rounded-2"
+                            className={`form-select form-select-lg rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''} `}
                             onChange={handleInputs}
                             value={forex.assignedTo}
                             name="assignedTo"
@@ -1084,7 +1084,7 @@ export const AddAccommodation = () => {
                             Finalised By<span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className={`form-control rounded-1 ${errors.final.required ? 'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="final"
                             value={forex.final}

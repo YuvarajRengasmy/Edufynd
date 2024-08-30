@@ -422,7 +422,7 @@ export const AddForex = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
                           name="source"
                           value={forex.source}
                         >
@@ -562,7 +562,7 @@ export const AddForex = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.agentPrimaryNumber.required ? 'is-invalid' : errors.agentPrimaryNumber.valid ? 'is-valid' : ''
+        errors.agentPrimaryNumber.required ? 'is-invalid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -625,8 +625,8 @@ export const AddForex = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.agentWhatsAppNumber.required ? 'is-invalid' : errors.agentWhatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.agentWhatsAppNumber.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -677,7 +677,7 @@ export const AddForex = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
                         name="name"
                         onChange={handleInputs}
                         id="inputstudentname"
@@ -695,7 +695,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.name.valid ? (
                         <div className="text-danger form-text">
-                          Enter Name Letter Only
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -704,7 +704,7 @@ export const AddForex = () => {
                         Passport No<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
@@ -722,7 +722,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.passportNo.valid ? (
                         <div className="text-danger form-text">
-                          Enter Vaild Passport Number Only
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -731,7 +731,7 @@ export const AddForex = () => {
                         Expiry Date<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         name="expiryDate"
                         onChange={handleInputs}
@@ -754,7 +754,7 @@ export const AddForex = () => {
                         Email ID<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
                         name="email"
                         onChange={handleInputs}
                         id="inputEmail"
@@ -772,7 +772,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid Email Id.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -808,7 +808,7 @@ export const AddForex = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+        errors.primaryNumber.required ? 'is-invalid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -871,8 +871,8 @@ export const AddForex = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.whatsAppNumber.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -898,7 +898,7 @@ export const AddForex = () => {
                         University Name<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="universityName"
                         onChange={handleInputs}
@@ -916,7 +916,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.universityName.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid universityName.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -926,7 +926,7 @@ export const AddForex = () => {
                         Course<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.courseType.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="courseType"
                         onChange={handleInputs}
@@ -950,7 +950,7 @@ export const AddForex = () => {
                         Payment Type<span className="text-danger">*</span>{" "}
                       </label>
                       <select
-                        className="form-select form-select-lg"
+                        className={`form-select form-select-lg rounded-1 ${errors.paymentType.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
                         name="paymentType"
                         style={{
@@ -983,7 +983,7 @@ export const AddForex = () => {
                         Country<span className="text-danger">*</span>
                       </label>
                       <select
-                        className="form-select rounded-2 p-2"
+                        className={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''} `}
                         name="country"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -1024,7 +1024,7 @@ export const AddForex = () => {
       />
     )}
     <input
-      className="form-control rounded-2"
+      className={`form-control rounded-1 ${errors.currency.required ? 'is-invalid' : ''}`}
       type="text"
       name="currency"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -1032,12 +1032,13 @@ export const AddForex = () => {
       onChange={handleInputs}
       readOnly
     />
-    {errors.currency.required && (
+    
+  </div>
+  {errors.currency.required && (
       <div className="text-danger form-text">
         This field is required.
       </div>
     )}
-  </div>
                     </div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1045,7 +1046,7 @@ export const AddForex = () => {
                         Assigned To <span className="text-danger">*</span>
                       </label>
                       <select
-                        className="form-select form-select-lg"
+                        className={`form-select form-select-lg rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
                         name="assignedTo"
                         style={{
@@ -1071,7 +1072,7 @@ export const AddForex = () => {
                         Value<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.value.required ?  'is-invalid' : ''}`}
                         id="inputamount"
                         name="value"
                         onChange={handleInputs}
@@ -1095,7 +1096,7 @@ export const AddForex = () => {
                         Mark up<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.markUp.required ? 'is-invalid' : ''}`}
                         id="inputamount"
                         name="markUp"
                         onChange={handleInputs}
@@ -1120,7 +1121,7 @@ export const AddForex = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.profit.required ?  'is-invalid' : ''}`}
                         id="inputamount"
                         onChange={handleInputs}
                         value={forex?.profit}
