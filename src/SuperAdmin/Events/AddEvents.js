@@ -424,6 +424,9 @@ export const AddEvents = () => {
                             ) : null}
                           </div>
                         ) : null}
+                       
+
+                        <div className="row gy-2 ">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Event Topic<span className="text-danger">*</span>
@@ -446,8 +449,6 @@ export const AddEvents = () => {
                             </div>
                           ) : null}
                         </div>
-
-                        <div className="row gy-2 ">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               University<span className="text-danger">*</span>
@@ -565,7 +566,7 @@ export const AddEvents = () => {
 />
                        
                         </div>
-                    
+                        
                        
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
