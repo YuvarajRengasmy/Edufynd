@@ -1,65 +1,40 @@
-import React, { useState } from "react";
+// import React, { useState, useEffect } from 'react';
 
-const YourComponent = () => {
-  const initialState = {
-    typeOfUser: "",
-    userName: "",
-    hostName: "",
-    content: "",
-    eventTopic: "",
-    universityName: "",
-    date: "",
-    time: "",
-    venue: "",
-    fileUpload: [], // Empty array to start with
-  };
+// const Age = () => {
+//   const [age, setAge] = useState();
 
-  const [formState, setFormState] = useState(initialState);
+//   const tick = () => {
+//     const divisor = 1000 * 60 * 60 * 24 * 365.2421897; // ms in an average year
+//     const birthTime = new Date('1990-02-05T09:24:00');
+//     setAge(((Date.now() - birthTime) / divisor).toFixed(11));
+//   };
 
-  const addFileUploadField = () => {
-    setFormState((prevState) => ({
-      ...prevState,
-      fileUpload: [...prevState.fileUpload, { id: prevState.fileUpload.length + 1, file: null }],
-    }));
-  };
+//   useEffect(() => {
+//     const timer = setInterval(() => tick(), 25);
+//     return () => {
+//       clearInterval(timer);
+//     };
+//   }, []);
+//   return <>{age}</>;
+// };
 
-  const handleFileChange = (e, index) => {
-    const file = e.target.files[0];
-    const updatedFileUpload = [...formState.fileUpload];
-    updatedFileUpload[index].file = file;
+// // const data = [
+// //   {
+// //     key: 'age',
+// //     label: 'Current age',
+// //     value: <Age />,
+// //   },
+// //   {
+// //     key: 'countries',
+// //     label: 'Countries visited',
+// //     value: 53,
+// //     link: 'https://www.google.com/maps/d/embed?mid=1iBBTscqateQ93pWFVfHCUZXoDu8&z=2',
+// //   },
+// //   {
+// //     key: 'location',
+// //     label: 'Current city',
+// //     value: 'New York, NY',
+// //   },
+// // ];
 
-    setFormState((prevState) => ({
-      ...prevState,
-      fileUpload: updatedFileUpload,
-    }));
-  };
-
-  return (
-    <div>
-      <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-        {/* Render existing file upload inputs */}
-        {formState.fileUpload.map((fileInput, index) => (
-          <div key={fileInput.id} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label style={{ color: "#231F20" }}>
-              File {fileInput.id}<span className="text-danger">*</span>
-            </label>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => handleFileChange(e, index)}
-              className="form-control"
-            />
-          </div>
-        ))}
-        {/* Add New File Upload Button */}
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <button type="button" onClick={addFileUploadField} className="btn btn-primary mt-3">
-            Add File
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default YourComponent;
+// export default Age;
