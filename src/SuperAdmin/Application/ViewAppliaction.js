@@ -41,7 +41,7 @@ export const ViewApplication = () => {
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
   const [payment ,setPayment]=useState({
-    amount: 2,
+    amount: 1 * 100,
     name: "applicationFee",
   });
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
@@ -242,7 +242,7 @@ export const ViewApplication = () => {
   const handlePayment = (token) => {
     const data = {
       token,
-      amount: 2,
+      amount: 1 * 100 ,
       name: "applicationFee",
 
     };
@@ -334,8 +334,8 @@ export const ViewApplication = () => {
         stripeKey="pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY"
         token={handlePayment}
         name="applicationFee"
-        currency="INR"
-        amount={payment?.amount * 10} // Amount in paise (1 INR = 100 paise)
+        currency="usd"
+        amount={payment?.amount} // Amount in paise (1 INR = 100 paise)
       >
   <button className="btn btn-primary btn-sm" style={{marginRight:"0.5rem"}}>Pay Now</button>
 </StripeCheckout>
