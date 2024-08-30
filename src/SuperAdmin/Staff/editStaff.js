@@ -432,7 +432,7 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 className={`form-control rounded-1 ${
-                                  errors.empName.required ? 'is-invalid' : errors.empName.valid ? 'is-valid' : ''
+                                  errors.empName.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example John Doe "
                                 value={staff?.empName}
@@ -462,7 +462,7 @@ export const AddStaff = () => {
                               <input
                                 type="date"
                                 className={`form-control rounded-1 text-uppercase ${
-                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
+                                  errors.dob.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Enter  DOB "
                                 value={staff?.dob}
@@ -493,7 +493,7 @@ export const AddStaff = () => {
 
                               <select
                            className={`form-select form-select-lg rounded-1 ${
-                            errors.designation.required ? 'is-invalid' : errors.designation.valid ? 'is-valid' : ''
+                            errors.designation.required ? 'is-invalid' :  ''
                           }`}
                             style={{ fontSize: "12px" }}
                             name="designation"
@@ -529,7 +529,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className={`form-control rounded-1 ${
-                                  errors.role.required ? 'is-invalid' : errors.role.valid ? 'is-valid' : ''
+                                  errors.role.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Enter  Role "
                                 name="role"
@@ -554,7 +554,7 @@ export const AddStaff = () => {
                                   fontSize: "11px",
                                 }}
                                 className={`form-control text-uppercase rounded-1 ${
-                                  errors.doj.required ? 'is-invalid' : errors.doj.valid ? 'is-valid' : ''
+                                  errors.doj.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Enter  DOJ "
                                 name="doj"
@@ -608,7 +608,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className={`form-control rounded-1 ${
-                                  errors.shiftTiming.required ? 'is-invalid' : errors.shiftTiming.valid ? 'is-valid' : ''
+                                  errors.shiftTiming.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example 10.00 AM - 07.00 PM"
                                 name="shiftTiming"
@@ -634,7 +634,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className={`form-control rounded-1 ${
-                                  errors.probationDuration.required ? 'is-invalid' : errors.probationDuration.valid ? 'is-valid' : ''
+                                  errors.probationDuration.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example 6 months"
                                 name="probationDuration"
@@ -656,7 +656,7 @@ export const AddStaff = () => {
                                 type="text"
                                 value={staff?.email}
                                 className={`form-control rounded-1 ${
-                                  errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
+                                  errors.email.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example jay.j@afynd.com "
                                 style={{
@@ -687,7 +687,7 @@ export const AddStaff = () => {
                                 onChange={handleInputs}
                                 value={staff?.team}
                                 className={`form-select form-select-lg rounded-1 ${
-                                  errors.team.required ? 'is-invalid' : errors.team.valid ? 'is-valid' : ''
+                                  errors.team.required ? 'is-invalid' :  ''
                                 }`}
                                 style={{
                                   backgroundColor: "#fff",
@@ -751,7 +751,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className={`form-control rounded-1 ${
-                                  errors.personalMail.required ? 'is-invalid' : errors.personalMail.valid ? 'is-valid' : ''
+                                  errors.personalMail.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example johndoe123@gmail.com"
                                 onChange={handleInputs}
@@ -798,7 +798,7 @@ export const AddStaff = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+        errors.mobileNumber.required ? 'is-invalid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -866,8 +866,8 @@ export const AddStaff = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.emergencyContactNo.required ? 'is-invalid' : errors.emergencyContactNo.valid ? 'is-valid' : ''
+    className={`form-control ${
+      errors.emergencyContactNo.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -955,7 +955,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className={`form-control rounded-1 ${
-                                  errors.pin.required ? 'is-invalid' : errors.pin.valid ? 'is-valid' : ''
+                                  errors.pin.required ? 'is-invalid' : ''
                                 }`}
                                 placeholder="Example 632001"
                                 name="pin"
