@@ -24,7 +24,8 @@ export const AddEvents = () => {
     date: "",
     time: "",
     venue: "",
-    fileUpload: [{ id: 1, file: null }],
+    fileUpload: [],
+   
   };
 
   const initialStateErrors = {
@@ -103,15 +104,19 @@ export const AddEvents = () => {
       });
   };
 
-  const addLabel = () => {
-    setnotification({
-      ...notification,
-      fileUpload: [
-        ...notification.fileUpload,
-        { id: notification.fileUpload.length + 1, file:"" }
-      ]
-    });
+
+  const addEntry = (listName) => {
+    const newEntry = listName === "fileUpload"
+      ? { fileUpload:"" }
+      : {  fileUpload:"" };
+    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
   };
+
+  const removeEntry = (index, listName) => {
+    const updatedList = notification[listName].filter((_, i) => i !== index);
+    setnotification({ ...notification, [listName]: updatedList });
+  };
+ 
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -180,6 +185,20 @@ export const AddEvents = () => {
     }
   };
 
+
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value,files } = e.target;
+    if (files && files[0]) {
+      convertToBase64(e, name);
+    } else {
+      setnotification({
+        ...notification,
+        [listName]: notification[listName].map((item, i) =>
+          i === index ? { ...item, [name]: value } : item
+        ),
+      });
+    }
+  };
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions
@@ -569,22 +588,37 @@ export const AddEvents = () => {
                        
                         </div>
                     
-                        {notification.fileUpload && notification.fileUpload.map((fileInput, index) => (
-        <div key={index} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <label style={{ color: "#231F20" }}>
-            File <span className="text-danger">*</span>
-          </label>
-          <input
-            type="file"
-            name="fileUpload"
-           onChange={handleInputs}
-            className="form-control"
-          />
-        </div>
-      ))}
+                        {notification.fileUpload.map((allowance, index) => (
+                            <div key={index} className="mb-3">
+                              <div className="form-group">
+                              <input
+                                type="file"
+                                name="fileUpload"
+                                value={allowance.fileUpload}
+                                onChange={(e) => handleListInputChange(e, index, "allowance")}
+                                className="form-label rounded-1"
+                                style={{ fontSize: "12px" }}
+                                placeholder="Allowance title"
+                              />
+                             </div>
+                              <button
+                                type="button"
+                                onClick={() => removeEntry(index, "allowance")}
+                                className="btn mt-2"
+                              >
+                                <i className="far fa-trash-alt text-danger me-1"></i>
+                              </button>
+                            </div>
+                          ))}
 
-                        <div className="text-end"><button type="button" className="btn btn-primary" onClick={addLabel}>Add</button></div>
-
+<button
+                            type="button"
+                            onClick={() => addEntry("allowance")}
+                            className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
+                            style={{ backgroundColor: "#7267ef" }}
+                          >
+                            <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                          </button>
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link
                             to="/list_events"
