@@ -591,23 +591,31 @@ export const AddEvents = () => {
                         
                         {notification.fileUpload.map((fileUpload, index) => (
   <div key={index} className="mb-3">
+    <div className="row gy-2 ">
+    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Name</label>
     <input
       type="text"
       name="fileName"
       value={fileUpload.fileName}
       onChange={(e) => handleListInputChange(e, index, "fileUpload")}
-      className="form-label rounded-1"
+      className="form-control rounded-1"
       style={{ fontSize: "12px" }}
       placeholder="File Upload Title"
     />
+    </div>
+    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Document</label>
     <input
       type="file"
       name="fileImage"
       onChange={(e) => handleListInputChange(e, index, "fileUpload")}
-      className="form-control rounded-1 mt-2"
+      className="form-control rounded-1 "
       style={{ fontSize: "12px" }}
       placeholder="Upload File"
     />
+    </div>
+    </div>
     <button
       type="button"
       onClick={() => removeEntry(index, "fileUpload")}
@@ -621,7 +629,7 @@ export const AddEvents = () => {
 <button
   type="button"
   onClick={() => addEntry("fileUpload")}
-  className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
+className="add-customer-btns mb-40 d-flex justify-content-start  ml-auto"
   style={{ backgroundColor: "#7267ef" }}
 >
   <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
