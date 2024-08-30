@@ -1,83 +1,159 @@
+/* Global Styles */
 body {
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
-  
-  background-color:#e3eaf3 !important;
+  background-color: #e3eaf3 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
-.content-wrapper{
-  background: #e3eaf3 !important ;
+/* Ensure consistent box-sizing across all elements */
+*,
+*::before,
+*::after {
+  box-sizing: inherit !important;
 }
 
-.btn {
-  font-family: "Josefin Sans", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: weight !important;
-  font-style: normal !important;
-  font-size: 13px !important;
-}
- *{
-  font-family: "Plus Jakarta Sans", sans-serif ;
-  font-optical-sizing: auto ;
-  font-weight: weight ;
-  font-style: normal ;
-  
+/* Normalize styles for form controls and inputs */
+input,
+select,
+textarea,
+button {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
-/* Hide the spin buttons in Chrome, Safari, Edge, and Opera */
-/* input[type=number]::-webkit-outer-spin-button,
+/* Navigation Pills */
+.nav-pills .nav-link {
+  color: #231f20 !important;
+  font-weight: bold !important;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #231f20 !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-variant: small-caps !important;
+}
+
+/* Form Control Classes */
+.form-control,
+.form-select,
+.form-label,
+.form-text,
+.form-control-file,
+.form-control-plaintext {
+  font-size: 12px !important;
+}
+
+/* Form Check (Checkbox and Radio) Classes */
+.form-check,
+.form-check-input,
+.form-check-label,
+.form-switch {
+  font-size: 12px !important;
+}
+
+/* Form Grouping Classes */
+.form-group,
+.input-group,
+.input-group-prepend,
+.input-group-append,
+.input-group-text {
+  font-size: 12px !important;
+}
+
+/* Validation Classes */
+.is-valid,
+.is-invalid,
+.invalid-feedback,
+.valid-feedback {
+  font-size: 12px !important;
+}
+
+/* Form Control Size Classes */
+.form-control-sm,
+.form-control-lg {
+  font-size: 12px !important;
+}
+
+/* Form Floating Classes */
+.form-floating label {
+  font-size: 12px !important;
+}
+
+/* Placeholder Styling for Inputs, Textareas, and Selects */
+.form-control::placeholder,
+.form-select::placeholder {
+  font-size: 12px !important;
+}
+
+/* Button Classes */
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-success,
+.btn-lg,
+.btn-sm {
+  font-size: 12px !important;
+}
+
+/* Other Form-Related Classes */
+.form-inline,
+.form-row {
+  font-size: 12px !important;
+}
+
+/* CKEditor Styles */
+.ck-editor__editable {
+  border: 1px solid #ccc !important; /* Example border */
+  padding: 10px !important;          /* Padding inside the editor */
+  min-height: 200px !important;      /* Minimum height */
+}
+
+/* Hide the spin buttons in number inputs */
+input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
   margin: 0 !important;
 }
 
-/* Hide the spin buttons in Firefox */
-/* input[type=number] {
+input[type=number] {
   -moz-appearance: textfield !important;
-} */ */
-
-.nav-pills .nav-link{
- 
-  color: #231f20 !important;
-  font-weight: bold !important;
- 
-  }
-
-.nav-pills .nav-link.active{
-background-color: #231f20 !important;
-color: #fff !important;
-font-weight: bold !important;
-font-variant: small-caps !important;
 }
 
-/* input.form-control:focus, 
-textarea.form-control:focus, 
-select.form-select:focus, 
-input.form-check-input:focus, 
-input[type="range"]:focus {
-    outline: none !important;
-    box-shadow: none !important;
-} */
-
-
-/* .react-select-container {
-  border: 1px solid transparent !important;
-  border-radius: 4px !important; 
+/* Additional Browser Prefixes for Consistency */
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
 }
 
-.react-select__control {
-  border: none !important; 
+input[type='range']::-moz-range-thumb {
+  -moz-appearance: none !important;
 }
 
-.react-select__control--is-focused {
-  border-color: transparent !important;  
+input[type='range']::-ms-thumb {
+  -ms-appearance: none !important;
 }
 
-.react-select__control--is-invalid {
-  border-color: red !important; 
+/* Reset and normalize styles */
+html {
+  font-size: 100% !important;
 }
 
-.react-select__control--is-valid {
-  border-color: green !important; 
+body {
+  line-height: 1.5 !important;
+  color: #333 !important;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* button {
+  border: none !important;
+  background: none !important;
+  cursor: pointer !important;
 } */
