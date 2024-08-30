@@ -24,7 +24,7 @@ export const AddEvents = () => {
     date: "",
     time: "",
     venue: "",
-    fileUpload: [],
+    fileUpload: [{ fileName: "", fileImage:"" }],
    
   };
 
@@ -38,7 +38,7 @@ export const AddEvents = () => {
     date: { required: false },
     time: { required: false },
     venue: { required: false },
-    fileUpload: { required: false },
+   
   };
 
   const [notification, setnotification] = useState(initialState);
@@ -104,8 +104,6 @@ export const AddEvents = () => {
       });
   };
 
-
- 
  
   const handleValidation = (data) => {
     let error = initialStateErrors;
@@ -140,21 +138,35 @@ export const AddEvents = () => {
     return error;
   };
 
-  const convertToBase64 = (e, name) => {
+  const convertToBase64 = (e, name, index, listName) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      setnotification((notification) => ({
-        ...notification,
-        [name]: reader.result,
-      }));
+      const updatedList = [...notification[listName]];
+      updatedList[index][name] = reader.result;
+      setnotification({ ...notification, [listName]: updatedList });
     };
     reader.onerror = (error) => {
       console.log("Error: ", error);
     };
   };
   
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...notification[listName]];
+  
+    if (files && files[0]) {
+      convertToBase64(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setnotification({ ...notification, [listName]: updatedList });
+    }
+  };
+  
+  
+ 
+ 
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -176,7 +188,17 @@ export const AddEvents = () => {
   };
 
 
- 
+  const addEntry = (listName) => {
+    const newEntry = listName === "fileUpload"
+      ? { fileName: "",fileImage: ""}
+      : null;
+    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
+  };
+
+  const removeEntry = (index, listName) => {
+    const updatedList = notification[listName].filter((_, i) => i !== index);
+    setnotification({ ...notification, [listName]: updatedList });
+  };
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions
@@ -567,7 +589,43 @@ export const AddEvents = () => {
                        
                         </div>
                         
-                       
+                        {notification.fileUpload.map((fileUpload, index) => (
+  <div key={index} className="mb-3">
+    <input
+      type="text"
+      name="fileName"
+      value={fileUpload.fileName}
+      onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+      className="form-label rounded-1"
+      style={{ fontSize: "12px" }}
+      placeholder="File Upload Title"
+    />
+    <input
+      type="file"
+      name="fileImage"
+      onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+      className="form-control rounded-1 mt-2"
+      style={{ fontSize: "12px" }}
+      placeholder="Upload File"
+    />
+    <button
+      type="button"
+      onClick={() => removeEntry(index, "fileUpload")}
+      className="btn mt-2"
+    >
+      <i className="far fa-trash-alt text-danger me-1"></i>
+    </button>
+  </div>
+))}
+
+<button
+  type="button"
+  onClick={() => addEntry("fileUpload")}
+  className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
+  style={{ backgroundColor: "#7267ef" }}
+>
+  <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+</button>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                           <Link
