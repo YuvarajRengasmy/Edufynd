@@ -629,7 +629,7 @@ export const AddEvents = () => {
 <button
   type="button"
   onClick={() => addEntry("fileUpload")}
-className="add-customer-btns mb-40 d-flex justify-content-start  ml-auto"
+className="btn text-white mt-2 col-sm-2"
   style={{ backgroundColor: "#7267ef" }}
 >
   <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
