@@ -544,6 +544,7 @@ export const AddEvents = () => {
                             ) : null}
                           </div>
 
+
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Time<span className="text-danger">*</span>
@@ -629,7 +630,7 @@ export const AddEvents = () => {
 <button
   type="button"
   onClick={() => addEntry("fileUpload")}
-className="add-customer-btns mb-40 d-flex justify-content-start  ml-auto"
+className="btn text-white mt-2 col-sm-2"
   style={{ backgroundColor: "#7267ef" }}
 >
   <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
