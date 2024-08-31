@@ -241,12 +241,12 @@ export const ViewApplication = () => {
   const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
 
   const body = {
-    amount:  2 * 100
+    amount:  1 * 100
   }
   const header = {
     'Content-Type': 'application/json'
   }
-  const response = await fetch('http://localhost:4409/api/payment/create-checkout-session',{
+  const response = await fetch('https://api.edufynd.in/api/payment/create-checkout-session',{
     method: 'POST',
     headers:header,
     body: JSON.stringify(body) 
