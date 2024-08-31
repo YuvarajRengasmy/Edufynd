@@ -25,7 +25,7 @@ export const AddBlog = () => {
     tags: "",
     optionalURL: "",
     content: "",
-    uploadImage: "",
+    uploadFile:[{uploadImage: ""}],
     uploadFiles: "",
     category: "",
     schedulePost: "",
@@ -126,7 +126,49 @@ export const AddBlog = () => {
 };
 
   
+const convertToBase65 = (e, name, index, listName) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    const updatedList = [...blog[listName]];
+    updatedList[index][name] = reader.result;
+    setBlog({ ...blog, [listName]: updatedList });
+  };
+  reader.onerror = (error) => {
+    console.log("Error: ", error);
+  };
+};
 
+const handleListInputChange = (e, index, listName) => {
+  const { name, value, files } = e.target;
+  const updatedList = [...blog[listName]];
+
+  if (files && files[0]) {
+    convertToBase65(e, name, index, listName);
+  } else {
+    updatedList[index][name] = value;
+    setBlog({ ...blog, [listName]: updatedList });
+  }
+};
+
+
+
+
+
+
+
+const addEntry = (listName) => {
+  const newEntry = listName === "uploadFile"
+    ? { uploadImage: "",name:""}
+    : null;
+  setBlog({ ...blog, [listName]: [...blog[listName], newEntry] });
+};
+
+const removeEntry = (index, listName) => {
+  const updatedList = blog[listName].filter((_, i) => i !== index);
+  setBlog({ ...blog, [listName]: updatedList });
+};
  
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
@@ -424,40 +466,69 @@ const removeTag = (indexToRemove) => {
                           </div>
                           <div className="row m-b-5">
                            <small className="small-title" style={{ fontSize: "10px" }}> Main banner image </small>
-                           {blog.uploadImage && blog.uploadImage.map((image, index) => (
-                    <div key={index} style={{ marginBottom: '10px' }}>
-                        <input
-                            type="file"
-                            accept="image/*"
-                              className="form-control rounded-1 text-muted"
-                            onChange={handleInputs}
-                            style={{ display: 'block', marginBottom: '5px' }}
-                        />
-                        {/* {image && (
-                            <img
-                                src={image}
-                                alt={`Uploaded ${index}`}
-                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                            />
-                        )} */}
-                    </div>
-                ))}
-                            
+                        
+                           {/* <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                        <CKEditor
+  editor={ClassicEditor}
+  data={notification.content}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]  // Adjust toolbar as needed
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
+                       
+                        </div> */}
+                        
+                        {blog.uploadFile.map((uploadImage, index) => (
+  <div key={index} className="mb-3">
+    <div className="row gy-2 ">
+   
+    <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Document</label>
+    <input
+      type="file"
+      name="uploadImage"
+      value={uploadImage.uploadImage}
+      onChange={(e) => handleListInputChange(e, index, "uploadImage")}
+      className="form-control rounded-1 "
+      style={{ fontSize: "12px" }}
+      placeholder="Upload File"
+    />
+    </div>
+   
+    </div>
+    <button
+      type="button"
+      onClick={() => removeEntry(index, "uploadFile")}
+      className="btn mt-2"
+    >
+      <i className="far fa-trash-alt text-danger me-1"></i>
+    </button>
+  </div>
+))}
+
+<button
+  type="button"
+  onClick={() => addEntry("uploadFile")}
+className="btn text-white mt-2 col-sm-6"
+  style={{ backgroundColor: "#7267ef" }}
+>
+  <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+</button>
                            
                             
                         
-                           <button
-    type="button"
-    style={{
-      backgroundColor: "#231F20",
-      fontFamily: "Plus Jakarta Sans",
-      fontSize: "12px",
-    }}
-    className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-    onClick={handleAddImage}
-  >
- <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add 
-  </button>
+                   
                           </div>
                           
                         </div>

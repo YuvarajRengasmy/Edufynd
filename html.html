@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date and Time Display</title>
+</head>
+<body>
+    <p id="dateTimeDisplay" class="text-secondary mb-0"></p>
+
+    <script>
+       
+        function formatDate(date) {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            const dayName = days[date.getDay()];
+            const day = String(date.getDate()).padStart(2, '0');
+            const monthName = months[date.getMonth()];
+            const year = date.getFullYear();
+
+            return `${dayName}, ${day} ${monthName} ${year}`;
+        }
+
+        // Utility function to format the time
+        function formatTime(date) {
+            return date.toLocaleTimeString();
+        }
+
+        // Function to update the date and time in the DOM
+        function updateDateTime() {
+            const currentDate = new Date();
+            const dateTimeDisplay = document.getElementById('dateTimeDisplay');
+            dateTimeDisplay.textContent = `${formatDate(currentDate)}, ${formatTime(currentDate)}`;
+        }
+
+        // Set an interval to update the time every second
+        setInterval(updateDateTime, 1000);
+
+        // Initialize the display
+        updateDateTime();
+    </script>
+</body>
+</html>
