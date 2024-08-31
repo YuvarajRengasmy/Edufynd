@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, getSingleApplication } from "../../api/applicatin";
-import StripeCheckout from "react-stripe-checkout";
+import {loadStripe} from '@stripe/stripe-js'; 
 import { getFilterStatus } from "../../api/status";
 import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
 import { toast } from "react-toastify";
@@ -40,10 +40,7 @@ export const ViewApplication = () => {
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
-  const [payment ,setPayment]=useState({
-    amount: 20*10,
-    name: "applicationFee",
-  });
+ 
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -239,23 +236,31 @@ export const ViewApplication = () => {
     return '#4caf50'; // Green for 100%
   };
 
-  const handlePayment = (token) => {
-    const data = {
-      token,
-      amount: 20*10,
-      name: "applicationFee",
+  
+ const makePayment = async()=>{
+  const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
 
-    };
-    savePaymentGetWay (data)
-      .then((res) => {
-        toast.success("Successfully added payment");
-        getAllModuleDetails();
-        if (modalRef.current) {
-          modalRef.current.click(); // Close the modal
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+  const body = {
+    amount:  2 * 100
+  }
+  const header = {
+    'Content-Type': 'application/json'
+  }
+  const response = await fetch('http://localhost:4409/api/payment/create-checkout-session',{
+    method: 'POST',
+    headers:header,
+    body: JSON.stringify(body) 
+  })
+  const session = await response.json()
+
+  const result = stripe.redirectToCheckout({
+    sessionId: session.id
+  })
+
+  if(result.error){
+    console.log(result.error)
+  }
+}
 
   return (
     <>
@@ -326,20 +331,16 @@ export const ViewApplication = () => {
                           <div className="text-center">
                             <small>(75%) Completed</small>
                           </div>
+                          
+                      <div className="text-center mt-2">
+                      <button className="btn text-white btn-sm justify-content-end"
+                       style={{ marginRight: "0.5rem", backgroundColor: "#FE5722",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px", }} onClick={makePayment}>Pay Now</button>
+                      </div>
                         </div>
 
 
-                      <div>
-                      <StripeCheckout
-        stripeKey="pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY"
-        token={handlePayment}
-        name="applicationFee"
-        currency="INR"
-        amount={payment?.amount * 10} // Amount in paise (1 INR = 100 paise)
-      >
-  <button className="btn btn-primary btn-sm" style={{marginRight:"0.5rem"}}>Pay Now</button>
-</StripeCheckout>
-                      </div>
                         
   
 

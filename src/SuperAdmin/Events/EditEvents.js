@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { getallStaff } from "../../api/staff";
@@ -12,12 +7,13 @@ import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import { getallUniversity } from "../../api/university";
 import { updatedEvent, getSingleEvent } from "../../api/Notification/event";
-
+import { formatDate } from "../../Utils/DateFormat";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useLocation } from "react-router-dom";
 import Select from "react-select";
-import { University } from "../../api/endpoints";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export const EditEvents = () => {
   const location = useLocation();
@@ -26,21 +22,28 @@ export const EditEvents = () => {
   const initialState = {
     typeOfUser: "",
     userName: "",
+    hostName: "",
+    content:"",
     eventTopic: "",
     universityName: "",
     date: "",
     time: "",
     venue: "",
+    fileUpload: [{ fileName: "", fileImage:"" }],
+   
   };
 
   const initialStateErrors = {
     typeOfUser: { required: false },
     userName: { required: false },
+    hostName: { required: false },
+    content: { required: false },
     eventTopic: { required: false },
     universityName: { required: false },
     date: { required: false },
     time: { required: false },
     venue: { required: false },
+   
   };
 
   const [notification, setnotification] = useState(initialState);
@@ -117,6 +120,27 @@ export const EditEvents = () => {
       });
   };
 
+  const handleRichTextChange = (value) => {
+    setnotification((prevnotification) => ({
+      ...prevnotification,
+      content: value,
+    }));
+  };
+  const addEntry = (listName) => {
+    const newEntry = listName === "fileUpload"
+      ? { fileName: "",fileImage: ""}
+      : null;
+    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
+  };
+
+  const removeEntry = (listName, index) => {
+    setnotification((prevState) => {
+      const updatedList = [...prevState[listName]];
+      updatedList.splice(index, 1); // Remove the image at the specified index
+      return { ...prevState, [listName]: updatedList };
+    });
+  };
+  
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -147,19 +171,31 @@ export const EditEvents = () => {
     return error;
   };
 
-  const convertToBase64 = (e, name) => {
+  
+  const convertToBase64 = (e, name, index, listName) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      setnotification((notification) => ({
-        ...notification,
-        [name]: reader.result,
-      }));
+      const updatedList = [...notification[listName]];
+      updatedList[index][name] = reader.result;
+      setnotification({ ...notification, [listName]: updatedList });
     };
     reader.onerror = (error) => {
       console.log("Error: ", error);
     };
+  };
+  
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...notification[listName]];
+  
+    if (files && files[0]) {
+      convertToBase64(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setnotification({ ...notification, [listName]: updatedList });
+    }
   };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
@@ -180,6 +216,7 @@ export const EditEvents = () => {
       setErrors(newError);
     }
   };
+
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions
@@ -286,6 +323,31 @@ export const EditEvents = () => {
                     </div>
                     <div className="card-body mt-5">
                       <div className="row g-3">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Host Name<span className="text-danger">*</span>
+                          </label>
+                          <Select
+                            placeholder="Select staff"
+                            onChange={(selectedOption) =>
+                              setnotification({
+                                ...notification,
+                                hostName: selectedOption.value,
+                              })
+                            }
+                            options={staffOptions}
+                            name="hostName"
+                            styles={customStyles}
+                            className="submain-one-form-body-subsection-select"
+                            value={notification?.hostName}
+                          />
+                          {errors.hostName.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
+                     
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Type of Users <span className="text-danger">*</span>
@@ -518,7 +580,8 @@ export const EditEvents = () => {
                               placeholder="Enter  Date"
                               name="date"
                               onChange={handleInputs}
-                              value={notification.date}
+                              value={notification?.data}
+                              
                             />
                             {errors.date.required ? (
                               <div className="text-danger form-text">
@@ -549,6 +612,108 @@ export const EditEvents = () => {
                               </div>
                             ) : null}
                           </div>
+
+                          <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                        <CKEditor
+  editor={ClassicEditor}
+  data={notification.content}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]  // Adjust toolbar as needed
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
+                       
+                        </div>
+                        
+                        {notification.fileUpload.map((fileUpload, index) => (
+  <div key={index} className="mb-3">
+    <div className="row gy-2 ">
+    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Name</label>
+    <input
+      type="text"
+      name="fileName"
+      value={fileUpload.fileName}
+      onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+      className="form-control rounded-1"
+      style={{ fontSize: "12px" }}
+      placeholder="File Upload Title"
+    />
+    </div>
+
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                                Uplaod Image<span className="text-danger">*</span>
+                              </label>
+                            <img
+                                className="img-fluid  img-thumbnail mx-auto d-block"
+                                src={
+                                  fileUpload?.fileImage
+                                    ? fileUpload?.fileImage
+                                    : "https://via.placeholder.com/128"
+                                }
+                                alt="student-image"
+                                style={{ width: "12rem", height: "6rem" }}
+                              />
+                            <label
+                                htmlFor="fileInputImage"
+                                className="position-absolute fs-6  "
+                                style={{
+                                  cursor: "pointer",
+                                  bottom: "5%",
+                                  left: "53.5%",
+                                  transform: "translate(25%, 25%)",
+                                  color: "#0f2239",
+                                }}
+                              >
+                                <i className="fas fa-camera"></i>
+                              </label>
+                              <input
+                              
+                                id="fileInputImage"
+                               
+                                accept="image/*"
+                                className="form-control border-0 text-dark bg-transparent"
+                                style={{
+                                  display: "none",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                type="file"
+                                name="fileImage"
+                                onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+                              />
+                             
+                            </div>
+    </div>
+    <button
+      type="button"
+      onClick={() => removeEntry("fileUpload")}
+      className="btn mt-2"
+    >
+      <i className="far fa-trash-alt text-danger me-1"></i>
+    </button>
+  </div>
+))}
+
+<button
+  type="button"
+  onClick={() => addEntry("fileUpload")}
+className="btn text-white mt-2 col-sm-2"
+  style={{ backgroundColor: "#7267ef" }}
+>
+  <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+</button>
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
