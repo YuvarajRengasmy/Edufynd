@@ -37,7 +37,7 @@ function AddAgent() {
     gstn: "", // Optional
     staffName: "",
     staffContactNo: "", // agentPayout: string[]; // List of payouts
-    agentsCommission: 0, // Will be calculated based on the University Commission & Agent Payout
+    agentsCommission: "", // Will be calculated based on the University Commission & Agent Payout
     countryInterested: "",
     accountName: "",
     accountNumber: "",
@@ -254,7 +254,7 @@ function AddAgent() {
     if (data.swift === 0) {
       error.swift.required = true;
     }
-    if (data.agentsCommission === 0) {
+    if (data.agentsCommission === '') {
       error.agentsCommission.required = true;
     }
     if (!isValidNumberLessThanOrEqualTo95(data.agentsCommission)) {
@@ -425,7 +425,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example John Doe"
-                            className={`form-control rounded-2 ${errors.agentName.required ? 'is-invalid' : errors.agentName.valid ?  'is-valid' : '' }`}
+                            className={`form-control rounded-2 ${errors.agentName.required ? 'is-invalid' : '' }`}
                             id="company"
                             style={{
                               backgroundColor: "#fff",
@@ -446,7 +446,7 @@ function AddAgent() {
                           <input
                             name="businessName"
                             type="text"
-                            className={`form-control rounded-2 ${errors.businessName.required ? 'is-invalid' : errors.businessName.valid ?  'is-valid' : '' }`}
+                            className={`form-control rounded-2 ${errors.businessName.required ? 'is-invalid' :  '' }`}
                             onChange={handleInputs}
                             placeholder="Example Jane Doe"
                             id="Job"
@@ -471,7 +471,7 @@ function AddAgent() {
                             name="businessWebsite"
                             type="text"
                             onChange={handleInputs}
-                            className={`form-control rounded-2 ${errors.businessWebsite.required ? 'is-invalid' : errors.businessWebsite.valid ?  'is-valid' : '' }`}
+                            className={`form-control rounded-2 ${errors.businessWebsite.required ? 'is-invalid' :  '' }`}
                             placeholder="Example www.edufynd.com"
                             id="Job"
                             style={{
@@ -494,7 +494,7 @@ function AddAgent() {
                           <input
                             name="email"
                             type="text"
-                               className={`form-control rounded-2 ${errors.email.required ? 'is-invalid' : errors.email.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.email.required ? 'is-invalid' :  '' }`}
                             onChange={handleInputs}
                             placeholder="Example john123@gmail.com"
                             id="Address"
@@ -542,7 +542,7 @@ function AddAgent() {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+        errors.mobileNumber.required ? 'is-invalid' :  ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -610,8 +610,8 @@ function AddAgent() {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control ${
+      errors.whatsAppNumber.required ? 'is-invalid' : ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -645,7 +645,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example 17/3A2, Gandhi St,"
-                               className={`form-control rounded-2 ${errors.addressLine1.required ? 'is-invalid' : errors.addressLine1.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.addressLine1.required ? 'is-invalid' :  '' }`}
                             id="Country"
                             value={agent?.addressLine1}
                             style={{
@@ -670,7 +670,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example Alwartirunagar, Chennai"
-                               className={`form-control rounded-2 ${errors.addressLine2.required ? 'is-invalid' : errors.addressLine2.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.addressLine2.required ? 'is-invalid' :  '' }`}
                             id="Country"
                             value={agent?.addressLine2}
                             style={{
@@ -694,7 +694,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example 632001"
-                               className={`form-control rounded-2 ${errors.addressLine3.required ? 'is-invalid' : errors.addressLine3.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.addressLine3.required ? 'is-invalid' :  '' }`}
                             id="Country"
                             value={agent?.addressLine3}
                             style={{
@@ -717,7 +717,7 @@ function AddAgent() {
                             name="registrationNo"
                             type="text"
                             placeholder="Example 41151904020"
-                               className={`form-control rounded-2 ${errors.registrationNo.required ? 'is-invalid' : errors.registrationNo.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.registrationNo.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             style={{
                               backgroundColor: "#fff",
@@ -738,7 +738,7 @@ function AddAgent() {
                           <input
                             name="gstn"
                             type="text"
-                               className={`form-control rounded-2 ${errors.gstn.required ? 'is-invalid' : errors.gstn.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.gstn.required ? 'is-invalid' :  '' }`}
                             onChange={handleInputs}
                             placeholder="Example 29GGGGG1314R9Z6 "
                             id="Email"
@@ -761,7 +761,7 @@ function AddAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example ABCTY1234D"
-                               className={`form-control rounded-2 ${errors.panNumberCompany.required ? 'is-invalid' : errors.panNumberCompany.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.panNumberCompany.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             value={agent?.panNumberCompany}
                             style={{
@@ -784,7 +784,7 @@ function AddAgent() {
                           <input
                             name="staffName"
                             type="text"
-                               className={`form-control rounded-2 ${errors.staffName.required ? 'is-invalid' : errors.staffName.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.staffName.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example Alice Smith"
@@ -835,7 +835,7 @@ function AddAgent() {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.staffContactNo.required ? 'is-invalid' : errors.staffContactNo.valid ? 'is-valid' : ''
+        errors.staffContactNo.required ? 'is-invalid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -899,8 +899,8 @@ function AddAgent() {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsApp.required ? 'is-invalid' : errors.whatsApp.valid ? 'is-valid' : ''
+    className={`form-control ${
+      errors.whatsApp.required ? 'is-invalid'  : ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -928,7 +928,7 @@ function AddAgent() {
                           <input
                             name="bankName"
                             type="text"
-                               className={`form-control rounded-2 ${errors.bankName.required ? 'is-invalid' : errors.bankName.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.bankName.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example Axis Bank"
@@ -953,7 +953,7 @@ function AddAgent() {
                           <input
                             name="accountName"
                             type="text"
-                               className={`form-control rounded-2 ${errors.accountName.required ? 'is-invalid' : errors.accountName.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.accountName.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example  John Smith"
@@ -978,7 +978,7 @@ function AddAgent() {
                           <input
                             name="accountNumber"
                             type="text"
-                               className={`form-control rounded-2 ${errors.accountNumber.required ? 'is-invalid' : errors.accountNumber.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.accountNumber.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example  0112345678"
@@ -1003,7 +1003,7 @@ function AddAgent() {
                           <input
                             name="accountType"
                             type="text"
-                               className={`form-control rounded-2 ${errors.accountType.required ? 'is-invalid' : errors.accountType.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.accountType.required ? 'is-invalid' :  '' }`}
                             id="text"
                             onChange={handleInputs}
                             placeholder="Example  Personal"
@@ -1028,7 +1028,7 @@ function AddAgent() {
                           <input
                             name="ifsc"
                             type="text"
-                               className={`form-control rounded-2 ${errors.ifsc.required ? 'is-invalid' : errors.ifsc.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.ifsc.required ? 'is-invalid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example AT611904300234573201"
@@ -1074,7 +1074,7 @@ function AddAgent() {
                           <input
                             name="agentsCommission"
                             type="text"
-                               className={`form-control rounded-2 ${errors.agentsCommission.required ? 'is-invalid' : errors.agentsCommission.valid ?  'is-valid' : '' }`}
+                               className={`form-control rounded-2 ${errors.agentsCommission.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example 50"
@@ -1091,7 +1091,7 @@ function AddAgent() {
                             </div>
                           ) : errors.agentsCommission.valid ? (
                             <div className="text-danger form-text">
-                              Enter The agent Commission Is 95 % Less Than only
+                              Enter The agent Commission Is 99 % Less Than only
                               2 digit Number
                             </div>
                           ) : null}

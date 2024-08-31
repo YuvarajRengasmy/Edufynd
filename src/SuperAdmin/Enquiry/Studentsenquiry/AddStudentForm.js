@@ -403,7 +403,7 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
                           name="source"
                         >
                           <option value="">Select Source</option>
@@ -440,7 +440,7 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 "
                           name="studentName"
                         >
                           <option value="">Select students</option>
@@ -543,7 +543,7 @@ export const AddStudentForm = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.agentPrimaryNumber.required ? 'is-invalid' : errors.agentPrimaryNumber.valid ? 'is-valid' : ''
+        errors.agentPrimaryNumber.required ? 'is-invalid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -607,7 +607,7 @@ export const AddStudentForm = () => {
   <input
     type="text"
     className={`form-control rounded-1 ${
-      errors.agentWhatsAppNumber.required ? 'is-invalid' : errors.agentWhatsAppNumber.valid ? 'is-valid' : ''
+      errors.agentWhatsAppNumber.required ? 'is-invalid' : ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -656,7 +656,7 @@ export const AddStudentForm = () => {
                            Student Name
                          </label>
                          <input
-                           className="form-control rounded-2"
+                           className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
                            type="text"
                            id="inputEmail4"
                            name="name"
@@ -673,7 +673,7 @@ export const AddStudentForm = () => {
                            </span>
                          ) : errors.name.valid ? (
                            <span className="text-danger form-text profile_error">
-                             Enter A Letter Only.
+                             This field is required.
                            </span>
                          ) : null}
                        </div>
@@ -682,7 +682,7 @@ export const AddStudentForm = () => {
                         Gender
                       </label>
                       <select
-                        class="form-select form-select-lg rounded-2"
+                        class={`form-select form-select-lg rounded-1 ${errors.gender.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
                         name="gender"
                         aria-label="Default select example"
@@ -708,7 +708,8 @@ export const AddStudentForm = () => {
                         DOB
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className=
+                        {`form-control rounded-1 ${errors.dob.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         id="inputPassword4"
                         type="date"
@@ -725,7 +726,7 @@ export const AddStudentForm = () => {
                         </span>
                       ) : errors.dob.valid ? (
                         <span className="text-danger form-text profile_error">
-                          Enter 15 Year eligible Student Apply
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -734,7 +735,8 @@ export const AddStudentForm = () => {
                         CitizenShip
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className=
+                        {`form-control rounded-1 ${errors.citizenShip.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="citizenShip"
                         id="inputPassword4"
@@ -752,7 +754,7 @@ export const AddStudentForm = () => {
                         </span>
                       ) : errors.citizenShip.valid ? (
                         <span className="text-danger form-text profile_error">
-                          Enter A Letter Only.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -761,7 +763,8 @@ export const AddStudentForm = () => {
                         Passport No
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className=
+                        {`form-control rounded-1 ${errors.passportNo.required ?  'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="passportNo"
                         id="inputAddress"
@@ -778,7 +781,7 @@ export const AddStudentForm = () => {
                         </div>
                       ) : errors.passportNo.valid ? (
                         <span className="text-danger form-text">
-                          Enter Vaild PassportNo.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -787,7 +790,8 @@ export const AddStudentForm = () => {
                         Expiry Date
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className=
+                        {`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="expiryDate"
                         id="inputAddress"
@@ -804,7 +808,7 @@ export const AddStudentForm = () => {
                         </div>
                       ) : errors.expiryDate.valid ? (
                         <span className="text-danger form-text">
-                          Enter Valid Expiry Date.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -814,7 +818,8 @@ export const AddStudentForm = () => {
                         Email ID
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className=
+                        {`form-control rounded-1 ${errors.email.required  ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         id="inputPassword4"
                         text="text"
@@ -831,7 +836,7 @@ export const AddStudentForm = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid Email Id.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -869,7 +874,7 @@ export const AddStudentForm = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+        errors.primaryNumber.required ? 'is-invalid'  : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -933,7 +938,7 @@ export const AddStudentForm = () => {
   <input
     type="text"
     className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+      errors.whatsAppNumber.required ? 'is-invalid' : ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -959,7 +964,7 @@ export const AddStudentForm = () => {
                         Qualification
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
@@ -976,7 +981,7 @@ export const AddStudentForm = () => {
                         </div>
                       ) : errors.qualification.valid ? (
                         <span className="text-danger form-text">
-                          Enter valid Letter Onlyqualification.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -987,7 +992,7 @@ export const AddStudentForm = () => {
                         Year passed
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`}
                         id="inputAddress"
                         onChange={handleInputs}
                         name="yearPassed"
@@ -1009,7 +1014,7 @@ export const AddStudentForm = () => {
                         CGPA{" "}
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.cgpa.required ?  'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="cgpa"
                         id="inputAddress"
@@ -1026,7 +1031,7 @@ export const AddStudentForm = () => {
                         </div>
                       ) : errors.cgpa.valid ? (
                         <span className="text-danger form-text">
-                          Enter valid Number
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -1035,7 +1040,7 @@ export const AddStudentForm = () => {
                         Desired Country
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         name="desiredCountry"
@@ -1057,7 +1062,7 @@ export const AddStudentForm = () => {
                         Desired University
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.desiredUniversity.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         type="text"
                         onChange={handleInputs}
@@ -1074,7 +1079,7 @@ export const AddStudentForm = () => {
                         </span>
                       ) : errors.desiredUniversity.valid ? (
                         <span className="text-danger form-text profile_error">
-                          Enter valid Letter Only.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -1083,7 +1088,7 @@ export const AddStudentForm = () => {
                         Desired Course
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
@@ -1106,7 +1111,7 @@ export const AddStudentForm = () => {
                           Do You Hold Any Other Offer?{" "}
                         </label>
                         <select
-                          className="form-select form-select-lg rounded-2"
+                          className={`form-select form-select-lg rounded-1 ${errors.doYouHoldAnyOtherOffer.required ? 'is-invalid' : ''} `}
                           name="doYouHoldAnyOtherOffer"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
@@ -1129,7 +1134,7 @@ export const AddStudentForm = () => {
                           Referee Name
                         </label>
                         <input
-                          className="form-control rounded-2"
+                          className={`form-control rounded-1 ${errors.refereeName.required ? 'is-invalid' : ''}`}
                           id="inputEmail4"
                           type="text"
                           name="refereeName"
@@ -1146,7 +1151,7 @@ export const AddStudentForm = () => {
                           </div>
                         ) : errors.refereeName.valid ? (
                           <span className="text-danger form-text">
-                            Enter valid Referee Name
+                            This field is required.
                           </span>
                         ) : null}
                       </div>
@@ -1272,7 +1277,7 @@ export const AddStudentForm = () => {
                           Request Loan Support
                         </label>
                         <select
-                          className="form-control rounded-2"
+                          className={`form-select form-select-lg rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
                           name="doYouNeedSupportForLoan"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
@@ -1295,7 +1300,7 @@ export const AddStudentForm = () => {
                           Register for IELTS class
                         </label>
                         <input
-                          className="form-control rounded-2"
+                          className={`form-control rounded-1 ${errors.registerForIELTSClass.required ? 'is-invalid' : ''}`}
                           id="inputEmail4"
                           type="text"
                           name="registerForIELTSClass"
@@ -1312,7 +1317,7 @@ export const AddStudentForm = () => {
                           </div>
                         ) : errors.registerForIELTSClass.valid ? (
                           <span className="text-danger form-text">
-                            Only number is allowed
+                            This field is required.
                           </span>
                         ) : null}
                       </div>
@@ -1322,7 +1327,7 @@ export const AddStudentForm = () => {
                           Assigned To
                         </label>
                         <input
-                          className="form-control rounded-2"
+                          className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`}
                           id="inputEmail4"
                           onChange={handleInputs}
                           type="text"

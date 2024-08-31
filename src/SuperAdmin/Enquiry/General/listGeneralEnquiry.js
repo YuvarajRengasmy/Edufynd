@@ -566,7 +566,7 @@ export const ListGeneralEnquiry = () => {
                                     {formatDate(data?.createdOn) || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentCode || "Not Available"}
+                                    {data?.studentId || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.name || "Not Available"}
