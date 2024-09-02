@@ -5,13 +5,13 @@ import banner from '../../styles/Assets/Student/EventBanner.png';
 import { CiSearch } from 'react-icons/ci';
 import { Chip } from '@mui/material';
 import Flags from 'react-world-flags';
-import ListCountry from "../../SuperAdmin/Admins/country";
-import { getAllProgramForWeb } from "../../api/Program";
+// import ListCountry from "../../SuperAdmin/Admins/country";
+import {getAllProgramForWeb } from "../../api/Program";
 import { Link , useNavigate} from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { University } from '../../api/endpoints';
 import Sidebar from '../../compoents/StudentSidebar';
-const ListProgram = () => {
+const ListPrograms = () => {
 
   const [program, setProgram] = useState([]);
   const pageSize = 5;
@@ -57,7 +57,7 @@ const ListProgram = () => {
                 </div>
                 <div className='mt-5 position-relative'>
                   <span className="position-absolute start-25 text-center p-2 px-3 border-0" id="inputGroup-sizing-default"><CiSearch className="fs-5" /></span>
-                  <ListCountry />
+                  {/* <ListCountry /> */}
                 </div>
               </div>
             </div>
@@ -228,4 +228,4 @@ const ListProgram = () => {
     </>
   )
 };
-export default ListProgram;
+export default ListPrograms;

@@ -45,7 +45,7 @@ export const StudentSidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link sidebar_link" to="/Program" style={{ fontSize: "14px", fontWeight: "bold" }}>
+          <Link className="nav-link sidebar_link" to="/program_list" style={{ fontSize: "14px", fontWeight: "bold" }}>
             <i className="fas fa-graduation-cap"></i>
             <span>Programs</span>
           </Link>

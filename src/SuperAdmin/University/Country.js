@@ -1,40 +1,93 @@
 // import React, { useState, useEffect } from 'react';
+// import { getallStaff } from "../../api/staff";
 
-// const Age = () => {
-//   const [age, setAge] = useState();
+// import axios from 'axios';
 
-//   const tick = () => {
-//     const divisor = 1000 * 60 * 60 * 24 * 365.2421897; // ms in an average year
-//     const birthTime = new Date('1990-02-05T09:24:00');
-//     setAge(((Date.now() - birthTime) / divisor).toFixed(11));
-//   };
+// const PermissionManagementPage = () => {
 
-//   useEffect(() => {
-//     const timer = setInterval(() => tick(), 25);
-//     return () => {
-//       clearInterval(timer);
+//     const [staffList, setStaffList] = useState([]);
+//     const [selectedStaffId, setSelectedStaffId] = useState(null);
+//     const [permissions, setPermissions] = useState({});
+
+//     const sidebarItems = [
+//         { name: 'Dashboard', path: '/dashboard' },
+//         { name: 'Client', path: '/list_client' },
+//         { name: 'University', path: '/list_university' },
+//         { name: 'Testimonials', path: '/list_testimonials' },
+//         { name: 'Admin', path: '/list_admin' },
+//     ];
+    
+//     useEffect(() => {
+//         getStaffList();  
+//       }, [selectedStaffId]);
+
+//       const getStaffList = () => {
+//         getallStaff()
+//           .then((res) => {
+//             setStaffList(res?.data?.result || []);
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           });
+//       };
+//     const roles = ['staff', 'student']; // Example roles
+//     useEffect(() => {
+        
+//         axios.get('/api/staff').then(response => {
+//             setStaffList(response.data);
+//         });
+
+//         if (selectedStaffId) {
+//             axios.get(`/api/permissions/${selectedStaffId}`).then(response => {
+//                 setPermissions(response.data);
+//             });
+//         }
+//     }, [selectedStaffId]);
+
+//     const handlePermissionChange = (itemName) => {
+//         setPermissions((prevPermissions) => ({
+//             ...prevPermissions,
+//             [itemName]: !prevPermissions[itemName],
+//         }));
 //     };
-//   }, []);
-//   return <>{age}</>;
+
+//     const savePermissions = () => {
+//         axios.post(`/api/permissions/${selectedStaffId}`, permissions)
+//             .then(() => {
+//                 alert('Permissions saved successfully!');
+//             });
+//     };
+
+//     return (
+//         <div>
+//             <h2>Manage Staff Permissions</h2>
+//             <select onChange={(e) => setSelectedStaffId(e.target.value)} value={selectedStaffId}>
+//                 <option value="">Select Staff</option>
+//                 {staffList.map(staff => (
+//                     <option key={staff.id} value={staff.id}>{staff.empName}</option>
+//                 ))}
+//             </select>
+
+//             {selectedStaffId && (
+//                 <div>
+//                     <h3>Permissions for {staffList.find(staff => staff.id === selectedStaffId)?.empName}</h3>
+//                     {sidebarItems.map(item => (
+//                         <div key={item.name}>
+//                             <label>
+//                                 <input
+//                                     type="checkbox"
+//                                     checked={permissions[item.name] || false}
+//                                     onChange={() => handlePermissionChange(item.name)}
+//                                 />
+//                                 {item.name}
+//                             </label>
+//                         </div>
+//                     ))}
+//                     <button onClick={savePermissions}>Save Permissions</button>
+//                 </div>
+//             )}
+//         </div>
+//     );
 // };
 
-// // const data = [
-// //   {
-// //     key: 'age',
-// //     label: 'Current age',
-// //     value: <Age />,
-// //   },
-// //   {
-// //     key: 'countries',
-// //     label: 'Countries visited',
-// //     value: 53,
-// //     link: 'https://www.google.com/maps/d/embed?mid=1iBBTscqateQ93pWFVfHCUZXoDu8&z=2',
-// //   },
-// //   {
-// //     key: 'location',
-// //     label: 'Current city',
-// //     value: 'New York, NY',
-// //   },
-// // ];
-
-// export default Age;
+// export default PermissionManagementPage;

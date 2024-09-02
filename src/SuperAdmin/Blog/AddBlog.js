@@ -2,19 +2,14 @@ import React, { useEffect, useState } from "react";
 import { RichTextEditor } from "@mantine/rte";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  Autocomplete,
-  Chip,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  TextField,
-} from "@mui/material";
+
 import { getallCategory } from "../../api/settings/blogSettings";
 import { getFilterCategory } from "../../api/settings/blogSettings";
+import {saveBlog} from "../../api/blog";
 import DatePicker from "react-datepicker"; // Add this line
 import Sidebar from "../../compoents/sidebar";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export const AddBlog = () => {
   const initialState = {
@@ -25,7 +20,7 @@ export const AddBlog = () => {
     tags: "",
     optionalURL: "",
     content: "",
-    uploadImage: "",
+    uploadFile: [{fileName: "", uploadImage: "" }],
     uploadFiles: "",
     category: "",
     schedulePost: "",
@@ -40,7 +35,7 @@ export const AddBlog = () => {
     optionalURL: { required: false },
     content: { required: false },
     uploadImage: { required: false },
-    uploadFiles: { required: false },
+     uploadFiles: { required: false },
     category: { required: false },
     schedulePost: { required: false },
   };
@@ -52,8 +47,7 @@ export const AddBlog = () => {
   const navigate = useNavigate();
   const pageSize = 10;
   const [tags, setTags] = useState([]);
-  const [input, setInput] = useState('');
-
+  const [input, setInput] = useState("");
 
   const [isScheduled, setIsScheduled] = useState(false);
   const [pagination, setPagination] = useState({
@@ -76,27 +70,23 @@ export const AddBlog = () => {
     if (data.keyWords === "") {
       error.keyWords.required = true;
     }
-    if (data.tags === "") {
-      error.tags.required = true;
-    }
+    // if (data.tags === "") {
+    //   error.tags.required = true;
+    // }
     if (data.optionalURL === "") {
       error.optionalURL.required = true;
     }
     if (data.content === "") {
       error.content.required = true;
     }
-    if (data.uploadImage === "") {
-      error.uploadImage.required = true;
-    }
+    
     if (data.uploadFiles === "") {
       error.uploadFiles.required = true;
     }
     if (data.category === "") {
       error.category.required = true;
     }
-    if (data.schedulePost === "") {
-      error.schedulePost.required = true;
-    }
+   
     return error;
   };
   useEffect(() => {
@@ -121,13 +111,47 @@ export const AddBlog = () => {
       });
   };
 
-  const handleAddImage = () => {
-    setBlog([...blog, null]);
-};
+ 
 
+  const convertToBase65 = (e, name, index, listName) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const updatedList = [...blog[listName]];
+      updatedList[index][name] = reader.result;
+      setBlog({ ...blog, [listName]: updatedList });
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
+  
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...blog[listName]];
+  
+    if (files && files[0]) {
+      convertToBase65(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setBlog({ ...blog, [listName]: updatedList });
+    }
+  };
   
 
- 
+  const addEntry = (listName) => {
+    const newEntry = listName === "uploadFile"
+      ? { fileName: "",uploadImage: ""}
+      : null;
+    setBlog({ ...blog, [listName]: [...blog[listName], newEntry] });
+  };
+
+  const removeEntry = (index, listName) => {
+    const updatedList = blog[listName].filter((_, i) => i !== index);
+    setBlog({ ...blog, [listName]: updatedList });
+  };
+
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -144,34 +168,53 @@ export const AddBlog = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        if (input.trim() !== '') {
-            setTags([...tags, input.trim()]);
-            setInput('');
-        }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (input.trim() !== "") {
+        setTags([...tags, input.trim()]);
+        setInput("");
+      }
     }
-};
+  };
 
-const removeTag = (indexToRemove) => {
+  const removeTag = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
-};
+  };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
-    if (files && files[0]) {
-      convertToBase64(event, name);
+  
+    if (name === "tags") {
+      // Since the input value is handled separately for tags, we don't update the `blog` state here
+      setInput(value);
     } else {
-      setBlog((prevUniversity) => ({
-        ...prevUniversity,
+      // For other inputs, update the `blog` state as usual
+      setBlog((prev) => ({
+        ...prev,
         [name]: value,
       }));
     }
-
+  
+    if (files && files[0]) {
+      // Handle file uploads if any
+      convertToBase64(event, name);
+    } else if (name !== "tags") {
+      // Update blog state for non-tag inputs
+      setBlog((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  
     if (submitted) {
-      const newError = handleValidation({ ...blog, [name]: value });
+      // Handle validation if the form has been submitted
+      const newError = handleValidation({
+        ...blog,
+        [name]: value,
+      });
       setErrors(newError);
     }
   };
+  
 
   const handleRichTextChange = (value) => {
     setBlog((prevUniversity) => ({
@@ -183,7 +226,53 @@ const removeTag = (indexToRemove) => {
   const handleCheckboxChange = (e) => {
     setIsScheduled(e.target.checked);
   };
+  useEffect(() => {
+    if (blog.title) {
+      // Convert title to slug
+      const generatedSlug = blog.title
+        .toLowerCase()
+        .replace(/ /g, "-")
+        .replace(/[^\w-]/g, "");
+      setBlog((prevData) => ({
+        ...prevData,
+        slug: `crm.edufynd.in/${generatedSlug}`,
+      }));
+    }
+  }, [blog.title])
 
+
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(blog);
+    setErrors(newError);
+    setSubmitted(true);
+   
+    if (handleErrors(newError)) {
+      saveBlog(blog)
+        .then((res) => {
+          toast.success(res?.data?.message);
+          navigate("/list_blog");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    } else {
+      toast.error("Please fill mandatory fields");
+    }
+  };
   return (
     <>
       <Sidebar />
@@ -194,7 +283,7 @@ const removeTag = (indexToRemove) => {
       >
         <div className="content-header">
           <div className="container">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-lg-8">
                   <div className="card border-0 rounded-1 shadow-sm p-3 position-relative">
@@ -213,13 +302,14 @@ const removeTag = (indexToRemove) => {
                           type="text"
                           className="form-control rounded-1 text-muted"
                           id="title"
+                          onChange={handleInputs}
                           placeholder="Title"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
                           name="title"
-                          required
+                          value={blog.title}
                         />
                         {errors.title.required && (
                           <div className="text-danger form-text">
@@ -241,12 +331,13 @@ const removeTag = (indexToRemove) => {
                           className="form-control rounded-1 text-muted"
                           id="slug"
                           placeholder="Slug"
+                          onChange={handleInputs}
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
                           name="slug"
-                          value={"crm.edufynd.in/" + blog.title}
+                          value={blog.slug}
                         />
                         {errors.slug.required && (
                           <div className="text-danger form-text">
@@ -267,6 +358,7 @@ const removeTag = (indexToRemove) => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
+                          onChange={handleInputs}
                           name="summary"
                         />
                         {errors.summary.required && (
@@ -287,7 +379,9 @@ const removeTag = (indexToRemove) => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
+                          onChange={handleInputs}
                           name="keyWords"
+                          value={blog.keyWords}
                         />
                         {errors.keyWords.required && (
                           <div className="text-danger form-text">
@@ -297,50 +391,59 @@ const removeTag = (indexToRemove) => {
                       </div>
 
                       <div className="form-group">
-            <label htmlFor="tags-input">Tags </label>
-            <div style={{ display: 'flex', flexWrap: 'wrap', border: '1px solid #ccc', padding: '5px' }}>
-                {tags.map((tag, index) => (
-                    <div
-                        key={index}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '5px',
-                            margin: '5px',
-                            backgroundColor: '#e1e1e1',
-                            borderRadius: '5px',
-                        }}
-                    >
-                        <span>{tag}</span>
-                        <button
-                            type="button"
-                            onClick={() => removeTag(index)}
-                            style={{
-                                marginLeft: '10px',
-                                backgroundColor: 'transparent',
-                                border: 'none',
-                                cursor: 'pointer',
-                            }}
+                        <label htmlFor="tags-input">Tags </label>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            border: "1px solid #ccc",
+                            padding: "5px",
+                          }}
                         >
-                            &times;
-                        </button>
-                    </div>
-                ))}
-                <input
-                    type="text"
-                    id="tags-input"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    className="form-control rounded-1 text-muted"
-                    style={{
-                        border: 'none',
-                        outline: 'none',
-                        padding: '5px',
-                        flexGrow: 1,
-                    }}
-                />
-            </div>
+                          {tags.map((tag, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "5px",
+                                margin: "5px",
+                                backgroundColor: "#e1e1e1",
+                                borderRadius: "5px",
+                              }}
+                            >
+                              <span>{tag}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeTag(index)}
+                                style={{
+                                  marginLeft: "10px",
+                                  backgroundColor: "transparent",
+                                  border: "none",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                &times;
+                              </button>
+                            </div>
+                          ))}
+                          <input
+                            type="text"
+                            id="tags-input"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                          name="tags"
+                            className="form-control rounded-1 text-muted"
+                            style={{
+                              border: "none",
+                              outline: "none",
+                              padding: "5px",
+                              flexGrow: 1,
+                            }}
+                          />
+                        
+                        </div>
                       </div>
 
                       <div className="form-group">
@@ -354,7 +457,9 @@ const removeTag = (indexToRemove) => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
+                          onChange={handleInputs}
                           name="optionalURL"
+                          value={blog.optionalURL}
                         />
                         {errors.optionalURL.required && (
                           <div className="text-danger form-text">
@@ -372,19 +477,33 @@ const removeTag = (indexToRemove) => {
                             Admission Requirements{" "}
                             <span className="text-danger">*</span>
                           </label>
-                          <RichTextEditor
-                            placeholder="Start writing your content here..."
-                            name="admissionRequirement"
-                            // onChange={handleRichTextChange}
-                            // value={university.admissionRequirement}
-                            type="text"
+
+                          <CKEditor
+                            editor={ClassicEditor}
+                            data={blog.content} // Use 'data' instead of 'value'
+                            config={{
+                              placeholder: "Start writing your content here...",
+                              toolbar: [
+                                "heading",
+                                "|",
+                                "bold",
+                                "italic",
+                                "link",
+                              ], // Adjust toolbar as needed
+                            }}
+                            onChange={(event, editor) => {
+                              const data = editor.getData();
+                              console.log({ data });
+                              handleRichTextChange(data); // Call your handler here
+                            }}
+                            name="content"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
-
                               zIndex: "0",
                             }}
                           />
+
                           {errors.content.required && (
                             <div className="text-danger form-text">
                               This field is required.
@@ -398,9 +517,7 @@ const removeTag = (indexToRemove) => {
                 <div className="col-lg-4">
                   <div className="card card-body border-0 rounded-1 shadow-sm p-3">
                     <div className="container">
-                      <h6 className="box-title">Image
-                     
-                      </h6>
+                      <h6 className="box-title">Image</h6>
                       <div
                         className="box-body"
                         style={{
@@ -423,43 +540,60 @@ const removeTag = (indexToRemove) => {
                             </div>
                           </div>
                           <div className="row m-b-5">
-                           <small className="small-title" style={{ fontSize: "10px" }}> Main banner image </small>
-                           {blog.uploadImage && blog.uploadImage.map((image, index) => (
-                    <div key={index} style={{ marginBottom: '10px' }}>
-                        <input
-                            type="file"
-                            accept="image/*"
-                              className="form-control rounded-1 text-muted"
-                            onChange={handleInputs}
-                            style={{ display: 'block', marginBottom: '5px' }}
-                        />
-                        {/* {image && (
-                            <img
-                                src={image}
-                                alt={`Uploaded ${index}`}
-                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                            />
-                        )} */}
-                    </div>
-                ))}
-                            
-                           
-                            
-                        
-                           <button
-    type="button"
-    style={{
-      backgroundColor: "#231F20",
-      fontFamily: "Plus Jakarta Sans",
-      fontSize: "12px",
-    }}
-    className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-    onClick={handleAddImage}
-  >
- <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp;&nbsp;  Add 
-  </button>
+                            <small
+                              className="small-title"
+                              style={{ fontSize: "10px" }}
+                            >
+                              {" "}
+                              Main banner image{" "}
+                            </small>
+
+                            {blog.uploadFile.map((uploadImage, index) => (
+  <div key={index} className="mb-3">
+    <div className="row gy-2 ">
+    <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Name</label>
+    <input
+      type="text"
+      name="fileName"
+      value={uploadImage.fileName}
+      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
+      className="form-control rounded-1"
+      style={{ fontSize: "12px" }}
+      placeholder="File Upload Title"
+    />
+    </div>
+    <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>File Document</label>
+    <input
+      type="file"
+      name="uploadImage"
+      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
+      className="form-control rounded-1 "
+      style={{ fontSize: "12px" }}
+      placeholder="Upload File"
+    />
+    </div>
+    </div>
+    <button
+      type="button"
+      onClick={() => removeEntry(index, "uploadFile")}
+      className="btn mt-2"
+    >
+      <i className="far fa-trash-alt text-danger me-1"></i>
+    </button>
+  </div>
+))}
+
+<button
+  type="button"
+  onClick={() => addEntry("uploadFile")}
+className="btn text-white mt-2 col-sm-6"
+  style={{ backgroundColor: "#7267ef" }}
+>
+  <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+</button>
                           </div>
-                          
                         </div>
                       </div>
                     </div>
@@ -487,14 +621,21 @@ const removeTag = (indexToRemove) => {
                               <input
                                 type="file"
                                 className="form-control rounded-1 text-muted"
-                                name="file"
+                                name="uploadFiles"
                                 id="file"
                                 placeholder="Add File"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
+                                onChange={handleInputs}
+                               
                               />
+                              {errors.uploadFiles.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
                             </div>
                             <div className="col-sm-12 post-selected-files-container">
                               <div
@@ -521,7 +662,7 @@ const removeTag = (indexToRemove) => {
                           <label htmlFor="category">Category</label>
                           <select
                             id="category"
-                            name="category_id"
+                            name="category"
                             className="form-select"
                             autoComplete="off"
                             required
@@ -529,6 +670,8 @@ const removeTag = (indexToRemove) => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onChange={handleInputs}
+                            value={blog.category}
                           >
                             <option value="">Select a category</option>
                             {category.map((category) => (
@@ -540,6 +683,11 @@ const removeTag = (indexToRemove) => {
                               </option>
                             ))}
                           </select>
+                          {errors.category.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -547,42 +695,46 @@ const removeTag = (indexToRemove) => {
 
                   {/* Publish Section */}
                   <div className="form-check form-switch">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="schedulePost"
-                          checked={isScheduled}
-                          onChange={handleCheckboxChange}
-                        />
-                        <label className="form-check-label" htmlFor="schedulePost">
-                          Schedule Post
-                        </label>
-                      </div>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="schedulePost"
+                      checked={isScheduled}
+                      onChange={handleCheckboxChange}
+                    />
+                    <label className="form-check-label" htmlFor="schedulePost">
+                      Schedule Post
+                    </label>
+                  </div>
 
-                      {isScheduled && (
-                        <div className="form-group mt-3">
-                          <label htmlFor="schedulePost">Schedule Date</label>
-                          <DatePicker
-                            selected={blog.schedulePost}
-                            onChange={(date) => setBlog((prevBlog) => ({
-                              ...prevBlog,
-                              schedulePost: date,
-                            }))}
-                            showTimeSelect
-                            timeFormat="HH:mm"
-                            timeIntervals={15}
-                            dateFormat="MMMM d, yyyy h:mm aa"
-                            className="form-control rounded-1 text-muted"
-                          />
-                          {errors.schedulePost.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
+                  {isScheduled && (
+                    <div className="form-group mt-3">
+                      <label htmlFor="schedulePost">Schedule Date</label>
+                      <DatePicker
+                        selected={blog.schedulePost}
+                        onChange={(date) =>
+                          setBlog((prevBlog) => ({
+                            ...prevBlog,
+                            schedulePost: date,
+                          }))
+                        }
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        name="schedulePost"
+                        timeIntervals={15}
+                        dateFormat="MMMM d, yyyy h:mm aa"
+                        className="form-control rounded-1 text-muted"
+                      />
+                      {errors.schedulePost.required && (
+                        <div className="text-danger form-text">
+                          This field is required.
                         </div>
                       )}
+                    </div>
+                  )}
                 </div>
               </div>
+              <button type="submit">Submit</button>
             </form>
           </div>
         </div>
