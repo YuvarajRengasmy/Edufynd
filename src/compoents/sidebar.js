@@ -1563,7 +1563,7 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link 
-                to="#" 
+                to="/Privilages" 
                 className={`nav-link sidebar_link ${[
                   "/list_GlobalPrivileges",
                   "/add_GlobalPrivileges",
@@ -1740,7 +1740,7 @@ const Sidebar = () => {
       {/* Privileges */}
       <li className="nav-item">
         <Link 
-          to="#" 
+          to="/Privilages" 
           className="nav-link sidebar_link"
           data-bs-toggle="collapse"
           aria-expanded={isOpen.privileges}

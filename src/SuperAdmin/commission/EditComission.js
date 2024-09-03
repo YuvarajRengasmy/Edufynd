@@ -10,6 +10,7 @@ import { getUniversitiesByCountry } from "../../api/university";
 import Flags from "react-world-flags";
 import Sidebar from "../../compoents/sidebar";
 import BackButton from "../../compoents/backButton";
+import axios from 'axios';
 function AddCommission() {
 
   const location = useLocation();
@@ -209,11 +210,11 @@ function AddCommission() {
     setCommission({ ...commission, years: updatedYears });
   };
 
-  const removeCourseType = (yearIndex, courseTypeIndex) => {
-    const updatedYears = [...commission.years];
-    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
-    setCommission({ ...commission, years: updatedYears });
-  };
+  // const removeCourseType = (yearIndex, courseTypeIndex) => {
+  //   const updatedYears = [...commission.years];
+  //   updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+  //   setCommission({ ...commission, years: updatedYears });
+  // };
 
   const addIntake = (yearIndex, courseTypeIndex) => {
     const updatedYears = [...commission.years];
@@ -224,14 +225,7 @@ function AddCommission() {
     setCommission({ ...commission, years: updatedYears });
   };
 
-  const removeIntake = (yearIndex, courseTypeIndex, intakeIndex) => {
-    const updatedYears = [...commission.years];
-    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.splice(
-      intakeIndex,
-      1
-    );
-    setCommission({ ...commission, years: updatedYears });
-  };
+
   const yearOptions = year.map((data) => ({
     value: data.year,
     label: data.year,
@@ -370,6 +364,81 @@ function AddCommission() {
         });
     }
   };
+
+
+  /////
+
+
+
+  const removeIntake = async (yearIndex, courseTypeIndex, intakeIndex) => {
+    const year = commission.years[yearIndex].year;
+    const courseType = commission.years[yearIndex].courseTypes[courseTypeIndex].courseType;
+    const intake = commission.years[yearIndex].courseTypes[courseTypeIndex].inTake[intakeIndex];
+  
+    try {
+      // Call the backend API to delete the intake
+      await axios.post('http://localhost:4409/api/commission/deleteIntake', {
+        commissionId: commission._id,
+        year,
+        courseType,
+        intake: intake.inTake
+      });
+  
+      // Update the local state after successful deletion
+      const updatedYears = [...commission.years];
+      updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.splice(intakeIndex, 1);
+  
+      // If no intakes are left in the courseType, you might want to remove the courseType
+      if (updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake.length === 0) {
+        updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+  
+        // If no courseTypes are left in the year, you might want to remove the year
+        if (updatedYears[yearIndex].courseTypes.length === 0) {
+          updatedYears.splice(yearIndex, 1);
+        }
+      }
+  
+      setCommission({ ...commission, years: updatedYears });
+    
+      toast.success('Intake deleted successfully');
+    } catch (error) {
+      console.error('Error deleting Intake:', error);
+      toast.error("Error deleting Intake");
+    }
+  };
+
+
+const removeCourseType = async (yearIndex, courseTypeIndex) => {
+  const year = commission.years[yearIndex].year;
+  const courseType = commission.years[yearIndex].courseTypes[courseTypeIndex].courseType;
+
+  try {
+    // Call the backend API to delete the courseType
+    await axios.post('http://localhost:4409/api/commission/deleteCourseType', {
+      commissionId: commission._id,
+      year,
+      courseType
+    });
+
+    // Update the local state after successful deletion
+    const updatedYears = [...commission.years];
+    updatedYears[yearIndex].courseTypes.splice(courseTypeIndex, 1);
+
+    // If no courseTypes are left in the year, you might want to remove the year
+    if (updatedYears[yearIndex].courseTypes.length === 0) {
+      updatedYears.splice(yearIndex, 1);
+    }
+
+    setCommission({ ...commission, years: updatedYears });
+  
+    toast.success('Course Type deleted successfully');
+  } catch (error) {
+    console.error('Error deleting Course Type:', error);
+
+    toast.error("Error deleting Course Type");
+  }
+};
+
 
 
   return (
@@ -702,7 +771,12 @@ function AddCommission() {
                           ) : null}
                         </div>
 
-                        <div className="row g-3 mt-3">
+
+
+
+
+
+                        {/* <div className="row g-3 mt-3">
                           <div className="col-12">
                           {commission.years.map((year, yearIndex) => (
                             <div className="row g-3">
@@ -834,15 +908,12 @@ function AddCommission() {
 
                       <div className='d-inline text-end'>
                       <button
-                      type="button"
-                     
-                      className="btn rounded-1 btn-danger "
-                      onClick={() =>
-                        removeIntake(yearIndex, courseTypeIndex, intakeIndex)
-                      }
-                    >
-                      <FaTrash /> Remove Intake
-                    </button>
+  type="button"
+  className="btn rounded-1 btn-danger"
+  onClick={() => removeIntake(yearIndex, courseTypeIndex, intakeIndex)}
+>
+  <FaTrash /> Remove Intake
+</button>
                    
                       </div>
                     
@@ -850,13 +921,6 @@ function AddCommission() {
                       </div>
                      
                   ))}
-
-
-
-
-
-
-
 
 <div className=' text-en my-1'>
 <button
@@ -869,14 +933,12 @@ function AddCommission() {
 </div>
 <div className=' text-end my-1'>
 <button
-                    type="button"
-                    className="btn rounded-1 btn-danger"
-                    onClick={() =>
-                      removeCourseType(yearIndex, courseTypeIndex)
-                    }
-                  >
-                    <FaTrash /> Remove Course 
-                  </button>
+  type="button"
+  className="btn rounded-1 btn-danger"
+  onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
+>
+  <FaTrash /> Remove Course
+</button>
 </div>
                  
 
@@ -921,7 +983,164 @@ function AddCommission() {
                           </div>
                           
                         </div>
-                      </div>
+                      </div> */}
+
+
+
+
+<div className="row g-3 mt-3">
+    <div className="col-12">
+      {commission.years.map((year, yearIndex) => (
+        <div className="row g-3" key={yearIndex}>
+          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <div className="form-group">
+              <label>Year</label>
+              <select
+                name="year"
+                className={`form-select rounded-1 ${errors.years.required ? "is-invalid" : ""}`}
+                value={year.year}
+                onChange={(e) => handleYearChange(yearIndex, "year", e.target.value)}
+              >
+                <option value="">Select Year</option>
+                {yearOptions.map((yearOption) => (
+                  <option key={yearOption.value} value={yearOption.value}>
+                    {yearOption.label}
+                  </option>
+                ))}
+              </select>
+              {errors.years.required && (
+                <div className="invalid-feedback">Year is required</div>
+              )}
+            </div>
+          </div>
+          {year.courseTypes.map((courseType, courseTypeIndex) => (
+            <div key={courseTypeIndex}>
+              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label>Course Type</label>
+                <select
+                  name="courseType"
+                  className={`form-select rounded-1 ${errors.courseType?.required ? "is-invalid" : ""}`}
+                  value={courseType.courseType}
+                  onChange={(e) => handleCourseTypeChange(yearIndex, courseTypeIndex, "courseType", e.target.value)}
+                >
+                  <option value={courseType?.courseType}>{courseType?.courseType}</option>
+                  {(
+                    universities.find(
+                      (uni) => uni.universityName === commission.universityName
+                    )?.courseType || []
+                  ).map((type, idx) => (
+                    <option key={idx} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                {errors.courseType?.required && (
+                  <div className="invalid-feedback">Course Type is required</div>
+                )}
+              </div>
+
+              {courseType.inTake.map((intake, intakeIndex) => (
+                <div className="row g-2" key={intakeIndex}>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label>Intake</label>
+                    <select
+                      name="inTake"
+                      className={`form-control ${errors.inTake?.required ? "is-invalid" : ""}`}
+                      value={intake.inTake}
+                      onChange={(e) => handleIntakeChange(yearIndex, courseTypeIndex, intakeIndex, "inTake", e.target.value)}
+                    >
+                      <option value={intake.inTake}>{intake.inTake}</option>
+                      {(
+                        universities.find(
+                          (uni) => uni.universityName === commission.universityName
+                        )?.inTake || []
+                      ).map((type, idx) => (
+                        <option key={idx} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label>Value</label>
+                    <input
+                      type="text"
+                      name="value"
+                      className="form-control"
+                      value={intake.value}
+                      onChange={(e) => handleIntakeChange(yearIndex, courseTypeIndex, intakeIndex, "value", e.target.value)}
+                    />
+                  </div>
+                  <div className='d-inline text-end'>
+                    <button
+                      type="button"
+                      className="btn rounded-1 btn-danger"
+                      onClick={() => removeIntake(yearIndex, courseTypeIndex, intakeIndex)}
+                    >
+                      <FaTrash /> Remove Intake
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              <div className='text-en my-1'>
+                <button
+                  type="button"
+                  className="btn rounded-1 btn-secondary"
+                  onClick={() => addIntake(yearIndex, courseTypeIndex)}
+                >
+                  <i className="fa fa-plus-circle" aria-hidden="true"></i> Add Intake
+                </button>
+              </div>
+              <div className='text-end my-1'>
+                <button
+                  type="button"
+                  className="btn rounded-1 btn-danger"
+                  onClick={() => removeCourseType(yearIndex, courseTypeIndex)}
+                >
+                  <FaTrash /> Remove Course
+                </button>
+              </div>
+            </div>
+          ))}
+          <div className='text-start'>
+            <button
+              type="button"
+              className="btn rounded-1 btn-secondary"
+              onClick={() => addCourseType(yearIndex)}
+            >
+              <i className="fa fa-plus-circle" aria-hidden="true"></i> Add Course
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div className="row g-3 ">
+      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
+        <button
+          type="button"
+          className="btn rounded-1 px-4 py-2 text-uppercase fw-semibold text-white"
+          style={{
+            backgroundColor: "#FE5722",
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          onClick={addYear}
+        >
+          <i className="fa fa-plus-circle me-2" aria-hidden="true"></i> Add Year
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
 
                       <div className="row g-2">
                         <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
@@ -952,6 +1171,7 @@ function AddCommission() {
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
             </form>
           </div>

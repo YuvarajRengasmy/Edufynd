@@ -18,3 +18,7 @@ export const getSingleBlog = (data) => {
   export const updateBlog = (data) => {
     return API.put(`${Blog}`, data);
   };
+
+  export const getFilterBlog = (data) => {
+    return API.put(`${Blog}/getFilterBlog`, data);
+  };
