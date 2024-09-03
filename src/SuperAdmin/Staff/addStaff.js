@@ -235,9 +235,7 @@ export const AddStaff = () => {
     if (data.active === "") {
       error.active.required = true;
     }
-    if (data.privileges === "") {
-      error.privileges.required = true;
-    }
+   
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
     }
@@ -1062,7 +1060,7 @@ export const AddStaff = () => {
                                 Privileges/Rights{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              <input
+                              {/* <input
                                 type="text"
                                  className={`form-control rounded-1 ${
                                   errors.privileges.required ? 'is-invalid' :  ''
@@ -1075,13 +1073,80 @@ export const AddStaff = () => {
                                 }}
                                 name="privileges"
                                 onChange={handleInputs}
-                              />
-                              {errors.privileges.required && (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) }
+                              /> */}
+                              <button type="button" style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "14px",
+                                }}
+                                 className=" form-select form-select-lg rounded-1"
+                                  data-bs-toggle="modal"
+                                   data-bs-target="#exampleModal">
+                              Privileges
+                              </button>
+                             
                             </div>
+                            <div>
+  <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal-dialog modal-xl">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h1 className="modal-title fs-5" id="exampleModalLabel">Privileges</h1>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+        </div>
+        <div className="modal-body">
+          <p>Privileges.</p>
+          <div className="row">
+           
+              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12" >
+                <label style={{ color: "#231F20" }}>
+                  Name {" "}
+                  <span className="text-danger">*</span>
+                </label>
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="addPrivilege"
+                      onChange={handleInputs}
+                    />
+                    Add
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="editPrivilege"
+                      onChange={handleInputs}
+                    />
+                    Edit
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="viewPrivilege"
+                      onChange={handleInputs}
+                    />
+                    View
+                  </label>
+                </div>
+              </div>
+        
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" className="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>

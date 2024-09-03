@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-
+import {getallBlog,deleteBlog} from "../../api/blog";
+import { formatDate } from "../../Utils/DateFormat";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -9,12 +10,68 @@ import {
   IconButton,
   Pagination,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 import Mastersidebar from "../../compoents/sidebar";
 
 import { FaFilter } from "react-icons/fa";
 
 export const ListBlog = () => {
+
+  const [blog, setBlog] = useState([]);
+  const [deleteId, setDeleteId] = useState();
+  const [open, setOpen] = useState(false);
+
+  const pageSize = 8;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+  useEffect(() => {
+    getAllUniversityDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllUniversityDetails = () => {
+    const data = {
+      limit: 8,
+      page: pagination.from,
+    };
+    getallBlog(data)
+      .then((res) => {
+        console.log(res?.data?.result);
+        setBlog(res?.data?.result);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+  const deleteClientData = () => {
+    deleteBlog(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllUniversityDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -346,10 +403,10 @@ export const ListBlog = () => {
                                 Date
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                Subject
+                              Title
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                Users
+                              Category
                               </th>
 
                               <th className="text-capitalize text-start sortable-handle">
@@ -358,17 +415,19 @@ export const ListBlog = () => {
                             </tr>
                           </thead>
                           <tbody>
+                          {blog?.map((data,index) => (
                             <tr
+                            key={index}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "11px",
                               }}
                             >
-                              <td className="text-capitalize text-start text-truncate"></td>
-                              <td className="text-capitalize text-start text-truncate"></td>
-                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                              <td className="text-capitalize text-start text-truncate"> {formatDate(data.createdOn)}</td>
+                              <td className="text-capitalize text-start text-truncate">{data.title}</td>
 
-                              <td className="text-capitalize text-start text-truncate"></td>
+                              <td className="text-capitalize text-start text-truncate">{data.category}</td>
 
                               <td className="text-capitalize text-start text-truncate">
                                 <div className="d-flex">
@@ -376,6 +435,7 @@ export const ListBlog = () => {
                                     className="dropdown-item"
                                     to={{
                                       pathname: "/view_blog",
+                                      search: `?id=${data?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="View"
@@ -386,6 +446,7 @@ export const ListBlog = () => {
                                     className="dropdown-item"
                                     to={{
                                       pathname: "/edit_blog",
+                                      search: `?id=${data?._id}`,
                                     }}
                                     data-bs-toggle="tooltip"
                                     title="Edit"
@@ -395,6 +456,9 @@ export const ListBlog = () => {
                                   <Link
                                     className="dropdown-item"
                                     data-bs-toggle="tooltip"
+                                    onClick={() => {
+                                      openPopup(data?._id);
+                                    }}
                                     title="Delete"
                                   >
                                     <i className="far fa-trash-alt text-danger me-1"></i>
@@ -402,6 +466,8 @@ export const ListBlog = () => {
                                 </div>
                               </td>
                             </tr>
+ ))}
+
                           </tbody>
                         </table>
                       </div>
@@ -435,22 +501,24 @@ export const ListBlog = () => {
           </div>
         </div>
       </div>
-      <Dialog>
+      <Dialog open={open}>
         <DialogContent>
           <div className="text-center p-4">
-            <h5 className="mb-4" style={{ fontSize: "14px" }}>
-              Are you sure you want to Delete <br /> the selected Product ?
-            </h5>
+            <h6 className="mb-4 text-capitalize">
+              Are you sure you want to delete the selected Blog?
+            </h6>
             <button
               type="button"
-              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              onClick={deleteClientData}
               style={{ fontSize: "12px" }}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase"
+              onClick={closePopup}
               style={{ fontSize: "12px" }}
             >
               No
