@@ -5,6 +5,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { updateStaff, getSingleStaff,getallStaff } from "../../api/staff";
 import { getallDepartment } from "../../api/universityModule/Department";
 import { getallCode } from "../../api/settings/dailcode";
+import CheckBox from "./privileges"
+
 import {
   isValidPhone,
   isValidEmail,
@@ -24,6 +26,7 @@ export const AddStaff = () => {
   const initialState = {
     photo: "",
     empName: "",
+    role: "",
     dob: "",
     designation: "",
     role: "",
@@ -48,7 +51,7 @@ export const AddStaff = () => {
     city: "",
     idCard: "",
     active: "",
-    privileges: "",
+    // privileges: "",
     companyAssests: "",
     mobileName: "",
     brandName: "",
@@ -88,7 +91,8 @@ export const AddStaff = () => {
     city: { required: false },
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
     active: { required: false },
-    privileges: { required: false },
+    role:{required:false},
+    // privileges: { required: false },
     companyAssests: { required: false },
     mobileName: { required: false },
     brandName: { required: false },
@@ -235,8 +239,8 @@ export const AddStaff = () => {
     if (data.active === "") {
       error.active.required = true;
     }
-    if (data.privileges === "") {
-      error.privileges.required = true;
+    if (data.role === "") {
+      error.role.required = true;
     }
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
@@ -1095,30 +1099,37 @@ export const AddStaff = () => {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Privileges/Rights{" "}
+                                Role{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              <input
-                                type="text"
-                                value={staff?.privileges}
-                                className={`form-control rounded-1 ${
-                                  errors.privileges.required ? 'is-invalid' : errors.privileges.valid ? 'is-valid' : ''
-                                }`}
-                                placeholder="Example Employment..."
+                             <select
+                               className={`form-select form-select-lg rounded-1 ${errors.role.required ? 'is-invalid':''}`}
+                                onChange={handleInputs}
+                                name="role"
+                                value={staff?.role}
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                name="privileges"
-                                onChange={handleInputs}
-                              />
-                              {errors.privileges.required ? (
+                              >
+                                <option value="">Select Role</option>
+                                <option value="superAdmin">SuperAdmin</option>
+                                <option value="admin">Admin</option>
+                                <option value="staff">Staff</option>
+                                <option value="student">Student</option>
+                                <option value="agent">Agent</option>
+
+                           
+                              </select>
+                              {errors.role.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
                               ) : null}
                             </div>
+
+                            <CheckBox/>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>

@@ -11,15 +11,10 @@ const Header = () => {
         view: false,
         edit: false,
         delete: false
-     
     };
 
     const initialStatePrivilegesErrors = {
-        module: { required: false },
-        view: { required: false}, 
-        edit:  { required: false}, 
-        delete:  { required: false}
-
+        module: { required: false }
     };
 
     const [privileges, setPrivileges] = useState([initialStatePrivilege]);
@@ -62,11 +57,13 @@ const Header = () => {
 
     const handlePermissionChange = (event) => {
         const { name, checked } = event.target;
-        setPrivileges((prevPrivileges) => {
-            return prevPrivileges.map((priv) =>
-                priv.module === selectedModule ? { ...priv, permissions: { ...priv.permissions, [name]: checked } } : priv
-            );
-        });
+        setPrivileges((prevPrivileges) => 
+            prevPrivileges.map((priv) => 
+                priv.module === selectedModule 
+                    ? { ...priv, [name]: checked } 
+                    : priv
+            )
+        );
     };
 
     useEffect(() => {
@@ -117,14 +114,9 @@ const Header = () => {
                     modal.current.click(); // Close modal after successful update
                 })
                 .catch((err) => {
-                    toast.error(err?.response?.data?.message);
+                    toast.error(err?.response?.data?.message || "Error updating privileges");
                 });
         }
-    };
-
-    const handleAddPrivilege = () => {
-        setPrivileges([...privileges, initialStatePrivilege]);
-        setErrors([...errors, initialStatePrivilegesErrors]);
     };
 
     return (
@@ -154,7 +146,7 @@ const Header = () => {
                             <div className="modal-body">
                                 <div>
                                     <div className="row">
-                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                             <label style={{ color: "#231F20" }}>
                                                 Select Module 
                                             </label>
@@ -183,7 +175,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'university')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'university')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -194,7 +186,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'university')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'university')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -205,7 +197,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'university')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'university')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -239,7 +231,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'client')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'client')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -250,7 +242,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'client')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'client')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -261,7 +253,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'client')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'client')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -279,7 +271,6 @@ const Header = () => {
                                                     name="module"
                                                     onChange={handleCheckboxChange}
                                                     checked={selectedModule === 'program'}
-                                                    
                                                 />
                                                 <label className="form-check-label" htmlFor="programCheckbox">
                                                     Program
@@ -296,7 +287,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'program')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'program')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -307,7 +298,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'program')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'program')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -318,7 +309,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'program')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'program')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -327,122 +318,6 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
-                                        
-                                        
-                                            <div className="form-check mb-3">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    id="clientCheckbox"
-                                                    name="module"
-                                                    onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'client'}
-                                                />
-                                                <label className="form-check-label" htmlFor="clientCheckbox">
-                                                    Client
-                                                </label>
-                                                <Collapse in={!isTasksCollapsed.client}>
-                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
-                                                        <label style={{ color: "#231F20" }}>
-                                                            Permissions <span className="text-danger">*</span>
-                                                        </label>
-                                                        <div className="form-group mt-2">
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="viewPermission"
-                                                                    name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'client')?.permissions?.view || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="editPermission"
-                                                                    name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'client')?.permissions?.edit || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="deletePermission"
-                                                                    name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'client')?.permissions?.delete || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Collapse>
-                                            </div>
-
-                                            <div className="form-check mb-3">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    id="programCheckbox"
-                                                    name="module"
-                                                    onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'program'}
-                                                    
-                                                />
-                                                <label className="form-check-label" htmlFor="programCheckbox">
-                                                    Program
-                                                </label>
-                                                <Collapse in={!isTasksCollapsed.program}>
-                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
-                                                        <label style={{ color: "#231F20" }}>
-                                                            Permissions <span className="text-danger">*</span>
-                                                        </label>
-                                                        <div className="form-group mt-2">
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="viewPermission"
-                                                                    name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'program')?.permissions?.view || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="editPermission"
-                                                                    name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'program')?.permissions?.edit || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="deletePermission"
-                                                                    name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'program')?.permissions?.delete || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Collapse>
-                                            </div>
-
-                                            
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -468,7 +343,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'commission')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'commission')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -479,7 +354,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'commission')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'commission')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -490,7 +365,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'commission')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'commission')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -527,7 +402,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'student')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'student')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -538,7 +413,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'student')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'student')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -549,7 +424,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'student')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'student')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -583,7 +458,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'staff')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'staff')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -594,7 +469,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'staff')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'staff')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -605,7 +480,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'staff')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'staff')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -639,7 +514,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'agent')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'agent')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -650,7 +525,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'agent')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'agent')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -661,7 +536,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'agent')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'agent')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -698,7 +573,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'application')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'application')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -709,7 +584,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'application')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'application')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -720,7 +595,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'application')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'application')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -757,7 +632,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -768,7 +643,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -779,7 +654,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -813,7 +688,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -824,7 +699,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -835,7 +710,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -869,7 +744,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="viewPermission"
                                                                     name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.permissions?.view || false}
+                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.view || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="viewPermission">View</label>
@@ -880,7 +755,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="editPermission"
                                                                     name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.permissions?.edit || false}
+                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.edit || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="editPermission">Edit</label>
@@ -891,7 +766,7 @@ const Header = () => {
                                                                     type="checkbox"
                                                                     id="deletePermission"
                                                                     name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.permissions?.delete || false}
+                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
@@ -900,201 +775,21 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
-                                           
-                                            
-                                           
-                                        </div>
-                                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">  
-                                            <label style={{ color: "#231F20" }}>
-                                                Enquiry Process
-                                            </label>
-                                            <div className="form-check mb-3">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    id="flightEnquiryCheckbox"
-                                                    name="module"
-                                                    onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'flightEnquiry'}
-                                                    
-                                                />
-                                                <label className="form-check-label" htmlFor="flightEnquiryCheckbox">
-                                                FlightEnquiry
-                                                </label>
-                                                <Collapse in={!isTasksCollapsed.flightEnquiry}>
-                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
-                                                        <label style={{ color: "#231F20" }}>
-                                                            Permissions <span className="text-danger">*</span>
-                                                        </label>
-                                                        <div className="form-group mt-2">
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="viewPermission"
-                                                                    name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.permissions?.view || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="editPermission"
-                                                                    name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.permissions?.edit || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="deletePermission"
-                                                                    name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.permissions?.delete || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Collapse>
-                                            </div>
-                                            <div className="form-check mb-3">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    id="forexEnquiryCheckbox"
-                                                    name="module"
-                                                    onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'forexEnquiry'}
-                                                    
-                                                />
-                                                <label className="form-check-label" htmlFor="forexEnquiryCheckbox">
-                                                ForexEnquiry
-                                                </label>
-                                                <Collapse in={!isTasksCollapsed.forexEnquiry}>
-                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
-                                                        <label style={{ color: "#231F20" }}>
-                                                            Permissions <span className="text-danger">*</span>
-                                                        </label>
-                                                        <div className="form-group mt-2">
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="viewPermission"
-                                                                    name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.permissions?.view || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="editPermission"
-                                                                    name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.permissions?.edit || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="deletePermission"
-                                                                    name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.permissions?.delete || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Collapse>
-                                            </div>
-                                            <div className="form-check mb-3">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    id="accommodationEnquiryCheckbox"
-                                                    name="module"
-                                                    onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'accommodationEnquiry'}
-                                                    
-                                                />
-                                                <label className="form-check-label" htmlFor="accommodationEnquiryCheckbox">
-                                                AccommodationEnquiry
-                                                </label>
-                                                <Collapse in={!isTasksCollapsed.accommodationEnquiry}>
-                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
-                                                        <label style={{ color: "#231F20" }}>
-                                                            Permissions <span className="text-danger">*</span>
-                                                        </label>
-                                                        <div className="form-group mt-2">
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="viewPermission"
-                                                                    name="view"
-                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.permissions?.view || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="editPermission"
-                                                                    name="edit"
-                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.permissions?.edit || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
-                                                            </div>
-                                                            <div className="form-check form-check-inline">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    id="deletePermission"
-                                                                    name="delete"
-                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.permissions?.delete || false}
-                                                                    onChange={handlePermissionChange}
-                                                                />
-                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Collapse>
-                                            </div>
-                                           
-                                            
-                                           
-                                        </div>
 
-                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={modal}>Close</button>
                                 <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
                             </div>
-                           </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-          
         </>
-    )
-}
+    );
+};
 
 export default Header;

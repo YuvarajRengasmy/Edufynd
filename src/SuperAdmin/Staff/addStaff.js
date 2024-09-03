@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { saveStaff,getallStaff } from "../../api/staff";
 import { getallDepartment } from "../../api/universityModule/Department";
+// import CheckBox from "./role"
 import {
   isValidPhone,
   isValidEmail,
@@ -46,7 +47,7 @@ export const AddStaff = () => {
     city: "",
     idCard: "",
     active: "",
-    privileges: "",
+    role: "",
     companyAssests: "",
     mobileName: "",
     brandName: "",
@@ -86,7 +87,7 @@ export const AddStaff = () => {
     city: { required: false },
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
     active: { required: false },
-    privileges: { required: false },
+    role: { required: false },
     companyAssests: { required: false },
     mobileName: { required: false },
     brandName: { required: false },
@@ -417,7 +418,7 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 className={`form-control rounded-1 ${
-                                  errors.empName.required ? 'is-invalid' : ''
+                                  errors.empName.required ? 'is-invalid' : errors.empName.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example John Doe "
                                 style={{
@@ -448,7 +449,7 @@ export const AddStaff = () => {
                               <input
                                 type="date"
                                 className={`form-control rounded-1 text-uppercase ${
-                                  errors.dob.required ? 'is-invalid' :  ''
+                                  errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Enter  DOB "
                                 style={{
@@ -474,7 +475,7 @@ export const AddStaff = () => {
                               <select
                            
                             className={`form-select form-select-lg rounded-1 ${
-                              errors.designation.required ? 'is-invalid' :  ''
+                              errors.designation.required ? 'is-invalid' : errors.designation.valid ? 'is-valid' : ''
                             }`}
                             style={{ fontSize: "12px" }}
                             name="designation"
@@ -503,7 +504,7 @@ export const AddStaff = () => {
                             <input
                                 type="text"
                                 className={`form-control rounded-1 ${
-                                  errors.role.required ? 'is-invalid'  : ''
+                                  errors.role.required ? 'is-invalid' : errors.role.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Enter  Role "
                                 style={{
@@ -533,7 +534,7 @@ export const AddStaff = () => {
                                   fontSize: "11px",
                                 }}
                                 className={`form-control text-uppercase rounded-1 ${
-                                  errors.doj.required ? 'is-invalid' :  ''
+                                  errors.doj.required ? 'is-invalid' : errors.doj.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Enter  DOJ "
                                 name="doj"
@@ -585,7 +586,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                 className={`form-control rounded-1 ${
-                                  errors.shiftTiming.required ? 'is-invalid'  : ''
+                                  errors.shiftTiming.required ? 'is-invalid' : errors.shiftTiming.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example 10.00 AM - 07.00 PM"
                                 name="shiftTiming"
@@ -610,7 +611,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.probationDuration.required ? 'is-invalid'  : ''
+                                  errors.probationDuration.required ? 'is-invalid' : errors.probationDuration.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example 6 Months"
                                 name="probationDuration"
@@ -631,7 +632,7 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 className={`form-control rounded-1 ${
-                                  errors.email.required ? 'is-invalid'  : ''
+                                  errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example jay.j@afynd.com "
                                 style={{
@@ -661,7 +662,7 @@ export const AddStaff = () => {
                                 name="team"
                                 onChange={handleInputs}
                                 className={`form-select form-select-lg rounded-1 ${
-                                  errors.team.required ? 'is-invalid' :  ''
+                                  errors.team.required ? 'is-invalid' : errors.team.valid ? 'is-valid' : ''
                                 }`}
                                 
                                 style={{
@@ -717,7 +718,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.personalMail.required ? 'is-invalid' :  ''
+                                  errors.personalMail.required ? 'is-invalid' : errors.personalMail.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example johndoe123@gmail.com"
                                 onChange={handleInputs}
@@ -766,7 +767,7 @@ export const AddStaff = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.mobileNumber.required ? 'is-invalid' :  ''
+        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -834,8 +835,8 @@ export const AddStaff = () => {
 
   <input
     type="text"
-    className={`form-control  ${
-      errors.emergencyContactNo.required ? 'is-invalid' :  ''
+    className={`form-control rounded-1 ${
+      errors.emergencyContactNo.required ? 'is-invalid' : errors.emergencyContactNo.valid ? 'is-valid' : ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -921,7 +922,7 @@ export const AddStaff = () => {
                                   fontSize: "12px",
                                 }}
                                  className={`form-control rounded-1 ${
-                                  errors.pin.required ? 'is-invalid' :  ''
+                                  errors.pin.required ? 'is-invalid' : errors.pin.valid ? 'is-valid' : ''
                                 }`}
                                 placeholder="Example 632001"
                                 name="pin"
@@ -1057,95 +1058,40 @@ export const AddStaff = () => {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Privileges/Rights{" "}
+                                Role{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              {/* <input
-                                type="text"
-                                 className={`form-control rounded-1 ${
-                                  errors.privileges.required ? 'is-invalid' :  ''
-                                }`}
-                                placeholder="Example Employment..."
+                             <select
+                               className={`form-select form-select-lg rounded-1 ${errors.role.required ? 'is-invalid':''}`}
+                                onChange={handleInputs}
+                                name="role"
+                                value={staff?.role}
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                name="privileges"
-                                onChange={handleInputs}
-                              /> */}
-                              <button type="button" style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                                 className=" form-select form-select-lg rounded-1"
-                                  data-bs-toggle="modal"
-                                   data-bs-target="#exampleModal">
-                              Privileges
-                              </button>
-                             
-                            </div>
-                            <div>
-  <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div className="modal-dialog modal-xl">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="exampleModalLabel">Privileges</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-        </div>
-        <div className="modal-body">
-          <p>Privileges.</p>
-          <div className="row">
-           
-              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12" >
-                <label style={{ color: "#231F20" }}>
-                  Name {" "}
-                  <span className="text-danger">*</span>
-                </label>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="addPrivilege"
-                      onChange={handleInputs}
-                    />
-                    Add
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="editPrivilege"
-                      onChange={handleInputs}
-                    />
-                    Edit
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="viewPrivilege"
-                      onChange={handleInputs}
-                    />
-                    View
-                  </label>
-                </div>
-              </div>
-        
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" className="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                              >
+                                <option value="">Select Role</option>
+                                <option value="superAdmin">SuperAdmin</option>
+                                <option value="admin">Admin</option>
+                                <option value="staff">Staff</option>
+                                <option value="student">Student</option>
+                                <option value="agent">Agent</option>
 
+
+                           
+                              </select>
+                              {errors.role.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                            </div>
+
+
+                          
+{/* <CheckBox/> */}
 
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1157,7 +1103,7 @@ export const AddStaff = () => {
                                 name="companyAssests"
                                 onChange={handleInputs}
                                 className={`form-select form-select-lg rounded-1 ${
-                                  errors.companyAssests.required ? 'is-invalid' :  ''
+                                  errors.companyAssests.required ? 'is-invalid' : errors.companyAssests.valid ? 'is-valid' : ''
                                 }`}
                                 
                                 style={{
