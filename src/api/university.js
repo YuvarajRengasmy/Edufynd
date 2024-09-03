@@ -12,7 +12,7 @@ export const getUniversitiesByClients = () => {
   return API.get(`${University}/universities/:clientName`)
 }
 export const getFilterUniversity = (data) => {
-  return API.put(`${University}/getFilterUniversity`, data);
+  return API.put(`${University}/getFilterUniversity`,{ params: { _id: data } });
 };
 export const getSingleUniversity = (data) => {
     return API.get(`${University}/getSingleUniversity`, { params: { _id: data } });

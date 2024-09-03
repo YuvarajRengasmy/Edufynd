@@ -1,93 +1,80 @@
-// import React, { useState, useEffect } from 'react';
-// import { getallStaff } from "../../api/staff";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-// import axios from 'axios';
+const PrivilegeManager = () => {
+    const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [privileges, setPrivileges] = useState([]);
 
-// const PermissionManagementPage = () => {
+    useEffect(() => {
+        // Fetch users
+        axios.get('/api/users').then(response => setUsers(response.data));
+    }, []);
 
-//     const [staffList, setStaffList] = useState([]);
-//     const [selectedStaffId, setSelectedStaffId] = useState(null);
-//     const [permissions, setPermissions] = useState({});
+    const handlePrivilegeChange = (module, permissionType) => {
+        setPrivileges(prev => prev.map(p => 
+            p.module === module ? { ...p, permissions: { ...p.permissions, [permissionType]: !p.permissions[permissionType] } } : p
+        ));
+    };
 
-//     const sidebarItems = [
-//         { name: 'Dashboard', path: '/dashboard' },
-//         { name: 'Client', path: '/list_client' },
-//         { name: 'University', path: '/list_university' },
-//         { name: 'Testimonials', path: '/list_testimonials' },
-//         { name: 'Admin', path: '/list_admin' },
-//     ];
-    
-//     useEffect(() => {
-//         getStaffList();  
-//       }, [selectedStaffId]);
+    const savePrivileges = () => {
+        axios.post('/api/users/assign-privileges', { userId: selectedUser, privileges })
+            .then(response => alert('Privileges assigned successfully'))
+            .catch(error => console.error('Error assigning privileges', error));
+    };
 
-//       const getStaffList = () => {
-//         getallStaff()
-//           .then((res) => {
-//             setStaffList(res?.data?.result || []);
-//           })
-//           .catch((err) => {
-//             console.log(err);
-//           });
-//       };
-//     const roles = ['staff', 'student']; // Example roles
-//     useEffect(() => {
-        
-//         axios.get('/api/staff').then(response => {
-//             setStaffList(response.data);
-//         });
+    return (
+        <div>
+            <h2>Privilege Manager</h2>
+            <select onChange={(e) => setSelectedUser(e.target.value)}>
+                <option>Select User</option>
+                {users.map(user => (
+                    <option key={user._id} value={user._id}>{user.name}</option>
+                ))}
+            </select>
+            <div>
+                <h3>Manage Privileges</h3>
+                {['university', 'program', 'client'].map(module => (
+                    <div key={module}>
+                        <h4>{module}</h4>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={privileges.find(p => p.module === module)?.permissions.add || false}
+                                onChange={() => handlePrivilegeChange(module, 'add')}
+                            />
+                            Add
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={privileges.find(p => p.module === module)?.permissions.edit || false}
+                                onChange={() => handlePrivilegeChange(module, 'edit')}
+                            />
+                            Edit
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={privileges.find(p => p.module === module)?.permissions.view || false}
+                                onChange={() => handlePrivilegeChange(module, 'view')}
+                            />
+                            View
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={privileges.find(p => p.module === module)?.permissions.delete || false}
+                                onChange={() => handlePrivilegeChange(module, 'delete')}
+                            />
+                            Delete
+                        </label>
+                    </div>
+                ))}
+            </div>
+            <button onClick={savePrivileges}>Save Privileges</button>
+        </div>
+    );
+};
 
-//         if (selectedStaffId) {
-//             axios.get(`/api/permissions/${selectedStaffId}`).then(response => {
-//                 setPermissions(response.data);
-//             });
-//         }
-//     }, [selectedStaffId]);
-
-//     const handlePermissionChange = (itemName) => {
-//         setPermissions((prevPermissions) => ({
-//             ...prevPermissions,
-//             [itemName]: !prevPermissions[itemName],
-//         }));
-//     };
-
-//     const savePermissions = () => {
-//         axios.post(`/api/permissions/${selectedStaffId}`, permissions)
-//             .then(() => {
-//                 alert('Permissions saved successfully!');
-//             });
-//     };
-
-//     return (
-//         <div>
-//             <h2>Manage Staff Permissions</h2>
-//             <select onChange={(e) => setSelectedStaffId(e.target.value)} value={selectedStaffId}>
-//                 <option value="">Select Staff</option>
-//                 {staffList.map(staff => (
-//                     <option key={staff.id} value={staff.id}>{staff.empName}</option>
-//                 ))}
-//             </select>
-
-//             {selectedStaffId && (
-//                 <div>
-//                     <h3>Permissions for {staffList.find(staff => staff.id === selectedStaffId)?.empName}</h3>
-//                     {sidebarItems.map(item => (
-//                         <div key={item.name}>
-//                             <label>
-//                                 <input
-//                                     type="checkbox"
-//                                     checked={permissions[item.name] || false}
-//                                     onChange={() => handlePermissionChange(item.name)}
-//                                 />
-//                                 {item.name}
-//                             </label>
-//                         </div>
-//                     ))}
-//                     <button onClick={savePermissions}>Save Permissions</button>
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default PermissionManagementPage;
+export default PrivilegeManager;

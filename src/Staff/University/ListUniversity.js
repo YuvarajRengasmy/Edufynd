@@ -28,6 +28,7 @@ import axios from "axios";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import * as XLSX from "xlsx";
 import { Chart, registerables } from 'chart.js';
+import { getStaffId } from "../../Utils/storage";
 
 Chart.register(...registerables);
 
@@ -82,6 +83,7 @@ export default function Masterproductlist() {
     const data = {
       limit: 10,
       page: pagination.from,
+      id:getStaffId()
     };
 
     getFilterUniversity(data)
