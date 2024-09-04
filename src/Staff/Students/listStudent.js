@@ -347,10 +347,10 @@ export default function Masterproductlist() {
     };
   }, []);
 
-  const userPrivileges = {
-    view: true, // or false, depending on what the superadmin has set
-    edit: false, // or true, depending on what the superadmin has set
-  };
+  // const userPrivileges = {
+  //   view: true, // or false, depending on what the superadmin has set
+  //   edit: false, // or true, depending on what the superadmin has set
+  // };
   
 
   return (
@@ -668,7 +668,7 @@ export default function Masterproductlist() {
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
                         
-                         {userPrivileges.view && (
+                         {/* {userPrivileges.view && ( */}
   <Link
     className="dropdown-item"
     to={{
@@ -678,9 +678,9 @@ export default function Masterproductlist() {
   >
     <i className="far fa-eye text-primary me-1"></i>
   </Link>
-)}
+{/* )} */}
 
-{userPrivileges.edit && (
+{/* {userPrivileges.edit && ( */}
   <Link
     className="dropdown-item"
     to={{
@@ -690,7 +690,7 @@ export default function Masterproductlist() {
   >
     <i className="far fa-edit text-warning me-1"></i>
   </Link>
-)}
+{/* )} */}
 
                            {/* <Link
                              className="dropdown-item"

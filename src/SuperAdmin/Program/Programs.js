@@ -669,19 +669,43 @@ useEffect(() => {
                   S No
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Title
+                  Title <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterCountryModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
                   Code
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  University Name
+                  University Name <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterUniversityNameModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Application Fees
+                  Application Fees <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterApplicationFeeModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Course Fees
+                  Course Fees <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterCourseFeeModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
                   Action
