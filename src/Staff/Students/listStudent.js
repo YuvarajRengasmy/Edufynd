@@ -347,8 +347,11 @@ export default function Masterproductlist() {
     };
   }, []);
 
-
-
+  const userPrivileges = {
+    view: true, // or false, depending on what the superadmin has set
+    edit: false, // or true, depending on what the superadmin has set
+  };
+  
 
   return (
     <>
@@ -664,27 +667,31 @@ export default function Masterproductlist() {
                        <td className="text-capitalize text-start text-truncate" >{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)  || "Not Available"}</td>
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
-                           <Link
-                             className="dropdown-item"
-                             to={{
-                               pathname: "/staff_view_student",
-                               search: `?id=${data?._id}`,
-                             }}
-                           >
-                             <i className="far fa-eye text-primary me-1"></i>
+                        
+                         {userPrivileges.view && (
+  <Link
+    className="dropdown-item"
+    to={{
+      pathname: "/staff_view_student",
+      search: `?id=${data?._id}`,
+    }}
+  >
+    <i className="far fa-eye text-primary me-1"></i>
+  </Link>
+)}
 
-                           </Link>
-                           <Link
-                             className="dropdown-item"
-                             to={{
-                               pathname: "/staff_edit_student",
-                               search: `?id=${data?._id}`,
-                         
-                             }}
-                           >
-                             <i className="far fa-edit text-warning me-1"></i>
+{userPrivileges.edit && (
+  <Link
+    className="dropdown-item"
+    to={{
+      pathname: "/staff_edit_student",
+      search: `?id=${data?._id}`,
+    }}
+  >
+    <i className="far fa-edit text-warning me-1"></i>
+  </Link>
+)}
 
-                           </Link>
                            {/* <Link
                              className="dropdown-item"
                              onClick={() => {

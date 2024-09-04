@@ -18,3 +18,7 @@ export const getSingleClient = (data) => {
   export const updateClient = (data) => {
     return API.put(`${Client}`, data);
   };
+
+  export const getFilterClient = (data) => {
+    return API.put(`${Client}/getFilterClient`, data);
+  };
