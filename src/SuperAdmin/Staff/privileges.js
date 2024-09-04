@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Collapse } from 'react-bootstrap';
 
 const Header = () => {
+    
     const initialStatePrivilege = {
         module: '',
         view: false,
@@ -108,19 +109,20 @@ const Header = () => {
                     toast.success("Successfully updated privileges");
                     getUserDetails();
                     modal.current.click(); // Close modal after successful update
+                    navigate("/list_staff");
                 })
                 .catch((err) => {
                     toast.error(err?.response?.data?.message || "Error updating privileges");
                 });
         }
     };
-    // useEffect(() => {
-    //     privileges.forEach(priv => {
-    //         if (priv.view || priv.edit || priv.delete) {
-    //             setIsTasksCollapsed((prev) => ({ ...prev, [priv.module]: false }));
-    //         }
-    //     });
-    // }, [privileges]);
+    useEffect(() => {
+        privileges.forEach(priv => {
+            if (priv.view || priv.edit || priv.delete) {
+                setIsTasksCollapsed((prev) => ({ ...prev, [priv.module]: false }));
+            }
+        });
+    }, [privileges]);
     
 
     return (

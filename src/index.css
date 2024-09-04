@@ -157,3 +157,17 @@ a {
   background: none !important;
   cursor: pointer !important;
 } */
+
+/* Custom styles for form fields on focus */
+.form-control:focus,
+.form-select:focus {
+  border-color: #231f20 !important; /* Attractive orange border color on focus */
+  box-shadow: none !important; /* Slightly more pronounced shadow */
+  outline: none !important; /* Remove default outline */
+}
+
+/* Optional: Custom styles for form control labels on focus */
+.form-control:focus ~ .form-label,
+.form-select:focus ~ .form-label {
+  color: #231f20 !important; /* Change label color to match border */
+}
