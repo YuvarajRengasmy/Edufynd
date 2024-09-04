@@ -4,6 +4,10 @@ import Sidebar from "../../compoents/sidebar";
 import { RichTextEditor } from "@mantine/rte";
 import { Editor } from "@tinymce/tinymce-react";
 export const EditBlog = () => {
+
+
+
+  
   return (
     <>
       <Sidebar />

@@ -99,7 +99,7 @@ const Login = () => {
               };
               saveToken(data);
               if (isAuthenticated()) {
-                  navigate("/AdminHome");
+                  navigate("/AdminDashboard");
                   window.location.reload(); // Refresh the page
               }
           }
@@ -127,7 +127,7 @@ const Login = () => {
     if (type === 'student') { return <Navigate to="/Student" /> }
     else if (type === 'superAdmin') { return <Navigate to="/Dashboard" /> }
     else if (type === 'staff') { return <Navigate to="/ViewProfile" /> }
-    else if (type === 'admin') { return <Navigate to="/adminHome" /> }
+    else if (type === 'admin') { return <Navigate to="/AdminDashboard" /> }
     else  { return <Navigate to="/AgentHome" /> }
   }
 

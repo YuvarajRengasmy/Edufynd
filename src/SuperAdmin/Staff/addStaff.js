@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { saveStaff,getallStaff } from "../../api/staff";
 import { getallDepartment } from "../../api/universityModule/Department";
+// import CheckBox from "./role"
 import {
   isValidPhone,
   isValidEmail,
@@ -46,7 +47,7 @@ export const AddStaff = () => {
     city: "",
     idCard: "",
     active: "",
-    privileges: "",
+    role: "",
     companyAssests: "",
     mobileName: "",
     brandName: "",
@@ -86,7 +87,7 @@ export const AddStaff = () => {
     city: { required: false },
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
     active: { required: false },
-    privileges: { required: false },
+    role: { required: false },
     companyAssests: { required: false },
     mobileName: { required: false },
     brandName: { required: false },
@@ -1057,95 +1058,40 @@ export const AddStaff = () => {
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Privileges/Rights{" "}
+                                Role{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              {/* <input
-                                type="text"
-                                 className={`form-control rounded-1 ${
-                                  errors.privileges.required ? 'is-invalid' : errors.privileges.valid ? 'is-valid' : ''
-                                }`}
-                                placeholder="Example Employment..."
+                             <select
+                               className={`form-select form-select-lg rounded-1 ${errors.role.required ? 'is-invalid':''}`}
+                                onChange={handleInputs}
+                                name="role"
+                                value={staff?.role}
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                name="privileges"
-                                onChange={handleInputs}
-                              /> */}
-                              <button type="button" style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                                 className=" form-select form-select-lg rounded-1"
-                                  data-bs-toggle="modal"
-                                   data-bs-target="#exampleModal">
-                              Privileges
-                              </button>
-                             
-                            </div>
-                            <div>
-  <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div className="modal-dialog modal-xl">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="exampleModalLabel">Privileges</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-        </div>
-        <div className="modal-body">
-          <p>Privileges.</p>
-          <div className="row">
-           
-              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12" >
-                <label style={{ color: "#231F20" }}>
-                  Name {" "}
-                  <span className="text-danger">*</span>
-                </label>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="addPrivilege"
-                      onChange={handleInputs}
-                    />
-                    Add
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="editPrivilege"
-                      onChange={handleInputs}
-                    />
-                    Edit
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="viewPrivilege"
-                      onChange={handleInputs}
-                    />
-                    View
-                  </label>
-                </div>
-              </div>
-        
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" className="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                              >
+                                <option value="">Select Role</option>
+                                <option value="superAdmin">SuperAdmin</option>
+                                <option value="admin">Admin</option>
+                                <option value="staff">Staff</option>
+                                <option value="student">Student</option>
+                                <option value="agent">Agent</option>
 
+
+                           
+                              </select>
+                              {errors.role.required ? (
+                                <span className="form-text text-danger">
+                                  This field is required.
+                                </span>
+                              ) : null}
+                            </div>
+
+
+                          
+{/* <CheckBox/> */}
 
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
