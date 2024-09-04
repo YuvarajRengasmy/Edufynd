@@ -17,7 +17,7 @@ export const AddBlog = () => {
     slug: "",
     summary: "",
     keyWords: "",
-    tags: "",
+    tags: [],
     optionalURL: "",
     content: "",
     uploadFile: [{fileName: "", uploadImage: "" }],
@@ -167,16 +167,17 @@ export const AddBlog = () => {
     };
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (input.trim() !== "") {
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && input.trim()) {
+      event.preventDefault();
+      if (!tags.includes(input.trim())) {
         setTags([...tags, input.trim()]);
-        setInput("");
       }
+      setInput(""); // Clear the input field
     }
   };
 
+  // Function to remove a tag by index
   const removeTag = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
@@ -259,9 +260,12 @@ export const AddBlog = () => {
     const newError = handleValidation(blog);
     setErrors(newError);
     setSubmitted(true);
-   
+    const data = {
+      ...blog,
+      tags: tags, // Assuming 'inputs.tags' contains the necessary tags for the blog
+    };
     if (handleErrors(newError)) {
-      saveBlog(blog)
+      saveBlog(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_blog");
@@ -391,60 +395,59 @@ export const AddBlog = () => {
                       </div>
 
                       <div className="form-group">
-                        <label htmlFor="tags-input">Tags </label>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            border: "1px solid #ccc",
-                            padding: "5px",
-                          }}
-                        >
-                          {tags.map((tag, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                padding: "5px",
-                                margin: "5px",
-                                backgroundColor: "#e1e1e1",
-                                borderRadius: "5px",
-                              }}
-                            >
-                              <span>{tag}</span>
-                              <button
-                                type="button"
-                                onClick={() => removeTag(index)}
-                                style={{
-                                  marginLeft: "10px",
-                                  backgroundColor: "transparent",
-                                  border: "none",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                &times;
-                              </button>
-                            </div>
-                          ))}
-                          <input
-                            type="text"
-                            id="tags-input"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                          name="tags"
-                            className="form-control rounded-1 text-muted"
-                            style={{
-                              border: "none",
-                              outline: "none",
-                              padding: "5px",
-                              flexGrow: 1,
-                            }}
-                          />
-                        
-                        </div>
-                      </div>
+        <label htmlFor="tags-input">Tags </label>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            border: "1px solid #ccc",
+            padding: "5px",
+          }}
+        >
+          {tags.map((tag, index) => (
+            <div
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "5px",
+                margin: "5px",
+                backgroundColor: "#e1e1e1",
+                borderRadius: "5px",
+              }}
+            >
+              <span>{tag}</span>
+              <button
+                type="button"
+                onClick={() => removeTag(index)}
+                style={{
+                  marginLeft: "10px",
+                  backgroundColor: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                &times;
+              </button>
+            </div>
+          ))}
+          <input
+            type="text"
+            id="tags-input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            name="tags"
+            className="form-control rounded-1 text-muted"
+            style={{
+              border: "none",
+              outline: "none",
+              padding: "5px",
+              flexGrow: 1,
+            }}
+          />
+        </div>
+      </div>
 
                       <div className="form-group">
                         <label htmlFor="optionalUrl">Optional URL</label>
