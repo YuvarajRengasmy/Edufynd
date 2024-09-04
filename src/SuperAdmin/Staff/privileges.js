@@ -114,6 +114,14 @@ const Header = () => {
                 });
         }
     };
+    // useEffect(() => {
+    //     privileges.forEach(priv => {
+    //         if (priv.view || priv.edit || priv.delete) {
+    //             setIsTasksCollapsed((prev) => ({ ...prev, [priv.module]: false }));
+    //         }
+    //     });
+    // }, [privileges]);
+    
 
     return (
         <>
@@ -153,7 +161,13 @@ const Header = () => {
                                                     id="universityCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'university'}
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'university')?.view || 
+                                                        privileges.find(priv => priv.module === 'university')?.edit || 
+                                                        privileges.find(priv => priv.module === 'university')?.delete || 
+                                                        selectedModule === 'university'
+                                                    }
+                                                    
                                                 />
                                                 <label className="form-check-label" htmlFor="universityCheckbox">
                                                     University
