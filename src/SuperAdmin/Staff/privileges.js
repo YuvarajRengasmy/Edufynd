@@ -110,7 +110,7 @@ const Header = () => {
             updateStaff(data)
                 .then((res) => {
                     toast.success("Successfully updated privileges");
-                    getUserDetails();
+                    // getUserDetails();
                     modal.current.click(); // Close modal after successful update
                 })
                 .catch((err) => {

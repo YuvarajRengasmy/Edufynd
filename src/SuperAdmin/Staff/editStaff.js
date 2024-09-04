@@ -63,6 +63,7 @@ export const AddStaff = () => {
     ipAddress: "",
     userName: "",
     loginPassword: "",
+ 
   };
   const initialStateErrors = {
     photo: { required: false },
