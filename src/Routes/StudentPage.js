@@ -6,7 +6,7 @@ import Profile from "../Students/Profile/Profile";
 import Contact from "../Students/Profile/Contact";
 import About from "../Students/Home/About";
 import TrackApplication from "../Students/Application/TrackApplication";
-import ListProgram from "../Students/Program/ListProgram";
+import ListPrograms from "../Students/Program/ListProgram";
 import ViewApplication from "../Students/Application/ViewApplication";
 import Faq from "../Students/Profile/Faq";
 import ViewUniversity from "../Students/University/ViewUniversity";
@@ -25,7 +25,7 @@ function RegisterPage() {
         <Route path="/Contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
         <Route path="/About" element={<PrivateRoute><About /></PrivateRoute>} />
         <Route path="/TrackApplication" element={<PrivateRoute><TrackApplication /></PrivateRoute>} />
-        <Route path="/Program" element={<PrivateRoute><ListProgram /></PrivateRoute>} />
+        <Route path="/program_list" element={<PrivateRoute><ListPrograms /></PrivateRoute>} />
         <Route path="/ViewApplication" element={<PrivateRoute><ViewApplication /></PrivateRoute>} />
         <Route path="/Faq" element={<PrivateRoute><Faq /></PrivateRoute>} />
         <Route path="/ViewpageUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />

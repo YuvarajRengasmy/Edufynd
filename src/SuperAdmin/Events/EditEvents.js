@@ -14,6 +14,7 @@ import { Link, useLocation } from "react-router-dom";
 import Select from "react-select";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import axios from 'axios'
 
 export const EditEvents = () => {
   const location = useLocation();
@@ -133,14 +134,37 @@ export const EditEvents = () => {
     setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
   };
 
-  const removeEntry = (listName, index) => {
+  // const removeEntry = (listName, index) => {
+  //   setnotification((prevState) => {
+  //     const updatedList = [...prevState[listName]];
+  //     updatedList.splice(index, 1); // Remove the image at the specified index
+  //     return { ...prevState, [listName]: updatedList };
+  //   });
+  // };
+  
+  const removeEntry = (listName, index, fileId) => {
+    // Remove entry from frontend state
     setnotification((prevState) => {
       const updatedList = [...prevState[listName]];
       updatedList.splice(index, 1); // Remove the image at the specified index
       return { ...prevState, [listName]: updatedList };
     });
+  
+    // Send a request to the backend to delete the file from the database
+    axios
+      .post("https://api.edufynd.in/api/event/deleteFile", { fileId, eventId: notification._id })
+      .then((response) => {
+      
+        toast.success(response?.data?.message);
+      })
+      .catch((error) => {
+        toast.error("Error deleting file");
+      });
   };
   
+  const handleDeleteClick = (index, fileId) => {
+    removeEntry("fileUpload", index, fileId);
+  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -637,74 +661,66 @@ export const EditEvents = () => {
                         
                         {notification.fileUpload.map((fileUpload, index) => (
   <div key={index} className="mb-3">
-    <div className="row gy-2 ">
-    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-    <label style={{ color: "#231F20" }}>File Name</label>
-    <input
-      type="text"
-      name="fileName"
-      value={fileUpload.fileName}
-      onChange={(e) => handleListInputChange(e, index, "fileUpload")}
-      className="form-control rounded-1"
-      style={{ fontSize: "12px" }}
-      placeholder="File Upload Title"
-    />
-    </div>
+    <div className="row gy-2">
+      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>File Name</label>
+        <input
+          type="text"
+          name="fileName"
+          value={fileUpload.fileName}
+          onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+          className="form-control rounded-1"
+          style={{ fontSize: "12px" }}
+          placeholder="File Upload Title"
+        />
+      </div>
 
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                                Uplaod Image<span className="text-danger">*</span>
-                              </label>
-                            <img
-                                className="img-fluid  img-thumbnail mx-auto d-block"
-                                src={
-                                  fileUpload?.fileImage
-                                    ? fileUpload?.fileImage
-                                    : "https://via.placeholder.com/128"
-                                }
-                                alt="student-image"
-                                style={{ width: "12rem", height: "6rem" }}
-                              />
-                            <label
-                                htmlFor="fileInputImage"
-                                className="position-absolute fs-6  "
-                                style={{
-                                  cursor: "pointer",
-                                  bottom: "5%",
-                                  left: "53.5%",
-                                  transform: "translate(25%, 25%)",
-                                  color: "#0f2239",
-                                }}
-                              >
-                                <i className="fas fa-camera"></i>
-                              </label>
-                              <input
-                              
-                                id="fileInputImage"
-                               
-                                accept="image/*"
-                                className="form-control border-0 text-dark bg-transparent"
-                                style={{
-                                  display: "none",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                type="file"
-                                name="fileImage"
-                                onChange={(e) => handleListInputChange(e, index, "fileUpload")}
-                              />
-                             
-                            </div>
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>Upload Image<span className="text-danger">*</span></label>
+        <img
+          className="img-fluid img-thumbnail mx-auto d-block"
+          src={fileUpload?.fileImage ? fileUpload?.fileImage : "https://via.placeholder.com/128"}
+          alt="uploaded-file"
+          style={{ width: "12rem", height: "6rem" }}
+        />
+        <label
+          htmlFor={`fileInputImage-${index}`}
+          className="position-absolute fs-6"
+          style={{
+            cursor: "pointer",
+            bottom: "5%",
+            left: "53.5%",
+            transform: "translate(25%, 25%)",
+            color: "#0f2239",
+          }}
+        >
+          <i className="fas fa-camera"></i>
+        </label>
+        <input
+          id={`fileInputImage-${index}`}
+          accept="image/*"
+          className="form-control border-0 text-dark bg-transparent"
+          style={{
+            display: "none",
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          type="file"
+          name="fileImage"
+          onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+        />
+      </div>
     </div>
     <button
       type="button"
-      onClick={() => removeEntry("fileUpload")}
+      onClick={() => handleDeleteClick(index, fileUpload._id)}  // Pass index to removeEntry function
       className="btn mt-2"
     >
       <i className="far fa-trash-alt text-danger me-1"></i>
     </button>
   </div>
 ))}
+
 
 <button
   type="button"

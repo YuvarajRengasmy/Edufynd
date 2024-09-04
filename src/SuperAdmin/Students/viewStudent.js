@@ -649,7 +649,7 @@ function Profile() {
                                   type="text"
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Passport No"
-                                  value={student.passportNo}
+                                  value={inputs.passportNo}
                                   onChange={handleInputs}
                                   name="passportNo"
                                   style={{
@@ -673,7 +673,7 @@ function Profile() {
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Email"
                                   name="email"
-                                  value={student.email}
+                                  value={inputs.email}
                                   onChange={handleInputs}
                                   style={{
                                     backgroundColor: "#fff",

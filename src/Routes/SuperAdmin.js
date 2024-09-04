@@ -8,7 +8,7 @@ import ListUniversity from "../SuperAdmin/University/ListUniversity";
 import ViewUniversity from "../SuperAdmin/University/viewUniversity";
 import EditUniversity from "../SuperAdmin/University/editUniversity";
 import ViewProgram from "../SuperAdmin/Program/ViewProgram";
-
+import Privilages from "../SuperAdmin/Settings/privilehes";
 import ListStudent from "../SuperAdmin/Students/listStudent";
 import AddStudentSA from "../SuperAdmin/Students/addStudent";
 import ViewStudent from "../SuperAdmin/Students/viewStudent";
@@ -512,6 +512,7 @@ function SuperAdmin() {
         <Route path="/add_instagram" element={<PrivateRoute><AddInstagram/></PrivateRoute>}/>
         <Route path="/edit_instagram" element={<PrivateRoute><EditInstagram/></PrivateRoute>}/>
         <Route path="/view_instagram" element={<PrivateRoute><ViewInstagram/></PrivateRoute>}/>
+        <Route path="/Privilages" element={<PrivateRoute><Privilages/></PrivateRoute>}/>
 
 <Route path="/countrys" element={<PrivateRoute><Countrys/></PrivateRoute>}/>
 
