@@ -679,6 +679,7 @@ export default function Masterproductlist() {
                              to={{
                                pathname: "/staff_edit_student",
                                search: `?id=${data?._id}`,
+                         
                              }}
                            >
                              <i className="far fa-edit text-warning me-1"></i>
