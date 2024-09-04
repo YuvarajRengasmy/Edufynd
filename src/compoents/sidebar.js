@@ -202,6 +202,9 @@ const Sidebar = () => {
           "/application_status",
           "/course_type",
         ],
+        privileges:[
+          "/Privilages",
+        ]
       },
       Reports: [
         "/EmployeeReports",
@@ -237,6 +240,9 @@ const Sidebar = () => {
         "/application_status",
         "/course_type",
       ],
+      privileges:[
+        "/Privilages",
+      ]
     };
 
     const checkNestedPaths = (paths, currentPath) => {
@@ -1784,17 +1790,15 @@ const Sidebar = () => {
           <ul className="nav d-flex flex-column border-0 ps-4">
             <li className="nav-item">
               <Link 
-                to="#" 
+                to="/Privilages" 
                 className={`nav-link sidebar_link ${[
-                  "/list_GlobalPrivileges",
-                  "/add_GlobalPrivileges",
-                  "/edit_GlobalPrivileges",
-                  "/view_GlobalPrivileges",
+                  "/Privilages",
+                  
                 ].includes(currentPath) ? "active" : ""}`}
-                data-path="/list_GlobalPrivileges"
+                data-path="/Privilages"
                 data-bs-toggle="tooltip"
                 title={isCollapsed ? "Global Privileges" : ""}
-                ref={el => (sidebarRefs.current['/list_GlobalPrivileges'] = el)}
+                ref={el => (sidebarRefs.current['/Privilages'] = el)}
               >
                 <i className="fa fa-lock nav-icon"></i>   {!isCollapsed && " Global Privileges"}
               </Link>

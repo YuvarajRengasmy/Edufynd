@@ -16,6 +16,7 @@ export const Addflight = () => {
     name: "",
     studentName: "",
     passportNo: "",
+    expiryDate:"",
     primaryNumber: "",
     whatsAppNumber: "",
     email: "",
@@ -35,8 +36,11 @@ export const Addflight = () => {
   const initialStateErrors = {
     source: { required: false },
     name: { required: false },
+
     studentName: { required: false },
     passportNo: { required: false },
+    expiryDate: { required: false },
+    
     from: { required: false },
     to: { required: false },
     dial1: { required: false },
@@ -157,6 +161,10 @@ export const Addflight = () => {
     if (!data.passportNo) {
       error.passportNo.required = true;
     }
+    if (!data.expiryDate) {
+      error.expiryDate.required = true;
+    }
+    
     if (!data.from) {
       error.from.required = true;
     }
@@ -280,7 +288,7 @@ export const Addflight = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        className="form-select form-select-lg rounded-2 "
+                        className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
                         name="source"
                         value={flight?.source}
                       >
@@ -575,7 +583,8 @@ export const Addflight = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control"
+                        className=
+                        {`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
                         name="name"
                         onChange={handleInputs}
                         value={flight?.name}
@@ -599,7 +608,8 @@ export const Addflight = () => {
                         Passport No<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control"
+                        className=
+                        {`form-control rounded-1 ${errors.passportNo.required ?  'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
@@ -620,11 +630,13 @@ export const Addflight = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpassportno">
-                        Passport valid Date
+                        Passport Expiry Date
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control"
+                        className=
+                      
+{`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="expiryDate"
@@ -636,7 +648,11 @@ export const Addflight = () => {
                           fontSize: "12px",
                         }}
                       />
-                      
+                       {errors.expiryDate.required ? (
+                        <div className="text-danger form-text">
+                          This field is required.
+                        </div>
+                      ) : null}
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">
@@ -644,7 +660,8 @@ export const Addflight = () => {
                         From<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className="form-control"
+                        className=
+                        {`form-control rounded-1 ${errors.from.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="from"
                         value={flight?.from}
@@ -667,7 +684,8 @@ export const Addflight = () => {
                         To<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className="form-control"
+                        className=
+                        {`form-control rounded-1 ${errors.to.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="to"
                         value={flight?.to}
@@ -693,7 +711,8 @@ export const Addflight = () => {
                         </span>{" "}
                       </label>
                       <input
-                        className="form-control"
+                        className=
+                        {`form-control rounded-1 ${errors.dateOfTravel.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="dateOfTravel"
                         onChange={handleInputs}
@@ -751,8 +770,7 @@ export const Addflight = () => {
                             className={`form-control  ${
                               errors.primaryNumber.required
                                 ? "is-invalid"
-                                : errors.primaryNumber.valid
-                                ? "is-valid"
+                               
                                 : ""
                             }`}
                             placeholder="Example 123-456-7890"
@@ -829,11 +847,10 @@ export const Addflight = () => {
 
                         <input
                           type="text"
-                          className={`form-control rounded-1 ${
+                          className={`form-control  ${
                             errors.whatsAppNumber.required
                               ? "is-invalid"
-                              : errors.whatsAppNumber.valid
-                              ? "is-valid"
+                             
                               : ""
                           }`}
                           placeholder="Example 123-456-7890"
@@ -870,7 +887,8 @@ export const Addflight = () => {
                         Email ID<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control"
+                        className=
+                        {`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
                         name="email"
                         onChange={handleInputs}
                         value={flight?.email}
@@ -888,7 +906,7 @@ export const Addflight = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid Email Id.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>

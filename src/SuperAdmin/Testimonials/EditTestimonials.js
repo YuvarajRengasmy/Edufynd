@@ -31,21 +31,31 @@ export const EditTestimonials = () => {
             </div>
             <div className="card-body mt-5">
                           <div className="row g-3">
-                           
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                           UserName <span className="text-danger">*</span>
+                          </label>
+                          <select class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+</div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Name<span className="text-danger">*</span>
+                                Type of uses<span className="text-danger">*</span>
                               </label>
-                              <input
+                              <select
                                 type="text"
-                                className="form-control "
+                                className="form-select "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                                 placeholder="Enter Name"
                                 name="Username"
-                              />
+                              ></select>
                               
                             </div>
                            
@@ -95,7 +105,7 @@ export const EditTestimonials = () => {
           style={{
             fontFamily: "Plus Jakarta Sans",
             fontSize: "12px",
-            minHeight: '200px', overflowY: 'auto'
+          
            
           }}
         />
@@ -116,6 +126,9 @@ export const EditTestimonials = () => {
                                 placeholder="Enter  Image upload"
                                 name="Username"
                               />
+                              <div className="text-end">
+                          <button className="btn btn-primary">Add</button>
+                          </div>
                               
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">

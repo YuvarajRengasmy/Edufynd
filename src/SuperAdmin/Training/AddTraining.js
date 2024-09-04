@@ -308,7 +308,19 @@ export const AddTraining = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
-                          <div className="row g-2">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                           UserName <span className="text-danger">*</span>
+                          </label>
+                          <select class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+</div>
+                          
+
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Request Training
@@ -467,8 +479,8 @@ export const AddTraining = () => {
                                 ) : null}
                               </div>
                             ) : null}
-                          </div>
-                          <div className="row g-2">
+                         
+                          
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Material<span className="text-danger">*</span>
@@ -528,9 +540,9 @@ export const AddTraining = () => {
                                 <p className="text-danger">Please Enter Time</p>
                               )}
                             </div>
-                          </div>
+                         
 
-                          <div className="row gy-2 ">
+                       
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Subject<span className="text-danger">*</span>
@@ -595,7 +607,10 @@ export const AddTraining = () => {
                                 </div>
                               ) : null}
                             </div>
+                            <div className="text-end">
+                          <button className="btn btn-primary">Add</button>
                           </div>
+                          
 
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">

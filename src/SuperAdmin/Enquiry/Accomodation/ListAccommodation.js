@@ -541,7 +541,7 @@ export const ListAccommodation = () => {
                                         || "Not Available" )}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentName || "Not Available"}
+                                    {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.passportNumber || "Not Available"}

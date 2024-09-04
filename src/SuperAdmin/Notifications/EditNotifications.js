@@ -273,6 +273,17 @@ export const EditNotifications = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                           UserName <span className="text-danger">*</span>
+                          </label>
+                          <select class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+</div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Type of Users{" "}
@@ -483,6 +494,9 @@ export const EditNotifications = () => {
                                 </div>
                               ) : null}
                             </div>
+                            <div className="text-end">
+                          <button className="btn btn-primary">Add</button>
+                          </div>
                           </div>
 
                           <div className="row gy-2 ">
