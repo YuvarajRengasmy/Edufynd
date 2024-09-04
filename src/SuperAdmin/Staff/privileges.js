@@ -21,25 +21,7 @@ const Header = () => {
 
     const [privileges, setPrivileges] = useState([initialStatePrivilege]);
     const [errors, setErrors] = useState([initialStatePrivilegesErrors]);
-    const [isTasksCollapsed, setIsTasksCollapsed] = useState({
-        // university: true,
-        // client: true,
-        // program: true,
-        // commission:true,
-        // student:true,
-        // staff:true,
-        // agent:true,
-        // application:true,
-        // studentEnquiry:true,
-        // forexEnquiry:true,
-        // accommodationEnquiry:true,
-        // flightEnquiry:true,
-        // loanEnquiry:true,
-        // businessEnquiry:true,
-        // generalEnquiry:true,
-
-
-     });
+    const [isTasksCollapsed, setIsTasksCollapsed] = useState({});
     const [selectedModule, setSelectedModule] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const modal = useRef(null);
@@ -63,7 +45,7 @@ const Header = () => {
                 }
             });
             setSelectedModule(module);
-            setIsTasksCollapsed((prev) => ({ ...prev, [module]: !prev[module] }));
+            setIsTasksCollapsed((prev) => ({ ...prev, [module]: false }));
         } else {
             setPrivileges((prevPrivileges) => prevPrivileges.filter((priv) => priv.module !== module));
             setSelectedModule('');
@@ -80,6 +62,17 @@ const Header = () => {
                     : priv
             )
         );
+
+        if (checked) {
+            setIsTasksCollapsed((prev) => ({ ...prev, [selectedModule]: false }));
+        } else {
+            const modulePrivileges = privileges.find(priv => priv.module === selectedModule);
+            const hasOtherPermissions = modulePrivileges && (modulePrivileges.view || modulePrivileges.edit || modulePrivileges.delete || modulePrivileges.add);
+
+            if (!hasOtherPermissions) {
+                setIsTasksCollapsed((prev) => ({ ...prev, [selectedModule]: true }));
+            }
+        }
     };
 
     useEffect(() => {
@@ -135,14 +128,14 @@ const Header = () => {
                 });
         }
     };
+
     useEffect(() => {
         privileges.forEach(priv => {
-            if (priv.view || priv.edit || priv.delete) {
+            if (priv.view || priv.edit || priv.delete || priv.add) {
                 setIsTasksCollapsed((prev) => ({ ...prev, [priv.module]: false }));
             }
         });
     }, [privileges]);
-    
 
     return (
         <>

@@ -837,7 +837,8 @@ const chartRef = useRef(null);
                           </OverlayTrigger>
 
                           <OverlayTrigger
-                            placement="bottom"
+                            placement="bottom" 
+                            
                             overlay={<Tooltip>Edit</Tooltip>}
                           >
                             <Link
