@@ -193,35 +193,35 @@ export const Blogdetailing = () => {
                     <div className="d-flex flex-row align-items-center gap-2">
                       <h6 className="fw-bold h5">Share:</h6>
                       <div className="mb-3 mt-2">
-                        <a href="#">
+                        <a href="https://www.facebook.com/edufynd/">
                           <span className="one text-white rounded-circle ps-2 pb-2 pt-1 pe-2 fs-6">
                             <FaFacebook />
                           </span>
                         </a>
                       </div>
                       <div className="mb-3 mt-2">
-                        <a href="#">
+                        <a href="https://www.linkedin.com/company/edufynd">
                           <span className="one text-white rounded-circle ps-2 pb-2 pt-1 pe-2 fs-6">
                             <FaLinkedinIn />
                           </span>
                         </a>
                       </div>
                       <div className="mb-3 mt-2">
-                        <a href="#">
+                        <a href="https://www.instagram.com/edufynd/">
                           <span className="one text-white rounded-circle ps-2 pb-2 pt-1 pe-2 fs-6">
                             <FaInstagram />
                           </span>
                         </a>
                       </div>
                       <div className="mb-3 mt-2">
-                        <a href="#">
+                        <a href="www.youtube.com/@EduFynd">
                           <span className="one text-white rounded-circle ps-2 pb-2 pt-1 pe-2 fs-6">
                             <FaYoutube />
                           </span>
                         </a>
                       </div>
                       <div className="mb-3 mt-2">
-                        <a href="#">
+                        <a href="https://x.com/edufynd">
                           <span className="one text-white rounded-circle ps-2 pb-2 pt-1 pe-2 fs-6">
                             <FaTwitter />
                           </span>
@@ -319,8 +319,9 @@ export const Blogdetailing = () => {
   renderedCategories.add(item?.category);
   
   return (
-    <div key={index} className="row flex-wrap gap-2">
+    <div className="row flex-wrap gap-2">
       <a
+       key={index}
         href="#"
         className="text-decoration-none text-dark bg-light p-2 rounded-2"
       >
