@@ -368,8 +368,12 @@ export const AddStaff = () => {
             className="content-wrapper"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
-            <div className="content-header ">
-            <BackButton/>
+            <div className="" >
+              <div className="d-flex justify-content-end mb-0 ">
+              <CheckBox/>
+              <BackButton/>
+              </div>
+           
              
             </div>
             <div className=" container-fluid">
@@ -1129,7 +1133,7 @@ export const AddStaff = () => {
                               ) : null}
                             </div>
 
-                            <CheckBox/>
+                           
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
