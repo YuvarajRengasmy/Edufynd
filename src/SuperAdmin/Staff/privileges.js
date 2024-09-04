@@ -153,7 +153,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="universityCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -210,7 +210,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="clientCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -266,7 +266,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="programCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -321,7 +321,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="commissionCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -380,7 +380,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="studentCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -436,7 +436,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="staffCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -492,7 +492,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="agentCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -551,7 +551,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="applicationCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -610,7 +610,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="studentEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -666,7 +666,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="forexEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
@@ -722,7 +722,7 @@ const Header = () => {
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
-                                                    type="radio"
+                                                    type="checkbox"
                                                     id="accommodationEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
