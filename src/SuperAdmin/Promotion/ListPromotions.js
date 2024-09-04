@@ -243,7 +243,7 @@ export const ListPromotions = () => {
                   </Link>
                 </li>
                 <li class="m-1">
-                  <Link class="btn btn-pix-primary" to="/Add_promotions">
+                  <Link class="btn btn-pix-primary" to="/add_promotions">
                     <button
                       className="btn btn-outline rounded-1  fw-semibold  border-0 text-white  "
                       style={{ backgroundColor: "#231f20", fontSize: "12px" }}

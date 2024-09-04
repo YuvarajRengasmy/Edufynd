@@ -330,6 +330,20 @@ export default function Masterproductlist() {
     };
   }, []);
 
+
+
+  const [showFilter, setShowFilter] = useState({});
+
+  // Function to handle filter modal display
+  const handleFilterClick = (column) => {
+    setShowFilter({ ...showFilter, [column]: true });
+  };
+
+  // Function to handle modal close
+  const handleClose = (column) => {
+    setShowFilter({ ...showFilter, [column]: false });
+  };
+
   return (
     <>
       <Mastersidebar />
@@ -627,24 +641,78 @@ export default function Masterproductlist() {
                       style={{ color: "#9265cc" }} // Existing color code
                       ref={tableRef}
                     >
-                      <thead
-                        className="table-light"
-                        style={{ fontSize: "12px" }}
-                      >
-                        <tr>
-                          <th className=" text-start">
-                            <input type="checkbox" />
-                            </th>
-                          <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Code</th>
-                          <th className="text-capitalize text-start">Type</th>
-                          <th className="text-capitalize text-start">Name</th>
-                          <th className="text-capitalize text-start">Primary No</th>
-                          <th className="text-capitalize text-start">Email ID</th>
-                          <th className="text-capitalize text-start">Status</th>
-                          <th className="text-capitalize text-start">Action</th>
-                        </tr>
-                      </thead>
+                     <thead className="table-light" style={{ fontSize: "12px" }}>
+  <tr>
+    <th className="text-start">
+      <input type="checkbox" />
+    </th>
+    <th className="text-capitalize text-start">S No</th>
+    <th className="text-capitalize text-start">Code</th>
+    <th className="text-capitalize text-start">
+      Type 
+      <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterTypeModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
+    </th>
+   
+    <th className="text-capitalize text-start">
+      Name 
+      <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterNameModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
+    </th>
+
+   
+    <th className="text-capitalize text-start">
+      Primary No 
+      <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterPrimaryNoModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
+    </th>
+
+   
+    <th className="text-capitalize text-start">
+      Email ID 
+      <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterEmailIDModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
+    </th>
+   
+    <th className="text-capitalize text-start">
+      Status 
+      <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterStatusModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
+    </th>
+
+    <th className="text-capitalize text-start">
+      Action  
+     
+    </th>
+  </tr>
+</thead>
+          
+
                       <tbody style={{ fontSize: "11px" }}>
                         {client?.map((data, index) => (
                           <tr key={index} className="align-middle">
@@ -750,6 +818,99 @@ export default function Masterproductlist() {
         </div>
 
 
+        <div className="modal fade" id="filterTypeModal" tabIndex="-1" aria-labelledby="filterTypeModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="filterTypeModalLabel">Filter by Type</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+     
+        <input type="text" className="form-control" placeholder="Enter type to filter"/>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Apply Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div className="modal fade" id="filterNameModal" tabIndex="-1" aria-labelledby="filterNameModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="filterNameModalLabel">Filter by Name</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+       
+        <input type="text" className="form-control" placeholder="Enter name to filter"/>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Apply Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div className="modal fade" id="filterPrimaryNoModal" tabIndex="-1" aria-labelledby="filterPrimaryNoModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="filterPrimaryNoModalLabel">Filter by Primary No</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        
+        <input type="text" className="form-control" placeholder="Enter primary number to filter"/>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Apply Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div className="modal fade" id="filterEmailIDModal" tabIndex="-1" aria-labelledby="filterEmailIDModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="filterEmailIDModalLabel">Filter by Email ID</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+     
+        <input type="email" className="form-control" placeholder="Enter email ID to filter"/>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Apply Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div className="modal fade" id="filterStatusModal" tabIndex="-1" aria-labelledby="filterStatusModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="filterStatusModalLabel">Filter by Status</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+       
+        <input type="text" className="form-control" placeholder="Enter status to filter"/>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Apply Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
+        
+
+
       </div>
       <Dialog open={open}>
         <DialogContent>
@@ -830,6 +991,15 @@ export default function Masterproductlist() {
           </form>
         </DialogContent>
       </Dialog>
+
+
+  
+
+
+
+
+
+
     </>
   );
 }

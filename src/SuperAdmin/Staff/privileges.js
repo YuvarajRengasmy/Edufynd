@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Collapse } from 'react-bootstrap';
 
 const Header = () => {
+    
     const initialStatePrivilege = {
         module: '',
         view: false,
@@ -19,11 +20,7 @@ const Header = () => {
 
     const [privileges, setPrivileges] = useState([initialStatePrivilege]);
     const [errors, setErrors] = useState([initialStatePrivilegesErrors]);
-    const [isTasksCollapsed, setIsTasksCollapsed] = useState({
-        university: true,
-        client: true,
-        program: true
-    });
+    const [isTasksCollapsed, setIsTasksCollapsed] = useState({ });
     const [selectedModule, setSelectedModule] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const modal = useRef(null);
@@ -112,12 +109,21 @@ const Header = () => {
                     toast.success("Successfully updated privileges");
                     // getUserDetails();
                     modal.current.click(); // Close modal after successful update
+                    navigate("/list_staff");
                 })
                 .catch((err) => {
                     toast.error(err?.response?.data?.message || "Error updating privileges");
                 });
         }
     };
+    useEffect(() => {
+        privileges.forEach(priv => {
+            if (priv.view || priv.edit || priv.delete) {
+                setIsTasksCollapsed((prev) => ({ ...prev, [priv.module]: false }));
+            }
+        });
+    }, [privileges]);
+    
 
     return (
         <>
@@ -157,7 +163,13 @@ const Header = () => {
                                                     id="universityCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'university'}
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'university')?.view || 
+                                                        privileges.find(priv => priv.module === 'university')?.edit || 
+                                                        privileges.find(priv => priv.module === 'university')?.delete || 
+                                                        selectedModule === 'university'
+                                                    }
+                                                    
                                                 />
                                                 <label className="form-check-label" htmlFor="universityCheckbox">
                                                     University
@@ -604,6 +616,11 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+                                           
+                                          
+
+                                        </div>
+                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                             <label style={{ color: "#231F20" }}>
                                                 Enquiry Process
                                             </label>
@@ -767,6 +784,513 @@ const Header = () => {
                                                                     id="deletePermission"
                                                                     name="delete"
                                                                     checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="flightEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'flightEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="flightEnquiryCheckbox">
+                                                FlightEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.flightEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="loanEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'loanEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="loanEnquiryCheckbox">
+                                                LoanEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.loanEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'loanEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'loanEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'loanEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="businessEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'businessEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="businessEnquiryCheckbox">
+                                                BusinessEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.businessEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'businessEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'businessEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'businessEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="generalEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'generalEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="generalEnquiryCheckbox">
+                                                GeneralEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.generalEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'generalEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'generalEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'generalEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <label style={{ color: "#231F20" }}>
+                                                Social Media
+                                            </label>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="accommodationEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'accommodationEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="accommodationEnquiryCheckbox">
+                                                AccommodationEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.accommodationEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="flightEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'flightEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="flightEnquiryCheckbox">
+                                                FlightEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.flightEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="loanEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'loanEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="loanEnquiryCheckbox">
+                                                LoanEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.loanEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'loanEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'loanEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'loanEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="businessEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'businessEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="businessEnquiryCheckbox">
+                                                BusinessEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.businessEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'businessEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'businessEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'businessEnquiry')?.delete || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="deletePermission">Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Collapse>
+                                            </div>
+                                            <div className="form-check mb-3">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="generalEnquiryCheckbox"
+                                                    name="module"
+                                                    onChange={handleCheckboxChange}
+                                                    checked={selectedModule === 'generalEnquiry'}
+                                                    
+                                                />
+                                                <label className="form-check-label" htmlFor="generalEnquiryCheckbox">
+                                                GeneralEnquiry
+                                                </label>
+                                                <Collapse in={!isTasksCollapsed.generalEnquiry}>
+                                                    <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
+                                                        <label style={{ color: "#231F20" }}>
+                                                            Permissions <span className="text-danger">*</span>
+                                                        </label>
+                                                        <div className="form-group mt-2">
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="viewPermission"
+                                                                    name="view"
+                                                                    checked={privileges.find(priv => priv.module === 'generalEnquiry')?.view || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="viewPermission">View</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="editPermission"
+                                                                    name="edit"
+                                                                    checked={privileges.find(priv => priv.module === 'generalEnquiry')?.edit || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="editPermission">Edit</label>
+                                                            </div>
+                                                            <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="deletePermission"
+                                                                    name="delete"
+                                                                    checked={privileges.find(priv => priv.module === 'generalEnquiry')?.delete || false}
                                                                     onChange={handlePermissionChange}
                                                                 />
                                                                 <label className="form-check-label" htmlFor="deletePermission">Delete</label>
