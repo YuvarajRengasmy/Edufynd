@@ -38,8 +38,8 @@ function AddAgent() {
     doHaveAnyEnglishLanguageTest: "",
     englishTestType: "",
     testScore: "",
-    dial1: "",
-    dial2: "",
+    dial1: "+91",
+    dial2: "91",
     
     dateOfTest: "",
     desiredCountry: "",
