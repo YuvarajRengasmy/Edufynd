@@ -39,7 +39,7 @@ function AddAgent() {
     englishTestType: "",
     testScore: "",
     dial1: "+91",
-    dial2: "91",
+    dial2: "+91",
     
     dateOfTest: "",
     desiredCountry: "",
@@ -617,7 +617,7 @@ const handleValidation = (data) => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select className="form-select form-select-sm" name="dial1" placeholder= "+91" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={student?.dial1} >
   
   {dial?.map((item) => (
