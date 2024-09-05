@@ -5,6 +5,7 @@ import {
   isValidPhone,
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
+import CheckBox from "./privileges"
 import { updateAdmin, getSingleAdmin } from "../../api/admin";
 import { saveToken } from "../../Utils/storage";
 import { isAuthenticated } from "../../Utils/Auth";
@@ -231,7 +232,7 @@ function EditAdmin() {
                         </div>
                       </div>
                     </div>
-
+                    <CheckBox/>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                       <div className="form-group">
                         <label style={{ color: "#231F20" }}>
