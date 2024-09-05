@@ -12,6 +12,7 @@ export const getallStaff = () => {
 export const deleteStaff = (data) => {
     return API.delete(`${Staff}`, { params: { _id: data } });
   };
+  
   export const updateStaff = (data) => {
     return API.put(`${Staff}`, data)
 }
