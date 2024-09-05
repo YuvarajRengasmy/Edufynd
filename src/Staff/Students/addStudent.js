@@ -320,7 +320,7 @@ const handleValidation = (data) => {
       StudentSuperAdmin(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_student");
+          navigate("/staff_list_studen");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1392,7 +1392,7 @@ const handleValidation = (data) => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/list_student"
+                                  to="/staff_list_studen"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel
