@@ -500,16 +500,40 @@ export default function Masterproductlist() {
                       S No
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      University Name
+                      University Name <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterUniversityNameModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      Country
+                      Country <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterCountryModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      Commission
+                      Commission <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterCommissionModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      Payment Type
+                      Payment Type <button 
+        type="button" 
+        className="btn btn-link p-0 m-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#filterPaymentTypeModal">
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      </button>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
                       Action
