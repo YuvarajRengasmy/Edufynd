@@ -19,6 +19,7 @@ import { getFilterCountry } from "../../api/globalsettings";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import BackButton from "../../compoents/backButton";
+import PrivilagesAgent from './privilagesAgent'
 function EditAgent() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -368,7 +369,7 @@ function EditAgent() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-
+<PrivilagesAgent/>
         <BackButton/>
          
         </div>
