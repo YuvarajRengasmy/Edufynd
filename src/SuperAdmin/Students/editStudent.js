@@ -15,7 +15,7 @@ import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import Flags from "react-world-flags";
 import BackButton from "../../compoents/backButton";
-
+import Privilages from './privilagesStudent'
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
@@ -330,6 +330,7 @@ const getallCodeList = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="content-header ">
+              <Privilages/>
             <BackButton/>
             
             </div>
