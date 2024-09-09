@@ -228,14 +228,21 @@ const Login = () => {
                     <Link to='/' className="btn btn-google btn-user btn-block rounded-1  border-0 fw-semibold h-25   w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
                       <i className="fab fa-google fa-fw" /> &nbsp;Login with Google
                     </Link>
-                    <FacebookLogin
-        appId="521433973800512" // Replace this with your Facebook App ID
-        autoLoad={true}
-        fields="name,email,picture"
-        callback={responseFacebook}
-         icon="fa-facebook"
-      />
+                    
+                   
                   </div>
+                  <div className="d-flex justify-content-center my-3">
+                  <FacebookLogin
+      appId="521433973800512" // Replace with your Facebook App ID
+      autoLoad={false}
+      fields="name,email,picture"
+      callback={responseFacebook}
+      textButton="Login with Facebook"
+      cssClass="my-facebook-button"
+      className='btn'
+      icon="fa-facebook"
+    />
+                    </div>
                   <div className="row g-3 text-center my-2">
                     <div className="col-md-6 col-sm-12">
                       <Link to='/ForgotPassword'  className="btn  border-0 rounded-1   fw-semibold " style={{ backgroundColor: '#f0f0f0', color: '#231f20',  }}><i className="fa fa-key "></i>&nbsp;Forgot Password</Link>
