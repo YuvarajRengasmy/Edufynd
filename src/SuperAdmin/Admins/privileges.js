@@ -19,11 +19,7 @@ const Header = () => {
 
     const [privileges, setPrivileges] = useState([initialStatePrivilege]);
     const [errors, setErrors] = useState([initialStatePrivilegesErrors]);
-    const [isTasksCollapsed, setIsTasksCollapsed] = useState({
-        university: true,
-        client: true,
-        program: true
-    });
+    const [isTasksCollapsed, setIsTasksCollapsed] = useState({ });
     const [selectedModule, setSelectedModule] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const modal = useRef(null);
