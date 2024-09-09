@@ -66,7 +66,7 @@ const Login = () => {
                 };
                 saveToken(data);
                 if (isAuthenticated()) {
-                    navigate("/Student");
+                    navigate("/student_dashboard");
                     window.location.reload(); // Refresh the page
                 }
             }
@@ -77,7 +77,7 @@ const Login = () => {
                 };
                 saveToken(data);
                 if (isAuthenticated()) {
-                    navigate("/Dashboard");
+                    navigate("/dashboard");
                     window.location.reload(); // Refresh the page
                 }
             }

@@ -666,7 +666,7 @@ export default function Masterproductlist() {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/ViewApplication",
+                                        pathname: "/student_view_application",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
