@@ -1,23 +1,50 @@
-import { CiLinkedin } from 'react-icons/ci'
-import { RiCoinsFill } from 'react-icons/ri'
-import { SiGnuprivacyguard } from 'react-icons/si'
-import { Link, useLocation } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
-import { RiProjectorFill, RiMapPin2Line, RiSchoolLine, RiFileTextLine } from 'react-icons/ri';
-import banner from '../../styles/Assets/Student/EventBanner.png';
-import { getSingleUniversity, UniversityProgram } from "../../api/university";
-import { getallProgram, getUniversityProgram } from "../../api/Program";
-import { CiSearch } from 'react-icons/ci';
-import { Chip } from '@mui/material';
-import Flags from 'react-world-flags';
-import { Input } from 'reactstrap'
-import Sidebar from '../../compoents/sidebar';
+import { RiCoinsFill } from "react-icons/ri";
+import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { IoMdRocket } from "react-icons/io";
+import { IoMailUnread } from "react-icons/io5";
+import banner from "../../styles/Assets/Student/EventBanner.png";
+import { getSingleUniversity } from "../../api/university";
+import { getSuperAdminForSearch } from "../../api/superAdmin";
+import BackButton from "../../compoents/backButton";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  backdropClasses,
+  radioClasses,
+} from "@mui/material";
+import { getSingleUniversityCommission } from "../../api/commission";
+import { getFilterProgram, getProgramUniversity } from "../../api/Program";
+import Sidebar from "../../compoents/sidebar";
+import { FaUniversity } from "react-icons/fa";
+import { FaGlobeAmericas } from "react-icons/fa";
+import { RichTextEditor } from "@mantine/rte";
+
 const UserProfile = () => {
+  const initialStateInputs = {
+    inTake: "",
+    programTitle: "",
+    applicationFee: "",
+    courseType: "",
+  };
+
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [inputs, setInputs] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState(false);
   const [university, setUniversity] = useState();
+  const [commission, setCommission] = useState([]);
+  const [openFilter, setOpenFilter] = useState(false);
+
   const [program, setProgram] = useState([]);
   const pageSize = 5;
+  const search = useRef(null);
   const [filter, setFilter] = useState(false);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -27,9 +54,33 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUniversityDetails();
-    filter ? filterProgramList() : getAllProgram();
+
+    getUniversityCommissionDetails();
+    // filter ? filterProgramList() : getAllProgram();
   }, [universityId, pagination.from, pagination.to]);
 
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
+  const getUniversityCommissionDetails = () => {
+    getSingleUniversityCommission(universityId)
+      .then((res) => {
+        setCommission(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getUniversityDetails = () => {
     getSingleUniversity(universityId)
       .then((res) => {
@@ -39,311 +90,992 @@ const UserProfile = () => {
         console.log(err);
       });
   };
+  useEffect(() => {
+    getAllProgram();
+  }, [universityId]);
 
   const getAllProgram = () => {
     const data = {
       limit: pageSize,
       page: pagination.from,
-      universityId: universityId
+      universityId: universityId,
     };
-
-    getallProgram(data)
+    getProgramUniversity(universityId, data)
       .then((res) => {
-        console.log(res);
-        setProgram(res?.data?.result?.programList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.programCount,
-        });
+        console.log("API Response:", res); // Debugging API response
+        if (res?.data?.result && Array.isArray(res.data.result)) {
+          setProgram(res.data.result);
+          setPagination({
+            ...pagination,
+            count: res?.data?.result?.length,
+          });
+        } else {
+          console.warn("Unexpected response structure:", res);
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error fetching programs:", err);
       });
   };
-
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+  };
   const filterProgramList = (event) => {
     event?.preventDefault();
     setFilter(true);
     const data = {
-      universityName: university?.universityName,
-      universityId: university?._id,
+      inTake: inputs.inTake,
+      programTitle: inputs.programTitle,
+      applicationFee: inputs.applicationFee,
+      courseFee: inputs.courseFee,
       limit: 10,
       page: pagination.from,
     };
-    getUniversityProgram(data)
+    getFilterProgram(data)
       .then((res) => {
         setProgram(res?.data?.result?.programList);
         setPagination({
           ...pagination,
           count: res?.data?.result?.programCount,
         });
+        closeFilterPopup();
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const closeFilterPopup = () => {
+    setOpenFilter(false);
+  };
+  const resetFilter = () => {
+    setFilter(false);
+    // setInputs(initialStateInputs);
+    getAllProgram();
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const programList = res?.data?.result?.programList;
+        setProgram(programList);
+        const result = programList.length ? "programs" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+
+  //   event?.preventDefault();
+  //   setFilter(true);
+  //   const data = {
+  //     universityName: university?.universityName,
+  //     universityId: university?._id,
+  //     limit: 10,
+  //     page: pagination.from,
+  //   };
+  //   getUniversityProgram(data)
+  //     .then((res) => {
+  //       setProgram(res?.data?.result?.programList);
+  //       setPagination({
+  //         ...pagination,
+  //         count: res?.data?.result?.programCount,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   return (
     <>
-      <div className="container-fluid ">
-        <div className="row">
-          <div className='col-lg-2'>
-            <Sidebar />
+      <div>
+        <Sidebar />
+
+        <div
+          className="content-wrapper"
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
+        >
+          <div className="content-header text-end">
+          <BackButton/>
           </div>
-          <div className="col-lg-10">
-            <div className="card border-0 rounded-2 mt-3  ">
+          <div className="container-fluid ">
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card border-0 rounded-0 ">
+                    <div
+                      className="card rounded-0 border-0  "
+                      style={{
+                        position: "relative",
+                        overflow: "hidden",
+                        height: "70vh",
+                      }}
+                    >
+                      <img
+                        src={
+                          university?.banner
+                            ? university?.banner
+                            : "https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
+                        }
+                        className="card-img img-fluid rounded-0 border-0"
+                        alt="university_bg_image"
+                        style={{
+                          width: "100%",
+                          height: "100%", // Ensure the image covers the entire card height
+                          objectFit: "cover",
+                          mixBlendMode: "multiply",
+                        }}
+                      />
+                      <div
+                        className="gradient-overlay"
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "200px", // Height of the gradient
+                          background:
+                            "linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))",
+                          zIndex: 1,
+                        }}
+                      ></div>
+                      <div
+                        className="card-img-overlay align-self-end"
+                        style={{ position: "absolute", zIndex: 2 }}
+                      >
+                        <div className="border-0 rounded-0 bg-transparent">
+                          <img
+                            src={
+                              university?.universityLogo
+                                ? university?.universityLogo
+                                : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"
+                            }
+                            className="img-fluid rounded-circle img-thumbnail"
+                            style={{ width: "9rem", height: "9rem" }}
+                            alt="University Logo"
+                          />
+                          <div className="card-body">
+                            <div className="py-3 my-2">
+                              <h5 className="h1 fw-bolder text-white d-flex align-items-center gap-2 text-capitalize">
+                                {university?.universityName}
+                              </h5>
+                            </div>
+                            <div className="d-flex  flex-lg-row flex-xs-column  justify-content-between align-items-start">
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-globe nav-icon"></i>
+                                </span>{" "}
+                                {university?.country}
+                              </p>
 
-              <div className="card-header rounded-top border-0   img-1 ">
-                <div className="row g-3 mt-2">
-                  <div className="col-md-4 d-flex justify-content-center align-items-start">
-                    <img
-                      src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"}
-                      className="img-fluid rounded-circle" style={{ width: "150px", height: "150px" }}
-                      alt="Berry College Campus"
-                    />
-                  </div>
-                  <div className="col-md-8 d-flex justify-content-start  align-items-">
-                    <div className="px-1 py-2">
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-calendar nav-icon"></i>
+                                </span>{" "}
+                                {university?.founded}
+                              </p>
+                              <p
+                                className="text-white fw-semibold mb-1"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-building nav-icon"></i>
+                                </span>{" "}
+                                {university?.institutionType}
+                              </p>
 
-                      <p className='text-white'>{university?.universityName}</p>
-                      <p className="text-white">{university?.country}</p>
-                      <div className='card shadow border-1 rounded p-2 mt-2 mb-2'>
-                        <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>UniverSity Rank: <span><RiCoinsFill className='text-warning fs-5' /> {university?.ranking}</span> </span>
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-trophy nav-icon"></i>
+                                </span>
+                                {university?.ranking}
+                              </p>
+
+                              <Link
+                                to={university?.website}
+                                className="text-decoration-none text-white fw-semibold mb-1"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i className="fa fa-link nav-icon"></i>
+                                </span>{" "}
+                                {university?.website}
+                              </Link>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                <span
+                                  style={{ color: "#fe5722", fontSize: "14px" }}
+                                >
+                                  <i class="fa fa-clock nav-icon"></i>
+                                </span>
+                                {university?.offerTAT}
+                              </p>
+
+                              <p
+                                className="text-white mb-1 fw-semibold"
+                                style={{ fontSize: "14px" }}
+                              >
+                                Avg &nbsp; {university?.averageFees}{" "}
+                                <i class="fa  nav-icon"></i>
+                              </p>
+                              {/* <div className="text-white mb-1 fw-semibold" style={{ fontSize: '14px' }}>
+                <span style={{ color: '#fe5722', fontSize: '14px' }}>
+                  <i className="fa fa-envelope nav-icon"></i>
+                </span>{' '}
+                {university?.email}
+              </div> */}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-
                     </div>
-                  </div>
-                </div>
+                    <div className="card-body  ">
+                      <div className="container-fluid">
+                        <div className="row ">
+                          <div className="col-md-8">
+                            <ul
+                              class="nav nav-pills fs-9"
+                              id="myTab"
+                              role="tablist"
+                            >
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link active text-Capitalize "
+                                  id="home-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-home"
+                                  role="tab"
+                                  aria-controls="tab-home"
+                                  aria-selected="true"
+                                >
+                                  About
+                                </a>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link text-Capitalize "
+                                  id="profile-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-profile"
+                                  role="tab"
+                                  aria-controls="tab-profile"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                >
+                                  Campus
+                                </a>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link   text-Capitalize "
+                                  id="profile-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-populatCourse"
+                                  role="tab"
+                                  aria-controls="tab-profile"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                >
+                                  Categories
+                                </a>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link text-Capitalize "
+                                  id="profile-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-Course"
+                                  role="tab"
+                                  aria-controls="tab-profile"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                >
+                                  Course
+                                </a>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link text-Capitalize "
+                                  id="profile-tab"
+                                  data-bs-toggle="tab"
+                                  href="#Payment-course"
+                                  role="tab"
+                                  aria-controls="tab-profile"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                >
+                                  Payment Method
+                                </a>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <a
+                                  class="nav-link text-Capitalize "
+                                  id="home-review-tab"
+                                  data-bs-toggle="tab"
+                                  href="#tab-Review"
+                                  role="tab"
+                                  aria-controls="tab-home"
+                                  aria-selected="true"
+                                >
+                                  Requirement
+                                </a>
+                              </li>
+                            </ul>
+                            <div
+                              class="tab-content mt-3"
+                              id="myTabContent"
+                              style={{
+                                height: "350px",
+                                overflowY: "auto",
+                                scrollbarWidth: "none",
+                              }}
+                            >
+                              <div
+                                class="tab-pane fade active show"
+                                id="tab-home"
+                                role="tabpanel"
+                                aria-labelledby="home-tab"
+                              >
+                                <p
+                                  className="clearfix"
+                                  style={{ textAlign: "justify" }}
+                                >
+                                  <RichTextEditor
+                                    value={university?.about}
+                                    readOnly
+                                  />{" "}
+                                </p>
+                              </div>
+                              <div
+                                class="tab-pane fade"
+                                id="tab-profile"
+                                role="tabpanel"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div className="row">
+                                  {Array.isArray(university?.campuses) &&
+                                    university.campuses.map((data, index) => (
+                                      <div key={index} className="col-md-3">
+                                        <div className="card text-bg-light  border-0   border-start   border-5 border-danger  align-items-center">
+                                          <div className="align-self-center mt-2 mb-0">
+                                            <img
+                                              src={
+                                                university?.universityLogo
+                                                  ? university?.universityLogo
+                                                  : "https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg"
+                                              }
+                                              className="card-img-top img-fluid rounded-circle object-fit-cover mx-auto d-block mb-0"
+                                              alt="img"
+                                              style={{
+                                                width: "4rem",
+                                                height: "4rem",
+                                              }}
+                                            />
+                                          </div>
 
+                                          <div className="card-body">
+                                            <p className="card-text text-center mb-1">
+                                              {data?.lga}
+                                            </p>
+                                            <p className="card-text text-center">
+                                              {data?.state}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+                              <div
+                                className="tab-pane fade"
+                                id="tab-populatCourse"
+                                role="tabpanel"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div className="container">
+                                  <div className="row">
+                                    {Array.isArray(
+                                      university?.popularCategories
+                                    ) &&
+                                      university.popularCategories.map(
+                                        (category, index) => (
+                                          <div
+                                            key={index}
+                                            className="col-4 mb-3" // This ensures each card takes up 4 out of 12 columns, allowing 3 cards per row
+                                          >
+                                            <div
+                                              className="card border-0 text-white"
+                                              style={{
+                                                backgroundColor:
+                                                  "rgba(0,0,0,0.4)",
+                                              }}
+                                            >
+                                              <img
+                                                src="https://imageio.forbes.com/specials-images/imageserve/61d52d4e3a76ed81ac034ea8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
+                                                className="card-img img-fluid object-fit-cover"
+                                                alt="Popular category"
+                                                style={{
+                                                  mixBlendMode: "multiply",
+                                                }}
+                                              />
+                                              <div className="card-img-overlay d-flex align-items-center justify-content-center">
+                                                <p className="text-center">
+                                                  {category}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                  </div>
+                                </div>
+                              </div>
 
-
-
-              </div>
-              <div className="card-body bg-white rounded-bottom px-4">
-                <div className="row mt-2 g-4">
-                  <div className="col-lg-6">
-
-                    <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-                      <li class="nav-item" role="presentation"><a class="nav-link active text-uppercase " id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">Overview</a></li>
-                      <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Campus</a></li>
-                      <li class="nav-item" role="presentation"><a class="nav-link text-uppercase " id="profile-tab" data-bs-toggle="tab" href="#tab-populatCourse" role="tab" aria-controls="tab-profile" aria-selected="false" tabindex="-1">Popular Categories</a></li>
-
-                    </ul>
-                    <div class="tab-content mt-3" id="myTabContent" style={{ height: "350px", overflowY: "auto", scrollbarWidth: 'none' }}>
-                      <div class="tab-pane fade active show" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
-
-                        <p>{university?.admissionRequirement} </p>
-                      </div>
-                      <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div className='row'>
-                          <div className=' border-0 pt-3 px-4'>
-                            <div className='row'>
-                              {Array.isArray(university?.campus) &&
-                                university.campus.map((campus, index) => (
-                                  <div key={index} className='col-sm-4'>
-                                    <div className="card border-0 rounded-3 shadow " style={{ width: '8rem', height: "11rem" }}>
-                                      <img src={university?.universityLogo ? university?.universityLogo : "https://s3.ap-south-1.amazonaws.com/pixalive.me/empty_profile.png"} class="card-img-top " style={{ width: '8rem', height: "7rem" }} alt="img" />
-                                      <div className="card-body">
-                                        <p className="card-text text-center">{campus}</p>
+                              <div
+                                class="tab-pane fade"
+                                id="tab-Course"
+                                role="tabpanel"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div className="row">
+                                  <div className=" col-md-12 pt-3 px-5">
+                                    <div className="row">
+                                      {Array.isArray(university?.courseType) &&
+                                        university.courseType.map(
+                                          (courseType, index) => (
+                                            <div
+                                              key={index}
+                                              className="card card-body  border-0   border-top   border-5 border-warning  mb-2"
+                                            >
+                                              <span className="text-dark fw-bolder d-flex align-items-center justify-content-center gap-2 text-Capitalize">
+                                                {courseType}
+                                              </span>
+                                            </div>
+                                          )
+                                        )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="tab-pane fade"
+                                id="Payment-course"
+                                role="tabpanel"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div className="row">
+                                  <div className="col-sm-12 pt-3 px-5">
+                                    <div className="row">
+                                      <div className="card shadow-sm mt-3">
+                                        <div className="card-body">
+                                          <div className="row gy-3 py-2">
+                                            <div className="col-sm-6">
+                                              <div className=" text-lead text-capitalize">
+                                                Payment Method - <b>{commission.paymentMethod}</b>
+                                              </div>
+                                            
+                                            </div>
+                                          </div>
+                                          <div className="row gy-3 py-2">
+                                            <div className="col-sm-6">
+                                              <div className=" text-lead text-capitalize">
+                                                Eligibility For Commission - <b>   {commission.eligibility}%</b>
+                                              </div>
+                                              
+                                            </div>
+                                            <div className="col-sm-6">
+                                              <div className=" text-lead text-capitalize">
+                                                Payment TAT -<b> {commission.paymentType}</b>
+                                              </div>
+                                              
+                                            </div>
+                                          </div>
+                                          <div className="row gy-3 py-2">
+                                            <div className="col-sm-6">
+                                              <div className=" text-lead text-capitalize">
+                                                Tax - <b> {commission.tax}</b>
+                                              </div>
+                                              
+                                            </div>
+                                            <div className="col-sm-6">
+                                              <div className=" text-lead text-capitalize">
+                                                Commission Paid On - <b>{commission.commissionPaidOn
+                                                  ? commission.commissionPaidOn
+                                                  : "null"}</b>
+                                              </div>
+                                             
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                ))}
+                                </div>
+                              </div>
 
+                              <div
+                                class="tab-pane fade "
+                                id="tab-Review"
+                                role="tabpanel"
+                                aria-labelledby="home-tab"
+                              >
+                                <p
+                                  className="clearfix"
+                                  style={{ textAlign: "justify" }}
+                                >
+                                  <RichTextEditor
+                                    value={university?.admissionRequirement}
+                                    readOnly
+                                  />
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div
+                              className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
+                              role="alert"
+                            >
+                              Intakes
                             </div>
 
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="tab-pane fade" id="tab-populatCourse" role="tabpanel" aria-labelledby="profile-tab">
-                        <div className='row'>
-                          <div className=' border-0 pt-3 px-4'>
-                            <div className='row'>
-                              {Array.isArray(university?.popularCategories) &&
-                                university.popularCategories.map((popularCategories, index) => (
-                                  <div key={index} className='card shadow border-1 rounded p-2 mt-2 mb-2'>
-                                    <span className='text-secondary fw-bolder d-flex align-items-center justify-content-center gap-2 text-uppercase'>  {popularCategories}</span>
+                            <div className="card card-body">
+                              <h5 className="text-capitalize text-center">
+                                Program Intakes
+                              </h5>
+                              {Array.isArray(university?.inTake) &&
+                                university.inTake.map((inTake, index) => (
+                                  <div
+                                    key={index}
+                                    className="accordion accordion-flush"
+                                    id="programIntakesAccordion"
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    <div className="accordion-item">
+                                      <h2 className="accordion-header">
+                                        <button
+                                          className="btn border-0 collapsed btn-sm"
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target="#flush-collapseOpen"
+                                          aria-expanded="false"
+                                          aria-controls="flush-collapseOpen"
+                                        >
+                                          {inTake}
+                                        </button>
+                                      </h2>
+                                    </div>
                                   </div>
                                 ))}
-
                             </div>
-
-
                           </div>
-                        </div>
-                      </div>
+                          <div className="col-lg-12">
+                            <div className="row g-3">
+                              <div className="d-flex flex-row align-items-start justify-content-between mb-3">
+                                <div
+                                  className=" text-decoration-underline text-Capitalize"
+                                  style={{ color: "#fe5722" }}
+                                >
+                                  Programs
+                                </div>
+                              </div>
 
-                    </div>
-
-
-
-                  </div>
-
-
-                  <div className="col-lg-6">
-                    <div className="alert alert-primary text-center " role="alert">
-                       University Details.
-                    </div>
-                   
-
-                    <div className="card  border-0  shadow mt-3">
-                      <div className="card-body">
-
-                        <div className="row gy-3 py-2">
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">OfferTAT</div>
-                            <div className="h6 fw-normal">{university?.offerTAT}</div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Delivery Currency</div>
-                            <div className="h6  fw-normal"><Flags code={university?.flag} width={40} height={20} /> {university?.currency}</div>
-                          </div>
-                        </div>
-                        <div className="row gy-3 py-2">
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Average Fees</div>
-                            <div className="h6  fw-normal">{university?.averageFees}</div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Application Fees</div>
-                            <div className="h6  fw-normal">{university?.applicationFees}</div>
-                          </div>
-                         
-                        </div>
-                        <div className="row gy-3 py-2">
-                        <div className="col-sm-6  ">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Founded</div>
-                            <div className="h6  fw-normal">{university?.founded}</div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Institution Type</div>
-                            <div className="h6  fw-normal">{university?.institutionType}</div>
-                          </div>
-                         
-                        </div>
-                        <div className="row gy-3 py-2">
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Cost Of Living</div>
-                            <div className="h6  fw-normal">{university?.costOfLiving}</div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Gross Tuition</div>
-                            <div className="h6  fw-normal">{university?.grossTuition}</div>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card  border-0  shadow mt-3">
-                      <div className="card-body">
-
-                        <div className="row gy-3 py-2">
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">payment Method</div>
-                            <div className="h6  fw-normal">{university?.paymentMethod}</div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">amount/percentage</div>
-                            <div className="h6  fw-normal">{university?.amount?university?.amount:university?.percentage?university?.percentage:"null"} </div>
-                          </div>
-                        </div>
-                        <div className="row gy-3 py-2">
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Eligibility For Commission</div>
-                            <div className="h6  fw-normal">{university?.eligibilityForCommission}</div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Payment TAT</div>
-                            <div className="h6 fw-normal">{university?.paymentTAT}</div>
-                          </div>
-                         
-                        </div>
-                        <div className="row gy-3 py-2">
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Tax</div>
-                            <div className="h6  fw-normal">{university?.tax}</div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="fs-6 fw-light text-lead text-capitalize">Commission PaidOn</div>
-                            <div className="h6  fw-normal">{university?.commissionPaidOn}</div>
-                          </div>
-                         
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-
-
-
-
-
-
-
-                  <div className="row g-3">
-                                        <div className="d-flex flex-row align-items-start justify-content-between">
-                                            <div className="h6 text-decoration-underline text-uppercase " style={{ color: '#fe5722' }}>Other Courses You May Be Interested In</div>
-
-
-                                        </div>
-                                        {program?.map((data, index) => (
-
-                                            <div key={index} className="col-lg-4">
-                                                <div className="card mb-3  border-0  shadow" style={{ width: '20rem', height: '15rem' }}>
-                                                    <div className="row g-0 align-items-center justify-content-center">
-                                                        <div className="col-md-4">
-                                                            <img
-                                                                src={data?.universityLogo ? data?.universityLogo : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"}
-                                                                className="img-fluid rounded-pill"
-                                                                alt="Course Image"
-                                                                style={{ width: '7rem', height: '7rem' }}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-8">
-                                                            <div className="card-body">
-                                                                <h6 className="card-title ">{data?.universityName}</h6>
-                                                                <p className="card-text">CourseName :- {data?.programTitle}</p>
-                                                                <p className="card-text">Duration :- {data?.duration}</p>
-                                                                
-                                                                <button className="btn  rounded-pill text-white text-uppercase px-4 py-2" style={{ backgroundColor: "#fe5722" }}>Apply Now</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-
-
+                              <div className="row ">
+                                <div className="col-md-7">
+                                  <form onSubmit={handleSearch}>
+                                    <div class="input-group mb-3">
+                                      <input
+                                        type="text"
+                                        ref={search}
+                                        onChange={handleInputsearch}
+                                        class="form-control"
+                                        placeholder="Search Program..."
+                                        aria-label="programsearch"
+                                        aria-describedby="programsearch"
+                                      />
+                                      <button
+                                        class="input-group-text bg-white border-start-0"
+                                        type="submit"
+                                        id="programsearch"
+                                      >
+                                        <i class="fa fa-search nav-icon text-dark"></i>
+                                      </button>
                                     </div>
-                                    <nav aria-label="Page navigation example justify-content-end">
-                                        <ul className="pagination">
-                                            <li className="page-item">
-                                                <a className="page-link" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                  </form>
+                                </div>
+                                <div className="col-md-2">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasExample"
+                                    aria-controls="offcanvasExample"
+                                    class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
+                                    style={{
+                                      backgroundColor: "#231f20",
+                                      color: "#fff",
+                                    }}
+                                  >
+                                    <i class="fa fa-filter nav-icon text-white"></i>
+                                    &nbsp;&nbsp;Filter
+                                  </button>
 
-                                            <li className="page-item">
-                                                <a className="page-link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                  <div
+                                    class="offcanvas offcanvas-end"
+                                    tabindex="-1"
+                                    id="offcanvasExample"
+                                    aria-labelledby="offcanvasExampleLabel"
+                                  >
+                                    <div class="offcanvas-header">
+                                      <h5
+                                        class="offcanvas-title"
+                                        id="offcanvasExampleLabel"
+                                      >
+                                        Filter Program
+                                      </h5>
+                                      <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="offcanvas"
+                                        aria-label="Close"
+                                      ></button>
+                                    </div>
+                                    <div
+                                      class="offcanvas-body"
+                                      style={{ scrollbarWidth: "none" }}
+                                    >
+                                      <form>
+                                        <div class="mb-3">
+                                          <label
+                                            for="duration"
+                                            class="form-label"
+                                          >
+                                            Program Title
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="duration"
+                                            name="programTitle"
+                                            onChange={handleInputs}
+                                            placeholder="Example Coventry"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
 
+                                        <div class="mb-3">
+                                          <label
+                                            for="university"
+                                            class="form-label"
+                                          >
+                                            inTake
+                                          </label>
+                                          <input
+                                            type="text"
+                                            name="inTake"
+                                            onChange={handleInputs}
+                                            class="form-control"
+                                            id="university"
+                                            placeholder="Example Standford University "
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
 
+                                        <div class="mb-3">
+                                          <label
+                                            for="coursetype"
+                                            class="form-label"
+                                          >
+                                            Course Type
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            name="courseType"
+                                            onChange={handleInputs}
+                                            id="corsetype"
+                                            placeholder="Example Game Designer"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <div class="mb-3">
+                                          <label
+                                            for="coursetype"
+                                            class="form-label"
+                                          >
+                                            Application Fee
+                                          </label>
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            name="applicationFee"
+                                            onChange={handleInputs}
+                                            id="corsetype"
+                                            placeholder="Example Game Designer"
+                                            style={{ fontSize: "12px" }}
+                                          />
+                                        </div>
+                                        <button
+                                          data-bs-dismiss="offcanvas"
+                                          type="submit"
+                                          onClick={filterProgramList}
+                                          className="btn btn-save border-0 text-white fw-semibold text-uppercase rounded-pill px-3 py-2 float-right mx-2"
+                                          style={{
+                                            backgroundColor: "#fe5722",
+                                            fontSize: "14px",
+                                          }}
+                                        >
+                                          Apply
+                                        </button>
+                                        <button
+                                          data-bs-dismiss="offcanvas"
+                                          className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-3 py-2 text-white float-right bg"
+                                          style={{
+                                            backgroundColor: "#0f2239",
+                                            fontSize: "14px",
+                                          }}
+                                          onClick={resetFilter}
+                                        >
+                                          Reset
+                                        </button>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
 
+                                <div className="col-md-3">
+                                  <Link
+                                    to="/AddProgram"
+                                    type="button"
+                                    class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
+                                    style={{
+                                      backgroundColor: "#231f20",
+                                      color: "#fff",
+                                    }}
+                                  >
+                                    <i class="fa fa-plus-circle nav-icon text-white"></i>
+                                    &nbsp;&nbsp;Add Program
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            {Array.isArray(program) && program.length > 0 ? (
+                              program.map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="col-12 col-sm-6 col-md-4 mb-3"
+                                >
+                                  <div
+                                    className="card rounded-1"
+                                    style={{
+                                      backgroundColor: "rgba(0,0,0,0.6)",
+                                      height: "10rem",
+                                    }}
+                                  >
+                                    <img
+                                      src={
+                                        data?.universityLogo
+                                          ? data?.universityLogo
+                                          : "https://www.southernliving.com/thmb/j4Qkk6s0y2DDN8wEsyq4OoAgzZc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exterior-9299-min-526c3f4d70ed4403970991fcc99a0ff5.jpg"
+                                      }
+                                      className="card-img img-fluid"
+                                      alt="..."
+                                      style={{
+                                        mixBlendMode: "multiply",
+                                        height: "10rem",
+                                      }}
+                                    />
+                                    <div className="card-img-overlay d-flex flex-column justify-content-end text-white ">
+                                      <h6
+                                        className="mb-2 lh-sm text-truncate"
+                                        style={{
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        <i className="fa fa-book nav-icon text-white"></i>{" "}
+                                        {data?.programTitle || "Not Available"}
+                                      </h6>
+                                      <p
+                                        className="mb-1 lh-sm text-truncate"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <i className="fa fa-university nav-icon text-white"></i>{" "}
+                                        {data?.universityName ||
+                                          "Not Available"}
+                                      </p>
+                                      <p
+                                        className="mb-1 lh-sm text-truncate"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <i className="fa fa-credit-card nav-icon text-white"></i>{" "}
+                                        {data?.applicationFee ||
+                                          "Not Available"}
+                                      </p>
+                                      <p
+                                        className="mb-2 lh-sm text-truncate"
+                                        style={{ fontSize: "12px" }}
+                                      >
+                                        <i className="fa fa-clock nav-icon text-white"></i>{" "}
+                                        {data?.courseType || "Not Available"}
+                                      </p>
+                                      <button
+                                        className="btn btn-sm rounded-pill text-white fw-semibold px-4"
+                                        style={{
+                                          backgroundColor: "#fe5722",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        <i className="fa fa-paper-plane nav-icon text-white"></i>{" "}
+                                        Apply
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))
+                            ) : (
+                              <p>No programs available.</p>
+                            )}
+                          </div>
+
+                          <div className="float-right my-2">
+                            <Pagination
+                              count={Math.ceil(pagination.count / pageSize)}
+                              onChange={handlePageChange}
+                              variant="outlined"
+                              shape="rounded"
+                              color="primary"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
+                <nav aria-label="breadcrumb">
+                  <ol className="breadcrumb float-end">
+                    <li className="breadcrumb-item">
+                      <Link
+                        to="/DashBoard"
+                        target="_self"
+                        className="text-decoration-none"
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link
+                        to="/list_university"
+                        className="text-decoration-none"
+                      >
+                        ListUniversity
+                      </Link>
+                    </li>
+                    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+                    <li className="breadcrumb-item">
+                      <Link
+                        to={{
+                          pathname: "/edit_university",
+                          search: `?id=${university?._id}`,
+                        }}
+                        className="text-decoration-none"
+                      >
+                        EditUniversity
+                      </Link>
+                    </li>
+                  </ol>
+                </nav>
               </div>
             </div>
+
+          <div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        
+        <li className="mb-4 position-relative">
+          <div className="row align-items-start g-0">
+
+          <div className="col-1 d-flex justify-content-center align-items-center">
+              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                <i className="fas fa-check" />
+              </div>
+            </div>
+            <div className="col-4 text-center">
+              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+            </div>
+           
+          
+           
+            <div className="col-7">
+            <div className="mb-3">
+              
+              <div className="bg-success text-white rounded-3 p-2">
+                <h6 className="mb-1">New University Name</h6>
+                <p className="mb-0">University Y</p>
+              </div>
+            </div>
+              <div className="mb-3">
+             
+                <div className="bg-danger text-white rounded-3 p-2">
+                  <h6 className="mb-1">Old University Name</h6>
+                  <p className="mb-0">University X</p>
+                </div>
+              </div>
+           
+            </div>
           </div>
+          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</div>
+
         </div>
-
       </div>
-
     </>
-  )
-}
-export default UserProfile
+  );
+};
+export default UserProfile;

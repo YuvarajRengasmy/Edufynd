@@ -1,43 +1,47 @@
-import React, { useEffect, useState } from "react";
-import {getallClient, deleteClient  } from "../../api/client";
-import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from "sortablejs";
+import { getallClient, deleteClient,updateClient } from "../../api/client";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  radioClasses,
+} from "@mui/material";
 import Masterheader from "../../compoents/header";
+import { getSuperAdminForSearch } from "../../api/superAdmin";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
 import { FaFilter } from "react-icons/fa";
-import axios from 'axios';
-
-
-
-
+import {getFilterClient} from '../../api/client'
+import Downshift from "downshift";
 export default function Masterproductlist() {
-
-
-    const initialState = {
-        typeOfClient: "",
-        businessName: "",
-        businessMailID: "",
-        businessContactNo: "",
-        website: "",
-        addressLine1: "",  // Street Address, City, State, Postal Code, Country
-        addressLine2: "",
-        addressLine3: "",
-        name: "",
-        contactNo: "",
-        emailID: "",
-        gstn: "",
-        status: "",
-
-    }
-   
-    const [client, setClient] = useState([]);
- 
-    const [submitted, setSubmitted] = useState(false);
-   
+  const initialState = {
+    typeOfClient: "",
+    businessName: "",
+    businessMailID: "",
+    businessContactNo: "",
+    website: "",
+    addressLine1: "", // Street Address, City, State, Postal Code, Country
+    addressLine2: "",
+    addressLine3: "",
+    name: "",
+    contactNo: "",
+    emailID: "",
+    gstn: "",
+    clientStatus: "",
+    
+  };
+  const [client, setClient] = useState([]);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -45,21 +49,59 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [searchClear, setSearchClear] = useState("");
   const pageSize = 10;
+  const search = useRef(null);
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
 
- 
-
   useEffect(() => {
-   
     getClientList();
   }, []);
 
-  
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleClear = () => {
+    setSearchClear([]); // Clear the state value
+    if (search.current) {
+      search.current.value = ""; // Clear the input field using ref
+    }
+  };
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const clientList = res?.data?.result?.clientList;
+        setClient(clientList);
+        const result = clientList.length ? "clients" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const getClientList = () => {
     getallClient()
@@ -85,7 +127,7 @@ export default function Masterproductlist() {
     setOpen(false);
   };
   const deleteClientData = () => {
-    deleteClient (deleteId)
+    deleteClient(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();
@@ -103,37 +145,6 @@ export default function Masterproductlist() {
   const closeFilterPopup = () => {
     setOpenFilter(false);
   };
-//   const filterProgramList = (event) => {
-//     event?.preventDefault();
-//     setFilter(true);
-//     const data = {
-//       universityName: inputs.universityName,
-//     programTitle: inputs.programTitle,
-    
-//     applicationFee: inputs.applicationFee,
-//     courseFee: inputs.courseFee,
-//       page: pagination.from,
-
-//     };
-//     getFilterProgram(data)
-//       .then((res) => {
-//         setProgaram(res?.data?.result?.programList);
-//         setPagination({
-//           ...pagination,
-//           count: res?.data?.result?.programCount,
-//         });
-//         closeFilterPopup();
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-
-//   const resetFilter = () => {
-//     setFilter(false);
-//     setInputs(initialStateInputs);
-//     getAllProgaramDetails();
-//   };
 
   const handleInputs = (event) => {
     setClient({ ...client, [event.target.name]: event.target.value });
@@ -149,26 +160,6 @@ export default function Masterproductlist() {
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
-
-//   const handleFileUpload = async () => {
-//     if (!file) return;
-
-//     const formData = new FormData();
-//     formData.append('program', file);
-
-//     try {
-//       const response = await axios.post('http://localhost:4409/api/client/import', formData, {
-//         headers: {
-//           'Content-Type': 'multipart/form-data',
-//         },
-//       });
-//       console.log('File uploaded successfully:', response.data);
-//     } catch (error) {
-//       console.error('Error uploading file:', error);
-//     }
-//   };
-
-
 
   const pdfDownload = (event) => {
     event?.preventDefault();
@@ -213,15 +204,13 @@ export default function Masterproductlist() {
             margin: [20, 5],
             bold: true,
           },
-         {
-
-          text: "Status",
-          fontSize: 11,
-          alignment: "center",
-          margin: [20, 5],
-          bold: true,
-         }
-
+          {
+            text: "Status",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
         ]);
         result.forEach((element, index) => {
           tablebody.push([
@@ -257,14 +246,12 @@ export default function Masterproductlist() {
               alignment: "left",
               margin: [5, 3],
             },
-          {
-
-            text: element?.status ?? "-",
-            fontSize: 10,
-            alignment: "left",
-            margin: [5, 3],
-          }
-
+            {
+              text: element?.status ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
           ]);
         });
         templatePdf("clientList", tablebody, "landscape");
@@ -283,13 +270,11 @@ export default function Masterproductlist() {
         let list = [];
         result?.forEach((res) => {
           list.push({
-           clientID: res?.clientID ?? "-",
-           businessName: res?.businessName ?? "-",
-           businessMailID: res?.businessMailID ?? "-",
-           businessContactNo: res?.businessContactNo ?? "-",
-           status: res?.status ?? "-",
-           
-
+            clientID: res?.clientID ?? "-",
+            businessName: res?.businessName ?? "-",
+            businessMailID: res?.businessMailID ?? "-",
+            businessContactNo: res?.businessContactNo ?? "-",
+            status: res?.status ?? "-",
           });
         });
         let header1 = [
@@ -298,9 +283,6 @@ export default function Masterproductlist() {
           "businessMailID",
           "businessContactNo",
           "status",
-        
-   
-
         ];
         let header2 = [
           "Client Id",
@@ -308,7 +290,6 @@ export default function Masterproductlist() {
           "Business MailID",
           "Business ContactNo",
           "Status",
-       
         ];
         ExportCsvService.downloadCsv(
           list,
@@ -318,266 +299,906 @@ export default function Masterproductlist() {
           header1,
           header2
         );
-
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector("thead tr"), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: ".sortable-handle",
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll("tbody tr").forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      },
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
 
 
 
+  // const [showFilter, setShowFilter] = useState({});
+
+  // // Function to handle filter modal display
+  // const handleFilterClick = (column) => {
+  //   setShowFilter({ ...showFilter, [column]: true });
+  // };
+
+  // // Function to handle modal close
+  // const handleClose = (column) => {
+  //   setShowFilter({ ...showFilters, [column]: false });
+  // };
+
+
+  // filter
+  const [showFilter, setShowFilter] = useState({
+    typeOfClient: false,
+    name: false,
+    primaryNo: false,
+    email: false,
+    status: false,
+  });
+  const [inputValues, setInputValues] = useState({
+    typeOfClient: '',
+    name: '',
+    primaryNo: '',
+    email: '',
+    status: '',
+  });
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Function to handle filter modal display
+  const handleFilterClick = (column) => {
+    setShowFilter((prev) => ({ ...prev, [column]: !prev[column] }));
+  };
+  
+
+  // Function to handle modal close
+  const handleClose = (column) => {
+    setShowFilter((prev) => ({ ...prev, [column]: false }));
+  };
+
+  // Handle input value changes for each filter
+  const handleInputValueChange = (filterKey, value) => {
+    setInputValues((prev) => ({ ...prev, [filterKey]: value }));
+  };
+
+  // Fetch filtered data
+  const fetchFilteredClients = async () => {
+    setLoading(true);
+    try {
+      const response = await getFilterClient(inputValues);
+      setClients(response.data); // Assuming the data is in response.data
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFilteredClients(); // Fetch data when filters change
+  }, [inputValues]);
+
+  // Function to filter options based on the search input
+  const filteredOptions = (options, filterKey) => {
+    return options.filter(option =>
+      option.toLowerCase().includes(inputValues[filterKey].toLowerCase())
+    );
+  };
+  
+
+
+  const [statuses, setStatuses] = useState({});  // Store toggle status
+
+  useEffect(() => {
+    // Fetch all clients on component mount
+    const fetchClients = async () => {
+      try {
+        const response = await getallClient();
+        const clientsData = Array.isArray(response.data) ? response.data : [];
+  
+        // Initialize statuses based on the fetched client data
+        const initialStatuses = clientsData.reduce((acc, clientData) => {
+          return { ...acc, [clientData._id]: clientData.clientStatus === 'Active' };
+        }, {});
+  
+        setClients(clientsData);  // Set clients data
+        setStatuses(initialStatuses);  // Set initial statuses
+      } catch (error) {
+        console.error('Error fetching clients:', error);
+      }
+    };
+  
+    fetchClients();
+  }, []);  // Empty dependency array to run once on mount
+  
+  // Toggle client status
+  const handleCheckboxChange = async (clientId) => {
+    const currentStatus = statuses[clientId];
+    const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+  
+    // Update the local state immediately for a quick UI response
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [clientId]: !prevStatuses[clientId],
+    }));
+  
+    // Prepare the client data to send to the backend
+    const updatedClient = {
+      _id: clientId,
+      clientStatus: updatedStatus,  // Update the status based on toggle
+    };
+  
+    try {
+      await updateClient(updatedClient);  // Send update to the backend
+      console.log(`Client ${clientId} status updated to ${updatedStatus}`);
+    } catch (error) {
+      console.error('Error updating client status:', error);
+  
+      // Revert the status if there's an error during the update
+      setStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [clientId]: !prevStatuses[clientId],  // Revert the change
+      }));
+    }
+  };
 
   return (
-    <div style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
-          <Mastersidebar />
-        </nav>
-     
+    <>
+      <Mastersidebar />
 
-      <div className="content-wrapper px-4 " style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className="content-header">
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      >
+        <div className="content-header bg-light shadow-sm sticky-top mb-2 ">
           <div className="container-fluid">
-            <div className="row ">
-
-              <div >
-                <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                <li className="flex-grow-1">
+            <div className="row">
+              <div className="col-12">
+                <ul className="d-flex align-items-center justify-content-end mb-0 list-unstyled">
+                  {/* Search Form */}
+                  <li className="flex-grow-1">
+                    <form onSubmit={handleSearch}>
                       <div className="input-group" style={{ maxWidth: "600px" }}>
                         <input
+                          className="form-control form-control-sm border-1 border-dark rounded-4"
+                          placeholder="Search..."
                           type="search"
-                          placeholder="Search"
                           aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                          style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
-                            fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px" // Adjust padding to fit the height
-                          }}
+                          ref={search}
+                          onChange={handleInputsearch}
                         />
-                        <span
+                        <button
                           className="input-group-text bg-transparent border-0"
                           id="button-addon3"
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer"
-                          }}
+                          type="submit"
+                          style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}
                         >
                           <i className="fas fa-search" style={{ color: "black" }}></i>
-                        </span>
-                      </div>
-                    </li>
-                  <li class="m-1">
-
-
-                    <div>
-                      <button className="btn btn-primary" style={{fontSize:"11px"}} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                        <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Program</h5>
-                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
-                        </div>
-                        <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Client Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessName"
-                                onChange={handleInputs}
-                                placeholder="Search...Business Name"
-                              />
-                              <label className="form-label">ContactNo </label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="businessContactNo"
-                                onChange={handleInputs}
-                                placeholder="Search...Business ContactNo"
-                              />
-                             
-                              <label className="form-label">Status</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                                onChange={handleInputs}
-                                placeholder="Search...status"
-                              />
-                              <label className="form-label">ClientId</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="clientID"
-                                onChange={handleInputs}
-                                placeholder="Search...ClientId"
-                              />
-
-                             
-                            </div>
-                            <div>
-                              <button
-
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border text-white float-right bg"
-                                style={{ backgroundColor: "#9265cc" }}
-                                // onClick={resetFilter}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                // onClick={filterProgramList}
-                                className="btn btn-save border text-white float-right mx-2"
-                                style={{ backgroundColor: "#9265cc" }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-
-
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={pdfDownload}>
-                      <button   style={{ backgroundColor: "#E12929",fontSize:"11px" }} className="btn text-white ">
-                        <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link onClick={exportCsv} class="btn-filters">
-                      <span>
-                        <button   style={{ backgroundColor: "#22A033",fontSize:"11px" }} className="btn text-white ">
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
                         </button>
-                      </span>
-                    </Link>
+                      </div>
+                    </form>
                   </li>
 
-                  <li class="m-1">
-                    <Link onClick={openImportPopup} class="btn-filters">
-                      <span>
-                        <button
-                          style={{ backgroundColor: "#9265cc",fontSize:"11px" }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
+                  {/* Filter Button */}
+                  <li className="m-1">
+                    <button
+                      className="btn border-0 rounded-1"
+                      style={{ backgroundColor: "#007BFF", color: "#fff" }} // Primary color
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                    >
+                      <FaFilter />
+                    </button>
                   </li>
-                  <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/AddClient">
+
+                  {/* Offcanvas Filter */}
+                  <div
+                    className="offcanvas offcanvas-end"
+                    tabIndex={-1}
+                    id="offcanvasRight"
+                    aria-labelledby="offcanvasRightLabel"
+                  >
+                    <div className="offcanvas-header">
+                      <h6 id="offcanvasRightLabel">Filter Client</h6>
                       <button
-                        className="btn btn-outline border text-white  "
-                        style={{ backgroundColor: "#9265cc",fontSize:"11px" }}
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"
+                      />
+                    </div>
+                    <div className="offcanvas-body">
+                      <form>
+                        <div className="row gy-3 mb-3">
+                          <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-user"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="businessName"
+                              onChange={handleInputs}
+                              placeholder="Search... Client Name"
+                            />
+                          </div>
+                          <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-phone"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="businessContactNo"
+                              onChange={handleInputs}
+                              placeholder="Search... Client Contact No"
+                            />
+                          </div>
+                          <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-tag"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="status"
+                              onChange={handleInputs}
+                              placeholder="Search... Status"
+                            />
+                          </div>
+                          <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-id-card"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="clientID"
+                              onChange={handleInputs}
+                              placeholder="Search... Client ID"
+                            />
+                          </div>
+                        </div>
+                        <div className="d-flex justify-content-end gap-3">
+                          <button
+                            className="btn text-uppercase rounded-1 border-0 fw-semibold"
+                            style={{ backgroundColor: "#0f2239", color: "#fff" }} // Dark color for reset
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            data-bs-dismiss="offcanvas"
+                            type="submit"
+                            className="btn text-uppercase rounded-1 border-0 fw-semibold"
+                            style={{ backgroundColor: "#fe5722", color: "#fff" }} // Primary color for apply
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                  {/* Export PDF Button */}
+                  <li className="m-1">
+                    <Link onClick={pdfDownload}>
+                      <button
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#E12929" }} // Red for PDF
                       >
-                        <i
-                          class="fa fa-plus-circle me-2"
-                          aria-hidden="true"
-                        ></i>{" "}
-                        Add Client
+                        <i className="fa fa-file-pdf" aria-hidden="true"></i>
                       </button>
                     </Link>
                   </li>
 
-                </ol>
+                  {/* Export CSV Button */}
+                  <li className="m-1">
+                    <Link onClick={exportCsv}>
+                      <button
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#22A033", fontSize: "12px" }} // Green for CSV
+                      >
+                        <i className="fa fa-file-excel" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
 
+                  {/* Import Button */}
+                  <li className="m-1">
+                    <Link onClick={openImportPopup}>
+                      <button
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#7627ef", fontSize: "12px" }} // Purple for import
+                      >
+                        <i className="fa fa-upload" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
 
+                  {/* Add Client Button */}
+                  <li className="m-1">
+                    <Link to="/add_client">
+                      <button
+                        className="btn text-white border-0 fw-semibold rounded-1"
+                        style={{ backgroundColor: "#231f20", fontSize: "12px" }} // Dark color for add client
+                      >
+                        <i className="fa fa-plus-circle" aria-hidden="true"></i>
+                        &nbsp;&nbsp; Add Client
+                      </button>
+                    </Link>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-xl-12">
-            <div className="card mt-2">
-              <div className="card-body">
-                <div className="card-table">
+
+
+        <div className="container-fluid mt-3">
+          <div className="row">
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#00796B" }} // Tropical Teal
+                >
+                  <div className="card-body">
+                    <h6 className=""><i className="fas fa-user-check"></i> Active Clients</h6>
+                    <p className="card-text">Total: 120</p>
+                    <p className="card-text">
+                      <i className="fas fa-users"></i> Actively Engaged
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#C62828" }} // Crimson Red
+                >
+                  <div className="card-body">
+                    <h6 className=""><i className="fas fa-user-times"></i> Inactive Clients</h6>
+                    <p className="card-text">Total: 45</p>
+                    <p className="card-text">
+                      <i className="fas fa-user-slash"></i> Currently Inactive
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#0288D1" }} // Steel Blue
+                >
+                  <div className="card-body">
+                    <h6 className=""><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
+                    <p className="card-text">Total: 350</p>
+                    <p className="card-text">
+                      <i className="fas fa-file-invoice"></i> Pending Payments
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#1A237E" }} // Navy Blue
+                >
+                  <div className="card-body">
+                    <h6 className=""><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
+                    <p className="card-text">Total: 290</p>
+                    <p className="card-text">
+                      <i className="fas fa-money-bill-wave"></i> Payments Received
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="container-fluid mt-3">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="card border-0 rounded-1 shadow-sm">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                    <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
+
+
+                  </div>
+                </div>
+                <div className="card-body">
                   <div className="table-responsive">
+                    <table
+                      className="table table-hover text-center"
+                      style={{ color: "#9265cc" }} // Existing color code
+                      ref={tableRef}
+                    >
+               <thead className="table-light" style={{ fontSize: '12px' }}>
+          <tr>
+            <th className="text-start">
+              <input type="checkbox" />
+            </th>
+            <th className="text-capitalize text-start">S No</th>
+            <th className="text-capitalize text-start">Code</th>
 
-                    <table className=" table card-table dataTable text-center">
-                      <thead>
-                        <tr  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">clientID</th>
-                          <th className="text-capitalize text-start">Client Name</th>
-                          <th className="text-capitalize text-start">EMailID</th>
-                          <th className="text-capitalize text-start">ContactNo</th>
-                          <th className="text-capitalize text-start">Status</th>
-                          <th className="text-capitalize text-start">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+            {/* Filterable Columns */}
+            <th className="text-capitalize text-start">
+              Type
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('typeOfClient')}
+              />
+              {showFilter.typeOfClient && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.typeOfClient}
+                    onInputValueChange={(value) => handleInputValueChange('typeOfClient', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Type',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'typeOfClient').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+
+            <th className="text-capitalize text-start">
+              Name
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('name')}
+              />
+              {showFilter.name && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.name}
+                    onInputValueChange={(value) => handleInputValueChange('name', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Name',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'name').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+
+            <th className="text-capitalize text-start">
+              Primary No
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('primaryNo')}
+              />
+              {showFilter.primaryNo && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.primaryNo}
+                    onInputValueChange={(value) => handleInputValueChange('primaryNo', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Primary No',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'primaryNo').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+
+            <th className="text-capitalize text-start">
+              Email ID
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('email')}
+              />
+              {showFilter.email && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.email}
+                    onInputValueChange={(value) => handleInputValueChange('email', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Email ID',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-grop"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'email').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+
+            <th className="text-capitalize text-start">
+              Status
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('status')}
+              />
+              {showFilter.status && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.status}
+                    onInputValueChange={(value) => handleInputValueChange('status', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Status',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions(['Active', 'Inactive'], 'status').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+
+
+          
+
+                      <tbody style={{ fontSize: "11px" }}>
                         {client?.map((data, index) => (
-                          <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.clientID}</td>
-                            <td className="text-capitalize text-start">{data?.businessName}</td>
-                            <td className="text-capitalize text-start">{data?.businessMailID}</td>
-                            <td className="text-capitalize text-start">{data?.businessContactNo}</td>
-                            <td className="text-capitalize text-start">{data?.status}</td>
-                            <td>
-                              <div className="d-flex">
+                          <tr key={index} className="align-middle">
+                            <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
+                            <td className="text-capitalize text-start">
+                              {pagination.from + index + 1}
+                            </td>
+                            <td className="text-capitalize text-start">
+                              {data?.clientID || "Not Available"}
+                            </td>
+                            <td className="text-capitalize text-start">
+                              {data?.typeOfClient || "Not Available"}
+                            </td>
+                            <td className="text-capitalize text-start">
+                              <Link
+                                className="text-decoration-none text-dark"
+                                to={{
+                                  pathname: "/view_client",
+                                  search: `?id=${data?._id}`,
+                                }}
+                              >
+                                {data?.businessName || "Not Available"}
+                              </Link>
+                            </td>
+                            <td className="text-capitalize text-start">
+                              {data?.businessContactNo || "Not Available"}
+                            </td>
+                            <td className="text-start">
+                              {data?.businessMailID || "Not Available"}
+                            </td>
+                            {/* <td className="text-capitalize text-start ">
+    
+            <span className="form-check form-switch d-inline ms-2" >
+              {data?.clientStatus === "Active" ? (
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  value={data?.clientStatus}
+                  id={`flexSwitchCheckDefault${index}`}
+                  checked={statuses[data._id] || false}
+                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+                />
+              ) : (
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  value={data?.clientStatus}
+                  id={`flexSwitchCheckDefault${index}`}
+                  checked={statuses[data._id] || false}
+                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+                />
+              )}
+             <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+                {data?.clientStatus || "Not Available"}
+              </label>
+
+            </span>
+                            </td> */}
+                             <td className="text-capitalize text-start">
+    <span className="form-check form-switch d-inline ms-2">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        role="switch"
+        id={`flexSwitchCheckDefault${index}`}
+        checked={statuses[data._id] || false}
+        onChange={() => handleCheckboxChange(data._id)}
+      />
+      <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {statuses[data._id] ? "Active" : "Inactive"}
+      </label>
+    </span>
+  </td>
+                            <td className="text-capitalize text-start">
+                              <div className="d-flex justify-content-evenly align-items-center">
                                 <Link
-                                  className="dropdown-item"
+                                  className="text-decoration-none me-2"
                                   to={{
-                                    pathname: "/ViewClient",
+                                    pathname: "/view_client",
                                     search: `?id=${data?._id}`,
                                   }}
+                                  data-bs-toggle="tooltip"
+                                  title="View"
                                 >
-                                  <i className="far fa-eye text-primary me-1"></i>
-
+                                  <i className="far fa-eye text-primary "></i>
                                 </Link>
                                 <Link
-                                  className="dropdown-item"
+                                  className="text-decoration-none me-2"
                                   to={{
-                                    pathname: "/EditClient",
+                                    pathname: "/edit_client",
                                     search: `?id=${data?._id}`,
                                   }}
+                                  data-bs-toggle="tooltip"
+                                  title="Edit"
                                 >
-                                  <i className="far fa-edit text-warning me-1"></i>
-
+                                  <i className="far fa-edit text-warning "></i>
                                 </Link>
                                 <Link
-                                  className="dropdown-item"
+                                  className="text-decoration-none"
                                   onClick={() => {
                                     openPopup(data?._id);
                                   }}
+                                  data-bs-toggle="tooltip"
+                                  title="Delete"
                                 >
-                                  <i className="far fa-trash-alt text-danger me-1"></i>
-
+                                  <i className="far fa-trash-alt text-danger "></i>
                                 </Link>
                               </div>
-                             
                             </td>
                           </tr>
                         ))}
-
                       </tbody>
                     </table>
                   </div>
                 </div>
-                <div className="float-right my-2">
+                <div className="d-flex justify-content-between align-items-center p-3">
+                  <p className="me-auto ">
+                    Show
+                    <select
+                      className="form-select form-select-sm rounded-1 d-inline mx-2"
+                      aria-label="Default select example1"
+                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>{" "}
+                    Entries    out of 100
+                  </p>
                   <Pagination
                     count={Math.ceil(pagination.count / pageSize)}
                     onChange={handlePageChange}
@@ -590,30 +1211,39 @@ export default function Masterproductlist() {
             </div>
           </div>
         </div>
+
+
+  
+        
+
+
       </div>
       <Dialog open={open}>
         <DialogContent>
-          <div className="text-center m-4">
-            <h5 className="mb-4">
-              Are you sure you want to Delete <br /> the selected Product ?
-            </h5>
+          <div className="text-center p-4">
+            <h6 className="mb-4 text-capitalize">
+              Are you sure you want to delete the selected client?
+            </h6>
             <button
               type="button"
-              className="btn btn-save mx-3"
+              className="btn btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
               onClick={deleteClientData}
+              style={{ fontSize: "12px" }}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel "
+              className="btn btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase"
               onClick={closePopup}
+              style={{ fontSize: "12px" }}
             >
               No
             </button>
           </div>
         </DialogContent>
       </Dialog>
+
       <Dialog open={openFilter} fullWidth maxWidth="sm">
         <DialogTitle>
           Filter University
@@ -621,54 +1251,61 @@ export default function Masterproductlist() {
             <i className="fa fa-times fa-xs" aria-hidden="true"></i>
           </IconButton>
         </DialogTitle>
-        <DialogContent>
-
-        </DialogContent>
+        <DialogContent></DialogContent>
       </Dialog>
       <Dialog open={openImport} fullWidth maxWidth="sm">
         <DialogTitle>
-         Upload University List
+          Upload University List
           <IconButton className="float-right" onClick={closeImportPopup}>
             <i className="fa fa-times fa-xs" aria-hidden="true"></i>
           </IconButton>
         </DialogTitle>
         <DialogContent>
           <form>
-            <div className="from-group mb-3">
-
-            <div className="mb-3">
-            <input
-              type="file"
-              name="file"
-              className="form-control border-0 text-dark bg-transparent"
-              onChange={handleFileChange}
-            />
-          </div>
-
+            <div className="form-group mb-3">
+              <input
+                type="file"
+                name="file"
+                className="form-control rounded-1"
+                onChange={handleFileChange}
+              />
             </div>
-            <div>
+            <div className="d-flex justify-content-end">
               <Link
-                to="/ListUniversity"
-                className="btn btn-cancel border text-white float-right bg"
-                style={{ backgroundColor: "#9265cc" }}
-
+                to="/ListClient"
+                className="btn btn-cancel border-0 rounded-1 text-uppercase  fw-semibold text-white"
+                style={{
+                  backgroundColor: "#231f20",
+                  color: "#fff",
+                  fontSize: "12px",
+                }}
               >
-                Cencel
+                Cancel
               </Link>
               <button
                 type="submit"
-                // onClick={handleFileUpload}
-                className="btn btn-save border text-white float-right mx-2"
-                style={{ backgroundColor: "#9265cc" }}
+                className="btn btn-save border-0 rounded-1 text-uppercase  fw-semibold text-white mx-2"
+                style={{
+                  backgroundColor: "#fe5722",
+                  color: "#fff",
+                  fontSize: "12px",
+                }}
               >
                 Apply
               </button>
-              
             </div>
           </form>
         </DialogContent>
       </Dialog>
-    </div>
-    </div>
+
+
+  
+
+
+
+
+
+
+    </>
   );
 }

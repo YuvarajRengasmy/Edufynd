@@ -11,6 +11,12 @@ export const getMonthYear = (data) => {
   return `${month} ${year}`;
 };
 
+export const getYear = (data) => {
+  const date = new Date(data);
+  // const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+  return `${year}`;
+};
 export const timeCal = (date1) => {
   var date2 = new Date().getTime();
   date1 = new Date(date1).getTime();
@@ -33,4 +39,37 @@ export const timeCal = (date1) => {
     diff = diff + seconds + " sec ";
   }
   return diff ? diff + "ago" : "recently";
+};
+export const timeCall = (date1) => {
+  var date2 = new Date().getTime();
+  date1 = new Date(date1).getTime();
+  var res = Math.abs(date2 - date1) / 1000;
+
+  var hours = Math.floor(res / 3600) % 24;
+  var minutes = Math.floor(res / 60) % 60;
+  var seconds = Math.floor(res % 60);
+  var diff = "";
+ 
+  if (hours > 0) {
+    diff = diff + hours + " hours ";
+  }
+
+  if (hours === 0 && seconds > 0) {
+    diff = diff + seconds + " sec ";
+  }
+  return diff ? diff + "ago" : "recently";
+};
+export const formatDate = (data) => {
+  const date = new Date(data);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+export const formatYear = (data) => {
+  const date = new Date(data);
+ 
+  const year = date.getFullYear();
+  return `${year}`;
 };

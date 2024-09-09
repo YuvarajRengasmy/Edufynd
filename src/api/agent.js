@@ -9,7 +9,7 @@ export const saveContact = (data) => {
   };
 
   export const updateAgent = (data) => {
-    return API.put(`${Agent}/update`, data)
+    return API.put(`${Agent}`, data)
 }
 export const getSingleAgent = (data) => {
     return API.get(`${Agent}/getsingleagent`, { params: { _id: data } })
@@ -26,7 +26,11 @@ export const deleteAgent = (data) => {
     return API.delete(`${Agent}`, { params: { _id: data } });
   };
 
-
-
+  export const SuperAgent = (data) => {
+    return API.post(`${Agent}/createAgentBySuperAdmin`, data)
+}
+export const EditAgentSuper = (data) => {
+  return API.put(`${Agent}/createStudentBySuperAdmin`, data)
+}
 
 

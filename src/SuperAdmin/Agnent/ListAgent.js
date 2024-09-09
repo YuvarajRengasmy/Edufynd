@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from "sortablejs";
 import { getallAgent, deleteAgent, getFilterAgent } from "../../api/agent";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  radioClasses,
+} from "@mui/material";
+import { formatDate } from "../../Utils/DateFormat";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { getAgentId, getSuperAdminId } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
-import axios from 'axios';
-
-
-
+import axios from "axios";
 
 export default function Masterproductlist() {
-
-
   const initialStateInputs = {
     agentName: "",
     agentCode: "",
     mobileNumber: "",
     courseFee: "",
-
   };
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
@@ -48,11 +50,8 @@ export default function Masterproductlist() {
     const data = {
       limit: 10,
       page: pagination.from,
-
-
     };
     getallAgent(data)
-
       .then((res) => {
         setAgent(res?.data?.result);
         setPagination({
@@ -106,7 +105,6 @@ export default function Masterproductlist() {
       status: inputs.status,
       limit: 10,
       page: pagination.from,
-
     };
     getFilterAgent(data)
       .then((res) => {
@@ -147,21 +145,23 @@ export default function Masterproductlist() {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('program', file);
+    formData.append("program", file);
 
     try {
-      const response = await axios.post('http://localhost:4409/api/program/import', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('File uploaded successfully:', response.data);
+      const response = await axios.post(
+        "https://api.edufynd.in/api/agent/import",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("File uploaded successfully:", response.data);
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
     }
   };
-
-
 
   const pdfDownload = (event) => {
     event?.preventDefault();
@@ -212,7 +212,6 @@ export default function Masterproductlist() {
             margin: [20, 5],
             bold: true,
           },
-
         ]);
         result.forEach((element, index) => {
           tablebody.push([
@@ -276,8 +275,6 @@ export default function Masterproductlist() {
             applicationFee: res?.applicationFee ?? "-",
             courseFee: res?.courseFee ?? "-",
             campus: res?.campus ?? "-",
-
-
           });
         });
         let header1 = [
@@ -286,8 +283,6 @@ export default function Masterproductlist() {
           "applicationFee",
           "courseFee",
           "campus",
-
-
         ];
         let header2 = [
           "University Name",
@@ -295,7 +290,6 @@ export default function Masterproductlist() {
           "Application Fees",
           "Course Fees",
           "Campus",
-
         ];
         ExportCsvService.downloadCsv(
           list,
@@ -305,46 +299,76 @@ export default function Masterproductlist() {
           header1,
           header2
         );
-
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const tableRef = useRef(null);
 
+  useEffect(() => {
+    const table = tableRef.current;
 
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector("thead tr"), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: ".sortable-handle",
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll("tbody tr").forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      },
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
+
+  const [statuses, setStatuses] = useState(
+    (agent && Array.isArray(agent)) ? agent.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
 
 
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
-          <Mastersidebar />
-        </nav>
-   
+    <>
+      <Mastersidebar />
 
-      <div className="content-wrapper " style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className="content-header">
+      <div
+        className="content-wrapper "
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+      >
+        <div className="content-header bg-light shadow-sm sticky-top">
           <div className="container-fluid">
             <div className="row ">
-
-              <div >
+              <div className="col-xl-12">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px" }}>
                       <input
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search....."
                         aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                        className="form-control border-1  rounded-4 "
                         style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
+                        
                           fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px" // Adjust padding to fit the height
+                         
                         }}
                       />
                       <span
@@ -355,22 +379,43 @@ export default function Masterproductlist() {
                           right: "10px",
                           top: "50%",
                           transform: "translateY(-50%)",
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }}
                       >
-                        <i className="fas fa-search" style={{ color: "black" }}></i>
+                        <i
+                          className="fas fa-search"
+                          style={{ color: "black" }}
+                        ></i>
                       </span>
                     </div>
                   </li>
                   <li class="m-1">
-
-
                     <div>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                      <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                      <button
+                        className="btn btn-primary"
+                        style={{ fontSize: "11px" }}
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                      >
+                        {" "}
+                        <FaFilter />
+                      </button>
+                      <div
+                        className="offcanvas offcanvas-end"
+                        tabIndex={-1}
+                        id="offcanvasRight"
+                        aria-labelledby="offcanvasRightLabel"
+                      >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Program</h5>
-                          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                          <h5 id="offcanvasRightLabel">Filter Agent</h5>
+                          <button
+                            type="button"
+                            className="btn-close text-reset"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                          />
                         </div>
                         <div className="offcanvas-body ">
                           <form>
@@ -383,7 +428,10 @@ export default function Masterproductlist() {
                                 name="agentName"
                                 onChange={handleInputs}
                                 placeholder="Search...Agent Name"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
                               />
                               <label className="form-label">Agent Code</label>
                               <br />
@@ -393,10 +441,14 @@ export default function Masterproductlist() {
                                 name="agentCode"
                                 onChange={handleInputs}
                                 placeholder="Search...Agent Code"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
                               />
-                              <label className="form-label">Mobile Number</label>
+                              <label className="form-label">
+                                Mobile Number
+                              </label>
                               <br />
                               <input
                                 type="text"
@@ -404,8 +456,10 @@ export default function Masterproductlist() {
                                 name="mobileNumber"
                                 onChange={handleInputs}
                                 placeholder="Search...MobileNumber"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
                               />
                               <label className="form-label">Status</label>
                               <br />
@@ -415,46 +469,50 @@ export default function Masterproductlist() {
                                 name="status"
                                 onChange={handleInputs}
                                 placeholder="Search...Status"
-                                style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
                               />
-
-
                             </div>
                             <div>
-
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right bg"
+                                onClick={resetFilter}
+                                style={{
+                                  backgroundColor: "#0f2239",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                Reset
+                              </button>
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
                                 onClick={filterAgentList}
-                                className="btn btn-save border text-white float-right mx-2"
-                                style={{ backgroundColor: "#9265cc", fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
+                                className="btn btn-save border-0 rounded-1 fw-semibold text-white float-right mx-2"
+                                style={{
+                                  backgroundColor: "#fe5722",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "14px",
+                                }}
                               >
                                 Apply
                               </button>
-                              <button
-
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border text-white float-right bg"
-
-                                onClick={resetFilter}
-                                style={{ backgroundColor: '#9265cc', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}
-
-                              >
-                                Reset
-                              </button>
-
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
-
-
                   </li>
                   <li class="m-1">
                     <Link onClick={pdfDownload}>
-                      <button style={{ backgroundColor: "#E12929", fontSize: '11px' }} className="btn text-white ">
+                      <button
+                        style={{ backgroundColor: "#E12929", fontSize: "11px" }}
+                        className="btn text-white "
+                      >
                         <span>
                           <i class="fa fa-file-pdf" aria-hidden="true"></i>
                         </span>
@@ -464,7 +522,13 @@ export default function Masterproductlist() {
                   <li class="m-1">
                     <Link onClick={exportCsv} class="btn-filters">
                       <span>
-                        <button style={{ backgroundColor: "#22A033", fontSize: '11px' }} className="btn text-white ">
+                        <button
+                          style={{
+                            backgroundColor: "#22A033",
+                            fontSize: "11px",
+                          }}
+                          className="btn text-white "
+                        >
                           <i class="fa fa-file-excel" aria-hidden="true"></i>
                         </button>
                       </span>
@@ -475,7 +539,10 @@ export default function Masterproductlist() {
                     <Link onClick={openImportPopup} class="btn-filters">
                       <span>
                         <button
-                          style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                          style={{
+                            backgroundColor: "#9265cc",
+                            fontSize: "11px",
+                          }}
                           className="btn text-white "
                         >
                           <i class="fa fa fa-upload" aria-hidden="true"></i>
@@ -484,107 +551,302 @@ export default function Masterproductlist() {
                     </Link>
                   </li>
                   <li class="m-0">
-                    <Link class="btn btn-pix-primary" to="/AddProgram">
+                    <Link class="btn btn-pix-primary" to="/add_agent">
                       <button
-                        className="btn btn-outline border text-white  "
-                        style={{ backgroundColor: "#9265cc", fontSize: '11px' }}
+                        className="btn btn-outline  fw-semibold border-0 rounded-1 text-white  "
+                        style={{ backgroundColor: "#231f20", fontSize: "12px" }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add Program
+                        Add Agent
                       </button>
                     </Link>
                   </li>
-
                 </ol>
-
-
               </div>
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-xl-12">
-            <div className="card mt-2">
+
+
+
+
+
+        <div className="container-fluid mt-3 overflow-x-auto">
+      <div className="row">
+        {/* Card 1: Total Agents */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-1 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#388E3C" }} // Green
+            >
               <div className="card-body">
-                <div className="card-table">
-                  <div className="table-responsive">
+                <h6 className="">
+                  <i className="fas fa-user-friends" style={{ color: '#ffffff' }}></i> Total Agents
+                </h6>
+                <p className="card-text">Total: 200</p>
+              </div>
+            </div>
+          </Link>
+        </div>
 
-                    <table className=" table card-table dataTable text-center">
-                      <thead>
-                        <tr style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                          <th className="text-capitalize text-start">S No</th>
-                          <th className="text-capitalize text-start">Agent Name</th>
-                          <th className="text-capitalize text-start">Agent Code</th>
-                          <th className="text-capitalize text-start">Email</th>
-                          <th className="text-capitalize text-start">Mobile Number</th>
-                          <th className="text-capitalize text-start">Status</th>
-                          <th className="text-capitalize text-start">Created by</th>
-                          <th className="text-capitalize text-start">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {agent?.map((data, index) => (
-                          <tr key={index} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                            <td className="text-capitalize text-start">{data?.agentId?.agentName ? data?.agentId?.agentName : data?.superAdminId?.agentName}</td>
-                            <td className="text-capitalize text-start">{data?.agentCode}</td>
+        {/* Card 2: Status - Active */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-1 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#1E88E5" }} // Blue
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Status - Active
+                </h6>
+                <p className="card-text">Total: 150</p>
+              </div>
+            </div>
+          </Link>
+        </div>
 
-                            <td className="text-capitalize text-start">{data?.email}</td>
-                            <td className="text-capitalize text-start">{data?.mobileNumber}</td>
-                            <td className="text-capitalize text-start">{data?.status}</td>
-                            <td className="text-capitalize text-start">{data?.createdBy}</td>
-                            <td>
-                              <div className="d-flex">
-                                <Link
-                                  className="dropdown-item"
-                                  to={{
-                                    pathname: "/ViewStudent",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                >
-                                  <i className="far fa-eye text-primary me-1"></i>
+        {/* Card 3: Status - Inactive */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-1 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#D32F2F" }} // Red
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Status - Inactive
+                </h6>
+                <p className="card-text">Total: 30</p>
+              </div>
+            </div>
+          </Link>
+        </div>
 
-                                </Link>
-                                <Link
-                                  className="dropdown-item"
-                                  to={{
-                                    pathname: "/EditStudent",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                >
-                                  <i className="far fa-edit text-warning me-1"></i>
+        {/* Card 4: Pending Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-1 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#FBC02D" }} // Yellow
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-file-invoice" style={{ color: '#ffffff' }}></i> Pending Invoices
+                </h6>
+                <p className="card-text">Total: 50</p>
+              </div>
+            </div>
+          </Link>
+        </div>
 
-                                </Link>
-                                <Link
-                                  className="dropdown-item"
-                                  onClick={() => {
-                                    openPopup(data?._id);
-                                  }}
-                                >
-                                  <i className="far fa-trash-alt text-danger me-1"></i>
+        {/* Card 5: Paid Invoices */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div
+              className="card rounded-1 border-0 text-white shadow-sm"
+              style={{ backgroundColor: "#4CAF50" }} // Light Green
+            >
+              <div className="card-body">
+                <h6 className="">
+                  <i className="fas fa-money-check-alt" style={{ color: '#ffffff' }}></i> Paid Invoices
+                </h6>
+                <p className="card-text">Total: 120</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
 
-                                </Link>
-                              </div>
 
-                            </td>
-                          </tr>
-                        ))}
 
-                      </tbody>
-                    </table>
+        <div className="content-body">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card rounded-1 shadow-sm mt-2 border-0 ">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                    <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
+
+
                   </div>
                 </div>
-                <div className="float-right my-2">
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
+                  <div className="card-body">
+                    <div className="card-table">
+                      <div className="table-responsive">
+                        <table
+                          className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                          style={{ color: "#9265cc", fontSize: "13px" }}
+                          ref={tableRef}
+                        >
+                          <thead className="table-light">
+                            <tr
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                               <th className=" text-start">
+                            <input type="checkbox" />
+                            </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                S No
+                              </th>
+
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Name
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Code
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Email
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Mobile Number
+                              </th>
+                            
+                              <th className="text-capitalize text-start sortable-handle">
+                                Created by
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Status
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {agent?.map((data, index) => (
+                              <tr
+                                key={index}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {pagination.from + index + 1}
+                                </td>
+
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentName || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentCode || "Not Available"}
+                                </td>
+
+                                <td className=" text-start text-truncate">{data?.email}</td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.mobileNumber || "Not Available"}
+                                </td>
+                               
+                                <td className="text-capitalize text-start text-truncate">
+                                  {formatDate(
+                                    data?.modifiedOn
+                                      ? data?.modifiedOn
+                                      : data?.createdOn
+                                      ? data?.createdOn
+                                      : null
+                                      || "Not Available" )}
+                                </td>
+                                <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
+
+                                <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/view_agent",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/edit_agent",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries    out of 100
+                        </p> 
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -594,23 +856,22 @@ export default function Masterproductlist() {
       <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
-            <h5 className="mb-4"    style={{fontSize:"14px",fontFamily: 'Plus Jakarta Sans'}}>
-          
-              Are you sure you want to Delete <br /> the selected Product ?
+            <h5 className="mb-4 text-capitalize">
+              Are you sure you want to Delete <br /> the selected Agent ?
             </h5>
             <button
               type="button"
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
-              className="btn btn-danger mx-3"
+              style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
+              className="btn btn-success  border-0 text-white fw-semibold mx-3"
               onClick={deleteAgentData}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-info "
+              className="btn btn-danger border-0  text-white fw-semibold "
               onClick={closePopup}
-              style={{fontSize:"11px",fontFamily: 'Plus Jakarta Sans'}}
+              style={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }}
             >
               No
             </button>
@@ -624,9 +885,7 @@ export default function Masterproductlist() {
             <i className="fa fa-times fa-xs" aria-hidden="true"></i>
           </IconButton>
         </DialogTitle>
-        <DialogContent>
-
-        </DialogContent>
+        <DialogContent></DialogContent>
       </Dialog>
       <Dialog open={openImport} fullWidth maxWidth="sm">
         <DialogTitle>
@@ -638,40 +897,35 @@ export default function Masterproductlist() {
         <DialogContent>
           <form>
             <div className="from-group mb-3">
-
               <div className="mb-3">
                 <input
                   type="file"
                   name="file"
-                  className="form-control border-0 text-dark bg-transparent"
+                  className="form-control  text-dark bg-transparent"
                   onChange={handleFileChange}
                 />
               </div>
-
             </div>
             <div>
               <Link
                 to="/ListUniversity"
-                className="btn btn-cancel border text-white float-right bg"
-                style={{ backgroundColor: "#9265cc" }}
-
+                className="btn btn-cancel border-0 fw-semibold  text-white float-right bg"
+                style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
               >
-                Cencel
+                Cancel
               </Link>
               <button
                 type="submit"
                 onClick={handleFileUpload}
-                className="btn btn-save border text-white float-right mx-2"
-                style={{ backgroundColor: "#9265cc" }}
+                className="btn btn-save border-0 fw-semibold  text-white float-right mx-2"
+                style={{ backgroundColor: "#fe5722", fontSize: "14px" }}
               >
                 Apply
               </button>
-
             </div>
           </form>
         </DialogContent>
       </Dialog>
-      </div>
-    </div>
+    </>
   );
 }

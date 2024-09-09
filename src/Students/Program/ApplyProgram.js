@@ -25,7 +25,7 @@ export const Course = () => {
         inTake: "",
         universityName: "",
         course: "",
-        courseFees: ""
+        courseFees:0
     };
 
     const initialStateErrors = {
@@ -84,7 +84,7 @@ export const Course = () => {
                     ...prev,
                     universityName: result?.universityName,
                     course: result?.programTitle,
-                    courseFees: result?.courseFee
+                    courseFees: result?.campuses[0].courseFees
                 }));
             })
             .catch((err) => {
@@ -126,7 +126,7 @@ export const Course = () => {
         if (!data.inTake) error.inTake.required = true;
         if (!data.universityName) error.universityName.required = true;
         if (!data.course) error.course.required = true;
-        if (!data.courseFees) error.courseFees.required = true;
+        // if (!data.courseFees) error.courseFees.required = true;
 
         return error;
     };
@@ -201,9 +201,9 @@ export const Course = () => {
                                                             value={application.campus}
                                                         >
                                                             <option value={""} disabled hidden>Select Campus</option>
-                                                            {Array.isArray(program?.campus) &&
-                                                                program.campus.map((campus, index) => (
-                                                                    <option key={index} value={campus}>{campus}</option>
+                                                            {Array.isArray(program?.campuses) &&
+                                                                                    program.campuses.map((campus, index) => (
+                                                                    <option key={index} value={campus.campus}>{campus.campus}</option>
                                                                 ))}
                                                         </select>
                                                         {errors.campus.required && <span className="text-danger">Campus is required</span>}
@@ -218,9 +218,9 @@ export const Course = () => {
                                                             value={application.inTake}
                                                         >
                                                             <option value={""} disabled hidden>Select InTake</option>
-                                                            {Array.isArray(program?.inTake) &&
-                                                                program.inTake.map((inTake, index) => (
-                                                                    <option key={index} value={inTake}>{inTake}</option>
+                                                            {Array.isArray(program?.campuses) &&
+                                                                                    program.campuses.map((campus, index) => (
+                                                                    <option key={index} value={campus.inTake}>{campus.inTake}</option>
                                                                 ))}
                                                         </select>
                                                         {errors.inTake.required && <span className="text-danger">InTake is required</span>}

@@ -1,207 +1,285 @@
-import React from "react";
-import Header from "../../compoents/header";
+import React, { useState, useEffect } from "react";
+import { getSingleAgent } from "../../api/agent";
+import { useLocation } from "react-router-dom";
 import Sidebar from "../../compoents/sidebar";
-import { Link, useNavigate } from "react-router-dom";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import { FiEdit } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
+function Profile() {
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  const [agent, setAgent] = useState(null);
 
-import { RiDeleteBin5Line } from "react-icons/ri";
+  useEffect(() => {
+    if (id) {
+      getAgentDetails();
+    }
+  }, [id]);
 
-function ViewAgent() {
-    return (
-        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-            <div class="container-fluid">
-                <nav class="navbar navbar-vertical navbar-expand-lg">
-                    <Sidebar />
-                    </nav>
-                    <nav className="navbar navbar-top  navbar-expand">
-                    <Header />
-                </nav>
-           
-            <div className="content-wrapper">
-                <div className="content-header mt-3">
-                    <div className="content container-fluid w-75">
-                        <form >
-                            <div className="row">
-                                <div className="col-lg-12 col-md-6 col-sm-12">
-                                    <div className="upload-img form-group text-center">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Profile Photo<span className="text-light">*</span>
-                                        </label>
-                                        <br />
-                                        <label htmlFor="fileInputImage" className="file-upload">
-                                            <img src="https://webalive-adearns.s3.ap-south-1.amazonaws.com/Manufacuturer/profileimageyuvi.jpg" width="180" height="180" alt="Preview" style={{ objectFit: "cover" }} className="preview-image" />
-                                        </label>
-                                        <input
-                                            name="profileImage"
-                                            id="fileInputImage"
-                                            type="file"
-                                            accept="image/*"
-                                            style={{ display: "none" }}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Agent Name<span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">Rajan</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Email<span className="text-light">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            <h5 className="fw-bold">edufynd@info.com</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            {" "}
-                                            Password<span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">%HGHFFYUF@.....$FGHHH</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Business Name <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">CONSULATING</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            PAN Number of Individual <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">AOFY564FB</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            PAN of Company <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">Arty765g43</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Primary number<span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">+91 987654321</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            WhatsApp Number  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">+91 987654321</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            GSTN <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">grt677888dv4</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            INC  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">IBD45</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Agent payout  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">Banking</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Agents Commission  <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">6%</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Country Interested <span className="text-light">*</span>
-                                        </label>
-                                        <h5 className="fw-bold">USA</h5>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#9265cc" }}>
-                                            Add staffo<span className="text-light">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            <h5 className="fw-bold">Kamal</h5>
-                                            <h5 className="fw-bold">987654321</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card rounded px-5 pt-3 ">
-                                    <div className="row row-cols-md-2 row-cols-1">
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Bank & Branch Name :
-                                            </h6>
-                                            <p className="fw-lighter">HDFC Bank:- Chennai</p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Account Number :
-                                            </h6>
-                                            <p className="fw-lighter">1234567890
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                IFSC CODE :
-                                            </h6>
-                                            <p className="fw-lighter">HDFC000000987</p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Account Holder Name  :
-                                            </h6>
-                                            <p className="fw-lighter">Rajesh</p>
-                                        </div>
-                                        <div>
-                                            <h6 className="fw-bold" style={{ color: "#9265cc" }}>
-                                                Account Type :
-                                            </h6>
-                                            <p className="fw-lighter">Current Type</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            </div>
+  const getAgentDetails = () => {
+    getSingleAgent(id)
+      .then((res) => {
+        setAgent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <>
+      <Sidebar />
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+      >
+        <div className="content-header">
+        <BackButton/>
+
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListAgent' className="text-decoration-none">ListAgent</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditAgent",
+          search: `?id=${ agent?._id}`,
+        }} className="text-decoration-none">EditAgent</Link>
+      </li>
+  
+  </ol>
+</nav>
+         
         </div>
-    );
+        <div className="container-fluid">
+            <div className="row">
+              <div className="col-lg-4">
+                <div className="card border-0 text-center">
+                  <img
+                    src={
+                      agent?.agentBusinessLogo ||
+                      "https://via.placeholder.com/150"
+                    }
+                    className="card-img-top img-fluid rounded-circle mx-auto img-thumbnail mt-3"
+                    alt="Agent Photo"
+                    style={{ width: "8rem", height: "8rem" }}
+                  />
+                  <div className="card-body">
+                    <h3 className="agent-name">{agent?.agentName || "Not Available"}</h3>
+                    <p className="card-text">{agent?.source || "Not Available"}</p>
+                    <button className="btn btn-primary btn-sm">
+                      <i className="fas fa-envelope"></i> {agent?.email || "Not Available"}
+                    </button>
+                  </div>
+                </div>
+                <div className="card mt-4">
+                  <div className="card-header bg-primary text-white">
+                    <h5>Bank Details</h5>
+                  </div>
+                  <div className="card-body">
+                    <ul className="list-group">
+                      <li className="list-group-item">
+                        <strong>Account Name:</strong> {agent?.accountName || "Not Available"}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Bank Name:</strong> {agent?.bankName || "Not Available"}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Account Number:</strong> {agent?.accountNumber || "Not Available"}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Branch:</strong> {agent?.branch || "Not Available"}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>IFSC:</strong> {agent?.ifsc || "Not Available"}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Account Type:</strong> {agent?.accountType || "Not Available"}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Swift:</strong> {agent?.swift || "Not Available"}
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Commission:</strong> {agent?.agentsCommission || "Not Available"}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-8">
+                <div className="card border-0 mb-4">
+                  <div className="card-header bg-primary text-white">
+                    <h5>Agent Information</h5>
+                  </div>
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <ul className="list-group">
+                          <li className="list-group-item">
+                            <strong>Agent Code:</strong> {agent?.agentCode || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Agent Name:</strong> {agent?.agentName || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Business Name:</strong>{" "}
+                            {agent?.businessName || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Email:</strong> {agent?.email || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Mobile Number:</strong>{" "}
+                            {agent?.mobileNumber || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>WhatsApp Number:</strong>{" "}
+                            {agent?.whatsAppNumber || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Address Line 1:</strong>{" "}
+                            {agent?.addressLine1 || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Address Line 2:</strong>{" "}
+                            {agent?.addressLine2 || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Address Line 3:</strong>{" "}
+                            {agent?.addressLine3 || "Not Available"}
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="col-md-6">
+                        <ul className="list-group">
+                          <li className="list-group-item">
+                            <strong>Country:</strong> {agent?.country || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>State:</strong> {agent?.state || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>City:</strong> {agent?.city || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>PIN:</strong> {agent?.pin || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Business Website:</strong>{" "}
+                            {agent?.businessWebsite || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>GSTN:</strong> {agent?.gstn || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>PAN (Individual):</strong>{" "}
+                            {agent?.panNumberIndividual || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>PAN (Company):</strong>{" "}
+                            {agent?.panNumberCompany || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Staff Name:</strong> {agent?.staffName || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Staff Contact No:</strong>{" "}
+                            {agent?.staffContactNo || "Not Available"}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="card border-0 mb-4">
+                  <div className="card-header bg-primary text-white">
+                    <h5>Business Details</h5>
+                  </div>
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <ul className="list-group">
+                          <li className="list-group-item">
+                            <strong>Registration No:</strong>{" "}
+                            {agent?.registrationNo || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Business Type:</strong>{" "}
+                            {agent?.businessType || "Not Available"}
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="col-md-6">
+                        <ul className="list-group">
+                          <li className="list-group-item">
+                            <strong>Require Visa Filing Support:</strong>{" "}
+                            {agent?.requireVisaFilingSupport ? "Yes" : "No" || "Not Available"}
+                          </li>
+                          <li className="list-group-item">
+                            <strong>Visa Commission:</strong>{" "}
+                            {agent?.visaCommission || "Not Available"}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        
+        <li className="mb-4 position-relative">
+          <div className="row align-items-start g-0">
+
+          <div className="col-1 d-flex justify-content-center align-items-center">
+              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                <i className="fas fa-check" />
+              </div>
+            </div>
+            <div className="col-4 text-center">
+              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+            </div>
+           
+          
+           
+            <div className="col-7">
+            <div className="mb-3">
+              
+              <div className="bg-success text-white rounded-3 p-2">
+                <h6 className="mb-1">New University Name</h6>
+                <p className="mb-0">University Y</p>
+              </div>
+            </div>
+              <div className="mb-3">
+             
+                <div className="bg-danger text-white rounded-3 p-2">
+                  <h6 className="mb-1">Old University Name</h6>
+                  <p className="mb-0">University X</p>
+                </div>
+              </div>
+           
+            </div>
+          </div>
+          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</div>
+      </div>
+    </>
+  );
 }
-export default ViewAgent;
+
+export default Profile;

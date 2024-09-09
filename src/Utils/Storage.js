@@ -10,6 +10,12 @@ export const saveToken = (data) => {
   if (data?.loginType === 'superAdmin') {
     localStorage.setItem('superAdminId', CryptoJS.AES.encrypt((data?.superAdminId), 'edufynd').toString())
   }
+  if (data?.loginType === 'staff') {
+    localStorage.setItem('staffId', CryptoJS.AES.encrypt((data?.staffId), 'edufynd').toString())
+  }
+  if (data?.loginType === 'admin') {
+    localStorage.setItem('adminId', CryptoJS.AES.encrypt((data?.adminId), 'edufynd').toString())
+  }
   if (data?.loginType === 'agent') {
     localStorage.setItem('agentId', CryptoJS.AES.encrypt((data?.agentId), 'edufynd').toString())
   }
@@ -32,6 +38,14 @@ export const getSuperAdminId = () => {
 export const getAgentId = () => {
   const agentId = localStorage.getItem('agentId')
   return CryptoJS.AES.decrypt(agentId, 'edufynd').toString(CryptoJS.enc.Utf8)
+};
+export const getAdminIdId = () => {
+  const adminId = localStorage.getItem('adminId')
+  return CryptoJS.AES.decrypt(adminId, 'edufynd').toString(CryptoJS.enc.Utf8)
+};
+export const getStaffId = () => {
+  const staffId = localStorage.getItem('staffId')
+  return CryptoJS.AES.decrypt(staffId, 'edufynd').toString(CryptoJS.enc.Utf8)
 };
 
 export const getLoginType = () => {

@@ -3,15 +3,15 @@
     left: 0;
     top: 0;
     height: 100%;
-    width: 70px;
-    background-color:#fe5722;
-    color:rgb(255, 255, 255) ;
+    width: 250px;
+   background-color:#2C3E50  ;
     transition: width 0.3s ease;
     font-size: 12px;
     overflow-y: auto;
     scrollbar-width:none;
     z-index: 1000;
-    font-Family:'helvetica',
+   
+    
     
     
     
@@ -21,9 +21,7 @@
     
 }
 
-.sBar:hover {
-    width: 200px;
-}
+
 
 .sBar ul {
     list-style-type: none;
@@ -32,8 +30,8 @@
 }
 
 .sBar ul li {
-    padding: 10px;
-    text-align: center;
+    padding: 6px;
+    text-align: start;
     white-space: nowrap;
 }
 
@@ -43,15 +41,6 @@
 }
 
 .sBar ul li span {
-    display: none;
-}
-
-.sBar:hover ul li span {
     display: inline-block;
-    margin-left: 10px;
-}
-
-.sBar ul li:hover {
-    background-color:#ffffff;
-    color: #fff;
+    padding: 0px 10px;
 }

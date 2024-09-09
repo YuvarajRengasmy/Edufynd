@@ -1,123 +1,134 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-import { Link, useNavigate } from "react-router-dom";
-
+import { updateAdmin, getSingleAdmin } from "../../api/admin";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import BackButton from "../../compoents/backButton";
 function AddAgent() {
-    return (
-        <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-            <div class="container-fluid">
-                <nav class="navbar navbar-vertical navbar-expand-lg">
-                    <Sidebar />
-                   
-                </nav>
-                <nav class="navbar navbar-vertical navbar-expand">
-                <Header />
-                   
-                </nav>
-               
-         
-            <div className="content-wrapper" style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-                <div className="content-header mt-3">
-                    <div className="content container-fluid w-75">
-                        <form >
-                            <div className="content-page-header">
-                                <h5 className="text-bold" style={{ color: "#231F20" }}>
-                                    Add Admin
-                                </h5>
-                            </div>
-                            <div className="row">
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Admin Name<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            placeholder="Enter Admin name"
-                                            name="adminName"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Email<span className="text-danger">*</span>
-                                        </label>
-                                        <div className="d-flex gap-4">
-                                            <input
-                                                type="text"
-                                                className="form-control "
-                                                placeholder="Enter Passport No"
-                                                name="Country"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            {" "}
-                                            Password<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            name="Country"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Role <span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control "
-                                            placeholder="Enter Role"
-                                            name="role"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 ">
-                                    <div className="form-group">
-                                        <label style={{ color: "#231F20" }}>
-                                            Contact number<span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className="form-control "
-                                            placeholder="Contact Number"
-                                            name="contactNumber"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="add-customer-btns mb-40 d-flex justify-content-end w-30 ml-auto">
-                                    <Link
-                                        style={{ backgroundColor: "#231F20" }}
-                                        to="/ListAgent"
-                                        className="btn btn-cancel border text-white w-50 m-2"
-                                    >
-                                        Cancel
-                                    </Link>
-                                    <button
-                                        style={{ backgroundColor: "#FE5722" }}
-                                        type="submit"
-                                        className="btn btn-save border text-white w-50 m-2"
-                                    >
-                                        Submit
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  const [admin, setAdmin] = useState("");
+
+  useEffect(() => {
+    getAllClientDetails();
+  }, []);
+
+  const getAllClientDetails = () => {
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log(res);
+        setAdmin(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return (
+    <>
+      <Sidebar />
+
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+      >
+        <div className="content-header ">
+
+        <BackButton/>
+          <div className="container-fluid">
+            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+              <div
+                className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
+                style={{ background: "#fe5722", color: "#fff" }}
+              >
+                <h6 className="text-center text-capitalize p-1">
+                  View Admin Details
+                </h6>
+              </div>
+
+              <div class="card-body">
+                <table
+                  className="table table-hover table-bordered table-striped-columns mt-5"
+                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                >
+                  <tbody>
+                    <tr>
+                      <td className="fw-bold">Admin Name </td>
+                      <td>Admin Name</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Role </td>
+                      <td>Role</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Email </td>
+                      <td>Email</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Contact Number </td>
+                      <td>Contact number</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Password </td>
+                      <td>Password</td>
+                    </tr>{" "}
+                    <tr>
+                      <td className="fw-bold">Confirm Password </td>
+                      <td>Confirm Password</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        
+        <li className="mb-4 position-relative">
+          <div className="row align-items-start g-0">
+
+          <div className="col-1 d-flex justify-content-center align-items-center">
+              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                <i className="fas fa-check" />
+              </div>
+            </div>
+            <div className="col-4 text-center">
+              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+            </div>
+           
+          
+           
+            <div className="col-7">
+            <div className="mb-3">
+              
+              <div className="bg-success text-white rounded-3 p-2">
+                <h6 className="mb-1">New University Name</h6>
+                <p className="mb-0">University Y</p>
+              </div>
+            </div>
+              <div className="mb-3">
+             
+                <div className="bg-danger text-white rounded-3 p-2">
+                  <h6 className="mb-1">Old University Name</h6>
+                  <p className="mb-0">University X</p>
                 </div>
+              </div>
+           
             </div>
-            </div>
+          </div>
+          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</div>
         </div>
-    );
+      </div>
+    </>
+  );
 }
 export default AddAgent;

@@ -145,46 +145,19 @@ export default function GlobalSettings() {
     setOpen(true);
     setDeleteId(data);
   };
-  const openEditPopup = (intake) => {
-    setIsEdit(true);
-    setEditId(intake._id);
-    setInputs({
-      intakeName: intake.intakeName,
-      startDate: intake.startDate,
-      endDate: intake.endDate,
-    });
-    const modalElement = document.getElementById("addCountryModal");
-    if (modalElement) {
-      const bootstrapModal = window.bootstrap.Modal.getOrCreateInstance(modalElement);
-      bootstrapModal.show();
-    }
+  const handleAddModule = () => {
+    setInputs(initialStateInputs)
+    setSubmitted(false)
+    setErrors(initialStateErrors)
+
+  }
+  const handleEditModule = (data) => {
+    setInputs(data); // Set the form inputs to the data of the item being edited
+    setIsEdit(true); // Set editing mode to true
+    setEditId(data._id); // Set the ID of the item being edited
+    setSubmitted(false); // Reset submitted state
+    setErrors(initialStateErrors); // Reset errors
   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const newError = handleValidation(inputs);
-//     setErrors(newError);
-//     setSubmitted(true);
-//     const allInputsValid = Object.values(newError).every((x) => !x.required);
-//     if (allInputsValid) {
-//       saveIntake(inputs)
-//         .then((res) => {
-//           toast.success(res?.data?.message);
-//           event.target.reset();
-//           setInputs(initialStateInputs);
-//           setErrors(initialStateErrors);
-//           setSubmitted(false);
-//           getAllIntakeDetails();
-//           if (modalRef.current) {
-//             modalRef.current.hide();
-//           } // Refresh the list after adding new status
-//         })
-//         .catch((err) => {
-//           toast.error(err?.response?.data?.message);
-//         });
-//     }
-//   };
-
 const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
@@ -283,18 +256,14 @@ const handleSubmit = (event) => {
 
   return (
     <div>
-    <div style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-      <div className='container-fluid'>
-        <nav className='navbar navbar-vertical navbar-expang-lg'>
+   
+      
         <Mastersidebar />
-        </nav>
        
       
-      <div className="content-wrapper" style={{ backgroundColor: '#fff' }}>
-        <div className="content-header">
-          <div className="container-fluid">
-            <div className="row ">
-              <div>
+      <div className="content-wrapper" style={{fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+      
+      <div className="content-header bg-light shadow-sm sticky-top">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                   <li className="flex-grow-1">
                     <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -328,11 +297,11 @@ const handleSubmit = (event) => {
                     </div>
                   </li>
                   <li className="m-2">
-                    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                      <button className="btn btn-primary" style={{ fontSize: '11px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
+                    <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
+                      <button className="btn btn-primary" style={{ fontSize: '12px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
                       <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter BY Country</h5>
+                          <h5 id="offcanvasRightLabel">Filter  Intake</h5>
                           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">
@@ -347,6 +316,7 @@ const handleSubmit = (event) => {
                                   name="intakeName"
                                   value={inputs.intakeName}
                                   onChange={handleInputs}
+                                  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
                               </div>
                               <div className="mb-3">
@@ -359,6 +329,7 @@ const handleSubmit = (event) => {
                                   value={inputs.startDate}
                            
                                   onChange={handleInputs}
+                                  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
                               </div>
                               <div className="mb-3">
@@ -371,104 +342,171 @@ const handleSubmit = (event) => {
                                   value={inputs.endDate}
                            
                                   onChange={handleInputs}
+                                  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                                 />
                               </div>
                             </div>
                             <div className="text-end">
-                              <button type="submit" className="btn btn-primary me-2">Apply</button>
-                              <button type="button" className="btn btn-secondary" onClick={resetFilter}>Reset</button>
+                              <button type="submit" className="btn btn-sm text-uppercase fw-semibold px-4 py-2 rounded-pill text-white me-2" style={{backgroundColor:'#fe5722',color:'#fff',fontSize:'12px'}}>Apply</button>
+                              <button type="button" className="btn btn-sm text-uppercase fw-semibold px-4 py-2 rounded-pill text-white btn-secondary" onClick={resetFilter} style={{backgroundColor:'#231f20',color:'#fff',fontSize:'12px'}}>Reset</button>
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
                   </li>
-                  <li className="breadcrumb-item">
+                 
+                  <li className="me-2">
                     <button
-                      className="btn btn-primary text-white text-center rounded-pill"
-                      style={{
-                        backgroundColor: "#3498DB",
-                        border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
-                        margin: "1px"
-                      }}
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#addCountryModal"
-                    >
-                      Add Intake
-                    </button>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <button
-                      className="btn btn-success text-white text-center rounded-pill"
+                      className="btn btn-success text-white text-center "
                       style={{
                         backgroundColor: "#45AA62",
                         border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
+                      
+                        fontSize: "12px",
                         margin: "1px"
                       }}
                       type="button"
                       onClick={exportCsv}
                     >
-                      Export to CSV
+                     <i className="fa fa-file-excel" aria-hidden="true"></i>
                     </button>
                   </li>
-                  <li className="breadcrumb-item">
+                  <li className="me-2">
                     <button
-                      className="btn btn-danger text-white text-center rounded-pill"
+                      className="btn btn-danger text-white text-center "
                       style={{
                         backgroundColor: "#E74C3C",
                         border: "none",
-                        fontFamily: "Poppins",
-                        fontSize: "11px",
+                      
+                        fontSize: "12px",
                         margin: "1px"
                       }}
                       type="button"
                       onClick={pdfDownload}
                     >
-                      Export to PDF
+                     <i className="fa fa-file-pdf" aria-hidden="true"></i>
+                    </button>
+                  </li>
+                  <li className="me-2">
+                    <button
+                      className="btn  text-white text-center border-0 px-4 py-2 fw-semibold text-uppercase "
+                      style={{
+                        backgroundColor: "#fe5722",
+                        border: "none",
+                      
+                        fontSize: "12px",
+                        margin: "1px"
+                      }}
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#addCountryModal"
+                      onClick={() => { handleAddModule() }}
+                    >
+                   <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;   Add Intake
                     </button>
                   </li>
                 </ol>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="container-fluid mt-3">
-          <div className="card">
-            <div className="card-header d-flex align-items-center" style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-              <h3 className="card-title flex-grow-1">Intake List</h3>
+          <div className="container mt-4">
+            <div className="row ">
+            <div className='col-md-4'>
+            <div className="card rounded-1 border-0 shadow-sm" ref={modalRef}>
+        
+            <div className="card-header bg-white border-0">
+              <h5 className="card-title">{isEdit ? "Edit Intake" : "Add Intake"}</h5>
+             
             </div>
             <div className="card-body">
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="mb-3">
+                  <label htmlFor="intakeName" className="form-label">Intake Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="intakeName"
+                    name="intakeName"
+                    value={inputs.intakeName}
+                    onChange={handleInputs}
+                  />
+                  {submitted && errors.intakeName.required && (
+                    <span className="text-danger">Intake Name is required</span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="startDate" className="form-label">Start Date</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="startDate"
+                    name="startDate"
+                    value={inputs.startDate}
+                    onChange={handleInputs}
+                    pattern="\d{4}"
+                    placeholder="YYYY"
+                  />
+                  {submitted && errors.startDate.required && (
+                    <span className="text-danger">Start Date is required</span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="endDate" className="form-label">End Date</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="endDate"
+                    name="endDate"
+                    value={inputs.endDate}
+                    onChange={handleInputs}
+                    pattern="\d{4}"
+                    placeholder="YYYY"
+                  />
+                  {submitted && errors.endDate.required && (
+                    <span className="text-danger">End Date is required</span>
+                  )}
+                </div>
+                <button type="submit" className="btn btn-primary float-end">{isEdit ? "Update" : "Save"}</button>
+              </form>
+            </div>
+          
+        </div>
+            </div>
+              <div className='col-md-8'>
+              <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
+            <h6 className='text-center text-capitalize p-1'> List Intake</h6>
+            </div>
+            <div className="card-body mt-5">
               <table className="table table-hover text-nowrap">
                 <thead>
                   <tr style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                    <th style={{ width: "10px" }}>S.No</th>
-                    <th>Intake Name</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th style={{ width: "40px" }}>Actions</th>
+                    <th className="text-capitalize text-start" >S.No</th>
+                    <th className="text-capitalize text-start">Intake Name</th>
+                    <th className="text-capitalize text-start">Start Date</th>
+                    <th className="text-capitalize text-start">End Date</th>
+                    <th className="text-capitalize text-start" style={{ width: "40px" }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {intakeList.length > 0 ? (
-                    intakeList.map((intake, index) => (
+                    intakeList.map((data, index) => (
                       <tr key={index}  style={{backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
-                        <td>{pagination.from + index + 1}</td>
-                        <td>{intake.intakeName}</td>
-                        <td>{intake.startDate}</td>
-                        <td>{intake.endDate}</td>
-                        <td>
-                        <button type="button" className="btn btn-info btn-sm m-1" onClick={() => openEditPopup(intake)} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>Edit</button>
+                        <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                        <td className="text-capitalize text-start">{data.intakeName}</td>
+                        <td className="text-capitalize text-start">{data.startDate}</td>
+                        <td className="text-capitalize text-start">{data.endDate}</td>
+                        <td className="text-capitalize text-start">
+                        <button type="button" className="btn btn-primary btn-sm m-1"
+                            data-bs-toggle="modal"
+                           data-bs-target="#addCountryModal"
+                       onClick={() => { handleEditModule(data) }}
+                         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px",color:'#fff' }}> <i class="fa fa-edit" aria-hidden="true"></i></button>
                           <button
                             className="btn btn-danger btn-sm m-2"
-                            onClick={() => openPopup(intake._id)}
-                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                            onClick={() => openPopup(data._id)}
+                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "10px",color:'#fff' }}
                           >
-                            Delete
+                            <i class="fa fa-trash" aria-hidden="true"></i>
                           </button>
                         </td>
                       </tr>
@@ -492,8 +530,14 @@ const handleSubmit = (event) => {
                 />
               </div>
             </div>
+          
           </div>
+            </div>
+          </div>
+        
         </div>
+       
+       
         <Dialog open={open} onClose={closePopup}>
           <DialogTitle>Confirm Delete</DialogTitle>
           <DialogContent>
@@ -541,12 +585,14 @@ const handleSubmit = (event) => {
                 <div className="mb-3">
                   <label htmlFor="startDate" className="form-label">Start Date</label>
                   <input
-                    type="date"
+                    type="text"
                     className="form-control"
                     id="startDate"
                     name="startDate"
                     value={inputs.startDate}
                     onChange={handleInputs}
+                    pattern="\d{4}"
+                placeholder="YYYY"
                   />
                   {submitted && errors.startDate.required && (
                     <span className="text-danger">Start Date is required</span>
@@ -555,12 +601,14 @@ const handleSubmit = (event) => {
                 <div className="mb-3">
                   <label htmlFor="endDate" className="form-label">End Date</label>
                   <input
-                    type="date"
+                    type="text"
                     className="form-control"
                     id="endDate"
                     name="endDate"
                     value={inputs.endDate}
                     onChange={handleInputs}
+                    pattern="\d{4}"
+                    placeholder="YYYY"
                   />
                   {submitted && errors.endDate.required && (
                     <span className="text-danger">End Date is required</span>
@@ -572,8 +620,7 @@ const handleSubmit = (event) => {
           </div>
         </div>
       </div>
-    </div>
-    </div>
+   
     </div>
   );
 }

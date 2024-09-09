@@ -1,11 +1,20 @@
-import React, { useEffect ,useState } from "react";
-import { getallAdmin } from "../../api/admin";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from "sortablejs";
+import { getallAdmin, deleteAdmin } from "../../api/admin";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+} from "@mui/material";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-export default function ListAgent() {
+import { toast } from "react-toastify";
 
+import { FaFilter } from "react-icons/fa";
+export default function ListAgent() {
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -14,6 +23,8 @@ export default function ListAgent() {
   });
 
   const [admin, setAdmin] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
 
   useEffect(() => {
     getAllAdminDetails();
@@ -27,7 +38,7 @@ export default function ListAgent() {
 
     getallAdmin(data)
       .then((res) => {
-        console.log("yuvi",res)
+        console.log("yuvi", res);
         setAdmin(res?.data?.result);
         setPagination({ ...pagination, count: res?.data?.result?.adminCount });
       })
@@ -36,61 +47,285 @@ export default function ListAgent() {
       });
   };
 
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
 
+  const closePopup = () => {
+    setOpen(false);
+  };
 
-  
+  const deleteAdminData = () => {
+    deleteAdmin(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllAdminDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector("thead tr"), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: ".sortable-handle",
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll("tbody tr").forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      },
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
+
   return (
-    <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-      <div class="container-fluid">
-        <nav class="navbar navbar-vertical navbar-expand-lg">
-          <Sidebar />
-        </nav>
-      
-     
-      <nav className="navbar navbar-top navbar-expand"> 
-        <Header />
-        </nav>
-      <div className="content-wrapper "  style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-        <div className="content-header">
-          <div className="container">
-            <div className="row mb-2">
-              <div className="col-sm-6">
-                <h1 style={{ color: "#9265cc" }}>Admin List</h1>
-              </div>
-              <div className="col-sm-6">
-                <ol className="breadcrumb d-flex justify-content-end align-items-center">
+    <>
+      <Sidebar />
+
+      <div
+        className="content-wrapper "
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+      >
+        <div className="content-header bg-light shadow-sm sticky-top mb-0">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12">
+                <ol className=" d-flex justify-content-end align-items-center mb-0 list-unstyled">
+                  <li className="flex-grow-1">
+                    <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <input
+                        type="search"
+                        placeholder="Search...."
+                        aria-describedby="button-addon3"
+                        className="form-control border-1  rounded-4 "
+                        style={{
+                         
+                          fontSize: "12px", // Keep the font size if it's correct
+                          
+                        }}
+                      />
+                      <span
+                        className="input-group-text bg-transparent border-0"
+                        id="button-addon3"
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <i
+                          className="fas fa-search"
+                          style={{ color: "black" }}
+                        ></i>
+                      </span>
+                    </div>
+                  </li>
+                  <li class="m-1">
+                    <div
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                    >
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        style={{ fontSize: "12px" }}
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                      >
+                        {" "}
+                        <FaFilter />
+                      </button>
+                      <div
+                        className="offcanvas offcanvas-end"
+                        tabIndex={-1}
+                        id="offcanvasRight"
+                        aria-labelledby="offcanvasRightLabel"
+                      >
+                        <div className="offcanvas-header">
+                          <h5 id="offcanvasRightLabel">Filter Admin</h5>
+                          <button
+                            type="button"
+                            className="btn-close text-reset"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                          />
+                        </div>
+                        <div className="offcanvas-body ">
+                          <form>
+                            <div className="from-group mb-3">
+                              <label className="form-label">Admin Id</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="universityName"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Search...Admin Id"
+                              />
+                              <label className="form-label">E-Mail</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="state"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Search...E-Mail"
+                              />
+                              <label className="form-label">Role</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="averageFees"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Search...Role"
+                              />
+                              <label className="form-label">
+                                Contact Number
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="country"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Search...Contact Number"
+                              />
+
+                              <label className="form-label">Name</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="popularCategories"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                placeholder="Search...Name"
+                              />
+                            </div>
+                            <div>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
+                                style={{
+                                  backgroundColor: "#0f2239",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                Reset
+                              </button>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                type="submit"
+                                className="btn btn-save border-0  fw-semibold   text-white float-right mx-2"
+                                style={{
+                                  backgroundColor: "#fe5722",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                Apply
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
                   <li class="m-2">
-                    <Link class="btn-filters" >
-                      <button className="btn btn-outline-primary p-2">
+                    <Link>
+                      <button
+                        style={{ backgroundColor: "#E12929", fontSize: "11px" }}
+                        className="btn text-white "
+                      >
                         <span>
                           <i class="fa fa-file-pdf" aria-hidden="true"></i>
                         </span>
                       </button>
                     </Link>
                   </li>
-                  <li class="m-2">
-                    <Link class="btn-filters" >
+                  <li class="m-1">
+                    <Link class="btn-filters">
                       <span>
-                        <button className="btn btn-outline-primary p-2">
+                        <button
+                          style={{
+                            backgroundColor: "#22A033",
+                            fontSize: "12px",
+                          }}
+                          className="btn text-white "
+                        >
                           <i class="fa fa-file-excel" aria-hidden="true"></i>
                         </button>
                       </span>
                     </Link>
                   </li>
-                  <li>
-                    <Link class="btn-filters" >
+
+                  <li class="m-1">
+                    <Link class="btn-filters">
                       <span>
-                        <button className="btn btn-outline-primary p-2">
-                          <i class="fa fa-filter" aria-hidden="true"></i>
+                        <button
+                          style={{
+                            backgroundColor: "#9265cc",
+                            fontSize: "12px",
+                          }}
+                          className="btn text-white "
+                        >
+                          <i class="fa fa fa-upload" aria-hidden="true"></i>
                         </button>
                       </span>
                     </Link>
                   </li>
-                  <li class="m-2">
-                    <Link class="btn btn-pix-primary" to="/AddAdmin">
+                  <li class="m-1">
+                    <Link class="btn btn-pix-primary" to="/add_admin">
                       <button
-                        className="btn btn-outline border text-white rounded-pill p-2"
-                        style={{ backgroundColor: "#9265cc" }}
+                        className="btn btn-outline   fw-semibold  border-0 text-white  "
+                        style={{
+                          backgroundColor: "#231f20",
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
                       >
                         <i
                           class="fa fa-plus-circle me-2"
@@ -105,93 +340,275 @@ export default function ListAgent() {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="container">
-          <div className="col-md-12">
-            <div className="card mt-2">
-              <div className="card-body">
-                <div className="card-table">
-                  <div className="table-responsive">
-                    <table className=" table card-table dataTable text-center">
-                      <thead>
-                        <tr style={{ color: "#9265cc" }}>
-                          <th> S.No.</th>
-                          <th> Admin ID </th>
-                          <th> Name </th>
-                          <th> Email ID </th>
-                          <th> Role </th>
-                          <th> Contact number </th>
-                          <th> Action </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {admin?.map((data, index) => (
-                        <tr key={index} >
-                          <td>#{pagination.from + index + 1}</td>
-                          <td>{data?.adminCode}</td>
-                          <td>{data?.name}</td>
-                          <td>{data?.email}</td>
-                          <td>{data?.role}</td>
-                          <td>{data?.mobileNumber}</td>
-                          <td>
-                            <div className="dropdown dropdown-action">
-                              <a
-                                href="/#"
-                                className="action-icon dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <i className="fe fe-more-horizontal"></i>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-right">
-                                <a href="/ViewAdmin" className="dropdown-item">
-                                  <i className="far fa-eye me-2"></i>&nbsp;View
-                                </a>
-                                <a href="/EditAdmin" className="dropdown-item">
-                                  <i className="far fa-edit me-2"></i>&nbsp;Edit
-                                </a>
-                                <a href="/" className="dropdown-item">
-                                  <i className="far fa-trash-alt me-2"></i>&nbsp;Delete
-                                </a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                       {admin?.length === 0 ? (
-                        <tr>
-                          <td className="form-text text-danger" colSpan="9">
-                            No data
-                          </td>
-                        </tr>
-                       ) : null}
-                      </tbody>
-                    </table>
+
+
+        <div className="container-fluid mt-3">
+      <div className="row">
+        {/* Card 1: Active Users */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-1 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#9C27B0" }} // Purple
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Active Users
+              </h6>
+              <p className="card-text">Users currently active.</p>
+              <p className="card-text">Total: 150</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Pending Requests */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-1 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FF5722" }} // Deep Orange
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-clock" style={{ color: '#ffffff' }}></i> Pending Requests
+              </h6>
+              <p className="card-text">Requests awaiting approval.</p>
+              <p className="card-text">Total: 12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Banned Users */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-1 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#FFEB3B" }} // Yellow
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-ban" style={{ color: '#ffffff' }}></i> Banned Users
+              </h6>
+              <p className="card-text">Users who are banned.</p>
+              <p className="card-text">Total: 5</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: System Logs */}
+        <div className="col-md-3 col-sm-6 mb-3">
+          <div
+            className="card rounded-1 border-0 text-white shadow-sm"
+            style={{ backgroundColor: "#2196F3" }} // Blue
+          >
+            <div className="card-body">
+              <h6 className="card-title">
+                <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> System Logs
+              </h6>
+              <p className="card-text">Logs of system activities.</p>
+              <p className="card-text">Total: 35</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <div className="content-body">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card  border-0 rounded-1 shadow-sm">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                    <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
+
+                    </p>
+
+
                   </div>
                 </div>
-                <div className="float-right my-2">
-                  <Pagination variant="outlined" shape="rounded" color="primary"/>
+                  <div className="card-body">
+                    <div className="card-table">
+                      <div className="table-responsive">
+                        <table
+                          className="table table-hover card-table dataTable text-center"
+                          style={{ color: "#9265cc", fontSize: "13px" }}
+                          ref={tableRef}
+                        >
+                          <thead className="table-light">
+                            <tr
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+ <th className=" text-start">
+                            <input type="checkbox" />
+                            </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                S.No.
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                ID{" "}
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Name{" "}
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Email ID{" "}
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Role{" "}
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Contact number{" "}
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Action{" "}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {admin?.map((data, index) => (
+                              <tr
+                                key={index}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                 <td className=" text-start">
+                              <input type="checkbox" />
+                              </td>
+                                <td className="text-capitalize text-start text-truncate ">
+                                  #{pagination.from + index + 1}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.adminCode || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.name || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate ">
+                                  {data?.email || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.role || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.mobileNumber || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/view_admin",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/edit_admin",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                            {admin?.length === 0 ? (
+                              <tr>
+                                <td
+                                  className="form-text text-danger"
+                                  colSpan="9"
+                                >
+                                  No data
+                                </td>
+                              </tr>
+                            ) : null}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries    out of 100
+                        </p> 
+                        <Pagination
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+        </div>
+                   
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          </div>
         </div>
       </div>
-      <Dialog >
+
+
+      
+      <Dialog open={open}>
         <DialogContent>
           <div className="text-center m-4">
-            <h5 className="mb-4">
-              Are you sure you want to Delete <br /> the selected Product ?
+            <h5 className="mb-4 text-capitalize">
+              Are you sure you want to Delete <br /> the selected Admin?
             </h5>
             <button
               type="button"
-              className="btn btn-save mx-3">
+              className="btn btn-save btn-danger  text-white   fw-semibold  mx-3"
+              onClick={deleteAdminData}
+              style={{ fontSize: "12px" }}
+            >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel ">
+              className="btn btn-cancel btn-success text-white   fw-semibold  "
+              onClick={closePopup}
+              style={{ fontSize: "12px" }}
+            >
               No
             </button>
           </div>
@@ -200,7 +617,7 @@ export default function ListAgent() {
       <Dialog fullWidth maxWidth="sm">
         <DialogTitle>
           Filter Products
-          <IconButton className="float-right" >
+          <IconButton className="float-right">
             <i className="fa fa-times fa-xs" aria-hidden="true"></i>
           </IconButton>
         </DialogTitle>
@@ -220,7 +637,8 @@ export default function ListAgent() {
               <button
                 type="button"
                 className="btn btn-cancel border text-white float-right bg"
-                style={{ backgroundColor: "#9265cc" }}>
+                style={{ backgroundColor: "#9265cc" }}
+              >
                 Reset
               </button>
               <button
@@ -234,7 +652,6 @@ export default function ListAgent() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
-    </div>
+    </>
   );
 }

@@ -1,19 +1,178 @@
-body{
-    background-color: white;
+/* Import the Plus Jakarta Sans font and Normalize.css to reduce inconsistencies */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap');
+
+/* Reset some common elements to reduce inconsistencies across browsers */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+/* Sidebar Background */
+.sidebar {
+  background-color: #2C3E50 !important; /* Coral background */
+  padding: 10px !important; /* Padding for a more spacious layout */
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+/* Sidebar Styles */
+.sidebar_link {
+  color: #FFFFFF !important; /* White text for contrast with the coral background */
+  text-decoration: none !important; /* Remove underline */
+  display: flex !important; /* For modern browsers */
+  align-items: center !important; /* Center items vertically */
+  padding: 10px 20px !important; /* Adjust padding as needed */
+  font-weight: bold !important;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s !important; /* Smooth transition for hover effects */
+  border-radius: 4px !important; /* Rounded corners for each link */
+}
+
+/* Default and active styles */
+.nav-item .sidebar_link {
+  margin: 0 !important; /* Remove default margin */
+  color: #FFFFFF !important; /* Default text color */
+}
+
+/* Icon styles */
+.nav-icon {
+  margin-right: 8px !important; /* Space between icon and text */
+  color: #FFFFFF !important; /* Default icon color */
+  font-size: 12px !important;
+}
+
+/* Hover styles */
+.sidebar_link:hover {
+  color: #FFFFFF !important; /* White text on hover */
+  background-color: #FF8A80 !important; /* Light coral on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow on hover */
+}
+
+/* Active styles */
+.sidebar_link.active {
+  color: #FFFFFF !important; /* White text for active link */
+  background-color: #231f20 !important; /* Bright red background for active link */
+}
+
+.sidebar_link.active .nav-icon {
+  color: #FFFFFF !important; /* Active icon color */
+}
+
+/* Rotate icon for dropdown */
 .rotate-icon {
-    transform: rotate(90deg);
-    transition: transform 0.1s ease;
+  transform: rotate(90deg) !important;
+  transition: transform 0.1s ease !important; /* Modern browsers */
+  color: #FFFFFF !important;
 }
-/* Add this CSS to your stylesheet */
 
+/* Submenu styles */
+.collapse .nav-item .sidebar_link {
+  padding-left: 32px !important; /* Indent submenu items */
+}
 
+/* Transition for submenu */
+.collapse.show {
+  transition: height 0.3s ease !important;
+}
 
-.nav-link {
-    color: #231f20 !important;
+/* Sidebar when collapsed */
+.main-sidebar.collapsed {
+  width: 80px !important; /* Width when collapsed to show only icons */
+}
+
+.main-sidebar.collapsed .nav-link {
+  padding-left: 0 !important; /* Adjust padding for collapsed state */
+}
+
+.main-sidebar.collapsed .nav-link .nav-text {
+  display: none !important; /* Hide text when collapsed */
+}
+
+.main-sidebar .nav-link {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.main-sidebar .nav-link .nav-text {
+  margin-left: 10px !important; /* Space between icon and text */
+}
+
+.main-sidebar.collapsed .fa-angle-right {
+  display: none !important; /* Hide icon in collapsed state */
+}
+
+/* Toggle button for collapsing the sidebar */
+.sidebar-toggle {
+  position: absolute !important;
+  top: 0px !important;
+  right: 0px !important;
+  cursor: pointer !important;
+}
+
+/* Older browsers fallback */
+.sidebar_link {
+  display: block !important; /* Basic fallback for very old browsers */
+  text-align: left !important;
+}
+
+/* Default margin for content wrapper */
+.content-wrapper {
+  margin-left: 250px !important; /* Default margin when sidebar is expanded */
+  transition: margin-left 0.3s ease !important;
+}
+
+.main-sidebar.collapsed ~ .content-wrapper {
+  margin-left: 80px !important; /* Adjust margin when sidebar is collapsed */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 991px) {
+  .content-wrapper {
+    margin-left: 200px !important; /* Adjust margin for medium screens (tablets) */
   }
 
-.nav-link:hover {
-    color: #fe5722 !important;
-  
+  .main-sidebar.collapsed ~ .content-wrapper {
+    margin-left: 60px !important;
   }
+
+  .main-sidebar {
+    width: 200px !important; /* Adjust sidebar width for medium screens */
+  }
+}
+
+@media (max-width: 767px) {
+  .content-wrapper {
+    margin-left: 0 !important; /* Remove margin for small screens (mobiles) */
+  }
+
+  .main-sidebar.collapsed ~ .content-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .main-sidebar {
+    width: 100% !important; /* Sidebar takes full width on mobile */
+    position: absolute !important;
+    height: auto !important;
+  }
+
+  .main-sidebar.collapsed {
+    width: 0 !important;
+    visibility: hidden !important; /* Hide sidebar when collapsed on mobile */
+  }
+
+  .sidebar-toggle {
+    display: block !important;
+  }
+}
+
+/* Safari-specific adjustments */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+    .sidebar_link {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+  }
+}

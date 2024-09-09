@@ -156,6 +156,7 @@ export default function GlobalSettings() {
   };
   const handleAddModule = () => {
     setInputs( initialStateInputs)
+    setIsEditing(false);
     setSubmitted(false)
     setErrors(initialStateErrors)
 
@@ -261,16 +262,15 @@ export default function GlobalSettings() {
 
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-        <div className='container-fluid'>
-          <nav className='navbar navbar-vertical navbar-expand-lg'>
-            <Mastersidebar />
-          </nav>
-          <div className="content-wrapper " style={{ backgroundColor: '#fff' }}>
-            <div className="content-header">
+     
+         
+            {/* <Mastersidebar /> */}
+        
+        
+            {/* <div className="content-header bg-light shadow-sm sticky-top">
               <div className="container-fluid">
                 <div className="row ">
-                  <div>
+                  <div className='col-xl-12'>
                     <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                       <li className="flex-grow-1">
                         <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -369,7 +369,50 @@ export default function GlobalSettings() {
                         </button>
                       </li>
                       <li className="breadcrumb-item">
-                        <button
+                      
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            <div className="container-fluid ">
+              <div className='row'>
+               {/* <div className='col-md-4'>
+               <div className="card rounded-1 border-0 shadow-sm">
+                  <div className="card-header border-0 bg-white">
+                    <h5 className="card-title fw-semibold" >{isEditing ? "Edit Course Type" : "Add Course Type"}</h5>
+                 
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-3">
+                        <label htmlFor="courseType" className="form-label">Course Type</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="courseType"
+                          name="courseType"
+                          value={inputs.courseType}
+                          onChange={handleInputs}
+                        />
+                        {submitted && errors.courseType.required && (
+                          <div className="text-danger">Course Type is required</div>
+                        )}
+                      </div>
+                      <div className="text-end">
+                        <button type="submit" className="btn btn-primary">{isEditing ? "Update" : "Add"}</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                
+                </div>  */}
+               <div className='col-md-12'>
+               <div className="card rounded-1 border-0 shadow-sm">
+                <div className="card-header d-flex align-items-center" style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+                  <h3 className="card-title flex-grow-1">Course Types</h3>
+                  <button
                           className="btn btn-primary text-white text-center"
                           style={{
                             backgroundColor: "#3498DB",
@@ -385,16 +428,6 @@ export default function GlobalSettings() {
                         >
                        Add CourseType
                         </button>
-                      </li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="container-fluid mt-3">
-              <div className="card">
-                <div className="card-header d-flex align-items-center" style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
-                  <h3 className="card-title flex-grow-1">Course Types</h3>
                 </div>
                 <div className="card-body">
                   <table className="table table-hover text-nowrap">
@@ -452,6 +485,10 @@ export default function GlobalSettings() {
                   </div>
                 </div>
               </div>
+                </div> 
+              </div>
+
+              
             </div>
             <Dialog open={open} onClose={closePopup}>
               <DialogTitle>Confirm Delete</DialogTitle>
@@ -504,9 +541,8 @@ export default function GlobalSettings() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+       
+      
     </div>
   );
 }
