@@ -396,6 +396,19 @@ useEffect(() => {
   //   };
   // }, []);
 
+
+
+  const [statuses, setStatuses] = useState(
+    (program && Array.isArray(program)) ? program.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
   return (
     <>
       <div>
@@ -669,43 +682,28 @@ useEffect(() => {
                   S No
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Title <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterCountryModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                  Title   <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Code
+                  Code  <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  University Name <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterUniversityNameModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                  University Name   <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Application Fees <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterApplicationFeeModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                  Application Fees  <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Course Fees <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterCourseFeeModal">
+                  Course Fees 
+       
         <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+     
+                </th>
+                <th className="text-capitalize text-start sortable-handle">
+                  Status
+       
+        <i className="fa fa-filter" aria-hidden="true"></i>
+     
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
                   Action
@@ -761,6 +759,19 @@ useEffect(() => {
                         ? data?.campuses[0]?.courseFees
                         : "Not Available"}
                     </td>
+                    <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                     <td className="text-capitalize text-start text-truncate">
                       <div className="d-flex">
                         <Link

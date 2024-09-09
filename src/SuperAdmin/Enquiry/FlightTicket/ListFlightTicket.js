@@ -108,6 +108,19 @@ export const ListFlightTicket = () => {
     };
   }, []);
 
+
+  const [statuses, setStatuses] = useState(
+    (flight && Array.isArray(flight)) ? flight.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
+
   return (
     <>
       <Mastersidebar />
@@ -565,7 +578,19 @@ export const ListFlightTicket = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.to || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate"></td>
+                                  <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link

@@ -107,6 +107,18 @@ export const ListLoanEnquiry = () => {
       sortable.destroy();
     };
   }, []);
+  const [statuses, setStatuses] = useState(
+    (loan && Array.isArray(loan)) ? loan.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
+
 
   return (
     <>
@@ -543,7 +555,7 @@ export const ListLoanEnquiry = () => {
                                     )}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentName}
+                                    {data?.studentName }
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.passportNumber}
@@ -563,6 +575,19 @@ export const ListLoanEnquiry = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.assignedTo}
                                   </td>
+                                  <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link

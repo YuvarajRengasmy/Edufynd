@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient } from "../../api/client";
+import { getallClient, deleteClient,updateClient } from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -33,7 +33,8 @@ export default function Masterproductlist() {
     contactNo: "",
     emailID: "",
     gstn: "",
-    status: "",
+    clientStatus: "",
+    
   };
   const [client, setClient] = useState([]);
   const location = useLocation();
@@ -348,14 +349,14 @@ export default function Masterproductlist() {
 
   // filter
   const [showFilter, setShowFilter] = useState({
-    type: false,
+    typeOfClient: false,
     name: false,
     primaryNo: false,
     email: false,
     status: false,
   });
   const [inputValues, setInputValues] = useState({
-    type: '',
+    typeOfClient: '',
     name: '',
     primaryNo: '',
     email: '',
@@ -369,12 +370,7 @@ export default function Masterproductlist() {
   const handleFilterClick = (column) => {
     setShowFilter((prev) => ({ ...prev, [column]: !prev[column] }));
   };
-  const handleFilterToggle = (filterKey) => {
-    setShowFilter((prevState) => ({
-      ...prevState,
-      [filterKey]: !prevState[filterKey],
-    }));
-  };
+  
 
   // Function to handle modal close
   const handleClose = (column) => {
@@ -413,16 +409,60 @@ export default function Masterproductlist() {
 
 
 //status mark
-  const [statuses, setStatuses] = useState(
-    client.reduce((acc, _, index) => ({ ...acc, [index]: false }), {})
-  );
+const [statuses, setStatuses] = useState({});  // Store toggle status
+  
 
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
+  useEffect(() => {
+    // Fetch all clients on component mount
+    const fetchClients = async () => {
+      try {
+        const response = await getallClient();
+        const clientsData = Array.isArray(response.data) ? response.data : [];
+
+        // Initialize statuses based on the fetched client data
+        const initialStatuses = clientsData.reduce((acc, clientData) => {
+          return { ...acc, [clientData._id]: clientData.clientStatus === 'Active' };
+        }, {});
+
+        setClients(clientsData);  // Set clients data
+        setStatuses(initialStatuses);  // Set initial statuses
+      } catch (error) {
+        console.error('Error fetching clients:', error);
+      }
+    };
+
+    fetchClients();
+  }, []);  // Empty dependency array to run once on mount
+
+  // Toggle client status
+  const handleCheckboxChange = async (clientId) => {
+    const currentStatus = statuses[clientId];
+    const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+
+    // Update the local state immediately for a quick UI response
     setStatuses((prevStatuses) => ({
       ...prevStatuses,
-      [index]: !prevStatuses[index],
+      [clientId]: !prevStatuses[clientId],
     }));
+
+    // Prepare the client data to send to the backend
+    const updatedClient = {
+      _id: clientId,
+      clientStatus: updatedStatus,  // Update the status based on toggle
+    };
+
+    try {
+      await updateClient(updatedClient);  // Send update to the backend
+      console.log(`Client ${clientId} status updated to ${updatedStatus}`);
+    } catch (error) {
+      console.error('Error updating client status:', error);
+
+      // Revert the status if there's an error during the update
+      setStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [clientId]: !prevStatuses[clientId],  // Revert the change
+      }));
+    }
   };
 
   return (
@@ -736,13 +776,13 @@ export default function Masterproductlist() {
               <i
                 className="fa fa-filter ms-2"
                 aria-hidden="true"
-                onClick={() => handleFilterClick('type')}
+                onClick={() => handleFilterClick('typeOfClient')}
               />
-              {showFilter.type && (
+              {showFilter.typeOfClient && (
                 <div className="position-absolute bg-white border p-2">
                   <Downshift
-                    inputValue={inputValues.type}
-                    onInputValueChange={(value) => handleInputValueChange('type', value)}
+                    inputValue={inputValues.typeOfClient}
+                    onInputValueChange={(value) => handleInputValueChange('typeOfClient', value)}
                     itemToString={(item) => (item ? item : '')}
                   >
                     {({
@@ -765,7 +805,7 @@ export default function Masterproductlist() {
                           style={{ listStyle: 'none', padding: 0 }}
                         >
                           {isOpen &&
-                            filteredOptions([], 'type').map((item, index) => (
+                            filteredOptions([], 'typeOfClient').map((item, index) => (
                               <li
                                 key={item}
                                 {...getItemProps({
@@ -1061,15 +1101,15 @@ export default function Masterproductlist() {
                               {data?.businessMailID || "Not Available"}
                             </td>
                             <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
+            {statuses[data._id] ? 'Active' : 'Inactive'}
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
                 id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+                checked={statuses[data._id] || false}
+                onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
               />
             </span>
           </td>

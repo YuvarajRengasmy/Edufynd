@@ -107,6 +107,18 @@ export const ListForex = () => {
     };
   }, []);
 
+  const [statuses, setStatuses] = useState(
+    (forex && Array.isArray(forex)) ? forex.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
+
   return (
     <>
       <Mastersidebar />
@@ -548,9 +560,19 @@ export const ListForex = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.assignedTo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.status || "Not Available"}
-                                  </td>
+                                  <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link
