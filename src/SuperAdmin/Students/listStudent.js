@@ -348,6 +348,17 @@ export default function Masterproductlist() {
   }, []);
 
 
+  const [statuses, setStatuses] = useState(
+    (student && Array.isArray(student)) ? student.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
 
 
   return (
@@ -643,8 +654,9 @@ export default function Masterproductlist() {
                   
                      <th className="text-capitalize text-start sortable-handle">Email</th>
                      <th className="text-capitalize text-start  sortable-handle">Mobile Number</th>
-                     <th className="text-capitalize text-start sortable-handle">Status</th>
                      <th className="text-capitalize text-start sortable-handle">Created by</th>
+                     <th className="text-capitalize text-start sortable-handle">Status</th>
+                   
                      <th className="text-capitalize text-start sortable-handle">Action</th>
                    </tr>
                  </thead>
@@ -660,8 +672,21 @@ export default function Masterproductlist() {
                       
                        <td className=" text-start text-truncate">{data?.email}</td>
                        <td className="text-capitalize text-start text-truncate">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null  || "Not Available"}</td>
-                       <td className="text-capitalize text-start text-truncate">{data?.status}</td>
+                       
                        <td className="text-capitalize text-start text-truncate" >{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)  || "Not Available"}</td>
+                       <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
                            <Link

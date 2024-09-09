@@ -292,6 +292,18 @@ export default function Masterproductlist() {
     };
   }, []);
 
+  const [statuses, setStatuses] = useState(
+    (commission && Array.isArray(commission)) ? commission.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
+
   return (
     <>
       <Mastersidebar />
@@ -500,40 +512,19 @@ export default function Masterproductlist() {
                       S No
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      University Name <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterUniversityNameModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                      University Name   <i className="fa fa-filter" aria-hidden="true"></i>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      Country <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterCountryModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                      Country   <i className="fa fa-filter" aria-hidden="true"></i>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      Commission <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterCommissionModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                      Commission   <i className="fa fa-filter" aria-hidden="true"></i>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
-                      Payment Type <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterPaymentTypeModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                      Payment Type   <i className="fa fa-filter" aria-hidden="true"></i>
+                    </th>
+                    <th className="text-capitalize text-start sortable-handle">
+                     Status  <i className="fa fa-filter" aria-hidden="true"></i>
                     </th>
                     <th className="text-capitalize text-start sortable-handle">
                       Action
@@ -555,6 +546,7 @@ export default function Masterproductlist() {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.country || "Not Available"}
                       </td>
+                    
                       <td className="text-capitalize text-start text-truncate">
                         <Link
                           className="dropdown-item"
@@ -576,6 +568,19 @@ export default function Masterproductlist() {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.paymentType || "Not Available"}
                       </td>
+                      <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                       <td>
                         <div className="d-flex">
                           <Link
