@@ -108,6 +108,7 @@ const Header = () => {
                     toast.success("Successfully updated privileges");
                     getUserDetails();
                     modal.current.click(); // Close modal after successful update
+                    navigate("/list_Admin");
                 })
                 .catch((err) => {
                     toast.error(err?.response?.data?.message || "Error updating privileges");
