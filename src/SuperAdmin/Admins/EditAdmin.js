@@ -139,7 +139,10 @@ function EditAdmin() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header">
-          <div className="container-fluid">
+        <CheckBox/>
+        
+        </div>
+        <div className="container-fluid">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
               <div
                 className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
@@ -232,7 +235,7 @@ function EditAdmin() {
                         </div>
                       </div>
                     </div>
-                    <CheckBox/>
+                   
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                       <div className="form-group">
                         <label style={{ color: "#231F20" }}>
@@ -354,7 +357,6 @@ function EditAdmin() {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );
