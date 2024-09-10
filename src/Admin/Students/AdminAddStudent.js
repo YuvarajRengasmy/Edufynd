@@ -261,6 +261,7 @@ export const AdminAddStudent = () => {
     if (handleErrors(newError)) {
       StudentSuperAdmin(student)
         .then((res) => {
+          console.log("kkl", res)
           toast.success(res?.data?.message);
           navigate("/ListStudent");
         })
