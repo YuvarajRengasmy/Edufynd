@@ -28,7 +28,7 @@ import axios from "axios";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import * as XLSX from "xlsx";
 import { Chart, registerables } from 'chart.js';
-
+import Downshift from "downshift";
 Chart.register(...registerables);
 
 export default function Masterproductlist() {
@@ -447,7 +447,21 @@ const chartRef = useRef(null);
   }, []);
 
 //satuses
-  
+
+const [statuses, setStatuses] = useState(
+  (university && Array.isArray(university)) ? university.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+);
+
+// Toggle checkbox status
+const handleCheckboxChange = (index) => {
+  setStatuses((prevStatuses) => ({
+    ...prevStatuses,
+    [index]: !prevStatuses[index],
+  }));
+};
+
+
+//table filter
 
   return (
     <>
@@ -733,11 +747,11 @@ const chartRef = useRef(null);
         <div className="card-body">
           <div className="table-responsive">
             <table
-              className="table table-hover card-table dataTable text-center table-responsive-sm"
+              className="table table-hover card-table dataTable text-center "
               style={{ color: "#9265cc" }}
               ref={tableRef}
             >
-              <thead className="table-light"  style={{ fontSize: "12px" }}>
+              <thead className="table-light"  style={{ fontSize: "11px" }}>
                 <tr>
                 <th className=" text-start">
                             <input type="checkbox" />
@@ -775,7 +789,7 @@ const chartRef = useRef(null);
                   </th>
                 </tr>
               </thead>
-              <tbody  style={{ fontSize: "11px" }}>
+              <tbody  style={{ fontSize: "10px" }}>
                 {university?.map((data, index) => {
                   const isExpanded = !!expandedRows[index];
 
@@ -835,7 +849,7 @@ const chartRef = useRef(null);
                       <td className="text-capitalize text-start text-truncate">
                         {data?.noofApplications||"Not Available"}
                       </td>
-                      {/* <td className="text-capitalize text-start ">
+                      <td className="text-capitalize text-start ">
             {statuses[index] ? 'Active' : 'Inactive'}
             <span className="form-check form-switch d-inline ms-2" >
               <input
@@ -847,7 +861,7 @@ const chartRef = useRef(null);
                 onChange={() => handleCheckboxChange(index)}
               />
             </span>
-          </td> */}
+          </td>
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
                           <OverlayTrigger

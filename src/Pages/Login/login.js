@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Navigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../Utils/Validation';
 import { saveToken, getLoginType } from '../../Utils/storage';
+import FacebookLogin from 'react-facebook-login';
 import { isAuthenticated } from '../../Utils/Auth';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../api/login';
@@ -66,7 +67,7 @@ const Login = () => {
                 };
                 saveToken(data);
                 if (isAuthenticated()) {
-                    navigate("/Student");
+                    navigate("/student_dashboard");
                     window.location.reload(); // Refresh the page
                 }
             }
@@ -77,7 +78,7 @@ const Login = () => {
                 };
                 saveToken(data);
                 if (isAuthenticated()) {
-                    navigate("/Dashboard");
+                    navigate("/dashboard");
                     window.location.reload(); // Refresh the page
                 }
             }
@@ -131,6 +132,11 @@ const Login = () => {
     else  { return <Navigate to="/AgentHome" /> }
   }
 
+  const responseFacebook = (response) => {
+    console.log(response);
+    // You can handle the response here
+    // like storing user data, redirecting, etc.
+  };
   return (
     <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div className="container-fluid ">
@@ -219,10 +225,24 @@ const Login = () => {
                     <hr className="border-0 border-top border-dark" style={{ margin: '0 1rem', flexGrow: '1', borderTop: '1px solid #ccc' }} />
                   </div>
                   <div className='d-flex justify-content-center'>
-                    <Link to='/' className="btn btn-google btn-user btn-block rounded-1  border-0 fw-semibold   w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
+                    <Link to='/' className="btn btn-google btn-user btn-block rounded-1  border-0 fw-semibold h-25   w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
                       <i className="fab fa-google fa-fw" /> &nbsp;Login with Google
                     </Link>
+                    
+                   
                   </div>
+                  <div className="d-flex justify-content-center my-3">
+                  <FacebookLogin
+      appId="521433973800512" // Replace with your Facebook App ID
+      autoLoad={false}
+      fields="name,email,picture"
+      callback={responseFacebook}
+      textButton="Login with Facebook"
+      cssClass="my-facebook-button"
+      className='btn'
+      icon="fa-facebook"
+    />
+                    </div>
                   <div className="row g-3 text-center my-2">
                     <div className="col-md-6 col-sm-12">
                       <Link to='/ForgotPassword'  className="btn  border-0 rounded-1   fw-semibold " style={{ backgroundColor: '#f0f0f0', color: '#231f20',  }}><i className="fa fa-key "></i>&nbsp;Forgot Password</Link>

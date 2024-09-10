@@ -8,12 +8,14 @@ import Edufynd from "../Assests/EduFynd.png";
 import Edufynd_logo from "../Assests/3.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as bootstrap from "bootstrap"; 
-
+import {  getSingleStaff } from "../api/staff";
+import { getStaffId } from "../Utils/storage";
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
+  const [staff, setStaff] = useState(null);
 
   const [activeLink, setActiveLink] = useState(currentPath);
   const [isOpen, setIsOpen] = useState({
@@ -37,7 +39,29 @@ const Sidebar = () => {
   });
 
   const sidebarRefs = useRef({});
+  useEffect(() => {
+    
+    getStaffDetails();
+  }, []);
 
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const modules = staff?.privileges?.map(privilege => privilege.module);  
+ 
   const handleSetActiveLink = (path) => {
     setActiveLink(path);
   };
@@ -379,6 +403,7 @@ const Sidebar = () => {
     {!isCollapsed && "University"}
   </Link>
 </li>
+
 
 
 

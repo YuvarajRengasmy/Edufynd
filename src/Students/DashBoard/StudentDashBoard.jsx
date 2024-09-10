@@ -1,787 +1,293 @@
-import React from "react";
-import { FaPaypal } from "react-icons/fa";
-import { FaCaretDown } from "react-icons/fa";
-import { FaBagShopping } from "react-icons/fa6";
-import { FaMoneyCheckAlt } from "react-icons/fa";
-import { FaWallet } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa6";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { BarChart, Bar } from "recharts";
-import { PieChart, Pie } from "recharts";
-import { AreaChart, Area } from "recharts";
-import { ScatterChart, Scatter } from "recharts";
-import { FaBell } from "react-icons/fa";
-import { IoMdSearch } from "react-icons/io";
-import { FaBars } from "react-icons/fa6";
-import Sidebar from "../../compoents/StudentSidebar";
+import React, { useEffect, useState, useMemo } from "react";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale } from 'chart.js';
+import { Bar, Pie, Line, Radar, Doughnut, PolarArea } from 'react-chartjs-2';
+import Sidebar from '../../compoents/StudentSidebar';
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale);
 
 export const StudentDashBoard = () => {
-  const data1 = [
-    { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-    { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-    { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-    { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-    { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
-  ];
-  const data2 = [
-    { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-    { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-    { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-    { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-    { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
-  ];
-  const data3 = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-    { name: "Group E", value: 278 },
-    { name: "Group F", value: 189 },
-  ];
-  const data5 = [
-    { x: 100, y: 200, z: 200 },
-    { x: 120, y: 100, z: 260 },
-    { x: 170, y: 300, z: 400 },
-    { x: 140, y: 250, z: 280 },
-    { x: 150, y: 400, z: 500 },
-    { x: 110, y: 280, z: 200 },
-  ];
-  const data4 = [
-    { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Page C", uv: -1000, pv: 9800, amt: 2290 },
-    { name: "Page D", uv: 500, pv: 3908, amt: 2000 },
-    { name: "Page E", uv: -2000, pv: 4800, amt: 2181 },
-    { name: "Page F", uv: -250, pv: 3800, amt: 2500 },
-    { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
-  ];
-  const gradientOffset = () => {
-    const dataMax = Math.max(...data4.map((i) => i.uv));
-    const dataMin = Math.min(...data4.map((i) => i.uv));
 
-    if (dataMax <= 0) {
-      return 0;
-    }
-    if (dataMin >= 0) {
-      return 1;
-    }
-
-    return dataMax / (dataMax - dataMin);
+  const barData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [
+      {
+        label: 'Applications Submitted',
+        data: [30, 45, 40, 55, 60, 70],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
   };
-  return (
+  
+  const pieData = {
+    labels: ['USA', 'UK', 'Canada', 'Australia', 'Germany'],
+    datasets: [
+      {
+        label: 'Students by Country',
+        data: [50, 20, 15, 10, 5],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#C70039'],
+      },
+    ],
+  };
+
+  const lineData = {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    datasets: [
+      {
+        label: 'Active Students',
+        data: [15, 20, 25, 30],
+        borderColor: '#742774',
+        backgroundColor: 'rgba(115, 103, 240, 0.2)',
+        fill: true,
+      },
+    ],
+  };
+
+  const radarData = {
+    labels: ['Communication', 'Teamwork', 'Problem-Solving', 'Technical Skills', 'Leadership'],
+    datasets: [
+      {
+        label: 'Skills Assessment',
+        data: [4, 3, 5, 4, 3],
+        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const doughnutData = {
+    labels: ['Full-Time', 'Part-Time', 'Online', 'Distance'],
+    datasets: [
+      {
+        label: 'Programs Offered',
+        data: [25, 15, 30, 20],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+      },
+    ],
+  };
+
+  const polarAreaData = {
+    labels: ['Engineering', 'Business', 'Arts', 'Science', 'Law'],
+    datasets: [
+      {
+        label: 'Popular Majors',
+        data: [120, 90, 70, 80, 60],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#C70039'],
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.dataset.label}: ${context.formattedValue}`,
+        },
+      },
+    },
+  };
+
+  // State for current date and time
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatDate = (date) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const dayName = days[date.getDay()];
+    const day = String(date.getDate()).padStart(2, '0');
+    const monthName = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${dayName}, ${day} ${monthName} ${year}`;
+  };
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString();
+  };
+
+  const DateTimeDisplay = React.memo(({ date }) => (
     <div>
+      <p>{formatDate(date)}, {formatTime(date)}</p>
+    </div>
+  ));
+
+  return (
+    <>
       <Sidebar />
-      <div
-        className="content-wrapper"
-        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-      >
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="container-fluid">
-                <nav className="navbar navbar-expand-lg">
-                  <div className="container">
-                    <button
-                      className="navbar-toggler"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#navbarNav"
-                      aria-controls="navbarNav"
-                      aria-expanded="false"
-                      aria-label="Toggle navigation"
-                    >
-                      <FaBars />
-                    </button>
-
-                    <div className="collapse navbar-collapse  " id="navbarNav">
-                      <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li className="nav-item fw-semibold d-none d-lg-inline">
-                          <form className="d-flex ">
-                            <div className="input-group ">
-                              <input
-                                type="text"
-                                className="form-control  border-warning  rounded-2 "
-                                placeholder="Search"
-                              />
-                              <button
-                                type="submit"
-                                className="btn btn-light rounded-circle border-0 mx-2"
-                              >
-                                <IoMdSearch />
-                              </button>
-                            </div>
-                          </form>
-                        </li>
-                        <li className="nav-item fw-semibold d-none d-lg-inline">
-                          <button
-                            type="button"
-                            className="btn position-relative"
-                          >
-                            <span className="fs-5">
-                              <FaBell />
-                            </span>
-                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                              +99{" "}
-                              <span className="visually-hidden">
-                                unread messages
-                              </span>
-                            </span>
-                          </button>
-                        </li>
-                        <li className="nav-item fw-semibold d-none d-lg-inline">
-                          <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpRIq-fnHHGn5O1_S4UwUSg2-N0suZH5QRs1zx9Ckv-w&s"
-                            alt="user profile"
-                            className=" img-fluid rounded-pill border-0 ms-4"
-                            style={{ width: "40px", height: "40px" }}
-                          />
-                        </li>
-                        <li className="nav-item fw-semibold d-block d-lg-none">
-                          <a className="nav-link active" href="#">
-                            Home
-                          </a>
-                        </li>
-                        <li className="nav-item fw-semibold d-block d-lg-none">
-                          <a className="nav-link" href="#">
-                            About
-                          </a>
-                        </li>
-                        <li className="nav-item fw-semibold d-block d-lg-none">
-                          <a className="nav-link" href="#">
-                            Programs
-                          </a>
-                        </li>
-                        <li className="nav-item fw-semibold d-block d-lg-none">
-                          <a className="nav-link" href="#">
-                            Contact
-                          </a>
-                        </li>
-                        <li className="nav-item fw-semibold d-block d-lg-none">
-                          <a className="nav-link" href="#">
-                            Profile
-                          </a>
-                        </li>
-                        <li className="nav-item fw-semibold d-block d-lg-none">
-                          <a className="nav-link" href="#">
-                            Logout
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </nav>
-                <div className="container-fluid  ">
-                  <div className="row">
-                    <div className=" col-lg-6">
-                      <div
-                        className="card border-0 rounded-3 one shadow "
-                        style={{ width: "100%" }}
-                      >
-                        <div className="card-body px-3 pt-1">
-                          <h5 className="card-title  fw-semibold pt-1 color2 m-2">
-                            Dashboard
-                          </h5>
-                          <div
-                            className="card rounded-2 border-0 py-2 mt-1 px-4 two shadow-lg"
-                            style={{ width: "100%" }}
-                          >
-                            <p className="card-title text-white  pt-2 fw-light ">
-                              03/24
-                            </p>
-                            <p className="card-text text-white fw-normal pt-2 ">
-                              4354 1123 6432 7889
-                            </p>
-                            <p className="card-text text-white pt-2  fw-light">
-                              Card Holder
-                            </p>
-                            <p className="card-text  text-white ">James Lee</p>
-                          </div>
-                          <div className="d-flex justify-content-between mt-1 mx-2 py-2">
-                            <p className="card-title  fw-medium ">Income</p>
-                            <p className="card-title  fw-medium ">See More</p>
-                          </div>
-                          <div className="row mt-1">
-                            <div className=" col-lg-6 mb-2">
-                              <div
-                                className="card border-0 rounded-2 shadow"
-                                style={{ width: "100%" }}
-                              >
-                                <div className="card-body">
-                                  <div className="d-flex justify-content-between">
-                                    <p
-                                      className="card-title fw-medium "
-                                      style={{ color: "#fe5722" }}
-                                    >
-                                      Salary
-                                    </p>
-                                    <span className="color1 bg-light rounded-circle px-2 py-1">
-                                      <FaMoneyCheckAlt />
-                                    </span>
-                                  </div>
-                                  <p className="card-text  fw-semibold pt-4 color2">
-                                    $2,000
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className=" col-lg-6 mb-2">
-                              <div
-                                className="card border-0 rounded-2 shadow"
-                                style={{ width: "100%" }}
-                              >
-                                <div className="card-body">
-                                  <div className="d-flex justify-content-between">
-                                    <p
-                                      className="card-title  fw-medium"
-                                      style={{ color: "#fe5722" }}
-                                    >
-                                      Paypal
-                                    </p>
-                                    <span className="color1 bg-light rounded-circle px-2 py-1">
-                                      <FaPaypal />
-                                    </span>
-                                  </div>
-                                  <p className="card-text  fw-semibold pt-4 color2">
-                                    $12,560.75
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className=" col-lg-6 mb-2">
-                              <div
-                                className="card border-0 rounded-2 shadow"
-                                style={{ width: "100%" }}
-                              >
-                                <div className="card-body">
-                                  <div className="d-flex justify-content-between">
-                                    <p
-                                      className="card-title   fw-medium "
-                                      style={{ color: "#fe5722" }}
-                                    >
-                                      Invoice
-                                    </p>
-                                    <span className="color1 bg-light rounded-circle px-2 py-1">
-                                      <FaWallet />
-                                    </span>
-                                  </div>
-                                  <p className="card-text  fw-semibold pt-4 color2">
-                                    $1,500
-                                    <span className="text-muted fs-6 fw-medium">
-                                      /mo
-                                    </span>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className=" col-lg-6 mb-2">
-                              <div
-                                className="card border-0 rounded-2 shadow"
-                                style={{ width: "100%" }}
-                              >
-                                <div className="card-body">
-                                  <div className="d-flex justify-content-between">
-                                    <p
-                                      className="card-title "
-                                      style={{ color: "#fe5722" }}
-                                    >
-                                      Subscription
-                                    </p>
-                                    <span className="color1 bg-light rounded-circle px-2 py-1">
-                                      <FaYoutube />
-                                    </span>
-                                  </div>
-                                  <p className="card-text  fw-semibold pt-4 color2">
-                                    $2,000
-                                    <span className="text-muted fs-6 fw-medium">
-                                      /mo
-                                    </span>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className="row px-2 ">
-                        <div className="card shadow-lg one border-0 rounded-3  py-1">
-                          <div className="card-body">
-                            <div className="d-flex justify-content-between align-items-start">
-                              <div>
-                                <p className="card-title text-muted fw-semibold">
-                                  My Balance
-                                </p>
-                                <p className=" fw-semibold ">$17,754.00</p>
-                              </div>
-                              <div className="dropdown">
-                                <button
-                                  className="btn btn-light rounded-4 border-0"
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  Monthly <FaCaretDown />
-                                </button>
-                                <ul className="dropdown-menu">
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Daily
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Weekly
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Monthly
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Yearly
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div className="charts">
-                              <div style={{ width: "100%", height: 180 }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                  <LineChart data={data1}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                      dataKey="name"
-                                      padding={{ left: 30, right: 30 }}
-                                    />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Line
-                                      type="monotone"
-                                      dataKey="pv"
-                                      stroke="#8884d8"
-                                      activeDot={{ r: 8 }}
-                                    />
-                                    <Line
-                                      type="monotone"
-                                      dataKey="uv"
-                                      stroke="#82ca9d"
-                                    />
-                                  </LineChart>
-                                </ResponsiveContainer>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row px-2">
-                        <div className="card shadow-lg  one border-0 rounded-2 ">
-                          <div className="card-body">
-                            <div className="d-flex justify-content-between align-items-start">
-                              <div>
-                                <p className="card-title text-muted fw-semibold">
-                                  My Balance
-                                </p>
-                                <p className="fw-semibold three">$17,754.00</p>
-                              </div>
-                              <div className="dropdown">
-                                <button
-                                  className="btn btn-light rounded-4 border-0"
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  Monthly <FaCaretDown />
-                                </button>
-                                <ul className="dropdown-menu">
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Daily
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Weekly
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Monthly
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      Yearly
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-
-                            <div className="charts">
-                              <ResponsiveContainer width="100%" height={180}>
-                                <BarChart data={data2}>
-                                  <CartesianGrid strokeDasharray="3 3" />
-                                  <XAxis dataKey="name" />
-                                  <YAxis />
-                                  <Tooltip />
-                                  <Legend />
-                                  <Bar dataKey="pv" fill="#8884d8" />
-                                  <Bar dataKey="uv" fill="#82ca9d" />
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="container">
-                      <div className="row ">
-                        <div className=" col-lg-6">
-                          <div className="card shadow-lg  one border-0 rounded-2 px-3 py-1">
-                            <div className="card-body">
-                              <div className="d-flex justify-content-between align-items-start">
-                                <div>
-                                  <p className="card-title text-muted fw-semibold">
-                                    My Balance
-                                  </p>
-                                  <p className=" fw-semibold ">$17,754.00</p>
-                                </div>
-                                <div className="dropdown">
-                                  <button
-                                    className="btn btn-light rounded-4 border-0"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                  >
-                                    Monthly <FaCaretDown />
-                                  </button>
-                                  <ul className="dropdown-menu">
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Daily
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Weekly
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Monthly
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Yearly
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                              <div className="charts">
-                                <PieChart width={400} height={150}>
-                                  <Pie
-                                    dataKey="value"
-                                    startAngle={180}
-                                    endAngle={0}
-                                    data={data3}
-                                    cx={180}
-                                    cy={110}
-                                    outerRadius={80}
-                                    fill="#8884d8"
-                                    label
-                                  />
-                                </PieChart>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className=" col-lg-6">
-                          <div className="card shadow-lg  one border-0 rounded-2 px-3 py-1">
-                            <div className="card-body">
-                              <div className="d-flex justify-content-between align-items-start">
-                                <div>
-                                  <p className="card-title text-muted fw-semibold">
-                                    My Balance
-                                  </p>
-                                  <p className=" fw-semibold ">$17,754.00</p>
-                                </div>
-                                <div className="dropdown">
-                                  <button
-                                    className="btn btn-light rounded-4 border-0"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                  >
-                                    Monthly <FaCaretDown />
-                                  </button>
-                                  <ul className="dropdown-menu">
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Daily
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Weekly
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Monthly
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Yearly
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-
-                              <div className="charts"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="container mb-3">
-                      <div className="row">
-                        <div className=" col-lg-6">
-                          <div className="card shadow-lg  one border-0 rounded-2 px-3 py-1">
-                            <div className="card-body">
-                              <div className="d-flex justify-content-between align-items-start">
-                                <div>
-                                  <p className="card-title text-muted fw-semibold">
-                                    My Balance
-                                  </p>
-                                  <p className=" fw-semibold ">$17,754.00</p>
-                                </div>
-                                <div className="dropdown">
-                                  <button
-                                    className="btn btn-light rounded-4 border-0"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                  >
-                                    Monthly <FaCaretDown />
-                                  </button>
-                                  <ul className="dropdown-menu">
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Daily
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Weekly
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Monthly
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a className="dropdown-item" href="#">
-                                        Yearly
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-
-                              <div className="charts">
-                                <ResponsiveContainer width="100%" height={150}>
-                                  <ScatterChart
-                                    margin={{
-                                      top: 20,
-                                      right: 20,
-                                      bottom: 20,
-                                      left: 20,
-                                    }}
-                                  >
-                                    <CartesianGrid />
-                                    <XAxis
-                                      type="number"
-                                      dataKey="x"
-                                      name="stature"
-                                      unit="cm"
-                                    />
-                                    <YAxis
-                                      type="number"
-                                      dataKey="y"
-                                      name="weight"
-                                      unit="kg"
-                                    />
-                                    <Tooltip
-                                      cursor={{ strokeDasharray: "3 3" }}
-                                    />
-                                    <Scatter
-                                      name="A school"
-                                      data={data5}
-                                      fill="#8884d8"
-                                    />
-                                  </ScatterChart>
-                                </ResponsiveContainer>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className=" col-lg-6  ">
-                          <div className="d-flex  justify-content-between align-items-start">
-                            <div className=" fw-semibold  ">
-                              Transcation History
-                            </div>
-                            <div className="float-end px-4">
-                              <div class="dropdown ">
-                                <button
-                                  class="btn btn-light rounded-4 border-0 "
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  Sort by <FaCaretDown />
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a class="dropdown-item" href="#">
-                                      Date
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="#">
-                                      Alphabet
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="#">
-                                      Data Added
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-
-                          <table
-                            className="table  table-hover table-responsive-sm mt-2 bg-white  "
-                            style={{ height: "200px", overflowY: "auto" }}
-                          >
-                            <tbody>
-                              <tr>
-                                <td className="px-4 py-2">
-                                  <span className="color1 bg-light rounded-5 px-2 pt-1 pb-2">
-                                    <FaBagShopping />
-                                  </span>
-                                </td>
-                                <td className="px-3 fw-medium py-2">
-                                  Shopping
-                                </td>
-                                <td className="px-3 text-primary py-2">
-                                  05 June 2021
-                                </td>
-                                <td className="px-3 fw-semibold py-2">$300</td>
-                              </tr>
-                              <tr>
-                                <td className="px-4 py-2">
-                                  <span className="color1 bg-light rounded-5 px-2 pt-1 pb-2">
-                                    <FaBagShopping />
-                                  </span>
-                                </td>
-                                <td className="px-3 fw-medium py-2">Bakery</td>
-                                <td className="px-3 text-primary py-2">
-                                  04 June 2021
-                                </td>
-                                <td className="px-3 fw-semibold py-2">$35</td>
-                              </tr>
-                              <tr>
-                                <td className="px-4 py-2">
-                                  <span className="color1 bg-light rounded-5 px-2 pt-1 pb-2">
-                                    <FaBagShopping />
-                                  </span>
-                                </td>
-                                <td className="px-3 fw-medium py-2">
-                                  Restaurant
-                                </td>
-                                <td className="px-3 text-primary py-2">
-                                  03 June 2021
-                                </td>
-                                <td className="px-3 fw-semibold py-2">$400</td>
-                              </tr>
-                              <tr>
-                                <td className="px-4 py-2">
-                                  <span className="color1 bg-light rounded-5 px-2 pt-1 pb-2">
-                                    <FaBagShopping />
-                                  </span>
-                                </td>
-                                <td className="px-3 fw-medium py-2">
-                                  Shopping
-                                </td>
-                                <td className="px-3 text-primary py-2">
-                                  05 June 2021
-                                </td>
-                                <td className="px-3 fw-semibold py-2">$300</td>
-                              </tr>
-                              <tr>
-                                <td className="px-4 py-2">
-                                  <span className="color1 bg-light rounded-5 px-2 pt-1 pb-2">
-                                    <FaBagShopping />
-                                  </span>
-                                </td>
-                                <td className="px-3 fw-medium py-2">Bakery</td>
-                                <td className="px-3 text-primary py-2">
-                                  04 June 2021
-                                </td>
-                                <td className="px-3 fw-semibold py-2">$35</td>
-                              </tr>
-                              <tr>
-                                <td className="px-4 py-2">
-                                  <span className="color1 bg-light rounded-5 px-2 pt-1 pb-2">
-                                    <FaBagShopping />
-                                  </span>
-                                </td>
-                                <td className="px-3 fw-medium py-2">
-                                  Restaurant
-                                </td>
-                                <td className="px-3 text-primary py-2">
-                                  03 June 2021
-                                </td>
-                                <td className="px-3 fw-semibold py-2">$400</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      <div className="content-wrapper"  style={{fontSize:'12px'}}>
+        <div className='content-header bg-light sticky-top shadow-sm mb-0 pb-0'>
+          <div className='container-fluid mb-0 pb-0'>
+            <div className='row'>
+              <div className='col'>
+                <h6 className="h6">Dashboard</h6>
+                <p className="text-secondary mb-0">
+                  <DateTimeDisplay date={currentDate} />
+                </p>
               </div>
             </div>
           </div>
         </div>
+        
+        <div className='container-fluid mt-4'>
+          <div className='row'>
+            <div className="col-lg-12">
+
+              <div className="row">
+                {/* Applications Submitted */}
+                <section className="col-md-4">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Applications Submitted</div>
+                    <div className="card-body">
+                      <div style={{ height: '200px' }}>
+                        <Bar data={barData} options={chartOptions} />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Students by Country */}
+                <section className="col-md-4">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Students by Country</div>
+                    <div className="card-body">
+                      <div style={{ height: '200px' }}>
+                        <Pie data={pieData} options={chartOptions} />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Active Students */}
+                <section className="col-md-4">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Active Students</div>
+                    <div className="card-body">
+                      <div style={{ height: '200px' }}>
+                        <Line data={lineData} options={chartOptions} />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <div className="row">
+                {/* Skills Assessment */}
+                <section className="col-md-4">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Skills Assessment</div>
+                    <div className="card-body">
+                      <div style={{ height: '200px' }}>
+                        <Radar data={radarData} options={chartOptions} />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Programs Offered */}
+                <section className="col-md-4">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Programs Offered</div>
+                    <div className="card-body">
+                      <div style={{ height: '200px' }}>
+                        <Doughnut data={doughnutData} options={chartOptions} />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Popular Majors (Polar Area) */}
+                <section className="col-md-4">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Popular Majors</div>
+                    <div className="card-body">
+                      <div style={{ height: '200px' }}>
+                        <PolarArea data={polarAreaData} options={chartOptions} />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <div className="row">
+                {/* Enrollment Table */}
+                <section className="col-md-6">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Enrollment Table</div>
+                    <div className="card-body">
+                      <div className="table-responsive">
+                      <table className="table text-nowrap table-hover table-striped ">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Country</th>
+                            <th>Program</th>
+                            <th>Year</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr><td>John Doe</td><td>USA</td><td>Engineering</td><td>2024</td></tr>
+                          <tr><td>Jane Smith</td><td>UK</td><td>Business</td><td>2023</td></tr>
+                          <tr><td>Mike Johnson</td><td>Canada</td><td>Arts</td><td>2025</td></tr>
+                          <tr><td>Emily Davis</td><td>Australia</td><td>Science</td><td>2022</td></tr>
+                        </tbody>
+                      </table>
+                      </div>
+                    
+                    </div>
+                  </div>
+                </section>
+
+                {/* Application Status Table */}
+                <section className="col-md-6">
+                  <div className="card border-0 rounded shadow-sm p-3">
+                    <div className="text-center fw-bolder">Application Status</div>
+                    <div className="card-body">
+                      <div className="table-responsive">
+   <table className="table text-nowrap  table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Application ID</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr><td>AP001</td><td>Processing</td><td>2024-01-15</td></tr>
+                          <tr><td>AP002</td><td>Approved</td><td>2024-02-10</td></tr>
+                          <tr><td>AP003</td><td>Rejected</td><td>2024-03-05</td></tr>
+                          <tr><td>AP004</td><td>Completed</td><td>2024-04-20</td></tr>
+                        </tbody>
+                      </table>
+                      </div>
+                   
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
-export default StudentDashBoard;
+export default StudentDashBoard

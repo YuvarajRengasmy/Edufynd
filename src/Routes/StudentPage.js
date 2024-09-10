@@ -20,17 +20,17 @@ function RegisterPage() {
     <div>
 
       <Routes>
-        <Route path="/Student" element={<PrivateRoute><Home /></PrivateRoute>} />
-        <Route path="/Profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-        <Route path="/Contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
-        <Route path="/About" element={<PrivateRoute><About /></PrivateRoute>} />
-        <Route path="/TrackApplication" element={<PrivateRoute><TrackApplication /></PrivateRoute>} />
+        <Route path="/university_list" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+        <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
+        <Route path="/track_application" element={<PrivateRoute><TrackApplication /></PrivateRoute>} />
         <Route path="/program_list" element={<PrivateRoute><ListPrograms /></PrivateRoute>} />
-        <Route path="/ViewApplication" element={<PrivateRoute><ViewApplication /></PrivateRoute>} />
+        <Route path="/student_view_application" element={<PrivateRoute><ViewApplication /></PrivateRoute>} />
         <Route path="/Faq" element={<PrivateRoute><Faq /></PrivateRoute>} />
-        <Route path="/ViewpageUniversity" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
-        <Route path="/ViewProgramUniversity" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
-        <Route path="/StudentDashboard" element={<PrivateRoute><StudentDashBoard /></PrivateRoute>} />
+        <Route path="/view_page_university" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
+        <Route path="/view_program_university" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
+        <Route path="/student_dashboard" element={<PrivateRoute><StudentDashBoard /></PrivateRoute>} />
       </Routes>
 
     </div>

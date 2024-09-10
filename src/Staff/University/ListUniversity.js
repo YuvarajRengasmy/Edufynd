@@ -17,16 +17,14 @@ import {
   backdropClasses,
   radioClasses,
 } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import {getStaffId } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
-import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
-import * as XLSX from "xlsx";
 import { Chart, registerables } from 'chart.js';
 import { getStaffId } from "../../Utils/storage";
 
@@ -61,9 +59,12 @@ export default function Masterproductlist() {
   });
 
   const [university, setUniversity] = useState();
+  const [staff, setStaff] = useState(null);
+
 
   useEffect(() => {
     getAllUniversityDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
   useEffect(() => {
@@ -78,6 +79,31 @@ export default function Masterproductlist() {
       handleSearch();
     }
   }, [searchValue]);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  // Ensure that staff and privileges are loaded
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  // Safely find the privilege for the 'Student' module
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'university');
+  
+  // Ensure that studentPrivileges is found
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   const getAllUniversityDetails = () => {
     const data = {
@@ -618,7 +644,8 @@ const chartRef = useRef(null);
               </button>
             </Link>
           </li>
-          {/* <li className="m-1">
+          {studentPrivileges?.add && (
+         <li className="m-1">
             <Link to="/add_university">
               <button
                 className="btn border-0 fw-semibold text-white"
@@ -627,7 +654,8 @@ const chartRef = useRef(null);
                 <i className="fa fa-plus-circle me-2" aria-hidden="true"></i> Add University
               </button>
             </Link>
-          </li> */}
+          </li> 
+          )}
         </ul>
       </div>
     </div>
@@ -823,10 +851,7 @@ const chartRef = useRef(null);
                       </td>
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>View</Tooltip>}
-                          >
+                        {studentPrivileges?.view && (
                             <Link
                               className="dropdown-item"
                               to={{
@@ -836,12 +861,10 @@ const chartRef = useRef(null);
                             >
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
-                          </OverlayTrigger>
+                        )}
+                       {studentPrivileges?.edit && (
 
-                          {/* <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>Edit</Tooltip>}
-                          >
+                      
                             <Link
                               className="dropdown-item"
                               to={{
@@ -851,18 +874,16 @@ const chartRef = useRef(null);
                             >
                               <i className="far fa-edit text-warning me-1"></i>
                             </Link>
-                          </OverlayTrigger>
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>Delete</Tooltip>}
-                          >
+                       )}
+                         {studentPrivileges?.delete && (
+                         
                             <button
                               className="dropdown-item"
                               onClick={() => openPopup(data?._id)}
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
-                          </OverlayTrigger> */}
+                         )}
                         </div>
                       </td>
                     </tr>

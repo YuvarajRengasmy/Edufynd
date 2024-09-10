@@ -8,19 +8,18 @@ import Mastersidebar from "../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { formatDate } from "../../Utils/DateFormat";
-
 import { toast } from "react-toastify";
 import { getStudentId, } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
+
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
-
-
+import {getStaffId } from "../../Utils/storage";
 
 
 export default function Masterproductlist() {
 
-
-  const initialStateInputs = {
+    const initialStateInputs = {
     name: "",
     programTitle: "",
     applicationFee: "",
@@ -41,10 +40,11 @@ export default function Masterproductlist() {
     to: pageSize,
   });
 
-  const [student, setStudent] = useState();
-
+  const [student, setStudent] = useState([]);
+  const [staff, setStaff] = useState(null);
   useEffect(() => {
     getAllStudentDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
   const getAllStudentDetails = () => {
@@ -85,6 +85,33 @@ export default function Masterproductlist() {
   const closePopup = () => {
     setOpen(false);
   };
+
+
+const getStaffDetails = () => {
+  const id = getStaffId();
+  getSingleStaff(id)
+    .then((res) => {
+      console.log("yuvi", res);
+      setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+// Ensure that staff and privileges are loaded
+if (!staff || !staff.privileges) {
+  // return null; // or a loading spinner
+}
+
+// Safely find the privilege for the 'Student' module
+const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'student');
+
+// Ensure that studentPrivileges is found
+if (!studentPrivileges) {
+  // return null; // or handle the case where there's no 'Student' module privilege
+}
+
   const deleteStudentData = () => {
     deleteStudent (deleteId)
       .then((res) => {
@@ -347,10 +374,7 @@ export default function Masterproductlist() {
     };
   }, []);
 
-  // const userPrivileges = {
-  //   view: true, // or false, depending on what the superadmin has set
-  //   edit: false, // or true, depending on what the superadmin has set
-  // };
+  
   
 
   return (
@@ -500,16 +524,20 @@ export default function Masterproductlist() {
               </button>
             </Link>
           </li>
-          <li className="m-0">
-            <Link className="btn btn-pix-primary border-0 rounded-1" to="/staff_add_student">
-              <button
-                className="btn fw-semibold rounded-1 border-0 text-white"
-                style={{ backgroundColor: "#231f20", fontSize: '12px' }}
-              >
-                <i className="fa fa-plus-circle me-1" aria-hidden="true"></i> Add Student
-              </button>
-            </Link>
-          </li>
+          {studentPrivileges?.add && (
+              <li className="m-0">
+              <Link className="btn btn-pix-primary border-0 rounded-1" to="/staff_add_student">
+                <button
+                  className="btn fw-semibold rounded-1 border-0 text-white"
+                  style={{ backgroundColor: "#231f20", fontSize: '12px' }}
+                >
+                  <i className="fa fa-plus-circle me-1" aria-hidden="true"></i> Add Student
+                </button>
+              </Link>
+            </li>
+     
+    )}
+        
         </ol>
       </div>
     </div>
@@ -668,29 +696,29 @@ export default function Masterproductlist() {
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
                         
-                         {/* {userPrivileges.view && ( */}
-  <Link
-    className="dropdown-item"
-    to={{
-      pathname: "/staff_view_student",
-      search: `?id=${data?._id}`,
-    }}
-  >
-    <i className="far fa-eye text-primary me-1"></i>
-  </Link>
-{/* )} */}
+                         {studentPrivileges?.view && (
+      <Link
+        className="dropdown-item"
+        to={{
+          pathname: "/staff_view_student",
+          search: `?id=${data?._id}`,
+        }}
+      >
+        <i className="far fa-eye text-primary me-1"></i>
+      </Link>
+    )}
 
-{/* {userPrivileges.edit && ( */}
-  <Link
-    className="dropdown-item"
-    to={{
-      pathname: "/staff_edit_student",
-      search: `?id=${data?._id}`,
-    }}
-  >
-    <i className="far fa-edit text-warning me-1"></i>
-  </Link>
-{/* )} */}
+    {studentPrivileges?.edit && (
+      <Link
+        className="dropdown-item"
+        to={{
+          pathname: "/staff_edit_student",
+          search: `?id=${data?._id}`,
+        }}
+      >
+        <i className="far fa-edit text-warning me-1"></i>
+      </Link>
+    )}
 
                            {/* <Link
                              className="dropdown-item"

@@ -21,7 +21,8 @@ import Mastersidebar from "../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import {getStaffId } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 
@@ -43,6 +44,7 @@ export default function Masterproductlist() {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [staff, setStaff] = useState(null);
 
   const pageSize = 10;
   const search = useRef(null);
@@ -56,6 +58,7 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getAllProgaramDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
   useEffect(() => {
@@ -70,6 +73,28 @@ useEffect(() => {
         handleSearch()
     }
 }, [searchValue])
+
+const getStaffDetails = () => {
+  const id = getStaffId();
+  getSingleStaff(id)
+    .then((res) => {
+      console.log("yuvi", res);
+      setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+if (!staff || !staff.privileges) {
+  // return null; // or a loading spinner
+}
+
+const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'program');
+
+if (!studentPrivileges) {
+  // return null; // or handle the case where there's no 'Student' module privilege
+}
 
   const getAllProgaramDetails = () => {
     const data = {
@@ -558,7 +583,8 @@ useEffect(() => {
               </button>
             </Link>
           </li>
-          {/* <li className="m-0">
+          {studentPrivileges?.add && (
+          <li className="m-0">
             <Link className="btn btn-pix-primary border-0" to="/add_program">
               <button
                 className="btn rounded-1 fw-semibold border-0 text-white"
@@ -568,7 +594,9 @@ useEffect(() => {
                 Add Program
               </button>
             </Link>
-          </li> */}
+            
+          </li>
+          )}
         </ol>
       </div>
     </div>
@@ -739,6 +767,7 @@ useEffect(() => {
                     </td>
                     <td className="text-capitalize text-start text-truncate">
                       <div className="d-flex">
+                      {studentPrivileges?.view && (
                         <Link
                           className="dropdown-item"
                           to={{
@@ -748,7 +777,9 @@ useEffect(() => {
                         >
                           <i className="far fa-eye text-primary me-1"></i>
                         </Link>
-                        {/* <Link
+                      )}
+                       {studentPrivileges?.edit && (
+                        <Link
                           className="dropdown-item"
                           to={{
                             pathname: "/edit_program",
@@ -757,6 +788,8 @@ useEffect(() => {
                         >
                           <i className="far fa-edit text-warning me-1"></i>
                         </Link>
+                       )}
+                        {studentPrivileges?.delete && (
                         <Link
                           className="dropdown-item"
                           onClick={() => {
@@ -764,7 +797,8 @@ useEffect(() => {
                           }}
                         >
                           <i className="far fa-trash-alt text-danger me-1"></i>
-                        </Link> */}
+                        </Link>
+                        )}
                       </div>
                     </td>
                   </tr>

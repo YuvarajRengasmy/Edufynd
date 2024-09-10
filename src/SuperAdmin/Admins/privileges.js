@@ -19,11 +19,7 @@ const Header = () => {
 
     const [privileges, setPrivileges] = useState([initialStatePrivilege]);
     const [errors, setErrors] = useState([initialStatePrivilegesErrors]);
-    const [isTasksCollapsed, setIsTasksCollapsed] = useState({
-        university: true,
-        client: true,
-        program: true
-    });
+    const [isTasksCollapsed, setIsTasksCollapsed] = useState({ });
     const [selectedModule, setSelectedModule] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const modal = useRef(null);
@@ -112,6 +108,7 @@ const Header = () => {
                     toast.success("Successfully updated privileges");
                     getUserDetails();
                     modal.current.click(); // Close modal after successful update
+                    navigate("/list_Admin");
                 })
                 .catch((err) => {
                     toast.error(err?.response?.data?.message || "Error updating privileges");
@@ -122,22 +119,22 @@ const Header = () => {
     return (
         <>
             <div>
-                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label style={{ color: "#231F20" }}>
+                <div className="col-12">
+                    {/* <label style={{ color: "#231F20" }}>
                         Privileges/Rights <span className="text-danger">*</span>
-                    </label>
+                    </label> */}
                     <button
                         type="button"
-                        style={{ backgroundColor: "#fff", fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-                        className="form-select form-select-lg rounded-1"
+                        style={{  fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                        className="btn rounded-1  btn-dark fw-semibold"
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
-                        Privileges
+                       Set Privileges
                     </button>
                 </div>
 
                 <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-xl">
+                    <div className="modal-dialog modal-xl modal-dialog-scrollable">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h1 className="modal-title fs-5" id="exampleModalLabel">Privileges</h1>
@@ -146,7 +143,7 @@ const Header = () => {
                             <div className="modal-body">
                                 <div>
                                     <div className="row">
-                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                        <div className="col-lg-6">
                                             <label style={{ color: "#231F20" }}>
                                                 Select Module 
                                             </label>
@@ -157,7 +154,14 @@ const Header = () => {
                                                     id="universityCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'university'}
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'university')?.view || 
+                                                        privileges.find(priv => priv.module === 'university')?.edit || 
+                                                        privileges.find(priv => priv.module === 'university')?.delete || 
+                                                        privileges.find(priv => priv.module === 'university')?.add || 
+                                                        selectedModule === 'university'
+                                                    }
+                                                    
                                                 />
                                                 <label className="form-check-label" htmlFor="universityCheckbox">
                                                     University
@@ -169,6 +173,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'university')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -214,7 +229,14 @@ const Header = () => {
                                                     id="clientCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'client'}
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'client')?.view || 
+                                                        privileges.find(priv => priv.module === 'client')?.edit || 
+                                                        privileges.find(priv => priv.module === 'client')?.delete || 
+                                                        privileges.find(priv => priv.module === 'client')?.add || 
+                                                        selectedModule === 'client'
+                                                    }
+                                                    
                                                 />
                                                 <label className="form-check-label" htmlFor="clientCheckbox">
                                                     Client
@@ -225,6 +247,18 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                    
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'client')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -270,7 +304,14 @@ const Header = () => {
                                                     id="programCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'program'}
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'program')?.view || 
+                                                        privileges.find(priv => priv.module === 'program')?.edit || 
+                                                        privileges.find(priv => priv.module === 'program')?.delete || 
+                                                        privileges.find(priv => priv.module === 'program')?.add || 
+                                                        selectedModule === 'program'
+                                                    }
+                                                    
                                                 />
                                                 <label className="form-check-label" htmlFor="programCheckbox">
                                                     Program
@@ -281,6 +322,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'program')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -318,6 +370,8 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -325,7 +379,14 @@ const Header = () => {
                                                     id="commissionCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'commission'}
+                                                    
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'commission')?.view || 
+                                                        privileges.find(priv => priv.module === 'commission')?.edit || 
+                                                        privileges.find(priv => priv.module === 'commission')?.delete || 
+                                                        privileges.find(priv => priv.module === 'commission')?.add || 
+                                                        selectedModule === 'commission'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="commissionCheckbox">
@@ -337,6 +398,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'commission')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -374,6 +446,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <label style={{ color: "#231F20" }}>
                                                 Select User
                                             </label>
@@ -384,7 +459,14 @@ const Header = () => {
                                                     id="studentCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'student'}
+                                                   
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'student')?.view || 
+                                                        privileges.find(priv => priv.module === 'student')?.edit || 
+                                                        privileges.find(priv => priv.module === 'student')?.delete || 
+                                                        privileges.find(priv => priv.module === 'student')?.add || 
+                                                        selectedModule === 'student'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="studentCheckbox">
@@ -396,7 +478,19 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'student')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
+
                                                                 <input
                                                                     className="form-check-input"
                                                                     type="checkbox"
@@ -433,6 +527,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -440,7 +537,14 @@ const Header = () => {
                                                     id="staffCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'staff'}
+                                                    
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'staff')?.view || 
+                                                        privileges.find(priv => priv.module === 'staff')?.edit || 
+                                                        privileges.find(priv => priv.module === 'staff')?.delete || 
+                                                        privileges.find(priv => priv.module === 'staff')?.add || 
+                                                        selectedModule === 'staff'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="staffCheckbox">
@@ -452,6 +556,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'staff')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -489,6 +604,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -496,7 +614,14 @@ const Header = () => {
                                                     id="agentCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'agent'}
+                                                    
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'agent')?.view || 
+                                                        privileges.find(priv => priv.module === 'agent')?.edit || 
+                                                        privileges.find(priv => priv.module === 'agent')?.delete || 
+                                                        privileges.find(priv => priv.module === 'agent')?.add || 
+                                                        selectedModule === 'agent'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="agentCheckbox">
@@ -508,6 +633,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'agent')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -545,9 +681,14 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
                                             <label style={{ color: "#231F20" }}>
                                                 Application Process
                                             </label>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -555,11 +696,18 @@ const Header = () => {
                                                     id="applicationCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'application'}
+                                                   
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'application')?.view || 
+                                                        privileges.find(priv => priv.module === 'application')?.edit || 
+                                                        privileges.find(priv => priv.module === 'application')?.delete || 
+                                                        privileges.find(priv => priv.module === 'application')?.add || 
+                                                        selectedModule === 'application'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="applicationCheckbox">
-                                                application
+                                                Application
                                                 </label>
                                                 <Collapse in={!isTasksCollapsed.application}>
                                                     <div className='col-xl-8 col-lg-6 col-md-6 col-sm-12 mt-3'>
@@ -567,6 +715,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'application')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -608,10 +767,11 @@ const Header = () => {
                                           
 
                                         </div>
-                                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                        <div className="col-lg-6">
                                             <label style={{ color: "#231F20" }}>
                                                 Enquiry Process
                                             </label>
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -619,7 +779,14 @@ const Header = () => {
                                                     id="studentEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'studentEnquiry'}
+                                                    
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'studentEnquiry')?.view || 
+                                                        privileges.find(priv => priv.module === 'studentEnquiry')?.edit || 
+                                                        privileges.find(priv => priv.module === 'studentEnquiry')?.delete || 
+                                                        privileges.find(priv => priv.module === 'studentEnquiry')?.add || 
+                                                        selectedModule === 'studentEnquiry'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="studentEnquiryCheckbox">
@@ -631,6 +798,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'studentEnquiry')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -668,6 +846,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -675,7 +856,14 @@ const Header = () => {
                                                     id="forexEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'forexEnquiry'}
+                                                  
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'forexEnquiry')?.view || 
+                                                        privileges.find(priv => priv.module === 'forexEnquiry')?.edit || 
+                                                        privileges.find(priv => priv.module === 'forexEnquiry')?.delete || 
+                                                        privileges.find(priv => priv.module === 'forexEnquiry')?.add || 
+                                                        selectedModule === 'forexEnquiry'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="forexEnquiryCheckbox">
@@ -687,6 +875,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'forexEnquiry')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -724,6 +923,10 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -731,7 +934,14 @@ const Header = () => {
                                                     id="accommodationEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'accommodationEnquiry'}
+                                                   
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'accommodationEnquiry')?.view || 
+                                                        privileges.find(priv => priv.module === 'accommodationEnquiry')?.edit || 
+                                                        privileges.find(priv => priv.module === 'accommodationEnquiry')?.delete || 
+                                                        privileges.find(priv => priv.module === 'accommodationEnquiry')?.add || 
+                                                        selectedModule === 'accommodationEnquiry'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="accommodationEnquiryCheckbox">
@@ -743,6 +953,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'accommodationEnquiry')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -780,6 +1001,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -787,7 +1011,14 @@ const Header = () => {
                                                     id="flightEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'flightEnquiry'}
+                                                   
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'flightEnquiry')?.view || 
+                                                        privileges.find(priv => priv.module === 'flightEnquiry')?.edit || 
+                                                        privileges.find(priv => priv.module === 'flightEnquiry')?.delete || 
+                                                        privileges.find(priv => priv.module === 'flightEnquiry')?.add || 
+                                                        selectedModule === 'flightEnquiry'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="flightEnquiryCheckbox">
@@ -799,6 +1030,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'flightEnquiry')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -836,6 +1078,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -843,7 +1088,14 @@ const Header = () => {
                                                     id="loanEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'loanEnquiry'}
+                                                   
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'loanEnquiry')?.view || 
+                                                        privileges.find(priv => priv.module === 'loanEnquiry')?.edit || 
+                                                        privileges.find(priv => priv.module === 'loanEnquiry')?.delete || 
+                                                        privileges.find(priv => priv.module === 'loanEnquiry')?.add || 
+                                                        selectedModule === 'loanEnquiry'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="loanEnquiryCheckbox">
@@ -855,6 +1107,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'loanEnquiry')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -892,6 +1155,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -899,7 +1165,14 @@ const Header = () => {
                                                     id="businessEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'businessEnquiry'}
+                                                    
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'businessEnquiry')?.view || 
+                                                        privileges.find(priv => priv.module === 'businessEnquiry')?.edit || 
+                                                        privileges.find(priv => priv.module === 'businessEnquiry')?.delete || 
+                                                        privileges.find(priv => priv.module === 'businessEnquiry')?.add || 
+                                                        selectedModule === 'businessEnquiry'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="businessEnquiryCheckbox">
@@ -911,6 +1184,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'businessEnquiry')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -948,6 +1232,9 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
+
+
+
                                             <div className="form-check mb-3">
                                                 <input
                                                     className="form-check-input"
@@ -955,7 +1242,14 @@ const Header = () => {
                                                     id="generalEnquiryCheckbox"
                                                     name="module"
                                                     onChange={handleCheckboxChange}
-                                                    checked={selectedModule === 'generalEnquiry'}
+                                                    
+                                                    checked={
+                                                        privileges.find(priv => priv.module === 'generalEnquiry')?.view || 
+                                                        privileges.find(priv => priv.module === 'generalEnquiry')?.edit || 
+                                                        privileges.find(priv => priv.module === 'generalEnquiry')?.delete || 
+                                                        privileges.find(priv => priv.module === 'generalEnquiry')?.add || 
+                                                        selectedModule === 'generalEnquiry'
+                                                    }
                                                     
                                                 />
                                                 <label className="form-check-label" htmlFor="generalEnquiryCheckbox">
@@ -967,6 +1261,17 @@ const Header = () => {
                                                             Permissions <span className="text-danger">*</span>
                                                         </label>
                                                         <div className="form-group mt-2">
+                                                        <div className="form-check form-check-inline">
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id="addPermission"
+                                                                    name="add"
+                                                                    checked={privileges.find(priv => priv.module === 'generalEnquiry')?.add || false}
+                                                                    onChange={handlePermissionChange}
+                                                                />
+                                                                <label className="form-check-label" htmlFor="addPermission">Add</label>
+                                                            </div>
                                                             <div className="form-check form-check-inline">
                                                                 <input
                                                                     className="form-check-input"
@@ -1004,7 +1309,10 @@ const Header = () => {
                                                     </div>
                                                 </Collapse>
                                             </div>
-                                            <label style={{ color: "#231F20" }}>
+
+
+
+                                            {/* <label style={{ color: "#231F20" }}>
                                                 Social Media
                                             </label>
                                             <div className="form-check mb-3">
@@ -1286,7 +1594,7 @@ const Header = () => {
                                                         </div>
                                                     </div>
                                                 </Collapse>
-                                            </div>
+                                            </div> */}
 
                                         </div>
                                     </div>

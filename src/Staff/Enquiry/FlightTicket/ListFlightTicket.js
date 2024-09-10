@@ -20,7 +20,8 @@ import Mastersidebar from "../../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 
 export const ListFlightTicket = () => {
@@ -37,11 +38,36 @@ export const ListFlightTicket = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [staff, setStaff] = useState(null);
 
   useEffect(() => {
     getAllFlightDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
+
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'flightEnquiry');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const getAllFlightDetails = () => {
     const data = {
       limit: 10,
@@ -329,6 +355,7 @@ export const ListFlightTicket = () => {
                       </span>
                     </Link>
                   </li>
+                  {studentPrivileges?.add && (
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/staff_add_flight_ticket">
                       <button
@@ -347,6 +374,7 @@ export const ListFlightTicket = () => {
                       </button>
                     </Link>
                   </li>
+                  )}
                 </ol>
               </div>
             </div>
@@ -568,6 +596,7 @@ export const ListFlightTicket = () => {
                                   <td className="text-capitalize text-start text-truncate"></td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
+                                    {studentPrivileges?.view && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -577,6 +606,8 @@ export const ListFlightTicket = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
+                                    )}
+                                      {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -586,14 +617,17 @@ export const ListFlightTicket = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                      {/* <button
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                      <button
                                         className="dropdown-item"
                                         onClick={() => {
                                           openPopup(data?._id);
                                         }}
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </button> */}
+                                      </button>
+                                      )}
                                     </div>
                                   </td>
                                 </tr>
