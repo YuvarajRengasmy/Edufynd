@@ -445,6 +445,10 @@ const chartRef = useRef(null);
       }
     };
   }, []);
+
+//satuses
+  
+
   return (
     <>
       <div>
@@ -745,49 +749,26 @@ const chartRef = useRef(null);
                     Code
                   </th>
                   <th className="text-capitalize text-start sortable-handle">
-                    Name   <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterNameModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                    Name    <i className="fa fa-filter" aria-hidden="true"></i>
                   </th>
                   <th className="text-capitalize text-start sortable-handle">
-                    Country  <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterCountryModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                    Country   <i className="fa fa-filter" aria-hidden="true"></i>
                   </th>
                   <th className="text-capitalize text-start sortable-handle">
-                    Campus  <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterCampusModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                    Campus   <i className="fa fa-filter" aria-hidden="true"></i>
                   </th>
                   <th className="text-capitalize text-start sortable-handle">
-                    Popular Categories  <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterCategoriesModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+                    Popular Categories  <i className="fa fa-filter" aria-hidden="true"></i>
                   </th>
                   <th className="text-capitalize text-start sortable-handle">
-                    App  <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterAppModal">
+                    Application 
         <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
+      
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    status  
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      
                   </th>
                   <th className="text-capitalize text-start sortable-handle">
                     Action
@@ -854,6 +835,19 @@ const chartRef = useRef(null);
                       <td className="text-capitalize text-start text-truncate">
                         {data?.noofApplications||"Not Available"}
                       </td>
+                      {/* <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td> */}
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
                           <OverlayTrigger
@@ -935,96 +929,7 @@ const chartRef = useRef(null);
 </div>
 
 
-<div className="modal fade" id="filterCountryModal" tabIndex="-1" aria-labelledby="filterTypeModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterTypeModalLabel">Filter by Country</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-     
-        <input type="text" className="form-control" placeholder="Enter Country "/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterNameModal" tabIndex="-1" aria-labelledby="filterNameModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterNameModalLabel">Filter by Name</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-       
-        <input type="text" className="form-control" placeholder="Enter name "/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterCampusModal" tabIndex="-1" aria-labelledby="filterPrimaryNoModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterPrimaryNoModalLabel">Filter by Campus</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        
-        <input type="text" className="form-control" placeholder="Enter Campus "/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterCategoriesModal" tabIndex="-1" aria-labelledby="filterEmailIDModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterEmailIDModalLabel">Filter by Popular Categories</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-     
-        <input type="email" className="form-control" placeholder="Enter popular Categories "/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterAppModal" tabIndex="-1" aria-labelledby="filterStatusModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterStatusModalLabel">Filter by Status</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-       
-        <input type="text" className="form-control" placeholder="Enter status "/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
           
         </div>

@@ -17,7 +17,8 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-
+import {getFilterClient} from '../../api/client'
+import Downshift from "downshift";
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
@@ -332,16 +333,96 @@ export default function Masterproductlist() {
 
 
 
-  const [showFilter, setShowFilter] = useState({});
+  // const [showFilter, setShowFilter] = useState({});
+
+  // // Function to handle filter modal display
+  // const handleFilterClick = (column) => {
+  //   setShowFilter({ ...showFilter, [column]: true });
+  // };
+
+  // // Function to handle modal close
+  // const handleClose = (column) => {
+  //   setShowFilter({ ...showFilters, [column]: false });
+  // };
+
+
+  // filter
+  const [showFilter, setShowFilter] = useState({
+    type: false,
+    name: false,
+    primaryNo: false,
+    email: false,
+    status: false,
+  });
+  const [inputValues, setInputValues] = useState({
+    type: '',
+    name: '',
+    primaryNo: '',
+    email: '',
+    status: '',
+  });
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Function to handle filter modal display
   const handleFilterClick = (column) => {
-    setShowFilter({ ...showFilter, [column]: true });
+    setShowFilter((prev) => ({ ...prev, [column]: !prev[column] }));
+  };
+  const handleFilterToggle = (filterKey) => {
+    setShowFilter((prevState) => ({
+      ...prevState,
+      [filterKey]: !prevState[filterKey],
+    }));
   };
 
   // Function to handle modal close
   const handleClose = (column) => {
-    setShowFilter({ ...showFilter, [column]: false });
+    setShowFilter((prev) => ({ ...prev, [column]: false }));
+  };
+
+  // Handle input value changes for each filter
+  const handleInputValueChange = (filterKey, value) => {
+    setInputValues((prev) => ({ ...prev, [filterKey]: value }));
+  };
+
+  // Fetch filtered data
+  const fetchFilteredClients = async () => {
+    setLoading(true);
+    try {
+      const response = await getFilterClient(inputValues);
+      setClients(response.data); // Assuming the data is in response.data
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFilteredClients(); // Fetch data when filters change
+  }, [inputValues]);
+
+  // Function to filter options based on the search input
+  const filteredOptions = (options, filterKey) => {
+    return options.filter(option =>
+      option.toLowerCase().includes(inputValues[filterKey].toLowerCase())
+    );
+  };
+  
+
+
+//status mark
+  const [statuses, setStatuses] = useState(
+    client.reduce((acc, _, index) => ({ ...acc, [index]: false }), {})
+  );
+
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
   };
 
   return (
@@ -641,76 +722,310 @@ export default function Masterproductlist() {
                       style={{ color: "#9265cc" }} // Existing color code
                       ref={tableRef}
                     >
-                     <thead className="table-light" style={{ fontSize: "12px" }}>
-  <tr>
-    <th className="text-start">
-      <input type="checkbox" />
-    </th>
-    <th className="text-capitalize text-start">S No</th>
-    <th className="text-capitalize text-start">Code</th>
-    <th className="text-capitalize text-start">
-      Type 
-      <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterTypeModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
-    </th>
-   
-    <th className="text-capitalize text-start">
-      Name 
-      <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterNameModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
-    </th>
+               <thead className="table-light" style={{ fontSize: '12px' }}>
+          <tr>
+            <th className="text-start">
+              <input type="checkbox" />
+            </th>
+            <th className="text-capitalize text-start">S No</th>
+            <th className="text-capitalize text-start">Code</th>
 
-   
-    <th className="text-capitalize text-start">
-      Primary No 
-      <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterPrimaryNoModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
-    </th>
+            {/* Filterable Columns */}
+            <th className="text-capitalize text-start">
+              Type
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('type')}
+              />
+              {showFilter.type && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.type}
+                    onInputValueChange={(value) => handleInputValueChange('type', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Type',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'type').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
 
-   
-    <th className="text-capitalize text-start">
-      Email ID 
-      <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterEmailIDModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
-    </th>
-   
-    <th className="text-capitalize text-start">
-      Status 
-      <button 
-        type="button" 
-        className="btn btn-link p-0 m-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#filterStatusModal">
-        <i className="fa fa-filter" aria-hidden="true"></i>
-      </button>
-    </th>
+            <th className="text-capitalize text-start">
+              Name
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('name')}
+              />
+              {showFilter.name && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.name}
+                    onInputValueChange={(value) => handleInputValueChange('name', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Name',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'name').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
 
-    <th className="text-capitalize text-start">
-      Action  
-     
-    </th>
-  </tr>
-</thead>
+            <th className="text-capitalize text-start">
+              Primary No
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('primaryNo')}
+              />
+              {showFilter.primaryNo && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.primaryNo}
+                    onInputValueChange={(value) => handleInputValueChange('primaryNo', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Primary No',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'primaryNo').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+
+            <th className="text-capitalize text-start">
+              Email ID
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('email')}
+              />
+              {showFilter.email && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.email}
+                    onInputValueChange={(value) => handleInputValueChange('email', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Email ID',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-grop"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions([], 'email').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+
+            <th className="text-capitalize text-start">
+              Status
+              <i
+                className="fa fa-filter ms-2"
+                aria-hidden="true"
+                onClick={() => handleFilterClick('status')}
+              />
+              {showFilter.status && (
+                <div className="position-absolute bg-white border p-2">
+                  <Downshift
+                    inputValue={inputValues.status}
+                    onInputValueChange={(value) => handleInputValueChange('status', value)}
+                    itemToString={(item) => (item ? item : '')}
+                  >
+                    {({
+                      getInputProps,
+                      getItemProps,
+                      getMenuProps,
+                      isOpen,
+                      highlightedIndex,
+                    }) => (
+                      <div className="d-inline-block position-relative">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Status',
+                            className: 'form-control form-control-sm mb-2',
+                          })}
+                        />
+                        <ul
+                          {...getMenuProps()}
+                          className="list-group"
+                          style={{ listStyle: 'none', padding: 0 }}
+                        >
+                          {isOpen &&
+                            filteredOptions(['Active', 'Inactive'], 'status').map((item, index) => (
+                              <li
+                                key={item}
+                                {...getItemProps({
+                                  index,
+                                  item,
+                                  className: `list-group-item ${
+                                    highlightedIndex === index
+                                      ? 'bg-primary text-white'
+                                      : ''
+                                  }`,
+                                })}
+                              >
+                                {item}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </Downshift>
+                </div>
+              )}
+            </th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+
+
           
 
                       <tbody style={{ fontSize: "11px" }}>
@@ -745,9 +1060,19 @@ export default function Masterproductlist() {
                             <td className="text-start">
                               {data?.businessMailID || "Not Available"}
                             </td>
-                            <td className="text-capitalize text-start">
-                              {data?.status || "Not Available"}
-                            </td>
+                            <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                             <td className="text-capitalize text-start">
                               <div className="d-flex justify-content-evenly align-items-center">
                                 <Link
@@ -818,96 +1143,7 @@ export default function Masterproductlist() {
         </div>
 
 
-        <div className="modal fade" id="filterTypeModal" tabIndex="-1" aria-labelledby="filterTypeModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterTypeModalLabel">Filter by Type</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-     
-        <input type="text" className="form-control" placeholder="Enter type to filter"/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterNameModal" tabIndex="-1" aria-labelledby="filterNameModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterNameModalLabel">Filter by Name</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-       
-        <input type="text" className="form-control" placeholder="Enter name to filter"/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterPrimaryNoModal" tabIndex="-1" aria-labelledby="filterPrimaryNoModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterPrimaryNoModalLabel">Filter by Primary No</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        
-        <input type="text" className="form-control" placeholder="Enter primary number to filter"/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterEmailIDModal" tabIndex="-1" aria-labelledby="filterEmailIDModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterEmailIDModalLabel">Filter by Email ID</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-     
-        <input type="email" className="form-control" placeholder="Enter email ID to filter"/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div className="modal fade" id="filterStatusModal" tabIndex="-1" aria-labelledby="filterStatusModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="filterStatusModalLabel">Filter by Status</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-       
-        <input type="text" className="form-control" placeholder="Enter status to filter"/>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Apply Filter</button>
-      </div>
-    </div>
-  </div>
-</div>
+  
         
 
 
