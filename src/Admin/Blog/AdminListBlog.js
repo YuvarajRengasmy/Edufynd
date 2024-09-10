@@ -240,7 +240,7 @@ export const AdminListBlog = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddBlog">
+                      <Link class="btn btn-pix-primary" to="/agent_admin_add_blog">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -317,7 +317,7 @@ export const AdminListBlog = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewBlog",
+                                        pathname: "/agent_admin_view_blog",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -327,7 +327,7 @@ export const AdminListBlog = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditBlog",
+                                        pathname: "/agent_admin_edit_blog",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"

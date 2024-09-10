@@ -576,7 +576,7 @@ export const AdminListAgent = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-0">
-                      <Link class="btn btn-pix-primary" to="/AdminAddAgent">
+                      <Link class="btn btn-pix-primary" to="/agent_add_agent">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -688,7 +688,7 @@ export const AdminListAgent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminViewAgent",
+                                          pathname: "/agent_view_agent",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -699,7 +699,7 @@ export const AdminListAgent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminEditAgent",
+                                          pathname: "/agent_edit_agent",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -795,7 +795,7 @@ export const AdminListAgent = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="agent_list_agent"
                   className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
                 >
