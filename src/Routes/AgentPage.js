@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
-
+import  NotFound from "../../src/Pages/Login/404FoundError";
 import AddUniversity from "../Agents/University/addUniversity";
 import ListUniversity from "../Agents/University/ListUniversity";
 import ViewUniversity from "../Agents/University/viewUniversity";
@@ -335,7 +335,7 @@ function SuperAdmin() {
         <Route path="/agent_list_loan_enquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
 
         
-       
+        {/* <Route path="*" element={<NotFound />} /> */}
         
       
 

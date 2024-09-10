@@ -388,7 +388,7 @@ export const AdminListStudentForm = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddFormStudent">
+                      <Link class="btn btn-pix-primary" to="/admin_add_enquiry_student">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -524,7 +524,7 @@ export const AdminListStudentForm = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewFormStudent",
+                                            pathname: "/admin_view_enquiry_student",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -535,7 +535,7 @@ export const AdminListStudentForm = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditFormStudent",
+                                            pathname: "/admin_edit_enquiry_student",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

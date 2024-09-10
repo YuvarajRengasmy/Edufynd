@@ -368,7 +368,7 @@ export const AdminListLoanEnquiry = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddLoanEnquiry">
+                      <Link class="btn btn-pix-primary" to="/admin_add_loan_enquiry">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -498,7 +498,7 @@ export const AdminListLoanEnquiry = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewLoanEnquiry",
+                                            pathname: "/admin_view_loan_enquiry",
                                             search: `?id=${data?._id}`,
                                           }}
                                           data-bs-toggle="tooltip"
@@ -511,7 +511,7 @@ export const AdminListLoanEnquiry = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditLoanEnquiry",
+                                            pathname: "/admin_edit_loan_enquiry",
                                             search: `?id=${data?._id}`,
                                           }}
                                           data-bs-toggle="tooltip"

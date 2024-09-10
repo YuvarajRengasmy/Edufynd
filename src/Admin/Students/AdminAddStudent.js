@@ -262,7 +262,7 @@ export const AdminAddStudent = () => {
       StudentSuperAdmin(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudent");
+          navigate("/admin_list-student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

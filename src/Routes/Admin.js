@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "../../src/Pages/Login/PrivateRoute";
-
+import  NotFound from "../../src/Pages/Login/404FoundError";
 import AdminAddAdmin from "../Admin/Admins/AdminAddAdmin";
 import AdminEditAdmin from "../Admin/Admins/AdminEditAdmin";
 import AdminListAdmin from "../Admin/Admins/AdminListAdmin";
@@ -1690,6 +1690,7 @@ export const Admin = () => {
         <Route path="/admin_add_loan_enquiry" element={<PrivateRoute><AddLoanEnquiry /></PrivateRoute>} />
         <Route path="/admin_edit_loan_enquiry" element={<PrivateRoute><EditLoanEnquiry /></PrivateRoute>} />
         <Route path="/admin_list_loan_enquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
+        {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
 
   );

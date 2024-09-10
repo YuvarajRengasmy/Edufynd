@@ -1938,7 +1938,7 @@ const Sidebar = () => {
 
 <li className="nav-item">
   <Link
-    to="/agent_"
+    to="/"
     className="nav-link sidebar_link"
     onClick={logout}
     style={{ cursor: "pointer" }}

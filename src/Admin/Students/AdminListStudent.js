@@ -575,7 +575,7 @@ export const AdminListStudent = () => {
                     <li class="m-0">
                       <Link
                         class="btn btn-pix-primary border-0"
-                        to="/AdminAddStudent"
+                        to="/admin_add_student"
                       >
                         <button
                           className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
@@ -693,7 +693,7 @@ export const AdminListStudent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminViewStudent",
+                                          pathname: "/admin_view_student",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -704,7 +704,7 @@ export const AdminListStudent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminEditStudent",
+                                          pathname: "/admin_edit_student",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

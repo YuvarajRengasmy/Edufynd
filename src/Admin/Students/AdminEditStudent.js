@@ -277,7 +277,7 @@ export const AdminEditStudent = () => {
       StudentSuperEdit(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudent");
+          navigate("/admin_list_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

@@ -175,7 +175,7 @@ export const AdminAddForex = () => {
       saveForexEnquiry(forex)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListForexForm");
+          navigate("/admin_list_forex_form");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

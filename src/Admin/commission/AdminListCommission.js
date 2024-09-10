@@ -455,7 +455,7 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
-            <Link to="/AdminAddCommission">
+            <Link to="/admin_add_commission">
               <button
                 className="btn rounded-1 fw-semibold border-0 text-white"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -551,7 +551,7 @@ export default function Masterproductlist() {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/AdminViewCommission",
+                            pathname: "/admin_admin_view_commission",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -586,7 +586,7 @@ export default function Masterproductlist() {
                           <Link
                             className="dropdown-item"
                             to={{
-                              pathname: "/AdminViewCommission",
+                              pathname: "/admin_view_commission",
                               search: `?id=${data?._id}`,
                             }}
                             data-bs-toggle="tooltip"
@@ -597,7 +597,7 @@ export default function Masterproductlist() {
                           <Link
                             className="dropdown-item"
                             to={{
-                              pathname: "/AdminEditCommission",
+                              pathname: "/admin_edit_commission",
                               search: `?id=${data?._id}`,
                             }}
                             data-bs-toggle="tooltip"

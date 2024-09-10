@@ -601,7 +601,7 @@ export const AdminListPrograms = () => {
                     <li class="m-0">
                       <Link
                         class="btn btn-pix-primary border-0"
-                        to="/AdminAddProgram"
+                        to="/admin_add_program"
                       >
                         <button
                           className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
@@ -715,7 +715,7 @@ export const AdminListPrograms = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewProgram",
+                                            pathname: "/admin_view_program",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -726,7 +726,7 @@ export const AdminListPrograms = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditProgram",
+                                            pathname: "/admin_edit_program",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

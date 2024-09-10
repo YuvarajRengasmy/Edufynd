@@ -360,7 +360,7 @@ function AdminListStaff() {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddStaff">
+                      <Link class="btn btn-pix-primary" to="/admin_add_staff">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -484,7 +484,7 @@ function AdminListStaff() {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewStaff",
+                                            pathname: "/admin_view_staff",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -495,7 +495,7 @@ function AdminListStaff() {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditStaff",
+                                            pathname: "/admin_edit_staff",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Just from "../SuperAdmin/University/just";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
+import  NotFound from "../../src/Pages/Login/404FoundError";
 import Country from "../SuperAdmin/University/Country";
 import AddUniversity from "../SuperAdmin/University/addUniversity";
 import ListUniversity from "../SuperAdmin/University/ListUniversity";
@@ -515,6 +516,7 @@ function SuperAdmin() {
         <Route path="/Privilages" element={<PrivateRoute><Privilages/></PrivateRoute>}/>
 
 <Route path="/countrys" element={<PrivateRoute><Countrys/></PrivateRoute>}/>
+{/* <Route path="*" element={<NotFound />} /> */}
 
       </Routes>
 

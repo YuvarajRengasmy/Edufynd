@@ -390,7 +390,7 @@ export const AdminListGeneralEnquiry = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddGeneralEnquiry">
+                      <Link class="btn btn-pix-primary" to="/admin_add_general_enquiry">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -518,7 +518,7 @@ export const AdminListGeneralEnquiry = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewGeneralEnquiry",
+                                            pathname: "/admin_view_general_enquiry",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -529,7 +529,7 @@ export const AdminListGeneralEnquiry = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditGeneralEnquiry",
+                                            pathname: "/admin_edit_general_enquiry",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

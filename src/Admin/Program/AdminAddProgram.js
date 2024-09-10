@@ -298,7 +298,7 @@ export const AdminAddProgram = () => {
       })
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/Programs");
+          navigate("/admin_list_program");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
