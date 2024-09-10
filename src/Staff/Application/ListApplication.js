@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import Masterheader from "../../compoents/header";
 import { getMonthYear } from "../../Utils/DateFormat";
-
+import {getStaffId } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
 import Mastersidebar from "../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -39,7 +40,7 @@ export default function Masterproductlist() {
   const [application, setApplication] = useState([]);
 
   const [submitted, setSubmitted] = useState(false);
-
+  const [staff, setStaff] = useState(null);
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -56,9 +57,32 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getApplicationList();
+    getStaffDetails();
   }, []);
 
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'application');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const getApplicationList = () => {
+    
     getallApplication()
       .then((res) => {
         const value = res?.data?.result;
@@ -447,7 +471,8 @@ export default function Masterproductlist() {
               </button>
             </Link>
           </li>
-          {/* <li className="m-1">
+          {studentPrivileges?.add && (
+          <li className="m-1">
             <Link to="/add_application">
               <button
                 className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
@@ -460,7 +485,8 @@ export default function Masterproductlist() {
                 Add Application
               </button>
             </Link>
-          </li> */}
+          </li>
+          )}
         </ol>
       </div>
     </div>
@@ -659,6 +685,7 @@ export default function Masterproductlist() {
 
                                 <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
+                                  {studentPrivileges?.view && (
                                     <Link
                                       className="dropdown-item"
                                       to={{
@@ -668,7 +695,9 @@ export default function Masterproductlist() {
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
                                     </Link>
-                                    {/* <Link
+                                  )}
+                                  {studentPrivileges?.edit && (
+                                    <Link
                                       className="dropdown-item"
                                       to={{
                                         pathname: "/edit_application",
@@ -677,6 +706,8 @@ export default function Masterproductlist() {
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
+                                  )}
+                                  {studentPrivileges?.delete && (
                                     <Link
                                       className="dropdown-item"
                                       onClick={() => {
@@ -684,7 +715,8 @@ export default function Masterproductlist() {
                                       }}
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link> */}
+                                    </Link>
+                                  )}
                                   </div>
                                 </td>
                               </tr>

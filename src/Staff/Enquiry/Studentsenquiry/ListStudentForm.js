@@ -19,7 +19,8 @@ import Mastersidebar from "../../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 
 export const ListStudentForm = () => {
@@ -50,14 +51,38 @@ export const ListStudentForm = () => {
   const [student, setStudent] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [staff, setStaff] = useState(null);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
 
   useEffect(() => {
     getAllStudentDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'studentEnquiry');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,
@@ -349,6 +374,7 @@ export const ListStudentForm = () => {
                       </span>
                     </Link>
                   </li>
+                  {studentPrivileges?.add && (
                   <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/staff_add_enquiry_student">
                       <button
@@ -366,7 +392,9 @@ export const ListStudentForm = () => {
                         Add Student Form
                       </button>
                     </Link>
+                  
                   </li>
+                    )}
                 </ol>
               </div>
             </div>
@@ -589,6 +617,7 @@ export const ListStudentForm = () => {
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
+                                    {studentPrivileges?.view && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -598,6 +627,8 @@ export const ListStudentForm = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
+                                    )}
+                                      {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -607,14 +638,17 @@ export const ListStudentForm = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                      {/* <Link
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                      <Link
                                         className="dropdown-item"
                                         onClick={() => {
                                           openPopup(data?._id);
                                         }}
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </Link> */}
+                                      </Link>
+                                      )}
                                     </div>
                                   </td>
                                 </tr>
