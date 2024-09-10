@@ -26,7 +26,7 @@ import {  getSingleStaff } from "../../api/staff";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 import { Chart, registerables } from 'chart.js';
-import { getStaffId } from "../../Utils/storage";
+
 
 Chart.register(...registerables);
 
