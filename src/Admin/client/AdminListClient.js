@@ -4,8 +4,8 @@ import { getallClient, deleteClient } from "../../api/client";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
 import Mastersidebar from "../../compoents/AdminSidebar";
-import {getAdminId} from "../../Utils/storage";
-import {  getSingleAdmin} from "../../api/admin";
+import { getAdminIdId } from "../../Utils/storage";
+import {  getSingleAdmin } from "../../api/admin";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -57,7 +57,7 @@ export const AdminListClient = () => {
   }, []);
 
   const getStaffDetails = () => {
-    const id = getAdminId();
+    const id = getAdminIdId();
     getSingleAdmin(id)
       .then((res) => {
         console.log("yuvi", res);

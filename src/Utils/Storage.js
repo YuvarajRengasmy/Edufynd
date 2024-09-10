@@ -39,7 +39,7 @@ export const getAgentId = () => {
   const agentId = localStorage.getItem('agentId')
   return CryptoJS.AES.decrypt(agentId, 'edufynd').toString(CryptoJS.enc.Utf8)
 };
-export const getAdminId = () => {
+export const getAdminIdId = () => {
   const adminId = localStorage.getItem('adminId')
   return CryptoJS.AES.decrypt(adminId, 'edufynd').toString(CryptoJS.enc.Utf8)
 };

@@ -15,7 +15,7 @@ import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getAdminId} from "../../Utils/storage";
+import {getAdminIdId} from "../../Utils/storage";
 import {  getSingleAdmin} from "../../api/admin";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
@@ -53,7 +53,7 @@ export const AdminListAgent = () => {
 
 
   const getStaffDetails = () => {
-    const id = getAdminId();
+    const id = getAdminIdId();
     getSingleAdmin(id)
       .then((res) => {
         console.log("yuvi", res);

@@ -53,28 +53,26 @@ function AddAgent() {
                   <tbody>
                     <tr>
                       <td className="fw-bold">Admin Name </td>
-                      <td>Admin Name</td>
+                      <td>{admin?.name}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Role </td>
-                      <td>Role</td>
+                      <td>{admin?.role}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email </td>
-                      <td>Email</td>
+                      <td>{admin?.email}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Contact Number </td>
-                      <td>Contact number</td>
+                      <td>{admin?.mobileNumber}</td>
                     </tr>
                     <tr>
-                      <td className="fw-bold">Password </td>
-                      <td>Password</td>
-                    </tr>{" "}
-                    <tr>
-                      <td className="fw-bold">Confirm Password </td>
-                      <td>Confirm Password</td>
+                      <td className="fw-bold">createdBy </td>
+                      <td>{admin?.createdBy}</td>
                     </tr>
+                   
+                   
                   </tbody>
                 </table>
               </div>
