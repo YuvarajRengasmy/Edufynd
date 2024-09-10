@@ -229,12 +229,12 @@ const Login = () => {
                       <i className="fab fa-google fa-fw" /> &nbsp;Login with Google
                     </Link>
                     <FacebookLogin
-        appId="521433973800512" // Replace this with your Facebook App ID
-        autoLoad={true}
-        fields="name,email,picture"
-        callback={responseFacebook}
-         icon="fa-facebook"
-      />
+                    appId="521433973800512" 
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    callback={responseFacebook}
+                    icon="fa-facebook"
+                    />
                   </div>
                   <div className="row g-3 text-center my-2">
                     <div className="col-md-6 col-sm-12">
