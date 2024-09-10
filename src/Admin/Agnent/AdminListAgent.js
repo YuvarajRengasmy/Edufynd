@@ -15,10 +15,14 @@ import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
+import {getAdminIdId} from "../../Utils/storage";
+import {  getSingleAdmin} from "../../api/admin";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 
 export const AdminListAgent = () => {
+
+  
   const initialStateInputs = {
     agentName: "",
     agentCode: "",
@@ -33,6 +37,7 @@ export const AdminListAgent = () => {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const [staff, setStaff] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -43,8 +48,31 @@ export const AdminListAgent = () => {
 
   useEffect(() => {
     getAllAgentDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'agent');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const getAllAgentDetails = () => {
     const data = {
       limit: 10,
@@ -546,6 +574,7 @@ export const AdminListAgent = () => {
                         </span>
                       </Link>
                     </li>
+                    {studentPrivileges?.add && (
                     <li class="m-0">
                       <Link class="btn btn-pix-primary" to="/AdminAddAgent">
                         <button
@@ -563,6 +592,7 @@ export const AdminListAgent = () => {
                         </button>
                       </Link>
                     </li>
+                    )}
                   </ol>
                 </div>
               </div>
@@ -654,6 +684,7 @@ export const AdminListAgent = () => {
 
                                   <td>
                                     <div className="d-flex">
+                                    {studentPrivileges?.view && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -663,6 +694,8 @@ export const AdminListAgent = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
+                                    )}
+                                    {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -672,6 +705,8 @@ export const AdminListAgent = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
+                                    )}
+                                    {studentPrivileges?.delete && (
                                       <Link
                                         className="dropdown-item"
                                         onClick={() => {
@@ -680,6 +715,7 @@ export const AdminListAgent = () => {
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
                                       </Link>
+                                    )}
                                     </div>
                                   </td>
                                 </tr>
