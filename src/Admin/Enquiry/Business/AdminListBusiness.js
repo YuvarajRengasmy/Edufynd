@@ -22,7 +22,6 @@ import { getSingleAdmin} from "../../../api/admin";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
 import { FaFilter } from "react-icons/fa";
 
 export const AdminListBusiness = () => {
@@ -60,6 +59,7 @@ export const AdminListBusiness = () => {
 
   useEffect(() => {
     getAllStudentDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
 
@@ -79,7 +79,7 @@ export const AdminListBusiness = () => {
     // return null; // or a loading spinner
   }
   
-  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'forexEnquiry');
+  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'businessEnquiry');
   
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
