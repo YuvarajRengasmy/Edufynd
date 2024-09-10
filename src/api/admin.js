@@ -16,7 +16,7 @@ export const deleteAdmin = (data) => {
     return API.put(`${Admin}`, data)
 }
 export const getSingleAdmin = (data) => {
-    return API.get(`${Admin}/getsingleadmin`, { params: { _id: data } })
+    return API.get(`${Admin}/getSingleAdmin`, { params: { _id: data } })
 }
 export const createStaff = (data) => {
     return API.post(`${Admin}/createStaffByAdmin`, data)

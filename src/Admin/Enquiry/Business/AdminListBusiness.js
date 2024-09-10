@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/AdminSidebar";
+import { getAdminIdId } from "../../../Utils/storage";
+import { getSingleAdmin} from "../../../api/admin";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -50,6 +52,7 @@ export const AdminListBusiness = () => {
 
   const [student, setStudent] = useState();
   const [open, setOpen] = useState(false);
+  const [staffs, setStaffs] = useState();
   const [deleteId, setDeleteId] = useState();
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
@@ -59,6 +62,28 @@ export const AdminListBusiness = () => {
     getAllStudentDetails();
   }, [pagination.from, pagination.to]);
 
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvraj", res);
+        setStaffs(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staffs || !staffs.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'forexEnquiry');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,
@@ -359,6 +384,7 @@ export const AdminListBusiness = () => {
                         </span>
                       </Link>
                     </li>
+                    {studentPrivileges?.add && (
                     <li class="m-1">
                       <Link
                         class="btn btn-pix-primary"
@@ -380,6 +406,7 @@ export const AdminListBusiness = () => {
                         </button>
                       </Link>
                     </li>
+                    )}
                   </ol>
                 </div>
               </div>
@@ -476,6 +503,7 @@ export const AdminListBusiness = () => {
                                     </td>
                                     <td className="text-capitalize text-start">
                                       <div className="d-flex">
+                                      {studentPrivileges?.view && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
@@ -487,6 +515,8 @@ export const AdminListBusiness = () => {
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>
                                         </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
@@ -498,7 +528,9 @@ export const AdminListBusiness = () => {
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>
                                         </Link>
-                                        <Link
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                        <button
                                           className="dropdown-item"
                                           onClick={() => {
                                             openPopup(data?._id);
@@ -507,7 +539,8 @@ export const AdminListBusiness = () => {
                                           title="Delete"
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </Link>
+                                        </button>
+                                      )}
                                       </div>
                                     </td>
                                   </tr>
