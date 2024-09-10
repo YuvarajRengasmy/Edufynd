@@ -58,7 +58,7 @@ const Sidebar = () => {
   const logout = () => {
     clearStorage(); // Assuming clearStorage is defined elsewhere
     toast.success("You have been logged out successfully.");
-    navigate("/agent_");
+    navigate("/");
   };
 
   useEffect(() => {
