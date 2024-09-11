@@ -7,10 +7,10 @@ import AdminEditAdmin from "../Admin/Admins/EditAdmin";
 import AdminListAdmin from "../Admin/Admins/AdminListAdmin";
 import AdminViewAdmin from "../Admin/Admins/ViewAdmin";
 
-import AdminAddAgent from "../Admin/Agnent/AdminAddAgent";
-import AdminEditAgent from "../Admin/Agnent/AdminEditAgent";
+import AdminAddAgent from "../Admin/Agnent/addAgent";
+import AdminEditAgent from "../Admin/Agnent/editAgent";
 import AdminListAgent from "../Admin/Agnent/AdminListAgent";
-import AdminViewAgent from "../Admin/Agnent/AdminViewAgent";
+import AdminViewAgent from "../Admin/Agnent/viewAgent";
 
 import AdminDashBoard from "../Admin/DashBoard/HeroBox";
 
@@ -34,15 +34,15 @@ import AdminEditProgram from "../Admin/Program/editProgram";
 import AdminListPrograms from "../Admin/Program/AdminListPrograms";
 import AdminViewProgram from "../Admin/Program/ViewProgram";
 
-import AdminAddStudent from "../Admin/Students/AdminAddStudent";
-import AdminEditStudent from "../Admin/Students/AdminEditStudent";
+import AdminAddStudent from "../Admin/Students/addStudent";
+import AdminEditStudent from "../Admin/Students/editStudent";
 import AdminListStudent from "../Admin/Students/AdminListStudent";
-import AdminViewStudent from "../Admin/Students/AdminViewStudent";
+import AdminViewStudent from "../Admin/Students/viewStudent";
 
-import AdminAddStaff from "../Admin/Staff/AdminAddStaff";
-import AdminEditStaff from "../Admin/Staff/AdminEditStaff";
+import AdminAddStaff from "../Admin/Staff/addStaff";
+import AdminEditStaff from "../Admin/Staff/editStaff";
 import AdminListStaff from "../Admin/Staff/AdminListStaff";
-import AdminViewStaff from "../Admin/Staff/AdminViewStaff";
+import AdminViewStaff from "../Admin/Staff/viewStaff";
 
 import AdminAddApplication from "../Admin/Application/AddApplication";
 import AdminEditApplication from "../Admin/Application/EditApplication";

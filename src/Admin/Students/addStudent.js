@@ -9,16 +9,15 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { StudentSuperAdmin, getallStudent } from "../../api/student";
-import Mastersidebar from "../../compoents/AdminSidebar";
+import Sidebar from "../../compoents/AdminSidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
-import {getAdminIdId } from "../../Utils/storage";
-
 import BackButton from "../../compoents/backButton";
 function AddAgent() {
-
+    const location = useLocation();
+    const id = new URLSearchParams(location.search).get("id");
 
     
   const initialState = {
@@ -120,19 +119,19 @@ function AddAgent() {
 
 
   useEffect(() => {
-    getStudentDetail();
+    getStudentDetails();
     getallCodeList();
 }, []);
 
-const getStudentDetail = () => {
-  getallStudent()
+const getStudentDetails = () => {
+  getallStudent(id)
         .then((res) => {
             setStudent(res?.data?.result);
         })
         .catch((err) => {
             console.log(err);
         });
-  };
+};
 
 const getallCodeList = () => {
   getallCode()
@@ -322,9 +321,8 @@ const handleValidation = (data) => {
         adminId:getAdminIdId()
       })
         .then((res) => {
-          console.log("res", res);
           toast.success(res?.data?.message);
-          navigate("/admin_list-student");
+          navigate("/admin_list_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -336,7 +334,7 @@ const handleValidation = (data) => {
     
         <div >
          
-            <Mastersidebar />
+            <Sidebar />
         
           <div
             className="content-wrapper "
@@ -1396,7 +1394,7 @@ const handleValidation = (data) => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/list_student"
+                                  to="/admin_list_student"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel
