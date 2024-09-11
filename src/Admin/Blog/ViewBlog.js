@@ -13,7 +13,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import {getSingleBlog,getFilterBlog} from "../../api/blog";
 import { RichTextEditor } from "@mantine/rte";
 import { Link, useLocation } from "react-router-dom";
-import Mastersidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AdminSidebar";
 export const Blogdetailing = () => {
 
   const renderedCategories = new Set();
@@ -109,9 +109,9 @@ export const Blogdetailing = () => {
     <div>
      
 
-      <Mastersidebar/>
-      <div className="content-wrapper">
-      <div className="container my-5">
+      <Sidebar/>
+<div className="content-wrapper">
+<div className="container my-5">
         <div className="row">
         
           <div className="col-md-7 col-12 mb-4">
@@ -339,9 +339,8 @@ export const Blogdetailing = () => {
           </div>
         </div>
       </div>
-      </div>
-
-     
+</div>
+      
     </div>
   );
 };
