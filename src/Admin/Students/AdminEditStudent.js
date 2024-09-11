@@ -12,6 +12,8 @@ import { StudentSuperEdit, getSingleStudent } from "../../api/student";
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { MdCameraAlt } from "react-icons/md";
+import { getAdminIdId } from "../../Utils/storage";
+
 
 export const AdminEditStudent = () => {
   const location = useLocation();
@@ -277,7 +279,7 @@ export const AdminEditStudent = () => {
       StudentSuperEdit(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStudent");
+          navigate("/AdminListStudent");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

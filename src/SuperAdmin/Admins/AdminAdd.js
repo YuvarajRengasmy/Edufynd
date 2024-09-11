@@ -6,9 +6,9 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { saveToken } from "../../Utils/storage";
+import { getSuperAdminId, saveToken } from "../../Utils/storage";
 import { isAuthenticated } from "../../Utils/Auth";
-import { saveAdmin } from "../../api/admin";
+import { createAdminBySuperAdmin } from "../../api/admin";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 
@@ -17,16 +17,12 @@ function AddAgent() {
     name: "",
     mobileNumber: "",
     email: "",
-    password: "",
-    confirmPassword: "",
     role: "",
   };
   const initialStateErrors = {
     name: { required: false },
     email: { required: false, valid: false },
     mobileNumber: { required: false, valid: false },
-    password: { required: false, valid: false },
-    confirmPassword: { required: false, valid: false },
     role: { required: false },
   };
   const [inputs, setInputs] = useState(initialState);
@@ -44,24 +40,14 @@ function AddAgent() {
     if (data.email === "") {
       error.email.required = true;
     }
-    if (data.password === "") {
-      error.password.required = true;
-    }
-    if (data.confirmPassword === "") {
-      error.confirmPassword.required = true;
-    }
+   
     if (data.mobileNumber === "") {
       error.mobileNumber.required = true;
     }
     if (data.role === "") {
       error.role.required = true;
     }
-    if (!isValidPassword(data.password)) {
-      error.password.valid = true;
-    }
-    if (!isValidPassword(data.confirmPassword)) {
-      error.confirmPassword.valid = true;
-    }
+   
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
@@ -94,33 +80,56 @@ function AddAgent() {
     return true;
   };
 
+
+  //   event.preventDefault();
+  //   const newError = handleValidation(inputs);
+  //   setErrors(newError);
+  //   setSubmitted(true);
+  //   if (handleErrors(newError)) {
+  //     if (inputs) {
+  //       createAdminBySuperAdmin(inputs)
+  //         .then((res) => {
+  //           let token = res?.data?.result?.token;
+  //           let loginType = res?.data?.result?.loginType;
+  //           let adminId = res?.data?.result?.adminDetails?._id;
+  //           let data = {
+  //             token: token,
+  //             loginType: loginType,
+  //             adminId: adminId,
+  //           };
+  //           saveToken(data);
+  //           if (isAuthenticated()) {
+  //             navigate("/list_admin");
+  //           }
+  //           toast.success(res?.data?.message);
+  //         })
+  //         .catch((err) => {
+  //           toast.error(err?.response?.data?.message);
+  //         });
+  //     }
+  //   }
+  // };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      if (inputs) {
-        saveAdmin(inputs)
-          .then((res) => {
-            let token = res?.data?.result?.token;
-            let loginType = res?.data?.result?.loginType;
-            let adminId = res?.data?.result?.adminDetails?._id;
-            let data = {
-              token: token,
-              loginType: loginType,
-              adminId: adminId,
-            };
-            saveToken(data);
-            if (isAuthenticated()) {
-              navigate("/list_admin");
-            }
-            toast.success(res?.data?.message);
-          })
-          .catch((err) => {
-            toast.error(err?.response?.data?.message);
-          });
-      }
+
+      createAdminBySuperAdmin({ ...inputs, role: "admin" ,
+        superAdminId: getSuperAdminId()
+      })
+        .then((res) => {
+          toast.success(res?.data?.message);
+          navigate("/list_admin");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    }
+    else {
+      toast.error("Please Fill Staff Mandatory Fields");
     }
   };
 
@@ -250,76 +259,7 @@ function AddAgent() {
                             ) : null}
                           </div>
                         </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                          <div className="form-group">
-                            <label style={{ color: "#231F20" }}>
-                              {" "}
-                              Password<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control "
-                              placeholder="Enter Password"
-                              name="password"
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            />
-                            {errors.password.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : errors.password.valid ? (
-                              <div className="text-danger form-text">
-                                A minimum 8 characters password contains a{" "}
-                                <br />
-                                combination of {""}
-                                <strong>uppercase, lowercase, {""}</strong>
-                                <strong>
-                                  special <br /> character{""}
-                                </strong>{" "}
-                                and <strong>number</strong>.
-                              </div>
-                            ) : null}
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                          <div className="form-group">
-                            <label style={{ color: "#231F20" }}>
-                              Confirm Password{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control "
-                              placeholder="Enter Confirm Password"
-                              name="confirmPassword"
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            />
-                            {errors.confirmPassword.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : errors.confirmPassword.valid ? (
-                              <div className="text-danger form-text">
-                                A minimum 8 characters password contains a{" "}
-                                <br />
-                                combination of {""}
-                                <strong>uppercase, lowercase, {""}</strong>
-                                <strong>
-                                  special <br /> character{""}
-                                </strong>{" "}
-                                and <strong>number</strong>.
-                              </div>
-                            ) : null}
-                          </div>
-                        </div>
+                        
                       </div>
                       <div className="row ">
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
