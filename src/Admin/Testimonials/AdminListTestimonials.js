@@ -247,7 +247,7 @@ export const AdminListTestimonials = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddTestimonials">
+                      <Link class="btn btn-pix-primary" to="/admin_add_testimonials">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -324,7 +324,7 @@ export const AdminListTestimonials = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewTestimonials",
+                                        pathname: "/admin_view_testimonials",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -334,7 +334,7 @@ export const AdminListTestimonials = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditTestimonials",
+                                        pathname: "/admin_edit_testimonials",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"

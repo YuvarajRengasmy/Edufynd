@@ -248,7 +248,7 @@ export const AdminListMeetings = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddMeetings">
+                      <Link class="btn btn-pix-primary" to="/admin_add_meetings">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -329,7 +329,7 @@ export const AdminListMeetings = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewMeetings",
+                                        pathname: "/admin_view_meetings",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -339,7 +339,7 @@ export const AdminListMeetings = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditMeetings",
+                                        pathname: "/admin_edit_meetings",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"
