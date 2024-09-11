@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/StaffSidebar";
 import { getSingleStudent } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
 import {
