@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
+import  NotFound from "../../src/Pages/Login/404FoundError";
 import ListStaffUniversity from "../Staff/University/ListUniversity";
 import ViewStaffProfile from "../Staff/Profile/ViewStaffProfile";
 
@@ -131,6 +132,7 @@ export const Staff = () => {
         <Route path="/staff_add_loan_enquiry" element={<PrivateRoute><AddLoanEnquiry /></PrivateRoute>} />
         <Route path="/staff_edit_loan_enquiry" element={<PrivateRoute><EditLoanEnquiry /></PrivateRoute>} />
         <Route path="/staff_list_loan_enquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
 
     </div>

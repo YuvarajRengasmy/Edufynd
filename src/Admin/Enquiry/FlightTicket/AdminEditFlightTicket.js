@@ -135,7 +135,7 @@ export const AdminEditFlightTicket = () => {
       updateFlightEnquiry(flight)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListFlightTicket");
+          navigate("/admin_list_flight_ticket");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

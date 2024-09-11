@@ -354,7 +354,7 @@ function AddCommission() {
       updatedCommission(dataToSave)
         .then((res) => {
           toast.success(res?.data?.message || "Commission saved successfully!");
-          navigate("/list_commission");
+          navigate("/admin_list_commission");
         })
         .catch((err) => {
           toast.error(
@@ -1145,7 +1145,7 @@ const removeCourseType = async (yearIndex, courseTypeIndex) => {
                       <div className="row g-2">
                         <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                           <Link
-                            to="/list_commission"
+                            to="/admin_list_commission"
                             style={{
                               backgroundColor: "#231F20",
                               fontFamily: "Plus Jakarta Sans",

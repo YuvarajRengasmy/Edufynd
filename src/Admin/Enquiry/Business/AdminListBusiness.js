@@ -388,7 +388,7 @@ export const AdminListBusiness = () => {
                     <li class="m-1">
                       <Link
                         class="btn btn-pix-primary"
-                        to="/AdminAddBusinessEnquiry"
+                        to="/admin_add_business_enquiry"
                       >
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
@@ -507,7 +507,7 @@ export const AdminListBusiness = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewBusinessEnquiry",
+                                            pathname: "/admin_view_business_enquiry",
                                             search: `?id=${data?._id}`,
                                           }}
                                           data-bs-toggle="tooltip"
@@ -520,7 +520,7 @@ export const AdminListBusiness = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditBusinessEnquiry",
+                                            pathname: "/admin_edit_business_enquiry",
                                             search: `?id=${data?._id}`,
                                           }}
                                           data-bs-toggle="tooltip"

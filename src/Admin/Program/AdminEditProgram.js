@@ -310,7 +310,7 @@ export const AdminEditProgram = () => {
       })
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/Programs");
+          navigate("/admin_lisr_program");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

@@ -265,7 +265,7 @@ export const AdminAddClient = () => {
       saveClient(updatedClient)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/client");
+          navigate("/admin_list_client");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -704,7 +704,7 @@ export const AdminAddClient = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              to="/client"
+                              to="/admin_list_client"
                               className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                             >
                               Cancel

@@ -368,7 +368,7 @@ export const AdminListFlightTicket = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddFlightTicket">
+                      <Link class="btn btn-pix-primary" to="/admin_add_flight_ticket">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -503,7 +503,7 @@ export const AdminListFlightTicket = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewFlightTicket",
+                                            pathname: "/admin_view_flight_ticket",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -514,7 +514,7 @@ export const AdminListFlightTicket = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditFlightTicket",
+                                            pathname: "/admin_edit_flight_ticket",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

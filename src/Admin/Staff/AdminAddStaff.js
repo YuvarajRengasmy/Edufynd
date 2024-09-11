@@ -247,7 +247,7 @@ export const AdminAddStaff = () => {
       saveStaff({...staff,adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStaff");
+          navigate("/admin_list_staff");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

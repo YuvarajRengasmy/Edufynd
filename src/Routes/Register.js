@@ -8,6 +8,7 @@ import ForgotPassword from "../Pages/Login/forgotPassword";
 import ResetPassword from "../Pages/Login/resetPassword";
 import Check from "./checkcode"
 
+
 function RegisterPage() {
   return (
     <div>

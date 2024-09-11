@@ -278,7 +278,7 @@ export const AdminAddAgent = () => {
       SuperAgent(agent)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListAgent");
+          navigate("/agent_list_agent");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1031,7 +1031,7 @@ export const AdminAddAgent = () => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            to="#"
+                            to="agent_list_agent"
                             className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                           >
                             Cancel

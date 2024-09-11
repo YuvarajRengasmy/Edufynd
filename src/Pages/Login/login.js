@@ -89,7 +89,7 @@ const Login = () => {
                 };
                 saveToken(data);
                 if (isAuthenticated()) {
-                    navigate("/AgentHome");
+                    navigate("/agent_dashboard");
                     window.location.reload(); // Refresh the page
                 }
             }
@@ -100,7 +100,7 @@ const Login = () => {
               };
               saveToken(data);
               if (isAuthenticated()) {
-                  navigate("/AdminDashboard");
+                  navigate("/admin_dashboard");
                   window.location.reload(); // Refresh the page
               }
           }
@@ -125,11 +125,11 @@ const Login = () => {
 
   if (isAuthenticated()) {
     const type = getLoginType();
-    if (type === 'student') { return <Navigate to="/Student" /> }
-    else if (type === 'superAdmin') { return <Navigate to="/Dashboard" /> }
-    else if (type === 'staff') { return <Navigate to="/ViewProfile" /> }
-    else if (type === 'admin') { return <Navigate to="/AdminDashboard" /> }
-    else  { return <Navigate to="/AgentHome" /> }
+    if (type === 'student') { return <Navigate to="/student_dashboard" /> }
+    else if (type === 'superAdmin') { return <Navigate to="/dashboard" /> }
+    else if (type === 'staff') { return <Navigate to="/staff_dashboard" /> }
+    else if (type === 'admin') { return <Navigate to="/admin_dashboard" /> }
+    else  { return <Navigate to="/agent_dashboard" /> }
   }
 
   const responseFacebook = (response) => {

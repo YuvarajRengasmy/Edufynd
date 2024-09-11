@@ -634,7 +634,7 @@ export const AdminListApplication = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminViewApplication",
+                                          pathname: "/agent_admin_view_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -645,7 +645,7 @@ export const AdminListApplication = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminEditApplication",
+                                          pathname: "/agent_admin_edit_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

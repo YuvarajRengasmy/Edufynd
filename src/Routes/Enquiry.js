@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
+import  NotFound from "../../src/Pages/Login/404FoundError";
 import StudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/StudentForm";
 import EditStudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/EditStudentForm";
 import ListStudentForm from "../SuperAdmin/Enquiry/Studentsenquiry/ListStudentForm";
@@ -70,6 +71,8 @@ function Enquiry() {
         <Route path="/add_loan_enquiry" element={<PrivateRoute><AddLoanEnquiry /></PrivateRoute>} />
         <Route path="/edit_loan_enquiry" element={<PrivateRoute><EditLoanEnquiry /></PrivateRoute>} />
         <Route path="/list_loan_enquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
+
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
 
     </div>
