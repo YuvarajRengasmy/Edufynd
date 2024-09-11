@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallStaff, deleteStaff } from "../../api/staff";
+import { getallStaff,getFilterStaff, deleteStaff } from "../../api/staff";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { formatDate } from "../../Utils/DateFormat";
 import { getAdminIdId } from "../../Utils/storage";
@@ -41,11 +41,12 @@ function AdminListStaff() {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId: getAdminIdId(),
     };
 
-    getallStaff(data)
+    getFilterStaff(data)
       .then((res) => {
-        setStaff(res?.data?.result);
+        setStaff(res?.data?.result?.staffList);
         setPagination({ ...pagination, count: res?.data?.result?.staffCount });
       })
       .catch((err) => {
