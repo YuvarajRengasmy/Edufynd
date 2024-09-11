@@ -3,6 +3,8 @@ import { getSingleProgram, getallProgram } from "../../api/Program";
 import {saveApplication} from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
 import { Link, useLocation,useNavigate } from "react-router-dom";
+import {getStaffId } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
 
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
 import Sidebar from "../../compoents/StaffSidebar";
@@ -52,7 +54,7 @@ const initialStateErrors = {
   const [student, setStudent] = useState([]);
   const [input, setInput] = useState([]);
   const [inputs, setInputs] = useState(initialState);
-
+  const [staff,setStaff] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -64,8 +66,21 @@ const initialStateErrors = {
   }, []);
   useEffect(() => {
     getAllProgaramDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
-  
+
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllProgaramDetails = () => {
     const data = {
       limit: pageSize,
@@ -192,6 +207,8 @@ const handleSubmit = (event) => {
       ...inputs,
       course:program.programTitle,
       universityName:program.universityName,
+      // staffId:staff._id,
+      // adminId:staff.adminId,
     
       // programId:program._id
 

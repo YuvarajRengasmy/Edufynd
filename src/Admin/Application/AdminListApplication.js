@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallApplication, deleteApplication } from "../../api/applicatin";
+import { getallApplication, deleteApplication,getFilterApplican } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -10,7 +10,7 @@ import {
   Pagination,
 } from "@mui/material";
 import { getMonthYear } from "../../Utils/DateFormat";
-import { getAdminIdId } from "../../Utils/storage";
+import { getAdminIdId, getStaffId } from "../../Utils/storage";
 import { getSingleAdmin} from "../../api/admin";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
@@ -57,7 +57,7 @@ export const AdminListApplication = () => {
   useEffect(() => {
     getApplicationList();
     getStaffDetails();
-  }, []);
+  }, [pagination.from, pagination.to]);
 
   const getStaffDetails = () => {
     const id = getAdminIdId();
@@ -80,11 +80,22 @@ export const AdminListApplication = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
+ 
+
   const getApplicationList = () => {
-    getallApplication()
+    const data = {
+      limit: 10,
+      page: pagination.from,
+      adminId:getAdminIdId()
+    };
+    getFilterApplican(data)
       .then((res) => {
-        const value = res?.data?.result;
-        setApplication(value);
+        console.log("yuvi",res)
+        setApplication(res?.data?.result?.applicantList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.applicantCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -634,7 +645,7 @@ export const AdminListApplication = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminViewApplication",
+                                          pathname: "/agent_admin_view_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -645,14 +656,14 @@ export const AdminListApplication = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminEditApplication",
+                                          pathname: "/agent_admin_edit_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
                                     )}
-                                    {studentPrivileges?.add && (
+                                    {studentPrivileges?.delete && (
                                       <button
                                         className="dropdown-item"
                                         onClick={() => {

@@ -9,7 +9,7 @@ import {
   isValidName,
   isValidDob,
 } from "../../Utils/Validation";
-
+import { getAdminIdId } from "../../Utils/storage";
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
@@ -39,7 +39,7 @@ export const AdminAddStaff = () => {
     city: "",
     idCard: "",
     status: "",
-    privileges: "",
+    
     companyAssests: "",
     mobileName: "",
     brandName: "",
@@ -75,7 +75,7 @@ export const AdminAddStaff = () => {
     city: { required: false },
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
     status: { required: false },
-    privileges: { required: false },
+    
     companyAssests: { required: false },
     mobileName: { required: false },
     brandName: { required: false },
@@ -163,9 +163,7 @@ export const AdminAddStaff = () => {
     if (data.status === "") {
       error.status.required = true;
     }
-    if (data.privileges === "") {
-      error.privileges.required = true;
-    }
+   
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
     }
@@ -246,10 +244,10 @@ export const AdminAddStaff = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      saveStaff(staff)
+      saveStaff({...staff,adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStaff");
+          navigate("/admin_list_staff");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -812,29 +810,7 @@ export const AdminAddStaff = () => {
                               </span>
                             ) : null}
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Privileges/Rights{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control rounded-2"
-                              placeholder="Example Employment..."
-                              style={{
-                                backgroundColor: "#fff",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              name="privileges"
-                              onChange={handleInputs}
-                            />
-                            {errors.privileges.required ? (
-                              <span className="form-text text-danger">
-                                This field is required.
-                              </span>
-                            ) : null}
-                          </div>
+                        
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>

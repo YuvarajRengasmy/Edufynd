@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
+import  NotFound from "../../src/Pages/Login/404FoundError";
 import Home from "../Students/Home/Program";
 import Profile from "../Students/Profile/Profile";
 import Contact from "../Students/Profile/Contact";
@@ -31,6 +32,7 @@ function RegisterPage() {
         <Route path="/view_page_university" element={<PrivateRoute><ViewUniversity /></PrivateRoute>} />
         <Route path="/view_program_university" element={<PrivateRoute><ViewProgram /></PrivateRoute>} />
         <Route path="/student_dashboard" element={<PrivateRoute><StudentDashBoard /></PrivateRoute>} />
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
 
     </div>

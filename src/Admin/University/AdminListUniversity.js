@@ -603,7 +603,7 @@ export const AdminListUniversity = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn  border-0" to="/AdminAddUniversity">
+                      <Link class="btn  border-0" to="/admin_add_university">
                         <button
                           className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{
@@ -743,7 +743,7 @@ export const AdminListUniversity = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewUniversity",
+                                            pathname: "/admin_view_university",
                                             search: `?id=${data?._id}`,
                                           }}
                                           data-bs-toggle="tooltip"
@@ -756,7 +756,7 @@ export const AdminListUniversity = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditUniversity",
+                                            pathname: "/admin_edit_university",
                                             search: `?id=${data?._id}`,
                                           }}
                                           data-bs-toggle="tooltip"

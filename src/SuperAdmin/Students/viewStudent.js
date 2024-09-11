@@ -12,6 +12,7 @@ import { getallUniversity } from "../../api/university";
 import { saveApplication } from "../../api/applicatin";
 import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
+
 import { toast } from "react-toastify";
 import { getMonthYear } from "../../Utils/DateFormat";
 import {
@@ -75,6 +76,7 @@ function Profile() {
   const [inputs, setInputs] = useState(initialStateInputs);
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
+  const [staff,setStaff] = useState(null);
   const [programs, setPrograms] = useState([]);
   const [universities, setUniversities] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -94,7 +96,11 @@ function Profile() {
 
   useEffect(() => {
     getApplicationList();
+ 
   }, [pagination.from, pagination.to]);
+
+
+
 
   const getApplicationList = () => {
     getStudentApplication(studentId)
@@ -268,7 +274,16 @@ function Profile() {
     event.preventDefault();
     setSubmitted(true);
     if (handleErrors(errors)) {
-      saveApplication(inputs)
+      saveApplication({...inputs,
+        
+       name: student?.name,
+          dob: student?.dob,
+          passportNo: student?.passportNo,
+          studentId: student?._id,
+          email: student?.email,
+          primaryNumber: student?.primaryNumber,
+          whatsAppNumber: student?.whatsAppNumber,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           getStudentDetails();
@@ -582,7 +597,7 @@ function Profile() {
                                 </label>
                                 <input
                                   type="text"
-                                  value={student.name}
+                                  value={student?.name}
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Name"
                                   onChange={handleInputs}
@@ -626,7 +641,7 @@ function Profile() {
                                   type="date"
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter DOB"
-                                  value={student.dob?.slice(0, 10)}
+                                  value={student?.dob?.slice(0, 10)}
                                   onChange={handleInputs}
                                   name="dob"
                                   style={{
@@ -650,7 +665,7 @@ function Profile() {
                                   type="text"
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Passport No"
-                                  value={inputs.passportNo}
+                                  value={student?.passportNo}
                                   onChange={handleInputs}
                                   name="passportNo"
                                   style={{
@@ -674,7 +689,8 @@ function Profile() {
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Email"
                                   name="email"
-                                  value={inputs.email}
+                                  value={student?.email}
+
                                   onChange={handleInputs}
                                   style={{
                                     backgroundColor: "#fff",
@@ -698,7 +714,7 @@ function Profile() {
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Primary Number"
                                   name="primaryNumber"
-                                  value={student.primaryNumber}
+                                  value={student?.primaryNumber}
                                   onChange={handleInputs}
                                   style={{
                                     backgroundColor: "#fff",
@@ -722,7 +738,7 @@ function Profile() {
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter WhatsApp Number"
                                   name="whatsAppNumber"
-                                  value={student.whatsAppNumber}
+                                  value={student?.whatsAppNumber}
                                   onChange={handleInputs}
                                   style={{
                                     backgroundColor: "#fff",

@@ -9,17 +9,16 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { StudentSuperAdmin, getallStudent } from "../../api/student";
-import Sidebar from "../../compoents/StaffSidebar";
+import Mastersidebar from "../../compoents/AdminSidebar";
+import {  getSingleStaff } from "../../api/staff";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
+import {getStaffId } from "../../Utils/storage";
 import BackButton from "../../compoents/backButton";
 function AddAgent() {
-    const location = useLocation();
-    const id = new URLSearchParams(location.search).get("id");
-
-    
+  
   const initialState = {
     source: "",
     name: "",
@@ -38,9 +37,8 @@ function AddAgent() {
     doHaveAnyEnglishLanguageTest: "",
     englishTestType: "",
     testScore: "",
-    dial1: "+91",
-    dial2: "+91",
-    
+    dial1: "",
+    dial2: "",
     dateOfTest: "",
     desiredCountry: "",
     desiredUniversity: "",
@@ -112,6 +110,7 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [staff,setStaff] = useState(null);
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
 
@@ -119,20 +118,22 @@ function AddAgent() {
 
 
   useEffect(() => {
-    getStudentDetails();
+    getStaffDetails();
     getallCodeList();
 }, []);
 
-const getStudentDetails = () => {
-  getallStudent(id)
-        .then((res) => {
-            setStudent(res?.data?.result);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
 
+const getStaffDetails = () => {
+  const id = getStaffId();
+  getSingleStaff(id)
+    .then((res) => {
+      console.log("yuvi", res);
+      setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const getallCodeList = () => {
   getallCode()
     .then((res) => {
@@ -317,10 +318,15 @@ const handleValidation = (data) => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      StudentSuperAdmin(student)
+      StudentSuperAdmin({...student,
+        staffId:staff._id,
+        adminId:staff.adminId
+
+      })
         .then((res) => {
+          console.log("res", res);
           toast.success(res?.data?.message);
-          navigate("/staff_list_studen");
+          navigate("/admin_list-student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -332,7 +338,7 @@ const handleValidation = (data) => {
     
         <div >
          
-            <Sidebar />
+            <Mastersidebar />
         
           <div
             className="content-wrapper "
@@ -444,7 +450,7 @@ const handleValidation = (data) => {
                                   }}
                                   name="name"
                                   onChange={handleInputs}
-                                  className={`form-control ${errors.name.required ? 'is-invalid' : errors.name.valid ? 'is-valid' : '' }`}
+                                  className={`form-control ${errors.name.required ? 'is-invalid' : '' }`}
                                   placeholder="Example John Doe"
                                 />
                                 {errors.name.required ? (
@@ -465,7 +471,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.citizenship.required ? 'is-invalid' : errors.citizenship.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.citizenship.required ? 'is-invalid' :  '' }`}
                                 value={student?.citizenship}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -487,7 +493,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="date"
-                                className={`form-control ${errors.dob.required ? 'is-invalid' : errors.dob.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.dob.required ? 'is-invalid' :  '' }`}
                                 placeholder="Enter Name"
                                 value={student?.dob}
                                 style={{
@@ -510,7 +516,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.passportNo.required ? 'is-invalid' : errors.passportNo.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.passportNo.required ? 'is-invalid' :  '' }`}
                                 value={student?.passportNo}
                                 placeholder="Example M12345678"
                                 style={{
@@ -538,7 +544,7 @@ const handleValidation = (data) => {
                               <input
                                 type="date"
                                 value={student?.expiryDate}
-                                className={`form-control ${errors.expiryDate.required ? 'is-invalid' : errors.expiryDate.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.expiryDate.required ? 'is-invalid' :  '' }`}
                                 placeholder="Enter Contact Number "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -561,7 +567,7 @@ const handleValidation = (data) => {
                               <select
                                 type="text"
                                 value={student?.gender}
-                                className={`form-select ${errors.gender.required ? 'is-invalid' : errors.gender.valid ? 'is-valid' : '' }`}
+                                className={`form-select ${errors.gender.required ? 'is-invalid' :  '' }`}
                                 placeholder="Select Gender"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -588,7 +594,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.email}
-                                className={`form-control ${errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.email.required ? 'is-invalid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -617,7 +623,7 @@ const handleValidation = (data) => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" placeholder= "+91" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={student?.dial1} >
   
   {dial?.map((item) => (
@@ -639,7 +645,7 @@ const handleValidation = (data) => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+        errors.primaryNumber.required ? 'is-invalid' :  ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -707,8 +713,8 @@ const handleValidation = (data) => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.whatsAppNumber.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -740,7 +746,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.highestQualification}
-                                className={`form-control ${errors.highestQualification.required ? 'is-invalid' : errors.highestQualification.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.highestQualification.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -767,7 +773,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.degreeName}
-                                className={`form-control ${errors.degreeName.required ? 'is-invalid' : errors.degreeName.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.degreeName.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -793,7 +799,7 @@ const handleValidation = (data) => {
                               <input
                                 type="number"
                                 value={student?.percentage}
-                                className={`form-control ${errors.percentage.required ? 'is-invalid' : errors.percentage.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.percentage.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -820,7 +826,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.institution}
-                                className={`form-control ${errors.institution.required ? 'is-invalid' : errors.institution.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.institution.required ? 'is-invalid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -847,7 +853,7 @@ const handleValidation = (data) => {
                               <input
                                 type="date"
                                 value={student?.academicYear}
-                                className={`form-control ${errors.academicYear.required ? 'is-invalid' : errors.academicYear.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.academicYear.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -868,7 +874,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="date"
-                                className={`form-control ${errors.yearPassed.required ? 'is-invalid' : errors.yearPassed.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.yearPassed.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -957,7 +963,7 @@ const handleValidation = (data) => {
                                 <select
                                   type="text"
                                   value={student?.doHaveAnyEnglishLanguageTest}
-                                  className={`form-select form-select-lg ${errors.doHaveAnyEnglishLanguageTest.required ? 'is-invalid' : errors.doHaveAnyEnglishLanguageTest.valid ? 'is-valid' : '' }`}
+                                  className={`form-select form-select-lg ${errors.doHaveAnyEnglishLanguageTest.required ? 'is-invalid'  : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1061,7 +1067,7 @@ const handleValidation = (data) => {
                                 <select
                                   type="text"
                                   value={student?.doYouHaveTravelHistory}
-                                  className={`form-select form-select-lg ${errors.doYouHaveTravelHistory.required ? 'is-invalid' : errors.doYouHaveTravelHistory.valid ? 'is-valid' : '' }`}
+                                  className={`form-select form-select-lg ${errors.doYouHaveTravelHistory.required ? 'is-invalid' : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1157,7 +1163,7 @@ const handleValidation = (data) => {
                                 <select
                                   type="text"
                                   value={student?.anyVisaRejections}
-                                  className={`form-select form-select-lg ${errors.anyVisaRejections.required ? 'is-invalid' : errors.anyVisaRejections.valid ? 'is-valid' : '' }`}
+                                  className={`form-select form-select-lg ${errors.anyVisaRejections.required ? 'is-invalid'  : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1266,7 +1272,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.desiredUniversity.required ? 'is-invalid' : errors.desiredUniversity.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.desiredUniversity.required ? 'is-invalid'  : '' }`}
                                 value={student?.desiredUniversity}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -1290,7 +1296,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.desiredCountry}
-                                className={`form-control ${errors.desiredCountry.required ? 'is-invalid' : errors.desiredCountry.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.desiredCountry.required ? 'is-invalid'  : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1313,7 +1319,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.desiredCourse}
-                                className={`form-control ${errors.desiredCourse.required ? 'is-invalid' : errors.desiredCourse.valid ? 'is-valid' : '' }`}
+                                className={`form-control ${errors.desiredCourse.required ? 'is-invalid'  : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1335,7 +1341,7 @@ const handleValidation = (data) => {
                               <select
                                 type="text"
                                 value={student?.finance}
-                                className={`form-select form-select-lg ${errors.finance.required ? 'is-invalid' : errors.finance.valid ? 'is-valid' : '' }`}
+                                className={`form-select form-select-lg ${errors.finance.required ? 'is-invalid'  : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1392,7 +1398,7 @@ const handleValidation = (data) => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/staff_list_studen"
+                                  to="/list_student"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel

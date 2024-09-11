@@ -357,7 +357,7 @@ export const AdminListAccommodation = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddAccommodation">
+                      <Link class="btn btn-pix-primary" to="/admin_add_accommodation">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0  text-white  "
                           style={{
@@ -486,7 +486,7 @@ export const AdminListAccommodation = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewAccommodation",
+                                            pathname: "/admin_view_accommodation",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -497,7 +497,7 @@ export const AdminListAccommodation = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditAccommodation",
+                                            pathname: "/admin_edit_accommodation",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

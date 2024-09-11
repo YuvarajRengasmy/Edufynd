@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallStaff, deleteStaff } from "../../api/staff";
+import { getallStaff,getFilterStaff, deleteStaff } from "../../api/staff";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { formatDate } from "../../Utils/DateFormat";
 import { getAdminIdId } from "../../Utils/storage";
@@ -41,11 +41,12 @@ function AdminListStaff() {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId: getAdminIdId(),
     };
 
-    getallStaff(data)
+    getFilterStaff(data)
       .then((res) => {
-        setStaff(res?.data?.result);
+        setStaff(res?.data?.result?.staffList);
         setPagination({ ...pagination, count: res?.data?.result?.staffCount });
       })
       .catch((err) => {
@@ -360,7 +361,7 @@ function AdminListStaff() {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddStaff">
+                      <Link class="btn btn-pix-primary" to="/admin_add_staff">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -484,7 +485,7 @@ function AdminListStaff() {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewStaff",
+                                            pathname: "/admin_view_staff",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -495,7 +496,7 @@ function AdminListStaff() {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditStaff",
+                                            pathname: "/admin_edit_staff",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

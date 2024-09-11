@@ -325,7 +325,7 @@ export const AdminListNotifications = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewNotifications",
+                                        pathname: "/admin_view_notifications",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -335,7 +335,7 @@ export const AdminListNotifications = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditNotifications",
+                                        pathname: "/admin_edit_notifications",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"

@@ -184,7 +184,7 @@ export const AdminAddAccommodation = () => {
       saveAccommodationEnquiry(forex)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListAccommodation");
+          navigate("/admin_list_accommodation");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

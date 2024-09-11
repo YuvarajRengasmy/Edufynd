@@ -186,7 +186,7 @@ export const AdminEditLoanEnquiry = () => {
       updateLoanEnquiry(loan)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListLoanEnquiry");
+          navigate("/admin_list_loan_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

@@ -381,7 +381,7 @@ export const AdminAddUniversity = () => {
       saveUniversity(updatedUniversity)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListUniversity");
+          navigate("/add_list_university");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

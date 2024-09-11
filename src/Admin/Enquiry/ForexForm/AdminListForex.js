@@ -358,7 +358,7 @@ export const AdminListForex = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary " to="/AdminAddForexForm">
+                      <Link class="btn btn-pix-primary " to="/admin_add_forex_form">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -484,7 +484,7 @@ export const AdminListForex = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewForexForm",
+                                            pathname: "/admin_view_forex_form",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -495,7 +495,7 @@ export const AdminListForex = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditForexForm",
+                                            pathname: "/admin_edit_forex_form",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

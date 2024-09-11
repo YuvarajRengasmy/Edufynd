@@ -316,7 +316,7 @@ const handleValidation = (data) => {
         .then((res) => {
           console.log("res", res);
           toast.success(res?.data?.message);
-          navigate("/list_student");
+          navigate("/admin_list-student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

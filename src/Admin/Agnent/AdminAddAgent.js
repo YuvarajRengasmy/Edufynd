@@ -11,10 +11,9 @@ import {
   isValidNumberLessThanOrEqualTo35,
 } from "../../Utils/Validation";
 import { SuperAgent } from "../../api/agent";
-
+import { getAdminIdId } from "../../Utils/storage";
 import Select from "react-select";
 import { getFilterCountry } from "../../api/globalsettings";
-
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -275,10 +274,11 @@ export const AdminAddAgent = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      SuperAgent(agent)
+      SuperAgent({...agent,
+        adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListAgent");
+          navigate("/admin_list_agent");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1031,7 +1031,7 @@ export const AdminAddAgent = () => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            to="#"
+                            to="agent_list_agent"
                             className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                           >
                             Cancel

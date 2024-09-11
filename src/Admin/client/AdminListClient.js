@@ -492,7 +492,7 @@ export const AdminListClient = () => {
 
                     {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/AdminAddClient">
+                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/admin_add_client">
                         <button
                           className="btn  border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -553,7 +553,7 @@ export const AdminListClient = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewClient",
+                                        pathname: "/admin_view_client",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -567,7 +567,7 @@ export const AdminListClient = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditClient",
+                                        pathname: "/admin_edit_client",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -578,7 +578,7 @@ export const AdminListClient = () => {
                                     </Link>
                                    )}
                                     {studentPrivileges?.delete && (
-                                    <Link
+                                    <button
                                       className="dropdown-item"
                                       onClick={() => {
                                         openPopup(data?._id);
@@ -588,7 +588,7 @@ export const AdminListClient = () => {
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
 
-                                    </Link>
+                                    </button>
                                     )}
                                   </div>
 
