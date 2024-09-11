@@ -247,7 +247,7 @@ export const AdminListPromotions = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddPromotions">
+                      <Link class="btn btn-pix-primary" to="/admin_add_promotions">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -324,7 +324,7 @@ export const AdminListPromotions = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewPromotions",
+                                        pathname: "/admin_view_promotions",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -334,7 +334,7 @@ export const AdminListPromotions = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditPromotions",
+                                        pathname: "/admin_edit_promotions",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"

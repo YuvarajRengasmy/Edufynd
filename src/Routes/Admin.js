@@ -153,7 +153,7 @@ import AdminListEmail from "../Admin/Email/ListEmail";
 import AdminViewEmail from "../Admin/Email/ViewEmail";
 import AdminAddBlog from "../Admin/Blog/AddBlog";
 import AdminEditBlog from "../Admin/Blog/EditBlog";
-import AdminListBlog from "../Admin/Blog/AddBlog";
+import AdminListBlog from "../Admin/Blog/AdminListBlog";
 import AdminViewBlog from "../Admin/Blog/ViewBlog";
 import AdminAddBookings from "../Admin/ELT/Bookings/AddBookings";
 import AdminEditBookings from "../Admin/ELT/Bookings/EditBookings";
