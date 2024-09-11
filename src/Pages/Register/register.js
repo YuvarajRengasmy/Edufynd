@@ -7,6 +7,7 @@ import { isAuthenticated } from '../../Utils/Auth';
 import { saveStudent } from '../../api/student';
 import { saveAgent } from '../../api/agent';
 import { saveSuperAdmin } from '../../api/superAdmin';
+import {saveAdmin} from '../../api/admin'
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import icons for visibility toggle
 
@@ -118,6 +119,23 @@ const Register = () => {
           let loginType = res?.data?.result?.loginType;
           let data = {
             token: token, superAdminId: superAdminId, loginType: loginType
+          };
+          saveToken(data);
+          if (isAuthenticated()) {
+            navigate("/Dashboard");
+          }
+          toast.success(res?.data?.message);
+        }).catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+      }
+      if (type === 'admin') {
+        saveAdmin(inputs).then(res => {
+          let token = res?.data?.result?.token;
+          let adminId = res?.data?.result?.adminDetails?._id;
+          let loginType = res?.data?.result?.loginType;
+          let data = {
+            token: token, adminId: adminId, loginType: loginType
           };
           saveToken(data);
           if (isAuthenticated()) {
