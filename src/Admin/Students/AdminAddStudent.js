@@ -120,11 +120,19 @@ function AddAgent() {
 
 
   useEffect(() => {
-   
+    getStudentDetail();
     getallCodeList();
 }, []);
 
-
+const getStudentDetail = () => {
+  getallStudent()
+        .then((res) => {
+            setStudent(res?.data?.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+  };
 
 const getallCodeList = () => {
   getallCode()
