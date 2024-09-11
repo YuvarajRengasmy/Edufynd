@@ -20,6 +20,10 @@ export const getSingleApplication = (data) => {
   export const updateApplication = (data) => {
     return API.put(`${Application}`, data);
   };
+  export const getFilterApplican = (data) => {
+    return API.put(`${Application}/getFilterApplicant`, data);
+  };
+ 
   export const trackApplication = (data) => {
     return API.put(`${Application}/track`, data);
   };

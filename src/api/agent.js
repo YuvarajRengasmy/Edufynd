@@ -20,7 +20,7 @@ export const getSingleAgent = (data) => {
     return API.get(`${Agent}`)
 }
 export const getFilterAgent = (data) => {
-  return API.put(`${Agent}/getuniversityfilterAgent`, data);
+  return API.put(`${Agent}/getFilterStudentByAgent`, data);
 };
 export const deleteAgent = (data) => {
     return API.delete(`${Agent}`, { params: { _id: data } });
