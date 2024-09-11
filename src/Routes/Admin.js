@@ -1,198 +1,220 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "../../src/Pages/Login/PrivateRoute";
-
-import AdminAddAdmin from "../Admin/Admins/AdminAddAdmin";
-import AdminEditAdmin from "../Admin/Admins/AdminEditAdmin";
+import  NotFound from "../../src/Pages/Login/404FoundError";
+import AdminAddAdmin from "../Admin/Admins/AdminAdd";
+import AdminEditAdmin from "../Admin/Admins/EditAdmin";
 import AdminListAdmin from "../Admin/Admins/AdminListAdmin";
-import AdminViewAdmin from "../Admin/Admins/AdminViewAdmin";
+import AdminViewAdmin from "../Admin/Admins/ViewAdmin";
 
-import AdminAddAgent from "../Admin/Agnent/AdminAddAgent";
-import AdminEditAgent from "../Admin/Agnent/AdminEditAgent";
+import AdminAddAgent from "../Admin/Agnent/addAgent";
+import AdminEditAgent from "../Admin/Agnent/editAgent";
 import AdminListAgent from "../Admin/Agnent/AdminListAgent";
-import AdminViewAgent from "../Admin/Agnent/AdminViewAgent";
-import AdminDashBoard from "../Admin/DashBoard/AdminDashBoard";
-import AdminAddClient from "../Admin/client/AdminAddClient";
-import AdminEditCilent from "../Admin/client/AdminEditCilent";
+import AdminViewAgent from "../Admin/Agnent/viewAgent";
+
+import AdminDashBoard from "../Admin/DashBoard/HeroBox";
+
+import AdminAddClient from "../Admin/client/addclient";
+import AdminEditCilent from "../Admin/client/Edit";
 import AdminListClient from "../Admin/client/AdminListClient";
-import AdminViewClient from "../Admin/client/AdminViewClient";
-import AdminAddUniversity from "../Admin/University/AdminAddUniversity";
-import AdminEditUniversity from "../Admin/University/AdminEditUniversity";
+import AdminViewClient from "../Admin/client/ViewClient";
+
+import AdminAddUniversity from "../Admin/University/addUniversity";
+import AdminEditUniversity from "../Admin/University/editUniversity";
 import AdminListUniversity from "../Admin/University/AdminListUniversity";
-import AdminViewUniversity from "../Admin/University/AdminViewUniversity";
-import AdminAddCommission from "../Admin/commission/AdminAddCommission";
-import AdminEditComission from "../Admin/commission/AdminEditComission";
+import AdminViewUniversity from "../Admin/University/viewUniversity";
+
+import AdminAddCommission from "../Admin/commission/addCommission";
+import AdminEditComission from "../Admin/commission/EditComission";
 import AdminListCommission from "../Admin/commission/AdminListCommission";
-import AdminViewComission from "../Admin/commission/AdminViewComission";
-import AdminAddProgram from "../Admin/Program/AdminAddProgram";
-import AdminEditProgram from "../Admin/Program/AdminEditProgram";
+import AdminViewComission from "../Admin/commission/ViewComission";
+
+import AdminAddProgram from "../Admin/Program/addProgram";
+import AdminEditProgram from "../Admin/Program/editProgram";
 import AdminListPrograms from "../Admin/Program/AdminListPrograms";
-import AdminViewProgram from "../Admin/Program/AdminViewProgram";
-import AdminAddStudent from "../Admin/Students/AdminAddStudent";
-import AdminEditStudent from "../Admin/Students/AdminEditStudent";
+import AdminViewProgram from "../Admin/Program/ViewProgram";
+
+import AdminAddStudent from "../Admin/Students/addStudent";
+import AdminEditStudent from "../Admin/Students/editStudent";
 import AdminListStudent from "../Admin/Students/AdminListStudent";
-import AdminViewStudent from "../Admin/Students/AdminViewStudent";
-import AdminAddStaff from "../Admin/Staff/AdminAddStaff";
-import AdminEditStaff from "../Admin/Staff/AdminEditStaff";
+import AdminViewStudent from "../Admin/Students/viewStudent";
+
+import AdminAddStaff from "../Admin/Staff/addStaff";
+import AdminEditStaff from "../Admin/Staff/editStaff";
 import AdminListStaff from "../Admin/Staff/AdminListStaff";
-import AdminViewStaff from "../Admin/Staff/AdminViewStaff";
-import AdminAddApplication from "../Admin/Application/AdminAddApplication";
-import AdminEditApplication from "../Admin/Application/AdminEditApplication";
+import AdminViewStaff from "../Admin/Staff/viewStaff";
+
+import AdminAddApplication from "../Admin/Application/AddApplication";
+import AdminEditApplication from "../Admin/Application/EditApplication";
 import AdminListApplication from "../Admin/Application/AdminListApplication";
-import AdminViewApplication from "../Admin/Application/AdminViewApplication";
-import AdminAddStudentForm from "../Admin/Enquiry/Studentsenquiry/AdminAddStudentForm";
-import AdminEditStudentForm from "../Admin/Enquiry/Studentsenquiry/AdminEditStudentForm";
-import AdminListStudentForm from "../Admin/Enquiry/Studentsenquiry/AdminListStudentForm";
-import AdminViewStudentForm from "../Admin/Enquiry/Studentsenquiry/AdminViewStudentForm";
-import AdminAddForex from "../Admin/Enquiry/ForexForm/AdminAddForex";
-import AdminEditForex from "../Admin/Enquiry/ForexForm/AdminEditForex";
-import AdminListForex from "../Admin/Enquiry/ForexForm/AdminListForex";
-import AdminViewForex from "../Admin/Enquiry/ForexForm/AdminViewForex";
-import AdminAddAccommodation from "../Admin/Enquiry/Accomodation/AdminAddAccommodation";
-import AdminEditAccommodation from "../Admin/Enquiry/Accomodation/AdminEditAccommodation";
-import AdminListAccommodation from "../Admin/Enquiry/Accomodation/AdminListAccommodation";
-import AdminViewAccommodation from "../Admin/Enquiry/Accomodation/AdminViewAccommodation";
-import AdminAddFlightTicket from "../Admin/Enquiry/FlightTicket/AdminAddFlightTicket";
-import AdminEditFlightTicket from "../Admin/Enquiry/FlightTicket/AdminEditFlightTicket";
-import AdminListFlightTicket from "../Admin/Enquiry/FlightTicket/AdminListFlightTicket";
-import AdminViewFlightTicket from "../Admin/Enquiry/FlightTicket/AdminViewFlightTicket";
-import AdminAddLoanEnquiry from "../Admin/Enquiry/Loans/AdminAddLoanEnquiry";
-import AdminEditLoanEnquiry from "../Admin/Enquiry/Loans/AdminEditLoanEnquiry";
-import AdminListLoanEnquiry from "../Admin/Enquiry/Loans/AdminListLoanEnquiry";
-import AdminViewLoanEnquiry from "../Admin/Enquiry/Loans/AdminViewLoanEnquiry";
-import AdminAddBusiness from "../Admin/Enquiry/Business/AdminAddBusiness";
-import AdminEditBusiness from "../Admin/Enquiry/Business/AdminEditBusiness";
-import AdminListBusiness from "../Admin/Enquiry/Business/AdminListBusiness";
-import AdminViewBusiness from "../Admin/Enquiry/Business/AdminViewBusiness";
-import AdminAddGeneralEnquiry from "../Admin/Enquiry/General/AdminAddGeneralEnquiry";
-import AdminEditGeneralEnquiry from "../Admin/Enquiry/General/AdminEditGeneralEnquiry";
-import AdminListGeneralEnquiry from "../Admin/Enquiry/General/AdminListGeneralEnquiry";
-import AdminViewGeneralEnquiry from "../Admin/Enquiry/General/AdminViewGeneralEnquiry";
-import AdminAddIncome from "../Admin/Finance/Income/AdminAddIncome";
-import AdminEditIncome from "../Admin/Finance/Income/AdminEditIncome";
-import AdminListIncome from "../Admin/Finance/Income/AdminListIncome";
-import AdminViewIncome from "../Admin/Finance/Income/AdminViewIncome";
-import AdminAddExpenses from "../Admin/Finance/Expenses/AdminAddExpenses";
-import AdminEditExpenses from "../Admin/Finance/Expenses/AdminEditExpenses";
-import AdminListExpenses from "../Admin/Finance/Expenses/AdminListExpenses";
-import AdminViewExpenses from "../Admin/Finance/Expenses/AdminViewExpenses";
-import AdminAddQuotation from "../Admin/Finance/Raise Quotations/AdminAddQuotation";
-import AdminEditQuotation from "../Admin/Finance/Raise Quotations/AdminEditQuotation";
-import AdminListQuotations from "../Admin/Finance/Raise Quotations/AdminListQuotation";
-import AdminViewQuotation from "../Admin/Finance/Raise Quotations/AdminViewQuotation";
-import AdminAddSenderInvoice from "../Admin/Invoices/AdminAddSenderInvoice";
-import AdminAddRecieverInvoice from "../Admin/Invoices/AdminAddRecieverInvoice";
-import AdminEditInvoice from "../Admin/Invoices/AdminEditInvoice";
+import AdminViewApplication from "../Admin/Application/ViewAppliaction";
+
+
+
+
+import AdminAddIncome from "../Admin/Finance/Income/AddIncome";
+import AdminEditIncome from "../Admin/Finance/Income/EditIncome";
+import AdminListIncome from "../Admin/Finance/Income/ListIncome";
+import AdminViewIncome from "../Admin/Finance/Income/ViewIncome";
+import AdminAddExpenses from "../Admin/Finance/Expenses/AddExpenses";
+import AdminEditExpenses from "../Admin/Finance/Expenses/EditExpenses";
+import AdminListExpenses from "../Admin/Finance/Expenses/ListExpenses";
+import AdminViewExpenses from "../Admin/Finance/Expenses/ViewExpenses";
+import AdminAddQuotation from "../Admin/Finance/Raise Quotations/AddQuotation";
+import AdminEditQuotation from "../Admin/Finance/Raise Quotations/EditQuotation";
+import AdminListQuotations from "../Admin/Finance/Raise Quotations/ListQuottions";
+import AdminViewQuotation from "../Admin/Finance/Raise Quotations/ViewQuotation";
+import AdminAddSenderInvoice from "../Admin/Invoices/AddSenderInvoice";
+import AdminAddRecieverInvoice from "../Admin/Invoices/AddRecieverInvoice";
+import AdminEditInvoice from "../Admin/Invoices/Editinvoice";
 import AdminListInvoice from "../Admin/Invoices/AdminListInvoice";
-import AdminViewInvoice from "../Admin/Invoices/AdminViewInvoice";
-import AdminAddIncomeReport from "../Admin/Finance/Income Report/AdminAddIncomeReport";
-import AdminEditIncomeReport from "../Admin/Finance/Income Report/AdminEditIncomeReport";
-import AdminListIncomeReport from "../Admin/Finance/Income Report/AdminListIncomereport";
-import AdminViewIncomeReport from "../Admin/Finance/Income Report/AdminViewIncomeReport";
-import AdminAddHrmStaff from "../Admin/HRMS/Staff/AdminAddHrmStaff";
-import AdminEditHrmStaff from "../Admin/HRMS/Staff/AdminEditHrmStaff";
-import AdminListHrmStaff from "../Admin/HRMS/Staff/AdminListHrmStaff";
-import AdminViewHrmStaff from "../Admin/HRMS/Staff/AdminViewHrmStaff";
-import AdminAddAttendance from "../Admin/HRMS/Attendance/AdminAddAttendance";
-import AdminEditAttendance from "../Admin/HRMS/Attendance/AdminEditAttendance";
-import AdminListAttendance from "../Admin/HRMS/Attendance/AdminListAttendance";
-import AdminViewAttendance from "../Admin/HRMS/Attendance/AdminViewAttendance";
-import AdminAddPayroll from "../Admin/HRMS/Payroll/AdminAddPayroll";
-import AdminEditPayroll from "../Admin/HRMS/Payroll/AdminEditPayroll";
-import AdminListPayroll from "../Admin/HRMS/Payroll/AdminListPayroll";
-import AdminViewPayroll from "../Admin/HRMS/Payroll/AdminViewPayroll";
-import AdminAddLeave from "../Admin/HRMS/Leave/AdminAddLeave";
-import AdminEditLeave from "../Admin/HRMS/Leave/AdminEditLeave";
-import AdminListLeave from "../Admin/HRMS/Leave/AdminListLeave";
-import AdminViewLeave from "../Admin/HRMS/Leave/AdminViewLeave";
-import AdminAddKPI from "../Admin/HRMS/KPI/AdminAddKPI";
-import AdminEditKPI from "../Admin/HRMS/KPI/AdminEditKPI";
-import AdminListKPI from "../Admin/HRMS/KPI/AdminListKPI";
-import AdminViewKPI from "../Admin/HRMS/KPI/AdminViewKPI";
-import AdminAddPolicies from "../Admin/HRMS/Policies/AdminAddPolicies";
-import AdminEditPolicies from "../Admin/HRMS/Policies/AdminEditPolicies";
-import AdminListPolicies from "../Admin/HRMS/Policies/AdminListPolicies";
-import AdminViewPolicies from "../Admin/HRMS/Policies/AdminViewPolicies";
-import AdminAddPerformanceReport from "../Admin/HRMS/Performance Report/AdminAddPerformanceReport";
-import AdminEditPerformanceReports from "../Admin/HRMS/Performance Report/AdminEditPerformanceReports";
-import AdminListPeformanceReport from "../Admin/HRMS/Performance Report/AdminListPerformanceReport";
-import AdminViewPerformanceReports from "../Admin/HRMS/Performance Report/AdminViewPerformanceReports";
-import AdminAddProject from "../Admin/Project & Task/Project/AdminAddProject";
-import AdminEditProject from "../Admin/Project & Task/Project/AdminEditProject";
-import AdminListProject from "../Admin/Project & Task/Project/AdminListProject";
-import AdminViewProject from "../Admin/Project & Task/Project/AdminViewProject";
-import AdminAddTask from "../Admin/Project & Task/Task/AdminAddTask";
-import AdminEditTask from "../Admin/Project & Task/Task/AdminEditTask";
-import AdminListTask from "../Admin/Project & Task/Task/AdminListTask";
-import AdminViewTask from "../Admin/Project & Task/Task/AdminViewTask";
-import AdminAddSocialMedia from "../Admin/Marketing/SocialMedia/AdminAddSocialMedia";
-import AdminEditSocialMedia from "../Admin/Marketing/SocialMedia/AdminEditSocialMedia";
-import AdminListSocialMedia from "../Admin/Marketing/SocialMedia/AdminListSocialMedia";
-import AdminViewSocialMedia from "../Admin/Marketing/SocialMedia/AdminViewSocialMedia";
-import AdminAddCampaign from "../Admin/Marketing/Campaign/AdminAddCampaign";
-import AdminEditCampaign from "../Admin/Marketing/Campaign/AdminEditCampaign";
-import AdminListCampaign from "../Admin/Marketing/Campaign/AdminListCampaign";
-import AdminViewCampaign from "../Admin/Marketing/Campaign/AdminViewCampaign";
-import AdminAddDailyTask from "../Admin/Marketing/DailyTask/AdminAddDailyTask";
-import AdminEditDailyTask from "../Admin/Marketing/DailyTask/AdminEditDailyTask";
-import AdminListDailyTask from "../Admin/Marketing/DailyTask/AdminListDailyTask";
-import AdminViewDailyTask from "../Admin/Marketing/DailyTask/AdminViewDailyTask";
-import AdminAddNotifications from "../Admin/Notifications/AdminAddNotifications";
-import AdminEditNotifications from "../Admin/Notifications/AdminEditNotifications";
-import AdminViewNotifications from "../Admin/Notifications/AdminViewNotifications";
-import AdminAddMeetings from "../Admin/Meetings/AdminAddMeetings";
-import AdminEditMeetings from "../Admin/Meetings/AdminEditMeetings";
+import AdminViewInvoice from "../Admin/Invoices/Viewinvoice";
+import AdminAddIncomeReport from "../Admin/Finance/Income Report/AddIncomeReport";
+import AdminEditIncomeReport from "../Admin/Finance/Income Report/EditIncomeReport";
+import AdminListIncomeReport from "../Admin/Finance/Income Report/ListIncomereport";
+import AdminViewIncomeReport from "../Admin/Finance/Income Report/ViewIncomeReport";
+import AdminAddHRMStaff from "../Admin/HRMS/Staff/AddHrmStaff";
+import AdminEditHRMStaff from "../Admin/HRMS/Staff/EditHrmStaff";
+import AdminListHRMStaff from "../Admin/HRMS/Staff/ListHrmStaff";
+import AdminViewHRMStaff from "../Admin/HRMS/Staff/ViewHrmStaff";
+import AdminAddAttendance from "../Admin/HRMS/Attendance/AddAttendance";
+import AdminEditAttendance from "../Admin/HRMS/Attendance/EditAttendance";
+import AdminListAttendance from "../Admin/HRMS/Attendance/ListAttendance";
+import AdminViewAttendance from "../Admin/HRMS/Attendance/ViewAttendance";
+import AdminAddPayroll from "../Admin/HRMS/Payroll/AddPayroll";
+import AdminEditPayroll from "../Admin/HRMS/Payroll/EditPayroll";
+import AdminListPayroll from "../Admin/HRMS/Payroll/ListPayroll";
+import AdminViewPayroll from "../Admin/HRMS/Payroll/ViewPayroll";
+import AdminAddLeave from "../Admin/HRMS/Leave/AddLeave";
+import AdminEditLeave from "../Admin/HRMS/Leave/EditLeave";
+import AdminListLeave from "../Admin/HRMS/Leave/ListLeave";
+import AdminViewLeave from "../Admin/HRMS/Leave/ViewLeave";
+import AdminAddKPI from "../Admin/HRMS/KPI/AddKPI";
+import AdminEditKPI from "../Admin/HRMS/KPI/EditKPI";
+import AdminListKPI from "../Admin/HRMS/KPI/ListKPI";
+import AdminViewKPI from "../Admin/HRMS/KPI/ViewKPI";
+import AdminAddPolicies from "../Admin/HRMS/Policies/AddPolicies";
+import AdminEditPolicies from "../Admin/HRMS/Policies/EditPolicies";
+import AdminListPolicies from "../Admin/HRMS/Policies/ListPolicies";
+import AdminViewPolicies from "../Admin/HRMS/Policies/ViewPolicies";
+import AdminAddPerformanceReport from "../Admin/HRMS/Performance Report/AddPerformanceReport";
+import AdminEditPerformanceReports from "../Admin/HRMS/Performance Report/EditPerformanceReports";
+import AdminListPeformanceReport from "../Admin/HRMS/Performance Report/ListPerformanceReport";
+import AdminViewPerformanceReports from "../Admin/HRMS/Performance Report/ViewPerformanceReports";
+import AdminAddProject from "../Admin/Project & Task/Project/AddProject";
+import AdminEditProject from "../Admin/Project & Task/Project/EditProject";
+import AdminListProject from "../Admin/Project & Task/Project/ListProject";
+import AdminViewProject from "../Admin/Project & Task/Project/ViewProject";
+import AdminAddTask from "../Admin/Project & Task/Task/AddTask";
+import AdminEditTask from "../Admin/Project & Task/Task/EditTask";
+import AdminListTask from "../Admin/Project & Task/Task/ListTask";
+import AdminViewTask from "../Admin/Project & Task/Task/ViewTask";
 
-import AdminViewMeetings from "../Admin/Meetings/AdminViewMeetings";
-import AdminAddTraining from "../Admin/Training/AdminAddTraining";
-import AdminEditTraining from "../Admin/Training/AdminEditTraining";
+import AdminAddCampaign from "../Admin/Marketing/Campaign/AddCampaign";
+import AdminEditCampaign from "../Admin/Marketing/Campaign/EditCampaign";
+import AdminListCampaign from "../Admin/Marketing/Campaign/ListCampaign";
+import AdminViewCampaign from "../Admin/Marketing/Campaign/ViewCampaign";
+import AdminAddDailyTask from "../Admin/Marketing/DailyTask/AddDailyTask";
+import AdminEditDailyTask from "../Admin/Marketing/DailyTask/EditDailyTask";
+import AdminListDailyTask from "../Admin/Marketing/DailyTask/ListDailyTask";
+import AdminViewDailyTask from "../Admin/Marketing/DailyTask/ViewDailyTask";
+import AdminAddNotifications from "../Admin/Notifications/AddNotifications";
+import AdminEditNotifications from "../Admin/Notifications/EditNotifications";
+import AdminViewNotifications from "../Admin/Notifications/ViewNotifications";
 
-import AdminViewTraining from "../Admin/Training/AdminViewTraining";
-import AdminAddPromotions from "../Admin/Promotion/AdminAddPromotions";
-import AdminEditPromotions from "../Admin/Promotion/AdminEditPromotions";
+import AdminAddMeetings from "../Admin/Meetings/AddMeetings";
+import AdminEditMeetings from "../Admin/Meetings/EditMeetings";
 
-import AdminViewPromotion from "../Admin/Promotion/AdminViewPromotion";
-import AdminAddTestimonials from "../Admin/Testimonials/AdminAddTestimonials";
-import AdminEditTestimonials from "../Admin/Testimonials/AdminEditTestimonials";
+import AdminViewMeetings from "../Admin/Meetings/ViewMeetings";
 
-import AdminViewTestimonials from "../Admin/Testimonials/AdminViewTestimonials";
+import AdminAddTraining from "../Admin/Training/AddTraining";
+import AdminEditTraining from "../Admin/Training/EditTraining";
+
+import AdminViewTraining from "../Admin/Training/ViewTraining";
+import AdminAddPromotions from "../Admin/Promotion/AddPromotions";
+import AdminEditPromotions from "../Admin/Promotion/EditPromotions";
+
+import AdminViewPromotion from "../Admin/Promotion/ViewPromotion";
+import AdminAddTestimonials from "../Admin/Testimonials/AddTestimonials";
+import AdminEditTestimonials from "../Admin/Testimonials/EditTestimonials";
+
+import AdminViewTestimonials from "../Admin/Testimonials/ViewTestimonials";
 import AdminAddChat from "../Admin/Chat/AdminAddChat";
 import AdminEditChat from "../Admin/Chat/AdminEditChat";
-import AdminListChat from "../Admin/Chat/AdminListChat";
+import AdminListChat from "../Admin/Chat/ListChat";
 import AdminViewChat from "../Admin/Chat/AdminViewChat";
-import AdminAddEvents from "../Admin/Events/AdminAddEvents";
-import AdminEditEvents from "../Admin/Events/AdminEditEvents";
+import AdminAddEvents from "../Admin/Events/AddEvents";
+import AdminEditEvents from "../Admin/Events/EditEvents";
 // import AdminListEvents from "../Admin/Events/AdminListEvents";
-import AdminViewEvents from "../Admin/Events/AdminViewEvents";
-import AdminAddEmail from "../Admin/Email/AdminAddEmail";
-import AdminEditEmail from "../Admin/Email/AdminEditEmail";
-import AdminListEmail from "../Admin/Email/AdminListEmail";
-import AdminViewEmail from "../Admin/Email/AdminViewEmail";
-import AdminAddBlog from "../Admin/Blog/AdminAddBlog";
-import AdminEditBlog from "../Admin/Blog/AdminEditBlog";
+import AdminViewEvents from "../Admin/Events/ViewEvents";
+import AdminAddEmail from "../Admin/Email/AddEmail";
+import AdminEditEmail from "../Admin/Email/EditEmail";
+import AdminListEmail from "../Admin/Email/ListEmail";
+import AdminViewEmail from "../Admin/Email/ViewEmail";
+import AdminAddBlog from "../Admin/Blog/AddBlog";
+import AdminEditBlog from "../Admin/Blog/EditBlog";
 import AdminListBlog from "../Admin/Blog/AdminListBlog";
-import AdminViewBlog from "../Admin/Blog/AdminViewBlog";
-import AdminAddBookings from "../Admin/ELT/Bookings/AdminAddBookings";
-import AdminEditBookings from "../Admin/ELT/Bookings/AdminEditBookings";
-import AdminListBookings from "../Admin/ELT/Bookings/AdminListBookings";
-import AdminViewBookings from "../Admin/ELT/Bookings/AdminViewBookings";
-import AdminAddClassSchedule from "../Admin/ELT/Class Schedule/AdminAddClassSchedule";
-import AdminEditClassSchedule from "../Admin/ELT/Class Schedule/AdminEditClassSchedule";
-import AdminListClassSchedule from "../Admin/ELT/Class Schedule/AdminListClassSchedule";
-import AdminViewClassSchedule from "../Admin/ELT/Class Schedule/AdminViewClassSchedule";
+import AdminViewBlog from "../Admin/Blog/ViewBlog";
+import AdminAddBookings from "../Admin/ELT/Bookings/AddBookings";
+import AdminEditBookings from "../Admin/ELT/Bookings/EditBookings";
+import AdminListBookings from "../Admin/ELT/Bookings/ListBookings";
+import AdminViewBookings from "../Admin/ELT/Bookings/ViewBookings";
+import AdminAddClassSchedule from "../Admin/ELT/Class Schedule/AddClassSchedule";
+import AdminEditClassSchedule from "../Admin/ELT/Class Schedule/EditClassSchedule";
+import AdminListClassSchedule from "../Admin/ELT/Class Schedule/ListClassSchedule";
+import AdminViewClassSchedule from "../Admin/ELT/Class Schedule/ViewClassSchedule";
+
 import AdminListTraining from "../Admin/Training/AdminListTraining";
 import AdminListTestimonials from "../Admin/Testimonials/AdminListTestimonials";
 import AdminListPromotions from "../Admin/Promotion/AdminListPromotions";
 import AdminListEvents from "../Admin/Events/AdminListEvents";
+
 import AdminListMeetings from "../Admin/Meetings/AdminListMeetings";
+
 import AdminListNotifications from "../Admin/Notifications/AdminListNotifications";
+
+
+import StudentForm from "../Admin/Enquiry/Studentsenquiry/StudentForm";
+import EditStudentForm from "../Admin/Enquiry/Studentsenquiry/EditStudentForm";
+import ListStudentForm from "../Admin/Enquiry/Studentsenquiry/AdminListStudentForm";
+import AddStudentForm from "../Admin/Enquiry/Studentsenquiry/AddStudentForm";
+
+import AddAccomodation from "../Admin/Enquiry/Accomodation/AddAccommodation";
+import EditAccomodation from "../Admin/Enquiry/Accomodation/EditAccommodation";
+import ListAccomodation from "../Admin/Enquiry/Accomodation/AdminListAccommodation";
+import ViewAccomodation from "../Admin/Enquiry/Accomodation/ViewAccommodation";
+
+import AddBusiness from "../Admin/Enquiry/Business/AddBusiness";
+import EditBusiness from "../Admin/Enquiry/Business/EditBusiness";
+import ListBusiness from "../Admin/Enquiry/Business/AdminListBusiness";
+import ViewBusiness from "../Admin/Enquiry/Business/ViewBusiness";
+
+import AddFlightTicket from "../Admin/Enquiry/FlightTicket/AddFlightTicket";
+import EditFlightTicket from "../Admin/Enquiry/FlightTicket/EditFlightTicket";
+import ListFlightTicket from "../Admin/Enquiry/FlightTicket/AdminListFlightTicket";
+import ViewFlightTicket from "../Admin/Enquiry/FlightTicket/ViewFlightTicket";
+
+import AddForex from "../Admin/Enquiry/ForexForm/AddForex";
+import ViewForex from "../Admin/Enquiry/ForexForm/ViewForex";
+import EditForex from "../Admin/Enquiry/ForexForm/editForex";
+import ListForex from "../Admin/Enquiry/ForexForm/AdminListForex";
+
+import AddGeneralEnquiry from "../Admin/Enquiry/General/addGeneralEnquiry";
+import EditGeneralEnquiry from "../Admin/Enquiry/General/editGeneralEnquiry";
+import ListGeneralEnquiry from "../Admin/Enquiry/General/AdminListGeneralEnquiry";
+import ViewGeneralEnquiry from "../Admin/Enquiry/General/viewGeneralEnquiry";
+
+import ViewLoanEnquiry from "../Admin/Enquiry/Loans/viewLoanEnquiry";
+import AddLoanEnquiry from "../Admin/Enquiry/Loans/addLoanEnquiry";
+import EditLoanEnquiry from "../Admin/Enquiry/Loans/editLoanEnquiry";
+import ListLoanEnquiry from "../Admin/Enquiry/Loans/AdminListLoanEnquiry";
 
 export const Admin = () => {
   return (
 
     <Routes>
       <Route
-        path="/AdminDashboard"
+        path="/admin_dashboard"
         element={
           <PrivateRoute>
             <AdminDashBoard />
@@ -201,7 +223,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddClient"
+        path="/admin_add__client"
         element={
           <PrivateRoute>
             <AdminAddClient />
@@ -209,7 +231,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditClient"
+        path="/admin_edit_client"
         element={
           <PrivateRoute>
             <AdminEditCilent />
@@ -217,7 +239,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListClient"
+        path="/admin_list_client"
         element={
           <PrivateRoute>
             <AdminListClient />
@@ -225,7 +247,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewClient"
+        path="/admin_view_client"
         element={
           <PrivateRoute>
             <AdminViewClient />
@@ -234,7 +256,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddUniversity"
+        path="/admin_add_university"
         element={
           <PrivateRoute>
             <AdminAddUniversity />
@@ -242,7 +264,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditUniversity"
+        path="/admin_edit_university"
         element={
           <PrivateRoute>
             <AdminEditUniversity />
@@ -250,7 +272,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListUniversity"
+        path="/admin_list_university"
         element={
           <PrivateRoute>
             <AdminListUniversity />
@@ -258,7 +280,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewUniversity"
+        path="/admin_view_university"
         element={
           <PrivateRoute>
             <AdminViewUniversity />
@@ -267,7 +289,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddCommission"
+        path="/admin_add_commission"
         element={
           <PrivateRoute>
             <AdminAddCommission />
@@ -275,7 +297,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditCommission"
+        path="/admin_edit_commission"
         element={
           <PrivateRoute>
             <AdminEditComission />
@@ -283,7 +305,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListCommission"
+        path="/admin_list_commission"
         element={
           <PrivateRoute>
             <AdminListCommission />
@@ -291,7 +313,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewCommission"
+        path="/admin_view_commission"
         element={
           <PrivateRoute>
             <AdminViewComission />
@@ -300,7 +322,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddProgram"
+        path="/admin_add_program"
         element={
           <PrivateRoute>
             <AdminAddProgram />
@@ -308,7 +330,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditProgram"
+        path="/admin_edit_program"
         element={
           <PrivateRoute>
             <AdminEditProgram />
@@ -316,7 +338,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListProgram"
+        path="/admin_list_program"
         element={
           <PrivateRoute>
             <AdminListPrograms />
@@ -324,7 +346,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewProgram"
+        path="/admin_view_program"
         element={
           <PrivateRoute>
             <AdminViewProgram />
@@ -333,7 +355,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddStudent"
+        path="/admin_add_student"
         element={
           <PrivateRoute>
             <AdminAddStudent />
@@ -341,7 +363,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditStudent"
+        path="/admin_edit_student"
         element={
           <PrivateRoute>
             <AdminEditStudent />
@@ -349,7 +371,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListStudent"
+        path="/admin_list_student"
         element={
           <PrivateRoute>
             <AdminListStudent />
@@ -357,7 +379,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewStudent"
+        path="/admin_view_student"
         element={
           <PrivateRoute>
             <AdminViewStudent />
@@ -366,7 +388,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddStaff"
+        path="/admin_add_staff"
         element={
           <PrivateRoute>
             <AdminAddStaff />
@@ -374,7 +396,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditStaff"
+        path="/admin_edit_staff"
         element={
           <PrivateRoute>
             <AdminEditStaff />
@@ -382,7 +404,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListStaff"
+        path="/admin_list_staff"
         element={
           <PrivateRoute>
             <AdminListStaff />
@@ -390,7 +412,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewStaff"
+        path="/admin_view_staff"
         element={
           <PrivateRoute>
             <AdminViewStaff />
@@ -399,7 +421,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddAgent"
+        path="/admin_add_agent"
         element={
           <PrivateRoute>
             <AdminAddAgent />
@@ -407,7 +429,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditAgent"
+        path="/admin_edit_agent"
         element={
           <PrivateRoute>
             <AdminEditAgent />
@@ -415,7 +437,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListAgent"
+        path="/admin_list_agent"
         element={
           <PrivateRoute>
             <AdminListAgent />
@@ -423,7 +445,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewAgent"
+        path="/admin_view_agent"
         element={
           <PrivateRoute>
             <AdminViewAgent />
@@ -432,7 +454,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddApplication"
+        path="/admin_add_application"
         element={
           <PrivateRoute>
             <AdminAddApplication />
@@ -440,7 +462,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditApplication"
+        path="/admin_edit_application"
         element={
           <PrivateRoute>
             <AdminEditApplication />
@@ -448,7 +470,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListApplication"
+        path="/admin_list_application"
         element={
           <PrivateRoute>
             <AdminListApplication />
@@ -456,243 +478,17 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewApplication"
+        path="/admin_view_application"
         element={
           <PrivateRoute>
             <AdminViewApplication />
           </PrivateRoute>
         }
       />
-      <Route
-        path="/AdminAddFormStudent"
-        element={
-          <PrivateRoute>
-            <AdminAddStudentForm />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditFormStudent"
-        element={
-          <PrivateRoute>
-            <AdminEditStudentForm />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListFormStudent"
-        element={
-          <PrivateRoute>
-            <AdminListStudentForm />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewFormStudent"
-        element={
-          <PrivateRoute>
-            <AdminViewStudentForm />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminAddForexForm"
-        element={
-          <PrivateRoute>
-            <AdminAddForex />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditForexForm"
-        element={
-          <PrivateRoute>
-            <AdminEditForex />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListForexForm"
-        element={
-          <PrivateRoute>
-            <AdminListForex />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewForexForm"
-        element={
-          <PrivateRoute>
-            <AdminViewForex />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminAddAccommodation"
-        element={
-          <PrivateRoute>
-            <AdminAddAccommodation />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditAccommodation"
-        element={
-          <PrivateRoute>
-            <AdminEditAccommodation />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListAccommodation"
-        element={
-          <PrivateRoute>
-            <AdminListAccommodation />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewAccommodation"
-        element={
-          <PrivateRoute>
-            <AdminViewAccommodation />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminAddFlightTicket"
-        element={
-          <PrivateRoute>
-            <AdminAddFlightTicket />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditFlightTicket"
-        element={
-          <PrivateRoute>
-            <AdminEditFlightTicket />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListFlightTicket"
-        element={
-          <PrivateRoute>
-            <AdminListFlightTicket />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewFlightTicket"
-        element={
-          <PrivateRoute>
-            <AdminViewFlightTicket />
-          </PrivateRoute>
-        }
-      />
+     
 
       <Route
-        path="/AdminAddLoanEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminAddLoanEnquiry />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditLoanEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminEditLoanEnquiry />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListLoanEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminListLoanEnquiry />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewLoanEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminViewLoanEnquiry />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/AdminAddBusinessEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminAddBusiness />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditBusinessEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminEditBusiness />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListBusinessEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminListBusiness />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewBusinessEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminViewBusiness />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/AdminAddGeneralEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminAddGeneralEnquiry />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditGeneralEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminEditGeneralEnquiry />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListGeneralEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminListGeneralEnquiry />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewGeneralEnquiry"
-        element={
-          <PrivateRoute>
-            <AdminViewGeneralEnquiry />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/AdminAddIncome"
+        path="/admin_add_income"
         element={
           <PrivateRoute>
             <AdminAddIncome />
@@ -700,7 +496,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditIncome"
+        path="/admin_edit_income"
         element={
           <PrivateRoute>
             <AdminEditIncome />
@@ -708,7 +504,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListIncome"
+        path="/admin_list_income"
         element={
           <PrivateRoute>
             <AdminListIncome />
@@ -716,7 +512,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewIncome"
+        path="/admin_view_income"
         element={
           <PrivateRoute>
             <AdminViewIncome />
@@ -725,7 +521,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddExpenses"
+        path="/admin_add_expenses"
         element={
           <PrivateRoute>
             <AdminAddExpenses />
@@ -733,7 +529,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditExpenses"
+        path="/admin_edit_expenses"
         element={
           <PrivateRoute>
             <AdminEditExpenses />
@@ -741,7 +537,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListExpenses"
+        path="/admin_list_expenses"
         element={
           <PrivateRoute>
             <AdminListExpenses />
@@ -749,7 +545,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewExpenses"
+        path="/admin_view_expenses"
         element={
           <PrivateRoute>
             <AdminViewExpenses />
@@ -758,7 +554,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddRaiseQuotations"
+        path="/admin_add_raisequotations"
         element={
           <PrivateRoute>
             <AdminAddQuotation />
@@ -766,7 +562,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditRaiseQuotations"
+        path="/admin_edit_raisequotations"
         element={
           <PrivateRoute>
             <AdminEditQuotation />
@@ -774,7 +570,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListRaiseQuotations"
+        path="/admin_list_raisequotations"
         element={
           <PrivateRoute>
             <AdminListQuotations />
@@ -782,7 +578,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewRaiseQuotations"
+        path="/admin_view_raisequotations"
         element={
           <PrivateRoute>
             <AdminViewQuotation />
@@ -791,7 +587,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddSenderInvoice"
+        path="/admin_add_sender_invoice"
         element={
           <PrivateRoute>
             <AdminAddSenderInvoice />
@@ -799,7 +595,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminAddRecieverInvoice"
+        path="/admin_add_reciever_invoice"
         element={
           <PrivateRoute>
             <AdminAddRecieverInvoice />
@@ -807,7 +603,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditInvoice"
+        path="/admin_edit_invoice"
         element={
           <PrivateRoute>
             <AdminEditInvoice />
@@ -815,7 +611,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListInvoice"
+        path="/admin_list_invoice"
         element={
           <PrivateRoute>
             <AdminListInvoice />
@@ -823,7 +619,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewInvoice"
+        path="/admin_view_invoice"
         element={
           <PrivateRoute>
             <AdminViewInvoice />
@@ -832,7 +628,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddIncomeReport"
+        path="/admin_add_income_report"
         element={
           <PrivateRoute>
             <AdminAddIncomeReport />
@@ -840,7 +636,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditIncomeReport"
+        path="/admin_edit_income_report"
         element={
           <PrivateRoute>
             <AdminEditIncomeReport />
@@ -848,7 +644,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListIncomeReport"
+        path="/admin_list_income_report"
         element={
           <PrivateRoute>
             <AdminListIncomeReport />
@@ -856,7 +652,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewIncomeReport"
+        path="/admin_view_income_report"
         element={
           <PrivateRoute>
             <AdminViewIncomeReport />
@@ -865,40 +661,40 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddHRMStaff"
+        path="/admin_add_hrm_staff"
         element={
           <PrivateRoute>
-            <AdminAddHrmStaff />
+            <AdminAddHRMStaff />
           </PrivateRoute>
         }
       />
       <Route
-        path="/AdminEditHRMStaff"
+        path="/admin_edit_hrm_staff"
         element={
           <PrivateRoute>
-            <AdminEditHrmStaff />
+            <AdminEditHRMStaff />
           </PrivateRoute>
         }
       />
       <Route
-        path="/AdminListHRMStaff"
+        path="/admin_list_hrm_staff"
         element={
           <PrivateRoute>
-            <AdminListHrmStaff />
+            <AdminListHRMStaff />
           </PrivateRoute>
         }
       />
       <Route
-        path="/AdminViewHRMStaff"
+        path="/admin_view_hrm_staff"
         element={
           <PrivateRoute>
-            <AdminViewHrmStaff />
+            <AdminViewHRMStaff />
           </PrivateRoute>
         }
       />
 
       <Route
-        path="/AdminAddAttendance"
+        path="/admin_add_attendance"
         element={
           <PrivateRoute>
             <AdminAddAttendance />
@@ -906,7 +702,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditAttendance"
+        path="/admin_edit_attendance"
         element={
           <PrivateRoute>
             <AdminEditAttendance />
@@ -914,7 +710,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListAttendance"
+        path="/admin_list_attendance"
         element={
           <PrivateRoute>
             <AdminListAttendance />
@@ -922,7 +718,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewAttendance"
+        path="/admin_view_attendance"
         element={
           <PrivateRoute>
             <AdminViewAttendance />
@@ -931,7 +727,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddPayroll"
+        path="/admin_add_payroll"
         element={
           <PrivateRoute>
             <AdminAddPayroll />
@@ -939,7 +735,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditPayroll"
+        path="/admin_edit_payroll"
         element={
           <PrivateRoute>
             <AdminEditPayroll />
@@ -947,7 +743,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListPayroll"
+        path="/admin_list_payroll"
         element={
           <PrivateRoute>
             <AdminListPayroll />
@@ -955,7 +751,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewPayroll"
+        path="/admin_view_payroll"
         element={
           <PrivateRoute>
             <AdminViewPayroll />
@@ -964,7 +760,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddLeave"
+        path="/admin_add_leave"
         element={
           <PrivateRoute>
             <AdminAddLeave />
@@ -972,7 +768,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditLeave"
+        path="/admin_edit_leave"
         element={
           <PrivateRoute>
             <AdminEditLeave />
@@ -980,7 +776,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListLeave"
+        path="/admin_list_leave"
         element={
           <PrivateRoute>
             <AdminListLeave />
@@ -988,7 +784,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewLeave"
+        path="/admin_view_leave"
         element={
           <PrivateRoute>
             <AdminViewLeave />
@@ -997,7 +793,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddKPI"
+        path="/admin_add_kpi"
         element={
           <PrivateRoute>
             <AdminAddKPI />
@@ -1005,7 +801,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditKPI"
+        path="/admin_edit_kpi"
         element={
           <PrivateRoute>
             <AdminEditKPI />
@@ -1013,7 +809,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListKPI"
+        path="/admin_list_kpi"
         element={
           <PrivateRoute>
             <AdminListKPI />
@@ -1021,7 +817,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewKPI"
+        path="/admin_view_kpi"
         element={
           <PrivateRoute>
             <AdminViewKPI />
@@ -1030,7 +826,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddPolicies"
+        path="/admin_add_policies"
         element={
           <PrivateRoute>
             <AdminAddPolicies />
@@ -1038,7 +834,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditPolicies"
+        path="/admin_edit_policies"
         element={
           <PrivateRoute>
             <AdminEditPolicies />
@@ -1046,7 +842,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListPolicies"
+        path="/admin_list_policies"
         element={
           <PrivateRoute>
             <AdminListPolicies />
@@ -1054,7 +850,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewPolicies"
+        path="/admin_view_policies"
         element={
           <PrivateRoute>
             <AdminViewPolicies />
@@ -1063,7 +859,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddPerformanceReport"
+        path="/admin_add_performance_report"
         element={
           <PrivateRoute>
             <AdminAddPerformanceReport />
@@ -1071,7 +867,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditPerformanceReport"
+        path="/admin_edit_performance_report"
         element={
           <PrivateRoute>
             <AdminEditPerformanceReports />
@@ -1079,7 +875,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListPerformanceReport"
+        path="/admin_list_performance_report"
         element={
           <PrivateRoute>
             <AdminListPeformanceReport />
@@ -1087,7 +883,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewPerformanceReport"
+        path="/admin_view_performance_report"
         element={
           <PrivateRoute>
             <AdminViewPerformanceReports />
@@ -1096,7 +892,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddProject"
+        path="/admin_add_project"
         element={
           <PrivateRoute>
             <AdminAddProject />
@@ -1104,7 +900,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditProject"
+        path="/admin_edit_project"
         element={
           <PrivateRoute>
             <AdminEditProject />
@@ -1112,7 +908,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListProject"
+        path="/admin_list_project"
         element={
           <PrivateRoute>
             <AdminListProject />
@@ -1120,7 +916,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewProject"
+        path="/admin_view_project"
         element={
           <PrivateRoute>
             <AdminViewProject />
@@ -1129,7 +925,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddTask"
+        path="/admin_add_task"
         element={
           <PrivateRoute>
             <AdminAddTask />
@@ -1137,7 +933,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditTask"
+        path="/admin_edit_task"
         element={
           <PrivateRoute>
             <AdminEditTask />
@@ -1145,7 +941,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListTask"
+        path="/admin_list_task"
         element={
           <PrivateRoute>
             <AdminListTask />
@@ -1153,7 +949,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewTask"
+        path="/admin_view_task"
         element={
           <PrivateRoute>
             <AdminViewTask />
@@ -1161,41 +957,10 @@ export const Admin = () => {
         }
       />
 
-      <Route
-        path="/AdminAddSocialMedia"
-        element={
-          <PrivateRoute>
-            <AdminAddSocialMedia />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminEditSocialMedia"
-        element={
-          <PrivateRoute>
-            <AdminEditSocialMedia />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminListSocialMedia"
-        element={
-          <PrivateRoute>
-            <AdminListSocialMedia />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/AdminViewSocialMedia"
-        element={
-          <PrivateRoute>
-            <AdminViewSocialMedia />
-          </PrivateRoute>
-        }
-      />
+     
 
       <Route
-        path="/AdminAddCampaign"
+        path="/admin_add_campaign"
         element={
           <PrivateRoute>
             <AdminAddCampaign />
@@ -1203,7 +968,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditCampaign"
+        path="/admin_edit_campaign"
         element={
           <PrivateRoute>
             <AdminEditCampaign />
@@ -1211,7 +976,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListCampaign"
+        path="/admin_list_campaign"
         element={
           <PrivateRoute>
             <AdminListCampaign />
@@ -1219,7 +984,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewCampaign"
+        path="/admin_view_campaign"
         element={
           <PrivateRoute>
             <AdminViewCampaign />
@@ -1228,7 +993,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddDailyTask"
+        path="/admin_add_daily_task"
         element={
           <PrivateRoute>
             <AdminAddDailyTask />
@@ -1236,7 +1001,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditDailyTask"
+        path="/admin_edit_daily_task"
         element={
           <PrivateRoute>
             <AdminEditDailyTask />
@@ -1244,7 +1009,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListDailyTask"
+        path="/admin_list_daily_task"
         element={
           <PrivateRoute>
             <AdminListDailyTask />
@@ -1252,7 +1017,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewDailyTask"
+        path="/admin_view_daily_task"
         element={
           <PrivateRoute>
             <AdminViewDailyTask />
@@ -1261,7 +1026,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddNotifications"
+        path="/admin_add_notifications"
         element={
           <PrivateRoute>
             <AdminAddNotifications />
@@ -1269,7 +1034,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditNotifications"
+        path="/admin_edit_notifications"
         element={
           <PrivateRoute>
             <AdminEditNotifications />
@@ -1277,7 +1042,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListNotifications"
+        path="/admin_list_notifications"
         element={
           <PrivateRoute>
             <AdminListNotifications />
@@ -1285,7 +1050,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewNotifications"
+        path="/admin_view_notifications"
         element={
           <PrivateRoute>
             <AdminViewNotifications />
@@ -1294,7 +1059,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddMeetings"
+        path="/admin_add_meetings"
         element={
           <PrivateRoute>
             <AdminAddMeetings />
@@ -1302,7 +1067,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditMeetings"
+        path="/admin_edit_meetings"
         element={
           <PrivateRoute>
             <AdminEditMeetings />
@@ -1310,7 +1075,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListMeetings"
+        path="/admin_list_meetings"
         element={
           <PrivateRoute>
             <AdminListMeetings />
@@ -1318,7 +1083,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewMeetings"
+        path="/admin_view_meetings"
         element={
           <PrivateRoute>
             <AdminViewMeetings />
@@ -1327,7 +1092,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddTraining"
+        path="/admin_add_training"
         element={
           <PrivateRoute>
             <AdminAddTraining />
@@ -1335,7 +1100,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditTraining"
+        path="/admin_edit_training"
         element={
           <PrivateRoute>
             <AdminEditTraining />
@@ -1343,7 +1108,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListTraining"
+        path="/admin_list_training"
         element={
           <PrivateRoute>
             <AdminListTraining />
@@ -1351,7 +1116,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewTraining"
+        path="/admin_view_training"
         element={
           <PrivateRoute>
             <AdminViewTraining />
@@ -1360,7 +1125,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddChat"
+        path="/admin_add_chat"
         element={
           <PrivateRoute>
             <AdminAddChat />
@@ -1368,7 +1133,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditChat"
+        path="/admin_edit_chat"
         element={
           <PrivateRoute>
             <AdminEditChat />
@@ -1376,7 +1141,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListChat"
+        path="/admin_list_chat"
         element={
           <PrivateRoute>
             <AdminListChat />
@@ -1384,7 +1149,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewChat"
+        path="/admin_view_chat"
         element={
           <PrivateRoute>
             <AdminViewChat />
@@ -1393,7 +1158,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddEmail"
+        path="/admin_add_email"
         element={
           <PrivateRoute>
             <AdminAddEmail />
@@ -1401,7 +1166,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditEmail"
+        path="/admin_edit_email"
         element={
           <PrivateRoute>
             <AdminEditEmail />
@@ -1409,7 +1174,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListEmail"
+        path="/admin_list_email"
         element={
           <PrivateRoute>
             <AdminListEmail />
@@ -1417,7 +1182,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewEmail"
+        path="/admin_view_email"
         element={
           <PrivateRoute>
             <AdminViewEmail />
@@ -1426,7 +1191,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddPromotions"
+        path="/admin_add_promotions"
         element={
           <PrivateRoute>
             <AdminAddPromotions />
@@ -1434,7 +1199,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditPromotions"
+        path="/admin_edit_promotions"
         element={
           <PrivateRoute>
             <AdminEditPromotions />
@@ -1442,7 +1207,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListPromotions"
+        path="/admin_list_promotions"
         element={
           <PrivateRoute>
             <AdminListPromotions />
@@ -1450,7 +1215,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewPromotions"
+        path="/admin_view_promotions"
         element={
           <PrivateRoute>
             <AdminViewPromotion />
@@ -1459,7 +1224,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddEvents"
+        path="/admin_add_events"
         element={
           <PrivateRoute>
             <AdminAddEvents />
@@ -1467,7 +1232,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditEvents"
+        path="/admin_edit_events"
         element={
           <PrivateRoute>
             <AdminEditEvents />
@@ -1475,7 +1240,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListEvents"
+        path="/admin_list_events"
         element={
           <PrivateRoute>
             <AdminListEvents />
@@ -1483,7 +1248,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewEvents"
+        path="/admin_view_events"
         element={
           <PrivateRoute>
             <AdminViewEvents />
@@ -1492,7 +1257,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddBlog"
+        path="/admin_add_blog"
         element={
           <PrivateRoute>
             <AdminAddBlog />
@@ -1500,7 +1265,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditBlog"
+        path="/admin_edit_blog"
         element={
           <PrivateRoute>
             <AdminEditBlog />
@@ -1508,7 +1273,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListBlog"
+        path="/admin_list_blog"
         element={
           <PrivateRoute>
             <AdminListBlog />
@@ -1516,7 +1281,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewBlog"
+        path="/admin_view_blog"
         element={
           <PrivateRoute>
             <AdminViewBlog />
@@ -1525,7 +1290,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddTestimonials"
+        path="/admin_add_testimonials"
         element={
           <PrivateRoute>
             <AdminAddTestimonials />
@@ -1533,7 +1298,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditTestimonials"
+        path="/admin_edit_testimonials"
         element={
           <PrivateRoute>
             <AdminEditTestimonials />
@@ -1541,7 +1306,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListTestimonials"
+        path="/admin_list_testimonials"
         element={
           <PrivateRoute>
             <AdminListTestimonials />
@@ -1549,7 +1314,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewTestimonials"
+        path="/admin_view_testimonials"
         element={
           <PrivateRoute>
             <AdminViewTestimonials />
@@ -1558,7 +1323,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddAdmin"
+        path="/admin_add_admin"
         element={
           <PrivateRoute>
             <AdminAddAdmin />
@@ -1566,7 +1331,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditAdmin"
+        path="/admin_edit_admin"
         element={
           <PrivateRoute>
             <AdminEditAdmin />
@@ -1574,7 +1339,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListAdmin"
+        path="/admin_list_admin"
         element={
           <PrivateRoute>
             <AdminListAdmin />
@@ -1582,7 +1347,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewAdmin"
+        path="/admin_view_admin"
         element={
           <PrivateRoute>
             <AdminViewAdmin />
@@ -1591,7 +1356,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddBookings"
+        path="/admin_add_bookings"
         element={
           <PrivateRoute>
             <AdminAddBookings />
@@ -1599,7 +1364,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditBookings"
+        path="/admin_edit_bookings"
         element={
           <PrivateRoute>
             <AdminEditBookings />
@@ -1607,7 +1372,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListBookings"
+        path="/admin_list_bookings"
         element={
           <PrivateRoute>
             <AdminListBookings />
@@ -1615,7 +1380,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewBookings"
+        path="/admin_view_bookings"
         element={
           <PrivateRoute>
             <AdminViewBookings />
@@ -1624,7 +1389,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/AdminAddClassSchedule"
+        path="/admin_add_class_schedule"
         element={
           <PrivateRoute>
             <AdminAddClassSchedule />
@@ -1632,7 +1397,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminEditClassSchedule"
+        path="/admin_edit_class_schedule"
         element={
           <PrivateRoute>
             <AdminEditClassSchedule />
@@ -1640,7 +1405,7 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminListClassSchedule"
+        path="/admin_list_class_schedule"
         element={
           <PrivateRoute>
             <AdminListClassSchedule />
@@ -1648,13 +1413,49 @@ export const Admin = () => {
         }
       />
       <Route
-        path="/AdminViewClassSchedule"
+        path="/admin_view_class_schedule"
         element={
           <PrivateRoute>
             <AdminViewClassSchedule />
           </PrivateRoute>
         }
       />
+
+
+       <Route path="/admin_view_enquiry_student" element={<PrivateRoute><StudentForm /></PrivateRoute>} />
+        <Route path="/admin_list_enquiry_student" element={<PrivateRoute><ListStudentForm /></PrivateRoute>} />
+        <Route path="/admin_edit_enquiry_student" element={<PrivateRoute><EditStudentForm /></PrivateRoute>} />
+        <Route path="/admin_add_enquiry_student" element={<PrivateRoute><AddStudentForm /></PrivateRoute>} />
+
+        <Route path="/admin_add_accommodation" element={<PrivateRoute><AddAccomodation /></PrivateRoute>} />
+        <Route path="/admin_edit_accommodation" element={<PrivateRoute><EditAccomodation /></PrivateRoute>} />
+        <Route path="/admin_list_accommodation" element={<PrivateRoute><ListAccomodation /></PrivateRoute>} />
+        <Route path="/admin_view_accommodation" element={<PrivateRoute><ViewAccomodation /></PrivateRoute>} />
+        <Route path="/admin_add_business_enquiry" element={<PrivateRoute><AddBusiness /></PrivateRoute>} />
+        <Route path="/admin_edit_business_enquiry" element={<PrivateRoute><EditBusiness /></PrivateRoute>} />
+        <Route path="/admin_list_business_enquiry" element={<PrivateRoute><ListBusiness /></PrivateRoute>} />
+        <Route path="/admin_view_business_enquiry" element={<PrivateRoute><ViewBusiness /></PrivateRoute>} />
+
+        <Route path="/admin_add_flight_ticket" element={<PrivateRoute><AddFlightTicket /></PrivateRoute>} />
+        <Route path="/admin_edit_flight_ticket" element={<PrivateRoute><EditFlightTicket /></PrivateRoute>} />
+        <Route path="/admin_list_flight_ticket" element={<PrivateRoute><ListFlightTicket /></PrivateRoute>} />
+        <Route path="/admin_view_flight_ticket" element={<PrivateRoute><ViewFlightTicket /></PrivateRoute>} />
+
+        <Route path="/admin_add_forex_form" element={<PrivateRoute><AddForex /></PrivateRoute>} />
+        <Route path="/admin_view_forex_form" element={<PrivateRoute><ViewForex /></PrivateRoute>} />
+        <Route path="/admin_edit_forex_form" element={<PrivateRoute><EditForex /></PrivateRoute>} />
+        <Route path="/admin_list_forex_form" element={<PrivateRoute><ListForex /></PrivateRoute>} />
+
+        <Route path="/admin_add_general_enquiry" element={<PrivateRoute><AddGeneralEnquiry /></PrivateRoute>} />
+        <Route path="/admin_edit_general_enquiry" element={<PrivateRoute><EditGeneralEnquiry /></PrivateRoute>} />
+        <Route path="/admin_list_general_enquiry" element={<PrivateRoute><ListGeneralEnquiry /></PrivateRoute>} />
+        <Route path="/view_general_enquiry" element={<PrivateRoute><ViewGeneralEnquiry /></PrivateRoute>} />
+
+        <Route path="/admin_view_loan_enquiry" element={<PrivateRoute><ViewLoanEnquiry /></PrivateRoute>} />
+        <Route path="/admin_add_loan_enquiry" element={<PrivateRoute><AddLoanEnquiry /></PrivateRoute>} />
+        <Route path="/admin_edit_loan_enquiry" element={<PrivateRoute><EditLoanEnquiry /></PrivateRoute>} />
+        <Route path="/admin_list_loan_enquiry" element={<PrivateRoute><ListLoanEnquiry /></PrivateRoute>} />
+        {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
 
   );

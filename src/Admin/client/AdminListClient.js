@@ -4,6 +4,8 @@ import { getallClient, deleteClient } from "../../api/client";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
 import Mastersidebar from "../../compoents/AdminSidebar";
+import { getAdminIdId } from "../../Utils/storage";
+import {  getSingleAdmin } from "../../api/admin";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -38,6 +40,8 @@ export const AdminListClient = () => {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [staff, setStaff] = useState(null);
+
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -48,11 +52,31 @@ export const AdminListClient = () => {
 
 
   useEffect(() => {
-
+    getStaffDetails();
     getClientList();
   }, []);
 
-
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'client');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   const getClientList = () => {
     getallClient()
@@ -465,8 +489,10 @@ export const AdminListClient = () => {
                         </span>
                       </Link>
                     </li>
+
+                    {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/AdminAddClient">
+                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/admin_add_client">
                         <button
                           className="btn  border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
                           style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -479,7 +505,7 @@ export const AdminListClient = () => {
                         </button>
                       </Link>
                     </li>
-
+                    )}
                   </ol>
                   </div>
                   </div>
@@ -523,10 +549,11 @@ export const AdminListClient = () => {
                                 <td className="text-capitalize text-start">{data?.status}</td>
                                 <td>
                                   <div className="d-flex">
+                                  {studentPrivileges?.view && (
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewClient",
+                                        pathname: "/admin_view_client",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -535,10 +562,12 @@ export const AdminListClient = () => {
                                       <i className="far fa-eye text-primary me-1"></i>
 
                                     </Link>
+                                  )}
+                                   {studentPrivileges?.edit && (
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditClient",
+                                        pathname: "/admin_edit_client",
                                         search: `?id=${data?._id}`,
                                       }}
                                       data-bs-toggle="tooltip"
@@ -547,7 +576,9 @@ export const AdminListClient = () => {
                                       <i className="far fa-edit text-warning me-1"></i>
 
                                     </Link>
-                                    <Link
+                                   )}
+                                    {studentPrivileges?.delete && (
+                                    <button
                                       className="dropdown-item"
                                       onClick={() => {
                                         openPopup(data?._id);
@@ -557,7 +588,8 @@ export const AdminListClient = () => {
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
 
-                                    </Link>
+                                    </button>
+                                    )}
                                   </div>
 
                                 </td>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallStaff, deleteStaff } from "../../api/staff";
+import { getallStaff,getFilterStaff, deleteStaff } from "../../api/staff";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { formatDate } from "../../Utils/DateFormat";
-
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin} from "../../api/admin";
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -26,30 +27,53 @@ function AdminListStaff() {
     to: pageSize,
   });
 
-  const [staff, setStaff] = useState();
+  const [staffs, setStaffs] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [staff, setStaff] = useState([]);
 
   useEffect(() => {
     getAllStaffDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
   const getAllStaffDetails = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId: getAdminIdId(),
     };
 
-    getallStaff(data)
+    getFilterStaff(data)
       .then((res) => {
-        setStaff(res?.data?.result);
+        setStaff(res?.data?.result?.staffList);
         setPagination({ ...pagination, count: res?.data?.result?.staffCount });
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvraj", res);
+        setStaffs(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staffs || !staffs.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'staff');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -335,8 +359,9 @@ function AdminListStaff() {
                         </span>
                       </Link>
                     </li>
+                    {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddStaff">
+                      <Link class="btn btn-pix-primary" to="/admin_add_staff">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -353,6 +378,7 @@ function AdminListStaff() {
                         </button>
                       </Link>
                     </li>
+                    )}
                   </ol>
                 </div>
               </div>
@@ -455,32 +481,38 @@ function AdminListStaff() {
 
                                     <td>
                                       <div className="d-flex">
+                                      {studentPrivileges?.view && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewStaff",
+                                            pathname: "/admin_view_staff",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>
                                         </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditStaff",
+                                            pathname: "/admin_edit_staff",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>
                                         </Link>
-                                        <Link
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                        <button
                                           className="dropdown-item"
                                           onClick={() => {
                                             openPopup(data?._id);
                                           }}
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </Link>
+                                        </button>
+                                      )}
                                       </div>
                                     </td>
                                   </tr>

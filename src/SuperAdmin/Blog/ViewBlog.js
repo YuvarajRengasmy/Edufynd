@@ -13,7 +13,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import {getSingleBlog,getFilterBlog} from "../../api/blog";
 import { RichTextEditor } from "@mantine/rte";
 import { Link, useLocation } from "react-router-dom";
-
+import Mastersidebar from "../../compoents/sidebar";
 export const Blogdetailing = () => {
 
   const renderedCategories = new Set();
@@ -109,8 +109,8 @@ export const Blogdetailing = () => {
     <div>
      
 
-      
-
+      <Mastersidebar/>
+      <div className="content-wrapper">
       <div className="container my-5">
         <div className="row">
         
@@ -339,6 +339,9 @@ export const Blogdetailing = () => {
           </div>
         </div>
       </div>
+      </div>
+
+     
     </div>
   );
 };

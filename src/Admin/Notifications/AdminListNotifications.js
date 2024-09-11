@@ -248,7 +248,7 @@ export const AdminListNotifications = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/AdminAddNotifications">
+                      <Link class="btn btn-pix-primary" to="/admin_add_notifications">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -325,7 +325,7 @@ export const AdminListNotifications = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminViewNotifications",
+                                        pathname: "/admin_view_notifications",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="View"
@@ -335,7 +335,7 @@ export const AdminListNotifications = () => {
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/AdminEditNotifications",
+                                        pathname: "/admin_edit_notifications",
                                       }}
                                       data-bs-toggle="tooltip"
                                       title="Edit"

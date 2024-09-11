@@ -18,6 +18,8 @@ import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin} from "../../api/admin";
 import { toast } from "react-toastify";
 
 import { FaFilter } from "react-icons/fa";
@@ -45,11 +47,36 @@ export const AdminListPrograms = () => {
   });
 
   const [program, setProgaram] = useState();
+  const [staff, setStaff] = useState([]);
+
 
   useEffect(() => {
     getAllProgaramDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvraj", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'program');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const getAllProgaramDetails = () => {
     const data = {
       limit: 10,
@@ -570,10 +597,11 @@ export const AdminListPrograms = () => {
                         </span>
                       </Link>
                     </li>
+                    {studentPrivileges?.add && (
                     <li class="m-0">
                       <Link
                         class="btn btn-pix-primary border-0"
-                        to="/AdminAddProgram"
+                        to="/admin_add_program"
                       >
                         <button
                           className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
@@ -590,6 +618,7 @@ export const AdminListPrograms = () => {
                         </button>
                       </Link>
                     </li>
+                    )}
                   </ol>
                 </div>
               </div>
@@ -682,32 +711,38 @@ export const AdminListPrograms = () => {
                                     </td>
                                     <td>
                                       <div className="d-flex">
+                                      {studentPrivileges?.view && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewProgram",
+                                            pathname: "/admin_view_program",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>
                                         </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditProgram",
+                                            pathname: "/admin_edit_program",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>
                                         </Link>
-                                        <Link
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                        <button
                                           className="dropdown-item"
                                           onClick={() => {
                                             openPopup(data?._id);
                                           }}
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </Link>
+                                        </button>
+                                      )}
                                       </div>
                                     </td>
                                   </tr>

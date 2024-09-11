@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallApplication, deleteApplication } from "../../api/applicatin";
+import { getallApplication, deleteApplication,getFilterApplican } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -10,7 +10,8 @@ import {
   Pagination,
 } from "@mui/material";
 import { getMonthYear } from "../../Utils/DateFormat";
-
+import { getAdminIdId, getStaffId } from "../../Utils/storage";
+import { getSingleAdmin} from "../../api/admin";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -46,6 +47,7 @@ export const AdminListApplication = () => {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const [staffs, setStaffs] = useState();
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -54,13 +56,46 @@ export const AdminListApplication = () => {
 
   useEffect(() => {
     getApplicationList();
-  }, []);
+    getStaffDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvraj", res);
+        setStaffs(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staffs || !staffs.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'application');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
+ 
 
   const getApplicationList = () => {
-    getallApplication()
+    const data = {
+      limit: 10,
+      page: pagination.from,
+      adminId:getAdminIdId()
+    };
+    getFilterApplican(data)
       .then((res) => {
-        const value = res?.data?.result;
-        setApplication(value);
+        console.log("yuvi",res)
+        setApplication(res?.data?.result?.applicantList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.applicantCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -503,6 +538,7 @@ export const AdminListApplication = () => {
                         </span>
                       </Link>
                     </li>
+                    {studentPrivileges?.add && (
                     <li class="m-1">
                       <Link class="btn btn-pix-primary" to="/AdminAddApplication">
                         <button
@@ -521,6 +557,7 @@ export const AdminListApplication = () => {
                         </button>
                       </Link>
                     </li>
+                    )}
                   </ol>
                 </div>
               </div>
@@ -604,32 +641,38 @@ export const AdminListApplication = () => {
 
                                   <td>
                                     <div className="d-flex">
+                                    {studentPrivileges?.view && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminViewApplication",
+                                          pathname: "/agent_admin_view_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
+                                    )}
+                                    {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminEditApplication",
+                                          pathname: "/agent_admin_edit_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                      <Link
+                                    )}
+                                    {studentPrivileges?.delete && (
+                                      <button
                                         className="dropdown-item"
                                         onClick={() => {
                                           openPopup(data?._id);
                                         }}
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </Link>
+                                      </button>
+                                    )}
                                     </div>
                                   </td>
                                 </tr>

@@ -20,7 +20,8 @@ import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { formatDate } from "../../Utils/DateFormat";
-
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin} from "../../api/admin";
 import { toast } from "react-toastify";
 import { getStudentId, getSuperAdminId } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
@@ -48,28 +49,71 @@ export const AdminListStudent = () => {
   });
 
   const [student, setStudent] = useState();
+  const [staff, setStaff] = useState([]);
 
   useEffect(() => {
-    getAllStudentDetails();
+     getAllStudentDetails();
+    getStaffDetails();
+  
   }, [pagination.from, pagination.to]);
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvraj", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'student');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
+  // const getAllStudentDetails = () => {
+  //   const data = {
+  //     limit: 10,
+  //     page: pagination.from,
+  //     studentId: getStudentId,
+  //     superAdminId: getStudentId,
+  //     adminId: getAdminIdId(),
+  //   };
+  //   getFilterStudentAdmin(data)
+  //     .then((res) => {
+  //       const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
+  //         return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
+  //       });
+  //       setStudent(sortedStudents);
+  //       setPagination({
+  //         ...pagination,
+  //         count: res?.data?.result?.studentCount,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-      studentId: getStudentId,
-      superAdminId: getStudentId,
+      adminId: getAdminIdId(),
     };
+
     getFilterStudentAdmin(data)
       .then((res) => {
-        const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
-          return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
-        });
-        setStudent(sortedStudents);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.studentCount,
-        });
+        console.log("yuvrajStudent", res);
+        setStudent(res?.data?.result?.studentList);
+        setPagination({ ...pagination, count: res?.data?.result?.studentCount });
       })
       .catch((err) => {
         console.log(err);
@@ -547,10 +591,11 @@ export const AdminListStudent = () => {
                         </span>
                       </Link>
                     </li>
+                    {studentPrivileges?.add && (
                     <li class="m-0">
                       <Link
                         class="btn btn-pix-primary border-0"
-                        to="/AdminAddStudent"
+                        to="/admin_add_student"
                       >
                         <button
                           className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
@@ -567,6 +612,7 @@ export const AdminListStudent = () => {
                         </button>
                       </Link>
                     </li>
+                    )}
                   </ol>
                 </div>
               </div>
@@ -663,32 +709,38 @@ export const AdminListStudent = () => {
                                   </td>
                                   <td>
                                     <div className="d-flex">
+                                    {studentPrivileges?.view && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminViewStudent",
+                                          pathname: "/admin_view_student",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
+                                    )}
+                                    {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminEditStudent",
+                                          pathname: "/admin_edit_student",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                      <Link
+                                    )}
+                                    {studentPrivileges?.delete && (
+                                      <button
                                         className="dropdown-item"
                                         onClick={() => {
                                           openPopup(data?._id);
                                         }}
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </Link>
+                                      </button>
+                                    )}
                                     </div>
                                   </td>
                                 </tr>

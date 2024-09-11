@@ -19,7 +19,8 @@ import Mastersidebar from "../../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import { getAdminIdId } from "../../../Utils/storage";
+import { getSingleAdmin} from "../../../api/admin";
 import { FaFilter } from "react-icons/fa";
 
 export const AdminListForex = () => {
@@ -32,6 +33,7 @@ export const AdminListForex = () => {
 
   const [forex, setForex] = useState();
   const [open, setOpen] = useState(false);
+  const [staffs, setStaffs] = useState();
   const [deleteId, setDeleteId] = useState();
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
@@ -39,8 +41,31 @@ export const AdminListForex = () => {
 
   useEffect(() => {
     getAllForexDetails();
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvraj", res);
+        setStaffs(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staffs || !staffs.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'forexEnquiry');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
   const getAllForexDetails = () => {
     const data = {
       limit: 10,
@@ -331,8 +356,9 @@ export const AdminListForex = () => {
                         </span>
                       </Link>
                     </li>
+                    {studentPrivileges?.add && (
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary " to="/AdminAddForexForm">
+                      <Link class="btn btn-pix-primary " to="/admin_add_forex_form">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -349,6 +375,7 @@ export const AdminListForex = () => {
                         </button>
                       </Link>
                     </li>
+                    )}
                   </ol>
                 </div>
               </div>
@@ -453,24 +480,29 @@ export const AdminListForex = () => {
                                     </td>
                                     <td className="text-capitalize text-start">
                                       <div className="d-flex">
+                                      {studentPrivileges?.view && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminViewForexForm",
+                                            pathname: "/admin_view_forex_form",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>
                                         </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/AdminEditForexForm",
+                                            pathname: "/admin_edit_forex_form",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>
                                         </Link>
+                                      )}
+                                      {studentPrivileges?.delete && (
                                         <button
                                           className="dropdown-item"
                                           onClick={() => {
@@ -479,6 +511,7 @@ export const AdminListForex = () => {
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>
                                         </button>
+                                      )}
                                       </div>
                                     </td>
                                   </tr>

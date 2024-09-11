@@ -16,12 +16,19 @@ export const deleteAdmin = (data) => {
     return API.put(`${Admin}`, data)
 }
 export const getSingleAdmin = (data) => {
-    return API.get(`${Admin}/getsingleadmin`, { params: { _id: data } })
+    return API.get(`${Admin}/getSingleAdmin`, { params: { _id: data } })
 }
 export const createStaff = (data) => {
     return API.post(`${Admin}/createStaffByAdmin`, data)
 }
+export const createAdminBySuperAdmin = (data) => {
+    return API.post(`${Admin}/createAdminBySuperAdmin`, data)
+}
+
 export const editStaff = (data) => {
     return API.post(`${Admin}/editStaffByAdmin`, data)
 }
 
+export const editAdminBySuperAdmin = (data) => {
+    return API.put(`${Admin}/editAdminBySuperAdmin`, data)
+}

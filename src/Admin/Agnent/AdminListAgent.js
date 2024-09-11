@@ -15,12 +15,14 @@ import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getAdminId} from "../../Utils/storage";
+import {getAdminIdId} from "../../Utils/storage";
 import {  getSingleAdmin} from "../../api/admin";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 
 export const AdminListAgent = () => {
+
+  
   const initialStateInputs = {
     agentName: "",
     agentCode: "",
@@ -51,7 +53,7 @@ export const AdminListAgent = () => {
 
 
   const getStaffDetails = () => {
-    const id = getAdminId();
+    const id = getAdminIdId();
     getSingleAdmin(id)
       .then((res) => {
         console.log("yuvi", res);
@@ -75,13 +77,14 @@ export const AdminListAgent = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId:getAdminIdId()
     };
-    getallAgent(data)
+    getFilterAgent(data)
       .then((res) => {
-        setAgent(res?.data?.result);
+        setAgent(res?.data?.result?.agentList);
         setPagination({
           ...pagination,
-          count: res?.data?.result,
+          count: res?.data?.result?.agentCount,
         });
       })
       .catch((err) => {
@@ -574,7 +577,7 @@ export const AdminListAgent = () => {
                     </li>
                     {studentPrivileges?.add && (
                     <li class="m-0">
-                      <Link class="btn btn-pix-primary" to="/AdminAddAgent">
+                      <Link class="btn btn-pix-primary" to="/admin_add_agent">
                         <button
                           className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                           style={{
@@ -686,7 +689,7 @@ export const AdminListAgent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminViewAgent",
+                                          pathname: "/agent_view_agent",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -697,7 +700,7 @@ export const AdminListAgent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/AdminEditAgent",
+                                          pathname: "/agent_edit_agent",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -793,7 +796,7 @@ export const AdminListAgent = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="agent_list_agent"
                   className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
                 >
