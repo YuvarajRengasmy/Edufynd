@@ -15,6 +15,8 @@ import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
+import { getAdminIdId } from "../../Utils/storage";
+
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
@@ -124,7 +126,7 @@ function AddAgent() {
 }, []);
 
 const getStudentDetails = () => {
-  getallStudent(id)
+  getallStudent()
         .then((res) => {
             setStudent(res?.data?.result);
         })
@@ -318,7 +320,7 @@ const handleValidation = (data) => {
     setSubmitted(true);
     if (handleErrors(newError)) {
       StudentSuperAdmin({...student,
-        adminId:getAdminIdId()
+        adminId:getAdminIdId(),
       })
         .then((res) => {
           toast.success(res?.data?.message);
