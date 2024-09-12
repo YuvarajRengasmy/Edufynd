@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
-import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
-import { getAdminIdId } from "../../../Utils/storage";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getallClient } from "../../../api/client";
-import Mastersidebar from "../../../compoents/AdminSidebar";
+import {
+  updateBusinessEnquiry,
+  getSingleBusinessEnquiry,
+} from "../../../api/Enquiry/business";
 
-export const AddBusiness = () => {
+import Mastersidebar from "../../../compoents/AdminSidebar";
+import { Student } from "../../../api/endpoints";
+
+export const EditBusiness = () => {
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
   const initialState = {
-    typeOfClient: "",
+    typeOfClient:"",
     source: "",
     name: "",
     dob: "",
@@ -46,11 +53,10 @@ export const AddBusiness = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [client, setClient] = useState([]);
-
   const navigate = useNavigate();
 
-  
   useEffect(() => {
+    getStudentDetails();
     getClientList();
   }, []);
   const getClientList = () => {
@@ -58,6 +64,15 @@ export const AddBusiness = () => {
     getallClient()
       .then((res) => {
         setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getStudentDetails = () => {
+    getSingleBusinessEnquiry(id)
+      .then((res) => {
+        setStudent(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -150,10 +165,9 @@ export const AddBusiness = () => {
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-    if (valid) {
-      saveBusinessEnquiry({ ...student, adminId: getAdminIdId() })
+
+    if (handleErrors(newError)) {
+      updateBusinessEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_business_enquiry");
@@ -161,7 +175,7 @@ export const AddBusiness = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    } else {
+    }else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
@@ -180,7 +194,7 @@ export const AddBusiness = () => {
               >
                 <h5 className="text-center text-capitalize p-1">
                   {" "}
-                  Add BusinessEnquiry Details
+                  Edit BusinessEnquiry Details
                 </h5>
               </div>
               <div className="card-body mt-5">
@@ -203,6 +217,7 @@ export const AddBusiness = () => {
                             }`}
                             name="typeOfClient"
                             placeholder="Select Client"
+                            value={student?.typeOfClient}
                           >
                             <option value={""}>Select Client</option>
                             {client.map((data, index) => (
@@ -224,13 +239,12 @@ export const AddBusiness = () => {
                       </label>
                       <select
                         onChange={handleInputs}
+                        value={student?.source}
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        className={`form-select form-select-lg rounded-1 ${
-                          errors.source.required ? "is-invalid" : ""
-                        } `}
+                        className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
                         name="source"
                       >
                         <option value="">Select Source</option>
@@ -249,9 +263,8 @@ export const AddBusiness = () => {
                         Student Name
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.name.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                        value={student?.name}
                         type="text"
                         id="inputEmail4"
                         name="name"
@@ -274,9 +287,8 @@ export const AddBusiness = () => {
                         DOB
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.dob.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.dob.required ? 'is-invalid' : ''}`}
+                        value={student?.dob}
                         onChange={handleInputs}
                         id="inputPassword4"
                         type="date"
@@ -299,9 +311,8 @@ export const AddBusiness = () => {
                         Email ID
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.email.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                        value={Student?.email}
                         onChange={handleInputs}
                         id="inputPassword4"
                         text="text"
@@ -328,9 +339,8 @@ export const AddBusiness = () => {
                         Passport No
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.passportNo.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
+                        value={student?.passportNo}
                         onChange={handleInputs}
                         name="passportNo"
                         id="inputAddress"
@@ -352,9 +362,8 @@ export const AddBusiness = () => {
                         Contact Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.mobileNumber.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.mobileNumber.required ? 'is-invalid' : ''}`}
+                        value={student?.mobileNumber}
                         onChange={handleInputs}
                         id="inputEmail4"
                         type="text"
@@ -381,10 +390,9 @@ export const AddBusiness = () => {
                         CGPA{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.cgpa.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
+                        value={student?.cgpa}
                         name="cgpa"
                         id="inputAddress"
                         type="text"
@@ -406,10 +414,9 @@ export const AddBusiness = () => {
                         Year passed
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.yearPassed.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`}
                         id="inputAddress"
+                        value={student?.yearPassed}
                         onChange={handleInputs}
                         name="yearPassed"
                         type="text"
@@ -430,10 +437,9 @@ export const AddBusiness = () => {
                         Desired Country
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.desiredCountry.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
+                        value={student?.desiredCountry}
                         onChange={handleInputs}
                         name="desiredCountry"
                         type="text"
@@ -455,10 +461,9 @@ export const AddBusiness = () => {
                         Desired Course
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.desiredCourse.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
+                        value={student?.desiredCourse}
                         onChange={handleInputs}
                         type="text"
                         name="desiredCourse"
@@ -479,12 +484,9 @@ export const AddBusiness = () => {
                         Do you need support for loan?{" "}
                       </label>
                       <select
-                        className={`form-select form-select-lg rounded-1 ${
-                          errors.doYouNeedSupportForLoan.required
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`form-select form-select-lg rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
                         name="doYouNeedSupportForLoan"
+                        value={student?.doYouNeedSupportForLoan}
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
@@ -506,10 +508,9 @@ export const AddBusiness = () => {
                         WhatsApp Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.whatsAppNumber.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.whatsAppNumber.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
+                        value={student?.whatsAppNumber}
                         onChange={handleInputs}
                         type="text"
                         name="whatsAppNumber"
@@ -535,9 +536,8 @@ export const AddBusiness = () => {
                         Qualification
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.qualification.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`}
+                        value={student?.qualification}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
@@ -561,9 +561,8 @@ export const AddBusiness = () => {
                         Assigned To
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.assignedTo.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`}
+                        value={student?.assignedTo}
                         id="inputEmail4"
                         onChange={handleInputs}
                         type="text"
@@ -590,7 +589,7 @@ export const AddBusiness = () => {
                           fontSize: "14px",
                         }}
                         to="/admin_list_business_enquiry"
-                        className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white w-10 m-2"
+                        className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2  text-white m-2"
                       >
                         Cancel
                       </Link>
@@ -602,9 +601,9 @@ export const AddBusiness = () => {
                           fontSize: "14px",
                         }}
                         type="submit"
-                        className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2  text-white w-10 m-2"
+                        className="btn btn-save border-0 text-uppercase fw-semibold px-4 py-2 text-white m-2"
                       >
-                        Submit
+                        Update
                       </button>
                     </div>
                   </div>
@@ -617,4 +616,4 @@ export const AddBusiness = () => {
     </>
   );
 };
-export default AddBusiness;
+export default EditBusiness;

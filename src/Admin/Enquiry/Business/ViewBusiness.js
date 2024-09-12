@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { getSingleForexEnquiry } from "../../../api/Enquiry/Forex";
-import { useLocation } from "react-router-dom";
-import Flags from "react-world-flags";
+import { getSingleBusinessEnquiry } from "../../../api/Enquiry/business";
+import { Link, useLocation } from "react-router-dom";
+import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/AdminSidebar";
-import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
-export const ViewForex = () => {
+export const ViewBusiness = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-  const [forex, setForex] = useState(null);
+  const [student, setStudent] = useState();
+  const pageSize = 5;
 
   useEffect(() => {
-    getForexDetails();
+    getStudentDetails();
   }, []);
 
-  const getForexDetails = () => {
-    getSingleForexEnquiry(id)
+  const getStudentDetails = () => {
+    getSingleBusinessEnquiry(id)
       .then((res) => {
-        setForex(res?.data?.result);
+        console.log(res?.data?.result);
+        setStudent(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -29,228 +30,86 @@ export const ViewForex = () => {
     <>
       <Mastersidebar />
 
-      <div
-        className="content-wrapper"
-        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-      >
+      <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
-       
+
+     
          
         </div>
-        <div className="container">
-            <div className="card  border-0">
-              <div className="card-header  text-bg-primary ">
-                <h6 className=" mb-0 p-2 fw-semibold">Forex Enquiry Profile</h6>
+        <div className="container-fluid">
+            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+              <div
+                className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
+                style={{ background: "#fe5722", color: "#fff" }}
+              >
+                <h5 className="text-center text-capitalize p-1">
+                  Business Enquiry Details
+                </h5>
               </div>
 
-              {forex ? (
-                <div className="card-body">
-                  <div className="row mb-4">
-                    <div className="col-md-6">
-                      <h5>Agent Information</h5>
-                      <div className="list-group">
+              <div class="card-body">
+                <table
+                  className="table table-hover table-bordered table-striped-columns mt-5"
+                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+                >
+                  <tbody>
+                  <tr>
+                      <td className="fw-bold">ClientName </td>
+                      <td>{student?.typeOfClient || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Student Name </td>
+                      <td>{student?.name || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Date Of Birth </td>
+                      <td>{formatDate(student?.createdOn) || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Passport No </td>
+                      <td>{student?.passportNo || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Contact Number </td>
+                      <td>{student?.mobileNumber || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Email ID </td>
+                      <td>{student?.email || "Not Available"}</td>
+                    </tr>{" "}
+                    <tr>
+                      <td className="fw-bold">CGPA / Year passed </td>
+                      <td>
+                        {student?.cgpa || "Not Available"}/{student?.yearPassed || "Not Available"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Desired Country </td>
+                      <td>{student?.desiredCountry || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Desired Course </td>
+                      <td>{student?.desiredCourse || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">
+                        Do you need support for loan?{" "}
+                      </td>
+                      <td>{student?.doYouNeedSupportForLoan || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Qualification </td>
+                      <td>{student?.qualification || "Not Available"}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Whatsapp Number </td>
+                      <td>{student?.whatsAppNumber || "Not Available"}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-                      <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-user-tie me-2 text-dark "></i>
-                          <div>
-                            <strong>Client Name:</strong>
-                            <p className="mb-0">
-                              {forex.clientName || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-user-tie me-2 text-dark "></i>
-                          <div>
-                            <strong>Agent Name:</strong>
-                            <p className="mb-0">
-                              {forex.agentName || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-building me-2 text-dark "></i>
-                          <div>
-                            <strong>Business Name:</strong>
-                            <p className="mb-0">
-                              {forex.businessName || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-envelope me-2 text-dark "></i>
-                          <div>
-                            <strong>Agent Email ID:</strong>
-                            <p className="mb-0">
-                              {forex.agentEmail || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-phone me-2 text-dark "></i>
-                          <div>
-                            <strong>Agent Primary Number:</strong>
-                            <p className="mb-0">
-                             {forex.dial3 || "+"} {forex.agentPrimaryNumber || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fab fa-whatsapp me-2 text-success"></i>
-                          <div>
-                            <strong>Agent WhatsApp Number:</strong>
-                            <p className="mb-0">
-                            {forex.dial4 || "+"} {forex.agentWhatsAppNumber || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-6">
-                      <h5>Student Information</h5>
-                      <div className="list-group">
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-user me-2 text-dark "></i>
-                          <div>
-                            <strong>Name of the Student:</strong>
-                            <p className="mb-0">
-                              {forex.studentName || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-passport me-2 text-dark "></i>
-                          <div>
-                            <strong>Passport No:</strong>
-                            <p className="mb-0">
-                              {forex.passportNo || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-calendar-alt me-2 text-dark "></i>
-                          <div>
-                            <strong>Expiry Date:</strong>
-                            <p className="mb-0">
-                              {forex.expiryDate || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-envelope me-2 text-dark "></i>
-                          <div>
-                            <strong>Email ID:</strong>
-                            <p className="mb-0">
-                              {forex.email || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-phone me-2 text-dark "></i>
-                          <div>
-                            <strong>Primary Number:</strong>
-                            <p className="mb-0">
-                            {forex.dial1 || "+"} {forex.primaryNumber || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fab fa-whatsapp me-2 text-success"></i>
-                          <div>
-                            <strong>WhatsApp Number:</strong>
-                            <p className="mb-0">
-                            {forex.dial2 || "+"} {forex.whatsAppNumber || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row mb-4">
-                    <div className="col-md-6">
-                      <h5>Transaction Details</h5>
-                      <div className="list-group">
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-globe me-2 text-dark "></i>
-                          <div>
-                            <strong>Country:</strong>
-                            <p className="mb-0">
-                              {forex.country || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-dollar-sign me-2 text-dark "></i>
-                          <div>
-                            <strong>Currency:</strong>
-                            <p className="mb-0">
-                              <Flags
-                                code={forex.flag}
-                                className="me-2"
-                                name="flag"
-                                style={{ width: "30px", height: "20px" }}
-                              />
-                              {forex.currency || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-money-bill-wave-alt me-2 text-dark "></i>
-                          <div>
-                            <strong>Amount In Currency:</strong>
-                            <p className="mb-0">
-                              {forex.amountInCurrency || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-6">
-                      <h5>Additional Details</h5>
-                      <div className="list-group">
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-user-tag me-2 text-dark "></i>
-                          <div>
-                            <strong>Assigned To:</strong>
-                            <p className="mb-0">
-                              {forex.assignedTo || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-percent me-2 text-dark "></i>
-                          <div>
-                            <strong>Mark up:</strong>
-                            <p className="mb-0">
-                              {forex.markUp || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="list-group-item d-flex align-items-center">
-                          <i className="fas fa-calculator me-2 text-dark "></i>
-                          <div>
-                            <strong>Profit (Value*Mark up):</strong>
-                            <p className="mb-0">
-                              {forex.profit || "Not Available"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center p-4">
-                  <p>Loading...</p>
-                </div>
-              )}
-            </div>
-{forex?.agentName ? (
-  <>
-   <div class="card mb-3">
+              {/* <div class="card mb-3">
                   <div class="card-header bg-primary text-white">
                    Agent Details
                   </div>
@@ -259,31 +118,31 @@ export const ViewForex = () => {
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Name:
                       </div>
-                      <div class="col-6">{forex.agentName}</div>
+                      <div class="col-6">John doe</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Business Name:
                       </div>
-                      <div class="col-6">{forex.businessName}</div>
+                      <div class="col-6">John doe</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Primary Number:
                       </div>
-                      <div class="col-6">{ forex?.dial3  +"  "+ forex?.agentPrimaryNumber|| "Not Available"}</div>
+                      <div class="col-6">John doe</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
                       </div>
-                      <div class="col-6">{ forex?.dial4  +"  "+ forex?.agentWhatsAppNumber|| "Not Available"}</div>
+                      <div class="col-6">John doe</div>
                     </div>
                     <div class="row mb-3">
                       <div class="col-6 fw-bold">
                         <i class="fas fa-graduation-cap"></i>Agent Email:
                       </div>
-                      <div class="col-6">{forex?.agentEmail || "Not Available"}</div>
+                      <div class="col-6">John doe</div>
                     </div>
 
                     <div class="row mb-3">
@@ -294,21 +153,9 @@ export const ViewForex = () => {
                     </div>
                     
                   </div>
-                </div>
-  </>
-  ) : (
-    <>
-      <tr>
-        <td className="fw-bold">Name of the Student</td>
-        <td>{forex?.studentName || "Not Available"}</td>
-      </tr>
-      
-    </>
-  )}
-           
-
+                </div> */}
+            </div>
           </div>
-
 
           <div className="container-fluid">
   <div className="row">
@@ -921,5 +768,4 @@ export const ViewForex = () => {
     </>
   );
 };
-
-export default ViewForex;
+export default ViewBusiness;
