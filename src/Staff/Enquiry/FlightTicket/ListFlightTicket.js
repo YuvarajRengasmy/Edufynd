@@ -4,6 +4,7 @@ import Sortable from "sortablejs";
 import {
   getallFlightEnquiry,
   getSingleFlightEnquiry,
+  getFilterFlightEnquiry,
   deleteFlightEnquiry,
 } from "../../../api/Enquiry/flight";
 import { Link } from "react-router-dom";
@@ -68,19 +69,26 @@ export const ListFlightTicket = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
+ 
   const getAllFlightDetails = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      staffId:getStaffId()
     };
-    getallFlightEnquiry(data)
+    getFilterFlightEnquiry(data)
       .then((res) => {
-        setFlight(res?.data?.result);
+        setFlight(res?.data?.result?.flightList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.flightCount,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;

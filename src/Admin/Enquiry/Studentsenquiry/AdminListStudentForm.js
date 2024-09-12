@@ -86,6 +86,8 @@ export const AdminListStudentForm = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
+
+  
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,

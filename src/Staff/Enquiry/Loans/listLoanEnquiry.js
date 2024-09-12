@@ -3,6 +3,7 @@ import Sortable from "sortablejs";
 import {
   getallLoanEnquiry,
   getSingleLoanEnquiry,
+  getFilterLoanEnquiry,
   deleteLoanEnquiry,
 } from "../../../api/Enquiry/Loan";
 import { Link } from "react-router-dom";
@@ -71,11 +72,15 @@ export const ListLoanEnquiry = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      staffId:getStaffId()
     };
-    getallLoanEnquiry(data)
+    getFilterLoanEnquiry(data)
       .then((res) => {
-        setPagination({ ...pagination, count: res?.data?.count });
-        setLoan(res?.data?.result);
+        setLoan(res?.data?.result?.loanList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.loanCount,
+        });
       })
       .catch((err) => {
         console.log(err);

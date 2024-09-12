@@ -20,6 +20,6 @@ export const getSingleStaff = (data) => {
     return API.get(`${Staff}/getSingleStaff`, { params: { _id: data } })
 }
 
-export const getFilterStaff = (data) => {
+export const getFilterStaffSuperAdmin = (data) => {
     return API.put(`${Staff}/getFilterStaffSuperAdmin`, data);
   };

@@ -91,32 +91,34 @@ export const ViewComission = () => {
             </div>
 
             {commission?.years?.map((year, yearIndex) => (
-              <div className="col-md-6" key={yearIndex}>
-                <div className="card border-0">
-                  <div className="card-header bg-primary text-white">
-                    Year {year.year || "Not Available"}
-                  </div>
-                  {year.courseTypes?.map((courseType, courseIndex) => (
-                    <div key={courseIndex} className="card-body">
-                      <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                          <strong>Course Type:</strong>{" "}
-                          {courseType.courseType || "Not Available"}
-                        </li>
-                        <li className="list-group-item">
-                          <strong>Intake:</strong>{" "}
-                          {courseType.inTake || "Not Available"}
-                        </li>
-                        <li className="list-group-item">
-                          <strong>Commission:</strong>{" "}
-                          {courseType.value || "Not Available"}
-                        </li>
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
+  <div className="col-md-6" key={yearIndex}>
+    <div className="card border-0">
+      <div className="card-header bg-primary text-white">
+        Year {year.year || "Not Available"}
+      </div>
+      {year.courseTypes?.map((courseType, courseIndex) => (
+        <div key={courseIndex} className="card-body">
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
+              <strong>Course Type:</strong> {courseType.courseType || "Not Available"}
+            </li>
+            {/* Map through the inTake array */}
+            {courseType.inTake?.map((intakeItem, intakeIndex) => (
+              <React.Fragment key={intakeIndex}>
+                <li className="list-group-item">
+                  <strong>Intake:</strong> {intakeItem.inTake || "Not Available"}
+                </li>
+                <li className="list-group-item">
+                  <strong>Value:</strong> {intakeItem.value || "Not Available"}
+                </li>
+              </React.Fragment>
             ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+))}
           </div>
         </div>
         <div className="container-fluid my-2">

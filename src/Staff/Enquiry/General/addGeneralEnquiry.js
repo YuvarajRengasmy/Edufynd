@@ -8,7 +8,8 @@ import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import { getallCode } from "../../../api/settings/dailcode";
 import Flags from "react-world-flags";
-
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 
 export const AddGeneralEnquiry = () => {
@@ -69,6 +70,7 @@ agentPrimaryNumber: { required: false },
   const [student, setStudent] = useState(initialState)
   const [errors, setErrors] = useState(initialStateErrors)
   const [submitted, setSubmitted] = useState(false);
+  const [staff, setStaff] = useState([]);
   const navigate = useNavigate()
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
@@ -79,11 +81,22 @@ agentPrimaryNumber: { required: false },
   useEffect(() => {
     getAllSourceDetails();
     getStudentList();
+    getStaffDetails();
     getAgentList();
     getallCodeList();
   }, []);
 
-
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAgentList = () => {
     getallAgent()
       .then((res) => {
@@ -239,7 +252,10 @@ agentPrimaryNumber}`,
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)){
-      saveGeneralEnquiry(student)
+      saveGeneralEnquiry({...student,
+        staffId:staff._id,
+        adminId:staff.adminId,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/staff_list_general_enquiry");

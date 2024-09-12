@@ -408,7 +408,7 @@ function Profile() {
                   aria-labelledby="exampleModalLabel"
                   aria-hidden="true"
                 >
-                  <div class="modal-dialog modal-fullscreen">
+                  <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
                     <div class="modal-content">
                       <div class="modal-header">
                         <h1

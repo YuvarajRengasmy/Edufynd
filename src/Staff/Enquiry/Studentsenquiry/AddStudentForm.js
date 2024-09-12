@@ -15,7 +15,8 @@ import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import Flags from "react-world-flags";
 import { getallCode } from "../../../api/settings/dailcode";
-
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 export const AddStudentForm = () => {
   const initialState = {
@@ -100,6 +101,7 @@ export const AddStudentForm = () => {
   const [student, setStudent] = useState(initialState);
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
+  const [staff, setStaff] = useState([]);
   const [students, setStudents] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
@@ -229,9 +231,22 @@ export const AddStudentForm = () => {
     getAllSourceDetails();
     getStudentList();
     getAgentList();
+    getStaffDetails();
     getallCodeList();
   }, []);
 
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getallCodeList = () => {
     getallCode()
       .then((res) => {
@@ -358,7 +373,10 @@ export const AddStudentForm = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      saveStudnetEnquiry(student)
+      saveStudnetEnquiry({...student,
+        staffId:staff._id,
+        adminId:staff.adminId,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/staff_list_enquiry_student");

@@ -10,6 +10,8 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { getallUniversity } from "../../../api/university";
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import { getallCode } from "../../../api/settings/dailcode";
 import { getallCurrency } from "../../../api/currency";
 import Select from "react-select";
@@ -83,6 +85,7 @@ export const AddForex = () => {
   const [university, setUniversity] = useState();
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
+  const [staff, setStaff] = useState([]);
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setForexs] = useState([]);
@@ -94,9 +97,22 @@ export const AddForex = () => {
   useEffect(() => {
     getAllUniversityList();
     getAllCurrencyDetails();
+    getStaffDetails();
     getallCodeList();
   }, []);
 
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllUniversityList = () => {
     getallUniversity()
       .then((res) => {
@@ -168,39 +184,7 @@ export const AddForex = () => {
     if (!data.source) {
       error.source.required = true;
     }
-    // if (!data.agentName) {
-    //   error.agentName.required = true;
-    // }
-    // if (!isValidName(data.agentName)) {
-    //   error.agentName.valid = true;
-    // }
-    // if (!data.businessName) {
-    //   error.businessName.required = true;
-    // }
-
-    // if (!isValidName(data.businessName)) {
-    //   error.businessName.valid = true;
-    // }
-
-    // if (!data.agentEmail) {
-    //   error.agentEmail.required = true;
-    // }
-    // if (!isValidEmail(data.agentEmail)) {
-    //   error.agentEmail.valid = true;
-    // }
-    // if (!data.agentPrimaryNumber) {
-    //   error.agentPrimaryNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentPrimaryNumber)) {
-    //   error.agentPrimaryNumber.valid = true;
-    // }
-
-    // if (!data.agentWhatsAppNumber) {
-    //   error.agentWhatsAppNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentWhatsAppNumber)) {
-    //   error.agentWhatsAppNumber.valid = true;
-    // }
+   
     if (!data.name) {
       error.name.required = true;
     }
@@ -363,7 +347,10 @@ export const AddForex = () => {
     setSubmitted(true);
 
     if (handleErrors(newError)) {
-      saveForexEnquiry(forex)
+      saveForexEnquiry({...forex,
+        staffId:staff._id,
+        adminId:staff.adminId,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/staff_list_forex_form");
