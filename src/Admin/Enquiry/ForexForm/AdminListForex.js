@@ -4,7 +4,7 @@ import {
   getallForexEnquiry,
   getSingleForexEnquiry,
   deleteForexEnquiry,
-  getFilterForexEnquiry
+  getFilterForexEnquiry,
 } from "../../../api/Enquiry/Forex";
 import { Link } from "react-router-dom";
 import {
@@ -21,7 +21,7 @@ import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { getAdminIdId } from "../../../Utils/storage";
-import { getSingleAdmin} from "../../../api/admin";
+import { getSingleAdmin } from "../../../api/admin";
 import { FaFilter } from "react-icons/fa";
 
 export const AdminListForex = () => {
@@ -45,7 +45,6 @@ export const AdminListForex = () => {
     getStaffDetails();
   }, [pagination.from, pagination.to]);
 
-
   const getStaffDetails = () => {
     const id = getAdminIdId();
     getSingleAdmin(id)
@@ -57,13 +56,15 @@ export const AdminListForex = () => {
         console.log(err);
       });
   };
-  
+
   if (!staffs || !staffs.privileges) {
     // return null; // or a loading spinner
   }
-  
-  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'forexEnquiry');
-  
+
+  const studentPrivileges = staffs?.privileges?.find(
+    (privilege) => privilege.module === "forexEnquiry"
+  );
+
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
@@ -71,7 +72,7 @@ export const AdminListForex = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-      adminId:getAdminIdId()
+      adminId: getAdminIdId(),
     };
     getFilterForexEnquiry(data)
       .then((res) => {
@@ -363,24 +364,27 @@ export const AdminListForex = () => {
                       </Link>
                     </li>
                     {studentPrivileges?.add && (
-                    <li class="m-1">
-                      <Link class="btn btn-pix-primary " to="/admin_add_forex_form">
-                        <button
-                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                          style={{
-                            backgroundColor: "#fe5722",
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "11px",
-                          }}
+                      <li class="m-1">
+                        <Link
+                          class="btn btn-pix-primary "
+                          to="/admin_add_forex_form"
                         >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>
-                          Add Forex Form
-                        </button>
-                      </Link>
-                    </li>
+                          <button
+                            className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                            style={{
+                              backgroundColor: "#fe5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "11px",
+                            }}
+                          >
+                            <i
+                              class="fa fa-plus-circle me-2"
+                              aria-hidden="true"
+                            ></i>
+                            Add Forex Form
+                          </button>
+                        </Link>
+                      </li>
                     )}
                   </ol>
                 </div>
@@ -486,38 +490,40 @@ export const AdminListForex = () => {
                                     </td>
                                     <td className="text-capitalize text-start">
                                       <div className="d-flex">
-                                      {studentPrivileges?.view && (
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/admin_view_forex_form",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                        >
-                                          <i className="far fa-eye text-primary me-1"></i>
-                                        </Link>
-                                      )}
-                                      {studentPrivileges?.edit && (
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/admin_edit_forex_form",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                        >
-                                          <i className="far fa-edit text-warning me-1"></i>
-                                        </Link>
-                                      )}
-                                      {studentPrivileges?.delete && (
-                                        <button
-                                          className="dropdown-item"
-                                          onClick={() => {
-                                            openPopup(data?._id);
-                                          }}
-                                        >
-                                          <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </button>
-                                      )}
+                                        {studentPrivileges?.view && (
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname:
+                                                "/admin_view_forex_form",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-eye text-primary me-1"></i>
+                                          </Link>
+                                        )}
+                                        {studentPrivileges?.edit && (
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname:
+                                                "/admin_edit_forex_form",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-edit text-warning me-1"></i>
+                                          </Link>
+                                        )}
+                                        {studentPrivileges?.delete && (
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              openPopup(data?._id);
+                                            }}
+                                          >
+                                            <i className="far fa-trash-alt text-danger me-1"></i>
+                                          </button>
+                                        )}
                                       </div>
                                     </td>
                                   </tr>

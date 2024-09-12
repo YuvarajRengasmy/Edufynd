@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { updatedMeeting, getSingleMeeting } from "../../api/Notification/meeting";
-import {getallClientModule} from "../../api/universityModule/clientModule";
+import React, { useEffect, useState } from "react";
+import {
+  isValidEmail,
+  isValidPassword,
+  isValidPhone,
+} from "../../Utils/Validation";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import {
+  updatedMeeting,
+  getSingleMeeting,
+} from "../../api/Notification/meeting";
+import { getallClientModule } from "../../api/universityModule/clientModule";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/AdminSidebar";
 
@@ -12,8 +19,8 @@ import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Select from "react-select";
-import { Link,useLocation } from "react-router-dom";
-import { RichTextEditor } from '@mantine/rte';
+import { Link, useLocation } from "react-router-dom";
+import { RichTextEditor } from "@mantine/rte";
 export const AddMeetings = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -26,7 +33,6 @@ export const AddMeetings = () => {
     date: "",
     time: "",
   };
-    
 
   const initialStateErrors = {
     hostName: { required: false },
@@ -75,7 +81,7 @@ export const AddMeetings = () => {
   const getAdminList = () => {
     getallAdmin()
       .then((res) => {
-        setAdmin(res?.data?.result );
+        setAdmin(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -125,7 +131,6 @@ export const AddMeetings = () => {
     return error;
   };
 
-  
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -144,13 +149,18 @@ export const AddMeetings = () => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
-    } else{
-      setnotification({ ...notification, [event?.target?.name]: event?.target?.value });
+    } else {
+      setnotification({
+        ...notification,
+        [event?.target?.name]: event?.target?.value,
+      });
     }
-    
+
     if (submitted) {
-      const newError = handleValidation({...notification,
-        [event.target.name]: event.target.value,});
+      const newError = handleValidation({
+        ...notification,
+        [event.target.name]: event.target.value,
+      });
       setErrors(newError);
     }
   };
@@ -159,7 +169,10 @@ export const AddMeetings = () => {
     const values = selectedOptions
       ? selectedOptions.map((option) => option.value)
       : [];
-    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
+    setnotification((prevNotification) => ({
+      ...prevNotification,
+      [name]: values,
+    }));
   };
 
   const handleErrors = (obj) => {
@@ -174,14 +187,12 @@ export const AddMeetings = () => {
     return true;
   };
 
-  
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -214,7 +225,7 @@ export const AddMeetings = () => {
     value: data.empName,
     label: data.empName,
   }));
- 
+
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
@@ -224,7 +235,7 @@ export const AddMeetings = () => {
     value: data.agentName,
     label: data.agentName,
   }));
- 
+
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -241,13 +252,9 @@ export const AddMeetings = () => {
     }),
   };
 
-
-
-
-
   return (
     <>
-     <div>
+      <div>
         <Sidebar />
 
         <div
@@ -273,8 +280,7 @@ export const AddMeetings = () => {
                         <div className="row g-3">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                             Host Name{" "}
-                              <span className="text-danger">*</span>
+                              Host Name <span className="text-danger">*</span>
                             </label>
 
                             <select
@@ -301,115 +307,112 @@ export const AddMeetings = () => {
                             ) : null}
                           </div>
                           {notification.hostName === "staff" ? (
-                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                             <label style={{ color: "#231F20" }}>
-                               Admin List<span className="text-danger">*</span>
-                             </label>
-                            <Select
-                             isMulti
-                             placeholder="Select staff"
-                             onChange={handleSelectChange}
-                              options={staffOptions}
-                              value={
-                                notification?.attendees
-                                  ? notification?.attendees.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
-                                  : null
-                              }
-                             name="attendees"
-                             
-                             styles={customStyles}
-                             className="submain-one-form-body-subsection-select"
-                           />
-                             {errors.attendees.required ? (
-                               <div className="text-danger form-text">
-                                 This field is required.
-                               </div>
-                             ) : null}
-                           </div>
-                          ) : notification.hostName === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Student List<span className="text-danger">*</span>
+                                Admin List<span className="text-danger">*</span>
                               </label>
-                             <Select
-                              isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={studentOptions}
-                               value={
-                                notification?.attendees
-                                  ? notification?.attendees.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
-                                  : null
-                              }
-                              name="attendees"
-                              
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
+                              <Select
+                                isMulti
+                                placeholder="Select staff"
+                                onChange={handleSelectChange}
+                                options={staffOptions}
+                                value={
+                                  notification?.attendees
+                                    ? notification?.attendees.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                name="attendees"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
                               {errors.attendees.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
                               ) : null}
                             </div>
-                          ) :notification.hostName === "agent" ? (
+                          ) : notification.hostName === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Admin List<span className="text-danger">*</span>
-                            </label>
-                           <Select
-                            isMulti
-                            placeholder="Select Country"
-                             onChange={handleSelectChange}
-                             options={agentOptions}
-                             value={
-                              notification?.attendees
-                                ? notification?.attendees.map((inTake) => ({
-                                    value: inTake,
-                                    label: inTake,
-                                  }))
-                                : null
-                            }
-                            name="attendees "
-                            
-                            styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
-                          />
-                            {errors.attendees.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
+                              <label style={{ color: "#231F20" }}>
+                                Student List
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                options={studentOptions}
+                                value={
+                                  notification?.attendees
+                                    ? notification?.attendees.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                name="attendees"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.attendees.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : notification.hostName === "agent" ? (
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Admin List<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                options={agentOptions}
+                                value={
+                                  notification?.attendees
+                                    ? notification?.attendees.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                name="attendees "
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.attendees.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
                           ) : notification.hostName === "admin" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Admin List<span className="text-danger">*</span>
                               </label>
-                             <Select
-                              isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={adminOptions}
-                               value={
-                                notification?.attendees
-                                  ? notification?.attendees.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
-                                  : null
-                              }
-                              name="attendees "
-                              
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                options={adminOptions}
+                                value={
+                                  notification?.attendees
+                                    ? notification?.attendees.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                name="attendees "
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
                               {errors.attendees.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -446,12 +449,16 @@ export const AddMeetings = () => {
                           <div className="row gy-2 ">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                              Date<span className="text-danger">*</span>
+                                Date<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="date"
                                 className="form-control "
-                                value={notification?.date?notification?.date.slice(0,10):""}
+                                value={
+                                  notification?.date
+                                    ? notification?.date.slice(0, 10)
+                                    : ""
+                                }
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -465,19 +472,17 @@ export const AddMeetings = () => {
                                   This field is required.
                                 </div>
                               ) : null}
-                              
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                              Time<span className="text-danger">*</span>
+                                Time<span className="text-danger">*</span>
                               </label>
                               <input
-                                type='time'
+                                type="time"
                                 className="form-control "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                 
                                 }}
                                 value={notification?.time}
                                 placeholder="Enter  Time"
@@ -489,9 +494,8 @@ export const AddMeetings = () => {
                                   This field is required.
                                 </div>
                               ) : null}
-                              
                             </div>
-                            </div>
+                          </div>
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -516,18 +520,15 @@ export const AddMeetings = () => {
                               )}
                             </div>
                           </div>
-                         
-                         
 
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                            to="/admin_list_meetings"
+                              to="/admin_list_meetings"
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                             
                               className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
@@ -554,8 +555,7 @@ export const AddMeetings = () => {
           </div>
         </div>
       </div>
-      
     </>
-  )
-}
-export default AddMeetings
+  );
+};
+export default AddMeetings;

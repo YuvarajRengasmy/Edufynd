@@ -131,9 +131,7 @@ export const ListEvents = () => {
                         aria-describedby="button-addon3"
                         className="form-control bg-white border-1  rounded-4 w-100"
                         style={{
-                          
                           fontSize: "12px", // Keep the font size if it's correct
-                          
                         }}
                       />
                       <span
@@ -318,97 +316,118 @@ export const ListEvents = () => {
           </div>
         </div>
         <div className="container-fluid mt-3">
-      <div className="row">
-        {/* Card 1: Upcoming Events */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#00BCD4" }} // Cyan
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Events
-              </h6>
-              <p className="card-text">Events scheduled to happen soon.</p>
-              <p className="card-text">Total: 8</p>
+          <div className="row">
+            {/* Card 1: Upcoming Events */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#00BCD4" }} // Cyan
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i
+                      className="fas fa-calendar-day"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Upcoming Events
+                  </h6>
+                  <p className="card-text">Events scheduled to happen soon.</p>
+                  <p className="card-text">Total: 8</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 2: Past Events */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#FF9800" }} // Orange
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Past Events
-              </h6>
-              <p className="card-text">Events that have already occurred.</p>
-              <p className="card-text">Total: 22</p>
+            {/* Card 2: Past Events */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#FF9800" }} // Orange
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i
+                      className="fas fa-calendar-check"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Past Events
+                  </h6>
+                  <p className="card-text">
+                    Events that have already occurred.
+                  </p>
+                  <p className="card-text">Total: 22</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 3: Scheduled Events */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#4CAF50" }} // Green
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Scheduled Events
-              </h6>
-              <p className="card-text">Events that are planned and scheduled.</p>
-              <p className="card-text">Total: 15</p>
+            {/* Card 3: Scheduled Events */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#4CAF50" }} // Green
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i
+                      className="fas fa-calendar-alt"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Scheduled Events
+                  </h6>
+                  <p className="card-text">
+                    Events that are planned and scheduled.
+                  </p>
+                  <p className="card-text">Total: 15</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 4: Event Feedback */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#9C27B0" }} // Purple
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-comments" style={{ color: '#ffffff' }}></i> Event Feedback
-              </h6>
-              <p className="card-text">Feedback and reviews for events.</p>
-              <p className="card-text">Total: 10</p>
+            {/* Card 4: Event Feedback */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#9C27B0" }} // Purple
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i
+                      className="fas fa-comments"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Event Feedback
+                  </h6>
+                  <p className="card-text">Feedback and reviews for events.</p>
+                  <p className="card-text">Total: 10</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
         <div className="content-body">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow=sm border-0">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                    <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
-
-                    </p>
-
-
+                  <div className="card-header bg-white mb-0 mt-1 pb-0">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
                   </div>
-                </div>
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -424,9 +443,9 @@ export const ListEvents = () => {
                                 fontSize: "12px",
                               }}
                             >
-                                <th className=" text-start">
-                            <input type="checkbox" />
-                            </th>
+                              <th className=" text-start">
+                                <input type="checkbox" />
+                              </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 S No
                               </th>
@@ -464,8 +483,8 @@ export const ListEvents = () => {
                                 }}
                               >
                                 <td className=" text-start">
-                              <input type="checkbox" />
-                              </td>
+                                  <input type="checkbox" />
+                                </td>
                                 <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
                                 </td>
@@ -476,20 +495,21 @@ export const ListEvents = () => {
                                       : data?.modifiedOn
                                       ? data?.modifiedOn
                                       : "-"
-                                     )  || "Not Available"}
+                                  ) || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">
-                                  {formatDate(data?.date ? data?.date : "-")  || "Not Available"}
+                                  {formatDate(data?.date ? data?.date : "-") ||
+                                    "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">
-                                  {data?.eventTopic  || "Not Available"}
+                                  {data?.eventTopic || "Not Available"}
                                 </td>
 
                                 <td className="text-capitalize text-start text-truncate">
-                                  {data?.universityName  || "Not Available"} 
+                                  {data?.universityName || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">
-                                  {data?.venue  || "Not Available"}
+                                  {data?.venue || "Not Available"}
                                 </td>
 
                                 <td className="text-capitalize text-start text-truncate">
@@ -533,27 +553,31 @@ export const ListEvents = () => {
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center p-3">
-                  <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
-                </div>
+                      <p className="me-auto ">
+                        Show
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                        </select>{" "}
+                        Entries out of 100
+                      </p>
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

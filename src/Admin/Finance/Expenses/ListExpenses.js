@@ -268,76 +268,92 @@ export const ListExpenses = () => {
           </div>
         </div>
         <div className="container-fluid mt-3">
-      <div className="row">
-        {/* Card 1: Total Expenses */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-3 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#F44336" }} // Red
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-credit-card" style={{ color: '#ffffff' }}></i> Total Expenses
-                </h6>
-                <p className="card-text">Total: $50,000</p>
-              </div>
+          <div className="row">
+            {/* Card 1: Total Expenses */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-3 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#F44336" }} // Red
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-credit-card"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Total Expenses
+                    </h6>
+                    <p className="card-text">Total: $50,000</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Card 2: Monthly Expenses */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-3 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#FF5722" }} // Deep Orange
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Monthly Expenses
-                </h6>
-                <p className="card-text">Total: $4,200</p>
-              </div>
+            {/* Card 2: Monthly Expenses */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-3 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FF5722" }} // Deep Orange
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-calendar-day"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Monthly Expenses
+                    </h6>
+                    <p className="card-text">Total: $4,200</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Card 3: Operational Costs */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-3 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#FFC107" }} // Amber
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-building" style={{ color: '#ffffff' }}></i> Operational Costs
-                </h6>
-                <p className="card-text">Total: $20,000</p>
-              </div>
+            {/* Card 3: Operational Costs */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-3 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FFC107" }} // Amber
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-building"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Operational Costs
+                    </h6>
+                    <p className="card-text">Total: $20,000</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Card 4: Miscellaneous Expenses */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-3 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#9C27B0" }} // Purple
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-tachometer-alt" style={{ color: '#ffffff' }}></i> Miscellaneous Expenses
-                </h6>
-                <p className="card-text">Total: $3,000</p>
-              </div>
+            {/* Card 4: Miscellaneous Expenses */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-3 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#9C27B0" }} // Purple
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-tachometer-alt"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Miscellaneous Expenses
+                    </h6>
+                    <p className="card-text">Total: $3,000</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
-      </div>
-    </div>
 
         <div className="content-body">
           <div className="container-fluid">
@@ -394,7 +410,7 @@ export const ListExpenses = () => {
                               <td className="text-capitalize text-start text-truncate"></td>
                               <td className="text-capitalize text-start text-truncate"></td>
                               <td className="text-capitalize text-start text-truncate"></td>
-                              <td className="text-capitalize text-start text-truncate" ></td>
+                              <td className="text-capitalize text-start text-truncate"></td>
                               <td className="text-capitalize text-start text-truncate"></td>
 
                               <td className="text-capitalize text-start text-truncate">

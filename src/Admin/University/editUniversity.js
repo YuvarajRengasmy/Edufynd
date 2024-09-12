@@ -53,7 +53,7 @@ function Profile() {
         lga: "",
         states: [],
         lgas: [],
-        primary:""
+        primary: "",
       },
     ],
   };
@@ -328,7 +328,6 @@ function Profile() {
     }));
   };
 
-
   const handlePrimaryChange = (index) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -336,7 +335,6 @@ function Profile() {
         i === index ? { ...campus, primary: !campus.primary } : campus
       ),
     }));
-   
   };
   const addCampus = () => {
     setUniversity((prevState) => ({
@@ -447,7 +445,6 @@ function Profile() {
           toast.error(err?.response?.data?.message);
         });
     }
-    
   };
 
   const popularCategoriesOptions = categorie.map((data) => ({
@@ -462,7 +459,7 @@ function Profile() {
     const year = new Date(data.startDate).getFullYear();
     return {
       value: data.intakeName,
-      label: data.intakeName
+      label: data.intakeName,
     };
   });
 
@@ -551,18 +548,18 @@ function Profile() {
                           }}
                         />
                         <label
-                                htmlFor="fileInputImage"
-                                className="position-absolute fs-6 rounded-circle "
-                                style={{
-                                  cursor: "pointer",
-                                  bottom: "15%",
-                                  left: "53.5%",
-                                  transform: "translate(-25%, -25%)",
-                                  color: "#0f2239",
-                                }}
-                              >
-                                <i className="fas fa-camera"></i>
-                              </label>
+                          htmlFor="fileInputImage"
+                          className="position-absolute fs-6 rounded-circle "
+                          style={{
+                            cursor: "pointer",
+                            bottom: "15%",
+                            left: "53.5%",
+                            transform: "translate(-25%, -25%)",
+                            color: "#0f2239",
+                          }}
+                        >
+                          <i className="fas fa-camera"></i>
+                        </label>
                       </label>
                       <input
                         name="universityLogo"
@@ -604,7 +601,9 @@ function Profile() {
                               fontSize: "12px",
                             }}
                             value={university?.businessName}
-                            className={`form-select form-select-lg rounded-1 ${errors.businessName.required ? 'is-invalid':''}`}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.businessName.required ? "is-invalid" : ""
+                            }`}
                             name="businessName"
                           >
                             <option value={""} disabled hidden>
@@ -621,7 +620,7 @@ function Profile() {
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) }
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -629,7 +628,11 @@ function Profile() {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                              className={`form-select form-select-lg rounded-1 ${errors.institutionType.required  ? 'is-invalid':''}`}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.institutionType.required
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -650,7 +653,7 @@ function Profile() {
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) }
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -661,8 +664,12 @@ function Profile() {
                           <input
                             type="text"
                             className={`form-control rounded-1 ${
-                                  errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''
-    }`}
+                              errors.universityName.required
+                                ? "is-invalid"
+                                : errors.universityName.valid
+                                ? "is-valid"
+                                : ""
+                            }`}
                             placeholder="Enter University name"
                             value={university?.universityName}
                             style={{
@@ -683,7 +690,6 @@ function Profile() {
                               This field is required.
                             </span>
                           )}
-                          
                         </div>
 
                         <div className="row g-3 mb-3">
@@ -692,11 +698,15 @@ function Profile() {
                               Country<span className="text-danger">*</span>
                             </label>
                             <Select
-                              placeholder={university?.country || "Select Country"}
+                              placeholder={
+                                university?.country || "Select Country"
+                              }
                               onChange={handleCountryChange}
                               options={countries}
                               name="label"
-                              value={countries.find((c) => c.value === university.country)}
+                              value={countries.find(
+                                (c) => c.value === university.country
+                              )}
                               styles={customStyles}
                               className="submain-one-form-body-subsection-select"
                             />
@@ -738,7 +748,7 @@ function Profile() {
                                     handleStateChange(option, index)
                                   }
                                   options={campus.states}
-                                  value={campus.states?campus.states:[]}
+                                  value={campus.states ? campus.states : []}
                                   styles={customStyles}
                                   name="state"
                                   className="submain-one-form-body-subsection-select"
@@ -759,7 +769,7 @@ function Profile() {
                                     handleLGAChange(option, index)
                                   }
                                   options={campus.lgas}
-                                  value={campus.lgas?campus.lgas:[]}
+                                  value={campus.lgas ? campus.lgas : []}
                                   styles={customStyles}
                                   name="lga"
                                   className="submain-one-form-body-subsection-select"
@@ -771,18 +781,24 @@ function Profile() {
                                 )}
                               </div>
                               <div className="col mt-5">
-            <label>
-              <input
-                type="checkbox"
-                value={campus?.primary}
-                checked={campus.primary}
-                 onChange={() => handlePrimaryChange(index)}
-                // onChange={(e) => handlePrimaryChange(e, index)}
-                 disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
-              />
-              <span className="ms-2 text-success">Primary Campus</span> 
-            </label>
-          </div>
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    value={campus?.primary}
+                                    checked={campus.primary}
+                                    onChange={() => handlePrimaryChange(index)}
+                                    // onChange={(e) => handlePrimaryChange(e, index)}
+                                    disabled={
+                                      university.campuses.filter(
+                                        (c) => c.primary
+                                      ).length > 0 && !campus.primary
+                                    }
+                                  />
+                                  <span className="ms-2 text-success">
+                                    Primary Campus
+                                  </span>
+                                </label>
+                              </div>
 
                               {index > 0 && (
                                 <div className="col-xl-12 my-3 ">
@@ -807,7 +823,11 @@ function Profile() {
                             type="text"
                             value={university?.email}
                             className={`form-control rounded-1 ${
-                              errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
+                              errors.email.required
+                                ? "is-invalid"
+                                : errors.email.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             placeholder="Enter Email"
                             style={{
@@ -821,7 +841,7 @@ function Profile() {
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) }
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -832,7 +852,11 @@ function Profile() {
                             type="text"
                             value={university?.website}
                             className={`form-control rounded-1 ${
-                              errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
+                              errors.website.required
+                                ? "is-invalid"
+                                : errors.website.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             placeholder="Enter Website"
                             style={{
@@ -847,7 +871,6 @@ function Profile() {
                               This field is required.
                             </span>
                           )}
-                          
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -889,11 +912,13 @@ function Profile() {
                           </label>
                           <input
                             type="text"
-                            
                             className={`form-control rounded-1 ${
-                              errors.founded.required ? 'is-invalid' : errors.founded.valid ? 'is-valid' : ''
+                              errors.founded.required
+                                ? "is-invalid"
+                                : errors.founded.valid
+                                ? "is-valid"
+                                : ""
                             }`}
-                            
                             placeholder="Enter Founded Year"
                             value={university?.founded}
                             name="founded"
@@ -903,7 +928,15 @@ function Profile() {
                             }}
                             onChange={handleInputs}
                             onKeyDown={(e) => {
-                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                              if (
+                                !/^[0-9]$/i.test(e.key) &&
+                                ![
+                                  "Backspace",
+                                  "Delete",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                ].includes(e.key)
+                              ) {
                                 e.preventDefault();
                               }
                             }}
@@ -913,7 +946,6 @@ function Profile() {
                               This field is required.
                             </span>
                           )}
-                         
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>Ranking</label>
@@ -921,7 +953,11 @@ function Profile() {
                             type="text"
                             value={university?.ranking}
                             className={`form-control rounded-1 ${
-                              errors.ranking.required ? 'is-invalid' : errors.ranking.valid ? 'is-valid' : ''
+                              errors.ranking.required
+                                ? "is-invalid"
+                                : errors.ranking.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             placeholder="Enter Ranking "
                             style={{
@@ -932,10 +968,19 @@ function Profile() {
                             onChange={handleInputs}
                             onKeyDown={(e) => {
                               // Prevent default behavior for disallowed keys
-                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight','Space'].includes(e.key)) {
-                           e.preventDefault();
-                         }
-                       }}
+                              if (
+                                !/^[a-zA-Z0-9]$/.test(e.key) &&
+                                ![
+                                  "Backspace",
+                                  "Delete",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                  "Space",
+                                ].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.ranking.required && (
                             <div className="text-danger form-text">
@@ -952,7 +997,6 @@ function Profile() {
                           <Select
                             isMulti
                             options={popularCategoriesOptions}
-                        
                             value={
                               university?.popularCategories
                                 ? university?.popularCategories.map(
@@ -988,7 +1032,11 @@ function Profile() {
                           <input
                             type="text"
                             className={`form-control rounded-1 ${
-                              errors.averageFees.required ? 'is-invalid' : errors.averageFees.valid ? 'is-valid' : ''
+                              errors.averageFees.required
+                                ? "is-invalid"
+                                : errors.averageFees.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             value={university?.averageFees}
                             placeholder="Enter Average Fees"
@@ -1004,7 +1052,6 @@ function Profile() {
                               This field is required.
                             </span>
                           )}
-                          
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1013,7 +1060,9 @@ function Profile() {
                             Offer TAT<span className="text-danger">*</span>
                           </label>
                           <select
-                             className={`form-select form-select-lg rounded-1 ${errors.offerTAT.required ? 'is-invalid':''}`}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.offerTAT.required ? "is-invalid" : ""
+                            }`}
                             name="offerTAT"
                             value={university?.offerTAT}
                             style={{
@@ -1035,9 +1084,9 @@ function Profile() {
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) }
+                          )}
                         </div>
-                        
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             InTake<span className="text-danger">*</span>
@@ -1045,7 +1094,6 @@ function Profile() {
                           <Select
                             isMulti
                             options={intakeOptions}
-                        
                             value={
                               university?.inTake
                                 ? university?.inTake.map((inTake) => ({
@@ -1073,52 +1121,47 @@ function Profile() {
                         </div>
 
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label style={{ color: "#231F20" }}>
-                                About{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="about"
-                                onChange={handleRichAboutChange}
-                                value={university.about}
-                               type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                 
-                                  zIndex:'0'
-                                }}
-                              />
-                            </div>
+                          <div className="form-group">
+                            <label style={{ color: "#231F20" }}>
+                              About <span className="text-danger">*</span>
+                            </label>
+                            <RichTextEditor
+                              placeholder="Start writing your content here..."
+                              name="about"
+                              onChange={handleRichAboutChange}
+                              value={university.about}
+                              type="text"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+
+                                zIndex: "0",
+                              }}
+                            />
                           </div>
-                         
+                        </div>
 
+                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                          <div className="form-group">
+                            <label style={{ color: "#231F20" }}>
+                              Admission Requirements{" "}
+                              <span className="text-danger">*</span>
+                            </label>
+                            <RichTextEditor
+                              placeholder="Start writing your content here..."
+                              name="admissionRequirement"
+                              onChange={handleRichTextChange}
+                              value={university.admissionRequirement}
+                              type="text"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
 
-
-                          
-                          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label style={{ color: "#231F20" }}>
-                                Admission Requirements{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="admissionRequirement"
-                                onChange={handleRichTextChange}
-                                value={university.admissionRequirement}
-                               type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                  
-                                  zIndex:'0'
-                                }}
-                              />
-                            </div>
+                                zIndex: "0",
+                              }}
+                            />
                           </div>
+                        </div>
 
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
