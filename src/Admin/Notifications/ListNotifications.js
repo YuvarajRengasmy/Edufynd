@@ -535,7 +535,7 @@ export const ListNotifications = () => {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 

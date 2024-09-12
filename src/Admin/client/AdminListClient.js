@@ -682,7 +682,7 @@ export const AdminListClient = () => {
               </div>
               <div>
                 <Link
-                  to="/client"
+                  to="#"
                   className="btn btn-cancel border-0 rounded-pill text-uppercase px-4 py-2 fw-semibold text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 

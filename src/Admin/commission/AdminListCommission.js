@@ -551,7 +551,7 @@ export default function Masterproductlist() {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/admin_admin_view_commission",
+                            pathname: "/admin_view_commission",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -707,7 +707,7 @@ export default function Masterproductlist() {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
                 style={{
                   backgroundColor: "#0f2239",

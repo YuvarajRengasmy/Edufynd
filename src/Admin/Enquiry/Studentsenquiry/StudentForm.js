@@ -180,7 +180,7 @@ export const StudentForm = () => {
                   <div class="card-body text-end">
                     <Link
                       to={{
-                        pathname: "/EnquiryStudent",
+                        pathname: "/admin_list_enquiry_student",
                         search: `?id=${student?._id}`,
                       }}
                       class="btn btn-sm px-4 py-2 fw-semibold text-uppercase"
