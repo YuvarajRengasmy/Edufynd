@@ -47,30 +47,48 @@ export default function Masterproductlist() {
     getStaffDetails();
   }, [pagination.from, pagination.to]);
 
+  // const getAllStudentDetails = () => {
+  //   const data = {
+  //     limit: 10,
+  //     page: pagination.from,
+  //     studentId:getStudentId,
+    
+    
+
+  //   };
+  //   getFilterStudentAdmin(data)
+    
+  //   .then((res) => {
+  //     const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
+  //       return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
+  //     });
+  //     setStudent(sortedStudents);
+  //     setPagination({
+  //       ...pagination,
+  //       count: res?.data?.result?.studentCount,
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  // };
+
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-      studentId:getStudentId,
-      superAdminId:getStudentId,
-    
-
+      staffId: getStaffId(),
     };
+
     getFilterStudentAdmin(data)
-    
-    .then((res) => {
-      const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
+      .then((res) => {
+        console.log("yuvrajStudent", res);
+        setStudent(res?.data?.result?.studentList);
+        setPagination({ ...pagination, count: res?.data?.result?.studentCount });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      setStudent(sortedStudents);
-      setPagination({
-        ...pagination,
-        count: res?.data?.result?.studentCount,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;

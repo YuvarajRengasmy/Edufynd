@@ -41,7 +41,7 @@ function AdminListStaff() {
     const data = {
       limit: 10,
       page: pagination.from,
-      adminId: getAdminIdId(),
+      // adminId: getAdminIdId(),
     };
 
     getFilterStaff(data)

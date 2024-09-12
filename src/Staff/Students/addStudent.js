@@ -9,7 +9,7 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { StudentSuperAdmin, getallStudent } from "../../api/student";
-import Mastersidebar from "../../compoents/AdminSidebar";
+import Mastersidebar from "../../compoents/StaffSidebar";
 import {  getSingleStaff } from "../../api/staff";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
@@ -119,10 +119,21 @@ function AddAgent() {
 
   useEffect(() => {
     getStaffDetails();
+    getStudentDetail();
     getallCodeList();
 }, []);
 
 
+
+const getStudentDetail = () => {
+getallStudent()
+      .then((res) => {
+          setStudent(res?.data?.result);
+      })
+      .catch((err) => {
+          console.log(err);
+      });
+};
 const getStaffDetails = () => {
   const id = getStaffId();
   getSingleStaff(id)
@@ -326,7 +337,7 @@ const handleValidation = (data) => {
         .then((res) => {
           console.log("res", res);
           toast.success(res?.data?.message);
-          navigate("/admin_list-student");
+          navigate("/staff_list_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

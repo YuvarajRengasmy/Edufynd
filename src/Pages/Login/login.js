@@ -129,7 +129,8 @@ const Login = () => {
     else if (type === 'superAdmin') { return <Navigate to="/dashboard" /> }
     else if (type === 'staff') { return <Navigate to="/staff_dashboard" /> }
     else if (type === 'admin') { return <Navigate to="/admin_dashboard" /> }
-    else  { return <Navigate to="/agent_dashboard" /> }
+    else if (type === 'agent_dashboard') { return <Navigate to="/agent_dashboard" /> }
+    else  { return <Navigate to="/" /> }
   }
 
   const responseFacebook = (response) => {

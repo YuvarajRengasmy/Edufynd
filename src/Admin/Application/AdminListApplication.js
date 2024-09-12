@@ -622,7 +622,7 @@ export const AdminListApplication = () => {
                                     {pagination.from + index + 1}
                                   </td>
                                   <td className="text-capitalize text-start">
-                                    {getMonthYear(data?.modifiedOn)}
+                                    {getMonthYear(data?.createdOn)}
                                   </td>
                                   <td className="text-capitalize text-start">
                                     {data?.applicationCode}
