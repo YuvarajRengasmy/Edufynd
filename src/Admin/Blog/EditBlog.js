@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getallCategory } from "../../api/settings/blogSettings";
 import { getFilterCategory } from "../../api/settings/blogSettings";
-import {updateBlog,getSingleBlog} from "../../api/blog";
+import { updateBlog, getSingleBlog } from "../../api/blog";
 import DatePicker from "react-datepicker"; // Add this line
 import Sidebar from "../../compoents/AdminSidebar";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -21,7 +21,7 @@ export const AddBlog = () => {
     tags: "",
     optionalURL: "",
     content: "",
-    uploadFile: [{fileName: "", uploadImage: "" }],
+    uploadFile: [{ fileName: "", uploadImage: "" }],
     uploadFiles: "",
     category: "",
     schedulePost: "",
@@ -36,7 +36,7 @@ export const AddBlog = () => {
     optionalURL: { required: false },
     content: { required: false },
     uploadImage: { required: false },
-     uploadFiles: { required: false },
+    uploadFiles: { required: false },
     category: { required: false },
     schedulePost: { required: false },
   };
@@ -80,14 +80,14 @@ export const AddBlog = () => {
     if (data.content === "") {
       error.content.required = true;
     }
-    
+
     if (data.uploadFiles === "") {
       error.uploadFiles.required = true;
     }
     if (data.category === "") {
       error.category.required = true;
     }
-   
+
     return error;
   };
   useEffect(() => {
@@ -122,8 +122,6 @@ export const AddBlog = () => {
       });
   };
 
- 
-
   const convertToBase65 = (e, name, index, listName) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -137,11 +135,11 @@ export const AddBlog = () => {
       console.log("Error: ", error);
     };
   };
-  
+
   const handleListInputChange = (e, index, listName) => {
     const { name, value, files } = e.target;
     const updatedList = [...blog[listName]];
-  
+
     if (files && files[0]) {
       convertToBase65(e, name, index, listName);
     } else {
@@ -149,12 +147,10 @@ export const AddBlog = () => {
       setBlog({ ...blog, [listName]: updatedList });
     }
   };
-  
 
   const addEntry = (listName) => {
-    const newEntry = listName === "uploadFile"
-      ? { fileName: "",uploadImage: ""}
-      : null;
+    const newEntry =
+      listName === "uploadFile" ? { fileName: "", uploadImage: "" } : null;
     setBlog({ ...blog, [listName]: [...blog[listName], newEntry] });
   };
 
@@ -193,7 +189,7 @@ export const AddBlog = () => {
   };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
-  
+
     if (name === "tags") {
       // Since the input value is handled separately for tags, we don't update the `blog` state here
       setInput(value);
@@ -204,7 +200,7 @@ export const AddBlog = () => {
         [name]: value,
       }));
     }
-  
+
     if (files && files[0]) {
       // Handle file uploads if any
       convertToBase64(event, name);
@@ -215,7 +211,7 @@ export const AddBlog = () => {
         [name]: value,
       }));
     }
-  
+
     if (submitted) {
       // Handle validation if the form has been submitted
       const newError = handleValidation({
@@ -225,7 +221,6 @@ export const AddBlog = () => {
       setErrors(newError);
     }
   };
-  
 
   const handleRichTextChange = (value) => {
     setBlog((prevUniversity) => ({
@@ -249,8 +244,7 @@ export const AddBlog = () => {
         slug: `crm.edufynd.in/${generatedSlug}`,
       }));
     }
-  }, [blog.title])
-
+  }, [blog.title]);
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -264,13 +258,12 @@ export const AddBlog = () => {
     return true;
   };
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(blog);
     setErrors(newError);
     setSubmitted(true);
-   
+
     if (handleErrors(newError)) {
       updateBlog(blog)
         .then((res) => {
@@ -443,9 +436,9 @@ export const AddBlog = () => {
                             id="tags-input"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                           placeholder={blog.tags}
+                            placeholder={blog.tags}
                             onKeyDown={handleKeyDown}
-                          name="tags"
+                            name="tags"
                             className="form-control rounded-1 text-muted"
                             style={{
                               border: "none",
@@ -454,7 +447,6 @@ export const AddBlog = () => {
                               flexGrow: 1,
                             }}
                           />
-                        
                         </div>
                       </div>
 
@@ -561,57 +553,80 @@ export const AddBlog = () => {
                             </small>
 
                             {blog.uploadFile.map((uploadImage, index) => (
-  <div key={index} className="mb-3">
-    <div className="row gy-2 ">
-    <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-    <label style={{ color: "#231F20" }}>File Name</label>
-    
-    <input
-      type="text"
-      name="fileName"
-      value={uploadImage.fileName}
-      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
-      className="form-control rounded-1"
-      style={{ fontSize: "12px" }}
-      placeholder="File Upload Title"
-    />
-    </div>
-    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-    <label style={{ color: "#231F20" }}>File Document</label>
-    <img
-          className="img-fluid img-thumbnail mx-auto d-block"
-          src={uploadImage.uploadImage ? uploadImage.uploadImage : "https://via.placeholder.com/128"}
-          alt="uploaded-file"
-          style={{ width: "12rem", height: "6rem" }}
-        />
-    <input
-      type="file"
-      name="uploadImage"
-      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
-      className="form-control rounded-1 "
-      style={{ fontSize: "12px" }}
-      placeholder="Upload File"
-    />
-    </div>
-    </div>
-    <button
-      type="button"
-      onClick={() => removeEntry(index, "uploadFile")}
-      className="btn mt-2"
-    >
-      <i className="far fa-trash-alt text-danger me-1"></i>
-    </button>
-  </div>
-))}
+                              <div key={index} className="mb-3">
+                                <div className="row gy-2 ">
+                                  <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>
+                                      File Name
+                                    </label>
 
-<button
-  type="button"
-  onClick={() => addEntry("uploadFile")}
-className="btn text-white mt-2 col-sm-6"
-  style={{ backgroundColor: "#7267ef" }}
->
-  <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-</button>
+                                    <input
+                                      type="text"
+                                      name="fileName"
+                                      value={uploadImage.fileName}
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
+                                      className="form-control rounded-1"
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="File Upload Title"
+                                    />
+                                  </div>
+                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>
+                                      File Document
+                                    </label>
+                                    <img
+                                      className="img-fluid img-thumbnail mx-auto d-block"
+                                      src={
+                                        uploadImage.uploadImage
+                                          ? uploadImage.uploadImage
+                                          : "https://via.placeholder.com/128"
+                                      }
+                                      alt="uploaded-file"
+                                      style={{ width: "12rem", height: "6rem" }}
+                                    />
+                                    <input
+                                      type="file"
+                                      name="uploadImage"
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
+                                      className="form-control rounded-1 "
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="Upload File"
+                                    />
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeEntry(index, "uploadFile")
+                                  }
+                                  className="btn mt-2"
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+                                </button>
+                              </div>
+                            ))}
+
+                            <button
+                              type="button"
+                              onClick={() => addEntry("uploadFile")}
+                              className="btn text-white mt-2 col-sm-6"
+                              style={{ backgroundColor: "#7267ef" }}
+                            >
+                              <i className="fas fa-plus-circle"></i>
+                              &nbsp;&nbsp;Add
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -637,12 +652,16 @@ className="btn text-white mt-2 col-sm-6"
                         <div className="form-group m-0">
                           <div className="row">
                             <div className="col-sm-6 m-b-5">
-                            <img
-          className="img-fluid img-thumbnail mx-auto d-block"
-          src={blog.uploadFiles ? blog.uploadFiles : "https://via.placeholder.com/128"}
-          alt="uploaded-file"
-          style={{ width: "12rem", height: "6rem" }}
-        />
+                              <img
+                                className="img-fluid img-thumbnail mx-auto d-block"
+                                src={
+                                  blog.uploadFiles
+                                    ? blog.uploadFiles
+                                    : "https://via.placeholder.com/128"
+                                }
+                                alt="uploaded-file"
+                                style={{ width: "12rem", height: "6rem" }}
+                              />
                               <input
                                 type="file"
                                 className="form-control rounded-1 text-muted"
@@ -654,7 +673,6 @@ className="btn text-white mt-2 col-sm-6"
                                   fontSize: "12px",
                                 }}
                                 onChange={handleInputs}
-                               
                               />
                               {errors.uploadFiles.required && (
                                 <div className="text-danger form-text">
@@ -758,32 +776,31 @@ className="btn text-white mt-2 col-sm-6"
                     </div>
                   )}
                   <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                          <Link
-                            style={{
-                              backgroundColor: "#231F20",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            to="/admin_list_blog"
-                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
-                          >
-                            Cancel
-                          </Link>
-                          <button
-                            style={{
-                              backgroundColor: "#FE5722",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            type="submit"
-                            className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                          >
-                            Submit
-                          </button>
-                        </div>
+                    <Link
+                      style={{
+                        backgroundColor: "#231F20",
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      to="/admin_list_blog"
+                      className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
+                    >
+                      Cancel
+                    </Link>
+                    <button
+                      style={{
+                        backgroundColor: "#FE5722",
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      type="submit"
+                      className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
               </div>
-             
             </form>
           </div>
         </div>

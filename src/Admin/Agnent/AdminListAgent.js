@@ -15,14 +15,12 @@ import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getAdminIdId} from "../../Utils/storage";
-import {  getSingleAdmin} from "../../api/admin";
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin } from "../../api/admin";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 
 export const AdminListAgent = () => {
-
-  
   const initialStateInputs = {
     agentName: "",
     agentCode: "",
@@ -51,7 +49,6 @@ export const AdminListAgent = () => {
     getStaffDetails();
   }, [pagination.from, pagination.to]);
 
-
   const getStaffDetails = () => {
     const id = getAdminIdId();
     getSingleAdmin(id)
@@ -63,13 +60,15 @@ export const AdminListAgent = () => {
         console.log(err);
       });
   };
-  
+
   if (!staff || !staff.privileges) {
     // return null; // or a loading spinner
   }
-  
-  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'agent');
-  
+
+  const studentPrivileges = staff?.privileges?.find(
+    (privilege) => privilege.module === "agent"
+  );
+
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
@@ -77,7 +76,7 @@ export const AdminListAgent = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-      adminId:getAdminIdId()
+      adminId: getAdminIdId(),
     };
     getFilterAgent(data)
       .then((res) => {
@@ -576,23 +575,23 @@ export const AdminListAgent = () => {
                       </Link>
                     </li>
                     {studentPrivileges?.add && (
-                    <li class="m-0">
-                      <Link class="btn btn-pix-primary" to="/admin_add_agent">
-                        <button
-                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                          style={{
-                            backgroundColor: "#fe5722",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          Add Agent
-                        </button>
-                      </Link>
-                    </li>
+                      <li class="m-0">
+                        <Link class="btn btn-pix-primary" to="/admin_add_agent">
+                          <button
+                            className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                            style={{
+                              backgroundColor: "#fe5722",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <i
+                              class="fa fa-plus-circle me-2"
+                              aria-hidden="true"
+                            ></i>{" "}
+                            Add Agent
+                          </button>
+                        </Link>
+                      </li>
                     )}
                   </ol>
                 </div>
@@ -685,38 +684,38 @@ export const AdminListAgent = () => {
 
                                   <td>
                                     <div className="d-flex">
-                                    {studentPrivileges?.view && (
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/admin_view_agent",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>
-                                      </Link>
-                                    )}
-                                    {studentPrivileges?.edit && (
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/admin_edit_agent",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>
-                                      </Link>
-                                    )}
-                                    {studentPrivileges?.delete && (
-                                      <Link
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </Link>
-                                    )}
+                                      {studentPrivileges?.view && (
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/admin_view_agent",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/admin_edit_agent",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                        <Link
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </Link>
+                                      )}
                                     </div>
                                   </td>
                                 </tr>

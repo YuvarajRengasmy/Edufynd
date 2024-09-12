@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import {getallBlog,deleteBlog} from "../../api/blog";
+import { getallBlog, deleteBlog } from "../../api/blog";
 import { formatDate } from "../../Utils/DateFormat";
 import { Link } from "react-router-dom";
 import {
@@ -17,7 +17,6 @@ import Mastersidebar from "../../compoents/AdminSidebar";
 import { FaFilter } from "react-icons/fa";
 
 export const ListBlog = () => {
-
   const [blog, setBlog] = useState([]);
   const [deleteId, setDeleteId] = useState();
   const [open, setOpen] = useState(false);
@@ -70,7 +69,6 @@ export const ListBlog = () => {
         console.log(err);
       });
   };
-
 
   const tableRef = useRef(null);
 
@@ -310,72 +308,85 @@ export const ListBlog = () => {
           </div>
         </div>
         <div className="container mt-3">
-      <div className="row">
-        {/* Card 1: Recent Blogs */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#3F51B5" }} // Indigo
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-pencil-alt" style={{ color: '#ffffff' }}></i> Recent Blogs
-              </h6>
-              <p className="card-text">Latest blog posts.</p>
-              <p className="card-text">Total: 10</p>
+          <div className="row">
+            {/* Card 1: Recent Blogs */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#3F51B5" }} // Indigo
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-pencil-alt"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Recent Blogs
+                  </h6>
+                  <p className="card-text">Latest blog posts.</p>
+                  <p className="card-text">Total: 10</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 2: Popular Blogs */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#FFC107" }} // Amber
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-star" style={{ color: '#ffffff' }}></i> Popular Blogs
-              </h6>
-              <p className="card-text">Most read and liked blogs.</p>
-              <p className="card-text">Total: 15</p>
+            {/* Card 2: Popular Blogs */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#FFC107" }} // Amber
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i className="fas fa-star" style={{ color: "#ffffff" }}></i>{" "}
+                    Popular Blogs
+                  </h6>
+                  <p className="card-text">Most read and liked blogs.</p>
+                  <p className="card-text">Total: 15</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 3: Draft Blogs */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#00BCD4" }} // Cyan
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Draft Blogs
-              </h6>
-              <p className="card-text">Blogs that are in draft stage.</p>
-              <p className="card-text">Total: 8</p>
+            {/* Card 3: Draft Blogs */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#00BCD4" }} // Cyan
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-file-alt"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Draft Blogs
+                  </h6>
+                  <p className="card-text">Blogs that are in draft stage.</p>
+                  <p className="card-text">Total: 8</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 4: Archived Blogs */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#607D8B" }} // Blue Grey
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-archive" style={{ color: '#ffffff' }}></i> Archived Blogs
-              </h6>
-              <p className="card-text">Archived or old blog posts.</p>
-              <p className="card-text">Total: 25</p>
+            {/* Card 4: Archived Blogs */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#607D8B" }} // Blue Grey
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-archive"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Archived Blogs
+                  </h6>
+                  <p className="card-text">Archived or old blog posts.</p>
+                  <p className="card-text">Total: 25</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">
@@ -403,10 +414,10 @@ export const ListBlog = () => {
                                 Date
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                              Title
+                                Title
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                              Category
+                                Category
                               </th>
 
                               <th className="text-capitalize text-start sortable-handle">
@@ -415,85 +426,96 @@ export const ListBlog = () => {
                             </tr>
                           </thead>
                           <tbody>
-                          {blog?.map((data,index) => (
-                            <tr
-                            key={index}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "11px",
-                              }}
-                            >
-                              <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start text-truncate"> {formatDate(data.createdOn)}</td>
-                              <td className="text-capitalize text-start text-truncate">{data.title}</td>
+                            {blog?.map((data, index) => (
+                              <tr
+                                key={index}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                <td className="text-capitalize text-start text-truncate">
+                                  {pagination.from + index + 1}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {" "}
+                                  {formatDate(data.createdOn)}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data.title}
+                                </td>
 
-                              <td className="text-capitalize text-start text-truncate">{data.category}</td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data.category}
+                                </td>
 
-                              <td className="text-capitalize text-start text-truncate">
-                                <div className="d-flex">
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/admin_view_blog",
-                                      search: `?id=${data?._id}`,
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="View"
-                                  >
-                                    <i className="far fa-eye text-primary me-1"></i>
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "/admin_edit_blog",
-                                      search: `?id=${data?._id}`,
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="Edit"
-                                  >
-                                    <i className="far fa-edit text-warning me-1"></i>
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    data-bs-toggle="tooltip"
-                                    onClick={() => {
-                                      openPopup(data?._id);
-                                    }}
-                                    title="Delete"
-                                  >
-                                    <i className="far fa-trash-alt text-danger me-1"></i>
-                                  </Link>
-                                </div>
-                              </td>
-                            </tr>
- ))}
-
+                                <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/admin_view_blog",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      title="View"
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/admin_edit_blog",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      title="Edit"
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      data-bs-toggle="tooltip"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                      title="Delete"
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
                     </div>
 
                     <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
-                        <Pagination
+                      <p className="me-auto ">
+                        Show
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                        </select>{" "}
+                        Entries out of 100
+                      </p>
+                      <Pagination
                         variant="outlined"
                         shape="rounded"
                         color="primary"
                       />
-        </div>
-                    
+                    </div>
                   </div>
                 </div>
               </div>
