@@ -3,7 +3,8 @@ import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
-
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 
 export const AddBusiness = () => {
@@ -40,10 +41,27 @@ export const AddBusiness = () => {
     assignedTo: { required: false },
   };
   const [student, setStudent] = useState(initialState);
+  const [staff, setStaff] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -132,7 +150,11 @@ export const AddBusiness = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveBusinessEnquiry(student)
+      saveBusinessEnquiry({
+        ...student,
+        staffId:staff._id,
+      adminId:staff.adminId,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/staff_list_business_enquiry");

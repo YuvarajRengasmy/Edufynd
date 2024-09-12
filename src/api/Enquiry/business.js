@@ -10,7 +10,7 @@ export const updateBusinessEnquiry= (data) => {
 }
 
 export const getSingleBusinessEnquiry = (data) => {
-    return API.get(`${BusinessEnquiry}/getSingleStudentEnquiry`, { params: { _id: data } })
+    return API.get(`${BusinessEnquiry}/getSingleBusinessEnquiry`, { params: { _id: data } })
 }
 export const getallBusinessEnquiry = () => {
     return API.get(`${BusinessEnquiry}`)
@@ -20,7 +20,7 @@ export const deleteBusinessEnquiry= (data) => {
   };
 
   export const getFilterBusinessEnquiry= (data) => {
-    return API.put(`${BusinessEnquiry}/getFilterStudentEnquiry`, data);
+    return API.put(`${BusinessEnquiry}/getFilterBusinessEnquiry`, data);
   };
 
 

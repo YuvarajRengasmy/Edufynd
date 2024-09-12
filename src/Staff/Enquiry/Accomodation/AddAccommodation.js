@@ -9,6 +9,8 @@ import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 
 import Select from "react-select";
 import Flags from "react-world-flags";
@@ -75,6 +77,8 @@ export const AddAccommodation = () => {
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setForexs] = useState([]);
+  const [staff, setStaff] = useState([]);
+
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
   const [pagination, setPagination] = useState({
@@ -95,18 +99,29 @@ export const AddAccommodation = () => {
   const [lgas, setLGAs] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getAllUniversityList();
-  }, []);
+ 
 
   useEffect(() => {
     getAllCountryDetails();
+    getAllUniversityList();
     getAllSourceDetails();
+    getStaffDetails();
     getStudentList();
     getAgentList();
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllCountryDetails = () => {
     const data = {
       limit: 10,
@@ -387,6 +402,8 @@ export const AddAccommodation = () => {
     setSubmitted(true);
     const data = {
       ...forex,
+      staffId:staff._id,
+      adminId:staff.adminId,
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,

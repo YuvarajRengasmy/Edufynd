@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import {
-  updateStudnetEnquiry,
-  getSingleStudnetEnquiry,
-} from "../../../api/Enquiry/student";
+  updateBusinessEnquiry,
+  getSingleBusinessEnquiry,
+} from "../../../api/Enquiry/business";
 
 import Mastersidebar from "../../../compoents/AdminSidebar";
 import { Student } from "../../../api/endpoints";
@@ -57,7 +57,7 @@ export const EditBusiness = () => {
   }, []);
 
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
         setStudent(res?.data?.result);
       })
@@ -150,9 +150,9 @@ export const EditBusiness = () => {
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
-   
-   if (handleErrors(newError)) {
-      updateStudnetEnquiry(student)
+
+    if (handleErrors(newError)) {
+      updateBusinessEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_business_enquiry");

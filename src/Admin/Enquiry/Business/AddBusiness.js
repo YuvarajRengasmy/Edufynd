@@ -3,7 +3,7 @@ import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
-
+import { getAdminIdId } from "../../../Utils/storage";
 import Mastersidebar from "../../../compoents/AdminSidebar";
 
 export const AddBusiness = () => {
@@ -132,7 +132,7 @@ export const AddBusiness = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveBusinessEnquiry(student)
+      saveBusinessEnquiry({ ...student, adminId: getAdminIdId() })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_business_enquiry");
@@ -140,7 +140,7 @@ export const AddBusiness = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
+    } else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
@@ -175,8 +175,9 @@ export const AddBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
-
+                        className={`form-select form-select-lg rounded-1 ${
+                          errors.source.required ? "is-invalid" : ""
+                        } `}
                         name="source"
                       >
                         <option value="">Select Source</option>
@@ -195,7 +196,9 @@ export const AddBusiness = () => {
                         Student Name
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.name.required ? "is-invalid" : ""
+                        }`}
                         type="text"
                         id="inputEmail4"
                         name="name"
@@ -218,7 +221,9 @@ export const AddBusiness = () => {
                         DOB
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.dob.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.dob.required ? "is-invalid" : ""
+                        }`}
                         onChange={handleInputs}
                         id="inputPassword4"
                         type="date"
@@ -241,7 +246,9 @@ export const AddBusiness = () => {
                         Email ID
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.email.required ? "is-invalid" : ""
+                        }`}
                         onChange={handleInputs}
                         id="inputPassword4"
                         text="text"
@@ -268,7 +275,9 @@ export const AddBusiness = () => {
                         Passport No
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.passportNo.required ? "is-invalid" : ""
+                        }`}
                         onChange={handleInputs}
                         name="passportNo"
                         id="inputAddress"
@@ -290,7 +299,9 @@ export const AddBusiness = () => {
                         Contact Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.primaryNumber.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.primaryNumber.required ? "is-invalid" : ""
+                        }`}
                         onChange={handleInputs}
                         id="inputEmail4"
                         type="text"
@@ -317,7 +328,9 @@ export const AddBusiness = () => {
                         CGPA{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.cgpa.required ? "is-invalid" : ""
+                        }`}
                         onChange={handleInputs}
                         name="cgpa"
                         id="inputAddress"
@@ -340,7 +353,9 @@ export const AddBusiness = () => {
                         Year passed
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.yearPassed.required ? "is-invalid" : ""
+                        }`}
                         id="inputAddress"
                         onChange={handleInputs}
                         name="yearPassed"
@@ -362,7 +377,9 @@ export const AddBusiness = () => {
                         Desired Country
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.desiredCountry.required ? "is-invalid" : ""
+                        }`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         name="desiredCountry"
@@ -385,7 +402,9 @@ export const AddBusiness = () => {
                         Desired Course
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.desiredCourse.required ? "is-invalid" : ""
+                        }`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
@@ -407,7 +426,11 @@ export const AddBusiness = () => {
                         Do you need support for loan?{" "}
                       </label>
                       <select
-                        className={`form-select form-select-lg rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
+                        className={`form-select form-select-lg rounded-1 ${
+                          errors.doYouNeedSupportForLoan.required
+                            ? "is-invalid"
+                            : ""
+                        }`}
                         name="doYouNeedSupportForLoan"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -430,7 +453,9 @@ export const AddBusiness = () => {
                         WhatsApp Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.whatsAppNumber.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.whatsAppNumber.required ? "is-invalid" : ""
+                        }`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         type="text"
@@ -457,7 +482,9 @@ export const AddBusiness = () => {
                         Qualification
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.qualification.required ? "is-invalid" : ""
+                        }`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
@@ -481,7 +508,9 @@ export const AddBusiness = () => {
                         Assigned To
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.assignedTo.required ? "is-invalid" : ""
+                        }`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         type="text"

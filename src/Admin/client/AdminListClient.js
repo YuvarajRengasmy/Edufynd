@@ -1,17 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
-import Sortable from 'sortablejs';
+import Sortable from "sortablejs";
 import { getallClient, deleteClient } from "../../api/client";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+} from "@mui/material";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { getAdminIdId } from "../../Utils/storage";
-import {  getSingleAdmin } from "../../api/admin";
+import { getSingleAdmin } from "../../api/admin";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-
-
 
 export const AdminListClient = () => {
   const initialState = {
@@ -20,7 +24,7 @@ export const AdminListClient = () => {
     businessMailID: "",
     businessContactNo: "",
     website: "",
-    addressLine1: "",  // Street Address, City, State, Postal Code, Country
+    addressLine1: "", // Street Address, City, State, Postal Code, Country
     addressLine2: "",
     addressLine3: "",
     name: "",
@@ -28,7 +32,7 @@ export const AdminListClient = () => {
     emailID: "",
     gstn: "",
     status: "",
-  }
+  };
   const [client, setClient] = useState([]);
 
   const [submitted, setSubmitted] = useState(false);
@@ -49,8 +53,6 @@ export const AdminListClient = () => {
     to: pageSize,
   });
 
-
-
   useEffect(() => {
     getStaffDetails();
     getClientList();
@@ -67,13 +69,15 @@ export const AdminListClient = () => {
         console.log(err);
       });
   };
-  
+
   if (!staff || !staff.privileges) {
     // return null; // or a loading spinner
   }
-  
-  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'client');
-  
+
+  const studentPrivileges = staff?.privileges?.find(
+    (privilege) => privilege.module === "client"
+  );
+
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
@@ -136,9 +140,6 @@ export const AdminListClient = () => {
     setFile(event.target.files[0]);
   };
 
-
-
-
   const pdfDownload = (event) => {
     event?.preventDefault();
 
@@ -183,14 +184,12 @@ export const AdminListClient = () => {
             bold: true,
           },
           {
-
             text: "Status",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
-          }
-
+          },
         ]);
         result.forEach((element, index) => {
           tablebody.push([
@@ -227,13 +226,11 @@ export const AdminListClient = () => {
               margin: [5, 3],
             },
             {
-
               text: element?.status ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
-            }
-
+            },
           ]);
         });
         templatePdf("clientList", tablebody, "landscape");
@@ -257,8 +254,6 @@ export const AdminListClient = () => {
             businessMailID: res?.businessMailID ?? "-",
             businessContactNo: res?.businessContactNo ?? "-",
             status: res?.status ?? "-",
-
-
           });
         });
         let header1 = [
@@ -267,9 +262,6 @@ export const AdminListClient = () => {
           "businessMailID",
           "businessContactNo",
           "status",
-
-
-
         ];
         let header2 = [
           "Client Id",
@@ -277,7 +269,6 @@ export const AdminListClient = () => {
           "Business MailID",
           "Business ContactNo",
           "Status",
-
         ];
         ExportCsvService.downloadCsv(
           list,
@@ -287,13 +278,11 @@ export const AdminListClient = () => {
           header1,
           header2
         );
-
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
 
   const tableRef = useRef(null);
 
@@ -301,20 +290,20 @@ export const AdminListClient = () => {
     const table = tableRef.current;
 
     // Apply SortableJS to the table headers
-    const sortable = new Sortable(table.querySelector('thead tr'), {
+    const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
       swapThreshold: 0.5,
-      handle: '.sortable-handle',
+      handle: ".sortable-handle",
       onEnd: (evt) => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
 
         // Move the columns in the tbody
-        table.querySelectorAll('tbody tr').forEach((row) => {
+        table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
           row.insertBefore(cells[oldIndex], cells[newIndex]);
         });
-      }
+      },
     });
 
     return () => {
@@ -322,29 +311,25 @@ export const AdminListClient = () => {
     };
   }, []);
 
-
-
   return (
     <>
-      <div >
-        
-          <Mastersidebar />
-       
+      <div>
+        <Mastersidebar />
 
-
-        <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
-
-          
-
-           
-              
-                <div className="content-header">
-                  <div className="container">
-                  <div className="row">
-                  <div className="col-xl-12">
+        <div
+          className="content-wrapper"
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+        >
+          <div className="content-header">
+            <div className="container">
+              <div className="row">
+                <div className="col-xl-12">
                   <ol className="breadcrumb d-flex flex-row align-items-center justify-content-end">
                     <li className="flex-grow-1">
-                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <div
+                        className="input-group"
+                        style={{ maxWidth: "600px" }}
+                      >
                         <input
                           type="search"
                           placeholder="Search..."
@@ -356,7 +341,7 @@ export const AdminListClient = () => {
                             marginLeft: "0px",
                             fontSize: "12px", // Keep the font size if it's correct
                             height: "11px", // Set the height to 11px
-                            padding: "0px" // Adjust padding to fit the height
+                            padding: "0px", // Adjust padding to fit the height
                           }}
                         />
                         <span
@@ -367,27 +352,50 @@ export const AdminListClient = () => {
                             right: "10px",
                             top: "50%",
                             transform: "translateY(-50%)",
-                            cursor: "pointer"
+                            cursor: "pointer",
                           }}
                         >
-                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                          <i
+                            className="fas fa-search"
+                            style={{ color: "black" }}
+                          ></i>
                         </span>
                       </div>
                     </li>
                     <li class="m-1">
-
-
                       <div>
-                        <button className="btn btn-primary" style={{ fontSize: "11px" }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> <FaFilter /></button>
-                        <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <button
+                          className="btn btn-primary"
+                          style={{ fontSize: "11px" }}
+                          type="button"
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="#offcanvasRight"
+                          aria-controls="offcanvasRight"
+                        >
+                          {" "}
+                          <FaFilter />
+                        </button>
+                        <div
+                          className="offcanvas offcanvas-end"
+                          tabIndex={-1}
+                          id="offcanvasRight"
+                          aria-labelledby="offcanvasRightLabel"
+                        >
                           <div className="offcanvas-header">
                             <h5 id="offcanvasRightLabel">Filter Client</h5>
-                            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
+                            <button
+                              type="button"
+                              className="btn-close text-reset"
+                              data-bs-dismiss="offcanvas"
+                              aria-label="Close"
+                            />
                           </div>
                           <div className="offcanvas-body ">
                             <form>
                               <div className="from-group mb-3">
-                                <label className="form-label">Client Name</label>
+                                <label className="form-label">
+                                  Client Name
+                                </label>
                                 <br />
                                 <input
                                   type="text"
@@ -395,9 +403,14 @@ export const AdminListClient = () => {
                                   name="businessName"
                                   onChange={handleInputs}
                                   placeholder="Search...Client Name"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                 />
-                                <label className="form-label">Client Contact No </label>
+                                <label className="form-label">
+                                  Client Contact No{" "}
+                                </label>
                                 <br />
                                 <input
                                   type="text"
@@ -405,7 +418,10 @@ export const AdminListClient = () => {
                                   name="businessContactNo"
                                   onChange={handleInputs}
                                   placeholder="Search...Client Contact No"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                 />
 
                                 <label className="form-label">Status</label>
@@ -416,7 +432,10 @@ export const AdminListClient = () => {
                                   name="status"
                                   onChange={handleInputs}
                                   placeholder="Search...Status"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                 />
                                 <label className="form-label">Client Id</label>
                                 <br />
@@ -426,18 +445,22 @@ export const AdminListClient = () => {
                                   name="clientID"
                                   onChange={handleInputs}
                                   placeholder="Search...Client Id"
-                                  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
                                 />
-
-
                               </div>
                               <div>
                                 <button
-
                                   data-bs-dismiss="offcanvas"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white float-right bg"
-                                  style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
-                                // onClick={resetFilter}
+                                  style={{
+                                    backgroundColor: "#0f2239",
+                                    color: "#fff",
+                                    fontSize: "12px",
+                                  }}
+                                  // onClick={resetFilter}
                                 >
                                   Reset
                                 </button>
@@ -446,7 +469,11 @@ export const AdminListClient = () => {
                                   type="submit"
                                   // onClick={filterProgramList}
                                   className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2  text-white float-right mx-2"
-                                  style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
+                                  style={{
+                                    backgroundColor: "#fe5722",
+                                    color: "#fff",
+                                    fontSize: "12px",
+                                  }}
                                 >
                                   Apply
                                 </button>
@@ -455,12 +482,16 @@ export const AdminListClient = () => {
                           </div>
                         </div>
                       </div>
-
-
                     </li>
                     <li class="m-1">
                       <Link onClick={pdfDownload}>
-                        <button style={{ backgroundColor: "#E12929", fontSize: "11px" }} className="btn text-white ">
+                        <button
+                          style={{
+                            backgroundColor: "#E12929",
+                            fontSize: "11px",
+                          }}
+                          className="btn text-white "
+                        >
                           <span>
                             <i class="fa fa-file-pdf" aria-hidden="true"></i>
                           </span>
@@ -470,7 +501,13 @@ export const AdminListClient = () => {
                     <li class="m-1">
                       <Link onClick={exportCsv} class="btn-filters">
                         <span>
-                          <button style={{ backgroundColor: "#22A033", fontSize: "11px" }} className="btn text-white ">
+                          <button
+                            style={{
+                              backgroundColor: "#22A033",
+                              fontSize: "11px",
+                            }}
+                            className="btn text-white "
+                          >
                             <i class="fa fa-file-excel" aria-hidden="true"></i>
                           </button>
                         </span>
@@ -481,7 +518,10 @@ export const AdminListClient = () => {
                       <Link onClick={openImportPopup} class="btn-filters">
                         <span>
                           <button
-                            style={{ backgroundColor: "#9265cc", fontSize: "11px" }}
+                            style={{
+                              backgroundColor: "#9265cc",
+                              fontSize: "11px",
+                            }}
                             className="btn text-white "
                           >
                             <i class="fa fa fa-upload" aria-hidden="true"></i>
@@ -491,136 +531,169 @@ export const AdminListClient = () => {
                     </li>
 
                     {studentPrivileges?.add && (
-                    <li class="m-1">
-                      <Link class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white" to="/admin_add_client">
-                        <button
-                          className="btn  border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
-                          style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
+                      <li class="m-1">
+                        <Link
+                          class="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white"
+                          to="/admin_add_client"
                         >
-                          <i
-                            class="fa fa-plus-circle"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          &nbsp;&nbsp; Add Client
-                        </button>
-                      </Link>
-                    </li>
+                          <button
+                            className="btn  border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
+                            style={{
+                              backgroundColor: "#fe5722",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>{" "}
+                            &nbsp;&nbsp; Add Client
+                          </button>
+                        </Link>
+                      </li>
                     )}
                   </ol>
-                  </div>
-                  </div>
-
-                  </div>
-                 
                 </div>
+              </div>
+            </div>
+          </div>
 
-
-              <div className="content-body">
-                <div className="container">
-                <div className="row">
-              <div className="col-xl-12">
-                <div className="card  border-0 rounded-0">
-                  <div className="card-body">
-                    <div className="card-table">
-                      <div className="table-responsive">
-
-                        <table className=" table   card-table table-hover  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
-                          <thead class="table-light">
-                            <tr style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                              <th className="text-capitalize text-start sortable-handle">S No</th>
-                              <th className="text-capitalize text-start sortable-handle">Client Code</th>
-                              <th className="text-capitalize text-start sortable-handle">Type of Client</th>
-                              <th className="text-capitalize text-start sortable-handle">Client Name</th>
-                              <th className="text-capitalize text-start sortable-handle">Primary No</th>
-                              <th className="text-capitalize text-start sortable-handle">Email ID</th>
-                              <th className="text-capitalize text-start sortable-handle">Status</th>
-                              <th className="text-capitalize text-start sortable-handle">Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {client?.map((data, index) => (
-                              <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
-                                <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
-                                <td className="text-capitalize text-start">{data?.clientID}</td>
-                                <td className="text-capitalize text-start">{data?.typeOfClient}</td>
-                                <td className="text-capitalize text-start">{data?.businessName}</td>
-                                <td className="text-capitalize text-start">{data?.businessContactNo}</td>
-                                <td className=" text-start">{data?.businessMailID}</td>
-                                <td className="text-capitalize text-start">{data?.status}</td>
-                                <td>
-                                  <div className="d-flex">
-                                  {studentPrivileges?.view && (
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/admin_view_client",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="View"
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-
-                                    </Link>
-                                  )}
-                                   {studentPrivileges?.edit && (
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/admin_edit_client",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Edit"
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-
-                                    </Link>
-                                   )}
-                                    {studentPrivileges?.delete && (
-                                    <button
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Delete"
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-
-                                    </button>
-                                    )}
-                                  </div>
-
-                                </td>
+          <div className="content-body">
+            <div className="container">
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card  border-0 rounded-0">
+                    <div className="card-body">
+                      <div className="card-table">
+                        <div className="table-responsive">
+                          <table
+                            className=" table   card-table table-hover  dataTable text-center"
+                            style={{ color: "#9265cc", fontSize: "12px" }}
+                            ref={tableRef}
+                          >
+                            <thead class="table-light">
+                              <tr
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Client Code
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Type of Client
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Client Name
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Primary No
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Email ID
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Status
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action
+                                </th>
                               </tr>
-                            ))}
-
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {client?.map((data, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className="text-capitalize text-start">
+                                    {pagination.from + index + 1}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.clientID}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.typeOfClient}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.businessName}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.businessContactNo}
+                                  </td>
+                                  <td className=" text-start">
+                                    {data?.businessMailID}
+                                  </td>
+                                  <td className="text-capitalize text-start">
+                                    {data?.status}
+                                  </td>
+                                  <td>
+                                    <div className="d-flex">
+                                      {studentPrivileges?.view && (
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/admin_view_client",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="View"
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/admin_edit_client",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="Edit"
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                        <button
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="Delete"
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </button>
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                    </div>
-                    <div className="float-right my-2">
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
+                      <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-                </div>
-             
-              </div>
-           
-           
-          
-
-
+          </div>
         </div>
         <Dialog open={open}>
           <DialogContent>
@@ -632,7 +705,7 @@ export const AdminListClient = () => {
                 type="button"
                 className="btn btn-save btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
                 onClick={deleteClientData}
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: "12px" }}
               >
                 Yes
               </button>
@@ -640,7 +713,7 @@ export const AdminListClient = () => {
                 type="button"
                 className="btn btn-cancel  btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase border-0 "
                 onClick={closePopup}
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: "12px" }}
               >
                 No
               </button>
@@ -654,9 +727,7 @@ export const AdminListClient = () => {
               <i className="fa fa-times fa-xs" aria-hidden="true"></i>
             </IconButton>
           </DialogTitle>
-          <DialogContent>
-
-          </DialogContent>
+          <DialogContent></DialogContent>
         </Dialog>
         <Dialog open={openImport} fullWidth maxWidth="sm">
           <DialogTitle>
@@ -668,24 +739,25 @@ export const AdminListClient = () => {
           <DialogContent>
             <form>
               <div className="from-group mb-3">
-
                 <div className="mb-3">
                   <input
                     type="file"
                     name="file"
                     className="form-control text-dark bg-transparent"
                     onChange={handleFileChange}
-                    style={{ fontSize: '14px' }}
+                    style={{ fontSize: "14px" }}
                   />
                 </div>
-
               </div>
               <div>
                 <Link
-                  to="/client"
+                  to="#"
                   className="btn btn-cancel border-0 rounded-pill text-uppercase px-4 py-2 fw-semibold text-white float-right bg"
-                  style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
-
+                  style={{
+                    backgroundColor: "#0f2239",
+                    color: "#fff",
+                    fontSize: "12px",
+                  }}
                 >
                   Cancel
                 </Link>
@@ -693,11 +765,14 @@ export const AdminListClient = () => {
                   type="submit"
                   // onClick={handleFileUpload}
                   className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-4 py-2 text-white float-right mx-2"
-                  style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
+                  style={{
+                    backgroundColor: "#fe5722",
+                    color: "#fff",
+                    fontSize: "12px",
+                  }}
                 >
                   Apply
                 </button>
-
               </div>
             </form>
           </DialogContent>
@@ -705,5 +780,5 @@ export const AdminListClient = () => {
       </div>
     </>
   );
-}
-export default AdminListClient
+};
+export default AdminListClient;

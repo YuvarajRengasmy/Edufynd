@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { getallCode } from "../../../api/settings/dailcode";
 import { saveFlightEnquiry } from "../../../api/Enquiry/flight";
 import Mastersidebar from "../../../compoents/StaffSidebar";
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import { getFilterSource } from "../../../api/settings/source";
 import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
@@ -60,6 +62,8 @@ export const Addflight = () => {
   const [students, setflights] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
+  const [staff, setStaff] = useState([]);
+
   const [pagination, setPagination] = useState({
     from: 0,
     to: 10,
@@ -72,10 +76,23 @@ export const Addflight = () => {
   useEffect(() => {
     getAllSourceDetails();
     getStudentList();
+    getStaffDetails();
     getAgentList();
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getallCodeList = () => {
     getallCode()
       .then((res) => {
@@ -237,7 +254,10 @@ export const Addflight = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      saveFlightEnquiry(flight)
+      saveFlightEnquiry({...flight,
+        staffId:staff._id,
+      adminId:staff.adminId,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/staff_list_flight_ticket");

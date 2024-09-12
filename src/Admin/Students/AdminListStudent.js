@@ -21,7 +21,7 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { formatDate } from "../../Utils/DateFormat";
 import { getAdminIdId } from "../../Utils/storage";
-import { getSingleAdmin} from "../../api/admin";
+import { getSingleAdmin } from "../../api/admin";
 import { toast } from "react-toastify";
 import { getStudentId, getSuperAdminId } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
@@ -52,9 +52,8 @@ export const AdminListStudent = () => {
   const [staff, setStaff] = useState([]);
 
   useEffect(() => {
-     getAllStudentDetails();
+    getAllStudentDetails();
     getStaffDetails();
-  
   }, [pagination.from, pagination.to]);
 
   const getStaffDetails = () => {
@@ -68,13 +67,15 @@ export const AdminListStudent = () => {
         console.log(err);
       });
   };
-  
+
   if (!staff || !staff.privileges) {
     // return null; // or a loading spinner
   }
-  
-  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'student');
-  
+
+  const studentPrivileges = staff?.privileges?.find(
+    (privilege) => privilege.module === "student"
+  );
+
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
@@ -113,7 +114,10 @@ export const AdminListStudent = () => {
       .then((res) => {
         console.log("yuvrajStudent", res);
         setStudent(res?.data?.result?.studentList);
-        setPagination({ ...pagination, count: res?.data?.result?.studentCount });
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.studentCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -592,26 +596,26 @@ export const AdminListStudent = () => {
                       </Link>
                     </li>
                     {studentPrivileges?.add && (
-                    <li class="m-0">
-                      <Link
-                        class="btn btn-pix-primary border-0"
-                        to="/admin_add_student"
-                      >
-                        <button
-                          className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
-                          style={{
-                            backgroundColor: "#fe5722",
-                            fontSize: "12px",
-                          }}
+                      <li class="m-0">
+                        <Link
+                          class="btn btn-pix-primary border-0"
+                          to="/admin_add_student"
                         >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          Add Student
-                        </button>
-                      </Link>
-                    </li>
+                          <button
+                            className="btn text-uppercase fw-semibold px-4 py-2 border-0  text-white  "
+                            style={{
+                              backgroundColor: "#fe5722",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <i
+                              class="fa fa-plus-circle me-2"
+                              aria-hidden="true"
+                            ></i>{" "}
+                            Add Student
+                          </button>
+                        </Link>
+                      </li>
                     )}
                   </ol>
                 </div>
@@ -709,38 +713,38 @@ export const AdminListStudent = () => {
                                   </td>
                                   <td>
                                     <div className="d-flex">
-                                    {studentPrivileges?.view && (
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/admin_view_student",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>
-                                      </Link>
-                                    )}
-                                    {studentPrivileges?.edit && (
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/admin_edit_student",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>
-                                      </Link>
-                                    )}
-                                    {studentPrivileges?.delete && (
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </button>
-                                    )}
+                                      {studentPrivileges?.view && (
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/admin_view_student",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/admin_edit_student",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                      )}
+                                      {studentPrivileges?.delete && (
+                                        <button
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </button>
+                                      )}
                                     </div>
                                   </td>
                                 </tr>
@@ -821,7 +825,7 @@ export const AdminListStudent = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 rounded-pill text-white text-uppercase fw-semibold  px-3 py-1 float-right bg"
                   style={{ backgroundColor: "#0f2239" }}
                 >
@@ -843,4 +847,4 @@ export const AdminListStudent = () => {
     </>
   );
 };
-export default AdminListStudent
+export default AdminListStudent;

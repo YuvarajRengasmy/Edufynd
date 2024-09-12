@@ -3,6 +3,7 @@ import Sortable from "sortablejs";
 import {
   getallForexEnquiry,
   getSingleForexEnquiry,
+  getFilterForexEnquiry,
   deleteForexEnquiry,
 } from "../../../api/Enquiry/Forex";
 import { Link } from "react-router-dom";
@@ -49,10 +50,15 @@ export const ListForex = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      staffId:getStaffId()
     };
-    getallForexEnquiry(data)
+    getFilterForexEnquiry(data)
       .then((res) => {
-        setForex(res?.data?.result);
+        setForex(res?.data?.result?.forexList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.forexCount,
+        });
       })
       .catch((err) => {
         console.log(err);

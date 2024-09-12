@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { getSingleProgram, getallProgram } from "../../api/Program";
-import {saveApplication} from "../../api/applicatin";
+import { saveApplication } from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
-import { Link, useLocation,useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
 import Sidebar from "../../compoents/AdminSidebar";
 import Flags from "react-world-flags";
 import { Pagination } from "@mui/material";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { University } from "../../api/endpoints";
 import { RichTextEditor } from "@mantine/rte";
 import BackButton from "../../compoents/backButton";
@@ -18,17 +18,17 @@ export const Course = () => {
   const initialState = {
     name: "",
     primaryNumber: "",
-    country:"",
+    country: "",
     studentCode: "",
-    studentId:"",
+    studentId: "",
     applicationFee: "",
     campus: "",
     inTake: "",
-    courseFees:"",
-    email:"",
-};
+    courseFees: "",
+    email: "",
+  };
 
-const initialStateErrors = {
+  const initialStateErrors = {
     name: { required: false },
     primaryNumber: { required: false },
     country: { required: false },
@@ -38,10 +38,9 @@ const initialStateErrors = {
     campus: { required: false },
     inTake: { required: false },
     courseFees: { required: false },
-    email:{required:false},
-};
+    email: { required: false },
+  };
 
-  
   const [program, setProgram] = useState();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
@@ -64,7 +63,7 @@ const initialStateErrors = {
   useEffect(() => {
     getAllProgaramDetails();
   }, [pagination.from, pagination.to]);
-  
+
   const getAllProgaramDetails = () => {
     const data = {
       limit: pageSize,
@@ -86,11 +85,9 @@ const initialStateErrors = {
   };
 
   const getAllStudentDetails = () => {
-    
     getallStudent()
       .then((res) => {
         setStudent(res?.data?.result);
-        
       })
       .catch((err) => {
         console.log(err);
@@ -124,99 +121,94 @@ const initialStateErrors = {
     if (!data.campus) error.campus.required = true;
     if (!data.inTake) error.inTake.required = true;
     if (!data.courseFees) error.courseFees.required = true;
-  
 
     return error;
-};
-const handleInputs = (event) => {
-  const { name, value } = event.target;
+  };
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
 
-  setInputs((prevProgram) => {
-    const updatedProgram = { ...prevProgram, [name]: value };
+    setInputs((prevProgram) => {
+      const updatedProgram = { ...prevProgram, [name]: value };
 
-    if (name === "name") {
-      const selectedStudent = student.find((u) => u.name === value);
-      if (selectedStudent) {
-        return {
-          ...updatedProgram,
-          studentId: selectedStudent._id,
-          primaryNumber: selectedStudent.primaryNumber,
-          country: selectedStudent.citizenship,
-          studentCode: selectedStudent.studentCode,
-          email: selectedStudent.email,
-        };
+      if (name === "name") {
+        const selectedStudent = student.find((u) => u.name === value);
+        if (selectedStudent) {
+          return {
+            ...updatedProgram,
+            studentId: selectedStudent._id,
+            primaryNumber: selectedStudent.primaryNumber,
+            country: selectedStudent.citizenship,
+            studentCode: selectedStudent.studentCode,
+            email: selectedStudent.email,
+          };
+        }
+      }
+
+      if (name === "campus") {
+        const selectedCampus = program.campuses.find((u) => u.campus === value);
+        if (selectedCampus) {
+          return {
+            ...updatedProgram,
+            courseFees: selectedCampus.courseFees,
+            inTake: selectedCampus.inTake,
+          };
+        }
+      }
+
+      return updatedProgram;
+    });
+
+    if (submitted) {
+      const newError = handleValidation({ ...inputs, [name]: value });
+      setErrors(newError);
+    }
+  };
+
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
       }
     }
+    return true;
+  };
 
-    if (name === "campus") {
-      const selectedCampus = program.campuses.find((u) => u.campus === value);
-      if (selectedCampus) {
-        return {
-          ...updatedProgram,
-          courseFees: selectedCampus.courseFees,
-          inTake:selectedCampus.inTake,
-        
-        };
-      }
-    }
-
-    return updatedProgram;
-  });
-
-  if (submitted) {
-    const newError = handleValidation({ ...inputs, [name]: value });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(inputs);
     setErrors(newError);
-  }
-};
+    setSubmitted(true);
+    if (handleErrors(newError)) {
+      const data = {
+        ...inputs,
+        course: program.programTitle,
+        universityName: program.universityName,
 
-const handleErrors = (obj) => {
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      const prop = obj[key];
-      if (prop.required === true || prop.valid === true) {
-        return false;
-      }
+        // programId:program._id
+      };
+      saveApplication(data)
+        .then((res) => {
+          console.log(res);
+          toast.success(res?.data?.message);
+          navigate("/Programs");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
     }
-  }
-  return true;
-};
-
-const handleSubmit = (event) => {
-  event.preventDefault();
-  const newError = handleValidation(inputs);
-  setErrors(newError);
-  setSubmitted(true);
-  if (handleErrors(newError)) {
-    const data = {
-      ...inputs,
-      course:program.programTitle,
-      universityName:program.universityName,
-    
-      // programId:program._id
-
-    };
-    saveApplication(data)
-      .then((res) => {
-        console.log(res);
-        toast.success(res?.data?.message);
-        navigate("/Programs");
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message);
-      });
-  }
-};
+  };
 
   return (
     <>
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <Sidebar />
- <div className="content-wrapper">
- <div className="content-header text-end">
-
-<BackButton/>
-
-</div>
+        <div className="content-wrapper">
+          <div className="content-header text-end">
+            <BackButton />
+          </div>
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
@@ -260,27 +252,26 @@ const handleSubmit = (event) => {
                         style={{ position: "absolute", zIndex: 2 }}
                       >
                         <div className="border-0 rounded-0 bg-transparent text-center text-md-start">
-                          <Link 
-                          
-                          to={{
-                            pathname: "/ViewUniversity",
-                            search: `?id=${program?.universityId}`,
-                          }}
+                          <Link
+                            to={{
+                              pathname: "/admin_view_university",
+                              search: `?id=${program?.universityId}`,
+                            }}
                           >
-                          <img
-                            src={
-                              program?.universityLogo ||
-                              "https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"
-                            }
-                            className="img-fluid rounded-circle img-thumbnail"
-                            style={{ width: "9rem", height: "9rem" }}
-                            alt="University Logo"
-                          />
+                            <img
+                              src={
+                                program?.universityLogo ||
+                                "https://t3.ftcdn.net/jpg/04/91/76/62/360_F_491766294_h4j7LbW2YgfbNHhq7F8GboIc1XyBSEY5.jpg"
+                              }
+                              className="img-fluid rounded-circle img-thumbnail"
+                              style={{ width: "9rem", height: "9rem" }}
+                              alt="University Logo"
+                            />
                           </Link>
                           <div className="card-body">
                             <div className="py-3 my-2">
                               <h5 className="h4 fw-bolder text-white d-flex align-items-end gap-2 text-capitalize">
-                                {program?.programTitle  || "Not Available"}
+                                {program?.programTitle || "Not Available"}
                               </h5>
                             </div>
                             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start">
@@ -341,7 +332,8 @@ const handleSubmit = (event) => {
                                 >
                                   <i className="fa fa-percentage nav-icon"></i>
                                 </span>{" "}
-                                {program?.campuses[0]?.courseFees  || "Not Available"}
+                                {program?.campuses[0]?.courseFees ||
+                                  "Not Available"}
                               </p>
 
                               <p
@@ -509,7 +501,10 @@ const handleSubmit = (event) => {
                               >
                                 <p style={{ textAlign: "justify" }}>
                                   <RichTextEditor
-                                    value={program?.academicRequirement  || "Not Available"}
+                                    value={
+                                      program?.academicRequirement ||
+                                      "Not Available"
+                                    }
                                     readOnly
                                   />
                                 </p>
@@ -528,7 +523,8 @@ const handleSubmit = (event) => {
                                           <tr>
                                             <td>University Interview</td>
                                             <td>
-                                              {program?.universityInterview  || "Not Available"}
+                                              {program?.universityInterview ||
+                                                "Not Available"}
                                             </td>
                                             <td>
                                               <a
@@ -546,8 +542,10 @@ const handleSubmit = (event) => {
                                           <tr>
                                             <td>GRE/GMAT Requirement</td>
                                             <td>
-                                              {program?.greGmatRequirement  || "Not Available"}
-                                              {program?.score  || "Not Available"}
+                                              {program?.greGmatRequirement ||
+                                                "Not Available"}
+                                              {program?.score ||
+                                                "Not Available"}
                                             </td>
                                             <td>
                                               <a
@@ -565,7 +563,8 @@ const handleSubmit = (event) => {
                                           <tr>
                                             <td>English Language Test</td>
                                             <td>
-                                              {program?.englishLanguageTest  || "Not Available"}
+                                              {program?.englishLanguageTest ||
+                                                "Not Available"}
                                             </td>
                                             <td>
                                               <a
@@ -642,7 +641,8 @@ const handleSubmit = (event) => {
                                                 />
                                                 <div className="card-body">
                                                   <p className="card-text text-center">
-                                                    {campus.campus  || "Not Available"}
+                                                    {campus.campus ||
+                                                      "Not Available"}
                                                   </p>
                                                 </div>
                                               </div>
@@ -673,7 +673,8 @@ const handleSubmit = (event) => {
                                                 <div className="card  rounded-1  ">
                                                   <div className="card-body bg-primary  border-0 ">
                                                     <p className="text-center  text-uppercase fw-semibold">
-                                                      {campus?.inTake  || "Not Available"}
+                                                      {campus?.inTake ||
+                                                        "Not Available"}
                                                     </p>
                                                   </div>
                                                 </div>
@@ -1017,58 +1018,64 @@ const handleSubmit = (event) => {
                                 </div>
                               </div>
                               {input?.map((data, index) => (
-  <div key={index} className="col-12 col-sm-6 col-md-4 mb-3">
-    <div className="card mb-3 rounded-1 "style={{fontSize:'12px'}}>
-      <div className="row g-0 align-items-center">
-        <div className="col-sm-4 d-flex justify-content-center align-items-center">
-          <img
-            src={
-              data?.universityLogo
-                ? data?.universityLogo
-                : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
-            }
-            className="img-fluid rounded-circle img-thumbnail"
-            alt="Course Image"
-            style={{
-              width: "4rem",
-              height: "4rem",
-            }}
-          />
-        </div>
-        <div className="col-sm-8">
-          <div className="card-body p-2">
-            <h6 className="fw-bold mb-1 text-truncate">
-              <i className="fas fa-university"></i>
-              &nbsp;&nbsp;
-              {data?.universityName || "Not Available"}
-            </h6>
-            <p className="card-text mb-1 text-truncate">
-              <i className="fas fa-book"></i>
-              &nbsp;&nbsp;
-              {data?.programTitle || "Not Available"}
-            </p>
-            <p className="card-text text-truncate">
-              <i className="fas fa-calendar-alt"></i>
-              &nbsp;&nbsp;
-              {data?.duration || "Not Available"}
-            </p>
-            <button
-              className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
-              style={{
-                backgroundColor: "#fe5722",
-                fontSize: "12px",
-              }}
-            >
-              Apply Now
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-))}
-
-
+                                <div
+                                  key={index}
+                                  className="col-12 col-sm-6 col-md-4 mb-3"
+                                >
+                                  <div
+                                    className="card mb-3 rounded-1 "
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    <div className="row g-0 align-items-center">
+                                      <div className="col-sm-4 d-flex justify-content-center align-items-center">
+                                        <img
+                                          src={
+                                            data?.universityLogo
+                                              ? data?.universityLogo
+                                              : "https://img.freepik.com/premium-vector/university-campus-logo_1447-1790.jpg"
+                                          }
+                                          className="img-fluid rounded-circle img-thumbnail"
+                                          alt="Course Image"
+                                          style={{
+                                            width: "4rem",
+                                            height: "4rem",
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="col-sm-8">
+                                        <div className="card-body p-2">
+                                          <h6 className="fw-bold mb-1 text-truncate">
+                                            <i className="fas fa-university"></i>
+                                            &nbsp;&nbsp;
+                                            {data?.universityName ||
+                                              "Not Available"}
+                                          </h6>
+                                          <p className="card-text mb-1 text-truncate">
+                                            <i className="fas fa-book"></i>
+                                            &nbsp;&nbsp;
+                                            {data?.programTitle ||
+                                              "Not Available"}
+                                          </p>
+                                          <p className="card-text text-truncate">
+                                            <i className="fas fa-calendar-alt"></i>
+                                            &nbsp;&nbsp;
+                                            {data?.duration || "Not Available"}
+                                          </p>
+                                          <button
+                                            className="btn rounded-pill text-white fw-semibold btn-sm text-capitalize px-3 py-1 float-end"
+                                            style={{
+                                              backgroundColor: "#fe5722",
+                                              fontSize: "12px",
+                                            }}
+                                          >
+                                            Apply Now
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
 
                               <div className="float-end my-2 p-2 end">
                                 <Pagination
@@ -1080,7 +1087,6 @@ const handleSubmit = (event) => {
                                 />
                               </div>
                             </div>
-                           
                           </div>
                         </div>
                       </div>
@@ -1092,51 +1098,57 @@ const handleSubmit = (event) => {
           </div>
 
           <div className="container-fluid my-2">
-  <div className="row ">
-    <div className="col-12 col-lg-7 col-auto">
-      <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
+            <div className="row ">
+              <div className="col-12 col-lg-7 col-auto">
+                <ul className="list-unstyled">
+                  <li className="mb-4 position-relative">
+                    <div className="row align-items-start g-0">
+                      <div className="col-1 d-flex justify-content-center align-items-center">
+                        <div
+                          className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+                          style={{ width: "2rem", height: "2rem" }}
+                        >
+                          <i className="fas fa-check" />
+                        </div>
+                      </div>
+                      <div className="col-4 text-center">
+                        <p className="mb-1 fw-semibold text-muted">
+                          23 August, 2023 10:30 AM
+                        </p>
+                        <p className="mb-0 text-muted">
+                          Changed by:<strong>John Doe</strong>
+                        </p>
+                      </div>
 
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
+                      <div className="col-7">
+                        <div className="mb-3">
+                          <div className="bg-success text-white rounded-3 p-2">
+                            <h6 className="mb-1">New University Name</h6>
+                            <p className="mb-0">University Y</p>
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <div className="bg-danger text-white rounded-3 p-2">
+                            <h6 className="mb-1">Old University Name</h6>
+                            <p className="mb-0">University X</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="position-absolute top-0 start-0 translate-middle-x"
+                      style={{
+                        width: 2,
+                        height: "100%",
+                        backgroundColor: "#007bff",
+                      }}
+                    />
+                  </li>
+                </ul>
               </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
             </div>
           </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
-      </ul>
-    </div>
-  </div>
-</div>
-        </div> 
+        </div>
 
         <div
           class="modal fade"
@@ -1163,7 +1175,7 @@ const handleSubmit = (event) => {
                   <div className="row gy-3 gx-4 mb-3">
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">Student Name</label>
-                     <select
+                      <select
                         class="form-select rounded-1"
                         aria-label="Default select example"
                         style={{ fontSize: "12px" }}
@@ -1171,15 +1183,17 @@ const handleSubmit = (event) => {
                         name="name"
                       >
                         <option selected>Open this select menu</option>
-                       {student?.map((data, index) => (
-                          <option id={index} value={data.name}>{data.name}</option>
+                        {student?.map((data, index) => (
+                          <option id={index} value={data.name}>
+                            {data.name}
+                          </option>
                         ))}
                       </select>
                       {errors.name.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1187,34 +1201,34 @@ const handleSubmit = (event) => {
                       <input
                         type="text"
                         name="country"
-                        value={inputs.country || ''}
+                        value={inputs.country || ""}
                         onChange={handleInputs}
                         class="form-control text-uppercase rounded-1"
                         placeholder="Example John Doe"
                         style={{ fontSize: "12px" }}
                       />
                       {errors.country.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
                       <label class="form-label">Email</label>
                       <input
                         type="type"
                         name="email"
-                        value={inputs.email || ''}
+                        value={inputs.email || ""}
                         onChange={handleInputs}
                         class="form-control text-uppercase rounded-1"
                         placeholder="Example John Doe"
                         style={{ fontSize: "12px" }}
                       />
                       {errors.email.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none ">
@@ -1228,11 +1242,11 @@ const handleSubmit = (event) => {
                         placeholder="Example ABC123EFG"
                         style={{ fontSize: "12px" }}
                       />
-                       {errors.studentId.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                      {errors.studentId.required ? (
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
                       <label class="form-label">studnet Code</label>
@@ -1245,11 +1259,11 @@ const handleSubmit = (event) => {
                         placeholder="Example ABC123EFG"
                         style={{ fontSize: "12px" }}
                       />
-                       {errors.studentCode.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                      {errors.studentCode.required ? (
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1263,15 +1277,15 @@ const handleSubmit = (event) => {
                         placeholder="Example United Kingdom"
                         style={{ fontSize: "12px" }}
                       />
-                    {errors.primaryNumber.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                      {errors.primaryNumber.required ? (
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">campus</label>
-                     <select 
+                      <select
                         class="form-select rounded-1"
                         aria-label="Default select example"
                         style={{ fontSize: "12px" }}
@@ -1280,21 +1294,22 @@ const handleSubmit = (event) => {
                       >
                         <option selected>Open this select menu</option>
                         {Array.isArray(program?.campuses) &&
-                                        program.campuses.map(
-                                          (campus, index) => (
-                          <option id={index} value={campus.campus}>{campus.campus}</option>
-                        ))}
+                          program.campuses.map((campus, index) => (
+                            <option id={index} value={campus.campus}>
+                              {campus.campus}
+                            </option>
+                          ))}
                       </select>
                       {errors.campus.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
-                   
+
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">InTake</label>
-                     <select
+                      <select
                         class="form-select rounded-1"
                         aria-label="Default select example"
                         style={{ fontSize: "12px" }}
@@ -1304,21 +1319,22 @@ const handleSubmit = (event) => {
                       >
                         <option selected>Open this select menu</option>
                         {Array.isArray(program?.campuses) &&
-                                        program.campuses.map(
-                                          (intake, index) => (
-                          <option id={index} value={intake.inTake}>{intake.inTake}</option>
-                        ))}
+                          program.campuses.map((intake, index) => (
+                            <option id={index} value={intake.inTake}>
+                              {intake.inTake}
+                            </option>
+                          ))}
                       </select>
                       {errors.inTake.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">Course Fees</label>
-                     <select
+                      <select
                         class="form-select rounded-1"
                         aria-label="Default select example"
                         style={{ fontSize: "12px" }}
@@ -1328,48 +1344,47 @@ const handleSubmit = (event) => {
                       >
                         <option selected>Open this select menu</option>
                         {Array.isArray(program?.campuses) &&
-                                        program.campuses.map(
-                                          (intake, index) => (
-                          <option id={index} value={intake.courseFees}>{intake.courseFees}</option>
-                        ))}
+                          program.campuses.map((intake, index) => (
+                            <option id={index} value={intake.courseFees}>
+                              {intake.courseFees}
+                            </option>
+                          ))}
                       </select>
                       {errors.courseFees.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
+                        <span className="text-danger form-text profile_error">
+                          This field is required.
+                        </span>
+                      ) : null}
                     </div>
-                   
+
                     <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn  px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
-                  data-bs-dismiss="modal"
-                  style={{
-                    fontSize: "12px",
-                    backgroundColor: "#231f20",
-                    color: "#fff",
-                  }}
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
-                  style={{
-                    fontSize: "12px",
-                    backgroundColor: "#fe5722",
-                    color: "#fff",
-                  }}
-                >
-                  Submit
-                </button>
-              </div>
-                    
+                      <button
+                        type="button"
+                        class="btn  px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
+                        data-bs-dismiss="modal"
+                        style={{
+                          fontSize: "12px",
+                          backgroundColor: "#231f20",
+                          color: "#fff",
+                        }}
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
+                        style={{
+                          fontSize: "12px",
+                          backgroundColor: "#fe5722",
+                          color: "#fff",
+                        }}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>
-             
             </div>
           </div>
         </div>

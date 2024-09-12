@@ -12,7 +12,8 @@ import { getallUniversity } from "../../api/university";
 import { saveApplication } from "../../api/applicatin";
 import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
-
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin } from "../../api/admin";
 import { toast } from "react-toastify";
 import { getMonthYear } from "../../Utils/DateFormat";
 import {
@@ -52,7 +53,7 @@ function Profile() {
     programTitle: "",
     campus: "",
     courseFees: "",
-    applicationFee:"",
+    applicationFee: "",
     courseType: "",
   };
   const initialStateErrors = {
@@ -76,7 +77,7 @@ function Profile() {
   const [inputs, setInputs] = useState(initialStateInputs);
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
-  const [staff,setStaff] = useState(null);
+  const [admin, setAdmin] = useState(null);
   const [programs, setPrograms] = useState([]);
   const [universities, setUniversities] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -96,12 +97,20 @@ function Profile() {
 
   useEffect(() => {
     getApplicationList();
- 
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
-
-
-
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAdmin(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getApplicationList = () => {
     getStudentApplication(studentId)
       .then((res) => {
@@ -273,19 +282,21 @@ function Profile() {
     event.preventDefault();
     setSubmitted(true);
     if (handleErrors(errors)) {
-      saveApplication({...inputs,
-        
-       name: student?.name,
-          dob: student?.dob,
-          passportNo: student?.passportNo,
-          studentId: student?._id,
-          email: student?.email,
-          primaryNumber: student?.primaryNumber,
-          whatsAppNumber: student?.whatsAppNumber,
+      saveApplication({
+        ...inputs,
+
+        adminId: getAdminIdId(),
+        name: student?.name,
+        dob: student?.dob,
+        passportNo: student?.passportNo,
+        studentId: student?._id,
+        email: student?.email,
+        primaryNumber: student?.primaryNumber,
+        whatsAppNumber: student?.whatsAppNumber,
       })
         .then((res) => {
           toast.success(res?.data?.message);
-          getStudentDetails();
+          navigate("/admin_list_application");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -317,8 +328,6 @@ function Profile() {
       >
         <div className="content-header ">
           <BackButton />
-
-      
 
           <div className="container-fluid">
             <h2 className="mb-4 text-center">Student Details</h2>
@@ -506,7 +515,7 @@ function Profile() {
                                   onChange={handleInputs}
                                 >
                                   <option value="">Select Campus</option>
-                                
+
                                   {[
                                     ...new Set(
                                       selectedProgram?.campuses?.map(
@@ -552,7 +561,6 @@ function Profile() {
                                       {uniqueCampus}
                                     </option>
                                   ))}
-                                 
                                 </select>
                                 {errors.inTake.required && (
                                   <span className="text-danger form-text profile_error">
@@ -660,7 +668,6 @@ function Profile() {
                                   placeholder="Enter Email"
                                   name="email"
                                   value={student?.email}
-
                                   onChange={handleInputs}
                                   style={{
                                     backgroundColor: "#fff",
@@ -748,7 +755,7 @@ function Profile() {
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
-                                ApplicationFee
+                                  ApplicationFee
                                   <span className="text-danger">*</span>
                                 </label>
                                 <input

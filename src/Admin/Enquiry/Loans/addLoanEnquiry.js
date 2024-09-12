@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { saveLoanEnquiry } from "../../../api/Enquiry/Loan";
 import Mastersidebar from "../../../compoents/AdminSidebar";
 import Select from "react-select";
+import { getAdminIdId } from "../../../Utils/storage";
+
 export const AddLoanEnquiry = () => {
   const initialState = {
     studentName: "",
@@ -162,7 +164,10 @@ export const AddLoanEnquiry = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveLoanEnquiry(loan)
+      saveLoanEnquiry({
+        ...loan,
+        adminId: getAdminIdId(),
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_loan_enquiry");
@@ -170,7 +175,7 @@ export const AddLoanEnquiry = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
+    } else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
@@ -201,8 +206,9 @@ export const AddLoanEnquiry = () => {
                       </label>
 
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.studentName.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.studentName.required ? "is-invalid" : ""
+                        }`}
                         onChange={handleInputs}
                         name="studentName"
                         id="inputStudentName"
@@ -224,8 +230,9 @@ export const AddLoanEnquiry = () => {
                         Primary Number
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.primaryNumber.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.primaryNumber.required ? "is-invalid" : ""
+                        }`}
                         name="primaryNumber"
                         onChange={handleInputs}
                         id="inputPrimaryNo"
@@ -251,8 +258,9 @@ export const AddLoanEnquiry = () => {
                         WhatsApp Number
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.whatsAppNumber.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.whatsAppNumber.required ? "is-invalid" : ""
+                        }`}
                         name="whatsAppNumber"
                         onChange={handleInputs}
                         id="inputWhatsAppNumber"
@@ -279,8 +287,9 @@ export const AddLoanEnquiry = () => {
                         Email ID
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.email.required ? "is-invalid" : ""
+                        }`}
                         name="email"
                         onChange={handleInputs}
                         id="inputEmail"
@@ -314,7 +323,11 @@ export const AddLoanEnquiry = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        className={`form-select form-select-lg rounded-1 ${errors.doYouHaveAValidOfferFromAnyUniversity.required ? 'is-invalid' : ''} `}
+                        className={`form-select form-select-lg rounded-1 ${
+                          errors.doYouHaveAValidOfferFromAnyUniversity.required
+                            ? "is-invalid"
+                            : ""
+                        } `}
                         name="doYouHaveAValidOfferFromAnyUniversity"
                         onChange={handleInputs}
                       >
@@ -334,9 +347,9 @@ export const AddLoanEnquiry = () => {
                         Loan Amount Required
                       </label>
                       <input
-                        className=
-
-                        {`form-control rounded-1 ${errors.loanAmountRequired.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.loanAmountRequired.required ? "is-invalid" : ""
+                        }`}
                         id="inputloanamount"
                         type="text"
                         placeholder="Enter Loan Amount Required"
@@ -406,8 +419,11 @@ export const AddLoanEnquiry = () => {
                         What is your monthly income?
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.whatIsYourMonthlyIncome.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.whatIsYourMonthlyIncome.required
+                            ? "is-invalid"
+                            : ""
+                        }`}
                         id="inputmonthlyincome"
                         name="whatIsYourMonthlyIncome"
                         onChange={handleInputs}
@@ -429,8 +445,9 @@ export const AddLoanEnquiry = () => {
                         Passport Number
                       </label>
                       <input
-                        className=
-{`form-control rounded-1 ${errors.passportNumber.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.passportNumber.required ? "is-invalid" : ""
+                        }`}
                         id="inputmonthlyincome"
                         name="passportNumber"
                         onChange={handleInputs}
@@ -453,8 +470,9 @@ export const AddLoanEnquiry = () => {
                         Upload Passport
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.uploadPassport.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.uploadPassport.required ? "is-invalid" : ""
+                        }`}
                         id="inputmonthlyincome"
                         name="uploadPassport"
                         onChange={handleInputs}
@@ -501,8 +519,9 @@ export const AddLoanEnquiry = () => {
                         Co-Applicant Name
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.coApplicantName.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.coApplicantName.required ? "is-invalid" : ""
+                        }`}
                         id="inputCo-ApplicantName"
                         name="coApplicantName"
                         onChange={handleInputs}
@@ -525,8 +544,9 @@ export const AddLoanEnquiry = () => {
                         Co-Applicant Age
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.age.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.age.required ? "is-invalid" : ""
+                        }`}
                         id="inputCo-Applicantage"
                         onChange={handleInputs}
                         name="age"
@@ -599,8 +619,9 @@ export const AddLoanEnquiry = () => {
                         Co-Applicant Employment Status
                       </label>
                       <input
-                        className=
-                        {`form-control rounded-1 ${errors.employmentStatus.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.employmentStatus.required ? "is-invalid" : ""
+                        }`}
                         id="inputCo-Applicantstatus"
                         type="text"
                         name="employmentStatus"
@@ -626,7 +647,9 @@ export const AddLoanEnquiry = () => {
                         Co-Applicant Income Details
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.incomeDetails.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.incomeDetails.required ? "is-invalid" : ""
+                        }`}
                         id="inputCo-Applicantdetails"
                         type="text"
                         name="incomeDetails"

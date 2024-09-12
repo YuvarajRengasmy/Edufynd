@@ -268,72 +268,92 @@ export const ListBookings = () => {
           </div>
         </div>
         <div className="container-fluid mt-3">
-      <div className="row">
-        {/* Card 1: New Bookings */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#4CAF50" }} // Green
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-calendar-plus" style={{ color: '#ffffff' }}></i> New Bookings
-              </h6>
-              <p className="card-text">New bookings received.</p>
-              <p className="card-text">Total: 25</p>
+          <div className="row">
+            {/* Card 1: New Bookings */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#4CAF50" }} // Green
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-calendar-plus"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    New Bookings
+                  </h6>
+                  <p className="card-text">New bookings received.</p>
+                  <p className="card-text">Total: 25</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 2: Upcoming Bookings */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#2196F3" }} // Blue
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Upcoming Bookings
-              </h6>
-              <p className="card-text">Bookings scheduled in the near future.</p>
-              <p className="card-text">Total: 18</p>
+            {/* Card 2: Upcoming Bookings */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#2196F3" }} // Blue
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-calendar-check"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Upcoming Bookings
+                  </h6>
+                  <p className="card-text">
+                    Bookings scheduled in the near future.
+                  </p>
+                  <p className="card-text">Total: 18</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 3: Cancelled Bookings */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#F44336" }} // Red
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-calendar-times" style={{ color: '#ffffff' }}></i> Cancelled Bookings
-              </h6>
-              <p className="card-text">Bookings that were cancelled.</p>
-              <p className="card-text">Total: 8</p>
+            {/* Card 3: Cancelled Bookings */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#F44336" }} // Red
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-calendar-times"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Cancelled Bookings
+                  </h6>
+                  <p className="card-text">Bookings that were cancelled.</p>
+                  <p className="card-text">Total: 8</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Card 4: Completed Bookings */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-3 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#FFC107" }} // Amber
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Completed Bookings
-              </h6>
-              <p className="card-text">Bookings that have been completed.</p>
-              <p className="card-text">Total: 30</p>
+            {/* Card 4: Completed Bookings */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#FFC107" }} // Amber
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-calendar-check"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Completed Bookings
+                  </h6>
+                  <p className="card-text">
+                    Bookings that have been completed.
+                  </p>
+                  <p className="card-text">Total: 30</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
         <div className="content-body">
           <div className="container-fluid">
             <div className="row">
@@ -493,7 +513,7 @@ export const ListBookings = () => {
             </div>
             <div>
               <Link
-                to="/list_bookings"
+                to="/admin_list_bookings"
                 className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
                 style={{
                   backgroundColor: "#0f2239",

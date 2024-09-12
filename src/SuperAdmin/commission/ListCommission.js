@@ -555,14 +555,15 @@ export default function Masterproductlist() {
                             search: `?id=${data?._id}`,
                           }}
                         >
-                          {data.years?.map((year, yearIndex) => (
-                            <div key={yearIndex}>
-                              {year?.year || "Not Available"} _
-                              {year?.courseTypes?.length > 0
-                                ? `${year?.courseTypes[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _${year?.courseTypes[0]?.value}`
-                                : "Not Available"}   {" ,"}
-                            </div>
-                          ))}
+                         {data?.years?.map((year, yearIndex) => (
+  <div key={yearIndex}>
+    {year?.year || "Not Available"} _
+    {year?.courseTypes?.length > 0 && year?.courseTypes[0]?.inTake?.length > 0
+      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${year?.courseTypes[0]?.inTake[0]?.value}`
+      : "Not Available"}{" ,"}
+  </div>
+))}
+
                         </Link>
                       </td>
                       <td className="text-capitalize text-start text-truncate">
