@@ -284,10 +284,10 @@ export default function GlobalSettings() {
     <div>
      
          
-            <Mastersidebar />
+           
          
-          <div className="content-wrapper " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"  }}>
-          <div className="content-header bg-light shadow-sm sticky-top">
+          <div className=" " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"  }}>
+          {/* <div className="content-header bg-light shadow-sm sticky-top">
                     <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
                       <li className="flex-grow-1">
                         <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
@@ -419,10 +419,10 @@ export default function GlobalSettings() {
                         </button>
                       </li>
                     </ol>
-                  </div>
-              <div className="container-fluid mt-4">
+                  </div> */}
+              <div className="container-fluid ">
                 <div className="row ">
-                  <div className='col-md-4'>
+                  {/* <div className='col-md-4'>
                   <div className="card rounded-1 border-0 shadow-sm" >
                   <div className="card-header bg-white border-0">
                     <h5 className="card-title" >{isEditing ? "Edit Status Type" : "Add Status Type"}</h5>
@@ -474,15 +474,34 @@ export default function GlobalSettings() {
                     </form>
                   </div>
                 </div>
-                </div>
+                </div> */}
             
              
-            <div className="col-md-8">
-            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-            <div className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0" style={{background:'#fe5722',color:'#fff'}}>
-            <h6 className='text-center text-capitalize p-1'> List Status</h6>
+            <div className="col-md-12">
+            <div className="card  border-0 rounded-0 shadow-sm  ">
+            <div className="card-header  bg-white " >
+              <div className='d-flex justify-content-between'>
+              <h6 className=' text-capitalize p-1'> List Status</h6>
+            <button
+                          className="btn  text-white px-4 py-2 text-uppercase fw-semibold  text-center"
+                          style={{
+                            backgroundColor: "#fe5722",
+                            border: "none",
+                         
+                            fontSize: "12px",
+                            margin: "1px"
+                          }}
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addCountryModal17"
+                          onClick={() => { handleAddModuleList () }}
+                        >
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;   Add Status
+                        </button>
+              </div>
+            
             </div>
-            <div className="card-body mt-5">
+            <div className="card-body  p-3">
                   <table className="table table-hover text-nowrap">
                     <thead>
                       <tr style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
