@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient } from "../../api/client";
+import {
+  getallTraining,
+  deleteTraining,
+  getFilterTraining,
+} from "../../api/Notification/traning";
+import { formatDate } from "../../Utils/DateFormat";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -10,16 +15,75 @@ import {
   Pagination,
   radioClasses,
 } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 
 import { FaFilter } from "react-icons/fa";
+import ListAgent from "../Admins/AdminList";
 
+export const ListTraining = () => {
+  const [notification, setnotification] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: 0,
+  });
 
-export const AdminListTestimonials = () => {
+  useEffect(() => {
+    getAllClientDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllClientDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterTraining(data)
+      .then((res) => {
+        console.log(res);
+        setnotification(res?.data?.result?.trainingList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.trainingCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteProgramData = () => {
+    deleteTraining(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllClientDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -55,11 +119,11 @@ export const AdminListTestimonials = () => {
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-          <div className="content-header">
-            <div className="container">
+          <div className="content-header bg-light shadow-sm sticky-top mb-0">
+            <div className="container-fluid">
               <div className="row ">
                 <div className="col-xl-12">
-                  <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+                  <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
                     <li className="flex-grow-1">
                       <div
                         className="input-group"
@@ -69,14 +133,9 @@ export const AdminListTestimonials = () => {
                           type="search"
                           placeholder="Search"
                           aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                          className="form-control  border-1  rounded-4 w-100"
                           style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
                             fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px", // Adjust padding to fit the height
                           }}
                         />
                         <span
@@ -117,9 +176,7 @@ export const AdminListTestimonials = () => {
                           aria-labelledby="offcanvasRightLabel"
                         >
                           <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">
-                              Filter Notifications
-                            </h5>
+                            <h5 id="offcanvasRightLabel">Filter Trainings</h5>
                             <button
                               type="button"
                               className="btn-close text-reset"
@@ -171,7 +228,7 @@ export const AdminListTestimonials = () => {
                               <div>
                                 <button
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
+                                  className="btn btn-cancel border-0 fw-semibold   rounded-pill text-white float-right bg"
                                   style={{
                                     backgroundColor: "#0f2239",
                                     color: "#fff",
@@ -185,7 +242,7 @@ export const AdminListTestimonials = () => {
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   // onClick={filterProgramList}
-                                  className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
+                                  className="btn btn-save border-0 fw-semibold   rounded-pill text-white float-right mx-2"
                                   style={{
                                     backgroundColor: "#fe5722",
                                     color: "#fff",
@@ -247,11 +304,14 @@ export const AdminListTestimonials = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/admin_add_testimonials">
+                      <Link
+                        class="btn btn-pix-primary"
+                        to="/admin_add_training"
+                      >
                         <button
-                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                          className="btn    fw-semibold  border-0 rounded-1 text-white  "
                           style={{
-                            backgroundColor: "#fe5722",
+                            backgroundColor: "#231f20",
                             fontSize: "12px",
                           }}
                         >
@@ -259,7 +319,7 @@ export const AdminListTestimonials = () => {
                             class="fa fa-plus-circle me-2"
                             aria-hidden="true"
                           ></i>{" "}
-                          Add Testimonials
+                          Add Training
                         </button>
                       </Link>
                     </li>
@@ -268,11 +328,121 @@ export const AdminListTestimonials = () => {
               </div>
             </div>
           </div>
+
+          <div className="container-fluid mt-3">
+            <div className="row">
+              {/* Card 1: New Materials */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FF9800" }} // Orange
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i
+                        className="fas fa-newspaper"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      New Materials
+                    </h6>
+                    <p className="card-text">
+                      Recently added training materials.
+                    </p>
+                    <p className="card-text">Total: 15</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2: Completed Trainings */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#4CAF50" }} // Green
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i
+                        className="fas fa-trophy"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Completed Trainings
+                    </h6>
+                    <p className="card-text">
+                      Trainings that have been completed.
+                    </p>
+                    <p className="card-text">Total: 30</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3: Pending Reviews */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#2196F3" }} // Blue
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i
+                        className="fas fa-hourglass-half"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Pending Reviews
+                    </h6>
+                    <p className="card-text">Materials pending review.</p>
+                    <p className="card-text">Total: 8</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 4: Reviewed Materials */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#F44336" }} // Red
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i
+                        className="fas fa-check-circle"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Reviewed Materials
+                    </h6>
+                    <p className="card-text">
+                      Materials that have been reviewed.
+                    </p>
+                    <p className="card-text">Total: 20</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="content-body">
-            <div className="container">
+            <div className="container-fluid">
               <div className="row">
                 <div className="col-xl-12">
-                  <div className="card rounded-0  border-0">
+                  <div className="card rounded-1 shadow-sm border-0">
+                    <div className="card-header bg-white mb-0 mt-1 pb-0">
+                      <div className="d-flex  mb-0">
+                        <p className="me-auto ">
+                          Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="5">Active</option>
+                            <option value="10">InActive</option>
+                            <option value="20">Delete</option>
+                          </select>{" "}
+                        </p>
+                      </div>
+                    </div>
                     <div className="card-body">
                       <div className="card-table">
                         <div className="table-responsive">
@@ -288,6 +458,9 @@ export const AdminListTestimonials = () => {
                                   fontSize: "12px",
                                 }}
                               >
+                                <th className=" text-start">
+                                  <input type="checkbox" />
+                                </th>
                                 <th className="text-capitalize text-start sortable-handle">
                                   S No
                                 </th>
@@ -295,10 +468,11 @@ export const AdminListTestimonials = () => {
                                   Date
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
-                                  Subject
+                                  {" "}
+                                  Topic
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
-                                  Users
+                                  Type Of User
                                 </th>
 
                                 <th className="text-capitalize text-start sortable-handle">
@@ -307,56 +481,98 @@ export const AdminListTestimonials = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                              >
-                                <td className="text-capitalize text-start"></td>
-                                <td className="text-capitalize text-start"></td>
-                                <td className="text-capitalize text-start"></td>
+                              {notification?.map((data, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className=" text-start">
+                                    <input type="checkbox" />
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {pagination.from + index + 1}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {formatDate(
+                                      data?.createdOn
+                                        ? data?.createdOn
+                                        : data?.modifiedOn
+                                        ? data?.modifiedOn
+                                        : "-"
+                                    ) || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.trainingTopic || "Not Available"}
+                                  </td>
 
-                                <td className="text-capitalize text-start"></td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.typeOfUser || "Not Available"}
+                                  </td>
 
-                                <td>
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/admin_view_testimonials",
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="View"
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/admin_edit_testimonials",
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Edit"
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      data-bs-toggle="tooltip"
-                                      title="Delete"
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/admin_view_training",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="View"
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/admin_edit_training",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="Edit"
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </Link>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
                         </div>
                       </div>
-                      <div className="float-right my-2">
+                      <div className="d-flex justify-content-between align-items-center p-3">
+                        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries out of 100
+                        </p>
                         <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
                           variant="outlined"
                           shape="rounded"
                           color="primary"
@@ -369,22 +585,25 @@ export const AdminListTestimonials = () => {
             </div>
           </div>
         </div>
-        <Dialog>
+        <Dialog open={open}>
           <DialogContent>
             <div className="text-center p-4">
               <h5 className="mb-4" style={{ fontSize: "14px" }}>
-                Are you sure you want to Delete <br /> the selected Product ?
+                Are you sure you want to Delete <br /> the selected Training
+                Material* ?
               </h5>
               <button
                 type="button"
-                className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+                className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold  mx-3"
+                onClick={deleteProgramData}
                 style={{ fontSize: "12px" }}
               >
                 Yes
               </button>
               <button
                 type="button"
-                className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+                className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold  "
+                onClick={closePopup}
                 style={{ fontSize: "12px" }}
               >
                 No
@@ -422,8 +641,8 @@ export const AdminListTestimonials = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
-                  className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
+                  to="#"
+                  className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                   style={{
                     backgroundColor: "#0f2239",
                     color: "#fff",
@@ -435,7 +654,7 @@ export const AdminListTestimonials = () => {
                 <button
                   type="submit"
                   // onClick={handleFileUpload}
-                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
+                  className="btn btn-save border-0 rounded-pill  fw-semibold px-3 py-1 text-white float-right mx-2"
                   style={{
                     backgroundColor: "#fe5722",
                     color: "#fff",
@@ -452,4 +671,4 @@ export const AdminListTestimonials = () => {
     </>
   );
 };
-export default AdminListTestimonials;
+export default ListTraining;

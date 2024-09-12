@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallStaff,getFilterStaffSuperAdmin, deleteStaff } from "../../api/staff";
+import { getallStaff, getFilterStaff, deleteStaff } from "../../api/staff";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { formatDate } from "../../Utils/DateFormat";
 import { getAdminIdId } from "../../Utils/storage";
-import { getSingleAdmin} from "../../api/admin";
+import { getSingleAdmin } from "../../api/admin";
 import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -41,13 +41,11 @@ function AdminListStaff() {
     const data = {
       limit: 10,
       page: pagination.from,
-
       adminId: getAdminIdId(),
     };
 
-    getFilterStaffSuperAdmin(data)
+    getFilterStaff(data)
       .then((res) => {
-        console.log("yuvi", res);
         setStaff(res?.data?.result?.staffList);
         setPagination({ ...pagination, count: res?.data?.result?.staffCount });
       })
@@ -66,13 +64,15 @@ function AdminListStaff() {
         console.log(err);
       });
   };
-  
+
   if (!staffs || !staffs.privileges) {
     // return null; // or a loading spinner
   }
-  
-  const studentPrivileges = staffs?.privileges?.find(privilege => privilege.module === 'staff');
-  
+
+  const studentPrivileges = staffs?.privileges?.find(
+    (privilege) => privilege.module === "staff"
+  );
+
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
@@ -362,24 +362,24 @@ function AdminListStaff() {
                       </Link>
                     </li>
                     {studentPrivileges?.add && (
-                    <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/admin_add_staff">
-                        <button
-                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
-                          style={{
-                            backgroundColor: "#fe5722",
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>
-                          Add Staff
-                        </button>
-                      </Link>
-                    </li>
+                      <li class="m-1">
+                        <Link class="btn btn-pix-primary" to="/admin_add_staff">
+                          <button
+                            className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                            style={{
+                              backgroundColor: "#fe5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <i
+                              class="fa fa-plus-circle me-2"
+                              aria-hidden="true"
+                            ></i>
+                            Add Staff
+                          </button>
+                        </Link>
+                      </li>
                     )}
                   </ol>
                 </div>
@@ -483,38 +483,38 @@ function AdminListStaff() {
 
                                     <td>
                                       <div className="d-flex">
-                                      {studentPrivileges?.view && (
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/admin_view_staff",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                        >
-                                          <i className="far fa-eye text-primary me-1"></i>
-                                        </Link>
-                                      )}
-                                      {studentPrivileges?.edit && (
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/admin_edit_staff",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                        >
-                                          <i className="far fa-edit text-warning me-1"></i>
-                                        </Link>
-                                      )}
-                                      {studentPrivileges?.delete && (
-                                        <button
-                                          className="dropdown-item"
-                                          onClick={() => {
-                                            openPopup(data?._id);
-                                          }}
-                                        >
-                                          <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </button>
-                                      )}
+                                        {studentPrivileges?.view && (
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/admin_view_staff",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-eye text-primary me-1"></i>
+                                          </Link>
+                                        )}
+                                        {studentPrivileges?.edit && (
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/admin_edit_staff",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-edit text-warning me-1"></i>
+                                          </Link>
+                                        )}
+                                        {studentPrivileges?.delete && (
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              openPopup(data?._id);
+                                            }}
+                                          >
+                                            <i className="far fa-trash-alt text-danger me-1"></i>
+                                          </button>
+                                        )}
                                       </div>
                                     </td>
                                   </tr>

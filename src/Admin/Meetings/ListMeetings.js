@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient } from "../../api/client";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -10,16 +9,79 @@ import {
   Pagination,
   radioClasses,
 } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import {
+  getallMeeting,
+  deleteMeeting,
+  getFilterMeeting,
+} from "../../api/Notification/meeting";
+import { formatDate } from "../../Utils/DateFormat";
 import { FaFilter } from "react-icons/fa";
+import ListAgent from "../Admins/AdminList";
 
+export const ListMeetings = () => {
+  const [notification, setnotification] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: 0,
+  });
 
-export const AdminListEvents = () => {
+  useEffect(() => {
+    getAllClientDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllClientDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterMeeting(data)
+      .then((res) => {
+        console.log(res);
+        setnotification(res?.data?.result?.meetingList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.meetingCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteProgramData = () => {
+    deleteMeeting(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllClientDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -55,11 +117,11 @@ export const AdminListEvents = () => {
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-          <div className="content-header">
-            <div className="container">
+          <div className="content-header  bg-light shadow-sm sticky-top mb-0">
+            <div className="container-fluid">
               <div className="row ">
                 <div className="col-xl-12">
-                  <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
+                  <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
                     <li className="flex-grow-1">
                       <div
                         className="input-group"
@@ -69,14 +131,9 @@ export const AdminListEvents = () => {
                           type="search"
                           placeholder="Search"
                           aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
+                          className="form-control bg-white border-1 rounded-4"
                           style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
                             fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px", // Adjust padding to fit the height
                           }}
                         />
                         <span
@@ -117,9 +174,7 @@ export const AdminListEvents = () => {
                           aria-labelledby="offcanvasRightLabel"
                         >
                           <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">
-                              Filter Notifications
-                            </h5>
+                            <h5 id="offcanvasRightLabel">Filter Meeting</h5>
                             <button
                               type="button"
                               className="btn-close text-reset"
@@ -155,7 +210,7 @@ export const AdminListEvents = () => {
                                   }}
                                 />
 
-                                <label className="form-label">Users</label>
+                                <label className="form-label">Host Name</label>
                                 <br />
                                 <input
                                   type="text"
@@ -169,9 +224,10 @@ export const AdminListEvents = () => {
                                 />
                               </div>
                               <div>
-                                <button
+                                <Link
+                                  to="/ListMeetings"
                                   data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right bg"
+                                  className="btn btn-cancel border-0 fw-semibold    rounded-pill text-white float-right bg"
                                   style={{
                                     backgroundColor: "#0f2239",
                                     color: "#fff",
@@ -180,12 +236,12 @@ export const AdminListEvents = () => {
                                   // onClick={resetFilter}
                                 >
                                   Reset
-                                </button>
+                                </Link>
                                 <button
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
                                   // onClick={filterProgramList}
-                                  className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 rounded-pill text-white float-right mx-2"
+                                  className="btn btn-save border-0 fw-semibold    rounded-pill text-white float-right mx-2"
                                   style={{
                                     backgroundColor: "#fe5722",
                                     color: "#fff",
@@ -247,11 +303,14 @@ export const AdminListEvents = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/admin_add_events">
+                      <Link
+                        class="btn btn-pix-primary"
+                        to="/admin_add_meetings"
+                      >
                         <button
-                          className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
+                          className="btn    fw-semibold  rounded-1 border-0 text-white  "
                           style={{
-                            backgroundColor: "#fe5722",
+                            backgroundColor: "#231f20",
                             fontSize: "12px",
                           }}
                         >
@@ -259,7 +318,7 @@ export const AdminListEvents = () => {
                             class="fa fa-plus-circle me-2"
                             aria-hidden="true"
                           ></i>{" "}
-                          Add Events
+                          Add Meeting
                         </button>
                       </Link>
                     </li>
@@ -268,17 +327,120 @@ export const AdminListEvents = () => {
               </div>
             </div>
           </div>
+          <div className="container-fluid mt-3">
+            <div className="row">
+              {/* Card 1: Upcoming Meetings */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FF5722" }} // Deep Orange
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-calendar-alt"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Upcoming Meetings
+                    </h6>
+                    <p className="card-text">Total meetings scheduled.</p>
+                    <p className="card-text">Total: 12</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2: Completed Meetings */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#4CAF50" }} // Green
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-check-circle"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Completed Meetings
+                    </h6>
+                    <p className="card-text">Meetings completed this month.</p>
+                    <p className="card-text">Total: 20</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3: Meetings in Progress */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#2196F3" }} // Blue
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-spinner"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Meetings in Progress
+                    </h6>
+                    <p className="card-text">Ongoing meetings.</p>
+                    <p className="card-text">Total: 5</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 4: Rescheduled Meetings */}
+              <div className="col-md-3 col-sm-6 mb-3">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#9C27B0" }} // Purple
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-calendar-day"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Rescheduled Meetings
+                    </h6>
+                    <p className="card-text">Meetings that were rescheduled.</p>
+                    <p className="card-text">Total: 7</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="content-body">
-            <div className="container">
+            <div className="container-fluid">
               <div className="row">
                 <div className="col-xl-12">
-                  <div className="card rounded-0  border-0">
+                  <div className="card rounded-1 shadow-sm  border-0">
+                    <div className="card-header bg-white mb-0 mt-1 pb-0">
+                      <div className="d-flex  mb-0">
+                        <p className="me-auto ">
+                          Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="5">Active</option>
+                            <option value="10">InActive</option>
+                            <option value="20">Delete</option>
+                          </select>{" "}
+                        </p>
+                      </div>
+                    </div>
                     <div className="card-body">
                       <div className="card-table">
                         <div className="table-responsive">
                           <table
-                            className=" table table-hover card-table  dataTable text-center"
+                            className=" table  table-hover card-table  dataTable text-center"
                             style={{ color: "#9265cc", fontSize: "12px" }}
                             ref={tableRef}
                           >
@@ -289,20 +451,28 @@ export const AdminListEvents = () => {
                                   fontSize: "12px",
                                 }}
                               >
+                                <th className=" text-start">
+                                  <input type="checkbox" />
+                                </th>
                                 <th className="text-capitalize text-start sortable-handle">
                                   S No
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
+                                  Created At
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  {" "}
                                   Date
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
-                                  Event Topic
+                                  Time
                                 </th>
                                 <th className="text-capitalize text-start sortable-handle">
-                                  University
+                                  Host Name
                                 </th>
+
                                 <th className="text-capitalize text-start sortable-handle">
-                                  Venue
+                                  Subject
                                 </th>
 
                                 <th className="text-capitalize text-start sortable-handle">
@@ -311,57 +481,105 @@ export const AdminListEvents = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                              >
-                                <td className="text-capitalize text-start"></td>
-                                <td className="text-capitalize text-start"></td>
-                                <td className="text-capitalize text-start"></td>
-                                <td className="text-capitalize text-start"></td>
+                              {notification?.map((data, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className=" text-start">
+                                    <input type="checkbox" />
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {pagination.from + index + 1}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {formatDate(
+                                      data?.createdOn
+                                        ? data?.createdOn
+                                        : data?.modifiedOn
+                                        ? data?.modifiedOn
+                                        : "-"
+                                    ) || "Not Available"}{" "}
+                                    <small className="text-danger fw-bold">
+                                      Timer
+                                    </small>
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {formatDate(
+                                      data?.date ? data?.date : "-"
+                                    ) || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.time || "Not Available"}
+                                  </td>
+                                  <th className="text-capitalize text-start text-truncate">
+                                    {data?.hostName || "Not Available"}
+                                  </th>
 
-                                <td className="text-capitalize text-start"></td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.subject || "Not Available"}
+                                  </td>
 
-                                <td>
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/admin_view_events",
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="View"
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/admin_edit_events",
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Edit"
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      data-bs-toggle="tooltip"
-                                      title="Delete"
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/admin_view_meetings",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/admin_edit_meetings",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </Link>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
                         </div>
                       </div>
-                      <div className="float-right my-2">
+                      <div className="d-flex justify-content-between align-items-center p-3">
+                        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries out of 100
+                        </p>
                         <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
                           variant="outlined"
                           shape="rounded"
                           color="primary"
@@ -374,22 +592,24 @@ export const AdminListEvents = () => {
             </div>
           </div>
         </div>
-        <Dialog>
+        <Dialog open={open}>
           <DialogContent>
             <div className="text-center p-4">
               <h5 className="mb-4" style={{ fontSize: "14px" }}>
-                Are you sure you want to Delete <br /> the selected Product ?
+                Are you sure you want to Delete <br /> the selected Meeting ?
               </h5>
               <button
                 type="button"
-                className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+                className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold  mx-3"
+                onClick={deleteProgramData}
                 style={{ fontSize: "12px" }}
               >
                 Yes
               </button>
               <button
                 type="button"
-                className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+                className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold  "
+                onClick={closePopup}
                 style={{ fontSize: "12px" }}
               >
                 No
@@ -427,8 +647,8 @@ export const AdminListEvents = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
-                  className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
+                  to="#"
+                  className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                   style={{
                     backgroundColor: "#0f2239",
                     color: "#fff",
@@ -440,7 +660,7 @@ export const AdminListEvents = () => {
                 <button
                   type="submit"
                   // onClick={handleFileUpload}
-                  className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
+                  className="btn btn-save border-0 rounded-pill  fw-semibold px-3 py-1 text-white float-right mx-2"
                   style={{
                     backgroundColor: "#fe5722",
                     color: "#fff",
@@ -457,4 +677,4 @@ export const AdminListEvents = () => {
     </>
   );
 };
-export default AdminListEvents;
+export default ListMeetings;

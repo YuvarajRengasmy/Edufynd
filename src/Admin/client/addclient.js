@@ -71,10 +71,9 @@ function AddAgent() {
   const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
- // Add state for dial code
+  // Add state for dial code
 
-const [dial, setDial] = useState([]);
-
+  const [dial, setDial] = useState([]);
 
   useEffect(() => {
     getAllClientDetails();
@@ -113,7 +112,8 @@ const [dial, setDial] = useState([]);
     if (!isValidEmail(data.emailID)) error.emailID.valid = true;
     if (!isValidPhone(data.contactNo)) error.contactNo.valid = true;
     if (!isValidEmail(data.businessMailID)) error.businessMailID.valid = true;
-    if (!isValidPhone(data.businessContactNo)) error.businessContactNo.valid = true;
+    if (!isValidPhone(data.businessContactNo))
+      error.businessContactNo.valid = true;
     if (!isValidPhone(data.whatsAppNumber)) error.whatsAppNumber.valid = true;
     if (!isValidWebsite(data.website)) error.website.valid = true;
     if (!isValidName(data.businessName)) error.businessName.valid = true;
@@ -126,15 +126,15 @@ const [dial, setDial] = useState([]);
   const handleInputs = (event) => {
     const { name, value } = event.target;
     const updatedClient = { ...client, [name]: value };
-  
+
     if (name === "businessContactNo") {
       if (copyToWhatsApp) {
-        updatedClient.whatsAppNumber =   value; // Use selectedDialCode for WhatsApp number
+        updatedClient.whatsAppNumber = value; // Use selectedDialCode for WhatsApp number
       }
     }
-  
+
     setClient(updatedClient);
-  
+
     if (submitted) {
       const newError = handleValidation(updatedClient);
       setErrors(newError);
@@ -150,7 +150,6 @@ const [dial, setDial] = useState([]);
         console.log(err);
       });
   };
-  
 
   const getCountryRegionInstance = () => {
     return new CountryRegion();
@@ -243,9 +242,6 @@ const [dial, setDial] = useState([]);
       }));
     }
   };
-  
-  
-  
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -300,10 +296,6 @@ const [dial, setDial] = useState([]);
     }),
   };
 
- 
-  
-  
-  
   return (
     <>
       <Sidebar />
@@ -341,7 +333,9 @@ const [dial, setDial] = useState([]);
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1 ${
+                                errors.typeOfClient.required ? "is-invalid" : ""
+                              }`}
                               name="typeOfClient"
                             >
                               <option value={""}>Select Client Type</option>
@@ -360,69 +354,77 @@ const [dial, setDial] = useState([]);
                           </div>
                         </div>
 
-                   
-
- 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    Business Name
-    <span className="text-danger">*</span>
-  </label>
-  <input
-    type="text"
-    style={{
-      fontFamily: "Plus Jakarta Sans",
-      fontSize: "12px",
-    }}
-    name="businessName"
-    onChange={handleInputs}
-    className={`form-control rounded-1 text-capitalize ${
-      errors.businessName.required ? 'is-invalid' : errors.businessName.valid ? 'is-valid' : ''
-    }`}
-    placeholder="Example John Doe"
-    onKeyDown={(e) => {
-      // Prevent default behavior for disallowed keys
- if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-   e.preventDefault();
- }
-}}
-  />
-  {errors.businessName.required && (
-    <div className="text-danger form-text profile_error">
-      This field is required.
-    </div>
-  )}
-</div>
-
-
-                      
+                          <label style={{ color: "#231F20" }}>
+                            Business Name
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="businessName"
+                            onChange={handleInputs}
+                            className={`form-control rounded-1 text-capitalize ${
+                              errors.businessName.required
+                                ? "is-invalid"
+                                : errors.businessName.valid
+                                ? "is-valid"
+                                : ""
+                            }`}
+                            placeholder="Example John Doe"
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                              if (
+                                !/^[a-zA-Z0-9]$/.test(e.key) &&
+                                ![
+                                  "Backspace",
+                                  "Delete",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                ].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                          {errors.businessName.required && (
+                            <div className="text-danger form-text profile_error">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    Business Website
-    <span className="text-danger">*</span>
-  </label>
-  <input
-    type="text"
-    className={`form-control rounded-1 ${
-      errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
-    }`}
-    style={{
-      fontFamily: "Plus Jakarta Sans",
-      fontSize: "12px",
-    }}
-    placeholder="Example www.edufynd.com"
-    name="website"
-    onChange={handleInputs}
-  />
-  {errors.website.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
- 
-</div>
-
+                          <label style={{ color: "#231F20" }}>
+                            Business Website
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className={`form-control rounded-1 ${
+                              errors.website.required
+                                ? "is-invalid"
+                                : errors.website.valid
+                                ? "is-valid"
+                                : ""
+                            }`}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Example www.edufynd.com"
+                            name="website"
+                            onChange={handleInputs}
+                          />
+                          {errors.website.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -433,7 +435,11 @@ const [dial, setDial] = useState([]);
                           <input
                             type="text"
                             className={`form-control rounded-1 text-lowercase ${
-                              errors.businessMailID.required ? 'is-invalid' : errors.businessMailID.valid ? 'is-valid' : ''
+                              errors.businessMailID.required
+                                ? "is-invalid"
+                                : errors.businessMailID.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             placeholder="Example john123@gmail.com"
                             style={{
@@ -443,131 +449,173 @@ const [dial, setDial] = useState([]);
                             name="businessMailID"
                             onChange={handleInputs}
                           />
-                          {errors.businessMailID.required  &&(
+                          {errors.businessMailID.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) }
+                          )}
                         </div>
-                      
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    Business Primary Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="d-flex align-items-end">
+                          <label style={{ color: "#231F20" }}>
+                            Business Primary Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="d-flex align-items-end">
+                            <div className="input-group mb-3">
+                              <select
+                                className="form-select form-select-sm"
+                                name="dial1"
+                                style={{
+                                  maxWidth: "75px",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                onChange={handleInputs}
+                                value={client?.dial1}
+                              >
+                                {dial?.map((item) => (
+                                  <option
+                                    value={item?.dialCode}
+                                    key={item?.dialCode}
+                                  >
+                                    {item?.dialCode} - {item?.name} -
+                                    {item?.flag && (
+                                      <Flags
+                                        code={item?.flag}
+                                        className="me-2"
+                                        style={{
+                                          width: "40px",
+                                          height: "30px",
+                                        }}
+                                      />
+                                    )}
+                                  </option>
+                                ))}
+                              </select>
+                              <input
+                                type="text"
+                                aria-label="Text input with dropdown button"
+                                className={`form-control  ${
+                                  errors.businessContactNo.required
+                                    ? "is-invalid"
+                                    : errors.businessContactNo.valid
+                                    ? "is-valid"
+                                    : ""
+                                }`}
+                                placeholder="Example 123-456-7890"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="businessContactNo"
+                                value={client.businessContactNo}
+                                onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (
+                                    !/^[0-9]$/i.test(e.key) &&
+                                    ![
+                                      "Backspace",
+                                      "Delete",
+                                      "ArrowLeft",
+                                      "ArrowRight",
+                                    ].includes(e.key)
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              />
+                            </div>
 
+                            <div className="form-check ms-3 ">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="copyToWhatsApp"
+                                checked={copyToWhatsApp}
+                                onChange={handleCheckboxChange}
+                              />
+                            </div>
+                          </div>
+                          {errors.businessContactNo.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
 
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={client?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            Business WhatsApp Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="input-group mb-3">
+                            <select
+                              className="form-select form-select-sm"
+                              name="dial2"
+                              style={{
+                                maxWidth: "75px",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              value={client?.dial2}
+                              onChange={handleInputs}
+                            >
+                              {dial?.map((item) => (
+                                <option
+                                  value={item?.dialCode}
+                                  key={item?.dialCode}
+                                >
+                                  {item?.dialCode} - {item?.name} -
+                                  {item?.flag && (
+                                    <Flags
+                                      code={item?.flag}
+                                      className="me-2"
+                                      style={{ width: "40px", height: "30px" }}
+                                    />
+                                  )}
+                                </option>
+                              ))}
+                            </select>
 
-   
-  </select>
-  <input
-      type="text"
-       aria-label="Text input with dropdown button"
-      className={`form-control  ${
-        errors.businessContactNo.required ? 'is-invalid' : errors.businessContactNo.valid ? 'is-valid' : ''
-      }`}
-      placeholder="Example 123-456-7890"
-      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-      name="businessContactNo"
-      value={client.businessContactNo}
-      onChange={handleInputs}
-      onKeyDown={(e) => {
-        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-          e.preventDefault();
-        }
-      }}
-    />
-</div>
-
-
-    
-    <div className="form-check ms-3 ">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        id="copyToWhatsApp"
-        checked={copyToWhatsApp}
-        onChange={handleCheckboxChange}
-      />
-     
-    </div>
-  </div>
-  {errors.businessContactNo.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    Business WhatsApp Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-
-  <input
-    type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
-    }`}
-    placeholder="Example 123-456-7890"
-    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-    name="whatsAppNumber"
-    value={client.whatsAppNumber}
-    onChange={handleInputs}
-    onKeyDown={(e) => {
-      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-  </div>
-  {errors.whatsAppNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-
-
-        
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 ${
+                                errors.whatsAppNumber.required
+                                  ? "is-invalid"
+                                  : errors.whatsAppNumber.valid
+                                  ? "is-valid"
+                                  : ""
+                              }`}
+                              placeholder="Example 123-456-7890"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="whatsAppNumber"
+                              value={client.whatsAppNumber}
+                              onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                if (
+                                  !/^[0-9]$/i.test(e.key) &&
+                                  ![
+                                    "Backspace",
+                                    "Delete",
+                                    "ArrowLeft",
+                                    "ArrowRight",
+                                  ].includes(e.key)
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                          </div>
+                          {errors.whatsAppNumber.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -576,7 +624,11 @@ const [dial, setDial] = useState([]);
                           <input
                             type="text"
                             className={`form-control rounded-1 ${
-                              errors.name.required? 'is-invalid' : errors.name.valid ? 'is-valid' : ''
+                              errors.name.required
+                                ? "is-invalid"
+                                : errors.name.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             placeholder="Example Jane Doe"
                             style={{
@@ -597,7 +649,6 @@ const [dial, setDial] = useState([]);
                               This field is required.
                             </div>
                           )}
-                         
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -607,7 +658,11 @@ const [dial, setDial] = useState([]);
                           <input
                             type="text"
                             className={`form-control rounded-1 ${
-                              errors.emailID.required  ? 'is-invalid' : errors.emailID.valid ? 'is-valid' : ''
+                              errors.emailID.required
+                                ? "is-invalid"
+                                : errors.emailID.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -617,62 +672,84 @@ const [dial, setDial] = useState([]);
                             name="emailID"
                             onChange={handleInputs}
                           />
-                          {errors.emailID.required &&(
+                          {errors.emailID.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          ) }
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-  Staff ContactNo
-    <span className="text-danger">*</span>
-  </label>
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial3}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
+                          <label style={{ color: "#231F20" }}>
+                            Staff ContactNo
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="input-group mb-3">
+                            <select
+                              className="form-select form-select-sm"
+                              name="dial3"
+                              style={{
+                                maxWidth: "75px",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              value={client?.dial3}
+                              onChange={handleInputs}
+                            >
+                              {dial?.map((item) => (
+                                <option
+                                  value={item?.dialCode}
+                                  key={item?.dialCode}
+                                >
+                                  {item?.dialCode} - {item?.name} -
+                                  {item?.flag && (
+                                    <Flags
+                                      code={item?.flag}
+                                      className="me-2"
+                                      style={{ width: "40px", height: "30px" }}
+                                    />
+                                  )}
+                                </option>
+                              ))}
+                            </select>
 
-   
-  </select>
-
-  <input
-    type="text"
-    className={`form-control rounded-1 ${
-      errors.contactNo.required ? 'is-invalid' : errors.contactNo.valid ? 'is-valid' : ''
-    }`}
-    placeholder="Example 123-456-7890"
-    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-    name="contactNo"
-    value={client.contactNo}
-    onChange={handleInputs}
-    onKeyDown={(e) => {
-      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-  </div>
-  {errors.contactNo.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-                      
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 ${
+                                errors.contactNo.required
+                                  ? "is-invalid"
+                                  : errors.contactNo.valid
+                                  ? "is-valid"
+                                  : ""
+                              }`}
+                              placeholder="Example 123-456-7890"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="contactNo"
+                              value={client.contactNo}
+                              onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                if (
+                                  !/^[0-9]$/i.test(e.key) &&
+                                  ![
+                                    "Backspace",
+                                    "Delete",
+                                    "ArrowLeft",
+                                    "ArrowRight",
+                                  ].includes(e.key)
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                          </div>
+                          {errors.contactNo.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -682,7 +759,7 @@ const [dial, setDial] = useState([]);
                           <input
                             type="text"
                             className={`form-control rounded-1 ${
-                              errors.addressLine1.required ? 'is-invalid' : ''
+                              errors.addressLine1.required ? "is-invalid" : ""
                             }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -706,7 +783,7 @@ const [dial, setDial] = useState([]);
                           <input
                             type="text"
                             className={`form-control rounded-1 ${
-                              errors.addressLine2.required ? 'is-invalid' :  ''
+                              errors.addressLine2.required ? "is-invalid" : ""
                             }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -729,7 +806,11 @@ const [dial, setDial] = useState([]);
                           <input
                             type="text"
                             className={`form-control rounded-1 ${
-                              errors.addressLine3.required? 'is-invalid' : errors.addressLine3.valid ? 'is-valid' : ''
+                              errors.addressLine3.required
+                                ? "is-invalid"
+                                : errors.addressLine3.valid
+                                ? "is-valid"
+                                : ""
                             }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -743,7 +824,7 @@ const [dial, setDial] = useState([]);
                             <span className="text-danger form-text profile_error">
                               This field is required.
                             </span>
-                          ) }
+                          )}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>

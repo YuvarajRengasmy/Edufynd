@@ -4,7 +4,7 @@ import PrivateRoute from "../../src/Pages/Login/PrivateRoute";
 import  NotFound from "../../src/Pages/Login/404FoundError";
 import AdminAddAdmin from "../Admin/Admins/AdminAdd";
 import AdminEditAdmin from "../Admin/Admins/EditAdmin";
-import AdminListAdmin from "../Admin/Admins/AdminListAdmin";
+import AdminListAdmin from "../Admin/Admins/AdminList";
 import AdminViewAdmin from "../Admin/Admins/ViewAdmin";
 
 import AdminAddAgent from "../Admin/Agnent/addAgent";
@@ -153,7 +153,7 @@ import AdminListEmail from "../Admin/Email/ListEmail";
 import AdminViewEmail from "../Admin/Email/ViewEmail";
 import AdminAddBlog from "../Admin/Blog/AddBlog";
 import AdminEditBlog from "../Admin/Blog/EditBlog";
-import AdminListBlog from "../Admin/Blog/AdminListBlog";
+import AdminListBlog from "../Admin/Blog/ListBlog";
 import AdminViewBlog from "../Admin/Blog/ViewBlog";
 import AdminAddBookings from "../Admin/ELT/Bookings/AddBookings";
 import AdminEditBookings from "../Admin/ELT/Bookings/EditBookings";
@@ -164,14 +164,14 @@ import AdminEditClassSchedule from "../Admin/ELT/Class Schedule/EditClassSchedul
 import AdminListClassSchedule from "../Admin/ELT/Class Schedule/ListClassSchedule";
 import AdminViewClassSchedule from "../Admin/ELT/Class Schedule/ViewClassSchedule";
 
-import AdminListTraining from "../Admin/Training/AdminListTraining";
-import AdminListTestimonials from "../Admin/Testimonials/AdminListTestimonials";
-import AdminListPromotions from "../Admin/Promotion/AdminListPromotions";
-import AdminListEvents from "../Admin/Events/AdminListEvents";
+import AdminListTraining from "../Admin/Training/ListTraining";
+import AdminListTestimonials from "../Admin/Testimonials/ListTestimonials";
+import AdminListPromotions from "../Admin/Promotion/ListPromotions";
+import AdminListEvents from "../Admin/Events/ListEvents";
 
-import AdminListMeetings from "../Admin/Meetings/AdminListMeetings";
+import AdminListMeetings from "../Admin/Meetings/ListMeetings";
 
-import AdminListNotifications from "../Admin/Notifications/AdminListNotifications";
+import AdminListNotifications from "../Admin/Notifications/ListNotifications";
 
 
 import StudentForm from "../Admin/Enquiry/Studentsenquiry/StudentForm";
@@ -223,7 +223,7 @@ export const Admin = () => {
       />
 
       <Route
-        path="/admin_add__client"
+        path="/admin_add_client"
         element={
           <PrivateRoute>
             <AdminAddClient />

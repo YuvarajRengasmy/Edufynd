@@ -344,7 +344,10 @@ export const AdminListInvoice = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/admin_add_sender_invoice">
+                      <Link
+                        class="btn btn-pix-primary"
+                        to="/admin_add_sender_invoice"
+                      >
                         <button
                           className="btn text-uppercase px-4 py-2 fw-semibold border-0 text-white  "
                           style={{
@@ -470,7 +473,8 @@ export const AdminListInvoice = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/admin_sender_view_invoice",
+                                            pathname:
+                                              "/admin_sender_view_invoice",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

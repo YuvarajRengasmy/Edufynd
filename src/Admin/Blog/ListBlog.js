@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
+import { getallBlog, deleteBlog } from "../../api/blog";
+import { formatDate } from "../../Utils/DateFormat";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -7,13 +9,67 @@ import {
   DialogTitle,
   IconButton,
   Pagination,
-  radioClasses,
 } from "@mui/material";
-import Sidebar from "../../../../compoents/AdminSidebar";
+import { toast } from "react-toastify";
+
+import Mastersidebar from "../../compoents/AdminSidebar";
 
 import { FaFilter } from "react-icons/fa";
 
-const ListLinkedin = () => {
+export const ListBlog = () => {
+  const [blog, setBlog] = useState([]);
+  const [deleteId, setDeleteId] = useState();
+  const [open, setOpen] = useState(false);
+
+  const pageSize = 8;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+  useEffect(() => {
+    getAllUniversityDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllUniversityDetails = () => {
+    const data = {
+      limit: 8,
+      page: pagination.from,
+    };
+    getallBlog(data)
+      .then((res) => {
+        console.log(res?.data?.result);
+        setBlog(res?.data?.result);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+  const deleteClientData = () => {
+    deleteBlog(deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllUniversityDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -42,15 +98,15 @@ const ListLinkedin = () => {
   }, []);
 
   return (
-    <div>
-      <Sidebar />
+    <>
+      <Mastersidebar />
 
       <div
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header  bg-light shadow-sm sticky-top">
-          <div className="container-fluid">
+          <div className="container">
             <div className="row ">
               <div className="col-xl-12">
                 <ol className="breadcrumb d-flex flex-row justify-content-end align-items-center w-100">
@@ -108,7 +164,7 @@ const ListLinkedin = () => {
                         aria-labelledby="offcanvasRightLabel"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter SocialMedia</h5>
+                          <h5 id="offcanvasRightLabel">Filter Notifications</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -233,7 +289,7 @@ const ListLinkedin = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="#">
+                    <Link class="btn btn-pix-primary" to="/admin_add_blog">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -242,7 +298,7 @@ const ListLinkedin = () => {
                           class="fa fa-plus-circle me-2"
                           aria-hidden="true"
                         ></i>{" "}
-                        Add SocialMedia
+                        Add Blog
                       </button>
                     </Link>
                   </li>
@@ -251,103 +307,91 @@ const ListLinkedin = () => {
             </div>
           </div>
         </div>
-
-        <div className="container-fluid mt-3">
+        <div className="container mt-3">
           <div className="row">
-            {/* Card 1: Total Followers */}
+            {/* Card 1: Recent Blogs */}
             <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-3 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#1DA1F2" }} // Twitter Blue
-                >
-                  <div className="card-body">
-                    <h6 className="card-title">
-                      <i
-                        className="fab fa-twitter"
-                        style={{ color: "#ffffff" }}
-                      ></i>{" "}
-                      Total Followers
-                    </h6>
-                    <p className="card-text">Followers across all platforms.</p>
-                    <p className="card-text">Total: 50,000</p>
-                  </div>
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#3F51B5" }} // Indigo
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-pencil-alt"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Recent Blogs
+                  </h6>
+                  <p className="card-text">Latest blog posts.</p>
+                  <p className="card-text">Total: 10</p>
                 </div>
-              </Link>
+              </div>
             </div>
 
-            {/* Card 2: Engagement Rate */}
+            {/* Card 2: Popular Blogs */}
             <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-3 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#3B5998" }} // Facebook Blue
-                >
-                  <div className="card-body">
-                    <h6 className="card-title">
-                      <i
-                        className="fab fa-facebook-f"
-                        style={{ color: "#ffffff" }}
-                      ></i>{" "}
-                      Engagement Rate
-                    </h6>
-                    <p className="card-text">Overall engagement on posts.</p>
-                    <p className="card-text">Rate: 4.5%</p>
-                  </div>
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#FFC107" }} // Amber
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i className="fas fa-star" style={{ color: "#ffffff" }}></i>{" "}
+                    Popular Blogs
+                  </h6>
+                  <p className="card-text">Most read and liked blogs.</p>
+                  <p className="card-text">Total: 15</p>
                 </div>
-              </Link>
+              </div>
             </div>
 
-            {/* Card 3: Campaign Reach */}
+            {/* Card 3: Draft Blogs */}
             <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-3 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#E1306C" }} // Instagram Pink
-                >
-                  <div className="card-body">
-                    <h6 className="card-title">
-                      <i
-                        className="fab fa-instagram"
-                        style={{ color: "#ffffff" }}
-                      ></i>{" "}
-                      Campaign Reach
-                    </h6>
-                    <p className="card-text">Reach of recent campaigns.</p>
-                    <p className="card-text">Reach: 100,000</p>
-                  </div>
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#00BCD4" }} // Cyan
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-file-alt"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Draft Blogs
+                  </h6>
+                  <p className="card-text">Blogs that are in draft stage.</p>
+                  <p className="card-text">Total: 8</p>
                 </div>
-              </Link>
+              </div>
             </div>
 
-            {/* Card 4: Ads Performance */}
+            {/* Card 4: Archived Blogs */}
             <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-3 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#FF0000" }} // YouTube Red
-                >
-                  <div className="card-body">
-                    <h6 className="card-title">
-                      <i
-                        className="fab fa-youtube"
-                        style={{ color: "#ffffff" }}
-                      ></i>{" "}
-                      Ads Performance
-                    </h6>
-                    <p className="card-text">Performance of ad campaigns.</p>
-                    <p className="card-text">Conversions: 2,000</p>
-                  </div>
+              <div
+                className="card rounded-3 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#607D8B" }} // Blue Grey
+              >
+                <div className="card-body">
+                  <h6 className="card-title">
+                    <i
+                      className="fas fa-archive"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Archived Blogs
+                  </h6>
+                  <p className="card-text">Archived or old blog posts.</p>
+                  <p className="card-text">Total: 25</p>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
         <div className="content-body">
-          <div className="container-fluid">
+          <div className="container">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-0 border-0">
+                <div className="card rounded-0  border-0">
                   <div className="card-body">
                     <div className="card-table">
                       <div className="table-responsive">
@@ -370,10 +414,10 @@ const ListLinkedin = () => {
                                 Date
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                Subject
+                                Title
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
-                                Users
+                                Category
                               </th>
 
                               <th className="text-capitalize text-start sortable-handle">
@@ -382,55 +426,90 @@ const ListLinkedin = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "11px",
-                              }}
-                            >
-                              <td className="text-capitalize text-start text-truncate"></td>
-                              <td className="text-capitalize text-start text-truncate"></td>
-                              <td className="text-capitalize text-start text-truncate"></td>
+                            {blog?.map((data, index) => (
+                              <tr
+                                key={index}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                <td className="text-capitalize text-start text-truncate">
+                                  {pagination.from + index + 1}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {" "}
+                                  {formatDate(data.createdOn)}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data.title}
+                                </td>
 
-                              <td className="text-capitalize text-start text-truncate"></td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data.category}
+                                </td>
 
-                              <td className="text-capitalize text-start text-truncate">
-                                <div className="d-flex">
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "#",
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="View"
-                                  >
-                                    <i className="far fa-eye text-primary me-1"></i>
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    to={{
-                                      pathname: "#",
-                                    }}
-                                    data-bs-toggle="tooltip"
-                                    title="Edit"
-                                  >
-                                    <i className="far fa-edit text-warning me-1"></i>
-                                  </Link>
-                                  <Link
-                                    className="dropdown-item"
-                                    data-bs-toggle="tooltip"
-                                    title="Delete"
-                                  >
-                                    <i className="far fa-trash-alt text-danger me-1"></i>
-                                  </Link>
-                                </div>
-                              </td>
-                            </tr>
+                                <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/admin_view_blog",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      title="View"
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/admin_edit_blog",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      title="Edit"
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      data-bs-toggle="tooltip"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                      title="Delete"
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
                     </div>
-                    <div className="float-right my-2">
+
+                    <div className="d-flex justify-content-between align-items-center p-3">
+                      <p className="me-auto ">
+                        Show
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                        </select>{" "}
+                        Entries out of 100
+                      </p>
                       <Pagination
                         variant="outlined"
                         shape="rounded"
@@ -444,22 +523,24 @@ const ListLinkedin = () => {
           </div>
         </div>
       </div>
-      <Dialog>
+      <Dialog open={open}>
         <DialogContent>
           <div className="text-center p-4">
-            <h5 className="mb-4" style={{ fontSize: "14px" }}>
-              Are you sure you want to Delete <br /> the selected Product ?
-            </h5>
+            <h6 className="mb-4 text-capitalize">
+              Are you sure you want to delete the selected Blog?
+            </h6>
             <button
               type="button"
-              className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              className="btn btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              onClick={deleteClientData}
               style={{ fontSize: "12px" }}
             >
               Yes
             </button>
             <button
               type="button"
-              className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold text-uppercase "
+              className="btn btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase"
+              onClick={closePopup}
               style={{ fontSize: "12px" }}
             >
               No
@@ -523,8 +604,7 @@ const ListLinkedin = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 };
-
-export default ListLinkedin;
+export default ListBlog;

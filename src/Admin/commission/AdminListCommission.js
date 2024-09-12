@@ -293,9 +293,11 @@ export default function Masterproductlist() {
   }, []);
 
   const [statuses, setStatuses] = useState(
-    (commission && Array.isArray(commission)) ? commission.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+    commission && Array.isArray(commission)
+      ? commission.reduce((acc, _, index) => ({ ...acc, [index]: false }), {})
+      : {}
   );
-  
+
   // Toggle checkbox status
   const handleCheckboxChange = (index) => {
     setStatuses((prevStatuses) => ({
@@ -312,345 +314,392 @@ export default function Masterproductlist() {
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-      <div className="content-header bg-light shadow-sm sticky-top">
-  <div className="container-fluid">
-    <div className="row">
-      <div className="col-xl-12">
-        <ol className="d-flex flex-row flex-wrap  justify-content-end justify-content-sm-evenly align-items-center list-unstyled mb-0">
-          <li className="flex-grow-1 d-none d-md-block">
-            <div className="input-group" style={{ maxWidth: "600px" }}>
-              <input
-                type="search"
-                placeholder="Search....."
-                aria-describedby="button-addon3"
-                className="form-control border-1 border-dark rounded-4"
-                style={{ fontSize: '12px' }}
-              />
-              <span
-                className="input-group-text bg-transparent border-0"
-                id="button-addon3"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer",
-                }}
-              >
-                <i className="fas fa-search" style={{ color: "black" }}></i>
-              </span>
-            </div>
-          </li>
-          <li className="m-1">
-            <button
-              className="btn btn-primary border-0 rounded-1 text-white"
-              style={{ fontSize: "12px" }}
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight"
-            >
-              <FaFilter />
-            </button>
-          </li>
-          <div
-            className="offcanvas offcanvas-end"
-            tabIndex={-1}
-            id="offcanvasRight"
-            aria-labelledby="offcanvasRightLabel"
-          >
-            <div className="offcanvas-header">
-              <h5 id="offcanvasRightLabel">Filter Client</h5>
-              <button
-                type="button"
-                className="btn-close text-reset"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              />
-            </div>
-            <div className="offcanvas-body">
-              <form>
-                <div className="row g-4 mb-3">
-                
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="businessName"
-                    placeholder="Search...Client Name"
-                    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                  />
-                
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="businessContactNo"
-                    placeholder="Search...Client Contact No"
-                    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                  />
-                
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="status"
-                    placeholder="Search...Status"
-                    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                  />
-                  
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="clientID"
-                    placeholder="Search...Client Id"
-                    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                  />
-                </div>
-                <div>
-                  <button
-                    data-bs-dismiss="offcanvas"
-                    className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right"
-                    style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
+        <div className="content-header bg-light shadow-sm sticky-top">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12">
+                <ol className="d-flex flex-row flex-wrap  justify-content-end justify-content-sm-evenly align-items-center list-unstyled mb-0">
+                  <li className="flex-grow-1 d-none d-md-block">
+                    <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <input
+                        type="search"
+                        placeholder="Search....."
+                        aria-describedby="button-addon3"
+                        className="form-control border-1 border-dark rounded-4"
+                        style={{ fontSize: "12px" }}
+                      />
+                      <span
+                        className="input-group-text bg-transparent border-0"
+                        id="button-addon3"
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <i
+                          className="fas fa-search"
+                          style={{ color: "black" }}
+                        ></i>
+                      </span>
+                    </div>
+                  </li>
+                  <li className="m-1">
+                    <button
+                      className="btn btn-primary border-0 rounded-1 text-white"
+                      style={{ fontSize: "12px" }}
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                    >
+                      <FaFilter />
+                    </button>
+                  </li>
+                  <div
+                    className="offcanvas offcanvas-end"
+                    tabIndex={-1}
+                    id="offcanvasRight"
+                    aria-labelledby="offcanvasRightLabel"
                   >
-                    Reset
-                  </button>
-                  <button
-                    data-bs-dismiss="offcanvas"
-                    type="submit"
-                    className="btn btn-save border-0 fw-semibold  rounded-1  text-white float-right mx-2"
-                    style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
-                  >
-                    Apply
-                  </button>
-                </div>
-              </form>
+                    <div className="offcanvas-header">
+                      <h5 id="offcanvasRightLabel">Filter Client</h5>
+                      <button
+                        type="button"
+                        className="btn-close text-reset"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"
+                      />
+                    </div>
+                    <div className="offcanvas-body">
+                      <form>
+                        <div className="row g-4 mb-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="businessName"
+                            placeholder="Search...Client Name"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="businessContactNo"
+                            placeholder="Search...Client Contact No"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="status"
+                            placeholder="Search...Status"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="clientID"
+                            placeholder="Search...Client Id"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <button
+                            data-bs-dismiss="offcanvas"
+                            className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right"
+                            style={{
+                              backgroundColor: "#0f2239",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Reset
+                          </button>
+                          <button
+                            data-bs-dismiss="offcanvas"
+                            type="submit"
+                            className="btn btn-save border-0 fw-semibold  rounded-1  text-white float-right mx-2"
+                            style={{
+                              backgroundColor: "#fe5722",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <li className="m-1">
+                    <Link>
+                      <button
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#E12929", fontSize: "12px" }}
+                      >
+                        <i className="fa fa-file-pdf" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
+                  <li className="m-1">
+                    <Link>
+                      <button
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#22A033", fontSize: "12px" }}
+                      >
+                        <i className="fa fa-file-excel" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
+                  <li className="m-1">
+                    <Link>
+                      <button
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
+                      >
+                        <i className="fa fa-upload" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
+                  <li className="m-1">
+                    <Link to="/admin_add_commission">
+                      <button
+                        className="btn rounded-1 fw-semibold border-0 text-white"
+                        style={{ backgroundColor: "#231f20", fontSize: "12px" }}
+                      >
+                        <i
+                          className="fa fa-plus-circle me-2"
+                          aria-hidden="true"
+                        ></i>
+                        Add Commission
+                      </button>
+                    </Link>
+                  </li>
+                </ol>
+              </div>
             </div>
           </div>
-          <li className="m-1">
-            <Link>
-              <button
-                className="btn text-white border-0 rounded-1"
-                style={{ backgroundColor: "#E12929", fontSize: "12px" }}
-              >
-                <i className="fa fa-file-pdf" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link>
-              <button
-                className="btn text-white border-0 rounded-1"
-                style={{ backgroundColor: "#22A033", fontSize: "12px" }}
-              >
-                <i className="fa fa-file-excel" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link>
-              <button
-                className="btn text-white border-0 rounded-1"
-                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
-              >
-                <i className="fa fa-upload" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link to="/admin_add_commission">
-              <button
-                className="btn rounded-1 fw-semibold border-0 text-white"
-                style={{ backgroundColor: "#231f20", fontSize: "12px" }}
-              >
-                <i className="fa fa-plus-circle me-2" aria-hidden="true"></i>
-                Add Commission
-              </button>
-            </Link>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
+        </div>
 
-        
         <div className="container-fluid mt-3">
-  <div className="row">
-    <div className="col-xl-12">
-      <div className="card rounded-1 shadow-sm border-0">
-      <div className="card-header bg-white mb-0 mt-1 pb-0">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="card rounded-1 shadow-sm border-0">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex  mb-0">
                     <p className="me-auto ">
                       Change
                       <select
                         className="form-select form-select-sm rounded-1 d-inline mx-2"
                         aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                        style={{
+                          width: "auto",
+                          display: "inline-block",
+                          fontSize: "12px",
+                        }}
                       >
                         <option value="5">Active</option>
                         <option value="10">InActive</option>
                         <option value="20">Delete</option>
                       </select>{" "}
-
                     </p>
-
-
                   </div>
                 </div>
-        <div className="card-body">
-          <div className="card-table">
-            <div className="table-responsive">
-              <table
-                className="table card-table table-hover dataTable text-center"
-                style={{ color: "#9265cc", fontSize: "12px" }}
-                ref={tableRef}
-              >
-                <thead className="table-light" style={{fontSize:'12px'}}>
-                  <tr>
-                  <th className=" text-start">
-                            <input type="checkbox" />
-                            </th>
-                    <th className="text-capitalize text-start sortable-handle">
-                      S No
-                    </th>
-                    <th className="text-capitalize text-start sortable-handle">
-                      University Name   <i className="fa fa-filter" aria-hidden="true"></i>
-                    </th>
-                    <th className="text-capitalize text-start sortable-handle">
-                      Country   <i className="fa fa-filter" aria-hidden="true"></i>
-                    </th>
-                    <th className="text-capitalize text-start sortable-handle">
-                      Commission   <i className="fa fa-filter" aria-hidden="true"></i>
-                    </th>
-                    <th className="text-capitalize text-start sortable-handle">
-                      Payment Type   <i className="fa fa-filter" aria-hidden="true"></i>
-                    </th>
-                    <th className="text-capitalize text-start sortable-handle">
-                     Status  <i className="fa fa-filter" aria-hidden="true"></i>
-                    </th>
-                    <th className="text-capitalize text-start sortable-handle">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody style={{fontSize:'11px'}}>
-                  {commission.map((data, index) => (
-                    <tr key={index}>
-                      <td className=" text-start">
-                              <input type="checkbox" />
-                              </td>
-                      <td className="text-capitalize text-start text-truncate">
-                        {pagination.from + index + 1}
-                      </td>
-                      <td className="text-capitalize text-start text-truncate">
-                        {data?.universityName || "Not Available"}
-                      </td>
-                      <td className="text-capitalize text-start text-truncate">
-                        {data?.country || "Not Available"}
-                      </td>
-                    
-                      <td className="text-capitalize text-start text-truncate">
-                        <Link
-                          className="dropdown-item"
-                          to={{
-                            pathname: "/admin_admin_view_commission",
-                            search: `?id=${data?._id}`,
-                          }}
+                <div className="card-body">
+                  <div className="card-table">
+                    <div className="table-responsive">
+                      <table
+                        className="table card-table table-hover dataTable text-center"
+                        style={{ color: "#9265cc", fontSize: "12px" }}
+                        ref={tableRef}
+                      >
+                        <thead
+                          className="table-light"
+                          style={{ fontSize: "12px" }}
                         >
-                          {data.years?.map((year, yearIndex) => (
-                            <div key={yearIndex}>
-                              {year?.year || "Not Available"} _
-                              {year?.courseTypes?.length > 0
-                                ? `${year?.courseTypes[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _${year?.courseTypes[0]?.value}`
-                                : "Not Available"}   {" ,"}
-                            </div>
+                          <tr>
+                            <th className=" text-start">
+                              <input type="checkbox" />
+                            </th>
+                            <th className="text-capitalize text-start sortable-handle">
+                              S No
+                            </th>
+                            <th className="text-capitalize text-start sortable-handle">
+                              University Name{" "}
+                              <i
+                                className="fa fa-filter"
+                                aria-hidden="true"
+                              ></i>
+                            </th>
+                            <th className="text-capitalize text-start sortable-handle">
+                              Country{" "}
+                              <i
+                                className="fa fa-filter"
+                                aria-hidden="true"
+                              ></i>
+                            </th>
+                            <th className="text-capitalize text-start sortable-handle">
+                              Commission{" "}
+                              <i
+                                className="fa fa-filter"
+                                aria-hidden="true"
+                              ></i>
+                            </th>
+                            <th className="text-capitalize text-start sortable-handle">
+                              Payment Type{" "}
+                              <i
+                                className="fa fa-filter"
+                                aria-hidden="true"
+                              ></i>
+                            </th>
+                            <th className="text-capitalize text-start sortable-handle">
+                              Status{" "}
+                              <i
+                                className="fa fa-filter"
+                                aria-hidden="true"
+                              ></i>
+                            </th>
+                            <th className="text-capitalize text-start sortable-handle">
+                              Action
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: "11px" }}>
+                          {commission.map((data, index) => (
+                            <tr key={index}>
+                              <td className=" text-start">
+                                <input type="checkbox" />
+                              </td>
+                              <td className="text-capitalize text-start text-truncate">
+                                {pagination.from + index + 1}
+                              </td>
+                              <td className="text-capitalize text-start text-truncate">
+                                {data?.universityName || "Not Available"}
+                              </td>
+                              <td className="text-capitalize text-start text-truncate">
+                                {data?.country || "Not Available"}
+                              </td>
+
+                              <td className="text-capitalize text-start text-truncate">
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/admin_view_commission",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  {data.years?.map((year, yearIndex) => (
+                                    <div key={yearIndex}>
+                                      {year?.year || "Not Available"} _
+                                      {year?.courseTypes?.length > 0
+                                        ? `${year?.courseTypes[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _${year?.courseTypes[0]?.value}`
+                                        : "Not Available"}{" "}
+                                      {" ,"}
+                                    </div>
+                                  ))}
+                                </Link>
+                              </td>
+                              <td className="text-capitalize text-start text-truncate">
+                                {data?.paymentType || "Not Available"}
+                              </td>
+                              <td className="text-capitalize text-start ">
+                                {statuses[index] ? "Active" : "Inactive"}
+                                <span className="form-check form-switch d-inline ms-2">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    role="switch"
+                                    id={`flexSwitchCheckDefault${index}`}
+                                    checked={statuses[index] || false}
+                                    onChange={() => handleCheckboxChange(index)}
+                                  />
+                                </span>
+                              </td>
+                              <td>
+                                <div className="d-flex">
+                                  <Link
+                                    className="dropdown-item"
+                                    to={{
+                                      pathname: "/admin_view_commission",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                    data-bs-toggle="tooltip"
+                                    title="View"
+                                  >
+                                    <i className="far fa-eye text-primary me-1"></i>
+                                  </Link>
+                                  <Link
+                                    className="dropdown-item"
+                                    to={{
+                                      pathname: "/admin_edit_commission",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                    data-bs-toggle="tooltip"
+                                    title="Edit"
+                                  >
+                                    <i className="far fa-edit text-warning me-1"></i>
+                                  </Link>
+                                  <Link
+                                    className="dropdown-item"
+                                    onClick={() => openPopup(data?._id)}
+                                  >
+                                    <i className="far fa-trash-alt text-danger me-1"></i>
+                                  </Link>
+                                </div>
+                              </td>
+                            </tr>
                           ))}
-                        </Link>
-                      </td>
-                      <td className="text-capitalize text-start text-truncate">
-                        {data?.paymentType || "Not Available"}
-                      </td>
-                      <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
-                      <td>
-                        <div className="d-flex">
-                          <Link
-                            className="dropdown-item"
-                            to={{
-                              pathname: "/admin_view_commission",
-                              search: `?id=${data?._id}`,
-                            }}
-                            data-bs-toggle="tooltip"
-                            title="View"
-                          >
-                            <i className="far fa-eye text-primary me-1"></i>
-                          </Link>
-                          <Link
-                            className="dropdown-item"
-                            to={{
-                              pathname: "/admin_edit_commission",
-                              search: `?id=${data?._id}`,
-                            }}
-                            data-bs-toggle="tooltip"
-                            title="Edit"
-                          >
-                            <i className="far fa-edit text-warning me-1"></i>
-                          </Link>
-                          <Link
-                            className="dropdown-item"
-                            onClick={() => openPopup(data?._id)}
-                          >
-                            <i className="far fa-trash-alt text-danger me-1"></i>
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center p-3">
+                  <p className="me-auto ">
+                    Show
+                    <select
+                      className="form-select form-select-sm rounded-1 d-inline mx-2"
+                      aria-label="Default select example1"
+                      style={{
+                        width: "auto",
+                        display: "inline-block",
+                        fontSize: "12px",
+                      }}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>{" "}
+                    Entries out of 100
+                  </p>
+                  <Pagination
+                    count={Math.ceil(pagination.count / pageSize)}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          
         </div>
-
-        <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
-          <Pagination
-            count={Math.ceil(pagination.count / pageSize)}
-            onChange={handlePageChange}
-            variant="outlined"
-            shape="rounded"
-            color="primary"
-          />
-        </div>
-       
-      </div>
-    </div>
-  </div>
-</div>
-
-       
       </div>
       <Dialog open={open}>
         <DialogContent>
@@ -707,7 +756,7 @@ export default function Masterproductlist() {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
                 style={{
                   backgroundColor: "#0f2239",

@@ -129,11 +129,9 @@ function AddCommission() {
       error.years.required = true;
     }
 
-
-
     return error;
   };
- 
+
   const handleYearChange = (yearIndex, fieldName, value) => {
     const updatedYears = [...commission.years];
     updatedYears[yearIndex][fieldName] = value;
@@ -159,9 +157,9 @@ function AddCommission() {
     value
   ) => {
     const updatedYears = [...commission.years];
-    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake[
-      intakeIndex
-    ][fieldName] = value;
+    updatedYears[yearIndex].courseTypes[courseTypeIndex].inTake[intakeIndex][
+      fieldName
+    ] = value;
     setCommission({ ...commission, years: updatedYears });
   };
 
@@ -185,7 +183,6 @@ function AddCommission() {
       years: prevState.years.filter((_, index) => index !== indexToRemove),
     }));
   };
-  
 
   const addCourseType = (yearIndex) => {
     const updatedYears = [...commission.years];
@@ -292,7 +289,7 @@ function AddCommission() {
       setErrors(newError);
     }
   };
-    const handleErrors = (obj) => {
+  const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const prop = obj[key];
@@ -304,7 +301,6 @@ function AddCommission() {
     return true;
   };
 
- 
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -348,7 +344,6 @@ function AddCommission() {
     }
   };
 
-
   return (
     <>
       <Sidebar />
@@ -358,403 +353,450 @@ function AddCommission() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-
-        <BackButton/>
-        
+          <BackButton />
         </div>
         <div className="container-fluid">
-            <form onSubmit={handleSubmit}>
-              <div className="row">
-                <div className="col-xl-12">
-                  <div className="card border-0 rounded-1 shadow-sm p-3 position-relative">
-                    <div
-                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                      style={{ background: "#fe5722", color: "#fff" }}
-                    >
-                      <h5 className="text-center text-capitalize p-1">
-                        Add Commission Details
-                      </h5>
-                    </div>
-                    <div className="card-body mt-5">
-                      <div className="row g-3">
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Country<span className="text-danger">*</span>
-                          </label>
-                          <select
-                           class={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''}`}
-                            name="country"
-                            value={commission.country}
-                            onChange={handleCountryChange}
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <option value="">Select Country</option>
-                            {countries.map((country) => (
-                              <option key={country._id} value={country.country}>
-                                {country.country}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.country.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : null}
-                        </div>
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card border-0 rounded-1 shadow-sm p-3 position-relative">
+                  <div
+                    className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                    style={{ background: "#fe5722", color: "#fff" }}
+                  >
+                    <h5 className="text-center text-capitalize p-1">
+                      Add Commission Details
+                    </h5>
+                  </div>
+                  <div className="card-body mt-5">
+                    <div className="row g-3">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label style={{ color: "#231F20" }}>
+                          Country<span className="text-danger">*</span>
+                        </label>
+                        <select
+                          class={`form-select form-select-lg rounded-1 ${
+                            errors.country.required ? "is-invalid" : ""
+                          }`}
+                          name="country"
+                          value={commission.country}
+                          onChange={handleCountryChange}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="">Select Country</option>
+                          {countries.map((country) => (
+                            <option key={country._id} value={country.country}>
+                              {country.country}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.country.required ? (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        ) : null}
+                      </div>
 
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            University<span className="text-danger">*</span>
-                          </label>
-                          <select
-                           class={`form-select form-select-lg rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
-                            name="universityName"
-                            value={commission.universityName}
-                            onChange={handleInputs}
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <option value="">Select University</option>
-                            {universities.map((uni) => (
-                              <option key={uni._id} value={uni.universityName}>
-                                {uni.universityName}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.universityName.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : null}
-                        </div>
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label style={{ color: "#231F20" }}>
+                          University<span className="text-danger">*</span>
+                        </label>
+                        <select
+                          class={`form-select form-select-lg rounded-1 ${
+                            errors.universityName.required ? "is-invalid" : ""
+                          }`}
+                          name="universityName"
+                          value={commission.universityName}
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="">Select University</option>
+                          {universities.map((uni) => (
+                            <option key={uni._id} value={uni.universityName}>
+                              {uni.universityName}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.universityName.required ? (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        ) : null}
+                      </div>
 
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
-                          <label style={{ color: "#231F20" }}>
-                            {" "}
-                            University Id
-                            <span className="text-danger">*</span>
-                          </label>
-                          <select
-                            onChange={handleInputs}
-                            value={commission?.universityName ?? ""}
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+                        <label style={{ color: "#231F20" }}>
+                          {" "}
+                          University Id
+                          <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          onChange={handleInputs}
+                          value={commission?.universityName ?? ""}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          className="form-select rounded-2 p-2 "
+                          name="universityId"
+                        >
+                          <option
+                            value={""}
+                            disabled
+                            hidden
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="form-select rounded-2 p-2 "
-                            name="universityId"
                           >
+                            Select UniversityId
+                          </option>
+                          {universities.map((data, index) => (
                             <option
-                              value={""}
-                              disabled
-                              hidden
+                              key={index}
+                              value={data?.universityId}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
                             >
-                              Select UniversityId
+                              {" "}
+                              {data?.universityName}
                             </option>
-                            {universities.map((data, index) => (
-                              <option
-                                key={index}
-                                value={data?.universityId}
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label style={{ color: "#231F20" }}>
+                          Payment Method<span className="text-danger">*</span>
+                        </label>
+                        <select
+                          class={`form-select form-select-lg rounded-1 ${
+                            errors.paymentMethod.required ? "is-invalid" : ""
+                          }`}
+                          name="paymentMethod"
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="">Select Payment Type</option>
+                          <option value="Fixed">Fixed Amount</option>
+                          <option value="Percentage">Percentage</option>
+                        </select>
+                        {errors.paymentMethod.required ? (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="row g-2">
+                        {commission.paymentMethod === "Percentage" ? (
+                          <div className="row g-2">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Commission Paid On
+                                <span className="text-danger">*</span>
+                              </label>
+                              <select
+                                className="form-select form-select-lg rounded-2"
+                                name="commissionPaidOn"
+                                onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                               >
-                                {" "}
-                                {data?.universityName}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Payment Method<span className="text-danger">*</span>
-                          </label>
-                          <select
-                          class={`form-select form-select-lg rounded-1 ${errors.paymentMethod.required ? 'is-invalid' : ''}`}
-                            name="paymentMethod"
-                            onChange={handleInputs}
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <option value="">Select Payment Type</option>
-                            <option value="Fixed">Fixed Amount</option>
-                            <option value="Percentage">Percentage</option>
-                          </select>
-                          {errors.paymentMethod.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : null}
-                        </div>
-                        <div className="row g-2">
-                          {commission.paymentMethod === "Percentage" ? (
-                            <div className="row g-2">
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Commission Paid On
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select form-select-lg rounded-2"
-                                  name="commissionPaidOn"
-                                  onChange={handleInputs}
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  <option value="">
-                                    Select Commission Paid On
-                                  </option>
-                                  <option value="CourseFees">Net Fees</option>
-                                  <option value="PaidFees">Paid Fees</option>
-                                  <option value="PaidFees">Gross Fees</option>
-                                </select>
-                              </div>
+                                <option value="">
+                                  Select Commission Paid On
+                                </option>
+                                <option value="CourseFees">Net Fees</option>
+                                <option value="PaidFees">Paid Fees</option>
+                                <option value="PaidFees">Gross Fees</option>
+                              </select>
                             </div>
-                          ) : null}
-                        </div>
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Eligibility<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={commission?.eligibility}
-                            className={`form-control rounded-1 ${errors.eligibility.required ? 'is-invalid' : errors.eligibility.valid ? 'is-valid' : '' }`}
-                            placeholder="Enter Eligibility"
-                            name="eligibility"
-                            onChange={handleInputs}
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          />
-                          {errors.eligibility.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Tax<span className="text-danger">*</span>
-                          </label>
-                          <select
-                        class={`form-select form-select-lg rounded-1 ${errors.tax.required ? 'is-invalid' : ''}`}
-                            name="tax"
-                            onChange={handleInputs}
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            displayEmpty
-                            inputProps={{ "aria-label": "Without label" }}
-                          >
-                            <option value="">Select Tax</option>
-                            {tax.map((data, index) => (
-                              <option key={index} value={data?.tax}>
-                                {" "}
-                                {data?.tax}
-                              </option>
-                            ))}
-                          </select>
-
-                          {errors.tax.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : null}
-                        </div>
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                          <label style={{ color: "#231F20" }}>
-                            Client Name<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={commission?.clientName}
-                            className={`form-control rounded-1 ${errors.clientName.required ? 'is-invalid' : errors.clientName.valid ? 'is-valid' : '' }`}
-                            placeholder="Enter Client Name"
-                            name="clientName"
-                            onChange={handleInputs}
-                          />
-                          {errors.clientName.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : null}
-                        </div>
-
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  visually-hidden">
-                          <label style={{ color: "#231F20" }}>Currency</label>
-                          <div sm="9" className="d-flex align-items-center">
-                            {commission.flag && (
-                              <Flags
-                                code={commission.flag}
-                                className="me-2"
-                                style={{ width: "40px", height: "30px" }}
-                                onChange={handleInputs}
-                                name="flag"
-                              />
-                            )}
-                            <input
-                              className="form-control rounded-2"
-                              type="text"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleInputs}
-                              name="currency"
-                              value={`${commission.currency}`}
-                              readOnly
-                            />
                           </div>
-                          {errors.currency.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
-                        </div>
+                        ) : null}
+                      </div>
 
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Payment Type<span className="text-danger">*</span>
-                          </label>
-                          <select
-                           className={`form-control rounded-1 ${errors.paymentType.required ? 'is-invalid' : errors.paymentType.valid ? 'is-valid' : '' }`}
-                            value={commission?.paymentType}
-                            aria-label="Default select example"
-                            name="paymentType"
-                            onChange={handleInputs}
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label style={{ color: "#231F20" }}>
+                          Eligibility<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={commission?.eligibility}
+                          className={`form-control rounded-1 ${
+                            errors.eligibility.required
+                              ? "is-invalid"
+                              : errors.eligibility.valid
+                              ? "is-valid"
+                              : ""
+                          }`}
+                          placeholder="Enter Eligibility"
+                          name="eligibility"
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        />
+                        {errors.eligibility.required && (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label style={{ color: "#231F20" }}>
+                          Tax<span className="text-danger">*</span>
+                        </label>
+                        <select
+                          class={`form-select form-select-lg rounded-1 ${
+                            errors.tax.required ? "is-invalid" : ""
+                          }`}
+                          name="tax"
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          displayEmpty
+                          inputProps={{ "aria-label": "Without label" }}
+                        >
+                          <option value="">Select Tax</option>
+                          {tax.map((data, index) => (
+                            <option key={index} value={data?.tax}>
+                              {" "}
+                              {data?.tax}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.tax.required ? (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                        <label style={{ color: "#231F20" }}>
+                          Client Name<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={commission?.clientName}
+                          className={`form-control rounded-1 ${
+                            errors.clientName.required
+                              ? "is-invalid"
+                              : errors.clientName.valid
+                              ? "is-valid"
+                              : ""
+                          }`}
+                          placeholder="Enter Client Name"
+                          name="clientName"
+                          onChange={handleInputs}
+                        />
+                        {errors.clientName.required ? (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12  visually-hidden">
+                        <label style={{ color: "#231F20" }}>Currency</label>
+                        <div sm="9" className="d-flex align-items-center">
+                          {commission.flag && (
+                            <Flags
+                              code={commission.flag}
+                              className="me-2"
+                              style={{ width: "40px", height: "30px" }}
+                              onChange={handleInputs}
+                              name="flag"
+                            />
+                          )}
+                          <input
+                            className="form-control rounded-2"
+                            type="text"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                          >
-                            <option value=""> Select Payment Type</option>
-                            <option value="One_Time">One Time</option>
-                            <option value="Semester"> Semester </option>
-                          </select>
-                          {errors.paymentType.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : null}
+                            onChange={handleInputs}
+                            name="currency"
+                            value={`${commission.currency}`}
+                            readOnly
+                          />
                         </div>
+                        {errors.currency.required ? (
+                          <div className="text-danger form-text">
+                            This field is required.
+                          </div>
+                        ) : null}
+                      </div>
 
-                        <div className="row g-3 mt-3">
-                          <div className="col-12">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label style={{ color: "#231F20" }}>
+                          Payment Type<span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`form-control rounded-1 ${
+                            errors.paymentType.required
+                              ? "is-invalid"
+                              : errors.paymentType.valid
+                              ? "is-valid"
+                              : ""
+                          }`}
+                          value={commission?.paymentType}
+                          aria-label="Default select example"
+                          name="paymentType"
+                          onChange={handleInputs}
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value=""> Select Payment Type</option>
+                          <option value="One_Time">One Time</option>
+                          <option value="Semester"> Semester </option>
+                        </select>
+                        {errors.paymentType.required ? (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <div className="row g-3 mt-3">
+                        <div className="col-12">
                           {commission.years.map((year, yearIndex) => (
                             <div className="row g-3">
-            <div key={yearIndex}>
-               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div className="form-group">
-                <label>Year</label>
-                <select
-                  name="year"
-                  className={`form-select rounded-1 ${errors.years.required ? "is-invalid" : ""
-                    }`}
-                  value={year.year}
-                  onChange={(e) =>
-                    handleYearChange(yearIndex, "year", e.target.value)
-                  }
-                >
-                  <option value="">Select Year</option>
-                  {yearOptions.map((yearOption) => (
-                    <option key={yearOption.value} value={yearOption.value}>
-                      {yearOption.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.years.required && (
-                  <div className="invalid-feedback">Year is required</div>
-                )}
-              </div>
-              </div>
-              {year.courseTypes.map((courseType, courseTypeIndex) => (
-                 
-                <div >
-                
-                  <div key={courseTypeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label>Course Type</label>
-                   
-                    <select
-                      name="courseType"
-                      className={`form-select rounded-1 ${errors.courseType?.required ? "is-invalid" : ""
-                        }`}
-                      value={courseType.courseType}
-                      onChange={(e) =>
-                        handleCourseTypeChange(
-                          yearIndex,
-                          courseTypeIndex,
-                          "courseType",
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="">Select Course Type</option>
-                      {(
-                                                  universities.find(
-                                                    (uni) =>
-                                                      uni.universityName ===
-                                                      commission.universityName
-                                                  )?.courseType || []
-                                                ).map((type, idx) => (
-                                                  <option
-                                                    key={idx}
-                                                    value={type}
-                                                  >
-                                                    {type}
-                                                  </option>
-                                                ))}
-                    </select>
-                    {errors.courseType?.required && (
-                      <div className="invalid-feedback">
-                        Course Type is required
-                      </div>
-                    )}
-                  </div>
-              
+                              <div key={yearIndex}>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                  <div className="form-group">
+                                    <label>Year</label>
+                                    <select
+                                      name="year"
+                                      className={`form-select rounded-1 ${
+                                        errors.years.required
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
+                                      value={year.year}
+                                      onChange={(e) =>
+                                        handleYearChange(
+                                          yearIndex,
+                                          "year",
+                                          e.target.value
+                                        )
+                                      }
+                                    >
+                                      <option value="">Select Year</option>
+                                      {yearOptions.map((yearOption) => (
+                                        <option
+                                          key={yearOption.value}
+                                          value={yearOption.value}
+                                        >
+                                          {yearOption.label}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    {errors.years.required && (
+                                      <div className="invalid-feedback">
+                                        Year is required
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                                {year.courseTypes.map(
+                                  (courseType, courseTypeIndex) => (
+                                    <div>
+                                      <div
+                                        key={courseTypeIndex}
+                                        className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+                                      >
+                                        <label>Course Type</label>
 
-                  {courseType.inTake.map((intake, intakeIndex) => (
-                    
-                      <div className="row g-2">
-                      <div  key={intakeIndex} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label>Intake</label>
-                     <select
-                        name="inTake"
-                        className={`form-control ${errors.inTake?.required ? "is-invalid" : ""
-                          }`}
-                        value={intake.inTake}
-                        onChange={(e) =>
-                          handleIntakeChange(
-                            yearIndex,
-                            courseTypeIndex,
-                            intakeIndex,
-                            "inTake",
-                            e.target.value
-                          )
-                        }
-                      >
-                        <option value="">Select Intake</option>
-                        {(
+                                        <select
+                                          name="courseType"
+                                          className={`form-select rounded-1 ${
+                                            errors.courseType?.required
+                                              ? "is-invalid"
+                                              : ""
+                                          }`}
+                                          value={courseType.courseType}
+                                          onChange={(e) =>
+                                            handleCourseTypeChange(
+                                              yearIndex,
+                                              courseTypeIndex,
+                                              "courseType",
+                                              e.target.value
+                                            )
+                                          }
+                                        >
+                                          <option value="">
+                                            Select Course Type
+                                          </option>
+                                          {(
+                                            universities.find(
+                                              (uni) =>
+                                                uni.universityName ===
+                                                commission.universityName
+                                            )?.courseType || []
+                                          ).map((type, idx) => (
+                                            <option key={idx} value={type}>
+                                              {type}
+                                            </option>
+                                          ))}
+                                        </select>
+                                        {errors.courseType?.required && (
+                                          <div className="invalid-feedback">
+                                            Course Type is required
+                                          </div>
+                                        )}
+                                      </div>
+
+                                      {courseType.inTake.map(
+                                        (intake, intakeIndex) => (
+                                          <div className="row g-2">
+                                            <div
+                                              key={intakeIndex}
+                                              className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+                                            >
+                                              <label>Intake</label>
+                                              <select
+                                                name="inTake"
+                                                className={`form-control ${
+                                                  errors.inTake?.required
+                                                    ? "is-invalid"
+                                                    : ""
+                                                }`}
+                                                value={intake.inTake}
+                                                onChange={(e) =>
+                                                  handleIntakeChange(
+                                                    yearIndex,
+                                                    courseTypeIndex,
+                                                    intakeIndex,
+                                                    "inTake",
+                                                    e.target.value
+                                                  )
+                                                }
+                                              >
+                                                <option value="">
+                                                  Select Intake
+                                                </option>
+                                                {(
                                                   universities.find(
                                                     (uni) =>
                                                       uni.universityName ===
@@ -768,150 +810,153 @@ function AddCommission() {
                                                     {type}
                                                   </option>
                                                 ))}
-                      </select>
-                      </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label>Value</label>
-                      <input
-                        type="text"
-                        name="value"
-                        className="form-control"
-                        value={intake.value}
-                        onChange={(e) =>
-                          handleIntakeChange(
-                            yearIndex,
-                            courseTypeIndex,
-                            intakeIndex,
-                            "value",
-                            e.target.value
-                          )
-                        }
-                      />
-                      </div>
+                                              </select>
+                                            </div>
+                                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                              <label>Value</label>
+                                              <input
+                                                type="text"
+                                                name="value"
+                                                className="form-control"
+                                                value={intake.value}
+                                                onChange={(e) =>
+                                                  handleIntakeChange(
+                                                    yearIndex,
+                                                    courseTypeIndex,
+                                                    intakeIndex,
+                                                    "value",
+                                                    e.target.value
+                                                  )
+                                                }
+                                              />
+                                            </div>
 
-                      <div className='d-inline text-end'>
-                      <button
-                      type="button"
-                     
-                      className="btn rounded-1 btn-danger "
-                      onClick={() =>
-                        removeIntake(yearIndex, courseTypeIndex, intakeIndex)
-                      }
-                    >
-                      <FaTrash /> Remove Intake
-                    </button>
-                   
-                      </div>
-                    
-                     
-                      </div>
-                     
-                  ))}
+                                            <div className="d-inline text-end">
+                                              <button
+                                                type="button"
+                                                className="btn rounded-1 btn-danger "
+                                                onClick={() =>
+                                                  removeIntake(
+                                                    yearIndex,
+                                                    courseTypeIndex,
+                                                    intakeIndex
+                                                  )
+                                                }
+                                              >
+                                                <FaTrash /> Remove Intake
+                                              </button>
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
 
-
-
-
-
-
-
-
-<div className=' text-en my-1'>
-<button
-                    type="button"
-                    className="btn rounded-1 btn-secondary"
-                    onClick={() => addIntake(yearIndex, courseTypeIndex)}
-                  >
-                 <i class="fa fa-plus-circle" aria-hidden="true"></i>   Add Intake
-                  </button>
-</div>
-<div className=' text-end my-1'>
-<button
-                    type="button"
-                    className="btn rounded-1 btn-danger"
-                    onClick={() =>
-                      removeCourseType(yearIndex, courseTypeIndex)
-                    }
-                  >
-                    <FaTrash /> Remove Course 
-                  </button>
-</div>
-                 
-
-                 
-                </div>
-               
-              ))}
-<div className=' text-start'>
-<button
-                type="button"
-                className="btn rounded-1 btn-secondary"
-                onClick={() => addCourseType(yearIndex)}
-              >
-               <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Course 
-              </button>
-</div>
-             
-            </div>
-            </div>
-          ))}
-                          </div>
-                        </div>
-                        <div className="row g-3 ">
-                          <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto my-3">
-                            <button
-                              type="button"
-                              className="btn rounded-1 border-0 fw-semibold  text-white "
-                              style={{
-                                backgroundColor: "#FE5722",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              onClick={addYear}
-                            >
-                              <i
-                                class="fa fa-plus-circle me-2"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              Add Year
-                            </button>
-
-                          </div>
-                          
+                                      <div className=" text-en my-1">
+                                        <button
+                                          type="button"
+                                          className="btn rounded-1 btn-secondary"
+                                          onClick={() =>
+                                            addIntake(
+                                              yearIndex,
+                                              courseTypeIndex
+                                            )
+                                          }
+                                        >
+                                          <i
+                                            class="fa fa-plus-circle"
+                                            aria-hidden="true"
+                                          ></i>{" "}
+                                          Add Intake
+                                        </button>
+                                      </div>
+                                      <div className=" text-end my-1">
+                                        <button
+                                          type="button"
+                                          className="btn rounded-1 btn-danger"
+                                          onClick={() =>
+                                            removeCourseType(
+                                              yearIndex,
+                                              courseTypeIndex
+                                            )
+                                          }
+                                        >
+                                          <FaTrash /> Remove Course
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )
+                                )}
+                                <div className=" text-start">
+                                  <button
+                                    type="button"
+                                    className="btn rounded-1 btn-secondary"
+                                    onClick={() => addCourseType(yearIndex)}
+                                  >
+                                    <i
+                                      class="fa fa-plus-circle"
+                                      aria-hidden="true"
+                                    ></i>{" "}
+                                    Add Course
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
-
-                      <div className="row g-2">
-                        <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
-                          <Link
-                            to="/admin_list_commission"
-                            style={{
-                              backgroundColor: "#231F20",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            className="btn rounded-1 btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                          >
-                            Cancel
-                          </Link>
+                      <div className="row g-3 ">
+                        <div className="add-customer-btns mb-40 d-flex justify-content-start ml-auto my-3">
                           <button
+                            type="button"
+                            className="btn rounded-1 border-0 fw-semibold  text-white "
                             style={{
                               backgroundColor: "#FE5722",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            type="submit"
-                            className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                            onClick={addYear}
                           >
-                            Submit
+                            <i
+                              class="fa fa-plus-circle me-2"
+                              aria-hidden="true"
+                            ></i>{" "}
+                            Add Year
                           </button>
                         </div>
+                      </div>
+                    </div>
+
+                    <div className="row g-2">
+                      <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
+                        <Link
+                          to="/admin_list_commission"
+                          style={{
+                            backgroundColor: "#231F20",
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          className="btn rounded-1 btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                        >
+                          Cancel
+                        </Link>
+                        <button
+                          style={{
+                            backgroundColor: "#FE5722",
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          type="submit"
+                          className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
+                        >
+                          Submit
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

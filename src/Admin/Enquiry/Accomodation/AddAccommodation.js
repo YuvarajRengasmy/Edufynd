@@ -5,8 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { getallUniversity } from "../../../api/university";
 import { getFilterCountry } from "../../../api/globalsettings";
 import { getallCode } from "../../../api/settings/dailcode";
-import {getFilterSource} from "../../../api/settings/source";
-import{getallStudent} from "../../../api/student";
+import { getFilterSource } from "../../../api/settings/source";
+import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
 import { getAdminIdId } from "../../../Utils/storage";
@@ -21,20 +21,20 @@ export const AddAccommodation = () => {
     name: "",
     passportNumber: "",
     expiryDate: "",
-    email:"",
+    email: "",
     primaryNumber: "",
     whatsAppNumber: "",
     universityName: "",
     courseType: "",
     accommodationType: "",
-    
-    country:"",
-    state:"",
-    lga:"",
+
+    country: "",
+    state: "",
+    lga: "",
     dial1: "",
     dial2: "",
-    dial3:"",
-    dial4:"",  
+    dial3: "",
+    dial4: "",
     agentName: "",
     businessName: "",
     agentPrimaryNumber: "",
@@ -67,12 +67,12 @@ export const AddAccommodation = () => {
     dial2: { required: false },
     dial3: { required: false },
     dial4: { required: false },
-   
+
     final: { required: false },
     assignedTo: { required: false },
   };
   const [forex, setForex] = useState(initialState);
-  const [source ,setSource] = useState([]);
+  const [source, setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setForexs] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
@@ -163,11 +163,9 @@ export const AddAccommodation = () => {
       });
   };
   const getAllSourceDetails = () => {
-  
     getFilterSource()
       .then((res) => {
         setSource(res?.data?.result?.sourceList || []);
-       
       })
       .catch((err) => {
         console.log(err);
@@ -215,15 +213,14 @@ export const AddAccommodation = () => {
     if (!data.name) {
       error.name.required = true;
     }
-    
-   
+
     if (!data.passportNumber) {
       error.passportNo.required = true;
     }
     if (!data.expiryDate) {
       error.expiryDate.required = true;
     }
-   
+
     if (!data.email) {
       error.email.required = true;
     }
@@ -245,7 +242,7 @@ export const AddAccommodation = () => {
     if (!data.assignedTo) {
       error.assignedTo.required = true;
     }
-     if (!data.final) {
+    if (!data.final) {
       error.final.required = true;
     }
     if (!isValidEmail(data.email)) {
@@ -262,10 +259,10 @@ export const AddAccommodation = () => {
   };
   const handleInputs = (event) => {
     const { name, value } = event.target;
-  
+
     setForex((prevProgram) => {
       const updatedProgram = { ...prevProgram, [name]: value };
-  
+
       if (name === "agentName") {
         const selectedAgent = agent.find((u) => u.agentName === value);
         if (selectedAgent) {
@@ -276,13 +273,13 @@ export const AddAccommodation = () => {
             agentWhatsAppNumber: selectedAgent.whatsAppNumber,
             agentEmail: selectedAgent.email,
             dial1: selectedAgent.dial1,
-            dial2: selectedAgent.dial2
+            dial2: selectedAgent.dial2,
           };
         }
-      } 
+      }
       return updatedProgram;
     });
-  
+
     if (submitted) {
       const newError = handleValidation({
         ...forex,
@@ -291,7 +288,7 @@ export const AddAccommodation = () => {
       setErrors(newError);
     }
   };
- 
+
   const getCountryRegionInstance = () => {
     return new CountryRegion();
   };
@@ -391,8 +388,8 @@ export const AddAccommodation = () => {
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
-    }
-    if (handleErrors(newError)){
+    };
+    if (handleErrors(newError)) {
       saveAccommodationEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
@@ -401,11 +398,10 @@ export const AddAccommodation = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
+    } else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
-
 
   const customStyles = {
     control: (provided) => ({
@@ -444,269 +440,324 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="card-body mt-5">
                       <div className="row g-3">
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <label className="form-label" for="inputEmail4">
-                          Source
-                        </label>
-                        <select
-                          onChange={handleInputs}
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
-                          name="source"
-                          value={forex?.source}
-                        >
-                          <option value="">Select Source</option>
-                          {source.length > 0 ? (
-                          source.map((data, index) => (
-                          <option key={index} value={data.sourceName}>
-                          {data.sourceName}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">No Source Found</option>
-                  )}
-                        
-                          <option value="others">Others</option>
-                        </select>
-                        {errors.source.required ? (
-                          <div className="text-danger form-text">
-                            This field is required.
-                          </div>
-                        ) : null}
-                      </div>
-
-                      {forex.source === "Student" ? (
-                    <div className="row g-3">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputAgentName">
-                            Name
+                          <label className="form-label" for="inputEmail4">
+                            Source
                           </label>
                           <select
-                          onChange={handleInputs}
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          className="form-select form-select-lg rounded-2 "
-                          name="studentName"
-                        >
-                          <option value="">Select students</option>
-                          {students.length > 0 ? (
-                          students.map((data, index) => (
-                          <option key={index} value={`${data.name} - ${data.studentCode}`}>
-                          {data.name}{" - "}{data.studentCode}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">No Source Found</option>
-                  )}
-                        
-                          <option value="others">Others</option>
-                        </select>
-                          
+                            onChange={handleInputs}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.source.required ? "is-invalid" : ""
+                            } `}
+                            name="source"
+                            value={forex?.source}
+                          >
+                            <option value="">Select Source</option>
+                            {source.length > 0 ? (
+                              source.map((data, index) => (
+                                <option key={index} value={data.sourceName}>
+                                  {data.sourceName}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">No Source Found</option>
+                            )}
+
+                            <option value="others">Others</option>
+                          </select>
+                          {errors.source.required ? (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          ) : null}
                         </div>
-                        
-                       </div>
-                     
-                  
-                    ) : null}
-                      {forex.source === "Agent" ? (
-                    <div className="row gx-4 gy-2">
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputAgentName">
-                      Agent Name
-                    </label>
-                    <select
-                          onChange={handleInputs}
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          className="form-select form-select-lg rounded-2 "
-                          name="agentName"
-                        >
-                          <option value="">Select Agent</option>
-                          {agent.length > 0 ? (
-                          agent.map((data, index) => (
-                          <option key={index} value={data?.agentName}>
-                          {data.agentName}{" - "}{data.agentCode}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">No Source Found</option>
-                  )}
-                        
-                          <option value="others">Others</option>
-                        </select>
-                   
-                  </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputbusinessname">
-                      Business Name
-                    </label>
-                    <input
-                      className="form-control"
-                      id="inputbusinessname"
-                      type="text"
-                      onChange={handleInputs}
-                      value={forex.businessName}
-                      name="businessName"
-                      placeholder="Enter Business Name"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    />
-                  </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     Agent Primary Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="d-flex align-items-end">
 
+                        {forex.source === "Student" ? (
+                          <div className="row g-3">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label
+                                className="form-label"
+                                for="inputAgentName"
+                              >
+                                Name
+                              </label>
+                              <select
+                                onChange={handleInputs}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-select form-select-lg rounded-2 "
+                                name="studentName"
+                              >
+                                <option value="">Select students</option>
+                                {students.length > 0 ? (
+                                  students.map((data, index) => (
+                                    <option
+                                      key={index}
+                                      value={`${data.name} - ${data.studentCode}`}
+                                    >
+                                      {data.name}
+                                      {" - "}
+                                      {data.studentCode}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">No Source Found</option>
+                                )}
 
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={forex.dial3} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
+                                <option value="others">Others</option>
+                              </select>
+                            </div>
+                          </div>
+                        ) : null}
+                        {forex.source === "Agent" ? (
+                          <div className="row gx-4 gy-2">
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label
+                                className="form-label"
+                                for="inputAgentName"
+                              >
+                                Agent Name
+                              </label>
+                              <select
+                                onChange={handleInputs}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                className="form-select form-select-lg rounded-2 "
+                                name="agentName"
+                              >
+                                <option value="">Select Agent</option>
+                                {agent.length > 0 ? (
+                                  agent.map((data, index) => (
+                                    <option key={index} value={data?.agentName}>
+                                      {data.agentName}
+                                      {" - "}
+                                      {data.agentCode}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">No Source Found</option>
+                                )}
 
-   
-  </select>
-  <input
-      type="text"
-       aria-label="Text input with dropdown button"
-      className={`form-control  ${
-        errors.agentPrimaryNumber.required ? 'is-invalid'  : ''
-      }`}
-      placeholder="Example 123-456-7890"
-      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-      name="agentPrimaryNumber"
-      value={forex.agentPrimaryNumber}
-      onChange={handleInputs}
-      onKeyDown={(e) => {
-        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-          e.preventDefault();
-        }
-      }}
-    />
-</div>
+                                <option value="others">Others</option>
+                              </select>
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label
+                                className="form-label"
+                                for="inputbusinessname"
+                              >
+                                Business Name
+                              </label>
+                              <input
+                                className="form-control"
+                                id="inputbusinessname"
+                                type="text"
+                                onChange={handleInputs}
+                                value={forex.businessName}
+                                name="businessName"
+                                placeholder="Enter Business Name"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Agent Primary Number
+                                <span className="text-danger">*</span>
+                              </label>
+                              <div className="d-flex align-items-end">
+                                <div className="input-group mb-3">
+                                  <select
+                                    className="form-select form-select-sm"
+                                    name="dial3"
+                                    style={{
+                                      maxWidth: "75px",
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    onChange={handleInputs}
+                                    value={forex.dial3}
+                                  >
+                                    {dial?.map((item) => (
+                                      <option
+                                        value={item?.dialCode}
+                                        key={item?.dialCode}
+                                      >
+                                        {item?.dialCode} - {item?.name} -
+                                        {item?.flag && (
+                                          <Flags
+                                            code={item?.flag}
+                                            className="me-2"
+                                            style={{
+                                              width: "40px",
+                                              height: "30px",
+                                            }}
+                                          />
+                                        )}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  <input
+                                    type="text"
+                                    aria-label="Text input with dropdown button"
+                                    className={`form-control  ${
+                                      errors.agentPrimaryNumber.required
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
+                                    placeholder="Example 123-456-7890"
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    name="agentPrimaryNumber"
+                                    value={forex.agentPrimaryNumber}
+                                    onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      if (
+                                        !/^[0-9]$/i.test(e.key) &&
+                                        ![
+                                          "Backspace",
+                                          "Delete",
+                                          "ArrowLeft",
+                                          "ArrowRight",
+                                        ].includes(e.key)
+                                      ) {
+                                        e.preventDefault();
+                                      }
+                                    }}
+                                  />
+                                </div>
 
+                                <div className="form-check ms-3 ">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id="copyToWhatsApp"
+                                    checked={copyToWhatsApp}
+                                    onChange={handleCheckboxChanges}
+                                  />
+                                </div>
+                              </div>
+                              {errors.agentPrimaryNumber.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              )}
+                            </div>
 
-    
-    <div className="form-check ms-3 ">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        id="copyToWhatsApp"
-        checked={copyToWhatsApp}
-        onChange={handleCheckboxChanges}
-      />
-     
-    </div>
-  </div>
-  {errors.agentPrimaryNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Agent WhatsApp Number
+                                <span className="text-danger">*</span>
+                              </label>
+                              <div className="input-group mb-3">
+                                <select
+                                  className="form-select form-select-sm"
+                                  name="dial4"
+                                  style={{
+                                    maxWidth: "75px",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  value={forex.dial4}
+                                  onChange={handleInputs}
+                                >
+                                  {dial?.map((item) => (
+                                    <option
+                                      value={item?.dialCode}
+                                      key={item?.dialCode}
+                                    >
+                                      {item?.dialCode} - {item?.name} -
+                                      {item?.flag && (
+                                        <Flags
+                                          code={item?.flag}
+                                          className="me-2"
+                                          style={{
+                                            width: "40px",
+                                            height: "30px",
+                                          }}
+                                        />
+                                      )}
+                                    </option>
+                                  ))}
+                                </select>
 
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     Agent WhatsApp Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={forex.dial4}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-
-  <input
-    type="text"
-    className={`form-control  ${
-      errors.agentWhatsAppNumber.required ? 'is-invalid'  : ''
-    }`}
-    placeholder="Example 123-456-7890"
-    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-    name="agentWhatsAppNumber"
-    value={forex.agentWhatsAppNumber}
-    onChange={handleInputs}
-    onKeyDown={(e) => {
-      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-  </div>
-  {errors.agentWhatsAppNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputEmail">
-                      Agent Email ID
-                    </label>
-                    <input
-                      className="form-control"
-                      name="agentEmail"
-                      onChange={handleInputs}
-                      id="inputEmail"
-                      value={forex?.agentEmail}
-                      type="text"
-                      placeholder="Enter Email ID"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    />
-                  </div>
-                 
-                  </div>
-                     
-                      
-                
-                    ) : null}
+                                <input
+                                  type="text"
+                                  className={`form-control  ${
+                                    errors.agentWhatsAppNumber.required
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  placeholder="Example 123-456-7890"
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  name="agentWhatsAppNumber"
+                                  value={forex.agentWhatsAppNumber}
+                                  onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    if (
+                                      !/^[0-9]$/i.test(e.key) &&
+                                      ![
+                                        "Backspace",
+                                        "Delete",
+                                        "ArrowLeft",
+                                        "ArrowRight",
+                                      ].includes(e.key)
+                                    ) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                />
+                              </div>
+                              {errors.agentWhatsAppNumber.required && (
+                                <span className="text-danger form-text profile_error">
+                                  This field is required.
+                                </span>
+                              )}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label className="form-label" for="inputEmail">
+                                Agent Email ID
+                              </label>
+                              <input
+                                className="form-control"
+                                name="agentEmail"
+                                onChange={handleInputs}
+                                id="inputEmail"
+                                value={forex?.agentEmail}
+                                type="text"
+                                placeholder="Enter Email ID"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ) : null}
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputstudentname">
                             Name of the Student
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.name.required ? "is-invalid" : ""
+                            }`}
                             name="name"
                             onChange={handleInputs}
                             value={forex?.name}
@@ -729,7 +780,9 @@ export const AddAccommodation = () => {
                             Passport No<span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.passportNumber.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.passportNumber.required ? "is-invalid" : ""
+                            }`}
                             id="inputpassportno"
                             onChange={handleInputs}
                             name="passportNumber"
@@ -752,7 +805,9 @@ export const AddAccommodation = () => {
                             Expiry Date<span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.expiryDate.required ? "is-invalid" : ""
+                            }`}
                             id="inputpassportno"
                             name="expiryDate"
                             value={forex?.expiryDate}
@@ -764,7 +819,7 @@ export const AddAccommodation = () => {
                               fontSize: "12px",
                             }}
                           />
-                         {errors.expiryDate.required ? (
+                          {errors.expiryDate.required ? (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
@@ -776,7 +831,9 @@ export const AddAccommodation = () => {
                             Email ID<span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.email.required ? "is-invalid" : ""
+                            }`}
                             name="email"
                             onChange={handleInputs}
                             value={forex?.email}
@@ -800,127 +857,170 @@ export const AddAccommodation = () => {
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     Primary Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="d-flex align-items-end">
+                          <label style={{ color: "#231F20" }}>
+                            Primary Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="d-flex align-items-end">
+                            <div className="input-group mb-3">
+                              <select
+                                className="form-select form-select-sm"
+                                name="dial1"
+                                style={{
+                                  maxWidth: "75px",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                onChange={handleInputs}
+                                value={forex?.dial1}
+                              >
+                                {dial?.map((item) => (
+                                  <option
+                                    value={item?.dialCode}
+                                    key={item?.dialCode}
+                                  >
+                                    {item?.dialCode} - {item?.name} -
+                                    {item?.flag && (
+                                      <Flags
+                                        code={item?.flag}
+                                        className="me-2"
+                                        style={{
+                                          width: "40px",
+                                          height: "30px",
+                                        }}
+                                      />
+                                    )}
+                                  </option>
+                                ))}
+                              </select>
+                              <input
+                                type="text"
+                                aria-label="Text input with dropdown button"
+                                className={`form-control  ${
+                                  errors.primaryNumber.required
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                placeholder="Example 123-456-7890"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="primaryNumber"
+                                value={forex?.primaryNumber}
+                                onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (
+                                    !/^[0-9]$/i.test(e.key) &&
+                                    ![
+                                      "Backspace",
+                                      "Delete",
+                                      "ArrowLeft",
+                                      "ArrowRight",
+                                    ].includes(e.key)
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              />
+                            </div>
 
+                            <div className="form-check ms-3 ">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="copyToWhatsApp"
+                                checked={copyToWhatsApp}
+                                onChange={handleCheckboxChange}
+                              />
+                            </div>
+                          </div>
+                          {errors.primaryNumber.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
 
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={forex?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            WhatsApp Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="input-group mb-3">
+                            <select
+                              className="form-select form-select-sm"
+                              name="dial2"
+                              style={{
+                                maxWidth: "75px",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              value={forex?.dial2}
+                              onChange={handleInputs}
+                            >
+                              {dial?.map((item) => (
+                                <option
+                                  value={item?.dialCode}
+                                  key={item?.dialCode}
+                                >
+                                  {item?.dialCode} - {item?.name} -
+                                  {item?.flag && (
+                                    <Flags
+                                      code={item?.flag}
+                                      className="me-2"
+                                      style={{ width: "40px", height: "30px" }}
+                                    />
+                                  )}
+                                </option>
+                              ))}
+                            </select>
 
-   
-  </select>
-  <input
-      type="text"
-       aria-label="Text input with dropdown button"
-      className={`form-control  ${
-        errors.primaryNumber.required ? 'is-invalid' :  ''
-      }`}
-      placeholder="Example 123-456-7890"
-      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-      name="primaryNumber"
-      value={forex?.primaryNumber}
-      onChange={handleInputs}
-      onKeyDown={(e) => {
-        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-          e.preventDefault();
-        }
-      }}
-    />
-</div>
-
-
-    
-    <div className="form-check ms-3 ">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        id="copyToWhatsApp"
-        checked={copyToWhatsApp}
-        onChange={handleCheckboxChange}
-      />
-     
-    </div>
-  </div>
-  {errors.primaryNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     WhatsApp Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={forex?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-
-  <input
-    type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : ''
-    }`}
-    placeholder="Example 123-456-7890"
-    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-    name="whatsAppNumber"
-    value={forex.whatsAppNumber}
-    onChange={handleInputs}
-    onKeyDown={(e) => {
-      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-  </div>
-  {errors.whatsAppNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 ${
+                                errors.whatsAppNumber.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              placeholder="Example 123-456-7890"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="whatsAppNumber"
+                              value={forex.whatsAppNumber}
+                              onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                if (
+                                  !/^[0-9]$/i.test(e.key) &&
+                                  ![
+                                    "Backspace",
+                                    "Delete",
+                                    "ArrowLeft",
+                                    "ArrowRight",
+                                  ].includes(e.key)
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                          </div>
+                          {errors.whatsAppNumber.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputuniversity">
                             University Name
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.universityName.required ? "is-invalid" : ""
+                            }`}
                             id="inputstudentid"
                             name="universityName"
                             onChange={handleInputs}
@@ -943,7 +1043,9 @@ export const AddAccommodation = () => {
                             Course<span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.courseType.required ?  'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.courseType.required ? "is-invalid" : ""
+                            }`}
                             id="inputstudentid"
                             name="courseType"
                             onChange={handleInputs}
@@ -961,7 +1063,7 @@ export const AddAccommodation = () => {
                             </div>
                           ) : null}
                         </div>
-                       
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}
@@ -979,7 +1081,6 @@ export const AddAccommodation = () => {
                             )}
                             className="submain-one-form-body-subsection-select "
                           />
-                        
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -997,8 +1098,6 @@ export const AddAccommodation = () => {
                             )}
                             className="submain-one-form-body-subsection-select"
                           />
-
-                          
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -1014,7 +1113,6 @@ export const AddAccommodation = () => {
                             styles={customStyles}
                             className="submain-one-form-body-subsection-select"
                           />
-                          
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputuniversity">
@@ -1022,7 +1120,11 @@ export const AddAccommodation = () => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.accommodationType.required ?  'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.accommodationType.required
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="inputstudentid"
                             name="accommodationType"
                             type="text"
@@ -1045,7 +1147,9 @@ export const AddAccommodation = () => {
                             Assigned To <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`form-select form-select-lg rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''} `}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.assignedTo.required ? "is-invalid" : ""
+                            } `}
                             onChange={handleInputs}
                             value={forex.assignedTo}
                             name="assignedTo"
@@ -1071,7 +1175,9 @@ export const AddAccommodation = () => {
                             Finalised By<span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.final.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 ${
+                              errors.final.required ? "is-invalid" : ""
+                            }`}
                             id="inputstudentid"
                             name="final"
                             value={forex.final}
@@ -1090,9 +1196,6 @@ export const AddAccommodation = () => {
                           ) : null}
                         </div>
 
-                      
-
-                      
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link

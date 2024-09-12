@@ -1,14 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallUniversity,deleteUniversity,saveUniversity,getFilterUniversity,} from "../../api/university";
+import {
+  getallUniversity,
+  deleteUniversity,
+  saveUniversity,
+  getFilterUniversity,
+} from "../../api/university";
 import { Link } from "react-router-dom";
-import {Dialog,DialogContent,DialogTitle,IconButton,Pagination,backdropClasses,radioClasses,} from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  backdropClasses,
+  radioClasses,
+} from "@mui/material";
 import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { getAdminIdId } from "../../Utils/storage";
-import { getSingleAdmin} from "../../api/admin";
+import { getSingleAdmin } from "../../api/admin";
 import { toast } from "react-toastify";
 import "./ListTable.css";
 import { FaFilter } from "react-icons/fa";
@@ -45,7 +58,6 @@ export const AdminListUniversity = () => {
     getStaffDetails();
   }, [pagination.from, pagination.to]);
 
-
   const getStaffDetails = () => {
     const id = getAdminIdId();
     getSingleAdmin(id)
@@ -57,13 +69,15 @@ export const AdminListUniversity = () => {
         console.log(err);
       });
   };
-  
+
   if (!staff || !staff.privileges) {
     // return null; // or a loading spinner
   }
-  
-  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'university');
-  
+
+  const studentPrivileges = staff?.privileges?.find(
+    (privilege) => privilege.module === "university"
+  );
+
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
@@ -602,24 +616,24 @@ export const AdminListUniversity = () => {
                       </Link>
                     </li>
                     {studentPrivileges?.add && (
-                    <li class="m-1">
-                      <Link class="btn  border-0" to="/admin_add_university">
-                        <button
-                          className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
-                          style={{
-                            backgroundColor: "#fe5722",
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          Add University
-                        </button>
-                      </Link>
-                    </li>
+                      <li class="m-1">
+                        <Link class="btn  border-0" to="/admin_add_university">
+                          <button
+                            className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
+                            style={{
+                              backgroundColor: "#fe5722",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <i
+                              class="fa fa-plus-circle me-2"
+                              aria-hidden="true"
+                            ></i>{" "}
+                            Add University
+                          </button>
+                        </Link>
+                      </li>
                     )}
                   </ol>
                 </div>
@@ -739,43 +753,45 @@ export const AdminListUniversity = () => {
                                     </td>
                                     <td>
                                       <div className="d-flex">
-                                      {studentPrivileges?.view && (
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/admin_view_university",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                          data-bs-toggle="tooltip"
-                                          title="View"
-                                        >
-                                          <i className="far fa-eye text-primary me-1"></i>
-                                        </Link>
-                                      )}
+                                        {studentPrivileges?.view && (
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname:
+                                                "/admin_view_university",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                            data-bs-toggle="tooltip"
+                                            title="View"
+                                          >
+                                            <i className="far fa-eye text-primary me-1"></i>
+                                          </Link>
+                                        )}
                                         {studentPrivileges?.edit && (
-                                        <Link
-                                          className="dropdown-item"
-                                          to={{
-                                            pathname: "/admin_edit_university",
-                                            search: `?id=${data?._id}`,
-                                          }}
-                                          data-bs-toggle="tooltip"
-                                          title="Edit"
-                                        >
-                                          <i className="far fa-edit text-warning me-1"></i>
-                                        </Link>
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname:
+                                                "/admin_edit_university",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                            data-bs-toggle="tooltip"
+                                            title="Edit"
+                                          >
+                                            <i className="far fa-edit text-warning me-1"></i>
+                                          </Link>
                                         )}
                                         {studentPrivileges?.delete && (
-                                        <button
-                                          className="dropdown-item"
-                                          onClick={() => {
-                                            openPopup(data?._id);
-                                          }}
-                                          data-bs-toggle="tooltip"
-                                          title="Delete"
-                                        >
-                                          <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </button>
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              openPopup(data?._id);
+                                            }}
+                                            data-bs-toggle="tooltip"
+                                            title="Delete"
+                                          >
+                                            <i className="far fa-trash-alt text-danger me-1"></i>
+                                          </button>
                                         )}
                                       </div>
                                     </td>
@@ -861,7 +877,7 @@ export const AdminListUniversity = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
                 >
@@ -940,4 +956,4 @@ export const AdminListUniversity = () => {
     </>
   );
 };
-export default AdminListUniversity
+export default AdminListUniversity;

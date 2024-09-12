@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
-import { RichTextEditor } from '@mantine/rte';
-import { toast } from 'react-toastify';
+import { RichTextEditor } from "@mantine/rte";
+import { toast } from "react-toastify";
 import Sidebar from "../../compoents/AdminSidebar";
 import { saveMeeting } from "../../api/Notification/meeting";
 import { getallStaff } from "../../api/staff";
@@ -130,7 +130,9 @@ export const AddMeetings = () => {
 
   const handleSelectChange = (selectedOption, action) => {
     const { name } = action;
-    const value = selectedOption ? selectedOption.map(option => option.value) : [];
+    const value = selectedOption
+      ? selectedOption.map((option) => option.value)
+      : [];
     setNotification((prevNotification) => ({
       ...prevNotification,
       [name]: value,
